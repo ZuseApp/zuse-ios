@@ -1,0 +1,476 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4CF1CBB217EF882A00636E0D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1CBB117EF882A00636E0D /* Foundation.framework */; };
+		4CF1CBB417EF882A00636E0D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1CBB317EF882A00636E0D /* CoreGraphics.framework */; };
+		4CF1CBB617EF882A00636E0D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1CBB517EF882A00636E0D /* UIKit.framework */; };
+		4CF1CBBC17EF882A00636E0D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4CF1CBBA17EF882A00636E0D /* InfoPlist.strings */; };
+		4CF1CBBE17EF882A00636E0D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF1CBBD17EF882A00636E0D /* main.m */; };
+		4CF1CBC217EF882A00636E0D /* TCAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF1CBC117EF882A00636E0D /* TCAppDelegate.m */; };
+		4CF1CBC517EF882A00636E0D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4CF1CBC317EF882A00636E0D /* Main.storyboard */; };
+		4CF1CBC817EF882A00636E0D /* TCViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF1CBC717EF882A00636E0D /* TCViewController.m */; };
+		4CF1CBCA17EF882A00636E0D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4CF1CBC917EF882A00636E0D /* Images.xcassets */; };
+		4CF1CBD117EF882A00636E0D /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1CBD017EF882A00636E0D /* XCTest.framework */; };
+		4CF1CBD217EF882A00636E0D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1CBB117EF882A00636E0D /* Foundation.framework */; };
+		4CF1CBD317EF882A00636E0D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1CBB517EF882A00636E0D /* UIKit.framework */; };
+		4CF1CBDB17EF882A00636E0D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4CF1CBD917EF882A00636E0D /* InfoPlist.strings */; };
+		4CF1CBDD17EF882A00636E0D /* ZuseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF1CBDC17EF882A00636E0D /* ZuseTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		4CF1CBD417EF882A00636E0D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4CF1CBA617EF882A00636E0D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4CF1CBAD17EF882A00636E0D;
+			remoteInfo = Zuse;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		4CF1CBAE17EF882A00636E0D /* Zuse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Zuse.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4CF1CBB117EF882A00636E0D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		4CF1CBB317EF882A00636E0D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		4CF1CBB517EF882A00636E0D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		4CF1CBB917EF882A00636E0D /* Zuse-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Zuse-Info.plist"; sourceTree = "<group>"; };
+		4CF1CBBB17EF882A00636E0D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		4CF1CBBD17EF882A00636E0D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		4CF1CBBF17EF882A00636E0D /* Zuse-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Zuse-Prefix.pch"; sourceTree = "<group>"; };
+		4CF1CBC017EF882A00636E0D /* TCAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TCAppDelegate.h; sourceTree = "<group>"; };
+		4CF1CBC117EF882A00636E0D /* TCAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TCAppDelegate.m; sourceTree = "<group>"; };
+		4CF1CBC417EF882A00636E0D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		4CF1CBC617EF882A00636E0D /* TCViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TCViewController.h; sourceTree = "<group>"; };
+		4CF1CBC717EF882A00636E0D /* TCViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TCViewController.m; sourceTree = "<group>"; };
+		4CF1CBC917EF882A00636E0D /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		4CF1CBCF17EF882A00636E0D /* ZuseTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZuseTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4CF1CBD017EF882A00636E0D /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		4CF1CBD817EF882A00636E0D /* ZuseTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ZuseTests-Info.plist"; sourceTree = "<group>"; };
+		4CF1CBDA17EF882A00636E0D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		4CF1CBDC17EF882A00636E0D /* ZuseTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZuseTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		4CF1CBAB17EF882A00636E0D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4CF1CBB417EF882A00636E0D /* CoreGraphics.framework in Frameworks */,
+				4CF1CBB617EF882A00636E0D /* UIKit.framework in Frameworks */,
+				4CF1CBB217EF882A00636E0D /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4CF1CBCC17EF882A00636E0D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4CF1CBD117EF882A00636E0D /* XCTest.framework in Frameworks */,
+				4CF1CBD317EF882A00636E0D /* UIKit.framework in Frameworks */,
+				4CF1CBD217EF882A00636E0D /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		4CF1CBA517EF882A00636E0D = {
+			isa = PBXGroup;
+			children = (
+				4CF1CBB717EF882A00636E0D /* Zuse */,
+				4CF1CBD617EF882A00636E0D /* ZuseTests */,
+				4CF1CBB017EF882A00636E0D /* Frameworks */,
+				4CF1CBAF17EF882A00636E0D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		4CF1CBAF17EF882A00636E0D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4CF1CBAE17EF882A00636E0D /* Zuse.app */,
+				4CF1CBCF17EF882A00636E0D /* ZuseTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4CF1CBB017EF882A00636E0D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4CF1CBB117EF882A00636E0D /* Foundation.framework */,
+				4CF1CBB317EF882A00636E0D /* CoreGraphics.framework */,
+				4CF1CBB517EF882A00636E0D /* UIKit.framework */,
+				4CF1CBD017EF882A00636E0D /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4CF1CBB717EF882A00636E0D /* Zuse */ = {
+			isa = PBXGroup;
+			children = (
+				4CF1CBC017EF882A00636E0D /* TCAppDelegate.h */,
+				4CF1CBC117EF882A00636E0D /* TCAppDelegate.m */,
+				4CF1CBC317EF882A00636E0D /* Main.storyboard */,
+				4CF1CBC617EF882A00636E0D /* TCViewController.h */,
+				4CF1CBC717EF882A00636E0D /* TCViewController.m */,
+				4CF1CBC917EF882A00636E0D /* Images.xcassets */,
+				4CF1CBB817EF882A00636E0D /* Supporting Files */,
+			);
+			path = Zuse;
+			sourceTree = "<group>";
+		};
+		4CF1CBB817EF882A00636E0D /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				4CF1CBB917EF882A00636E0D /* Zuse-Info.plist */,
+				4CF1CBBA17EF882A00636E0D /* InfoPlist.strings */,
+				4CF1CBBD17EF882A00636E0D /* main.m */,
+				4CF1CBBF17EF882A00636E0D /* Zuse-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		4CF1CBD617EF882A00636E0D /* ZuseTests */ = {
+			isa = PBXGroup;
+			children = (
+				4CF1CBDC17EF882A00636E0D /* ZuseTests.m */,
+				4CF1CBD717EF882A00636E0D /* Supporting Files */,
+			);
+			path = ZuseTests;
+			sourceTree = "<group>";
+		};
+		4CF1CBD717EF882A00636E0D /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				4CF1CBD817EF882A00636E0D /* ZuseTests-Info.plist */,
+				4CF1CBD917EF882A00636E0D /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		4CF1CBAD17EF882A00636E0D /* Zuse */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4CF1CBE017EF882A00636E0D /* Build configuration list for PBXNativeTarget "Zuse" */;
+			buildPhases = (
+				4CF1CBAA17EF882A00636E0D /* Sources */,
+				4CF1CBAB17EF882A00636E0D /* Frameworks */,
+				4CF1CBAC17EF882A00636E0D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Zuse;
+			productName = Zuse;
+			productReference = 4CF1CBAE17EF882A00636E0D /* Zuse.app */;
+			productType = "com.apple.product-type.application";
+		};
+		4CF1CBCE17EF882A00636E0D /* ZuseTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4CF1CBE317EF882A00636E0D /* Build configuration list for PBXNativeTarget "ZuseTests" */;
+			buildPhases = (
+				4CF1CBCB17EF882A00636E0D /* Sources */,
+				4CF1CBCC17EF882A00636E0D /* Frameworks */,
+				4CF1CBCD17EF882A00636E0D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4CF1CBD517EF882A00636E0D /* PBXTargetDependency */,
+			);
+			name = ZuseTests;
+			productName = ZuseTests;
+			productReference = 4CF1CBCF17EF882A00636E0D /* ZuseTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		4CF1CBA617EF882A00636E0D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = TC;
+				LastUpgradeCheck = 0500;
+				ORGANIZATIONNAME = "Michael Hogenson";
+				TargetAttributes = {
+					4CF1CBCE17EF882A00636E0D = {
+						TestTargetID = 4CF1CBAD17EF882A00636E0D;
+					};
+				};
+			};
+			buildConfigurationList = 4CF1CBA917EF882A00636E0D /* Build configuration list for PBXProject "Zuse" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 4CF1CBA517EF882A00636E0D;
+			productRefGroup = 4CF1CBAF17EF882A00636E0D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				4CF1CBAD17EF882A00636E0D /* Zuse */,
+				4CF1CBCE17EF882A00636E0D /* ZuseTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		4CF1CBAC17EF882A00636E0D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4CF1CBCA17EF882A00636E0D /* Images.xcassets in Resources */,
+				4CF1CBBC17EF882A00636E0D /* InfoPlist.strings in Resources */,
+				4CF1CBC517EF882A00636E0D /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4CF1CBCD17EF882A00636E0D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4CF1CBDB17EF882A00636E0D /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		4CF1CBAA17EF882A00636E0D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4CF1CBC817EF882A00636E0D /* TCViewController.m in Sources */,
+				4CF1CBBE17EF882A00636E0D /* main.m in Sources */,
+				4CF1CBC217EF882A00636E0D /* TCAppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4CF1CBCB17EF882A00636E0D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4CF1CBDD17EF882A00636E0D /* ZuseTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		4CF1CBD517EF882A00636E0D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4CF1CBAD17EF882A00636E0D /* Zuse */;
+			targetProxy = 4CF1CBD417EF882A00636E0D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		4CF1CBBA17EF882A00636E0D /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4CF1CBBB17EF882A00636E0D /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		4CF1CBC317EF882A00636E0D /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4CF1CBC417EF882A00636E0D /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		4CF1CBD917EF882A00636E0D /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4CF1CBDA17EF882A00636E0D /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		4CF1CBDE17EF882A00636E0D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		4CF1CBDF17EF882A00636E0D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		4CF1CBE117EF882A00636E0D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Zuse/Zuse-Prefix.pch";
+				INFOPLIST_FILE = "Zuse/Zuse-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		4CF1CBE217EF882A00636E0D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Zuse/Zuse-Prefix.pch";
+				INFOPLIST_FILE = "Zuse/Zuse-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		4CF1CBE417EF882A00636E0D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Zuse.app/Zuse";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Zuse/Zuse-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "ZuseTests/ZuseTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		4CF1CBE517EF882A00636E0D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Zuse.app/Zuse";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Zuse/Zuse-Prefix.pch";
+				INFOPLIST_FILE = "ZuseTests/ZuseTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4CF1CBA917EF882A00636E0D /* Build configuration list for PBXProject "Zuse" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4CF1CBDE17EF882A00636E0D /* Debug */,
+				4CF1CBDF17EF882A00636E0D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4CF1CBE017EF882A00636E0D /* Build configuration list for PBXNativeTarget "Zuse" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4CF1CBE117EF882A00636E0D /* Debug */,
+				4CF1CBE217EF882A00636E0D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		4CF1CBE317EF882A00636E0D /* Build configuration list for PBXNativeTarget "ZuseTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4CF1CBE417EF882A00636E0D /* Debug */,
+				4CF1CBE517EF882A00636E0D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 4CF1CBA617EF882A00636E0D /* Project object */;
+}
