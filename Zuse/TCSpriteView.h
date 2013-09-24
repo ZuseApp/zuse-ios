@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TCSprite.h"
 
-@interface TCSpriteView : UIView
+@interface TCSpriteView : UIImageView
+
+@property (strong, nonatomic) void(^touchesBegan)(UITouch *touch);
+@property (strong, nonatomic) void(^touchesMoved)(UITouch *touch);
+@property (strong, nonatomic) void(^touchesEnded)(UITouch *touch);
 
 @end

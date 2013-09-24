@@ -9,12 +9,17 @@
 #import "TCCanvasViewController.h"
 #import "TCSpriteTableView.h"
 #import "TCSprite.h"
+#import "TCSpriteView.h"
 #import "TCSpriteManager.h"
 
 @interface TCCanvasViewController ()
 
 @property (nonatomic, strong) TCSpriteManager *spriteManager;
-@property (nonatomic, strong) NSArray *sprites;
+@property (nonatomic, strong) NSArray *templateSprites;
+@property (nonatomic, strong) NSArray *canvasSprites;
+@property (weak, nonatomic) IBOutlet TCSpriteView *paddleOne;
+@property (weak, nonatomic) IBOutlet TCSpriteView *paddleTwo;
+@property (weak, nonatomic) IBOutlet TCSpriteView *ball;
 
 @end
 
@@ -24,32 +29,16 @@
 {
     [super viewDidLoad];
     _spriteManager = [TCSpriteManager sharedManager];
-    _sprites = _spriteManager.sprites;
+    
+    _ball.touchesMoved = ^(UITouch *touch) {
+        
+    };
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-#pragma mark UITableViewDelegate and UITableViewDataSource
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [_sprites count];
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
-    
-    TCSprite * sprite = (TCSprite *)[_sprites objectAtIndex:indexPath.row];
-    cell.imageView.image = sprite.image;
-    
-    return cell;
 }
 
 @end

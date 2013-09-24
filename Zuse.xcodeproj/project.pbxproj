@@ -30,6 +30,8 @@
 		4CF1CC0817EFE14A00636E0D /* yoda.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 4CF1CC0317EFE14A00636E0D /* yoda.jpeg */; };
 		4CF1CC0B17EFE56800636E0D /* TCSpriteManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF1CC0A17EFE56800636E0D /* TCSpriteManager.m */; };
 		4CF1CC0E17EFF64500636E0D /* TCSpriteView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF1CC0D17EFF64500636E0D /* TCSpriteView.m */; };
+		5F099D4617F1135300EB2AC7 /* INInterpreter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F099D4517F1135300EB2AC7 /* INInterpreter.m */; };
+		5F099D4817F1136000EB2AC7 /* InterpreterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F099D4717F1136000EB2AC7 /* InterpreterTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +77,9 @@
 		4CF1CC0A17EFE56800636E0D /* TCSpriteManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCSpriteManager.m; sourceTree = "<group>"; };
 		4CF1CC0C17EFF64500636E0D /* TCSpriteView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCSpriteView.h; sourceTree = "<group>"; };
 		4CF1CC0D17EFF64500636E0D /* TCSpriteView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCSpriteView.m; sourceTree = "<group>"; };
+		5F099D4417F1135300EB2AC7 /* INInterpreter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INInterpreter.h; sourceTree = "<group>"; };
+		5F099D4517F1135300EB2AC7 /* INInterpreter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = INInterpreter.m; sourceTree = "<group>"; };
+		5F099D4717F1136000EB2AC7 /* InterpreterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InterpreterTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,20 +139,13 @@
 		4CF1CBB717EF882A00636E0D /* Zuse */ = {
 			isa = PBXGroup;
 			children = (
+				5F099D4217F0E11200EB2AC7 /* Models */,
+				5F099D4117F0E10600EB2AC7 /* Views */,
+				5F099D4017F0E0F700EB2AC7 /* View Controllers */,
 				4CF1CBC917EF882A00636E0D /* Images.xcassets */,
 				4CF1CBC317EF882A00636E0D /* Main.storyboard */,
 				4CF1CBC017EF882A00636E0D /* TCAppDelegate.h */,
 				4CF1CBC117EF882A00636E0D /* TCAppDelegate.m */,
-				4CF1CBC617EF882A00636E0D /* TCCanvasViewController.h */,
-				4CF1CBC717EF882A00636E0D /* TCCanvasViewController.m */,
-				4CF1CBF217EF89AB00636E0D /* TCSprite.h */,
-				4CF1CBF317EF89AB00636E0D /* TCSprite.m */,
-				4CF1CC0917EFE56800636E0D /* TCSpriteManager.h */,
-				4CF1CC0A17EFE56800636E0D /* TCSpriteManager.m */,
-				4CF1CBFB17EFDBE500636E0D /* TCSpriteTableView.h */,
-				4CF1CBFC17EFDBE500636E0D /* TCSpriteTableView.m */,
-				4CF1CC0C17EFF64500636E0D /* TCSpriteView.h */,
-				4CF1CC0D17EFF64500636E0D /* TCSpriteView.m */,
 				4CF1CBB817EF882A00636E0D /* Supporting Files */,
 			);
 			path = Zuse;
@@ -169,6 +167,7 @@
 			isa = PBXGroup;
 			children = (
 				4CF1CBDC17EF882A00636E0D /* ZuseTests.m */,
+				5F099D4717F1136000EB2AC7 /* InterpreterTests.m */,
 				4CF1CBD717EF882A00636E0D /* Supporting Files */,
 			);
 			path = ZuseTests;
@@ -193,6 +192,47 @@
 				4CF1CC0317EFE14A00636E0D /* yoda.jpeg */,
 			);
 			name = images;
+			sourceTree = "<group>";
+		};
+		5F099D4017F0E0F700EB2AC7 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				4CF1CBC617EF882A00636E0D /* TCCanvasViewController.h */,
+				4CF1CBC717EF882A00636E0D /* TCCanvasViewController.m */,
+			);
+			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		5F099D4117F0E10600EB2AC7 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				4CF1CBFB17EFDBE500636E0D /* TCSpriteTableView.h */,
+				4CF1CBFC17EFDBE500636E0D /* TCSpriteTableView.m */,
+				4CF1CC0C17EFF64500636E0D /* TCSpriteView.h */,
+				4CF1CC0D17EFF64500636E0D /* TCSpriteView.m */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		5F099D4217F0E11200EB2AC7 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				5F099D4317F1133D00EB2AC7 /* Interpreter */,
+				4CF1CBF217EF89AB00636E0D /* TCSprite.h */,
+				4CF1CBF317EF89AB00636E0D /* TCSprite.m */,
+				4CF1CC0917EFE56800636E0D /* TCSpriteManager.h */,
+				4CF1CC0A17EFE56800636E0D /* TCSpriteManager.m */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		5F099D4317F1133D00EB2AC7 /* Interpreter */ = {
+			isa = PBXGroup;
+			children = (
+				5F099D4417F1135300EB2AC7 /* INInterpreter.h */,
+				5F099D4517F1135300EB2AC7 /* INInterpreter.m */,
+			);
+			name = Interpreter;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -303,6 +343,7 @@
 				4CF1CBC217EF882A00636E0D /* TCAppDelegate.m in Sources */,
 				4CF1CC0B17EFE56800636E0D /* TCSpriteManager.m in Sources */,
 				4CF1CC0E17EFF64500636E0D /* TCSpriteView.m in Sources */,
+				5F099D4617F1135300EB2AC7 /* INInterpreter.m in Sources */,
 				4CF1CBFD17EFDBE500636E0D /* TCSpriteTableView.m in Sources */,
 				4CF1CBF417EF89AB00636E0D /* TCSprite.m in Sources */,
 			);
@@ -312,6 +353,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F099D4817F1136000EB2AC7 /* InterpreterTests.m in Sources */,
 				4CF1CBDD17EF882A00636E0D /* ZuseTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
