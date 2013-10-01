@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TCCanvasViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@interface TCCanvasViewController : UIViewController
 
 @end
