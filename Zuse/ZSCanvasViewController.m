@@ -29,7 +29,7 @@
 {
     [super viewDidLoad];
     _screenRecognizer = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(canvasPanned:)];
-    _screenRecognizer.delegate = self;
+    // _screenRecognizer.delegate = self;
     _screenRecognizer.edges = UIRectEdgeRight;
     [self.view addGestureRecognizer:_screenRecognizer];
 }
@@ -44,11 +44,9 @@
     BOOL result = NO;
     if ([otherGestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
         result = YES;
-    } else if ([otherGestureRecognizer isKindOfClass:[UIScreenEdgePanGestureRecognizer class]]) {
-        result = YES;
     }
     
-    return NO;
+    return result;
 }
 
 - (IBAction)tableViewPanned:(id)sender {
