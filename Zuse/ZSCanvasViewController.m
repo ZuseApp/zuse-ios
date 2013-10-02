@@ -58,7 +58,7 @@
     
     if (panRecognizer.state == UIGestureRecognizerStateBegan) {
         if (velocity.x > 0) {
-            [UIView animateWithDuration:1 animations:^{
+            [UIView animateWithDuration:0.5 animations:^{
                 CGRect frame = _spriteTable.frame;
                 frame.origin.x += 150;
                 _spriteTable.frame = frame;
@@ -71,7 +71,7 @@
     UIScreenEdgePanGestureRecognizer *panRecognizer = (UIScreenEdgePanGestureRecognizer *)sender;
     
     if (panRecognizer.state == UIGestureRecognizerStateBegan) {
-        [UIView animateWithDuration:1 animations:^{
+        [UIView animateWithDuration:0.5 animations:^{
             CGRect frame = _spriteTable.frame;
             frame.origin.x -= 150;
             _spriteTable.frame = frame;
