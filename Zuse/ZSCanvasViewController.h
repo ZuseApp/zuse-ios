@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ZSCanvasViewController : UIViewController <UIGestureRecognizerDelegate>
+@interface ZSCanvasViewController : UIViewController <UIGestureRecognizerDelegate, UITableViewDataSource, UITableViewDelegate>
 
 @end

@@ -83,8 +83,10 @@
     }
     
     else if ([key isEqualToString:@"if"]) {
-        if ([code[@"test"] boolValue]) {
+        if ([[self evaluateExpression:code[@"test"] properties:properties] boolValue]) {
             [self runSuite:code[@"true"]];
+        } else {
+            [self runSuite:code[@"false"]];
         }
     }
     
@@ -94,20 +96,31 @@
 }
 
 - (id)evaluateExpression:(id)expression properties:(NSMutableDictionary *)properties {
-    NSString *key = [expression allKeys][0];
-    id code = expression[key];
-    
     // Atoms should just return themselves
     if ([expression isKindOfClass:[NSNumber class]] || [expression isKindOfClass:[NSString class]]) {
         return expression;
     }
     
+    NSString *key = [expression allKeys][0];
+    id code = expression[key];
+    
     if ([key isEqualToString:@"call"]) {
         id (^method)(NSArray *) = _methods[code[@"method"]];
-        return method(code[@"args"]);
+        NSMutableArray *reducedExpressions = [@[] mutableCopy];
+        [code[@"args"] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            [reducedExpressions addObject:[self evaluateExpression:obj properties:properties]];
+        }];
+        return method(reducedExpressions);
     }
     
-    if ([key isEqualToString:@"=="]) {
+    else if ([key isEqualToString:@"+"]) {
+        NSInteger first = [[self evaluateExpression:code[0] properties:properties] integerValue];
+        NSInteger second = [[self evaluateExpression:code[1] properties:properties] integerValue];
+        
+        return @(first + second);
+    }
+    
+    else if ([key isEqualToString:@"=="]) {
         id firstExpression = [self evaluateExpression:code[0] properties:properties];
         id secondExpression = [self evaluateExpression:code[1] properties:properties];
         

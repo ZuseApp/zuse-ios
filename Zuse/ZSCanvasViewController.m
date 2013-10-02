@@ -65,35 +65,35 @@
     
     _interpreter = [[INInterpreter alloc] init];
     
-    // [_interpreter loadObjects:json[@"objects"]];
+    [_interpreter loadObjects:json[@"objects"]];
     
     [_interpreter loadMethod:@{
-                               @"name": @"ask",
-                               @"block":^id(NSArray *args) {
-        return @8;
-    }
-                               }];
+        @"name": @"ask",
+        @"block":^id(NSArray *args) {
+            return @8;
+        }
+    }];
     
     [_interpreter loadMethod:@{
-                               @"name": @"display",
-                               @"block":^id(NSArray *args) {
-        UIAlertView *alertView = [[UIAlertView alloc] init];
-        [alertView addButtonWithTitle:@"OK"];
-        [alertView setTitle:args[0]];
-        [alertView show];
-        return nil;
-    }
-                               }];
+        @"name": @"display",
+        @"block":^id(NSArray *args) {
+            UIAlertView *alertView = [[UIAlertView alloc] init];
+            [alertView addButtonWithTitle:@"OK"];
+            [alertView setTitle:args[0]];
+            [alertView show];
+            return nil;
+        }
+    }];
     
     [_interpreter loadMethod:@{
-                               @"name": @"random_number",
-                               @"block":^id(NSArray *args) {
-        NSInteger min = [args[0] integerValue];
-        NSInteger max = [args[1] integerValue];
-        NSUInteger rand_num = arc4random_uniform(max) + min;
-        return @(rand_num);
-    }
-                               }];
+        @"name": @"random_number",
+        @"block":^id(NSArray *args) {
+            NSInteger min = [args[0] integerValue];
+            NSInteger max = [args[1] integerValue];
+            NSUInteger rand_num = arc4random_uniform(max) + min;
+            return @(rand_num);
+        }
+    }];
     
     [_interpreter run];
 }
@@ -144,6 +144,12 @@
             _spriteTable.frame = frame;
         }];
     }
+}
+
+#pragma Sprite Table View
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    return nil;
 }
 
 @end

@@ -21,7 +21,6 @@
 		4CF1CBD217EF882A00636E0D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1CBB117EF882A00636E0D /* Foundation.framework */; };
 		4CF1CBD317EF882A00636E0D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1CBB517EF882A00636E0D /* UIKit.framework */; };
 		4CF1CBDB17EF882A00636E0D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4CF1CBD917EF882A00636E0D /* InfoPlist.strings */; };
-		4CF1CBDD17EF882A00636E0D /* ZuseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF1CBDC17EF882A00636E0D /* ZuseTests.m */; };
 		4CF1CBF417EF89AB00636E0D /* TCSprite.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF1CBF317EF89AB00636E0D /* TCSprite.m */; };
 		4CF1CBFD17EFDBE500636E0D /* TCSpriteTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF1CBFC17EFDBE500636E0D /* TCSpriteTableView.m */; };
 		4CF1CC0417EFE14A00636E0D /* basketball.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 4CF1CBFF17EFE14A00636E0D /* basketball.jpeg */; };
@@ -65,7 +64,6 @@
 		4CF1CBD017EF882A00636E0D /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		4CF1CBD817EF882A00636E0D /* ZuseTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ZuseTests-Info.plist"; sourceTree = "<group>"; };
 		4CF1CBDA17EF882A00636E0D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		4CF1CBDC17EF882A00636E0D /* ZuseTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZuseTests.m; sourceTree = "<group>"; };
 		4CF1CBF217EF89AB00636E0D /* TCSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCSprite.h; sourceTree = "<group>"; };
 		4CF1CBF317EF89AB00636E0D /* TCSprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCSprite.m; sourceTree = "<group>"; };
 		4CF1CBFB17EFDBE500636E0D /* TCSpriteTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCSpriteTableView.h; sourceTree = "<group>"; };
@@ -169,7 +167,6 @@
 		4CF1CBD617EF882A00636E0D /* ZuseTests */ = {
 			isa = PBXGroup;
 			children = (
-				4CF1CBDC17EF882A00636E0D /* ZuseTests.m */,
 				5F099D4717F1136000EB2AC7 /* InterpreterTests.m */,
 				4CF1CBD717EF882A00636E0D /* Supporting Files */,
 			);
@@ -358,7 +355,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5F099D4817F1136000EB2AC7 /* InterpreterTests.m in Sources */,
-				4CF1CBDD17EF882A00636E0D /* ZuseTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
