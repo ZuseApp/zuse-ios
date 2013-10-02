@@ -52,7 +52,6 @@
     [_interpreter loadMethod:@{
         @"name": @"ask",
         @"block":^id(NSArray *args) {
-
             return @8;
         }
     }];
@@ -77,6 +76,8 @@
             return @(rand_num);
         }
     }];
+    
+    [_interpreter run];
 }
 
 - (void)didReceiveMemoryWarning

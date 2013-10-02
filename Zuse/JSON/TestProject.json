@@ -23,7 +23,7 @@
                                  {
                                  "call": {
                                  "method": "ask",
-                                 "args": "Enter a number between one and 10"
+                                 "args": ["Enter a number between one and ten"]
                                  }
                                  }
                                  ]

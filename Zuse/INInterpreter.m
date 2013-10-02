@@ -13,6 +13,7 @@
 @property (strong, nonatomic) NSDictionary *program;
 @property (strong, nonatomic) NSMutableDictionary *methods;
 @property (strong, nonatomic) NSMutableDictionary *events;
+@property (strong, nonatomic) NSMutableDictionary *objects;
 
 @end
 
@@ -45,26 +46,39 @@
     return [self runJSON:dict];
 }
 
-- (void)runJSON:(NSDictionary *)JSON {
-    NSString *key = [JSON allKeys][0];
-    [self runCode:JSON[key] forKey:key];
-}
-
-- (void)runSuite:(NSArray *)suite {
-    [suite enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        NSString *key = [obj allKeys][0];
-        [self runCode:obj[key] forKey:key];
+- (void)run{
+    [_objects enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        [self runSuite:obj[@"code"] properties:[obj[@"variables"] mutableCopy]];
     }];
 }
 
-- (void)runCode:(id)code forKey:(NSString *)key {
+- (void)runJSON:(NSDictionary *)JSON {
+    [self runJSON:JSON properties:[@{} mutableCopy]];
+}
+
+- (void)runJSON:(NSDictionary *)JSON properties:(NSMutableDictionary *)properties {
+    NSString *key = [JSON allKeys][0];
+    [self runCode:JSON[key] forKey:key properties:properties];
+}
+
+- (void)runSuite:(NSArray *)suite {
+    [self runSuite:suite properties:[NSMutableDictionary dictionary]];
+}
+
+- (void)runSuite:(NSArray *)suite properties:(NSMutableDictionary *)properties {
+    [suite enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        NSString *key = [obj allKeys][0];
+        [self runCode:obj[key] forKey:key properties:properties];
+    }];
+}
+
+- (void)runCode:(id)code forKey:(NSString *)key properties:(NSMutableDictionary *)properties {
     if ([key isEqualToString:@"program"] || [key isEqualToString:@"suite"]) {
-        [self runSuite:code];
+        [self runSuite:code properties:properties];
     }
     
-    else if ([key isEqualToString:@"call"]) {
-        void (^method)(NSArray *) = _methods[code[@"method"]];
-        method(code[@"args"]);
+    else if ([key isEqualToString:@"set"]) {
+        properties[code[0]] = [self evaluateExpression:code[1] properties:properties];
     }
     
     else if ([key isEqualToString:@"if"]) {
@@ -74,12 +88,37 @@
     }
     
     else {
-        NSAssert(false, ([NSString stringWithFormat:@"Error: attempted to run unknown code key: %@", key]));
+        [self evaluateExpression:@{ key: code } properties:properties];
     }
+}
+
+- (id)evaluateExpression:(id)expression properties:(NSMutableDictionary *)properties {
+    NSString *key = [expression allKeys][0];
+    NSDictionary *code = expression[@"key"];
+    
+    if ([key isEqualToString:@"call"]) {
+        id (^method)(NSArray *) = _methods[code[@"method"]];
+        return method(code[@"args"]);
+    }
+    
+//    else if ([key isEqualToString::@"get"]) {
+//        
+//    }
+    
+//    else {
+//        NSAssert(false, ([NSString stringWithFormat:@"Error: attempted to run unknown code key: %@", key]));
+//    }
+    return nil;
 }
 
 - (void)loadMethod:(NSDictionary *)method {
     [_methods setObject:method[@"block"] forKey:method[@"name"]];
+}
+
+- (void)loadObjects:(NSArray *)objects{
+    [objects enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [_objects setObject:obj forKey:obj[@"id"]];
+    }];
 }
 
 - (void)registerEvent:(NSString *)event handler:(NSDictionary *)handler {

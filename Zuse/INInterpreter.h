@@ -10,6 +10,7 @@
 
 @interface INInterpreter : NSObject
 
+- (void)run;
 - (void)runJSON:(NSDictionary *)JSON;
 - (void)runJSONString:(NSString *)JSONString;
 
@@ -17,5 +18,6 @@
 - (void)loadMethod:(NSDictionary *)method;
 - (void)registerEvent:(NSString *)event handler:(NSDictionary *)handler;
 - (void)triggerEvent:(NSString *)event;
+- (void)loadObjects:(NSArray *)objects;
 
 @end
