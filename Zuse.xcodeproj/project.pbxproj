@@ -16,7 +16,6 @@
 		4CF1CBBE17EF882A00636E0D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF1CBBD17EF882A00636E0D /* main.m */; };
 		4CF1CBC217EF882A00636E0D /* TCAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF1CBC117EF882A00636E0D /* TCAppDelegate.m */; };
 		4CF1CBC517EF882A00636E0D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4CF1CBC317EF882A00636E0D /* Main.storyboard */; };
-		4CF1CBC817EF882A00636E0D /* TCCanvasViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF1CBC717EF882A00636E0D /* TCCanvasViewController.m */; };
 		4CF1CBCA17EF882A00636E0D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4CF1CBC917EF882A00636E0D /* Images.xcassets */; };
 		4CF1CBD117EF882A00636E0D /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1CBD017EF882A00636E0D /* XCTest.framework */; };
 		4CF1CBD217EF882A00636E0D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1CBB117EF882A00636E0D /* Foundation.framework */; };
@@ -61,8 +60,6 @@
 		4CF1CBC017EF882A00636E0D /* TCAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TCAppDelegate.h; sourceTree = "<group>"; };
 		4CF1CBC117EF882A00636E0D /* TCAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TCAppDelegate.m; sourceTree = "<group>"; };
 		4CF1CBC417EF882A00636E0D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		4CF1CBC617EF882A00636E0D /* TCCanvasViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TCCanvasViewController.h; sourceTree = "<group>"; };
-		4CF1CBC717EF882A00636E0D /* TCCanvasViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TCCanvasViewController.m; sourceTree = "<group>"; };
 		4CF1CBC917EF882A00636E0D /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		4CF1CBCF17EF882A00636E0D /* ZuseTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZuseTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CF1CBD017EF882A00636E0D /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -203,8 +200,6 @@
 		5F099D4017F0E0F700EB2AC7 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				4CF1CBC617EF882A00636E0D /* TCCanvasViewController.h */,
-				4CF1CBC717EF882A00636E0D /* TCCanvasViewController.m */,
 				4C0D470617FB927600F13786 /* ZSCanvasViewController.h */,
 				4C0D470717FB927600F13786 /* ZSCanvasViewController.m */,
 			);
@@ -347,7 +342,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4CF1CBC817EF882A00636E0D /* TCCanvasViewController.m in Sources */,
 				4CF1CBBE17EF882A00636E0D /* main.m in Sources */,
 				4CF1CBC217EF882A00636E0D /* TCAppDelegate.m in Sources */,
 				4CF1CC0B17EFE56800636E0D /* TCSpriteManager.m in Sources */,
