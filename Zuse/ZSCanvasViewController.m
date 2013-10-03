@@ -45,13 +45,6 @@
     
     _tableViewShowing = YES;
     
-    #pragma table border
-    CALayer *leftBorder = [CALayer layer];
-    leftBorder.frame = CGRectMake(0.0f, 0.0f, 1.0f, _spriteTable.frame.size.height);
-    leftBorder.backgroundColor = [UIColor colorWithWhite:0.8f
-                                                 alpha:1.0f].CGColor;
-    [_spriteTable.layer addSublayer:leftBorder];
-    
 #pragma Interpreter
     NSString *jsonPath = [[NSBundle mainBundle] pathForResource:@"TestProject" ofType:@"json"];
     NSData *jsonData = [NSData dataWithContentsOfFile:jsonPath];
@@ -104,6 +97,14 @@
     }];
     
     [_interpreter run];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    CALayer *leftBorder = [CALayer layer];
+    leftBorder.frame = CGRectMake(0.0f, 0.0f, 1.0f, _spriteTable.frame.size.height);
+    leftBorder.backgroundColor = [UIColor colorWithWhite:0.8f
+                                                 alpha:1.0f].CGColor;
+    [_spriteTable.layer addSublayer:leftBorder];
 }
 
 - (void)didReceiveMemoryWarning
