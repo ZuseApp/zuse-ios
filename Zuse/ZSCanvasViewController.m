@@ -59,9 +59,11 @@
     frame.size.width = [variables[@"width"] floatValue];
     frame.size.height = [variables[@"height"] floatValue];
     
-    UIView *view = [[UIView alloc] initWithFrame:frame];
+    TCSpriteView *view = [[TCSpriteView alloc] initWithFrame:frame];
     view.backgroundColor = [UIColor blackColor];
-    
+    view.touchesBegan = ^(UITouch * touch){
+        NSLog(@"Touched");
+    };
     [self.view addSubview:view];
     
     _interpreter = [[INInterpreter alloc] init];
