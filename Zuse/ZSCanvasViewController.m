@@ -7,6 +7,7 @@
 //
 
 #import "ZSCanvasViewController.h"
+#import "ZSPlaygroundViewController.h"
 #import "TCSpriteManager.h"
 #import "TCSprite.h"
 #import "TCSpriteView.h"
@@ -43,6 +44,13 @@
     [self.view addGestureRecognizer:_screenRecognizer];
     
     _tableViewShowing = YES;
+    
+    #pragma table border
+    CALayer *leftBorder = [CALayer layer];
+    leftBorder.frame = CGRectMake(0.0f, 0.0f, 1.0f, _spriteTable.frame.size.height);
+    leftBorder.backgroundColor = [UIColor colorWithWhite:0.8f
+                                                 alpha:1.0f].CGColor;
+    [_spriteTable.layer addSublayer:leftBorder];
     
 #pragma Interpreter
     NSString *jsonPath = [[NSBundle mainBundle] pathForResource:@"TestProject" ofType:@"json"];
@@ -103,6 +111,22 @@
     [super didReceiveMemoryWarning];
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+
+    // Unselect the previous selected cell.
+    [_spriteTable deselectRowAtIndexPath:[_spriteTable indexPathForSelectedRow] animated:YES];
+
+    if ([segue.identifier isEqualToString:@"playground"]) {
+        UINavigationController *controller = (UINavigationController *) segue.destinationViewController;
+        ZSPlaygroundViewController *playController = (ZSPlaygroundViewController *) controller.topViewController;
+        playController.didFinish = ^{
+            [self dismissViewControllerAnimated:YES completion:^{
+                
+            }];
+        };
+    }
+}
+
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
     
     BOOL result = NO;
@@ -147,9 +171,20 @@
 }
 
 #pragma Sprite Table View
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    return nil;
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 1;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = nil;
+    if (indexPath.row == 0) {
+        cell = [tableView dequeueReusableCellWithIdentifier:@"debug"];
+        cell.textLabel.text = @"Playground";
+    } else {
+        // NSInteger row = indexPath.row - 1;
+    }
+    return cell;
 }
 
 @end
