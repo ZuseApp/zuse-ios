@@ -7,27 +7,25 @@
 //
 
 #import "ZSEditorViewController.h"
+#import "ZSSuiteController.h"
 
 @interface ZSEditorViewController ()
-
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) ZSSuiteController *rootSuiteController;
 @end
 
 @implementation ZSEditorViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    _rootSuiteController = [[ZSSuiteController alloc] init];
+    _rootSuiteController.suite = @[];
+    _tableView.delegate   = _rootSuiteController;
+    _tableView.dataSource = _rootSuiteController;
 	// Do any additional setup after loading the view.
 }
+
 
 - (void)didReceiveMemoryWarning
 {

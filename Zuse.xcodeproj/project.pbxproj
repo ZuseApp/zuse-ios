@@ -9,10 +9,10 @@
 /* Begin PBXBuildFile section */
 		4C0D470517FB800400F13786 /* TestProject.json in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D470417FB800400F13786 /* TestProject.json */; };
 		4C0D470817FB927600F13786 /* ZSCanvasViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0D470717FB927600F13786 /* ZSCanvasViewController.m */; };
-		4C49ECC317FD064600EF7D2C /* ZSCommandTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C49ECC217FD064600EF7D2C /* ZSCommandTableView.m */; };
 		4C49ECC617FD06B700EF7D2C /* ZSCommandListTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C49ECC517FD06B700EF7D2C /* ZSCommandListTableView.m */; };
 		4C49ECC917FD074900EF7D2C /* ZSEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C49ECC817FD074900EF7D2C /* ZSEditorViewController.m */; };
 		4C9BE77917FCEAC400BF1B2C /* ZSPlaygroundViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C9BE77817FCEAC400BF1B2C /* ZSPlaygroundViewController.m */; };
+		4CACDDD717FD2A240067A5AE /* ZSSuiteController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CACDDD617FD2A240067A5AE /* ZSSuiteController.m */; };
 		4CF1CBB217EF882A00636E0D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1CBB117EF882A00636E0D /* Foundation.framework */; };
 		4CF1CBB417EF882A00636E0D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1CBB317EF882A00636E0D /* CoreGraphics.framework */; };
 		4CF1CBB617EF882A00636E0D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1CBB517EF882A00636E0D /* UIKit.framework */; };
@@ -52,14 +52,14 @@
 		4C0D470417FB800400F13786 /* TestProject.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = TestProject.json; path = JSON/TestProject.json; sourceTree = "<group>"; };
 		4C0D470617FB927600F13786 /* ZSCanvasViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCanvasViewController.h; sourceTree = "<group>"; };
 		4C0D470717FB927600F13786 /* ZSCanvasViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCanvasViewController.m; sourceTree = "<group>"; };
-		4C49ECC117FD064600EF7D2C /* ZSCommandTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCommandTableView.h; sourceTree = "<group>"; };
-		4C49ECC217FD064600EF7D2C /* ZSCommandTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCommandTableView.m; sourceTree = "<group>"; };
 		4C49ECC417FD06B700EF7D2C /* ZSCommandListTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCommandListTableView.h; sourceTree = "<group>"; };
 		4C49ECC517FD06B700EF7D2C /* ZSCommandListTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCommandListTableView.m; sourceTree = "<group>"; };
 		4C49ECC717FD074900EF7D2C /* ZSEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSEditorViewController.h; sourceTree = "<group>"; };
 		4C49ECC817FD074900EF7D2C /* ZSEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSEditorViewController.m; sourceTree = "<group>"; };
 		4C9BE77717FCEAC400BF1B2C /* ZSPlaygroundViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSPlaygroundViewController.h; sourceTree = "<group>"; };
 		4C9BE77817FCEAC400BF1B2C /* ZSPlaygroundViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSPlaygroundViewController.m; sourceTree = "<group>"; };
+		4CACDDD517FD2A240067A5AE /* ZSSuiteController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSSuiteController.h; sourceTree = "<group>"; };
+		4CACDDD617FD2A240067A5AE /* ZSSuiteController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSSuiteController.m; sourceTree = "<group>"; };
 		4CF1CBAE17EF882A00636E0D /* Zuse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Zuse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CF1CBB117EF882A00636E0D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4CF1CBB317EF882A00636E0D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -222,8 +222,6 @@
 		5F099D4117F0E10600EB2AC7 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				4C49ECC117FD064600EF7D2C /* ZSCommandTableView.h */,
-				4C49ECC217FD064600EF7D2C /* ZSCommandTableView.m */,
 				4CF1CBFB17EFDBE500636E0D /* TCSpriteTableView.h */,
 				4CF1CBFC17EFDBE500636E0D /* TCSpriteTableView.m */,
 				4CF1CC0C17EFF64500636E0D /* TCSpriteView.h */,
@@ -242,6 +240,8 @@
 				4CF1CBF317EF89AB00636E0D /* TCSprite.m */,
 				4CF1CC0917EFE56800636E0D /* TCSpriteManager.h */,
 				4CF1CC0A17EFE56800636E0D /* TCSpriteManager.m */,
+				4CACDDD517FD2A240067A5AE /* ZSSuiteController.h */,
+				4CACDDD617FD2A240067A5AE /* ZSSuiteController.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -363,7 +363,7 @@
 				4C9BE77917FCEAC400BF1B2C /* ZSPlaygroundViewController.m in Sources */,
 				4CF1CBC217EF882A00636E0D /* TCAppDelegate.m in Sources */,
 				4CF1CC0B17EFE56800636E0D /* TCSpriteManager.m in Sources */,
-				4C49ECC317FD064600EF7D2C /* ZSCommandTableView.m in Sources */,
+				4CACDDD717FD2A240067A5AE /* ZSSuiteController.m in Sources */,
 				4CF1CC0E17EFF64500636E0D /* TCSpriteView.m in Sources */,
 				4C49ECC917FD074900EF7D2C /* ZSEditorViewController.m in Sources */,
 				4C0D470817FB927600F13786 /* ZSCanvasViewController.m in Sources */,
