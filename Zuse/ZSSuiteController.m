@@ -19,6 +19,12 @@
     
     NSInteger row = indexPath.row;
     if (row < _suite.count) {
+        NSString *command = _suite[row];
+        if ([command isEqualToString:@"set"]) {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"set"];
+        } else if ([command isEqualToString:@"while"]) {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"while"];
+        }
     } else {
         cell = [tableView dequeueReusableCellWithIdentifier:@"add"];
     }

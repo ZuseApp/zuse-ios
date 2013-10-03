@@ -107,6 +107,7 @@
     leftBorder.backgroundColor = [UIColor colorWithWhite:0.8f
                                                  alpha:1.0f].CGColor;
     [_spriteTable.layer addSublayer:leftBorder];
+    [[UIApplication sharedApplication] setStatusBarHidden:YES];
 }
 
 - (void)didReceiveMemoryWarning

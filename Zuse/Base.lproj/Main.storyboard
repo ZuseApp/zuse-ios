@@ -26,7 +26,7 @@
                                 </constraints>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="debug" textLabel="zxU-RW-tdd" style="IBUITableViewCellStyleDefault" id="izT-61-As7">
-                                        <rect key="frame" x="0.0" y="86" width="150" height="44"/>
+                                        <rect key="frame" x="0.0" y="22" width="150" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="izT-61-As7" id="y6N-EI-FRF">
                                             <rect key="frame" x="0.0" y="0.0" width="117" height="44"/>
@@ -46,7 +46,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="sprite" id="ahn-IX-Gi6">
-                                        <rect key="frame" x="0.0" y="130" width="150" height="44"/>
+                                        <rect key="frame" x="0.0" y="66" width="150" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ahn-IX-Gi6" id="wof-F5-KWi">
                                             <rect key="frame" x="0.0" y="0.0" width="150" height="44"/>
