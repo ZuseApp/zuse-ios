@@ -7,6 +7,7 @@
 //
 
 #import "ZSCanvasViewController.h"
+#import "ZSPlaygroundViewController.h"
 #import "TCSpriteManager.h"
 #import "TCSprite.h"
 #import "TCSpriteView.h"
@@ -43,7 +44,7 @@
     _screenRecognizer.edges = UIRectEdgeRight;
     [self.view addGestureRecognizer:_screenRecognizer];
     
-    _tableViewShowing = YES;
+    _tableViewShowing = NO;
     
 #pragma Interpreter
     NSString *jsonPath = [[NSBundle mainBundle] pathForResource:@"TestProject" ofType:@"json"];
@@ -59,9 +60,11 @@
     frame.size.width = [variables[@"width"] floatValue];
     frame.size.height = [variables[@"height"] floatValue];
     
-    UIView *view = [[UIView alloc] initWithFrame:frame];
+    TCSpriteView *view = [[TCSpriteView alloc] initWithFrame:frame];
     view.backgroundColor = [UIColor blackColor];
-    
+    view.touchesBegan = ^(UITouch * touch){
+        [self performSegueWithIdentifier:@"editor" sender:self];
+    };
     [self.view addSubview:view];
     
     _interpreter = [[INInterpreter alloc] init];
@@ -114,9 +117,35 @@
     [_interpreter run];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    CALayer *leftBorder = [CALayer layer];
+    leftBorder.frame = CGRectMake(0.0f, 0.0f, 1.0f, _spriteTable.frame.size.height);
+    leftBorder.backgroundColor = [UIColor colorWithWhite:0.8f
+                                                 alpha:1.0f].CGColor;
+    [_spriteTable.layer addSublayer:leftBorder];
+    [[UIApplication sharedApplication] setStatusBarHidden:YES];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+
+    // Unselect the previous selected cell.
+    [_spriteTable deselectRowAtIndexPath:[_spriteTable indexPathForSelectedRow] animated:YES];
+
+    if ([segue.identifier isEqualToString:@"playground"]) {
+        UINavigationController *controller = (UINavigationController *) segue.destinationViewController;
+        ZSPlaygroundViewController *playController = (ZSPlaygroundViewController *) controller.topViewController;
+        playController.didFinish = ^{
+            [self dismissViewControllerAnimated:YES completion:^{
+                
+            }];
+        };
+        _tableViewShowing = NO;
+    }
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
@@ -163,9 +192,20 @@
 }
 
 #pragma Sprite Table View
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    return nil;
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 1;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = nil;
+    if (indexPath.row == 0) {
+        cell = [tableView dequeueReusableCellWithIdentifier:@"debug"];
+        cell.textLabel.text = @"Playground";
+    } else {
+        // NSInteger row = indexPath.row - 1;
+    }
+    return cell;
 }
 
 @end
