@@ -7,6 +7,7 @@
 //
 
 #import "INInterpreter.h"
+#import <BlocksKit/BlocksKit.h>
 
 @interface INInterpreter ()
 
@@ -47,7 +48,7 @@
     return [self runJSON:dict];
 }
 
-- (void)run{
+- (void)run {
     [_objects enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
         [self runSuite:obj[@"code"] properties:[obj[@"variables"] mutableCopy]];
     }];
@@ -105,12 +106,27 @@
     id code = expression[key];
     
     if ([key isEqualToString:@"call"]) {
-        id (^method)(NSArray *) = _methods[code[@"method"]];
-        NSMutableArray *reducedExpressions = [@[] mutableCopy];
-        [code[@"args"] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            [reducedExpressions addObject:[self evaluateExpression:obj properties:properties]];
+        NSArray *args = [code[@"args"] map:^id(id obj) {
+            return [self evaluateExpression:obj properties:properties];
         }];
-        return method(reducedExpressions);
+        
+        if (code[@"async"] && [code[@"async"] boolValue]) {
+            NSObject *returnValue = nil;
+
+            id (^method)(NSArray *, NSObject **) = _methods[code[@"method"]];
+            method(args, &returnValue);
+            
+            while (!returnValue) {
+                [NSThread sleepForTimeInterval:0.1];
+            }
+            
+            NSLog(@"%@", returnValue);
+            
+            return returnValue;
+        } else {
+            id (^method)(NSArray *) = _methods[code[@"method"]];
+            return method(args);
+        }
     }
     
     else if ([key isEqualToString:@"+"]) {

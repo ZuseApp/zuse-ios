@@ -23,6 +23,7 @@
                                  {
                                  "call": {
                                  "method": "ask",
+                                 "async": true,
                                  "args": ["Enter a number between one and ten"]
                                  }
                                  }

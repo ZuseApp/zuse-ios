@@ -12,6 +12,7 @@
 #import "TCSpriteView.h"
 #import "TCSpriteManager.h"
 #import "INInterpreter.h"
+#import <BlocksKit/BlocksKit.h>
 
 @interface ZSCanvasViewController ()
 @property (weak, nonatomic) IBOutlet UITableView *spriteTable;
@@ -69,8 +70,19 @@
     
     [_interpreter loadMethod:@{
         @"name": @"ask",
-        @"block":^id(NSArray *args) {
-            return @8;
+        @"block":^id(NSArray *args, NSObject **returnValue) {
+            NSThread *thread = [NSThread currentThread];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                   [UIAlertView showAlertViewWithTitle:@"Question"
+                                    message:args[0]
+                          cancelButtonTitle:@"Cancel"
+                          otherButtonTitles:@[]
+                                    handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                                *returnValue = @"Hi!";
+                          }];
+            });
+        
+            return nil;
         }
     }];
     
@@ -95,6 +107,10 @@
         }
     }];
     
+    [NSThread detachNewThreadSelector:@selector(runInterpreter:) toTarget:self withObject:nil];
+}
+
+- (void) runInterpreter:(id)object {
     [_interpreter run];
 }
 
