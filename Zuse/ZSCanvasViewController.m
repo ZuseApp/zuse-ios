@@ -124,6 +124,8 @@
                                                  alpha:1.0f].CGColor;
     [_spriteTable.layer addSublayer:leftBorder];
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
+    
+    self.navigationController.navigationBarHidden = YES;
 }
 
 - (void)didReceiveMemoryWarning
