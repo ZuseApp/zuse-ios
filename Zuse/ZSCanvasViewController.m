@@ -136,7 +136,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
 
     // Unselect the previous selected cell.
-    [_spriteTable deselectRowAtIndexPath:[_spriteTable indexPathForSelectedRow] animated:YES];
+    /* [_spriteTable deselectRowAtIndexPath:[_spriteTable indexPathForSelectedRow] animated:YES];
 
     if ([segue.identifier isEqualToString:@"playground"]) {
         UINavigationController *controller = (UINavigationController *) segue.destinationViewController;
@@ -147,7 +147,10 @@
             }];
         };
         _tableViewShowing = NO;
-    }
+    }*/
+    
+    [_spriteTable deselectRowAtIndexPath:[_spriteTable indexPathForSelectedRow] animated:YES];
+    _tableViewShowing = NO;
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {

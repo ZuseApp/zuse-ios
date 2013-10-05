@@ -10,6 +10,6 @@
 
 @interface ZSPlaygroundViewController : UITableViewController
 
-@property (copy, nonatomic) void(^didFinish)();
+// @property (copy, nonatomic) void(^didFinish)();
 
 @end

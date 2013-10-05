@@ -34,15 +34,19 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    self.navigationController.navigationBarHidden = NO;
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-- (IBAction)didFinish:(id)sender {
-    _didFinish();
-}
+//- (IBAction)didFinish:(id)sender {
+//    _didFinish();
+//}
 
 #pragma mark - Table view data source
 
