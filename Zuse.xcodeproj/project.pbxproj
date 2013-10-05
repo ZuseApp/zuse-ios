@@ -219,8 +219,6 @@
 				5FBDDC3217FF2D2400A1037A /* ZSEditorViewController.m */,
 				5FBDDC3317FF2D2400A1037A /* ZSPlaygroundViewController.h */,
 				5FBDDC3417FF2D2400A1037A /* ZSPlaygroundViewController.m */,
-				5FBDDC3517FF2D2400A1037A /* ZSSuiteController.h */,
-				5FBDDC3617FF2D2400A1037A /* ZSSuiteController.m */,
 				4C0D470617FB927600F13786 /* ZSCanvasViewController.h */,
 				4C0D470717FB927600F13786 /* ZSCanvasViewController.m */,
 				5FBDDC3A17FF2D5F00A1037A /* ZSCommandListTableView.h */,
@@ -248,6 +246,8 @@
 				4CF1CBF317EF89AB00636E0D /* TCSprite.m */,
 				4CF1CC0917EFE56800636E0D /* TCSpriteManager.h */,
 				4CF1CC0A17EFE56800636E0D /* TCSpriteManager.m */,
+				5FBDDC3517FF2D2400A1037A /* ZSSuiteController.h */,
+				5FBDDC3617FF2D2400A1037A /* ZSSuiteController.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
