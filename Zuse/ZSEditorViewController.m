@@ -20,7 +20,7 @@
 {
     [super viewDidLoad];
     _rootSuiteController = [[ZSSuiteController alloc] init];
-    _rootSuiteController.suite = @[@"set", @"set", @"while"];
+    _rootSuiteController.suite = _code;
     _tableView.delegate = _rootSuiteController;
     _tableView.dataSource = _rootSuiteController;
 	// Do any additional setup after loading the view.

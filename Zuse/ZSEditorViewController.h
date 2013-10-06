@@ -10,4 +10,6 @@
 
 @interface ZSEditorViewController : UIViewController
 
+@property (strong, nonatomic) NSMutableArray *code;
+
 @end

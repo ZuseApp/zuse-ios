@@ -23,15 +23,18 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"command"];;
     
-    CGFloat height = 170;
+    // CGFloat height = 170;
     CGFloat width = 320;
     
     NSInteger row = indexPath.row;
     if (row < _suite.count) {
         // Get rectangle of table view.
         
-        NSString *command = _suite[row];
-        if ([command isEqualToString:@"set"]) {
+        NSDictionary *statement = _suite[row];
+        NSString *command = [statement allKeys][0];
+        
+        // NSString *command = _suite[row];
+        /*if ([command isEqualToString:@"set"]) {
             cell.backgroundColor = [UIColor colorWithRed:1.0f green:0.94f blue:0.86f alpha:1.0f];
             UILabel *nestedLabel = [[UILabel alloc] init];
             nestedLabel.text = @"set";
@@ -81,7 +84,18 @@
             _test.suite = @[@"ask", @"set"];
             nestedTable.delegate = _test;
             nestedTable.dataSource = _test;
-        }
+        }*/
+        
+        cell = [tableView dequeueReusableCellWithIdentifier:@"command"];
+        UILabel *nestedLabel = [[UILabel alloc] init];
+        nestedLabel.text = command;
+        CGRect labelFrame = nestedLabel.frame;
+        labelFrame.origin.x = 15;
+        labelFrame.origin.y = 6;
+        labelFrame.size.width = width - 15;
+        labelFrame.size.height = 21;
+        nestedLabel.frame = labelFrame;
+        [cell.contentView addSubview:nestedLabel];
     } else {
         cell = [tableView dequeueReusableCellWithIdentifier:@"command"];
         UILabel *nestedLabel = [[UILabel alloc] init];
@@ -94,16 +108,17 @@
         nestedLabel.frame = labelFrame;
         [cell.contentView addSubview:nestedLabel];
     }
+    
     return cell;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+/*- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (indexPath.row == 2) {
         return 170;
     }
     return 44;
     
-}
+}*/
 
 @end

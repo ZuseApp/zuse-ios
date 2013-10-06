@@ -8,11 +8,13 @@
 
 #import "ZSCanvasViewController.h"
 #import "ZSPlaygroundViewController.h"
+#import "ZSEditorViewController.h"
 #import "TCSpriteManager.h"
 #import "TCSprite.h"
 #import "TCSpriteView.h"
 #import "TCSpriteManager.h"
 #import "INInterpreter.h"
+#import "ZSProgram.h"
 #import <BlocksKit/BlocksKit.h>
 
 @interface ZSCanvasViewController ()
@@ -23,6 +25,7 @@
 @property (nonatomic, strong) NSArray *templateSprites;
 @property (nonatomic, strong) NSArray *canvasSprites;
 @property (strong, nonatomic) INInterpreter *interpreter;
+@property (strong, nonatomic) ZSProgram *program;
 @end
 
 @implementation ZSCanvasViewController
@@ -40,32 +43,31 @@
 {
     [super viewDidLoad];
     _screenRecognizer = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(canvasPanned:)];
-    // _screenRecognizer.delegate = self;
     _screenRecognizer.edges = UIRectEdgeRight;
     [self.view addGestureRecognizer:_screenRecognizer];
     
     _tableViewShowing = NO;
     
+#pragma Load Sprites
+    _program = [ZSProgram loadForResource:@"TestProject" ofType:@"json"];
+    for (TCSprite *sprite in _program.sprites) {
+    
+        // TODO: Consider uncoupling the UI frame component from the sprite.
+        TCSpriteView *view = [[TCSpriteView alloc] initWithFrame:sprite.frame];
+        __weak TCSpriteView *weakView = view;
+        view.sprite = sprite;
+        view.backgroundColor = [UIColor blackColor];
+        view.touchesBegan = ^(UITouch * touch){
+            [self performSegueWithIdentifier:@"editor" sender:weakView];
+        };
+        [self.view addSubview:view];
+    }
+    
 #pragma Interpreter
+    // TODO: Redundant loading of the json since the program object already does this.
     NSString *jsonPath = [[NSBundle mainBundle] pathForResource:@"TestProject" ofType:@"json"];
     NSData *jsonData = [NSData dataWithContentsOfFile:jsonPath];
     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
-    // NSLog(@"%@", json);
-    NSDictionary *jsonObject = [json[@"objects"] firstObject];
-    NSDictionary *variables = jsonObject[@"variables"];
-    CGRect frame = CGRectZero;
-    
-    frame.origin.x = [variables[@"x"] floatValue];
-    frame.origin.y = [variables[@"y"] floatValue];
-    frame.size.width = [variables[@"width"] floatValue];
-    frame.size.height = [variables[@"height"] floatValue];
-    
-    TCSpriteView *view = [[TCSpriteView alloc] initWithFrame:frame];
-    view.backgroundColor = [UIColor blackColor];
-    view.touchesBegan = ^(UITouch * touch){
-        [self performSegueWithIdentifier:@"editor" sender:self];
-    };
-    [self.view addSubview:view];
     
     _interpreter = [[INInterpreter alloc] init];
     
@@ -148,6 +150,11 @@
         };
         _tableViewShowing = NO;
     }*/
+    
+    if ([segue.identifier isEqualToString:@"editor"]) {
+        ZSEditorViewController *editorController = (ZSEditorViewController *)segue.destinationViewController;
+        editorController.code = [[(TCSpriteView *)sender sprite] code];
+    }
     
     [_spriteTable deselectRowAtIndexPath:[_spriteTable indexPathForSelectedRow] animated:YES];
     _tableViewShowing = NO;
