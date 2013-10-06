@@ -49,7 +49,7 @@
     _tableViewShowing = NO;
     
 #pragma Load Sprites
-    _program = [ZSProgram loadForResource:@"TestProject" ofType:@"json"];
+    _program = [ZSProgram programForResource:@"TestProject" ofType:@"json"];
     for (TCSprite *sprite in _program.sprites) {
     
         // TODO: Consider uncoupling the UI frame component from the sprite.

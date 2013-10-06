@@ -14,6 +14,6 @@
 @property(assign, nonatomic) CGFloat interpreterVersion;
 @property(strong, nonatomic) NSMutableArray *sprites;
 
-+ (ZSProgram *)loadForResource:(NSString *)name ofType:(NSString *)extension;
++ (ZSProgram *)programForResource:(NSString *)name ofType:(NSString *)extension;
 
 @end

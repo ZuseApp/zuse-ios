@@ -19,7 +19,7 @@
     return self;
 }
 
-+(ZSProgram *)loadForResource:(NSString *)name ofType:(NSString *)extension {
++(ZSProgram *)programForResource:(NSString *)name ofType:(NSString *)extension {
     
     // Read the resource into an NSDictionary representing the JSON.
     NSString *jsonPath = [[NSBundle mainBundle] pathForResource:name ofType:extension];
