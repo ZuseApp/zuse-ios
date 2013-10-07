@@ -112,7 +112,7 @@
         }
     }];
     
-    [NSThread detachNewThreadSelector:@selector(runInterpreter:) toTarget:self withObject:nil];
+//    [NSThread detachNewThreadSelector:@selector(runInterpreter:) toTarget:self withObject:nil];
 }
 
 - (void) runInterpreter:(id)object {

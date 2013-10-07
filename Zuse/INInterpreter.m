@@ -37,7 +37,7 @@
     return self;
 }
 
-- (void)runJSONString:(NSString *)JSONString
+- (id)runJSONString:(NSString *)JSONString
 {
     NSData *data       = [NSData dataWithBytes:[JSONString UTF8String] length:JSONString.length];
     NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data
@@ -54,29 +54,32 @@
     }];
 }
 
-- (void)runJSON:(NSDictionary *)JSON {
-    [self runJSON:JSON properties:[@{} mutableCopy]];
+- (id)runJSON:(NSDictionary *)JSON {
+    return [self runJSON:JSON properties:[@{} mutableCopy]];
 }
 
-- (void)runJSON:(NSDictionary *)JSON properties:(NSMutableDictionary *)properties {
+- (id)runJSON:(NSDictionary *)JSON properties:(NSMutableDictionary *)properties {
     NSString *key = [JSON allKeys][0];
-    [self runCode:JSON[key] forKey:key properties:properties];
+    return [self runCode:JSON[key] forKey:key properties:properties];
 }
 
-- (void)runSuite:(NSArray *)suite {
-    [self runSuite:suite properties:[NSMutableDictionary dictionary]];
+- (id)runSuite:(NSArray *)suite {
+    return [self runSuite:suite properties:[NSMutableDictionary dictionary]];
 }
 
-- (void)runSuite:(NSArray *)suite properties:(NSMutableDictionary *)properties {
+- (id)runSuite:(NSArray *)suite properties:(NSMutableDictionary *)properties {
+    __block id returnValue = nil;
     [suite enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         NSString *key = [obj allKeys][0];
-        [self runCode:obj[key] forKey:key properties:properties];
+        returnValue = [self runCode:obj[key] forKey:key properties:properties];
     }];
+    
+    return returnValue;
 }
 
-- (void)runCode:(id)code forKey:(NSString *)key properties:(NSMutableDictionary *)properties {
+- (id)runCode:(id)code forKey:(NSString *)key properties:(NSMutableDictionary *)properties {
     if ([key isEqualToString:@"program"] || [key isEqualToString:@"suite"]) {
-        [self runSuite:code properties:properties];
+        return [self runSuite:code properties:properties];
     }
     
     else if ([key isEqualToString:@"set"]) {
@@ -85,15 +88,17 @@
     
     else if ([key isEqualToString:@"if"]) {
         if ([[self evaluateExpression:code[@"test"] properties:properties] boolValue]) {
-            [self runSuite:code[@"true"]];
+            return [self runSuite:code[@"true"]];
         } else {
-            [self runSuite:code[@"false"]];
+            return [self runSuite:code[@"false"]];
         }
     }
     
     else {
-        [self evaluateExpression:@{ key: code } properties:properties];
+        return [self evaluateExpression:@{ key: code } properties:properties];
     }
+    
+    return nil;
 }
 
 - (id)evaluateExpression:(id)expression properties:(NSMutableDictionary *)properties {
@@ -106,7 +111,9 @@
     id code = expression[key];
     
     if ([key isEqualToString:@"call"]) {
-        NSArray *args = [code[@"args"] map:^id(id obj) {
+        // It's legal to not specify an args array
+        NSArray *args = (code[@"args"] ? code[@"args"] : @[]);
+        args = [args map:^id(id obj) {
             return [self evaluateExpression:obj properties:properties];
         }];
         
@@ -114,6 +121,7 @@
             NSObject *returnValue = nil;
 
             id (^method)(NSArray *, NSObject **) = _methods[code[@"method"]];
+            
             method(args, &returnValue);
             
             while (!returnValue) {

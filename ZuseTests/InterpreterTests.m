@@ -30,7 +30,6 @@
     NSDictionary *method = @{
         @"name":  @"print",
         @"block": ^(NSArray *args) {
-            NSLog(@"%@", args[0]);
             didRun = YES;
             XCTAssertEqualObjects(@"Hello World!", args[0], @"");
         }
@@ -50,6 +49,31 @@
     XCTAssertEqual(YES, didRun, @"");
 }
 
+- (void)testCallNoArgs {
+    __block BOOL didRun = NO;
+    
+    NSDictionary *method = @{
+        @"name":  @"print",
+        @"block": ^(NSArray *args) {
+            didRun = YES;
+            XCTAssertEqualObjects(@[], args, @"");
+        }
+    };
+    
+    [_interpreter loadMethod:method];
+    
+    NSDictionary *program = @{
+        @"call": @{
+            @"method": @"print",
+        }
+    };
+    
+    [_interpreter runJSON:program];
+    
+    XCTAssertEqual(YES, didRun, @"");
+
+}
+
 - (void)testIf
 {
     __block BOOL didRun = NO;
@@ -57,7 +81,6 @@
     NSDictionary *method = @{
         @"name":  @"print",
         @"block": ^(NSArray *args) {
-            NSLog(@"%@", args[0]);
             didRun = YES;
             XCTAssertEqualObjects(@"Hello World!", args[0], @"");
         }
@@ -135,7 +158,6 @@
     NSDictionary *method = @{
         @"name":  @"print",
         @"block": ^(NSArray *args) {
-            NSLog(@"%@", args[0]);
             didRun = YES;
             XCTAssertEqualObjects(@3, args[0], @"");
         }
@@ -161,13 +183,12 @@
     NSDictionary *method = @{
         @"name":  @"print",
         @"block": ^(NSArray *args) {
-            NSLog(@"%@", args[0]);
             didRun = YES;
             XCTAssertEqualObjects(@6, args[0], @"");
         }
     };
     
-    [_interpreter loadMethod:method];
+   [_interpreter loadMethod:method];
     
     NSDictionary *program = @{
         @"call": @{
@@ -185,7 +206,43 @@
     
     [_interpreter runJSON:program];
     
-    XCTAssertEqual(YES, didRun, @"");
+}
+
+- (void)testAsyncMethod {
+    __block BOOL didRun = NO;
+    
+    NSDictionary *method = @{
+        @"name":  @"print",
+        @"block": ^id(NSArray *args, NSObject **returnValue) {
+            didRun = YES;
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                (*returnValue) = @YES;
+            });
+            
+            return nil;
+        }
+    };
+    
+   [_interpreter loadMethod:method];
+    
+    NSDictionary *program = @{
+        @"call": @{
+            @"method": @"print",
+            @"async": @YES
+        }
+    };
+    
+    NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(backgroundAsync:) object:program];
+    
+    [thread start];
+    
+    while (!thread.isFinished) { sleep(1); }
+}
+
+
+- (void)backgroundAsync:(NSDictionary *)program {
+    NSNumber *result = [_interpreter runJSON:program];
+    XCTAssertEqualObjects(@YES, result, @"");
 }
 
 @end

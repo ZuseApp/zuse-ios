@@ -11,8 +11,8 @@
 @interface INInterpreter : NSObject
 
 - (void)run;
-- (void)runJSON:(NSDictionary *)JSON;
-- (void)runJSONString:(NSString *)JSONString;
+- (id)runJSON:(NSDictionary *)JSON;
+- (id)runJSONString:(NSString *)JSONString;
 
 + (instancetype)interpreter;
 - (void)loadMethod:(NSDictionary *)method;
