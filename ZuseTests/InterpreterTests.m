@@ -215,10 +215,11 @@
         @"name":  @"print",
         @"block": ^id(NSArray *args, NSObject **returnValue) {
             didRun = YES;
+
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-                (*returnValue) = @YES;
+                *returnValue = @YES;
             });
-            
+
             return nil;
         }
     };

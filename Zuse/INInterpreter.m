@@ -93,11 +93,11 @@
             return [self runSuite:code[@"false"]];
         }
     }
-    
+
     else {
         return [self evaluateExpression:@{ key: code } properties:properties];
     }
-    
+
     return nil;
 }
 
@@ -106,37 +106,37 @@
     if ([expression isKindOfClass:[NSNumber class]] || [expression isKindOfClass:[NSString class]]) {
         return expression;
     }
-    
+
     NSString *key = [expression allKeys][0];
     id code = expression[key];
-    
+
     if ([key isEqualToString:@"call"]) {
         // It's legal to not specify an args array
         NSArray *args = (code[@"args"] ? code[@"args"] : @[]);
         args = [args map:^id(id obj) {
             return [self evaluateExpression:obj properties:properties];
         }];
-        
+
         if (code[@"async"] && [code[@"async"] boolValue]) {
-            NSObject *returnValue = nil;
+            __block NSObject *returnValue = nil;
 
             id (^method)(NSArray *, NSObject **) = _methods[code[@"method"]];
-            
+
             method(args, &returnValue);
-            
+
             while (!returnValue) {
                 [NSThread sleepForTimeInterval:0.1];
             }
-            
+
             NSLog(@"%@", returnValue);
-            
+
             return returnValue;
         } else {
             id (^method)(NSArray *) = _methods[code[@"method"]];
             return method(args);
         }
     }
-    
+
     else if ([key isEqualToString:@"+"]) {
         NSInteger first = [[self evaluateExpression:code[0] properties:properties] integerValue];
         NSInteger second = [[self evaluateExpression:code[1] properties:properties] integerValue];
