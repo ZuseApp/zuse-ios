@@ -213,14 +213,10 @@
     
     NSDictionary *method = @{
         @"name":  @"print",
-        @"block": ^id(NSArray *args, NSObject **returnValue) {
+        @"block": ^(NSArray *args, void(^finishedBlock)(id)) {
             didRun = YES;
-
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-                *returnValue = @YES;
-            });
-
-            return nil;
+            
+            finishedBlock(@YES);
         }
     };
     

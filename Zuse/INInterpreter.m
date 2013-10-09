@@ -118,18 +118,17 @@
         }];
 
         if (code[@"async"] && [code[@"async"] boolValue]) {
-            __block NSObject *returnValue = nil;
+            __block id returnValue = nil;
+            id (^method)(NSArray *, void(^)(id)) = _methods[code[@"method"]];
 
-            id (^method)(NSArray *, NSObject **) = _methods[code[@"method"]];
-
-            method(args, &returnValue);
+            method(args, ^void(id obj){
+                returnValue = obj;
+            });
 
             while (!returnValue) {
-                [NSThread sleepForTimeInterval:0.1];
+                [NSThread sleepForTimeInterval:0.01];
             }
-
-            NSLog(@"%@", returnValue);
-
+            
             return returnValue;
         } else {
             id (^method)(NSArray *) = _methods[code[@"method"]];

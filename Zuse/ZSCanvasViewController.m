@@ -75,21 +75,20 @@
     
     [_interpreter loadMethod:@{
         @"name": @"ask",
-        @"block":^id(NSArray *args, NSObject **returnValue) {
-            NSThread *thread = [NSThread currentThread];
+        @"block":^(NSArray *args, void(^finishedBlock)(id)) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                   [UIAlertView showAlertViewWithTitle:@"Question"
-                                    message:args[0]
-                          cancelButtonTitle:@"Cancel"
-                          otherButtonTitles:@[]
-                                    handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
-                                *returnValue = @"Hi!";
-                          }];
-            });
-        
-            return nil;
-        }
-    }];
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Hi" message:args[0]];
+                alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+                __weak UIAlertView *blockAlertView = alertView;
+                [alertView addButtonWithTitle:@"OK" handler:^{
+                    NSString *answer = [blockAlertView textFieldAtIndex:0].text;
+                    NSLog(@"Answer: %@", answer);
+                    finishedBlock(@([answer integerValue]));
+                }];
+                [alertView show];
+        });
+    }
+                               }];
     
     [_interpreter loadMethod:@{
         @"name": @"display",
@@ -108,11 +107,16 @@
             NSInteger min = [args[0] integerValue];
             NSInteger max = [args[1] integerValue];
             NSUInteger rand_num = arc4random_uniform(max) + min;
+            NSLog(@"Random number: %@", @(rand_num));
             return @(rand_num);
         }
     }];
     
-//    [NSThread detachNewThreadSelector:@selector(runInterpreter:) toTarget:self withObject:nil];
+    [NSThread detachNewThreadSelector:@selector(runInterpreter:) toTarget:self withObject:nil];
+}
+
+- (void)thread:(id)obj {
+    
 }
 
 - (void) runInterpreter:(id)object {
