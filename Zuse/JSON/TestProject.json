@@ -7,39 +7,46 @@
             "variables": { "x": 10 , "y": 10, "width": 100, "height": 100 },
             "code": [
                 {
-                    "set": [
-                        "num",
-                        {
-                            "call": {
-                                "method": "random_number",
-                                "args": [1, 10]
-                            }
-                        }
-                    ]
-                },
-                {
-                    "set": [
-                        "result",
-                        {
-                            "call": {
-                                "method": "ask",
-                                "async": true,
-                                "args": ["Enter a number between one and ten"]
-                            }
-                        }
-                    ]
-                },
-                {
-                    "if": {
-                        "test": { "==": [{ "get": "num"}, { "get": "result" }] },
-                        "true": [
+                    "on_event": {
+                        "name": "start",
+                        "suite": [
                             {
-                                "call": { "method": "display", "args": ["Good guess!"] }
-                            }
-                        ],
-                        "false": [
+                                "set": [
+                                    "num",
+                                    {
+                                        "call": {
+                                            "method": "random_number",
+                                            "args": [1, 10]
+                                        }
+                                    }
+                                ]
+                            },
                             {
-                                "call": { "method": "display", "args": ["Wrong!"] }
+                                "set": [
+                                    "result",
+                                    {
+                                        "call": {
+                                            "method": "ask",
+                                            "async": true,
+                                            "args": ["Enter a number between one and ten"]
+                                        }
+                                    }
+                                ]
+                            },
+                            {
+                                "if": {
+                                    "test": { "==": [{ "get": "num"}, { "get": "result" }] },
+                                    "true": [
+                                        {
+                                            "call": { "method": "display", "args": ["Good guess!"] }
+                                        }
+                                    ],
+                                    "false": [
+                                        {
+                                            "call": { "method": "display", "args": ["Wrong!"] }
+                                        }
+                                    ]
+                                }
                             }
                         ]
                     }

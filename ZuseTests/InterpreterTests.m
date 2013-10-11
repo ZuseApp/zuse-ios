@@ -141,13 +141,22 @@
     
     [_interpreter loadMethod:method];
     
-    [_interpreter registerEvent:@"some_object.tapped" handler:@{
-        @"suite": @[
-            @{ @"call": @{ @"method": @"test", @"args": @[] } }
+    [_interpreter loadObject:@{
+        @"id": @"foo",
+        @"variables": @[],
+        @"code": @[
+            @{
+                @"on_event": @{
+                    @"name": @"start",
+                    @"suite": @[
+                        @{ @"call": @{ @"method": @"test", @"args": @[] } }
+                    ]
+                }
+            }
         ]
     }];
     
-    [_interpreter triggerEvent:@"some_object.tapped"];
+    [_interpreter triggerEvent:@"start"];
     
     XCTAssert(didRun, @"");
 }
@@ -240,6 +249,10 @@
 - (void)backgroundAsync:(NSDictionary *)program {
     NSNumber *result = [_interpreter runJSON:program];
     XCTAssertEqualObjects(@YES, result, @"");
+}
+
+- (void)testVariables {
+
 }
 
 @end

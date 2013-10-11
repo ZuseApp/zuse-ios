@@ -115,12 +115,8 @@
     [NSThread detachNewThreadSelector:@selector(runInterpreter:) toTarget:self withObject:nil];
 }
 
-- (void)thread:(id)obj {
-    
-}
-
 - (void) runInterpreter:(id)object {
-    [_interpreter run];
+    [_interpreter triggerEvent:@"start"];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
