@@ -13,19 +13,22 @@
 #import "TCSprite.h"
 #import "TCSpriteView.h"
 #import "TCSpriteManager.h"
-#import "INInterpreter.h"
 #import "ZSProgram.h"
-#import <BlocksKit/BlocksKit.h>
+#import "ZSMenuController.h"
+#import "ZSSpriteController.h"
 
 @interface ZSCanvasViewController ()
 @property (weak, nonatomic) IBOutlet UITableView *spriteTable;
-@property (strong, nonatomic) UIScreenEdgePanGestureRecognizer *screenRecognizer;
+@property (weak, nonatomic) IBOutlet UITableView *menuTable;
+@property (strong, nonatomic) UIScreenEdgePanGestureRecognizer *rightEdgePanRecognizer;
+@property (strong, nonatomic) UIScreenEdgePanGestureRecognizer *leftEdgePanRecognizer;
 @property (assign, nonatomic, getter = isTableViewShowing) BOOL tableViewShowing;
 @property (nonatomic, strong) TCSpriteManager *spriteManager;
 @property (nonatomic, strong) NSArray *templateSprites;
 @property (nonatomic, strong) NSArray *canvasSprites;
-@property (strong, nonatomic) INInterpreter *interpreter;
 @property (strong, nonatomic) ZSProgram *program;
+@property (strong, nonatomic) ZSSpriteController *spriteController;
+@property (strong, nonatomic) ZSMenuController *menuController;
 @end
 
 @implementation ZSCanvasViewController
@@ -42,16 +45,27 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    _screenRecognizer = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(canvasPanned:)];
-    _screenRecognizer.edges = UIRectEdgeRight;
-    [self.view addGestureRecognizer:_screenRecognizer];
+    _rightEdgePanRecognizer = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(canvasPannedRight:)];
+    _rightEdgePanRecognizer.edges = UIRectEdgeRight;
+    _leftEdgePanRecognizer = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(canvasPannedLeft:)];
+    _leftEdgePanRecognizer.edges = UIRectEdgeLeft;
+    [self.view addGestureRecognizer:_rightEdgePanRecognizer];
+    [self.view addGestureRecognizer:_leftEdgePanRecognizer];
     
     _tableViewShowing = NO;
+    
+#pragma Set up Table delegates and data sources.
+    _spriteController = [[ZSSpriteController alloc] init];
+    _menuController = [[ZSMenuController alloc] init];
+    _spriteTable.delegate = _spriteController;
+    _spriteTable.dataSource = _spriteController;
+    _menuTable.delegate = _menuController;
+    _menuTable.dataSource = _menuController;
     
 #pragma Load Sprites
     _program = [ZSProgram programForResource:@"TestProject" ofType:@"json"];
     for (TCSprite *sprite in _program.sprites) {
-    
+        
         // TODO: Consider uncoupling the UI frame component from the sprite.
         TCSpriteView *view = [[TCSpriteView alloc] initWithFrame:sprite.frame];
         __weak TCSpriteView *weakView = view;
@@ -62,68 +76,13 @@
         };
         [self.view addSubview:view];
     }
-    
-#pragma Interpreter
-    // TODO: Redundant loading of the json since the program object already does this.
-    NSString *jsonPath = [[NSBundle mainBundle] pathForResource:@"TestProject" ofType:@"json"];
-    NSData *jsonData = [NSData dataWithContentsOfFile:jsonPath];
-    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
-    
-    _interpreter = [[INInterpreter alloc] init];
-    
-    [_interpreter loadObjects:json[@"objects"]];
-    
-    [_interpreter loadMethod:@{
-        @"name": @"ask",
-        @"block":^(NSArray *args, void(^finishedBlock)(id)) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Hi" message:args[0]];
-                alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
-                __weak UIAlertView *blockAlertView = alertView;
-                [alertView addButtonWithTitle:@"OK" handler:^{
-                    NSString *answer = [blockAlertView textFieldAtIndex:0].text;
-                    NSLog(@"Answer: %@", answer);
-                    finishedBlock(@([answer integerValue]));
-                }];
-                [alertView show];
-        });
-    }
-                               }];
-    
-    [_interpreter loadMethod:@{
-        @"name": @"display",
-        @"block":^id(NSArray *args) {
-            UIAlertView *alertView = [[UIAlertView alloc] init];
-            [alertView addButtonWithTitle:@"OK"];
-            [alertView setTitle:args[0]];
-            [alertView show];
-            return nil;
-        }
-    }];
-    
-    [_interpreter loadMethod:@{
-        @"name": @"random_number",
-        @"block":^id(NSArray *args) {
-            NSInteger min = [args[0] integerValue];
-            NSInteger max = [args[1] integerValue];
-            NSUInteger rand_num = arc4random_uniform(max) + min;
-            NSLog(@"Random number: %@", @(rand_num));
-            return @(rand_num);
-        }
-    }];
-    
-    [NSThread detachNewThreadSelector:@selector(runInterpreter:) toTarget:self withObject:nil];
-}
-
-- (void) runInterpreter:(id)object {
-    [_interpreter triggerEvent:@"start"];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     CALayer *leftBorder = [CALayer layer];
     leftBorder.frame = CGRectMake(0.0f, 0.0f, 1.0f, _spriteTable.frame.size.height);
     leftBorder.backgroundColor = [UIColor colorWithWhite:0.8f
-                                                 alpha:1.0f].CGColor;
+                                                   alpha:1.0f].CGColor;
     [_spriteTable.layer addSublayer:leftBorder];
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
     
@@ -136,20 +95,6 @@
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-
-    // Unselect the previous selected cell.
-    /* [_spriteTable deselectRowAtIndexPath:[_spriteTable indexPathForSelectedRow] animated:YES];
-
-    if ([segue.identifier isEqualToString:@"playground"]) {
-        UINavigationController *controller = (UINavigationController *) segue.destinationViewController;
-        ZSPlaygroundViewController *playController = (ZSPlaygroundViewController *) controller.topViewController;
-        playController.didFinish = ^{
-            [self dismissViewControllerAnimated:YES completion:^{
-                
-            }];
-        };
-        _tableViewShowing = NO;
-    }*/
     
     if ([segue.identifier isEqualToString:@"editor"]) {
         ZSEditorViewController *editorController = (ZSEditorViewController *)segue.destinationViewController;
@@ -187,7 +132,7 @@
     }
 }
 
-- (IBAction)canvasPanned:(id)sender {
+- (IBAction)canvasPannedRight:(id)sender {
     if (_tableViewShowing) return;
     
     UIScreenEdgePanGestureRecognizer *panRecognizer = (UIScreenEdgePanGestureRecognizer *)sender;
@@ -203,21 +148,20 @@
     }
 }
 
-#pragma Sprite Table View
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 1;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = nil;
-    if (indexPath.row == 0) {
-        cell = [tableView dequeueReusableCellWithIdentifier:@"debug"];
-        cell.textLabel.text = @"Playground";
-    } else {
-        // NSInteger row = indexPath.row - 1;
+- (IBAction)canvasPannedLeft:(id)sender {
+    // if (_tableViewShowing) return;
+    
+    UIScreenEdgePanGestureRecognizer *panRecognizer = (UIScreenEdgePanGestureRecognizer *)sender;
+    
+    [self.view bringSubviewToFront:_menuTable];
+    if (panRecognizer.state == UIGestureRecognizerStateBegan) {
+        [UIView animateWithDuration:0.25 animations:^{
+            // _tableViewShowing = YES;
+            CGRect frame = _menuTable.frame;
+            frame.origin.x += 150;
+            _menuTable.frame = frame;
+        }];
     }
-    return cell;
 }
 
 @end
