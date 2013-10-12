@@ -13,6 +13,8 @@
 		4CE340331809DB3C009A63A2 /* ZSRendererControllerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE340321809DB3C009A63A2 /* ZSRendererControllerViewController.m */; };
 		4CE340361809DCFD009A63A2 /* ZSScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE340351809DCFD009A63A2 /* ZSScene.m */; };
 		4CE340381809DD4A009A63A2 /* Spaceship.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CE340371809DD4A009A63A2 /* Spaceship.png */; };
+		4CE340401809EDC1009A63A2 /* basketball.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CE3403F1809EDC1009A63A2 /* basketball.png */; };
+		4CE340421809F76E009A63A2 /* grayball.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CE340411809F76E009A63A2 /* grayball.png */; };
 		4CF1CBB217EF882A00636E0D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1CBB117EF882A00636E0D /* Foundation.framework */; };
 		4CF1CBB417EF882A00636E0D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1CBB317EF882A00636E0D /* CoreGraphics.framework */; };
 		4CF1CBB617EF882A00636E0D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1CBB517EF882A00636E0D /* UIKit.framework */; };
@@ -27,7 +29,6 @@
 		4CF1CBDB17EF882A00636E0D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4CF1CBD917EF882A00636E0D /* InfoPlist.strings */; };
 		4CF1CBF417EF89AB00636E0D /* TCSprite.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF1CBF317EF89AB00636E0D /* TCSprite.m */; };
 		4CF1CBFD17EFDBE500636E0D /* TCSpriteTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF1CBFC17EFDBE500636E0D /* TCSpriteTableView.m */; };
-		4CF1CC0417EFE14A00636E0D /* basketball.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 4CF1CBFF17EFE14A00636E0D /* basketball.jpeg */; };
 		4CF1CC0517EFE14A00636E0D /* dog.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 4CF1CC0017EFE14A00636E0D /* dog.jpeg */; };
 		4CF1CC0617EFE14A00636E0D /* monkey.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 4CF1CC0117EFE14A00636E0D /* monkey.jpeg */; };
 		4CF1CC0717EFE14A00636E0D /* sonic.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 4CF1CC0217EFE14A00636E0D /* sonic.jpeg */; };
@@ -64,6 +65,8 @@
 		4CE340341809DCFD009A63A2 /* ZSScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSScene.h; sourceTree = "<group>"; };
 		4CE340351809DCFD009A63A2 /* ZSScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSScene.m; sourceTree = "<group>"; };
 		4CE340371809DD4A009A63A2 /* Spaceship.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Spaceship.png; path = ../../../Desktop/TestEngine/TestEngine/Spaceship.png; sourceTree = "<group>"; };
+		4CE3403F1809EDC1009A63A2 /* basketball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = basketball.png; sourceTree = "<group>"; };
+		4CE340411809F76E009A63A2 /* grayball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grayball.png; sourceTree = "<group>"; };
 		4CF1CBAE17EF882A00636E0D /* Zuse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Zuse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CF1CBB117EF882A00636E0D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4CF1CBB317EF882A00636E0D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -84,7 +87,6 @@
 		4CF1CBF317EF89AB00636E0D /* TCSprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCSprite.m; sourceTree = "<group>"; };
 		4CF1CBFB17EFDBE500636E0D /* TCSpriteTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCSpriteTableView.h; sourceTree = "<group>"; };
 		4CF1CBFC17EFDBE500636E0D /* TCSpriteTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCSpriteTableView.m; sourceTree = "<group>"; };
-		4CF1CBFF17EFE14A00636E0D /* basketball.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = basketball.jpeg; sourceTree = "<group>"; };
 		4CF1CC0017EFE14A00636E0D /* dog.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = dog.jpeg; sourceTree = "<group>"; };
 		4CF1CC0117EFE14A00636E0D /* monkey.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = monkey.jpeg; sourceTree = "<group>"; };
 		4CF1CC0217EFE14A00636E0D /* sonic.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sonic.jpeg; sourceTree = "<group>"; };
@@ -171,7 +173,6 @@
 				5F099D4217F0E11200EB2AC7 /* Models */,
 				5F099D4117F0E10600EB2AC7 /* Views */,
 				5F099D4017F0E0F700EB2AC7 /* View Controllers */,
-				4CF1CBC917EF882A00636E0D /* Images.xcassets */,
 				4CF1CBC317EF882A00636E0D /* Main.storyboard */,
 				4CF1CBC017EF882A00636E0D /* TCAppDelegate.h */,
 				4CF1CBC117EF882A00636E0D /* TCAppDelegate.m */,
@@ -183,6 +184,7 @@
 		4CF1CBB817EF882A00636E0D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				4CF1CBC917EF882A00636E0D /* Images.xcassets */,
 				4CF1CBFE17EFE13C00636E0D /* images */,
 				4CF1CBB917EF882A00636E0D /* Zuse-Info.plist */,
 				4CF1CBBA17EF882A00636E0D /* InfoPlist.strings */,
@@ -214,8 +216,9 @@
 		4CF1CBFE17EFE13C00636E0D /* images */ = {
 			isa = PBXGroup;
 			children = (
+				4CE340411809F76E009A63A2 /* grayball.png */,
+				4CE3403F1809EDC1009A63A2 /* basketball.png */,
 				4CE340371809DD4A009A63A2 /* Spaceship.png */,
-				4CF1CBFF17EFE14A00636E0D /* basketball.jpeg */,
 				4CF1CC0017EFE14A00636E0D /* dog.jpeg */,
 				4CF1CC0117EFE14A00636E0D /* monkey.jpeg */,
 				4CF1CC0217EFE14A00636E0D /* sonic.jpeg */,
@@ -358,12 +361,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4CE340421809F76E009A63A2 /* grayball.png in Resources */,
 				4CE340381809DD4A009A63A2 /* Spaceship.png in Resources */,
 				4CF1CC0617EFE14A00636E0D /* monkey.jpeg in Resources */,
 				4C0D470517FB800400F13786 /* TestProject.json in Resources */,
 				4CF1CC0517EFE14A00636E0D /* dog.jpeg in Resources */,
+				4CE340401809EDC1009A63A2 /* basketball.png in Resources */,
 				4CF1CC0817EFE14A00636E0D /* yoda.jpeg in Resources */,
-				4CF1CC0417EFE14A00636E0D /* basketball.jpeg in Resources */,
 				4CF1CC0717EFE14A00636E0D /* sonic.jpeg in Resources */,
 				4CF1CBCA17EF882A00636E0D /* Images.xcassets in Resources */,
 				4CF1CBBC17EF882A00636E0D /* InfoPlist.strings in Resources */,
