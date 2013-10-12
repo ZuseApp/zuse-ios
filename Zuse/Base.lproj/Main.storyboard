@@ -160,13 +160,25 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="ilJ-M1-7z7">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="RendererTest" textLabel="s31-Bf-bPv" style="IBUITableViewCellStyleDefault" id="ilJ-M1-7z7">
                                 <rect key="frame" x="0.0" y="86" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ilJ-M1-7z7" id="upr-ho-Yp7">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="SpriteKit Test" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="s31-Bf-bPv">
+                                            <rect key="frame" x="15" y="0.0" width="270" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="vlE-E9-ANq" kind="push" id="6ls-0L-7ST"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                     </tableView>
@@ -175,6 +187,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RXf-os-Wj5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="994" y="-178"/>
+        </scene>
+        <!--Renderer Controller View Controller-->
+        <scene sceneID="cDG-TD-afP">
+            <objects>
+                <viewController id="vlE-E9-ANq" customClass="ZSRendererControllerViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="61j-Mf-6gZ"/>
+                        <viewControllerLayoutGuide type="bottom" id="S1y-vr-ber"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="eAJ-fa-5xq" customClass="SKView">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="1rg-Jz-NgC"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fsN-73-ARa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1421" y="-178"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="wbF-fd-ekp">
