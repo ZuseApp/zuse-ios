@@ -22,7 +22,8 @@
 @property (weak, nonatomic) IBOutlet UITableView *menuTable;
 @property (strong, nonatomic) UIScreenEdgePanGestureRecognizer *rightEdgePanRecognizer;
 @property (strong, nonatomic) UIScreenEdgePanGestureRecognizer *leftEdgePanRecognizer;
-@property (assign, nonatomic, getter = isTableViewShowing) BOOL tableViewShowing;
+@property (assign, nonatomic, getter = isSpriteTableViewShowing) BOOL spriteTableViewShowing;
+@property (assign, nonatomic, getter = isMenuTableViewShowing) BOOL menuTableViewShowing;
 @property (nonatomic, strong) TCSpriteManager *spriteManager;
 @property (nonatomic, strong) NSArray *templateSprites;
 @property (nonatomic, strong) NSArray *canvasSprites;
@@ -52,7 +53,8 @@
     [self.view addGestureRecognizer:_rightEdgePanRecognizer];
     [self.view addGestureRecognizer:_leftEdgePanRecognizer];
     
-    _tableViewShowing = NO;
+    _spriteTableViewShowing = NO;
+    _menuTableViewShowing = NO;
     
 #pragma Set up Table delegates and data sources.
     _spriteController = [[ZSSpriteController alloc] init];
@@ -81,9 +83,14 @@
 - (void)viewWillAppear:(BOOL)animated {
     CALayer *leftBorder = [CALayer layer];
     leftBorder.frame = CGRectMake(0.0f, 0.0f, 1.0f, _spriteTable.frame.size.height);
-    leftBorder.backgroundColor = [UIColor colorWithWhite:0.8f
-                                                   alpha:1.0f].CGColor;
+    leftBorder.backgroundColor = [UIColor colorWithWhite:0.8f alpha:1.0f].CGColor;
     [_spriteTable.layer addSublayer:leftBorder];
+    
+    CALayer *rightBorder = [CALayer layer];
+    rightBorder.frame = CGRectMake(_menuTable.frame.size.width, 0.0f, 1.0f, _menuTable.frame.size.height);
+    rightBorder.backgroundColor = [UIColor colorWithWhite:0.8f alpha:1.0f].CGColor;
+    [_menuTable.layer addSublayer:rightBorder];
+    
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
     
     self.navigationController.navigationBarHidden = YES;
@@ -102,7 +109,8 @@
     }
     
     [_spriteTable deselectRowAtIndexPath:[_spriteTable indexPathForSelectedRow] animated:YES];
-    _tableViewShowing = NO;
+    _spriteTableViewShowing = NO;
+    _menuTableViewShowing = NO;
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
@@ -123,7 +131,7 @@
     if (panRecognizer.state == UIGestureRecognizerStateBegan) {
         if (ABS(velocity.x) > ABS(velocity.y) && velocity.x > 0) {
             [UIView animateWithDuration:0.25 animations:^{
-                _tableViewShowing = NO;
+                _spriteTableViewShowing = NO;
                 CGRect frame = _spriteTable.frame;
                 frame.origin.x += 150;
                 _spriteTable.frame = frame;
@@ -133,14 +141,14 @@
 }
 
 - (IBAction)canvasPannedRight:(id)sender {
-    if (_tableViewShowing) return;
+    if (_spriteTableViewShowing) return;
     
     UIScreenEdgePanGestureRecognizer *panRecognizer = (UIScreenEdgePanGestureRecognizer *)sender;
     
     
     if (panRecognizer.state == UIGestureRecognizerStateBegan) {
         [UIView animateWithDuration:0.25 animations:^{
-            _tableViewShowing = YES;
+            _spriteTableViewShowing = YES;
             CGRect frame = _spriteTable.frame;
             frame.origin.x -= 150;
             _spriteTable.frame = frame;
@@ -149,14 +157,14 @@
 }
 
 - (IBAction)canvasPannedLeft:(id)sender {
-    // if (_tableViewShowing) return;
+    // if (_menuTableViewShowing) return;
     
     UIScreenEdgePanGestureRecognizer *panRecognizer = (UIScreenEdgePanGestureRecognizer *)sender;
     
     [self.view bringSubviewToFront:_menuTable];
     if (panRecognizer.state == UIGestureRecognizerStateBegan) {
         [UIView animateWithDuration:0.25 animations:^{
-            // _tableViewShowing = YES;
+            _menuTableViewShowing = YES;
             CGRect frame = _menuTable.frame;
             frame.origin.x += 150;
             _menuTable.frame = frame;
