@@ -12,7 +12,6 @@
 		4C7527321800D5C3002B41E6 /* ZSProgram.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C7527311800D5C3002B41E6 /* ZSProgram.m */; };
 		4CE340331809DB3C009A63A2 /* ZSRendererControllerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE340321809DB3C009A63A2 /* ZSRendererControllerViewController.m */; };
 		4CE340361809DCFD009A63A2 /* ZSScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE340351809DCFD009A63A2 /* ZSScene.m */; };
-		4CE340381809DD4A009A63A2 /* Spaceship.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CE340371809DD4A009A63A2 /* Spaceship.png */; };
 		4CE340401809EDC1009A63A2 /* basketball.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CE3403F1809EDC1009A63A2 /* basketball.png */; };
 		4CE340421809F76E009A63A2 /* grayball.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CE340411809F76E009A63A2 /* grayball.png */; };
 		4CE340481809F880009A63A2 /* ZSMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE340471809F880009A63A2 /* ZSMenuController.m */; };
@@ -67,7 +66,6 @@
 		4CE340321809DB3C009A63A2 /* ZSRendererControllerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSRendererControllerViewController.m; sourceTree = "<group>"; };
 		4CE340341809DCFD009A63A2 /* ZSScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSScene.h; sourceTree = "<group>"; };
 		4CE340351809DCFD009A63A2 /* ZSScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSScene.m; sourceTree = "<group>"; };
-		4CE340371809DD4A009A63A2 /* Spaceship.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Spaceship.png; path = ../../../Desktop/TestEngine/TestEngine/Spaceship.png; sourceTree = "<group>"; };
 		4CE3403F1809EDC1009A63A2 /* basketball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = basketball.png; sourceTree = "<group>"; };
 		4CE340411809F76E009A63A2 /* grayball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grayball.png; sourceTree = "<group>"; };
 		4CE340461809F880009A63A2 /* ZSMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSMenuController.h; sourceTree = "<group>"; };
@@ -227,7 +225,6 @@
 			children = (
 				4CE340411809F76E009A63A2 /* grayball.png */,
 				4CE3403F1809EDC1009A63A2 /* basketball.png */,
-				4CE340371809DD4A009A63A2 /* Spaceship.png */,
 				4CF1CC0017EFE14A00636E0D /* dog.jpeg */,
 				4CF1CC0117EFE14A00636E0D /* monkey.jpeg */,
 				4CF1CC0217EFE14A00636E0D /* sonic.jpeg */,
@@ -377,7 +374,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				4CE340421809F76E009A63A2 /* grayball.png in Resources */,
-				4CE340381809DD4A009A63A2 /* Spaceship.png in Resources */,
 				4CF1CC0617EFE14A00636E0D /* monkey.jpeg in Resources */,
 				4C0D470517FB800400F13786 /* TestProject.json in Resources */,
 				4CF1CC0517EFE14A00636E0D /* dog.jpeg in Resources */,
