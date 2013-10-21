@@ -6,14 +6,14 @@
 //  Copyright (c) 2013 Michael Hogenson. All rights reserved.
 //
 
-#import "ZSRendererControllerViewController.h"
+#import "ZSBallViewController.h"
 #import "ZSScene.h"
 
-@interface ZSRendererControllerViewController ()
+@interface ZSBallViewController ()
 
 @end
 
-@implementation ZSRendererControllerViewController
+@implementation ZSBallViewController
 
 - (void)viewDidLoad
 {

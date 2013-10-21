@@ -6,17 +6,17 @@
 //  Copyright (c) 2013 Michael Hogenson. All rights reserved.
 //
 
-#import "ZSInterpreterViewController.h"
+#import "ZSRendererViewController.h"
 #import "INInterpreter.h"
 #import <BlocksKit/BlocksKit.h>
 
-@interface ZSInterpreterViewController ()
+@interface ZSRendererViewController ()
 
 @property (strong, nonatomic) INInterpreter *interpreter;
 
 @end
 
-@implementation ZSInterpreterViewController
+@implementation ZSRendererViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
