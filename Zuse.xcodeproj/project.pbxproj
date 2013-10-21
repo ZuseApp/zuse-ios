@@ -233,6 +233,7 @@
 		5F099D4117F0E10600EB2AC7 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				4CF1CC0A17EFE56800636E0D /* TCSpriteManager.m */,
 				4CF1CBFB17EFDBE500636E0D /* TCSpriteTableView.h */,
 				4CF1CBFC17EFDBE500636E0D /* TCSpriteTableView.m */,
 				4CF1CC0C17EFF64500636E0D /* TCSpriteView.h */,
@@ -248,7 +249,6 @@
 				4CF1CBF217EF89AB00636E0D /* TCSprite.h */,
 				4CF1CBF317EF89AB00636E0D /* TCSprite.m */,
 				4CF1CC0917EFE56800636E0D /* TCSpriteManager.h */,
-				4CF1CC0A17EFE56800636E0D /* TCSpriteManager.m */,
 				5FBDDC3517FF2D2400A1037A /* ZSSuiteController.h */,
 				5FBDDC3617FF2D2400A1037A /* ZSSuiteController.m */,
 				4C7527301800D5C3002B41E6 /* ZSProgram.h */,
