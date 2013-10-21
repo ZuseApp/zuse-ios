@@ -30,7 +30,6 @@
 		4CF1CBD317EF882A00636E0D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1CBB517EF882A00636E0D /* UIKit.framework */; };
 		4CF1CBDB17EF882A00636E0D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4CF1CBD917EF882A00636E0D /* InfoPlist.strings */; };
 		4CF1CBF417EF89AB00636E0D /* TCSprite.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF1CBF317EF89AB00636E0D /* TCSprite.m */; };
-		4CF1CBFD17EFDBE500636E0D /* TCSpriteTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF1CBFC17EFDBE500636E0D /* TCSpriteTableView.m */; };
 		4CF1CC0517EFE14A00636E0D /* dog.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 4CF1CC0017EFE14A00636E0D /* dog.jpeg */; };
 		4CF1CC0617EFE14A00636E0D /* monkey.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 4CF1CC0117EFE14A00636E0D /* monkey.jpeg */; };
 		4CF1CC0717EFE14A00636E0D /* sonic.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 4CF1CC0217EFE14A00636E0D /* sonic.jpeg */; };
@@ -91,8 +90,6 @@
 		4CF1CBDA17EF882A00636E0D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		4CF1CBF217EF89AB00636E0D /* TCSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCSprite.h; sourceTree = "<group>"; };
 		4CF1CBF317EF89AB00636E0D /* TCSprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCSprite.m; sourceTree = "<group>"; };
-		4CF1CBFB17EFDBE500636E0D /* TCSpriteTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCSpriteTableView.h; sourceTree = "<group>"; };
-		4CF1CBFC17EFDBE500636E0D /* TCSpriteTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCSpriteTableView.m; sourceTree = "<group>"; };
 		4CF1CC0017EFE14A00636E0D /* dog.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = dog.jpeg; sourceTree = "<group>"; };
 		4CF1CC0117EFE14A00636E0D /* monkey.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = monkey.jpeg; sourceTree = "<group>"; };
 		4CF1CC0217EFE14A00636E0D /* sonic.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sonic.jpeg; sourceTree = "<group>"; };
@@ -310,8 +307,6 @@
 		5F099D4117F0E10600EB2AC7 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				4CF1CBFB17EFDBE500636E0D /* TCSpriteTableView.h */,
-				4CF1CBFC17EFDBE500636E0D /* TCSpriteTableView.m */,
 				4CF1CC0C17EFF64500636E0D /* TCSpriteView.h */,
 				4CF1CC0D17EFF64500636E0D /* TCSpriteView.m */,
 			);
@@ -492,7 +487,6 @@
 				4CE3404B1809FC57009A63A2 /* ZSSpriteController.m in Sources */,
 				5FBDDC3817FF2D2400A1037A /* ZSPlaygroundViewController.m in Sources */,
 				5F099D4617F1135300EB2AC7 /* INInterpreter.m in Sources */,
-				4CF1CBFD17EFDBE500636E0D /* TCSpriteTableView.m in Sources */,
 				4CF1CBF417EF89AB00636E0D /* TCSprite.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
