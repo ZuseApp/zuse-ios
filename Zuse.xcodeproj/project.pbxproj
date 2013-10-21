@@ -40,7 +40,6 @@
 		5FBDDC3717FF2D2400A1037A /* ZSEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBDDC3217FF2D2400A1037A /* ZSEditorViewController.m */; };
 		5FBDDC3817FF2D2400A1037A /* ZSPlaygroundViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBDDC3417FF2D2400A1037A /* ZSPlaygroundViewController.m */; };
 		5FBDDC3917FF2D2400A1037A /* ZSSuiteController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBDDC3617FF2D2400A1037A /* ZSSuiteController.m */; };
-		5FBDDC3C17FF2D5F00A1037A /* ZSCommandListTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBDDC3B17FF2D5F00A1037A /* ZSCommandListTableView.m */; };
 		F188741646A541119F9E0DE4 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A26E7A8391C049E78AB2860A /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -105,8 +104,6 @@
 		5FBDDC3417FF2D2400A1037A /* ZSPlaygroundViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSPlaygroundViewController.m; sourceTree = "<group>"; };
 		5FBDDC3517FF2D2400A1037A /* ZSSuiteController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSSuiteController.h; sourceTree = "<group>"; };
 		5FBDDC3617FF2D2400A1037A /* ZSSuiteController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSSuiteController.m; sourceTree = "<group>"; };
-		5FBDDC3A17FF2D5F00A1037A /* ZSCommandListTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCommandListTableView.h; sourceTree = "<group>"; };
-		5FBDDC3B17FF2D5F00A1037A /* ZSCommandListTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCommandListTableView.m; sourceTree = "<group>"; };
 		A26E7A8391C049E78AB2860A /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2EA1C412CB64638977AE594 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -294,8 +291,6 @@
 			children = (
 				4C0D470617FB927600F13786 /* ZSCanvasViewController.h */,
 				4C0D470717FB927600F13786 /* ZSCanvasViewController.m */,
-				5FBDDC3A17FF2D5F00A1037A /* ZSCommandListTableView.h */,
-				5FBDDC3B17FF2D5F00A1037A /* ZSCommandListTableView.m */,
 				5FBDDC3117FF2D2400A1037A /* ZSEditorViewController.h */,
 				5FBDDC3217FF2D2400A1037A /* ZSEditorViewController.m */,
 				4CE3404C180A0154009A63A2 /* ZSRendererViewController.h */,
@@ -482,7 +477,6 @@
 				4CE340361809DCFD009A63A2 /* ZSScene.m in Sources */,
 				4CE340331809DB3C009A63A2 /* ZSBallViewController.m in Sources */,
 				4CF1CC0E17EFF64500636E0D /* TCSpriteView.m in Sources */,
-				5FBDDC3C17FF2D5F00A1037A /* ZSCommandListTableView.m in Sources */,
 				4C0D470817FB927600F13786 /* ZSCanvasViewController.m in Sources */,
 				4CE3404B1809FC57009A63A2 /* ZSSpriteController.m in Sources */,
 				5FBDDC3817FF2D2400A1037A /* ZSPlaygroundViewController.m in Sources */,
