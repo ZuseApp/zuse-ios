@@ -35,7 +35,6 @@
 		4CF1CC0617EFE14A00636E0D /* monkey.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 4CF1CC0117EFE14A00636E0D /* monkey.jpeg */; };
 		4CF1CC0717EFE14A00636E0D /* sonic.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 4CF1CC0217EFE14A00636E0D /* sonic.jpeg */; };
 		4CF1CC0817EFE14A00636E0D /* yoda.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 4CF1CC0317EFE14A00636E0D /* yoda.jpeg */; };
-		4CF1CC0B17EFE56800636E0D /* TCSpriteManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF1CC0A17EFE56800636E0D /* TCSpriteManager.m */; };
 		4CF1CC0E17EFF64500636E0D /* TCSpriteView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF1CC0D17EFF64500636E0D /* TCSpriteView.m */; };
 		5F099D4617F1135300EB2AC7 /* INInterpreter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F099D4517F1135300EB2AC7 /* INInterpreter.m */; };
 		5F099D4817F1136000EB2AC7 /* InterpreterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F099D4717F1136000EB2AC7 /* InterpreterTests.m */; };
@@ -98,8 +97,6 @@
 		4CF1CC0117EFE14A00636E0D /* monkey.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = monkey.jpeg; sourceTree = "<group>"; };
 		4CF1CC0217EFE14A00636E0D /* sonic.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sonic.jpeg; sourceTree = "<group>"; };
 		4CF1CC0317EFE14A00636E0D /* yoda.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = yoda.jpeg; sourceTree = "<group>"; };
-		4CF1CC0917EFE56800636E0D /* TCSpriteManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCSpriteManager.h; sourceTree = "<group>"; };
-		4CF1CC0A17EFE56800636E0D /* TCSpriteManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCSpriteManager.m; sourceTree = "<group>"; };
 		4CF1CC0C17EFF64500636E0D /* TCSpriteView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCSpriteView.h; sourceTree = "<group>"; };
 		4CF1CC0D17EFF64500636E0D /* TCSpriteView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCSpriteView.m; sourceTree = "<group>"; };
 		5F099D4417F1135300EB2AC7 /* INInterpreter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INInterpreter.h; sourceTree = "<group>"; };
@@ -182,6 +179,24 @@
 				5FBDDC3617FF2D2400A1037A /* ZSSuiteController.m */,
 			);
 			name = "Table Controllers";
+			sourceTree = "<group>";
+		};
+		4C9BE7711815B58400F5EF57 /* Program */ = {
+			isa = PBXGroup;
+			children = (
+				4C7527301800D5C3002B41E6 /* ZSProgram.h */,
+				4C7527311800D5C3002B41E6 /* ZSProgram.m */,
+			);
+			name = Program;
+			sourceTree = "<group>";
+		};
+		4C9BE7721815B5A900F5EF57 /* Sprite */ = {
+			isa = PBXGroup;
+			children = (
+				4CF1CBF217EF89AB00636E0D /* TCSprite.h */,
+				4CF1CBF317EF89AB00636E0D /* TCSprite.m */,
+			);
+			name = Sprite;
 			sourceTree = "<group>";
 		};
 		4CF1CBA517EF882A00636E0D = {
@@ -307,12 +322,8 @@
 			isa = PBXGroup;
 			children = (
 				5F099D4317F1133D00EB2AC7 /* Interpreter */,
-				4CF1CBF217EF89AB00636E0D /* TCSprite.h */,
-				4CF1CBF317EF89AB00636E0D /* TCSprite.m */,
-				4CF1CC0917EFE56800636E0D /* TCSpriteManager.h */,
-				4CF1CC0A17EFE56800636E0D /* TCSpriteManager.m */,
-				4C7527301800D5C3002B41E6 /* ZSProgram.h */,
-				4C7527311800D5C3002B41E6 /* ZSProgram.m */,
+				4C9BE7711815B58400F5EF57 /* Program */,
+				4C9BE7721815B5A900F5EF57 /* Sprite */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -472,7 +483,6 @@
 				4CE340481809F880009A63A2 /* ZSMenuController.m in Sources */,
 				4CE3404E180A0154009A63A2 /* ZSInterpreterViewController.m in Sources */,
 				4CF1CBC217EF882A00636E0D /* TCAppDelegate.m in Sources */,
-				4CF1CC0B17EFE56800636E0D /* TCSpriteManager.m in Sources */,
 				5FBDDC3717FF2D2400A1037A /* ZSEditorViewController.m in Sources */,
 				4CE340361809DCFD009A63A2 /* ZSScene.m in Sources */,
 				4CE340331809DB3C009A63A2 /* ZSRendererControllerViewController.m in Sources */,
