@@ -142,6 +142,48 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4C9BE76D1815B48000F5EF57 /* Playground */ = {
+			isa = PBXGroup;
+			children = (
+				4C9BE76F1815B4AD00F5EF57 /* Scenes */,
+				4C9BE76E1815B49200F5EF57 /* View Controllers */,
+			);
+			name = Playground;
+			sourceTree = "<group>";
+		};
+		4C9BE76E1815B49200F5EF57 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				5FBDDC3317FF2D2400A1037A /* ZSPlaygroundViewController.h */,
+				5FBDDC3417FF2D2400A1037A /* ZSPlaygroundViewController.m */,
+				4CE340311809DB3C009A63A2 /* ZSRendererControllerViewController.h */,
+				4CE340321809DB3C009A63A2 /* ZSRendererControllerViewController.m */,
+			);
+			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		4C9BE76F1815B4AD00F5EF57 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				4CE340341809DCFD009A63A2 /* ZSScene.h */,
+				4CE340351809DCFD009A63A2 /* ZSScene.m */,
+			);
+			name = Scenes;
+			sourceTree = "<group>";
+		};
+		4C9BE7701815B4D700F5EF57 /* Table Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				4CE340461809F880009A63A2 /* ZSMenuController.h */,
+				4CE340471809F880009A63A2 /* ZSMenuController.m */,
+				4CE340491809FC57009A63A2 /* ZSSpriteController.h */,
+				4CE3404A1809FC57009A63A2 /* ZSSpriteController.m */,
+				5FBDDC3517FF2D2400A1037A /* ZSSuiteController.h */,
+				5FBDDC3617FF2D2400A1037A /* ZSSuiteController.m */,
+			);
+			name = "Table Controllers";
+			sourceTree = "<group>";
+		};
 		4CF1CBA517EF882A00636E0D = {
 			isa = PBXGroup;
 			children = (
@@ -178,12 +220,14 @@
 			isa = PBXGroup;
 			children = (
 				5F099D4217F0E11200EB2AC7 /* Models */,
+				4C9BE76D1815B48000F5EF57 /* Playground */,
+				4CF1CBB817EF882A00636E0D /* Supporting Files */,
+				4C9BE7701815B4D700F5EF57 /* Table Controllers */,
 				5F099D4117F0E10600EB2AC7 /* Views */,
 				5F099D4017F0E0F700EB2AC7 /* View Controllers */,
 				4CF1CBC317EF882A00636E0D /* Main.storyboard */,
 				4CF1CBC017EF882A00636E0D /* TCAppDelegate.h */,
 				4CF1CBC117EF882A00636E0D /* TCAppDelegate.m */,
-				4CF1CBB817EF882A00636E0D /* Supporting Files */,
 			);
 			path = Zuse;
 			sourceTree = "<group>";
@@ -244,10 +288,6 @@
 				5FBDDC3217FF2D2400A1037A /* ZSEditorViewController.m */,
 				4CE3404C180A0154009A63A2 /* ZSInterpreterViewController.h */,
 				4CE3404D180A0154009A63A2 /* ZSInterpreterViewController.m */,
-				5FBDDC3317FF2D2400A1037A /* ZSPlaygroundViewController.h */,
-				5FBDDC3417FF2D2400A1037A /* ZSPlaygroundViewController.m */,
-				4CE340311809DB3C009A63A2 /* ZSRendererControllerViewController.h */,
-				4CE340321809DB3C009A63A2 /* ZSRendererControllerViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -259,8 +299,6 @@
 				4CF1CBFC17EFDBE500636E0D /* TCSpriteTableView.m */,
 				4CF1CC0C17EFF64500636E0D /* TCSpriteView.h */,
 				4CF1CC0D17EFF64500636E0D /* TCSpriteView.m */,
-				4CE340341809DCFD009A63A2 /* ZSScene.h */,
-				4CE340351809DCFD009A63A2 /* ZSScene.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -273,12 +311,6 @@
 				4CF1CBF317EF89AB00636E0D /* TCSprite.m */,
 				4CF1CC0917EFE56800636E0D /* TCSpriteManager.h */,
 				4CF1CC0A17EFE56800636E0D /* TCSpriteManager.m */,
-				4CE340461809F880009A63A2 /* ZSMenuController.h */,
-				4CE340471809F880009A63A2 /* ZSMenuController.m */,
-				4CE340491809FC57009A63A2 /* ZSSpriteController.h */,
-				4CE3404A1809FC57009A63A2 /* ZSSpriteController.m */,
-				5FBDDC3517FF2D2400A1037A /* ZSSuiteController.h */,
-				5FBDDC3617FF2D2400A1037A /* ZSSuiteController.m */,
 				4C7527301800D5C3002B41E6 /* ZSProgram.h */,
 				4C7527311800D5C3002B41E6 /* ZSProgram.m */,
 			);
