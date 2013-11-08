@@ -3,8 +3,8 @@
     {
       "id": "Draggable",
       "parameters": [
-        { "horizontal":  true },
-        { "vertical":    true }
+        { "horizontal": true },
+        { "vertical":   true }
       ],
       "code": [
         {
