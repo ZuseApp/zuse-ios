@@ -48,6 +48,7 @@
 		5FBDDC3717FF2D2400A1037A /* ZSEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBDDC3217FF2D2400A1037A /* ZSEditorViewController.m */; };
 		5FBDDC3817FF2D2400A1037A /* ZSPlaygroundViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBDDC3417FF2D2400A1037A /* ZSPlaygroundViewController.m */; };
 		5FBDDC3917FF2D2400A1037A /* ZSSuiteController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBDDC3617FF2D2400A1037A /* ZSSuiteController.m */; };
+		5FEFB89A182B5376007DAFCF /* pong.json in Resources */ = {isa = PBXBuildFile; fileRef = 5FEFB899182B5376007DAFCF /* pong.json */; };
 		F188741646A541119F9E0DE4 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A26E7A8391C049E78AB2860A /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -122,6 +123,7 @@
 		5FBDDC3417FF2D2400A1037A /* ZSPlaygroundViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSPlaygroundViewController.m; sourceTree = "<group>"; };
 		5FBDDC3517FF2D2400A1037A /* ZSSuiteController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSSuiteController.h; sourceTree = "<group>"; };
 		5FBDDC3617FF2D2400A1037A /* ZSSuiteController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSSuiteController.m; sourceTree = "<group>"; };
+		5FEFB899182B5376007DAFCF /* pong.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = pong.json; path = JSON/pong.json; sourceTree = "<group>"; };
 		A26E7A8391C049E78AB2860A /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2EA1C412CB64638977AE594 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -252,10 +254,10 @@
 			children = (
 				5F099D4217F0E11200EB2AC7 /* Models */,
 				4C9BE76D1815B48000F5EF57 /* Playground */,
-				4CF1CBB817EF882A00636E0D /* Supporting Files */,
 				4C9BE7701815B4D700F5EF57 /* Table Controllers */,
 				5F099D4117F0E10600EB2AC7 /* Views */,
 				5F099D4017F0E0F700EB2AC7 /* View Controllers */,
+				4CF1CBB817EF882A00636E0D /* Supporting Files */,
 				4CF1CBC317EF882A00636E0D /* Main.storyboard */,
 				4CF1CBC017EF882A00636E0D /* TCAppDelegate.h */,
 				4CF1CBC117EF882A00636E0D /* TCAppDelegate.m */,
@@ -266,13 +268,13 @@
 		4CF1CBB817EF882A00636E0D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				5FEFB898182B5360007DAFCF /* JSON */,
 				4CF1CBC917EF882A00636E0D /* Images.xcassets */,
 				4CF1CBFE17EFE13C00636E0D /* images */,
 				4CF1CBB917EF882A00636E0D /* Zuse-Info.plist */,
 				4CF1CBBA17EF882A00636E0D /* InfoPlist.strings */,
 				4CF1CBBD17EF882A00636E0D /* main.m */,
 				4CF1CBBF17EF882A00636E0D /* Zuse-Prefix.pch */,
-				4C0D470417FB800400F13786 /* TestProject.json */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -353,6 +355,15 @@
 				5F099D4517F1135300EB2AC7 /* INInterpreter.m */,
 			);
 			name = Interpreter;
+			sourceTree = "<group>";
+		};
+		5FEFB898182B5360007DAFCF /* JSON */ = {
+			isa = PBXGroup;
+			children = (
+				5FEFB899182B5376007DAFCF /* pong.json */,
+				4C0D470417FB800400F13786 /* TestProject.json */,
+			);
+			name = JSON;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -438,6 +449,7 @@
 				2C19FF0F181AE6B600D10D2B /* player@2x.png in Resources */,
 				2C19FF0E181AE6B600D10D2B /* player.png in Resources */,
 				4CF1CC0617EFE14A00636E0D /* monkey.jpeg in Resources */,
+				5FEFB89A182B5376007DAFCF /* pong.json in Resources */,
 				4C0D470517FB800400F13786 /* TestProject.json in Resources */,
 				4CF1CC0517EFE14A00636E0D /* dog.jpeg in Resources */,
 				4CE340401809EDC1009A63A2 /* basketball.png in Resources */,

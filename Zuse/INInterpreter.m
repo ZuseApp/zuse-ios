@@ -58,12 +58,6 @@
     };
 }
 
-//- (void)run {
-//    [_objects each:^(id key, id obj) {
-//        [self runSuite:obj[@"code"] properties:[obj[@"variables"] mutableCopy]];
-//    }];
-//}
-
 - (id)runJSON:(NSDictionary *)JSON {
     NSDictionary *obj = [self blankObject];
     [self loadObject:obj];
@@ -188,12 +182,6 @@
 
 - (void)loadMethod:(NSDictionary *)method {
     [_methods setObject:method[@"block"] forKey:method[@"name"]];
-}
-
-- (void)loadObjects:(NSArray *)objects{
-    [objects enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        [self loadObject:obj];
-    }];
 }
 
 - (void)loadObject:(NSDictionary *)obj {
