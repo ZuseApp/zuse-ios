@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2C19FF02181ADBF400D10D2B /* ZSSarahTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C19FF01181ADBF400D10D2B /* ZSSarahTestViewController.m */; };
+		2C19FF05181ADCB600D10D2B /* ZSSarahTestScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C19FF04181ADCB600D10D2B /* ZSSarahTestScene.m */; };
+		2C19FF0C181AE6B600D10D2B /* monster.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C19FF06181AE6B600D10D2B /* monster.png */; };
+		2C19FF0D181AE6B600D10D2B /* monster@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C19FF07181AE6B600D10D2B /* monster@2x.png */; };
+		2C19FF0E181AE6B600D10D2B /* player.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C19FF08181AE6B600D10D2B /* player.png */; };
+		2C19FF0F181AE6B600D10D2B /* player@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C19FF09181AE6B600D10D2B /* player@2x.png */; };
+		2C19FF10181AE6B600D10D2B /* projectile.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C19FF0A181AE6B600D10D2B /* projectile.png */; };
+		2C19FF11181AE6B600D10D2B /* projectile@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C19FF0B181AE6B600D10D2B /* projectile@2x.png */; };
 		4C0D470517FB800400F13786 /* TestProject.json in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D470417FB800400F13786 /* TestProject.json */; };
 		4C0D470817FB927600F13786 /* ZSCanvasViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0D470717FB927600F13786 /* ZSCanvasViewController.m */; };
 		4C7527321800D5C3002B41E6 /* ZSProgram.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C7527311800D5C3002B41E6 /* ZSProgram.m */; };
@@ -54,6 +62,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2C19FF00181ADBF400D10D2B /* ZSSarahTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSSarahTestViewController.h; sourceTree = "<group>"; };
+		2C19FF01181ADBF400D10D2B /* ZSSarahTestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSSarahTestViewController.m; sourceTree = "<group>"; };
+		2C19FF03181ADCB600D10D2B /* ZSSarahTestScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSSarahTestScene.h; sourceTree = "<group>"; };
+		2C19FF04181ADCB600D10D2B /* ZSSarahTestScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSSarahTestScene.m; sourceTree = "<group>"; };
+		2C19FF06181AE6B600D10D2B /* monster.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = monster.png; sourceTree = "<group>"; };
+		2C19FF07181AE6B600D10D2B /* monster@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "monster@2x.png"; sourceTree = "<group>"; };
+		2C19FF08181AE6B600D10D2B /* player.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = player.png; sourceTree = "<group>"; };
+		2C19FF09181AE6B600D10D2B /* player@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "player@2x.png"; sourceTree = "<group>"; };
+		2C19FF0A181AE6B600D10D2B /* projectile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = projectile.png; sourceTree = "<group>"; };
+		2C19FF0B181AE6B600D10D2B /* projectile@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "projectile@2x.png"; sourceTree = "<group>"; };
 		4C0D470417FB800400F13786 /* TestProject.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = TestProject.json; path = JSON/TestProject.json; sourceTree = "<group>"; };
 		4C0D470617FB927600F13786 /* ZSCanvasViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCanvasViewController.h; sourceTree = "<group>"; };
 		4C0D470717FB927600F13786 /* ZSCanvasViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCanvasViewController.m; sourceTree = "<group>"; };
@@ -149,6 +167,8 @@
 				5FBDDC3417FF2D2400A1037A /* ZSPlaygroundViewController.m */,
 				4CE340311809DB3C009A63A2 /* ZSBallViewController.h */,
 				4CE340321809DB3C009A63A2 /* ZSBallViewController.m */,
+				2C19FF00181ADBF400D10D2B /* ZSSarahTestViewController.h */,
+				2C19FF01181ADBF400D10D2B /* ZSSarahTestViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -158,6 +178,8 @@
 			children = (
 				4CE340341809DCFD009A63A2 /* ZSScene.h */,
 				4CE340351809DCFD009A63A2 /* ZSScene.m */,
+				2C19FF03181ADCB600D10D2B /* ZSSarahTestScene.h */,
+				2C19FF04181ADCB600D10D2B /* ZSSarahTestScene.m */,
 			);
 			name = Scenes;
 			sourceTree = "<group>";
@@ -276,6 +298,12 @@
 		4CF1CBFE17EFE13C00636E0D /* images */ = {
 			isa = PBXGroup;
 			children = (
+				2C19FF06181AE6B600D10D2B /* monster.png */,
+				2C19FF07181AE6B600D10D2B /* monster@2x.png */,
+				2C19FF08181AE6B600D10D2B /* player.png */,
+				2C19FF09181AE6B600D10D2B /* player@2x.png */,
+				2C19FF0A181AE6B600D10D2B /* projectile.png */,
+				2C19FF0B181AE6B600D10D2B /* projectile@2x.png */,
 				4CE340411809F76E009A63A2 /* grayball.png */,
 				4CE3403F1809EDC1009A63A2 /* basketball.png */,
 				4CF1CC0017EFE14A00636E0D /* dog.jpeg */,
@@ -407,15 +435,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				4CE340421809F76E009A63A2 /* grayball.png in Resources */,
+				2C19FF0F181AE6B600D10D2B /* player@2x.png in Resources */,
+				2C19FF0E181AE6B600D10D2B /* player.png in Resources */,
 				4CF1CC0617EFE14A00636E0D /* monkey.jpeg in Resources */,
 				4C0D470517FB800400F13786 /* TestProject.json in Resources */,
 				4CF1CC0517EFE14A00636E0D /* dog.jpeg in Resources */,
 				4CE340401809EDC1009A63A2 /* basketball.png in Resources */,
+				2C19FF10181AE6B600D10D2B /* projectile.png in Resources */,
 				4CF1CC0817EFE14A00636E0D /* yoda.jpeg in Resources */,
+				2C19FF0C181AE6B600D10D2B /* monster.png in Resources */,
+				2C19FF0D181AE6B600D10D2B /* monster@2x.png in Resources */,
 				4CF1CC0717EFE14A00636E0D /* sonic.jpeg in Resources */,
 				4CF1CBCA17EF882A00636E0D /* Images.xcassets in Resources */,
 				4CF1CBBC17EF882A00636E0D /* InfoPlist.strings in Resources */,
 				4CF1CBC517EF882A00636E0D /* Main.storyboard in Resources */,
+				2C19FF11181AE6B600D10D2B /* projectile@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -468,6 +502,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4CF1CBBE17EF882A00636E0D /* main.m in Sources */,
+				2C19FF02181ADBF400D10D2B /* ZSSarahTestViewController.m in Sources */,
 				5FBDDC3917FF2D2400A1037A /* ZSSuiteController.m in Sources */,
 				4C7527321800D5C3002B41E6 /* ZSProgram.m in Sources */,
 				4CE340481809F880009A63A2 /* ZSMenuController.m in Sources */,
@@ -476,6 +511,7 @@
 				5FBDDC3717FF2D2400A1037A /* ZSEditorViewController.m in Sources */,
 				4CE340361809DCFD009A63A2 /* ZSScene.m in Sources */,
 				4CE340331809DB3C009A63A2 /* ZSBallViewController.m in Sources */,
+				2C19FF05181ADCB600D10D2B /* ZSSarahTestScene.m in Sources */,
 				4CF1CC0E17EFF64500636E0D /* TCSpriteView.m in Sources */,
 				4C0D470817FB927600F13786 /* ZSCanvasViewController.m in Sources */,
 				4CE3404B1809FC57009A63A2 /* ZSSpriteController.m in Sources */,
