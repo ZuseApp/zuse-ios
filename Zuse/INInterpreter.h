@@ -20,7 +20,6 @@
 - (void)triggerEvent:(NSString *)event;
 - (void)triggerEvent:(NSString *)event onObjectWithIdentifier:(NSString *)objectID;
 
-- (void)loadObjects:(NSArray *)objects;
 - (void)loadObject:(NSDictionary *)obj;
 
 @end

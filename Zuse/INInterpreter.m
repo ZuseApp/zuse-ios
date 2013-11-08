@@ -21,8 +21,7 @@
 
 @implementation INInterpreter
 
-+ (instancetype)interpreter
-{
++ (instancetype)interpreter {
     return [[self alloc] init];
 }
 

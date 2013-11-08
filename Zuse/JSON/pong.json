@@ -6,30 +6,32 @@
         { "horizontal":  true },
         { "vertical":    true }
       ],
-      "code": {
-        "on_event": {
-          "name": "touch_moved",
-          "parameters": ["touch_x", "touch_y"],
-          "code": [
-            {
-              "if": {
-                "test": { "==": [{ "get": "horizontal"}, true] },
-                "true": [
-                  { "set": ["x", { "get": "touch_x" }] }
-                ]
+      "code": [
+        {
+          "on_event": {
+            "name": "touch_moved",
+            "parameters": ["touch_x", "touch_y"],
+            "code": [
+              {
+                "if": {
+                  "test": { "==": [{ "get": "horizontal"}, true] },
+                  "true": [
+                    { "set": ["x", { "get": "touch_x" }] }
+                  ]
+                }
+              },
+              {
+                "if": {
+                  "test": { "==": [{ "get": "vertical"}, true] },
+                  "true": [
+                    { "set": ["y", { "get": "touch_y" }] }
+                  ]
+                }
               }
-            },
-            {
-              "if": {
-                "test": { "==": [{ "get": "vertical"}, true] },
-                "true": [
-                  { "set": ["y", { "get": "touch_y" }] }
-                ]
-              }
-            }
-          ]
+            ]
+          }
         }
-      }
+      ]
     }
   ],
   "objects": [
