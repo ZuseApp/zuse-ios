@@ -16,7 +16,6 @@
 - (id)runJSONString:(NSString *)JSONString;
 
 - (void)loadMethod:(NSDictionary *)method;
-- (void)loadTrait:(NSDictionary *)trait;
 
 - (void)triggerEvent:(NSString *)event;
 - (void)triggerEvent:(NSString *)event onObjectWithIdentifier:(NSString *)objectID;
