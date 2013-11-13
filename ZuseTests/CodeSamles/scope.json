@@ -1,0 +1,28 @@
+{
+  "objects": [
+    {
+      "id": "my_object",
+      "properties": {},
+      "code": [
+        { "set": ["var1", "foo"] },
+        {
+          "scope": [
+            { "set": ["var2", "bar"] },
+            {
+              "call": {
+                "method": "check1",
+                "parameters": [{ "get": "var1"}, { "get": "var2" }]
+              }
+            }
+          ]
+        },
+        {
+          "call": {
+            "method": "check2",
+            "parameters": [{ "get": "var1"}, { "get": "var2" }]
+          }
+        }
+      ]
+    }
+  ]
+}
