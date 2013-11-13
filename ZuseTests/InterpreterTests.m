@@ -116,7 +116,7 @@
     
     [_interpreter runJSON:program];
     
-    XCTAssert(!didRun, @"");
+    XCTAssertFalse(didRun, @"");
     
     value = @YES;
     

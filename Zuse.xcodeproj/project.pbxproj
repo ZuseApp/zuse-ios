@@ -40,6 +40,7 @@
 		5F41ACB11833DCFE0089D136 /* pong_compiled.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F41ACB01833DCFE0089D136 /* pong_compiled.json */; };
 		5F41ACB31833DE6D0089D136 /* scope.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F41ACB21833DE6D0089D136 /* scope.json */; };
 		5F41ACB5183411800089D136 /* events_scope.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F41ACB4183411800089D136 /* events_scope.json */; };
+		5F41ACB818341C980089D136 /* ZSExecutionContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F41ACB718341C980089D136 /* ZSExecutionContext.m */; };
 		5FBDDC3717FF2D2400A1037A /* ZSEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBDDC3217FF2D2400A1037A /* ZSEditorViewController.m */; };
 		5FBDDC3817FF2D2400A1037A /* ZSPlaygroundViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBDDC3417FF2D2400A1037A /* ZSPlaygroundViewController.m */; };
 		5FBDDC3917FF2D2400A1037A /* ZSSuiteController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBDDC3617FF2D2400A1037A /* ZSSuiteController.m */; };
@@ -105,6 +106,8 @@
 		5F41ACB01833DCFE0089D136 /* pong_compiled.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = pong_compiled.json; path = JSON/pong_compiled.json; sourceTree = "<group>"; };
 		5F41ACB21833DE6D0089D136 /* scope.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = scope.json; path = CodeSamles/scope.json; sourceTree = "<group>"; };
 		5F41ACB4183411800089D136 /* events_scope.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = events_scope.json; path = CodeSamles/events_scope.json; sourceTree = "<group>"; };
+		5F41ACB618341C980089D136 /* ZSExecutionContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSExecutionContext.h; sourceTree = "<group>"; };
+		5F41ACB718341C980089D136 /* ZSExecutionContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSExecutionContext.m; sourceTree = "<group>"; };
 		5FBDDC3117FF2D2400A1037A /* ZSEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSEditorViewController.h; sourceTree = "<group>"; };
 		5FBDDC3217FF2D2400A1037A /* ZSEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSEditorViewController.m; sourceTree = "<group>"; };
 		5FBDDC3317FF2D2400A1037A /* ZSPlaygroundViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSPlaygroundViewController.h; sourceTree = "<group>"; };
@@ -333,6 +336,8 @@
 			children = (
 				5F099D4417F1135300EB2AC7 /* INInterpreter.h */,
 				5F099D4517F1135300EB2AC7 /* INInterpreter.m */,
+				5F41ACB618341C980089D136 /* ZSExecutionContext.h */,
+				5F41ACB718341C980089D136 /* ZSExecutionContext.m */,
 			);
 			name = Interpreter;
 			sourceTree = "<group>";
@@ -496,6 +501,7 @@
 				4C7527321800D5C3002B41E6 /* ZSProgram.m in Sources */,
 				4CE340481809F880009A63A2 /* ZSMenuController.m in Sources */,
 				4CE3404E180A0154009A63A2 /* ZSRendererViewController.m in Sources */,
+				5F41ACB818341C980089D136 /* ZSExecutionContext.m in Sources */,
 				4CF1CBC217EF882A00636E0D /* TCAppDelegate.m in Sources */,
 				5FBDDC3717FF2D2400A1037A /* ZSEditorViewController.m in Sources */,
 				4CE340361809DCFD009A63A2 /* ZSScene.m in Sources */,
