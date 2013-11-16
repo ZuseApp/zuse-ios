@@ -7,6 +7,7 @@
 //
 
 #import "ZSPlaygroundViewController.h"
+#import "ZSCodeEditorViewController.h"
 
 @interface ZSPlaygroundViewController ()
 
@@ -53,7 +54,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return 1;
+    return 3;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -64,8 +65,38 @@
         return cell;
     }
     
+    if (indexPath.row == 1) {
+        static NSString *CellIdentifier = @"SarahTest";
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+        return cell;
+    }
+    
+    if (indexPath.row == 2) {
+        static NSString *CellIdentifier = @"VladTest";
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+        return cell;
+    }
+    
     return nil;
 }
+
+- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"code editor segue"])
+    {
+        ZSCodeEditorViewController *c = (ZSCodeEditorViewController *)segue.destinationViewController;
+        
+        // Read the resource into an NSDictionary representing the JSON.
+        NSString *jsonPath = [[NSBundle mainBundle] pathForResource:@"TestProject"
+                                                             ofType:@"json"];
+        NSData *jsonData = [NSData dataWithContentsOfFile:jsonPath];
+        NSDictionary *json = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                             options:0
+                                                               error:nil];
+        [c processJSON:json[@"objects"][0][@"code"][0][@"on_event"][@"suite"]];
+    }
+}
+
 
 /*
 // Override to support conditional editing of the table view.

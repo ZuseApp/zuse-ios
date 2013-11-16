@@ -10,4 +10,6 @@
 
 @interface ZSRendererViewController : UIViewController
 
+@property (strong, nonatomic) NSDictionary *projectJSON;
+
 @end

@@ -1,16 +1,16 @@
 //
-//  INInterpreter.m
+//  ZSInterpreter.m
 //  Interpreter
 //
 //  Created by Parker Wightman on 9/16/13.
 //  Copyright (c) 2013 Alora Studios. All rights reserved.
 //
 
-#import "INInterpreter.h"
+#import "ZSInterpreter.h"
 #import "ZSExecutionContext.h"
 #import <BlocksKit/BlocksKit.h>
 
-@interface INInterpreter ()
+@interface ZSInterpreter ()
 
 @property (strong, nonatomic) NSMutableDictionary *methods;
 @property (strong, nonatomic) NSMutableDictionary *events;
@@ -19,7 +19,7 @@
 
 @end
 
-@implementation INInterpreter
+@implementation ZSInterpreter
 
 + (instancetype)interpreter {
     return [[self alloc] init];
@@ -212,4 +212,19 @@
     [self runSuite:_events[objectID][event][@"code"] context:_events[objectID][event][@"context"]];
 }
 
+/*
+ {
+   "paddle1": {
+     "x": 1,
+     "y": 2",
+     "width": 10,
+     "height": 100
+   }
+ }
+*/
+- (NSDictionary *)objects {
+    return [_objects map:^id(id key, id obj) {
+        return obj[@"properties"];
+    }];
+}
 @end

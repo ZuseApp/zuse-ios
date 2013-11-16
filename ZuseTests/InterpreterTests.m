@@ -7,11 +7,11 @@
 //
 
 #import <XCTest/XCTest.h>
-#import "INInterpreter.h"
+#import "ZSInterpreter.h"
 
 @interface InterpreterTests : XCTestCase
 
-@property (strong, nonatomic) INInterpreter *interpreter;
+@property (strong, nonatomic) ZSInterpreter *interpreter;
 
 @end
 
@@ -20,7 +20,7 @@
 - (void)setUp
 {
     [super setUp];
-    _interpreter = [[INInterpreter alloc] init];
+    _interpreter = [[ZSInterpreter alloc] init];
 }
 
 - (NSDictionary *)loadTestFileAtPath:(NSString *)path {
@@ -234,7 +234,6 @@
         @"method":  @"print",
         @"block": ^(NSArray *args, void(^finishedBlock)(id)) {
             didRun = YES;
-            
             finishedBlock(@YES);
         }
     };

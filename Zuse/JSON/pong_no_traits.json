@@ -1,13 +1,17 @@
 {
-  "traits": [
+  "objects": [
     {
-      "id": "Draggable",
-      "parameters": {
-        "horizontal": true,
-        "vertical":   true
+      "id": "paddle1",
+      "properties": {
+        "x": 10,
+        "y": 10,
+        "width": 50,
+        "height": 20
       },
       "code": [
         {
+          { "set": ["horizontal", true] },
+          { "set": ["vertical",   false] },
           "on_event": {
             "name": "touch_moved",
             "parameters": ["touch_x", "touch_y"],
@@ -33,25 +37,7 @@
         }
       ]
     }
-  ],
-  "objects": [
-    {
-      "id": "paddle1",
-      "traits": [
-        {
-          "id": "Draggable",
-          "parameters": {
-             "vertical": false
-          }
-        }
-      ],
-      "properties": { 
-        "x": 10,
-        "y": 10,
-        "width": 100,
-        "height": 20
-      },
-      "code": []
-    }
   ]
 }
+
+

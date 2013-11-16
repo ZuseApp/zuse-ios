@@ -10,7 +10,7 @@
 
 @interface ZSSuiteController ()
 
-@property (strong, nonatomic) ZSSuiteController *test;
+//@property (strong, nonatomic) ZSSuiteController *test;
 
 @end
 
@@ -20,10 +20,11 @@
     return _suite.count + 1;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"command"];;
     
-    // CGFloat height = 170;
+    CGFloat height = 170;
     CGFloat width = 320;
     
     NSInteger row = indexPath.row;
@@ -34,7 +35,8 @@
         NSString *command = [statement allKeys][0];
         
         // NSString *command = _suite[row];
-        /*if ([command isEqualToString:@"set"]) {
+        if ([command isEqualToString:@"set"])
+        {
             cell.backgroundColor = [UIColor colorWithRed:1.0f green:0.94f blue:0.86f alpha:1.0f];
             UILabel *nestedLabel = [[UILabel alloc] init];
             nestedLabel.text = @"set";
@@ -45,58 +47,68 @@
             labelFrame.size.height = 21;
             nestedLabel.frame = labelFrame;
             [cell.contentView addSubview:nestedLabel];
-        } else if ([command isEqualToString:@"ask"]) {
-            cell.backgroundColor = [UIColor colorWithRed:1.0f green:0.69f blue:0.96f alpha:1.0f];
-            UILabel *nestedLabel = [[UILabel alloc] init];
-            nestedLabel.text = @"ask";
-            CGRect labelFrame = nestedLabel.frame;
-            labelFrame.origin.x = 15;
-            labelFrame.origin.y = 6;
-            labelFrame.size.width = width - 15;
-            labelFrame.size.height = 21;
-            nestedLabel.frame = labelFrame;
-            [cell.contentView addSubview:nestedLabel];
-        } else if ([command isEqualToString:@"while"]) {
-            cell.backgroundColor = [UIColor colorWithRed:1.0f green:0.65f blue:0.75f alpha:1.0f];
-            
-            UILabel *nestedLabel = [[UILabel alloc] init];
-            nestedLabel.text = @"while";
-            CGRect labelFrame = nestedLabel.frame;
-            labelFrame.origin.x = 15;
-            labelFrame.origin.y = 6;
-            labelFrame.size.width = width - 15;
-            labelFrame.size.height = 21;
-            nestedLabel.frame = labelFrame;
-            [cell.contentView addSubview:nestedLabel];
-            
-            UITableView *nestedTable = [[UITableView alloc] init];
-            CGRect frame = nestedTable.frame;
-            frame.origin.x = 3;
-            frame.origin.y = 35;
-            frame.size.width = width - 3;
-            frame.size.height = height - 38;
-            nestedTable.frame = frame;
-            [nestedTable registerClass:[UITableViewCell class] forCellReuseIdentifier:@"command"];
-            [cell.contentView addSubview:nestedTable];
-            
-            // Temp SuiteController
-            _test = [[ZSSuiteController alloc] init];
-            _test.suite = @[@"ask", @"set"];
-            nestedTable.delegate = _test;
-            nestedTable.dataSource = _test;
-        }*/
+        }
         
-        cell = [tableView dequeueReusableCellWithIdentifier:@"command"];
-        UILabel *nestedLabel = [[UILabel alloc] init];
-        nestedLabel.text = command;
-        CGRect labelFrame = nestedLabel.frame;
-        labelFrame.origin.x = 15;
-        labelFrame.origin.y = 6;
-        labelFrame.size.width = width - 15;
-        labelFrame.size.height = 21;
-        nestedLabel.frame = labelFrame;
-        [cell.contentView addSubview:nestedLabel];
-    } else {
+//        else if ([command isEqualToString:@"ask"]) {
+//            cell.backgroundColor = [UIColor colorWithRed:1.0f green:0.69f blue:0.96f alpha:1.0f];
+//            UILabel *nestedLabel = [[UILabel alloc] init];
+//            nestedLabel.text = @"ask";
+//            CGRect labelFrame = nestedLabel.frame;
+//            labelFrame.origin.x = 15;
+//            labelFrame.origin.y = 6;
+//            labelFrame.size.width = width - 15;
+//            labelFrame.size.height = 21;
+//            nestedLabel.frame = labelFrame;
+//            [cell.contentView addSubview:nestedLabel];
+//        }
+        
+        
+//        else if ([command isEqualToString:@"if"])
+//        {
+//            cell.backgroundColor = [UIColor colorWithRed:1.0f green:0.65f blue:0.75f alpha:1.0f];
+//            
+//            UILabel *nestedLabel = [[UILabel alloc] init];
+//            nestedLabel.text = @"if";
+//            CGRect labelFrame = nestedLabel.frame;
+//            labelFrame.origin.x = 15;
+//            labelFrame.origin.y = 6;
+//            labelFrame.size.width = width - 15;
+//            labelFrame.size.height = 21;
+//            nestedLabel.frame = labelFrame;
+//            [cell.contentView addSubview:nestedLabel];
+//            
+//            UITableView *nestedTable = [[UITableView alloc] init];
+//            CGRect frame = nestedTable.frame;
+//            frame.origin.x = 3;
+//            frame.origin.y = 35;
+//            frame.size.width = width - 3;
+//            frame.size.height = height - 38;
+//            nestedTable.frame = frame;
+//            [nestedTable registerClass:[UITableViewCell class] forCellReuseIdentifier:@"command"];
+//            [cell.contentView addSubview:nestedTable];
+        
+//            // Temp SuiteController
+//            _test = [[ZSSuiteController alloc] init];
+//            _test.suite = @[@"ask", @"set"];
+//            nestedTable.delegate = _test;
+//            nestedTable.dataSource = _test;
+//        }
+        
+//        cell = [tableView dequeueReusableCellWithIdentifier:@"command"];
+//        UILabel *nestedLabel = [[UILabel alloc] init];
+//        nestedLabel.text = command;
+//        CGRect labelFrame = nestedLabel.frame;
+//        labelFrame.origin.x = 15;
+//        labelFrame.origin.y = 6;
+//        labelFrame.size.width = width - 15;
+//        labelFrame.size.height = 21;
+//        nestedLabel.frame = labelFrame;
+//        [cell.contentView addSubview:nestedLabel];
+
+    }
+    
+    else
+    {
         cell = [tableView dequeueReusableCellWithIdentifier:@"command"];
         UILabel *nestedLabel = [[UILabel alloc] init];
         nestedLabel.text = @"+";
