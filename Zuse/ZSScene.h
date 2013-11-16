@@ -7,7 +7,9 @@
 //
 
 #import <SpriteKit/SpriteKit.h>
+#import "ZSInterpreter.h"
 
 @interface ZSScene : SKScene
+
 
 @end
