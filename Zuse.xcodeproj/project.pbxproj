@@ -43,9 +43,10 @@
 		4CF1CC0717EFE14A00636E0D /* sonic.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 4CF1CC0217EFE14A00636E0D /* sonic.jpeg */; };
 		4CF1CC0817EFE14A00636E0D /* yoda.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 4CF1CC0317EFE14A00636E0D /* yoda.jpeg */; };
 		4CF1CC0E17EFF64500636E0D /* TCSpriteView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF1CC0D17EFF64500636E0D /* TCSpriteView.m */; };
-		5F099D4617F1135300EB2AC7 /* INInterpreter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F099D4517F1135300EB2AC7 /* INInterpreter.m */; };
+		5F099D4617F1135300EB2AC7 /* ZSInterpreter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F099D4517F1135300EB2AC7 /* ZSInterpreter.m */; };
 		5F099D4817F1136000EB2AC7 /* InterpreterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F099D4717F1136000EB2AC7 /* InterpreterTests.m */; };
 		5F1B5BA31837E05A00632DE6 /* pong_no_traits.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F1B5BA21837E05A00632DE6 /* pong_no_traits.json */; };
+		5F1B5BA61837EE7800632DE6 /* ZSCompiler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F1B5BA51837EE7800632DE6 /* ZSCompiler.m */; };
 		5F41ACB11833DCFE0089D136 /* pong_compiled.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F41ACB01833DCFE0089D136 /* pong_compiled.json */; };
 		5F41ACB31833DE6D0089D136 /* scope.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F41ACB21833DE6D0089D136 /* scope.json */; };
 		5F41ACB5183411800089D136 /* events_scope.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F41ACB4183411800089D136 /* events_scope.json */; };
@@ -130,10 +131,12 @@
 		4CF1CC0317EFE14A00636E0D /* yoda.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = yoda.jpeg; sourceTree = "<group>"; };
 		4CF1CC0C17EFF64500636E0D /* TCSpriteView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCSpriteView.h; sourceTree = "<group>"; };
 		4CF1CC0D17EFF64500636E0D /* TCSpriteView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCSpriteView.m; sourceTree = "<group>"; };
-		5F099D4417F1135300EB2AC7 /* INInterpreter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INInterpreter.h; sourceTree = "<group>"; };
-		5F099D4517F1135300EB2AC7 /* INInterpreter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = INInterpreter.m; sourceTree = "<group>"; };
+		5F099D4417F1135300EB2AC7 /* ZSInterpreter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSInterpreter.h; sourceTree = "<group>"; };
+		5F099D4517F1135300EB2AC7 /* ZSInterpreter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSInterpreter.m; sourceTree = "<group>"; };
 		5F099D4717F1136000EB2AC7 /* InterpreterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InterpreterTests.m; sourceTree = "<group>"; };
 		5F1B5BA21837E05A00632DE6 /* pong_no_traits.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = pong_no_traits.json; path = JSON/pong_no_traits.json; sourceTree = "<group>"; };
+		5F1B5BA41837EE7800632DE6 /* ZSCompiler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCompiler.h; sourceTree = "<group>"; };
+		5F1B5BA51837EE7800632DE6 /* ZSCompiler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCompiler.m; sourceTree = "<group>"; };
 		5F41ACB01833DCFE0089D136 /* pong_compiled.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = pong_compiled.json; path = JSON/pong_compiled.json; sourceTree = "<group>"; };
 		5F41ACB21833DE6D0089D136 /* scope.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = scope.json; path = CodeSamles/scope.json; sourceTree = "<group>"; };
 		5F41ACB4183411800089D136 /* events_scope.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = events_scope.json; path = CodeSamles/events_scope.json; sourceTree = "<group>"; };
@@ -413,10 +416,12 @@
 		5F099D4317F1133D00EB2AC7 /* Interpreter */ = {
 			isa = PBXGroup;
 			children = (
-				5F099D4417F1135300EB2AC7 /* INInterpreter.h */,
-				5F099D4517F1135300EB2AC7 /* INInterpreter.m */,
+				5F099D4417F1135300EB2AC7 /* ZSInterpreter.h */,
+				5F099D4517F1135300EB2AC7 /* ZSInterpreter.m */,
 				5F41ACB618341C980089D136 /* ZSExecutionContext.h */,
 				5F41ACB718341C980089D136 /* ZSExecutionContext.m */,
+				5F1B5BA41837EE7800632DE6 /* ZSCompiler.h */,
+				5F1B5BA51837EE7800632DE6 /* ZSCompiler.m */,
 			);
 			name = Interpreter;
 			sourceTree = "<group>";
@@ -651,6 +656,7 @@
 				2C19FF05181ADCB600D10D2B /* ZSSarahTestScene.m in Sources */,
 				4CF1CC0E17EFF64500636E0D /* TCSpriteView.m in Sources */,
 				7855BCC01837F47E006493F9 /* ZSCodeIfStatement.m in Sources */,
+				5F1B5BA61837EE7800632DE6 /* ZSCompiler.m in Sources */,
 				4C0D470817FB927600F13786 /* ZSCanvasViewController.m in Sources */,
 				7855BCCA1837FA97006493F9 /* ZSCodeEditorViewController.m in Sources */,
 				4CE3404B1809FC57009A63A2 /* ZSSpriteController.m in Sources */,
@@ -659,6 +665,7 @@
 				7855BCBE1837F47E006493F9 /* ZSCodeBoolExpression.m in Sources */,
 				7855BCD01837FB8A006493F9 /* ZSIfStatementEditorViewController.m in Sources */,
 				5F099D4617F1135300EB2AC7 /* INInterpreter.m in Sources */,
+				5F099D4617F1135300EB2AC7 /* ZSInterpreter.m in Sources */,
 				4CF1CBF417EF89AB00636E0D /* TCSprite.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

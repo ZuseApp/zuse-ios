@@ -2,10 +2,10 @@
   "traits": [
     {
       "id": "Draggable",
-      "parameters": [
-        { "horizontal": true },
-        { "vertical":   true }
-      ],
+      "parameters": {
+        "horizontal": true,
+        "vertical":   true
+      },
       "code": [
         {
           "on_event": {
@@ -41,7 +41,7 @@
         {
           "id": "Draggable",
           "parameters": {
-             "horizontal": false
+             "vertical": false
           }
         }
       ],

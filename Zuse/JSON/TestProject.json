@@ -9,14 +9,14 @@
                 {
                     "on_event": {
                         "name": "start",
-                        "suite": [
+                        "code": [
                             {
                                 "set": [
                                     "num",
                                     {
                                         "call": {
                                             "method": "random_number",
-                                            "args": [1, 10]
+                                            "parameters": [1, 10]
                                         }
                                     }
                                 ]
@@ -28,7 +28,7 @@
                                         "call": {
                                             "method": "ask",
                                             "async": true,
-                                            "args": ["Enter a number between one and ten"]
+                                            "parameters": ["Enter a number between one and ten"]
                                         }
                                     }
                                 ]
@@ -38,12 +38,12 @@
                                     "test": { "==": [{ "get": "num"}, { "get": "result" }] },
                                     "true": [
                                         {
-                                            "call": { "method": "display", "args": ["Good guess!"] }
+                                            "call": { "method": "display", "parameters": ["Good guess!"] }
                                         }
                                     ],
                                     "false": [
                                         {
-                                            "call": { "method": "display", "args": ["Wrong!"] }
+                                            "call": { "method": "display", "parameters": ["Wrong!"] }
                                         }
                                     ]
                                 }

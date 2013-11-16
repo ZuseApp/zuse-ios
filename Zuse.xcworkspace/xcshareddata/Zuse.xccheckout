@@ -5,7 +5,7 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>C784EE30-6F26-4D7E-95A3-B81B033B1BD3</string>
+	<string>335A276B-0809-4309-98F7-8AC8356929A9</string>
 	<key>IDESourceControlProjectName</key>
 	<string>Zuse</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
@@ -19,8 +19,6 @@
 	<dict>
 		<key>1E0D7081-5574-4CBE-B49E-A94ABC173A61</key>
 		<string>..</string>
-		<key>AB37BFF4-3219-47D9-8E33-FCFAE2D3C003</key>
-		<string>../../../Desktop/TestEngine</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>ssh://github.com/mhogenso/Zuse.git</string>
@@ -30,14 +28,6 @@
 	<string>1E0D7081-5574-4CBE-B49E-A94ABC173A61</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
-		<dict>
-			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
-			<string>public.vcs.git</string>
-			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>AB37BFF4-3219-47D9-8E33-FCFAE2D3C003</string>
-			<key>IDESourceControlWCCName</key>
-			<string>TestEngine</string>
-		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>

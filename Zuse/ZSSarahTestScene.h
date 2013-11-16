@@ -7,7 +7,11 @@
 //
 
 #import <SpriteKit/SpriteKit.h>
+#import "ZSInterpreter.h"
 
 @interface ZSSarahTestScene : SKScene
+
+
+- (instancetype)initWithSize:(CGSize)size interpreter:(ZSInterpreter *)interpreter;
 
 @end

@@ -6,13 +6,17 @@
 //  Copyright (c) 2013 Michael Hogenson. All rights reserved.
 //
 
-#import "ZSRendererViewController.h"
-#import "INInterpreter.h"
 #import <BlocksKit/BlocksKit.h>
+#import <SpriteKit/SpriteKit.h>
+
+#import "ZSRendererViewController.h"
+#import "ZSInterpreter.h"
+#import "ZSCompiler.h"
+#import "ZSSarahTestScene.h"
 
 @interface ZSRendererViewController ()
 
-@property (strong, nonatomic) INInterpreter *interpreter;
+@property (strong, nonatomic) ZSInterpreter *interpreter;
 
 @end
 
@@ -29,58 +33,37 @@
 
 - (void)viewDidLoad
 {
+    
     [super viewDidLoad];
 	// TODO: Redundant loading of the json since the program object already does this.
-    NSString *jsonPath = [[NSBundle mainBundle] pathForResource:@"TestProject" ofType:@"json"];
+    NSString *jsonPath = [[NSBundle mainBundle] pathForResource:@"pong" ofType:@"json"];
     NSData *jsonData = [NSData dataWithContentsOfFile:jsonPath];
-    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
+    _projectJSON = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
     
-    _interpreter = [[INInterpreter alloc] init];
+    ZSCompiler *compiler = [ZSCompiler compilerWithProjectJSON:_projectJSON];
     
-    for (NSDictionary *dict in json[@"objects"]) {
-        [_interpreter loadObject:dict];
-    }
+    _interpreter = [compiler compile];
     
-    [_interpreter loadMethod:@{
-                               @"method": @"ask",
-                               @"block":^(NSArray *args, void(^finishedBlock)(id)) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Hi" message:args[0]];
-            alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
-            __weak UIAlertView *blockAlertView = alertView;
-            [alertView addButtonWithTitle:@"OK" handler:^{
-                NSString *answer = [blockAlertView textFieldAtIndex:0].text;
-                NSLog(@"Answer: %@", answer);
-                finishedBlock(@([answer integerValue]));
-            }];
-            [alertView show];
-        });
-    }
-                               }];
-    
-    [_interpreter loadMethod:@{
-                               @"method": @"display",
-                               @"block":^id(NSArray *args) {
-        UIAlertView *alertView = [[UIAlertView alloc] init];
-        [alertView addButtonWithTitle:@"OK"];
-        [alertView setTitle:args[0]];
-        [alertView show];
-        return nil;
-    }
-                               }];
-    
-    [_interpreter loadMethod:@{
-                               @"method": @"random_number",
-                               @"block":^id(NSArray *args) {
-        NSInteger min = [args[0] integerValue];
-        NSInteger max = [args[1] integerValue];
-        NSUInteger rand_num = arc4random_uniform(max) + min;
-        NSLog(@"Random number: %@", @(rand_num));
-        return @(rand_num);
-    }
-                               }];
+    // compiler
+//    for (NSDictionary *dict in json[@"objects"]) {
+//        [_interpreter loadObject:dict];
+//    }
     
     [NSThread detachNewThreadSelector:@selector(runInterpreter:) toTarget:self withObject:nil];
+}
+
+- (void)loadSpriteKit {
+    // Configure the view.
+    SKView * skView = (SKView *)self.view;
+    skView.showsFPS = YES;
+    skView.showsNodeCount = YES;
+    
+    // Create and configure the scene.
+    SKScene * scene = [ZSSarahTestScene sceneWithSize:skView.bounds.size];
+    scene.scaleMode = SKSceneScaleModeAspectFill;
+    
+    // Present the scene.
+    [skView presentScene:scene];
 }
 
 - (void) runInterpreter:(id)object {

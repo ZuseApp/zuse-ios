@@ -7,20 +7,29 @@
 //
 
 #import "ZSSarahTestScene.h"
+#import <SpriteKit-Components/SKComponents.h>
 
-@interface ZSSarahTestScene()
+@interface ZSSarahTestScene() <ZSInterpreterDelegate>
 
 @property (nonatomic) SKSpriteNode *player;
 @property (nonatomic) NSTimeInterval lastSpawnTimeInterval;
 @property (nonatomic) NSTimeInterval lastUpdateTimeInterval;
+
+@property (strong, nonatomic) ZSInterpreter *interpreter;
 
 @end
 
 
 @implementation ZSSarahTestScene
 
--(id)initWithSize:(CGSize)size {
+-(id)initWithSize:(CGSize)size  interpreter:(ZSInterpreter *)interpreter {
     if (self = [super initWithSize:size]) {
+    
+        _interpreter = interpreter;
+        _interpreter.delegate = self;
+        
+        NSDictionary *objects = [_interpreter objects];
+        // TODO: render objects on screen...
         
         // getting size of screen
         NSLog(@"Size: %@", NSStringFromCGSize(size));
@@ -35,6 +44,12 @@
         
     }
     return self;
+}
+
+- (void)interpreter:(ZSInterpreter *)interpreter
+objectWithIdentifier:(NSString *)identifier
+didUpdateProperties:(NSDictionary *)properties {
+     // TODO: Update properties of onscreen objects based on changes.
 }
 
 - (void)addMonster {
