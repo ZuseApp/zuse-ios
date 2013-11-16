@@ -43,10 +43,10 @@
 		4CF1CC0717EFE14A00636E0D /* sonic.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 4CF1CC0217EFE14A00636E0D /* sonic.jpeg */; };
 		4CF1CC0817EFE14A00636E0D /* yoda.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 4CF1CC0317EFE14A00636E0D /* yoda.jpeg */; };
 		4CF1CC0E17EFF64500636E0D /* TCSpriteView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF1CC0D17EFF64500636E0D /* TCSpriteView.m */; };
-		5F099D4617F1135300EB2AC7 /* ZSInterpreter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F099D4517F1135300EB2AC7 /* ZSInterpreter.m */; };
 		5F099D4817F1136000EB2AC7 /* InterpreterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F099D4717F1136000EB2AC7 /* InterpreterTests.m */; };
 		5F1B5BA31837E05A00632DE6 /* pong_no_traits.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F1B5BA21837E05A00632DE6 /* pong_no_traits.json */; };
 		5F1B5BA61837EE7800632DE6 /* ZSCompiler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F1B5BA51837EE7800632DE6 /* ZSCompiler.m */; };
+		5F1B5BA71838109600632DE6 /* ZSInterpreter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F099D4517F1135300EB2AC7 /* ZSInterpreter.m */; };
 		5F41ACB11833DCFE0089D136 /* pong_compiled.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F41ACB01833DCFE0089D136 /* pong_compiled.json */; };
 		5F41ACB31833DE6D0089D136 /* scope.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F41ACB21833DE6D0089D136 /* scope.json */; };
 		5F41ACB5183411800089D136 /* events_scope.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F41ACB4183411800089D136 /* events_scope.json */; };
@@ -636,6 +636,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F1B5BA71838109600632DE6 /* ZSInterpreter.m in Sources */,
 				4CF1CBBE17EF882A00636E0D /* main.m in Sources */,
 				7855BCC31837F47E006493F9 /* ZSCodeStatement.m in Sources */,
 				7855BCBF1837F47E006493F9 /* ZSCodeCallStatement.m in Sources */,
@@ -664,8 +665,6 @@
 				5FBDDC3817FF2D2400A1037A /* ZSPlaygroundViewController.m in Sources */,
 				7855BCBE1837F47E006493F9 /* ZSCodeBoolExpression.m in Sources */,
 				7855BCD01837FB8A006493F9 /* ZSIfStatementEditorViewController.m in Sources */,
-				5F099D4617F1135300EB2AC7 /* INInterpreter.m in Sources */,
-				5F099D4617F1135300EB2AC7 /* ZSInterpreter.m in Sources */,
 				4CF1CBF417EF89AB00636E0D /* TCSprite.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
