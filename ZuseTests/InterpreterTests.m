@@ -234,7 +234,6 @@
         @"method":  @"print",
         @"block": ^(NSArray *args, void(^finishedBlock)(id)) {
             didRun = YES;
-            
             finishedBlock(@YES);
         }
     };
