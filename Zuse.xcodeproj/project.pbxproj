@@ -7,16 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2C19FF02181ADBF400D10D2B /* ZSSarahTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C19FF01181ADBF400D10D2B /* ZSSarahTestViewController.m */; };
+		2C19FF05181ADCB600D10D2B /* ZSSarahTestScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C19FF04181ADCB600D10D2B /* ZSSarahTestScene.m */; };
+		2C19FF0C181AE6B600D10D2B /* monster.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C19FF06181AE6B600D10D2B /* monster.png */; };
+		2C19FF0D181AE6B600D10D2B /* monster@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C19FF07181AE6B600D10D2B /* monster@2x.png */; };
+		2C19FF0E181AE6B600D10D2B /* player.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C19FF08181AE6B600D10D2B /* player.png */; };
+		2C19FF0F181AE6B600D10D2B /* player@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C19FF09181AE6B600D10D2B /* player@2x.png */; };
+		2C19FF10181AE6B600D10D2B /* projectile.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C19FF0A181AE6B600D10D2B /* projectile.png */; };
+		2C19FF11181AE6B600D10D2B /* projectile@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C19FF0B181AE6B600D10D2B /* projectile@2x.png */; };
 		4C0D470517FB800400F13786 /* TestProject.json in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D470417FB800400F13786 /* TestProject.json */; };
 		4C0D470817FB927600F13786 /* ZSCanvasViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0D470717FB927600F13786 /* ZSCanvasViewController.m */; };
 		4C7527321800D5C3002B41E6 /* ZSProgram.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C7527311800D5C3002B41E6 /* ZSProgram.m */; };
-		4CE340331809DB3C009A63A2 /* ZSRendererControllerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE340321809DB3C009A63A2 /* ZSRendererControllerViewController.m */; };
+		4CE340331809DB3C009A63A2 /* ZSBallViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE340321809DB3C009A63A2 /* ZSBallViewController.m */; };
 		4CE340361809DCFD009A63A2 /* ZSScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE340351809DCFD009A63A2 /* ZSScene.m */; };
 		4CE340401809EDC1009A63A2 /* basketball.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CE3403F1809EDC1009A63A2 /* basketball.png */; };
 		4CE340421809F76E009A63A2 /* grayball.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CE340411809F76E009A63A2 /* grayball.png */; };
 		4CE340481809F880009A63A2 /* ZSMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE340471809F880009A63A2 /* ZSMenuController.m */; };
 		4CE3404B1809FC57009A63A2 /* ZSSpriteController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE3404A1809FC57009A63A2 /* ZSSpriteController.m */; };
-		4CE3404E180A0154009A63A2 /* ZSInterpreterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE3404D180A0154009A63A2 /* ZSInterpreterViewController.m */; };
+		4CE3404E180A0154009A63A2 /* ZSRendererViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE3404D180A0154009A63A2 /* ZSRendererViewController.m */; };
 		4CF1CBB217EF882A00636E0D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1CBB117EF882A00636E0D /* Foundation.framework */; };
 		4CF1CBB417EF882A00636E0D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1CBB317EF882A00636E0D /* CoreGraphics.framework */; };
 		4CF1CBB617EF882A00636E0D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1CBB517EF882A00636E0D /* UIKit.framework */; };
@@ -30,19 +38,22 @@
 		4CF1CBD317EF882A00636E0D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1CBB517EF882A00636E0D /* UIKit.framework */; };
 		4CF1CBDB17EF882A00636E0D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4CF1CBD917EF882A00636E0D /* InfoPlist.strings */; };
 		4CF1CBF417EF89AB00636E0D /* TCSprite.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF1CBF317EF89AB00636E0D /* TCSprite.m */; };
-		4CF1CBFD17EFDBE500636E0D /* TCSpriteTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF1CBFC17EFDBE500636E0D /* TCSpriteTableView.m */; };
 		4CF1CC0517EFE14A00636E0D /* dog.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 4CF1CC0017EFE14A00636E0D /* dog.jpeg */; };
 		4CF1CC0617EFE14A00636E0D /* monkey.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 4CF1CC0117EFE14A00636E0D /* monkey.jpeg */; };
 		4CF1CC0717EFE14A00636E0D /* sonic.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 4CF1CC0217EFE14A00636E0D /* sonic.jpeg */; };
 		4CF1CC0817EFE14A00636E0D /* yoda.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 4CF1CC0317EFE14A00636E0D /* yoda.jpeg */; };
-		4CF1CC0B17EFE56800636E0D /* TCSpriteManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF1CC0A17EFE56800636E0D /* TCSpriteManager.m */; };
 		4CF1CC0E17EFF64500636E0D /* TCSpriteView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF1CC0D17EFF64500636E0D /* TCSpriteView.m */; };
 		5F099D4617F1135300EB2AC7 /* INInterpreter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F099D4517F1135300EB2AC7 /* INInterpreter.m */; };
 		5F099D4817F1136000EB2AC7 /* InterpreterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F099D4717F1136000EB2AC7 /* InterpreterTests.m */; };
+		5F1B5BA31837E05A00632DE6 /* pong_no_traits.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F1B5BA21837E05A00632DE6 /* pong_no_traits.json */; };
+		5F41ACB11833DCFE0089D136 /* pong_compiled.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F41ACB01833DCFE0089D136 /* pong_compiled.json */; };
+		5F41ACB31833DE6D0089D136 /* scope.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F41ACB21833DE6D0089D136 /* scope.json */; };
+		5F41ACB5183411800089D136 /* events_scope.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F41ACB4183411800089D136 /* events_scope.json */; };
+		5F41ACB818341C980089D136 /* ZSExecutionContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F41ACB718341C980089D136 /* ZSExecutionContext.m */; };
 		5FBDDC3717FF2D2400A1037A /* ZSEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBDDC3217FF2D2400A1037A /* ZSEditorViewController.m */; };
 		5FBDDC3817FF2D2400A1037A /* ZSPlaygroundViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBDDC3417FF2D2400A1037A /* ZSPlaygroundViewController.m */; };
 		5FBDDC3917FF2D2400A1037A /* ZSSuiteController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBDDC3617FF2D2400A1037A /* ZSSuiteController.m */; };
-		5FBDDC3C17FF2D5F00A1037A /* ZSCommandListTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBDDC3B17FF2D5F00A1037A /* ZSCommandListTableView.m */; };
+		5FEFB89A182B5376007DAFCF /* pong.json in Resources */ = {isa = PBXBuildFile; fileRef = 5FEFB899182B5376007DAFCF /* pong.json */; };
 		F188741646A541119F9E0DE4 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A26E7A8391C049E78AB2860A /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -57,13 +68,23 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2C19FF00181ADBF400D10D2B /* ZSSarahTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSSarahTestViewController.h; sourceTree = "<group>"; };
+		2C19FF01181ADBF400D10D2B /* ZSSarahTestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSSarahTestViewController.m; sourceTree = "<group>"; };
+		2C19FF03181ADCB600D10D2B /* ZSSarahTestScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSSarahTestScene.h; sourceTree = "<group>"; };
+		2C19FF04181ADCB600D10D2B /* ZSSarahTestScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSSarahTestScene.m; sourceTree = "<group>"; };
+		2C19FF06181AE6B600D10D2B /* monster.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = monster.png; sourceTree = "<group>"; };
+		2C19FF07181AE6B600D10D2B /* monster@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "monster@2x.png"; sourceTree = "<group>"; };
+		2C19FF08181AE6B600D10D2B /* player.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = player.png; sourceTree = "<group>"; };
+		2C19FF09181AE6B600D10D2B /* player@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "player@2x.png"; sourceTree = "<group>"; };
+		2C19FF0A181AE6B600D10D2B /* projectile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = projectile.png; sourceTree = "<group>"; };
+		2C19FF0B181AE6B600D10D2B /* projectile@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "projectile@2x.png"; sourceTree = "<group>"; };
 		4C0D470417FB800400F13786 /* TestProject.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = TestProject.json; path = JSON/TestProject.json; sourceTree = "<group>"; };
 		4C0D470617FB927600F13786 /* ZSCanvasViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCanvasViewController.h; sourceTree = "<group>"; };
 		4C0D470717FB927600F13786 /* ZSCanvasViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCanvasViewController.m; sourceTree = "<group>"; };
 		4C7527301800D5C3002B41E6 /* ZSProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSProgram.h; sourceTree = "<group>"; };
 		4C7527311800D5C3002B41E6 /* ZSProgram.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSProgram.m; sourceTree = "<group>"; };
-		4CE340311809DB3C009A63A2 /* ZSRendererControllerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSRendererControllerViewController.h; sourceTree = "<group>"; };
-		4CE340321809DB3C009A63A2 /* ZSRendererControllerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSRendererControllerViewController.m; sourceTree = "<group>"; };
+		4CE340311809DB3C009A63A2 /* ZSBallViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSBallViewController.h; sourceTree = "<group>"; };
+		4CE340321809DB3C009A63A2 /* ZSBallViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSBallViewController.m; sourceTree = "<group>"; };
 		4CE340341809DCFD009A63A2 /* ZSScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSScene.h; sourceTree = "<group>"; };
 		4CE340351809DCFD009A63A2 /* ZSScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSScene.m; sourceTree = "<group>"; };
 		4CE3403F1809EDC1009A63A2 /* basketball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = basketball.png; sourceTree = "<group>"; };
@@ -72,8 +93,8 @@
 		4CE340471809F880009A63A2 /* ZSMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSMenuController.m; sourceTree = "<group>"; };
 		4CE340491809FC57009A63A2 /* ZSSpriteController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSSpriteController.h; sourceTree = "<group>"; };
 		4CE3404A1809FC57009A63A2 /* ZSSpriteController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSSpriteController.m; sourceTree = "<group>"; };
-		4CE3404C180A0154009A63A2 /* ZSInterpreterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSInterpreterViewController.h; sourceTree = "<group>"; };
-		4CE3404D180A0154009A63A2 /* ZSInterpreterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSInterpreterViewController.m; sourceTree = "<group>"; };
+		4CE3404C180A0154009A63A2 /* ZSRendererViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSRendererViewController.h; sourceTree = "<group>"; };
+		4CE3404D180A0154009A63A2 /* ZSRendererViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSRendererViewController.m; sourceTree = "<group>"; };
 		4CF1CBAE17EF882A00636E0D /* Zuse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Zuse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CF1CBB117EF882A00636E0D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4CF1CBB317EF882A00636E0D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -92,27 +113,28 @@
 		4CF1CBDA17EF882A00636E0D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		4CF1CBF217EF89AB00636E0D /* TCSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCSprite.h; sourceTree = "<group>"; };
 		4CF1CBF317EF89AB00636E0D /* TCSprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCSprite.m; sourceTree = "<group>"; };
-		4CF1CBFB17EFDBE500636E0D /* TCSpriteTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCSpriteTableView.h; sourceTree = "<group>"; };
-		4CF1CBFC17EFDBE500636E0D /* TCSpriteTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCSpriteTableView.m; sourceTree = "<group>"; };
 		4CF1CC0017EFE14A00636E0D /* dog.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = dog.jpeg; sourceTree = "<group>"; };
 		4CF1CC0117EFE14A00636E0D /* monkey.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = monkey.jpeg; sourceTree = "<group>"; };
 		4CF1CC0217EFE14A00636E0D /* sonic.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sonic.jpeg; sourceTree = "<group>"; };
 		4CF1CC0317EFE14A00636E0D /* yoda.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = yoda.jpeg; sourceTree = "<group>"; };
-		4CF1CC0917EFE56800636E0D /* TCSpriteManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCSpriteManager.h; sourceTree = "<group>"; };
-		4CF1CC0A17EFE56800636E0D /* TCSpriteManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCSpriteManager.m; sourceTree = "<group>"; };
 		4CF1CC0C17EFF64500636E0D /* TCSpriteView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCSpriteView.h; sourceTree = "<group>"; };
 		4CF1CC0D17EFF64500636E0D /* TCSpriteView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCSpriteView.m; sourceTree = "<group>"; };
 		5F099D4417F1135300EB2AC7 /* INInterpreter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INInterpreter.h; sourceTree = "<group>"; };
 		5F099D4517F1135300EB2AC7 /* INInterpreter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = INInterpreter.m; sourceTree = "<group>"; };
 		5F099D4717F1136000EB2AC7 /* InterpreterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InterpreterTests.m; sourceTree = "<group>"; };
+		5F1B5BA21837E05A00632DE6 /* pong_no_traits.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = pong_no_traits.json; path = JSON/pong_no_traits.json; sourceTree = "<group>"; };
+		5F41ACB01833DCFE0089D136 /* pong_compiled.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = pong_compiled.json; path = JSON/pong_compiled.json; sourceTree = "<group>"; };
+		5F41ACB21833DE6D0089D136 /* scope.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = scope.json; path = CodeSamles/scope.json; sourceTree = "<group>"; };
+		5F41ACB4183411800089D136 /* events_scope.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = events_scope.json; path = CodeSamles/events_scope.json; sourceTree = "<group>"; };
+		5F41ACB618341C980089D136 /* ZSExecutionContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSExecutionContext.h; sourceTree = "<group>"; };
+		5F41ACB718341C980089D136 /* ZSExecutionContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSExecutionContext.m; sourceTree = "<group>"; };
 		5FBDDC3117FF2D2400A1037A /* ZSEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSEditorViewController.h; sourceTree = "<group>"; };
 		5FBDDC3217FF2D2400A1037A /* ZSEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSEditorViewController.m; sourceTree = "<group>"; };
 		5FBDDC3317FF2D2400A1037A /* ZSPlaygroundViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSPlaygroundViewController.h; sourceTree = "<group>"; };
 		5FBDDC3417FF2D2400A1037A /* ZSPlaygroundViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSPlaygroundViewController.m; sourceTree = "<group>"; };
 		5FBDDC3517FF2D2400A1037A /* ZSSuiteController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSSuiteController.h; sourceTree = "<group>"; };
 		5FBDDC3617FF2D2400A1037A /* ZSSuiteController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSSuiteController.m; sourceTree = "<group>"; };
-		5FBDDC3A17FF2D5F00A1037A /* ZSCommandListTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCommandListTableView.h; sourceTree = "<group>"; };
-		5FBDDC3B17FF2D5F00A1037A /* ZSCommandListTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCommandListTableView.m; sourceTree = "<group>"; };
+		5FEFB899182B5376007DAFCF /* pong.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = pong.json; path = JSON/pong.json; sourceTree = "<group>"; };
 		A26E7A8391C049E78AB2860A /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2EA1C412CB64638977AE594 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -142,6 +164,70 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4C9BE76D1815B48000F5EF57 /* Playground */ = {
+			isa = PBXGroup;
+			children = (
+				4C9BE76F1815B4AD00F5EF57 /* Scenes */,
+				4C9BE76E1815B49200F5EF57 /* View Controllers */,
+			);
+			name = Playground;
+			sourceTree = "<group>";
+		};
+		4C9BE76E1815B49200F5EF57 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				5FBDDC3317FF2D2400A1037A /* ZSPlaygroundViewController.h */,
+				5FBDDC3417FF2D2400A1037A /* ZSPlaygroundViewController.m */,
+				4CE340311809DB3C009A63A2 /* ZSBallViewController.h */,
+				4CE340321809DB3C009A63A2 /* ZSBallViewController.m */,
+				2C19FF00181ADBF400D10D2B /* ZSSarahTestViewController.h */,
+				2C19FF01181ADBF400D10D2B /* ZSSarahTestViewController.m */,
+			);
+			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		4C9BE76F1815B4AD00F5EF57 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				4CE340341809DCFD009A63A2 /* ZSScene.h */,
+				4CE340351809DCFD009A63A2 /* ZSScene.m */,
+				2C19FF03181ADCB600D10D2B /* ZSSarahTestScene.h */,
+				2C19FF04181ADCB600D10D2B /* ZSSarahTestScene.m */,
+			);
+			name = Scenes;
+			sourceTree = "<group>";
+		};
+		4C9BE7701815B4D700F5EF57 /* Table Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				4CE340461809F880009A63A2 /* ZSMenuController.h */,
+				4CE340471809F880009A63A2 /* ZSMenuController.m */,
+				4CE340491809FC57009A63A2 /* ZSSpriteController.h */,
+				4CE3404A1809FC57009A63A2 /* ZSSpriteController.m */,
+				5FBDDC3517FF2D2400A1037A /* ZSSuiteController.h */,
+				5FBDDC3617FF2D2400A1037A /* ZSSuiteController.m */,
+			);
+			name = "Table Controllers";
+			sourceTree = "<group>";
+		};
+		4C9BE7711815B58400F5EF57 /* Program */ = {
+			isa = PBXGroup;
+			children = (
+				4C7527301800D5C3002B41E6 /* ZSProgram.h */,
+				4C7527311800D5C3002B41E6 /* ZSProgram.m */,
+			);
+			name = Program;
+			sourceTree = "<group>";
+		};
+		4C9BE7721815B5A900F5EF57 /* Sprite */ = {
+			isa = PBXGroup;
+			children = (
+				4CF1CBF217EF89AB00636E0D /* TCSprite.h */,
+				4CF1CBF317EF89AB00636E0D /* TCSprite.m */,
+			);
+			name = Sprite;
+			sourceTree = "<group>";
+		};
 		4CF1CBA517EF882A00636E0D = {
 			isa = PBXGroup;
 			children = (
@@ -178,12 +264,14 @@
 			isa = PBXGroup;
 			children = (
 				5F099D4217F0E11200EB2AC7 /* Models */,
+				4C9BE76D1815B48000F5EF57 /* Playground */,
+				4C9BE7701815B4D700F5EF57 /* Table Controllers */,
 				5F099D4117F0E10600EB2AC7 /* Views */,
 				5F099D4017F0E0F700EB2AC7 /* View Controllers */,
+				4CF1CBB817EF882A00636E0D /* Supporting Files */,
 				4CF1CBC317EF882A00636E0D /* Main.storyboard */,
 				4CF1CBC017EF882A00636E0D /* TCAppDelegate.h */,
 				4CF1CBC117EF882A00636E0D /* TCAppDelegate.m */,
-				4CF1CBB817EF882A00636E0D /* Supporting Files */,
 			);
 			path = Zuse;
 			sourceTree = "<group>";
@@ -191,13 +279,13 @@
 		4CF1CBB817EF882A00636E0D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				5FEFB898182B5360007DAFCF /* JSON */,
 				4CF1CBC917EF882A00636E0D /* Images.xcassets */,
 				4CF1CBFE17EFE13C00636E0D /* images */,
 				4CF1CBB917EF882A00636E0D /* Zuse-Info.plist */,
 				4CF1CBBA17EF882A00636E0D /* InfoPlist.strings */,
 				4CF1CBBD17EF882A00636E0D /* main.m */,
 				4CF1CBBF17EF882A00636E0D /* Zuse-Prefix.pch */,
-				4C0D470417FB800400F13786 /* TestProject.json */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -214,8 +302,10 @@
 		4CF1CBD717EF882A00636E0D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				5F41ACB4183411800089D136 /* events_scope.json */,
 				4CF1CBD817EF882A00636E0D /* ZuseTests-Info.plist */,
 				4CF1CBD917EF882A00636E0D /* InfoPlist.strings */,
+				5F41ACB21833DE6D0089D136 /* scope.json */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -223,6 +313,12 @@
 		4CF1CBFE17EFE13C00636E0D /* images */ = {
 			isa = PBXGroup;
 			children = (
+				2C19FF06181AE6B600D10D2B /* monster.png */,
+				2C19FF07181AE6B600D10D2B /* monster@2x.png */,
+				2C19FF08181AE6B600D10D2B /* player.png */,
+				2C19FF09181AE6B600D10D2B /* player@2x.png */,
+				2C19FF0A181AE6B600D10D2B /* projectile.png */,
+				2C19FF0B181AE6B600D10D2B /* projectile@2x.png */,
 				4CE340411809F76E009A63A2 /* grayball.png */,
 				4CE3403F1809EDC1009A63A2 /* basketball.png */,
 				4CF1CC0017EFE14A00636E0D /* dog.jpeg */,
@@ -238,16 +334,10 @@
 			children = (
 				4C0D470617FB927600F13786 /* ZSCanvasViewController.h */,
 				4C0D470717FB927600F13786 /* ZSCanvasViewController.m */,
-				5FBDDC3A17FF2D5F00A1037A /* ZSCommandListTableView.h */,
-				5FBDDC3B17FF2D5F00A1037A /* ZSCommandListTableView.m */,
 				5FBDDC3117FF2D2400A1037A /* ZSEditorViewController.h */,
 				5FBDDC3217FF2D2400A1037A /* ZSEditorViewController.m */,
-				4CE3404C180A0154009A63A2 /* ZSInterpreterViewController.h */,
-				4CE3404D180A0154009A63A2 /* ZSInterpreterViewController.m */,
-				5FBDDC3317FF2D2400A1037A /* ZSPlaygroundViewController.h */,
-				5FBDDC3417FF2D2400A1037A /* ZSPlaygroundViewController.m */,
-				4CE340311809DB3C009A63A2 /* ZSRendererControllerViewController.h */,
-				4CE340321809DB3C009A63A2 /* ZSRendererControllerViewController.m */,
+				4CE3404C180A0154009A63A2 /* ZSRendererViewController.h */,
+				4CE3404D180A0154009A63A2 /* ZSRendererViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -260,8 +350,6 @@
 				4CF1CBFC17EFDBE500636E0D /* TCSpriteTableView.m */,
 				4CF1CC0C17EFF64500636E0D /* TCSpriteView.h */,
 				4CF1CC0D17EFF64500636E0D /* TCSpriteView.m */,
-				4CE340341809DCFD009A63A2 /* ZSScene.h */,
-				4CE340351809DCFD009A63A2 /* ZSScene.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -273,18 +361,17 @@
 				4CF1CBF217EF89AB00636E0D /* TCSprite.h */,
 				4CF1CBF317EF89AB00636E0D /* TCSprite.m */,
 				4CF1CC0917EFE56800636E0D /* TCSpriteManager.h */,
-<<<<<<< HEAD
-=======
 				4CF1CC0A17EFE56800636E0D /* TCSpriteManager.m */,
 				4CE340461809F880009A63A2 /* ZSMenuController.h */,
 				4CE340471809F880009A63A2 /* ZSMenuController.m */,
 				4CE340491809FC57009A63A2 /* ZSSpriteController.h */,
 				4CE3404A1809FC57009A63A2 /* ZSSpriteController.m */,
->>>>>>> d640e49530db9a15bf8dca4a0631e83d6a522e1a
 				5FBDDC3517FF2D2400A1037A /* ZSSuiteController.h */,
 				5FBDDC3617FF2D2400A1037A /* ZSSuiteController.m */,
 				4C7527301800D5C3002B41E6 /* ZSProgram.h */,
 				4C7527311800D5C3002B41E6 /* ZSProgram.m */,
+				4C9BE7711815B58400F5EF57 /* Program */,
+				4C9BE7721815B5A900F5EF57 /* Sprite */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -294,8 +381,21 @@
 			children = (
 				5F099D4417F1135300EB2AC7 /* INInterpreter.h */,
 				5F099D4517F1135300EB2AC7 /* INInterpreter.m */,
+				5F41ACB618341C980089D136 /* ZSExecutionContext.h */,
+				5F41ACB718341C980089D136 /* ZSExecutionContext.m */,
 			);
 			name = Interpreter;
+			sourceTree = "<group>";
+		};
+		5FEFB898182B5360007DAFCF /* JSON */ = {
+			isa = PBXGroup;
+			children = (
+				5F41ACB01833DCFE0089D136 /* pong_compiled.json */,
+				5FEFB899182B5376007DAFCF /* pong.json */,
+				4C0D470417FB800400F13786 /* TestProject.json */,
+				5F1B5BA21837E05A00632DE6 /* pong_no_traits.json */,
+			);
+			name = JSON;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -378,15 +478,24 @@
 			buildActionMask = 2147483647;
 			files = (
 				4CE340421809F76E009A63A2 /* grayball.png in Resources */,
+				2C19FF0F181AE6B600D10D2B /* player@2x.png in Resources */,
+				2C19FF0E181AE6B600D10D2B /* player.png in Resources */,
 				4CF1CC0617EFE14A00636E0D /* monkey.jpeg in Resources */,
+				5FEFB89A182B5376007DAFCF /* pong.json in Resources */,
 				4C0D470517FB800400F13786 /* TestProject.json in Resources */,
 				4CF1CC0517EFE14A00636E0D /* dog.jpeg in Resources */,
 				4CE340401809EDC1009A63A2 /* basketball.png in Resources */,
+				2C19FF10181AE6B600D10D2B /* projectile.png in Resources */,
+				5F41ACB11833DCFE0089D136 /* pong_compiled.json in Resources */,
 				4CF1CC0817EFE14A00636E0D /* yoda.jpeg in Resources */,
+				2C19FF0C181AE6B600D10D2B /* monster.png in Resources */,
+				2C19FF0D181AE6B600D10D2B /* monster@2x.png in Resources */,
 				4CF1CC0717EFE14A00636E0D /* sonic.jpeg in Resources */,
 				4CF1CBCA17EF882A00636E0D /* Images.xcassets in Resources */,
 				4CF1CBBC17EF882A00636E0D /* InfoPlist.strings in Resources */,
 				4CF1CBC517EF882A00636E0D /* Main.storyboard in Resources */,
+				2C19FF11181AE6B600D10D2B /* projectile@2x.png in Resources */,
+				5F1B5BA31837E05A00632DE6 /* pong_no_traits.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -394,6 +503,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F41ACB5183411800089D136 /* events_scope.json in Resources */,
+				5F41ACB31833DE6D0089D136 /* scope.json in Resources */,
 				4CF1CBDB17EF882A00636E0D /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -439,22 +550,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				4CF1CBBE17EF882A00636E0D /* main.m in Sources */,
+				2C19FF02181ADBF400D10D2B /* ZSSarahTestViewController.m in Sources */,
 				5FBDDC3917FF2D2400A1037A /* ZSSuiteController.m in Sources */,
 				4C7527321800D5C3002B41E6 /* ZSProgram.m in Sources */,
 				4CE340481809F880009A63A2 /* ZSMenuController.m in Sources */,
-				4CE3404E180A0154009A63A2 /* ZSInterpreterViewController.m in Sources */,
+				4CE3404E180A0154009A63A2 /* ZSRendererViewController.m in Sources */,
+				5F41ACB818341C980089D136 /* ZSExecutionContext.m in Sources */,
 				4CF1CBC217EF882A00636E0D /* TCAppDelegate.m in Sources */,
-				4CF1CC0B17EFE56800636E0D /* TCSpriteManager.m in Sources */,
 				5FBDDC3717FF2D2400A1037A /* ZSEditorViewController.m in Sources */,
 				4CE340361809DCFD009A63A2 /* ZSScene.m in Sources */,
-				4CE340331809DB3C009A63A2 /* ZSRendererControllerViewController.m in Sources */,
+				4CE340331809DB3C009A63A2 /* ZSBallViewController.m in Sources */,
+				2C19FF05181ADCB600D10D2B /* ZSSarahTestScene.m in Sources */,
 				4CF1CC0E17EFF64500636E0D /* TCSpriteView.m in Sources */,
-				5FBDDC3C17FF2D5F00A1037A /* ZSCommandListTableView.m in Sources */,
 				4C0D470817FB927600F13786 /* ZSCanvasViewController.m in Sources */,
 				4CE3404B1809FC57009A63A2 /* ZSSpriteController.m in Sources */,
 				5FBDDC3817FF2D2400A1037A /* ZSPlaygroundViewController.m in Sources */,
 				5F099D4617F1135300EB2AC7 /* INInterpreter.m in Sources */,
-				4CF1CBFD17EFDBE500636E0D /* TCSpriteTableView.m in Sources */,
 				4CF1CBF417EF89AB00636E0D /* TCSprite.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

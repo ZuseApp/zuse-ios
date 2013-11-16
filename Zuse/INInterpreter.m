@@ -7,11 +7,11 @@
 //
 
 #import "INInterpreter.h"
+#import "ZSExecutionContext.h"
 #import <BlocksKit/BlocksKit.h>
 
 @interface INInterpreter ()
 
-@property (strong, nonatomic) NSDictionary *program;
 @property (strong, nonatomic) NSMutableDictionary *methods;
 @property (strong, nonatomic) NSMutableDictionary *events;
 @property (strong, nonatomic) NSMutableDictionary *properties;
@@ -21,8 +21,7 @@
 
 @implementation INInterpreter
 
-+ (instancetype)interpreter
-{
++ (instancetype)interpreter {
     return [[self alloc] init];
 }
 
@@ -53,76 +52,77 @@
 - (NSDictionary *)blankObject {
     return @{
         @"id":        [NSUUID UUID],
-        @"variables": @[],
+        @"properties": @[],
         @"code":      @[]
     };
 }
 
-//- (void)run {
-//    [_objects each:^(id key, id obj) {
-//        [self runSuite:obj[@"code"] properties:[obj[@"variables"] mutableCopy]];
-//    }];
-//}
-
 - (id)runJSON:(NSDictionary *)JSON {
     NSDictionary *obj = [self blankObject];
     [self loadObject:obj];
-    return [self runJSON:JSON objectIdentifier:obj[@"id"]];
+    ZSExecutionContext *context = [ZSExecutionContext contextWithObjectId:obj[@"id"]
+                                                              environment:_properties[obj[@"id"]]];
+    return [self runJSON:JSON context:context];
 }
 
-- (id)runJSON:(NSDictionary *)JSON objectIdentifier:(NSString *)objectID {
-    return [self runCode:JSON objectIdentifier:objectID];
+- (id)runJSON:(NSDictionary *)JSON context:(ZSExecutionContext *)context {
+    return [self runCode:JSON context:context];
 }
 
 - (id)runSuite:(NSArray *)suite {
     NSDictionary *obj = [self blankObject];
     [self loadObject:obj];
-    return [self runSuite:suite objectIdentifier:obj[@"id"]];
+    ZSExecutionContext *context = [ZSExecutionContext contextWithObjectId:obj[@"id"]
+                                                              environment:_properties[obj[@"id"]]];
+    return [self runSuite:suite context:context];
 }
 
-- (id)runSuite:(NSArray *)suite objectIdentifier:(NSString *)objectID {
+- (id)runSuite:(NSArray *)suite context:(ZSExecutionContext *)context {
     __block id returnValue = nil;
     
-    [suite enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        returnValue = [self runCode:obj objectIdentifier:objectID];
+    [suite each:^(id obj) {
+        returnValue = [self runCode:obj context:context];
     }];
     
     return returnValue;
 }
 
-- (id)runCode:(id)code objectIdentifier:(NSString *)objectID {
+- (id)runCode:(id)code context:(ZSExecutionContext *)context {
     NSString *key = [code allKeys][0];
     id data = code[key];
     
-    if ([key isEqualToString:@"program"] || [key isEqualToString:@"suite"]) {
-        return [self runSuite:data objectIdentifier:objectID];
+    if ([key isEqualToString:@"program"] || [key isEqualToString:@"code"]) {
+        return [self runSuite:data context:context];
     }
     
     else if ([key isEqualToString:@"set"]) {
-        NSMutableDictionary *properties = _properties[objectID];
-        properties[data[0]] = [self evaluateExpression:data[1] objectIdentifier:objectID];
+        context.environment[data[0]] = [self evaluateExpression:data[1] context:context];
     }
     
     else if ([key isEqualToString:@"if"]) {
-        if ([[self evaluateExpression:data[@"test"] objectIdentifier:objectID] boolValue]) {
-            return [self runSuite:data[@"true"] objectIdentifier:objectID];
+        if ([[self evaluateExpression:data[@"test"] context:context] boolValue]) {
+            return [self runSuite:data[@"true"] context:context];
         } else {
-            return [self runSuite:data[@"false"] objectIdentifier:objectID];
+            return [self runSuite:data[@"false"] context:context];
         }
     }
     
+    else if ([key isEqualToString:@"scope"]) {
+        return [self runSuite:data context:[context contextWithNewEnvironment]];
+    }
+    
     else if ([key isEqualToString:@"on_event"]) {
-        [_events[objectID] setObject:data[@"suite"] forKey:data[@"name"]];
+        [_events[context.objectID] setObject:@{ @"code": data[@"code"], @"context": context } forKey:data[@"name"]];
     }
 
     else {
-        return [self evaluateExpression:code objectIdentifier:objectID];
+        return [self evaluateExpression:code context:context];
     }
 
     return nil;
 }
 
-- (id)evaluateExpression:(id)expression objectIdentifier:(NSString *)objectID {
+- (id)evaluateExpression:(id)expression context:(ZSExecutionContext *)context {
     // Atoms should just return themselves
     if ([expression isKindOfClass:[NSNumber class]] || [expression isKindOfClass:[NSString class]]) {
         return expression;
@@ -132,17 +132,17 @@
     id code = expression[key];
 
     if ([key isEqualToString:@"call"]) {
-        // It's legal to not specify an args array
-        NSArray *args = (code[@"args"] ? code[@"args"] : @[]);
-        args = [args map:^id(id obj) {
-            return [self evaluateExpression:obj objectIdentifier:objectID];
+        // It's legal to not specify an parameters array
+        NSArray *params = (code[@"parameters"] ? code[@"parameters"] : @[]);
+        params = [params map:^id(id obj) {
+            return [self evaluateExpression:obj context:context];
         }];
 
         if (code[@"async"] && [code[@"async"] boolValue]) {
             id (^method)(NSArray *, void(^)(id)) = _methods[code[@"method"]];
 
             __block id returnValue = nil;
-            method(args, ^void(id obj){
+            method(params, ^void(id obj){
                 returnValue = obj;
             });
 
@@ -153,20 +153,20 @@
             return returnValue;
         } else {
             id (^method)(NSArray *) = _methods[code[@"method"]];
-            return method(args);
+            return method(params);
         }
     }
 
     else if ([key isEqualToString:@"+"]) {
-        NSInteger first = [[self evaluateExpression:code[0] objectIdentifier:objectID] integerValue];
-        NSInteger second = [[self evaluateExpression:code[1] objectIdentifier:objectID] integerValue];
+        NSInteger first = [[self evaluateExpression:code[0] context:context] integerValue];
+        NSInteger second = [[self evaluateExpression:code[1] context:context] integerValue];
         
         return @(first + second);
     }
     
     else if ([key isEqualToString:@"=="]) {
-        id firstExpression = [self evaluateExpression:code[0] objectIdentifier:objectID];
-        id secondExpression = [self evaluateExpression:code[1] objectIdentifier:objectID];
+        id firstExpression = [self evaluateExpression:code[0] context:context];
+        id secondExpression = [self evaluateExpression:code[1] context:context];
         
         if ([firstExpression isEqual:secondExpression])
             return @YES;
@@ -175,8 +175,7 @@
     }
     
     else if ([key isEqualToString:@"get"]) {
-        NSMutableDictionary *properties = _properties[objectID];
-        return properties[code];
+        return context.environment[code];
     }
     
     else {
@@ -187,20 +186,20 @@
 }
 
 - (void)loadMethod:(NSDictionary *)method {
-    [_methods setObject:method[@"block"] forKey:method[@"name"]];
+    [_methods setObject:method[@"block"] forKey:method[@"method"]];
 }
 
-- (void)loadObjects:(NSArray *)objects{
-    [objects enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        [self loadObject:obj];
-    }];
+- (void)loadTrait:(NSDictionary *)trait {
+    [_methods setObject:trait forKey:trait[@"id"]];
 }
 
 - (void)loadObject:(NSDictionary *)obj {
     [_events setObject:[NSMutableDictionary dictionary] forKey:obj[@"id"]];
-    [_properties setObject:[obj[@"variables"] mutableCopy] forKey:obj[@"id"]];
+    [_properties setObject:[obj[@"properties"] mutableCopy] forKey:obj[@"id"]];
     [_objects setObject:obj forKey:obj[@"id"]];
-    [self runSuite:obj[@"code"] objectIdentifier:obj[@"id"]];
+    ZSExecutionContext *context = [ZSExecutionContext contextWithObjectId:obj[@"id"]
+                                                              environment:_properties[obj[@"id"]]];
+    [self runSuite:obj[@"code"] context:context];
 }
 
 - (void)triggerEvent:(NSString *)event {
@@ -210,7 +209,7 @@
 }
 
 - (void)triggerEvent:(NSString *)event onObjectWithIdentifier:(NSString *)objectID {
-    [self runSuite:_events[objectID][event] objectIdentifier:objectID];
+    [self runSuite:_events[objectID][event][@"code"] context:_events[objectID][event][@"context"]];
 }
 
 @end

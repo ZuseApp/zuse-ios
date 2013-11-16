@@ -33,7 +33,7 @@
     
     // Load the sprites.
     for (NSDictionary *jsonObject in json[@"objects"]) {
-        NSDictionary *variables = jsonObject[@"variables"];
+        NSDictionary *variables = jsonObject[@"properties"];
         
         // Load the sprite frame.
         CGRect frame = CGRectZero;

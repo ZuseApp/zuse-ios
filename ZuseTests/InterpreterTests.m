@@ -23,12 +23,22 @@
     _interpreter = [[INInterpreter alloc] init];
 }
 
+- (NSDictionary *)loadTestFileAtPath:(NSString *)path {
+    NSString *fullPath = [[NSBundle bundleForClass:[self class]] pathForResource:path
+                                                                      ofType:@"json"];
+    
+    NSData *data = [NSData dataWithContentsOfFile:fullPath];
+    return [NSJSONSerialization JSONObjectWithData:data
+                                           options:0
+                                             error:nil];
+}
+
 - (void)testPrint
 {
     __block BOOL didRun = NO;
     
     NSDictionary *method = @{
-        @"name":  @"print",
+        @"method":  @"print",
         @"block": ^(NSArray *args) {
             didRun = YES;
             XCTAssertEqualObjects(@"Hello World!", args[0], @"");
@@ -40,7 +50,7 @@
     NSDictionary *program = @{
         @"call": @{
             @"method": @"print",
-            @"args": @[ @"Hello World!" ]
+            @"parameters": @[ @"Hello World!" ]
         }
     };
     
@@ -53,7 +63,7 @@
     __block BOOL didRun = NO;
     
     NSDictionary *method = @{
-        @"name":  @"print",
+        @"method":  @"print",
         @"block": ^(NSArray *args) {
             didRun = YES;
             XCTAssertEqualObjects(@[], args, @"");
@@ -79,7 +89,7 @@
     __block BOOL didRun = NO;
     
     NSDictionary *method = @{
-        @"name":  @"print",
+        @"method":  @"print",
         @"block": ^(NSArray *args) {
             didRun = YES;
             XCTAssertEqualObjects(@"Hello World!", args[0], @"");
@@ -96,7 +106,7 @@
                 @{
                     @"call": @{
                         @"method": @"print",
-                        @"args": @[ @"Hello World!" ]
+                        @"parameters": @[ @"Hello World!" ]
                     }
                 }
             ],
@@ -106,7 +116,7 @@
     
     [_interpreter runJSON:program];
     
-    XCTAssert(!didRun, @"");
+    XCTAssertFalse(didRun, @"");
     
     value = @YES;
     
@@ -117,7 +127,7 @@
                 @{
                     @"call": @{
                         @"method": @"print",
-                        @"args": @[ @"Hello World!" ]
+                        @"parameters": @[ @"Hello World!" ]
                     }
                 }
             ]
@@ -133,7 +143,7 @@
     __block BOOL didRun = NO;
     
     NSDictionary *method = @{
-        @"name":  @"test",
+        @"method":  @"test",
         @"block": ^(NSArray *args) {
             didRun = YES;
         }
@@ -143,13 +153,13 @@
     
     [_interpreter loadObject:@{
         @"id": @"foo",
-        @"variables": @[],
+        @"properties": @[],
         @"code": @[
             @{
                 @"on_event": @{
                     @"name": @"start",
-                    @"suite": @[
-                        @{ @"call": @{ @"method": @"test", @"args": @[] } }
+                    @"code": @[
+                        @{ @"call": @{ @"method": @"test", @"parameters": @[] } }
                     ]
                 }
             }
@@ -165,7 +175,7 @@
     __block BOOL didRun = NO;
     
     NSDictionary *method = @{
-        @"name":  @"print",
+        @"method":  @"print",
         @"block": ^(NSArray *args) {
             didRun = YES;
             XCTAssertEqualObjects(@3, args[0], @"");
@@ -177,7 +187,7 @@
     NSDictionary *program = @{
         @"call": @{
             @"method": @"print",
-            @"args": @[ @{ @"+": @[ @1, @2 ] } ]
+            @"parameters": @[ @{ @"+": @[ @1, @2 ] } ]
         }
     };
     
@@ -190,7 +200,7 @@
     __block BOOL didRun = NO;
     
     NSDictionary *method = @{
-        @"name":  @"print",
+        @"method":  @"print",
         @"block": ^(NSArray *args) {
             didRun = YES;
             XCTAssertEqualObjects(@6, args[0], @"");
@@ -202,7 +212,7 @@
     NSDictionary *program = @{
         @"call": @{
             @"method": @"print",
-            @"args": @[
+            @"parameters": @[
                 @{
                     @"+": @[
                         @{ @"+": @[ @1, @1 ] },
@@ -221,10 +231,9 @@
     __block BOOL didRun = NO;
     
     NSDictionary *method = @{
-        @"name":  @"print",
+        @"method":  @"print",
         @"block": ^(NSArray *args, void(^finishedBlock)(id)) {
             didRun = YES;
-            
             finishedBlock(@YES);
         }
     };
@@ -251,8 +260,70 @@
     XCTAssertEqualObjects(@YES, result, @"");
 }
 
-- (void)testVariables {
+- (void)testScope {
+    NSDictionary *method = @{
+        @"method":  @"check1",
+        @"block": ^id(NSArray *args) {
+            XCTAssertEqual(args.count, [@2 unsignedIntegerValue], @"");
+            XCTAssertEqualObjects(args[0], @"foo", @"");
+            XCTAssertEqualObjects(args[1], @"bar", @"");
+            return @YES;
+        }
+    };
+    
+    [_interpreter loadMethod:method];
+    
+    method = @{
+        @"method":  @"check2",
+        @"block": ^id(NSArray *args) {
+            XCTAssertEqual(args.count, [@2 unsignedIntegerValue], @"");
+            XCTAssertEqualObjects(args[0], @"foo", @"");
+            XCTAssertEqual(args[1], [NSNull null], @"");
+            return @YES;
+        }
+    };
 
+    [_interpreter loadMethod:method];
+    
+    NSDictionary *json = [self loadTestFileAtPath:@"scope"];
+    
+    for (NSDictionary *dict in json[@"objects"]) {
+        [_interpreter loadObject:dict];
+    }
+}
+
+- (void)testEventScope {
+    NSDictionary *method = @{
+        @"method":  @"check1",
+        @"block": ^id(NSArray *args) {
+            XCTAssertEqual(args.count, [@2 unsignedIntegerValue], @"");
+            XCTAssertEqualObjects(args[0], @"foo", @"");
+            XCTAssertEqualObjects(args[1], @"bar", @"");
+            return @YES;
+        }
+    };
+    
+    [_interpreter loadMethod:method];
+    
+    method = @{
+        @"method":  @"check2",
+        @"block": ^id(NSArray *args) {
+            XCTAssertEqual(args.count, [@2 unsignedIntegerValue], @"");
+            XCTAssertEqualObjects(args[0], @"foo", @"");
+            XCTAssertEqual(args[1], [NSNull null], @"");
+            return @YES;
+        }
+    };
+
+    [_interpreter loadMethod:method];
+    
+    NSDictionary *json = [self loadTestFileAtPath:@"events_scope"];
+    
+    for (NSDictionary *dict in json[@"objects"]) {
+        [_interpreter loadObject:dict];
+    }
+    
+    [_interpreter triggerEvent:@"my_event" onObjectWithIdentifier:@"my_object"];
 }
 
 @end

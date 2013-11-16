@@ -9,10 +9,8 @@
 #import "ZSCanvasViewController.h"
 #import "ZSPlaygroundViewController.h"
 #import "ZSEditorViewController.h"
-#import "TCSpriteManager.h"
 #import "TCSprite.h"
 #import "TCSpriteView.h"
-#import "TCSpriteManager.h"
 #import "ZSProgram.h"
 #import "ZSMenuController.h"
 #import "ZSSpriteController.h"
@@ -24,7 +22,6 @@
 @property (strong, nonatomic) UIScreenEdgePanGestureRecognizer *leftEdgePanRecognizer;
 @property (assign, nonatomic, getter = isSpriteTableViewShowing) BOOL spriteTableViewShowing;
 @property (assign, nonatomic, getter = isMenuTableViewShowing) BOOL menuTableViewShowing;
-@property (nonatomic, strong) TCSpriteManager *spriteManager;
 @property (nonatomic, strong) NSArray *templateSprites;
 @property (nonatomic, strong) NSArray *canvasSprites;
 @property (strong, nonatomic) ZSProgram *program;

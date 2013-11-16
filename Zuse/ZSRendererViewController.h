@@ -1,5 +1,5 @@
 //
-//  ZSRendererControllerViewController.h
+//  ZSInterpreterViewController.h
 //  Zuse
 //
 //  Created by Michael Hogenson on 10/12/13.
@@ -7,8 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <SpriteKit/SpriteKit.h>
 
-@interface ZSRendererControllerViewController : UIViewController
+@interface ZSRendererViewController : UIViewController
 
 @end

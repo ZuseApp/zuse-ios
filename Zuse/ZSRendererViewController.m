@@ -6,17 +6,17 @@
 //  Copyright (c) 2013 Michael Hogenson. All rights reserved.
 //
 
-#import "ZSInterpreterViewController.h"
+#import "ZSRendererViewController.h"
 #import "INInterpreter.h"
 #import <BlocksKit/BlocksKit.h>
 
-@interface ZSInterpreterViewController ()
+@interface ZSRendererViewController ()
 
 @property (strong, nonatomic) INInterpreter *interpreter;
 
 @end
 
-@implementation ZSInterpreterViewController
+@implementation ZSRendererViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -37,10 +37,12 @@
     
     _interpreter = [[INInterpreter alloc] init];
     
-    [_interpreter loadObjects:json[@"objects"]];
+    for (NSDictionary *dict in json[@"objects"]) {
+        [_interpreter loadObject:dict];
+    }
     
     [_interpreter loadMethod:@{
-                               @"name": @"ask",
+                               @"method": @"ask",
                                @"block":^(NSArray *args, void(^finishedBlock)(id)) {
         dispatch_async(dispatch_get_main_queue(), ^{
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Hi" message:args[0]];
@@ -57,7 +59,7 @@
                                }];
     
     [_interpreter loadMethod:@{
-                               @"name": @"display",
+                               @"method": @"display",
                                @"block":^id(NSArray *args) {
         UIAlertView *alertView = [[UIAlertView alloc] init];
         [alertView addButtonWithTitle:@"OK"];
@@ -68,7 +70,7 @@
                                }];
     
     [_interpreter loadMethod:@{
-                               @"name": @"random_number",
+                               @"method": @"random_number",
                                @"block":^id(NSArray *args) {
         NSInteger min = [args[0] integerValue];
         NSInteger max = [args[1] integerValue];
