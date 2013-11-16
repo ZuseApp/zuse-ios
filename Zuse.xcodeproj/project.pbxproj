@@ -54,6 +54,17 @@
 		5FBDDC3817FF2D2400A1037A /* ZSPlaygroundViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBDDC3417FF2D2400A1037A /* ZSPlaygroundViewController.m */; };
 		5FBDDC3917FF2D2400A1037A /* ZSSuiteController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBDDC3617FF2D2400A1037A /* ZSSuiteController.m */; };
 		5FEFB89A182B5376007DAFCF /* pong.json in Resources */ = {isa = PBXBuildFile; fileRef = 5FEFB899182B5376007DAFCF /* pong.json */; };
+		7855BCBE1837F47E006493F9 /* ZSCodeBoolExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 7855BCB11837F47E006493F9 /* ZSCodeBoolExpression.m */; };
+		7855BCBF1837F47E006493F9 /* ZSCodeCallStatement.m in Sources */ = {isa = PBXBuildFile; fileRef = 7855BCB31837F47E006493F9 /* ZSCodeCallStatement.m */; };
+		7855BCC01837F47E006493F9 /* ZSCodeIfStatement.m in Sources */ = {isa = PBXBuildFile; fileRef = 7855BCB51837F47E006493F9 /* ZSCodeIfStatement.m */; };
+		7855BCC11837F47E006493F9 /* ZSCodeLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 7855BCB71837F47E006493F9 /* ZSCodeLine.m */; };
+		7855BCC21837F47E006493F9 /* ZSCodeSetStatement.m in Sources */ = {isa = PBXBuildFile; fileRef = 7855BCB91837F47E006493F9 /* ZSCodeSetStatement.m */; };
+		7855BCC31837F47E006493F9 /* ZSCodeStatement.m in Sources */ = {isa = PBXBuildFile; fileRef = 7855BCBB1837F47E006493F9 /* ZSCodeStatement.m */; };
+		7855BCC41837F47E006493F9 /* ZSCodeSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 7855BCBD1837F47E006493F9 /* ZSCodeSuite.m */; };
+		7855BCCA1837FA97006493F9 /* ZSCodeEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7855BCC91837FA97006493F9 /* ZSCodeEditorViewController.m */; };
+		7855BCCD1837FB6D006493F9 /* ZSSetStatementEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7855BCCC1837FB6D006493F9 /* ZSSetStatementEditorViewController.m */; };
+		7855BCD01837FB8A006493F9 /* ZSIfStatementEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7855BCCF1837FB8A006493F9 /* ZSIfStatementEditorViewController.m */; };
+		7855BCD31837FBA7006493F9 /* ZSCallStatementEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7855BCD21837FBA7006493F9 /* ZSCallStatementEditorViewController.m */; };
 		F188741646A541119F9E0DE4 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A26E7A8391C049E78AB2860A /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -135,6 +146,28 @@
 		5FBDDC3517FF2D2400A1037A /* ZSSuiteController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSSuiteController.h; sourceTree = "<group>"; };
 		5FBDDC3617FF2D2400A1037A /* ZSSuiteController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSSuiteController.m; sourceTree = "<group>"; };
 		5FEFB899182B5376007DAFCF /* pong.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = pong.json; path = JSON/pong.json; sourceTree = "<group>"; };
+		7855BCB01837F47E006493F9 /* ZSCodeBoolExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCodeBoolExpression.h; sourceTree = "<group>"; };
+		7855BCB11837F47E006493F9 /* ZSCodeBoolExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCodeBoolExpression.m; sourceTree = "<group>"; };
+		7855BCB21837F47E006493F9 /* ZSCodeCallStatement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCodeCallStatement.h; sourceTree = "<group>"; };
+		7855BCB31837F47E006493F9 /* ZSCodeCallStatement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCodeCallStatement.m; sourceTree = "<group>"; };
+		7855BCB41837F47E006493F9 /* ZSCodeIfStatement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCodeIfStatement.h; sourceTree = "<group>"; };
+		7855BCB51837F47E006493F9 /* ZSCodeIfStatement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCodeIfStatement.m; sourceTree = "<group>"; };
+		7855BCB61837F47E006493F9 /* ZSCodeLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCodeLine.h; sourceTree = "<group>"; };
+		7855BCB71837F47E006493F9 /* ZSCodeLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCodeLine.m; sourceTree = "<group>"; };
+		7855BCB81837F47E006493F9 /* ZSCodeSetStatement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCodeSetStatement.h; sourceTree = "<group>"; };
+		7855BCB91837F47E006493F9 /* ZSCodeSetStatement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCodeSetStatement.m; sourceTree = "<group>"; };
+		7855BCBA1837F47E006493F9 /* ZSCodeStatement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCodeStatement.h; sourceTree = "<group>"; };
+		7855BCBB1837F47E006493F9 /* ZSCodeStatement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCodeStatement.m; sourceTree = "<group>"; };
+		7855BCBC1837F47E006493F9 /* ZSCodeSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCodeSuite.h; sourceTree = "<group>"; };
+		7855BCBD1837F47E006493F9 /* ZSCodeSuite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCodeSuite.m; sourceTree = "<group>"; };
+		7855BCC81837FA97006493F9 /* ZSCodeEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCodeEditorViewController.h; sourceTree = "<group>"; };
+		7855BCC91837FA97006493F9 /* ZSCodeEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCodeEditorViewController.m; sourceTree = "<group>"; };
+		7855BCCB1837FB6D006493F9 /* ZSSetStatementEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSSetStatementEditorViewController.h; sourceTree = "<group>"; };
+		7855BCCC1837FB6D006493F9 /* ZSSetStatementEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSSetStatementEditorViewController.m; sourceTree = "<group>"; };
+		7855BCCE1837FB8A006493F9 /* ZSIfStatementEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSIfStatementEditorViewController.h; sourceTree = "<group>"; };
+		7855BCCF1837FB8A006493F9 /* ZSIfStatementEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSIfStatementEditorViewController.m; sourceTree = "<group>"; };
+		7855BCD11837FBA7006493F9 /* ZSCallStatementEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCallStatementEditorViewController.h; sourceTree = "<group>"; };
+		7855BCD21837FBA7006493F9 /* ZSCallStatementEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCallStatementEditorViewController.m; sourceTree = "<group>"; };
 		A26E7A8391C049E78AB2860A /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2EA1C412CB64638977AE594 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -176,6 +209,12 @@
 		4C9BE76E1815B49200F5EF57 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				7855BCC71837F501006493F9 /* If Statement Editor */,
+				7855BCC61837F4F4006493F9 /* Set Statement Editor */,
+				7855BCC51837F4E0006493F9 /* Call Statement Editor */,
+				7855BCAF1837F2BF006493F9 /* CodeModel */,
+				7855BCC81837FA97006493F9 /* ZSCodeEditorViewController.h */,
+				7855BCC91837FA97006493F9 /* ZSCodeEditorViewController.m */,
 				5FBDDC3317FF2D2400A1037A /* ZSPlaygroundViewController.h */,
 				5FBDDC3417FF2D2400A1037A /* ZSPlaygroundViewController.m */,
 				4CE340311809DB3C009A63A2 /* ZSBallViewController.h */,
@@ -332,10 +371,10 @@
 		5F099D4017F0E0F700EB2AC7 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				4C0D470617FB927600F13786 /* ZSCanvasViewController.h */,
-				4C0D470717FB927600F13786 /* ZSCanvasViewController.m */,
 				5FBDDC3117FF2D2400A1037A /* ZSEditorViewController.h */,
 				5FBDDC3217FF2D2400A1037A /* ZSEditorViewController.m */,
+				4C0D470617FB927600F13786 /* ZSCanvasViewController.h */,
+				4C0D470717FB927600F13786 /* ZSCanvasViewController.m */,
 				4CE3404C180A0154009A63A2 /* ZSRendererViewController.h */,
 				4CE3404D180A0154009A63A2 /* ZSRendererViewController.m */,
 			);
@@ -345,9 +384,6 @@
 		5F099D4117F0E10600EB2AC7 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				4CF1CC0A17EFE56800636E0D /* TCSpriteManager.m */,
-				4CF1CBFB17EFDBE500636E0D /* TCSpriteTableView.h */,
-				4CF1CBFC17EFDBE500636E0D /* TCSpriteTableView.m */,
 				4CF1CC0C17EFF64500636E0D /* TCSpriteView.h */,
 				4CF1CC0D17EFF64500636E0D /* TCSpriteView.m */,
 			);
@@ -360,8 +396,6 @@
 				5F099D4317F1133D00EB2AC7 /* Interpreter */,
 				4CF1CBF217EF89AB00636E0D /* TCSprite.h */,
 				4CF1CBF317EF89AB00636E0D /* TCSprite.m */,
-				4CF1CC0917EFE56800636E0D /* TCSpriteManager.h */,
-				4CF1CC0A17EFE56800636E0D /* TCSpriteManager.m */,
 				4CE340461809F880009A63A2 /* ZSMenuController.h */,
 				4CE340471809F880009A63A2 /* ZSMenuController.m */,
 				4CE340491809FC57009A63A2 /* ZSSpriteController.h */,
@@ -396,6 +430,54 @@
 				5F1B5BA21837E05A00632DE6 /* pong_no_traits.json */,
 			);
 			name = JSON;
+			sourceTree = "<group>";
+		};
+		7855BCAF1837F2BF006493F9 /* CodeModel */ = {
+			isa = PBXGroup;
+			children = (
+				7855BCB01837F47E006493F9 /* ZSCodeBoolExpression.h */,
+				7855BCB11837F47E006493F9 /* ZSCodeBoolExpression.m */,
+				7855BCB21837F47E006493F9 /* ZSCodeCallStatement.h */,
+				7855BCB31837F47E006493F9 /* ZSCodeCallStatement.m */,
+				7855BCB41837F47E006493F9 /* ZSCodeIfStatement.h */,
+				7855BCB51837F47E006493F9 /* ZSCodeIfStatement.m */,
+				7855BCB61837F47E006493F9 /* ZSCodeLine.h */,
+				7855BCB71837F47E006493F9 /* ZSCodeLine.m */,
+				7855BCB81837F47E006493F9 /* ZSCodeSetStatement.h */,
+				7855BCB91837F47E006493F9 /* ZSCodeSetStatement.m */,
+				7855BCBA1837F47E006493F9 /* ZSCodeStatement.h */,
+				7855BCBB1837F47E006493F9 /* ZSCodeStatement.m */,
+				7855BCBC1837F47E006493F9 /* ZSCodeSuite.h */,
+				7855BCBD1837F47E006493F9 /* ZSCodeSuite.m */,
+			);
+			name = CodeModel;
+			sourceTree = "<group>";
+		};
+		7855BCC51837F4E0006493F9 /* Call Statement Editor */ = {
+			isa = PBXGroup;
+			children = (
+				7855BCD11837FBA7006493F9 /* ZSCallStatementEditorViewController.h */,
+				7855BCD21837FBA7006493F9 /* ZSCallStatementEditorViewController.m */,
+			);
+			name = "Call Statement Editor";
+			sourceTree = "<group>";
+		};
+		7855BCC61837F4F4006493F9 /* Set Statement Editor */ = {
+			isa = PBXGroup;
+			children = (
+				7855BCCB1837FB6D006493F9 /* ZSSetStatementEditorViewController.h */,
+				7855BCCC1837FB6D006493F9 /* ZSSetStatementEditorViewController.m */,
+			);
+			name = "Set Statement Editor";
+			sourceTree = "<group>";
+		};
+		7855BCC71837F501006493F9 /* If Statement Editor */ = {
+			isa = PBXGroup;
+			children = (
+				7855BCCE1837FB8A006493F9 /* ZSIfStatementEditorViewController.h */,
+				7855BCCF1837FB8A006493F9 /* ZSIfStatementEditorViewController.m */,
+			);
+			name = "If Statement Editor";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -550,10 +632,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				4CF1CBBE17EF882A00636E0D /* main.m in Sources */,
+				7855BCC31837F47E006493F9 /* ZSCodeStatement.m in Sources */,
+				7855BCBF1837F47E006493F9 /* ZSCodeCallStatement.m in Sources */,
+				7855BCD31837FBA7006493F9 /* ZSCallStatementEditorViewController.m in Sources */,
+				7855BCCD1837FB6D006493F9 /* ZSSetStatementEditorViewController.m in Sources */,
 				2C19FF02181ADBF400D10D2B /* ZSSarahTestViewController.m in Sources */,
 				5FBDDC3917FF2D2400A1037A /* ZSSuiteController.m in Sources */,
 				4C7527321800D5C3002B41E6 /* ZSProgram.m in Sources */,
+				7855BCC21837F47E006493F9 /* ZSCodeSetStatement.m in Sources */,
 				4CE340481809F880009A63A2 /* ZSMenuController.m in Sources */,
+				7855BCC41837F47E006493F9 /* ZSCodeSuite.m in Sources */,
 				4CE3404E180A0154009A63A2 /* ZSRendererViewController.m in Sources */,
 				5F41ACB818341C980089D136 /* ZSExecutionContext.m in Sources */,
 				4CF1CBC217EF882A00636E0D /* TCAppDelegate.m in Sources */,
@@ -562,9 +650,14 @@
 				4CE340331809DB3C009A63A2 /* ZSBallViewController.m in Sources */,
 				2C19FF05181ADCB600D10D2B /* ZSSarahTestScene.m in Sources */,
 				4CF1CC0E17EFF64500636E0D /* TCSpriteView.m in Sources */,
+				7855BCC01837F47E006493F9 /* ZSCodeIfStatement.m in Sources */,
 				4C0D470817FB927600F13786 /* ZSCanvasViewController.m in Sources */,
+				7855BCCA1837FA97006493F9 /* ZSCodeEditorViewController.m in Sources */,
 				4CE3404B1809FC57009A63A2 /* ZSSpriteController.m in Sources */,
+				7855BCC11837F47E006493F9 /* ZSCodeLine.m in Sources */,
 				5FBDDC3817FF2D2400A1037A /* ZSPlaygroundViewController.m in Sources */,
+				7855BCBE1837F47E006493F9 /* ZSCodeBoolExpression.m in Sources */,
+				7855BCD01837FB8A006493F9 /* ZSIfStatementEditorViewController.m in Sources */,
 				5F099D4617F1135300EB2AC7 /* INInterpreter.m in Sources */,
 				4CF1CBF417EF89AB00636E0D /* TCSprite.m in Sources */,
 			);
