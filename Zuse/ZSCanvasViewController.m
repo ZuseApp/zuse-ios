@@ -62,7 +62,7 @@
     _menuTable.dataSource = _menuController;
     
 #pragma Load Sprites
-    _program = [ZSProgram programForResource:@"TestProject" ofType:@"json"];
+    _program = [ZSProgram programForResource:@"pong" ofType:@"json"];
     for (TCSprite *sprite in _program.sprites) {
         
         // TODO: Consider uncoupling the UI frame component from the sprite.
@@ -70,7 +70,7 @@
         __weak TCSpriteView *weakView = view;
         view.sprite = sprite;
         view.backgroundColor = [UIColor blackColor];
-        view.touchesBegan = ^(UITouch * touch){
+        view.longTouch = ^(){
             [self performSegueWithIdentifier:@"editor" sender:weakView];
         };
         [self.view addSubview:view];
