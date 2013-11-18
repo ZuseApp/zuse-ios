@@ -41,8 +41,7 @@
     _projectJSON = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
     
     ZSCompiler *compiler = [ZSCompiler compilerWithProjectJSON:_projectJSON];
-    
-    _interpreter = [compiler compile];
+    _interpreter = [compiler interpreter];
     
     // compiler
 //    for (NSDictionary *dict in json[@"objects"]) {

@@ -12,6 +12,7 @@
 @interface ZSCompiler : NSObject
 
 + (instancetype) compilerWithProjectJSON:(NSDictionary *)projectJSON;
-- (ZSInterpreter *)compile;
+- (NSDictionary *)compiledJSON;
+- (ZSInterpreter *)interpreter;
 
 @end
