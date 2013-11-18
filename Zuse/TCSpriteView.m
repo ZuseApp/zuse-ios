@@ -36,11 +36,9 @@ typedef NS_ENUM(NSInteger, StateType) {
 - (void)cancelLongTap {
     _state = CANCELLED;
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(detectedLongTap) object:nil];
-    NSLog(@"Cancelled perform request");
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    NSLog(@"touch began");
     _state = STARTED;
     [self performSelector:@selector(detectedLongTap) withObject:nil afterDelay:1.0f];
     if (_touchesBegan) _touchesBegan([touches anyObject]);
@@ -52,7 +50,6 @@ typedef NS_ENUM(NSInteger, StateType) {
         if (_state != CANCELLED) {
             [self cancelLongTap];
         }
-        NSLog(@"touch moved");
         if (_touchesMoved) _touchesMoved([touches anyObject]);
     }
 }
@@ -60,13 +57,11 @@ typedef NS_ENUM(NSInteger, StateType) {
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     if (_state != EXECUTED) {
         [self cancelLongTap];
-        NSLog(@"touch ended");
         if (_touchesEnded) _touchesEnded([touches anyObject]);
     }
 }
 
 - (void)detectedLongTap {
-    NSLog(@"Long tap");
     _state = EXECUTED;
     if (_longTouch) _longTouch();
 }
