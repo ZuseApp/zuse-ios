@@ -45,11 +45,16 @@
         TCSprite *sprite = [[TCSprite alloc] init];
         sprite.frame = frame;
         sprite.code = jsonObject[@"code"];
+        sprite.traits = jsonObject[@"traits"];
         
         [program.sprites addObject:sprite];
     }
     
     return program;
+}
+
+-(void)saveToResource:(NSString *)name ofType:(NSString *)extension {
+    
 }
 
 @end
