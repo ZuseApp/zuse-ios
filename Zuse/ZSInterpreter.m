@@ -96,7 +96,14 @@
     }
     
     else if ([key isEqualToString:@"set"]) {
-        context.environment[data[0]] = [self evaluateExpression:data[1] context:context];
+        id newValue = [self evaluateExpression:data[1] context:context];
+        
+        context.environment[data[0]] = newValue;
+        
+        if (_delegate)
+            [_delegate interpreter:self
+              objectWithIdentifier:context.objectID
+               didUpdateProperties:@{ data[0]: newValue }];
     }
     
     else if ([key isEqualToString:@"if"]) {
@@ -204,12 +211,27 @@
 
 - (void)triggerEvent:(NSString *)event {
     [_objects each:^(id key, id obj) {
-        [self triggerEvent:event onObjectWithIdentifier:key];
+        [self triggerEvent:event onObjectWithIdentifier:key parameters:@{}];
     }];
 }
 
 - (void)triggerEvent:(NSString *)event onObjectWithIdentifier:(NSString *)objectID {
-    [self runSuite:_events[objectID][event][@"code"] context:_events[objectID][event][@"context"]];
+    [self triggerEvent:event onObjectWithIdentifier:objectID parameters:@{}];
+}
+
+- (void)triggerEvent:(NSString *)event
+          parameters:(NSDictionary *)parameters {
+    
+}
+
+- (void)  triggerEvent:(NSString *)event
+onObjectWithIdentifier:(NSString *)objectID
+            parameters:(NSDictionary *)parameters {
+    NSMutableDictionary *environment = [[_events[objectID][event][@"context"] environment] mutableCopy];
+    [environment addEntriesFromDictionary:parameters];
+    ZSExecutionContext *newContext = [ZSExecutionContext contextWithObjectId:objectID
+                                                                 environment:environment];
+    [self runSuite:_events[objectID][event][@"code"] context:newContext];
 }
 
 /*
