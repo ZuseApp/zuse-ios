@@ -1,0 +1,11 @@
+{
+  "objects": [
+    {
+      "id": "foo",
+      "properties": { "x": 5 },
+      "code": [
+        { "set": ["x", 10] }
+      ]
+    }
+  ]
+}
