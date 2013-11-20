@@ -27,6 +27,7 @@
 @property (strong, nonatomic) ZSProgram *program;
 @property (strong, nonatomic) ZSSpriteController *spriteController;
 @property (strong, nonatomic) ZSMenuController *menuController;
+
 @end
 
 @implementation ZSCanvasViewController
@@ -72,6 +73,26 @@
         view.backgroundColor = [UIColor blackColor];
         view.longTouch = ^(){
             [self performSegueWithIdentifier:@"editor" sender:weakView];
+        };
+        
+        __block CGPoint offset;
+        __block CGPoint originPoint;
+        __block CGPoint currentPoint;
+        view.touchesBegan = ^(UITouch *touch) {
+            originPoint = [touch locationInView:self.view];
+            offset = [touch locationInView:touch.view];
+        };
+        
+        view.touchesMoved = ^(UITouch *touch) {
+            currentPoint = [touch locationInView:self.view];
+            
+            UIView *view = touch.view;
+            CGRect frame = view.frame;
+            
+            frame.origin.x = currentPoint.x - offset.x;
+            frame.origin.y = currentPoint.y - offset.y;
+            
+            view.frame = frame;
         };
         [self.view addSubview:view];
     }

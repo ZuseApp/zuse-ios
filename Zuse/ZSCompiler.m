@@ -27,14 +27,13 @@
     return compiler;
 }
 
-- (ZSInterpreter *)compile {
-    ZSInterpreter *interpreter = [ZSInterpreter interpreter];
+- (NSDictionary *)compiledJSON {
     NSMutableDictionary *traits = [NSMutableDictionary dictionary];
     [_projectJSON[@"traits"] each:^(NSDictionary *traitJSON) {
         traits[traitJSON[@"id"]] = traitJSON;
     }];
     
-    if (!traits) return interpreter;
+    if (!traits) return _projectJSON[@"objects"];
     
     NSArray *newObjects = [_projectJSON[@"objects"] map:^id(NSDictionary *object) {
         NSMutableDictionary *newObject = [object mutableCopy];
@@ -78,7 +77,12 @@
     
     NSLog(@"%@", newObjects);
     
-    [newObjects each:^(NSDictionary *object) {
+    return @{ @"objects": newObjects };
+}
+
+- (ZSInterpreter *)interpreter {
+    ZSInterpreter *interpreter = [ZSInterpreter interpreter];
+    [[self compiledJSON][@"objects"] each:^(NSDictionary *object) {
         [interpreter loadObject:object];
     }];
     

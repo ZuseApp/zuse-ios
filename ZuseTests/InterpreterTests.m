@@ -153,7 +153,7 @@
     
     [_interpreter loadObject:@{
         @"id": @"foo",
-        @"properties": @[],
+        @"properties": @{},
         @"code": @[
             @{
                 @"on_event": @{
@@ -293,9 +293,11 @@
 }
 
 - (void)testEventScope {
+    __block BOOL checkOneDidRun = NO;
     NSDictionary *method = @{
         @"method":  @"check1",
         @"block": ^id(NSArray *args) {
+            checkOneDidRun = YES;
             XCTAssertEqual(args.count, [@2 unsignedIntegerValue], @"");
             XCTAssertEqualObjects(args[0], @"foo", @"");
             XCTAssertEqualObjects(args[1], @"bar", @"");
@@ -305,12 +307,30 @@
     
     [_interpreter loadMethod:method];
     
+    __block BOOL checkTwoDidRun = NO;
     method = @{
         @"method":  @"check2",
         @"block": ^id(NSArray *args) {
-            XCTAssertEqual(args.count, [@2 unsignedIntegerValue], @"");
+            checkTwoDidRun = YES;
+            XCTAssertEqual(args.count, [@4 unsignedIntegerValue], @"");
             XCTAssertEqualObjects(args[0], @"foo", @"");
             XCTAssertEqual(args[1], [NSNull null], @"");
+            XCTAssertEqual(args[2], [NSNull null], @"");
+            XCTAssertEqual(args[3], [NSNull null], @"");
+            return @YES;
+        }
+    };
+
+    [_interpreter loadMethod:method];
+    
+    __block BOOL checkParametersDidRun = NO;
+    method = @{
+        @"method":  @"checkParameters",
+        @"block": ^id(NSArray *args) {
+            checkParametersDidRun = YES;
+            XCTAssertEqual(args.count, [@2 unsignedIntegerValue], @"");
+            XCTAssertEqualObjects(args[0], @10, @"");
+            XCTAssertEqual(args[1], @11, @"");
             return @YES;
         }
     };
@@ -323,7 +343,34 @@
         [_interpreter loadObject:dict];
     }
     
-    [_interpreter triggerEvent:@"my_event" onObjectWithIdentifier:@"my_object"];
+    [_interpreter triggerEvent:@"my_event" onObjectWithIdentifier:@"my_object" parameters:@{
+        @"x": @10,
+        @"y": @11
+    }];
+    
+    XCTAssert(checkOneDidRun, @"");
+    XCTAssert(checkTwoDidRun, @"");
+    XCTAssert(checkParametersDidRun, @"");
+}
+
+- (void)testObjects {
+    [_interpreter loadObject:@{
+        @"id": @"foo",
+        @"properties": @{
+            @"x": @10,
+            @"y": @11
+        },
+        @"code": @[ ]
+    }];
+    
+    NSDictionary *expectedObjects = @{
+        @"foo": @{
+            @"x": @10,
+            @"y": @11
+        }
+    };
+    
+    XCTAssertEqualObjects(expectedObjects, [_interpreter objects], @"");
 }
 
 @end

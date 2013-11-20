@@ -11,11 +11,18 @@
             {
               "on_event": {
                 "name": "my_event",
+                "parameters": ["x", "y"],
                 "code": [
                   {
                     "call": {
                       "method": "check1",
                       "parameters": [{ "get": "var1"}, { "get": "var2" }]
+                    }
+                  },
+                  {
+                    "call": {
+                      "method": "checkParameters",
+                      "parameters": [{ "get": "x"}, { "get": "y" }]
                     }
                   }
                 ]
@@ -26,7 +33,7 @@
         {
           "call": {
             "method": "check2",
-            "parameters": [{ "get": "var1"}, { "get": "var2" }]
+            "parameters": [{ "get": "var1" }, { "get": "var2" }, { "get": "x" }, { "get": "y" }]
           }
         }
       ]
