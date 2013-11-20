@@ -1,7 +1,4 @@
 {
-<<<<<<< HEAD
-    "objects": [
-=======
   "objects": [
     {
       "id": "paddle1",
@@ -29,7 +26,6 @@
               },
               {
                 "if":
->>>>>>> 1b5adefbf5f757d2d1d88626cba69a41d28ccf84
                 {
                 "id": "paddle1",
                 "properties": { "x": 10, "y": 10, "width": 50, "height": 20 },
@@ -63,10 +59,6 @@
                          }
                          ]
                 }
-<<<<<<< HEAD
-                ]
-}
-=======
               }
             ]
           }
@@ -75,4 +67,3 @@
     }
   ]
 }
->>>>>>> 1b5adefbf5f757d2d1d88626cba69a41d28ccf84
