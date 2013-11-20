@@ -79,13 +79,17 @@
     NSMutableArray *objects = [NSMutableArray array];
     for (TCSprite *sprite in _sprites) {
         NSMutableDictionary *object = [NSMutableDictionary dictionary];
-        [object setObject:sprite.identifier forKey:@"id"];
-        [object setObject:@(sprite.frame.origin.x) forKey:@"x"];
-        [object setObject:@(sprite.frame.origin.y) forKey:@"y"];
-        [object setObject:@(sprite.frame.size.width) forKey:@"width"];
-        [object setObject:@(sprite.frame.size.height) forKey:@"height"];
         [object setObject:sprite.code forKey:@"code"];
+        [object setObject:sprite.identifier forKey:@"id"];
         
+        NSMutableDictionary *properties = [NSMutableDictionary dictionary];
+        [properties setObject:@(sprite.frame.origin.x) forKey:@"x"];
+        [properties setObject:@(sprite.frame.origin.y) forKey:@"y"];
+        [properties setObject:@(sprite.frame.size.width) forKey:@"width"];
+        [properties setObject:@(sprite.frame.size.height) forKey:@"height"];
+        
+        [object setObject:properties forKey:@"properties"];
+        [object setObject:sprite.traits forKey:@"traits"];
         [objects addObject:object];
     }
     
