@@ -9,6 +9,7 @@
 #import "ZSCanvasViewController.h"
 #import "ZSPlaygroundViewController.h"
 #import "ZSEditorViewController.h"
+#import "ZSRendererViewController.h"
 #import "TCSprite.h"
 #import "TCSpriteView.h"
 #import "ZSProgram.h"
@@ -86,13 +87,18 @@
         view.touchesMoved = ^(UITouch *touch) {
             currentPoint = [touch locationInView:self.view];
             
-            UIView *view = touch.view;
-            CGRect frame = view.frame;
+            UIView *touchView = touch.view;
+            CGRect frame = touchView.frame;
             
             frame.origin.x = currentPoint.x - offset.x;
             frame.origin.y = currentPoint.y - offset.y;
             
-            view.frame = frame;
+            touchView.frame = frame;
+            sprite.frame = frame;
+            _menuController.playSelected = ^() {
+                NSLog(@"%@", [_program projectJSON]);
+                [self performSegueWithIdentifier:@"renderer" sender:self];
+            };
         };
         [self.view addSubview:view];
     }
@@ -120,10 +126,12 @@
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    
     if ([segue.identifier isEqualToString:@"editor"]) {
         ZSEditorViewController *editorController = (ZSEditorViewController *)segue.destinationViewController;
         editorController.code = [[(TCSpriteView *)sender sprite] code];
+    } else if ([segue.identifier isEqualToString:@"renderer"]) {
+        ZSRendererViewController *rendererController = (ZSRendererViewController *)segue.destinationViewController;
+        rendererController.projectJSON = [_program projectJSON];
     }
     
     [_spriteTable deselectRowAtIndexPath:[_spriteTable indexPathForSelectedRow] animated:YES];
@@ -162,7 +170,6 @@
     if (_spriteTableViewShowing) return;
     
     UIScreenEdgePanGestureRecognizer *panRecognizer = (UIScreenEdgePanGestureRecognizer *)sender;
-    
     
     if (panRecognizer.state == UIGestureRecognizerStateBegan) {
         [UIView animateWithDuration:0.25 animations:^{

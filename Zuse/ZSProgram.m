@@ -9,6 +9,12 @@
 #import "ZSProgram.h"
 #import "TCSprite.h"
 
+@interface ZSProgram()
+
+@property (nonatomic, strong) NSDictionary * rawJSON;
+
+@end
+
 @implementation ZSProgram
 
 - (id)init {
@@ -28,6 +34,7 @@
 
     // Load the program into memory.
     ZSProgram *program = [[ZSProgram alloc] init];
+    program.rawJSON = json;
     program.version = [json[@"version"] floatValue];
     program.interpreterVersion = [json[@"interpreter_version"] floatValue];
     
@@ -43,6 +50,7 @@
         frame.size.height = [variables[@"height"] floatValue];
         
         TCSprite *sprite = [[TCSprite alloc] init];
+        sprite.identifier = jsonObject[@"id"];
         sprite.frame = frame;
         sprite.code = jsonObject[@"code"];
         sprite.traits = jsonObject[@"traits"];
@@ -55,6 +63,30 @@
 
 -(void)saveToResource:(NSString *)name ofType:(NSString *)extension {
     
+}
+
+-(NSDictionary *)projectJSON {
+    NSMutableDictionary *projectJSON = [NSMutableDictionary dictionary];
+    [projectJSON setObject:_rawJSON[@"traits"] forKey:@"traits"];
+    
+    NSMutableArray *objects = [NSMutableArray array];
+    for (TCSprite *sprite in _sprites) {
+        NSMutableDictionary *object = [NSMutableDictionary dictionary];
+        [object setObject:sprite.identifier forKey:@"id"];
+        [object setObject:@(sprite.frame.origin.x) forKey:@"x"];
+        [object setObject:@(sprite.frame.origin.y) forKey:@"y"];
+        [object setObject:@(sprite.frame.size.width) forKey:@"width"];
+        [object setObject:@(sprite.frame.size.height) forKey:@"height"];
+        [object setObject:sprite.code forKey:@"code"];
+        
+        [objects addObject:object];
+    }
+    
+    [projectJSON setObject:objects forKey:@"objects"];
+    
+    NSLog(@"%@", projectJSON);
+    
+    return projectJSON;
 }
 
 @end

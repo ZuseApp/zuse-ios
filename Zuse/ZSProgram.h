@@ -17,5 +17,6 @@
 + (ZSProgram *)programForResource:(NSString *)name ofType:(NSString *)extension;
 
 -(void)saveToResource:(NSString *)name ofType:(NSString *)extension;
+-(NSDictionary *) projectJSON;
 
 @end

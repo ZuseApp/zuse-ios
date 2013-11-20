@@ -102,9 +102,6 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="xYJ-eA-5hz" kind="push" id="Wsj-g0-W1e"/>
-                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -129,6 +126,7 @@
                         <outlet property="menuTable" destination="Gsk-l2-lYD" id="BZv-pk-JEh"/>
                         <outlet property="spriteTable" destination="0vj-QJ-exO" id="DbB-QZ-XhV"/>
                         <segue destination="Oo2-2I-21D" kind="push" identifier="editor" id="Bvr-kS-AGT"/>
+                        <segue destination="xYJ-eA-5hz" kind="push" identifier="renderer" id="NAW-tK-E8o"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZHF-Bn-kfF" userLabel="First Responder" sceneMemberID="firstResponder"/>

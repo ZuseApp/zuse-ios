@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface ZSMenuController : NSObject <UITableViewDataSource, UITableViewDelegate>
-
+    @property (strong, nonatomic) void(^playSelected)();
 @end
