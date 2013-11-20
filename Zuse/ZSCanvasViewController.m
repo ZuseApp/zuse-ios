@@ -95,13 +95,19 @@
             
             touchView.frame = frame;
             sprite.frame = frame;
-            _menuController.playSelected = ^() {
-                NSLog(@"%@", [_program projectJSON]);
-                [self performSegueWithIdentifier:@"renderer" sender:self];
-            };
+
+        };
+
+        view.touchesEnded = ^(UITouch *touch) {
+
         };
         [self.view addSubview:view];
     }
+    __weak typeof(self) blockSelf = self;
+    _menuController.playSelected = ^{
+        // NSDictionary *program = [blockSelf.program projectJSON];
+        [blockSelf performSegueWithIdentifier:@"renderer" sender:blockSelf];
+    };
 }
 
 - (void)viewWillAppear:(BOOL)animated {
