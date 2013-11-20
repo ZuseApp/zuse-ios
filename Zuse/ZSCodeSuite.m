@@ -2,20 +2,25 @@
 #import "ZSCodeSetStatement.h"
 #import "ZSCodeIfStatement.h"
 #import "ZSCodeCallStatement.h"
+#import "ZSCodeOnEventStatement.h"
 #import "ZSCodeLine.h"
 
 @interface ZSCodeSuite()
+
 @property (strong, nonatomic) NSMutableArray *statements;
+@property (nonatomic) NSInteger level;
+
 @end
 
 @implementation ZSCodeSuite
 
--(id)initWithLevel:(NSInteger)level
+
+-(id)init
 {
     if (self = [super init])
     {
         self.statements = [[NSMutableArray alloc]init];
-        self.level = level;
+        self.level = 0;
     }
     return self;
 }
@@ -23,7 +28,15 @@
 +(id)suiteWithJSON:(NSArray *)JSONSuite
              level:(NSInteger)level
 {
-    ZSCodeSuite *suite = [[ZSCodeSuite alloc]initWithLevel:level];
+    if (JSONSuite == nil) {
+        return nil;
+    }
+
+    // Create a new suite object
+    ZSCodeSuite *suite = [[ZSCodeSuite alloc]init];
+    suite.level = level;
+    
+    // Process JSON suite
     for (NSDictionary *JSONStatement in JSONSuite)
     {
         NSString *statementName = [JSONStatement allKeys][0];
@@ -46,29 +59,48 @@
             [suite addStatement:[ZSCodeIfStatement statementWithJSON:JSONStatement
                                                                level:level]];
         }
+        
+        // Process ON_EVENT statement
+        else if ([statementName isEqualToString:@"on_event"])
+        {
+            [suite addStatement:[ZSCodeOnEventStatement statementWithJSON:JSONStatement
+                                                                    level:level]];
+        }
     }
-    return suite;
+    return JSONSuite ? suite : nil;
 }
 
 -(void)addStatement:(ZSCodeStatement *)statement
 {
-    // add statement
     [self.statements addObject:statement];
+}
+
+-(NSArray *) codeLines
+{
+    NSMutableArray *lines = [[NSMutableArray alloc]init];
     
-    // add new code line if needed
-    if ([self.codeLines count] == 0)
+    // Generate code lines from all statements
+    for (ZSCodeStatement *s in self.statements)
     {
-        [self.codeLines addObject:[ZSCodeLine lineWithText:@"+"
-                                                      type:NEW_STATEMENT_TYPE
-                                               indentation:self.level]];
+        [lines addObjectsFromArray:s.codeLines];
     }
     
-    // insert code lines before new code line
-    for (ZSCodeLine  *line in statement.codeLines)
+    // add new code line
+    [lines addObject:[ZSCodeLine lineWithText:@"+"
+                                         type:ZSCodeLineStatementNew
+                                  indentation:self.level]];
+    return lines;
+}
+
+-(NSArray *) JSONObject
+{
+    NSMutableArray *json = [[NSMutableArray alloc]init];
+    
+    for (ZSCodeStatement *s in self.statements)
     {
-        [self.codeLines insertObject:line
-                             atIndex:[self.codeLines count]-1];
+        [json addObject:[s JSONObject]];
     }
+    return json;
 }
 
 @end

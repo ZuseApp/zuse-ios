@@ -2,6 +2,6 @@
 
 @interface ZSCodeEditorViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
-- (void)processJSON:(NSMutableArray *)json;
+- (void)processJSON:(NSDictionary *)json;
 
 @end

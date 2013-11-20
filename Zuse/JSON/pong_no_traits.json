@@ -1,4 +1,7 @@
 {
+<<<<<<< HEAD
+    "objects": [
+=======
   "objects": [
     {
       "id": "paddle1",
@@ -26,15 +29,44 @@
               },
               {
                 "if":
+>>>>>>> 1b5adefbf5f757d2d1d88626cba69a41d28ccf84
                 {
-                  "test": { "==": [{ "get": "vertical"}, true] },
-                  
-                  "true":
-                  [
-                    { "set": ["y", { "get": "touch_y" }] }
-                  ]
-                     
+                "id": "paddle1",
+                "properties": { "x": 10, "y": 10, "width": 50, "height": 20 },
+                "code": [
+                         { "set": ["horizontal", true] },
+                         { "set": ["vertical",   false] },
+                         {
+                         "on_event":
+                         {
+                         "name": "touch_moved",
+                         "parameters": ["touch_x", "touch_y"],
+                         "code": [
+                                  {
+                                  "if": {
+                                  "test": { "==": [{ "get": "horizontal"}, true] },
+                                  "true": [
+                                           { "set": ["x", { "get": "touch_x" }] }
+                                           ]
+                                  }
+                                  },
+                                  {
+                                  "if": {
+                                  "test": { "==": [{ "get": "vertical"}, true] },
+                                  "true": [
+                                           { "set": ["y", { "get": "touch_y" }] }
+                                           ]
+                                  }
+                                  }
+                                  ]
+                         }
+                         }
+                         ]
                 }
+<<<<<<< HEAD
+                ]
+}
+=======
               }
             ]
           }
@@ -43,3 +75,4 @@
     }
   ]
 }
+>>>>>>> 1b5adefbf5f757d2d1d88626cba69a41d28ccf84

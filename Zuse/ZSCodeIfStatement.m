@@ -2,7 +2,11 @@
 #import "ZSCodeLine.h"
 
 @interface ZSCodeIfStatement()
--(void)updateCodeLines;
+
+@property (strong, nonatomic) ZSCodeBoolExpression *boolExp;
+@property (strong, nonatomic) ZSCodeSuite *trueSuite;
+@property (strong, nonatomic) ZSCodeSuite *falseSuite;
+
 @end
 
 @implementation ZSCodeIfStatement
@@ -17,7 +21,6 @@
     s.trueSuite = trueSuite;
     s.falseSuite = falseSuite;
     s.level = level;
-    [s updateCodeLines];
     return s;
 }
 
@@ -32,19 +35,31 @@
                                 level:level];
 }
 
--(void)updateCodeLines
+-(NSArray *) codeLines
 {
     ZSCodeLine *ifLine = [ZSCodeLine lineWithText:[NSString stringWithFormat:@"IF %@", self.boolExp.text]
-                                             type:IF_STATEMENT_TYPE
+                                             type:ZSCodeLineStatementIf
                                       indentation:self.level];
-    ZSCodeLine *elseLine = [ZSCodeLine lineWithText:@"ELSE"
-                                               type:DEFAULT_STATEMENT_TYPE
-                                        indentation:self.level];
-    [self.codeLines removeAllObjects];
-    [self.codeLines addObject:ifLine];
-    [self.codeLines addObjectsFromArray: self.trueSuite.codeLines];
-    [self.codeLines addObject:elseLine];
-    [self.codeLines addObjectsFromArray: self.falseSuite.codeLines];
+    
+    NSMutableArray *lines = [[NSMutableArray alloc]init];
+    [lines addObject:ifLine];
+    [lines addObjectsFromArray: self.trueSuite.codeLines];
+        
+    if(self.falseSuite)
+    {
+        ZSCodeLine *elseLine = [ZSCodeLine lineWithText:@"ELSE"
+                                                   type:ZSCodeLineStatementDefault
+                                            indentation:self.level];
+        [lines addObject:elseLine];
+        [lines addObjectsFromArray: self.falseSuite.codeLines];
+    }
+    return lines;
 }
+
+-(NSDictionary *) JSONObject
+{
+    return @{@"if" : @{@"test":@{}, @"true": [self.trueSuite JSONObject]}};
+}
+
 
 @end
