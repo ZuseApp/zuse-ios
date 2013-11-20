@@ -26,9 +26,9 @@
     return self.code.codeLines;
 }
 
--(NSArray *) JSONObject
+-(NSDictionary *) JSONObject
 {
-    return nil;
+    return @{@"id":self.ID, @"properties":self.properties, @"code":self.code.JSONObject};
 }
 
 @end

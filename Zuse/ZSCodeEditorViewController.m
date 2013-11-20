@@ -36,8 +36,14 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    self.codeLines = self.object.codeLines;
-    return [self.codeLines count];
+    // --- test
+    
+    NSLog(@"%@", self.object.JSONObject);
+    
+    // --- end test
+    
+    self.codeLines = self.object.codeLines; // get code lines
+    return [self.codeLines count]; //return # of lines
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

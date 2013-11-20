@@ -58,7 +58,7 @@
 
 -(NSDictionary *) JSONObject
 {
-    return @{@"if" : @{@"test":@{}, @"true": [self.trueSuite JSONObject]}};
+    return @{@"if" : @{@"test":@{}, @"true": self.trueSuite.JSONObject}};
 }
 
 
