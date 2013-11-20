@@ -103,9 +103,9 @@
         };
         [self.view addSubview:view];
     }
+    
     __weak typeof(self) blockSelf = self;
     _menuController.playSelected = ^{
-        // NSDictionary *program = [blockSelf.program projectJSON];
         [blockSelf performSegueWithIdentifier:@"renderer" sender:blockSelf];
     };
 }
@@ -136,6 +136,7 @@
         ZSEditorViewController *editorController = (ZSEditorViewController *)segue.destinationViewController;
         editorController.code = [[(TCSpriteView *)sender sprite] code];
     } else if ([segue.identifier isEqualToString:@"renderer"]) {
+        [self saveProject];
         ZSRendererViewController *rendererController = (ZSRendererViewController *)segue.destinationViewController;
         rendererController.projectJSON = [_program projectJSON];
     }
@@ -143,6 +144,10 @@
     [_spriteTable deselectRowAtIndexPath:[_spriteTable indexPathForSelectedRow] animated:YES];
     _spriteTableViewShowing = NO;
     _menuTableViewShowing = NO;
+}
+
+-(void)saveProject {
+    [_program saveToResource:@"pong" ofType:@"json"];
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {

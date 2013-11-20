@@ -62,7 +62,14 @@
 }
 
 -(void)saveToResource:(NSString *)name ofType:(NSString *)extension {
+    NSError *error;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[self projectJSON] options:NSJSONWritingPrettyPrinted error:&error];
     
+    if (!jsonData) {
+        NSLog(@"Error serializing: %@", error);
+    } else {
+        [jsonData writeToFile:[NSString stringWithFormat:@"%@.%@", name, extension] options:0 error:nil];
+    }
 }
 
 -(NSDictionary *)projectJSON {
