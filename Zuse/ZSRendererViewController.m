@@ -17,6 +17,8 @@
 @interface ZSRendererViewController ()
 
 @property (strong, nonatomic) ZSInterpreter *interpreter;
+@property (strong, nonatomic) SKScene *scene;
+@property (strong, nonatomic) SKView *SKView;
 
 @end
 
@@ -36,36 +38,38 @@
     
     [super viewDidLoad];
 	// TODO: Redundant loading of the json since the program object already does this.
-    NSString *jsonPath = [[NSBundle mainBundle] pathForResource:@"pong" ofType:@"json"];
-    NSData *jsonData = [NSData dataWithContentsOfFile:jsonPath];
-    _projectJSON = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
+//    NSString *jsonPath = [[NSBundle mainBundle] pathForResource:@"pong" ofType:@"json"];
+//    NSData *jsonData = [NSData dataWithContentsOfFile:jsonPath];
+//    _projectJSON = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
     
     ZSCompiler *compiler = [ZSCompiler compilerWithProjectJSON:_projectJSON];
     _interpreter = [compiler interpreter];
+    [self loadSpriteKit];
     
     // compiler
 //    for (NSDictionary *dict in json[@"objects"]) {
 //        [_interpreter loadObject:dict];
 //    }
     
-    [NSThread detachNewThreadSelector:@selector(runInterpreter:) toTarget:self withObject:nil];
+//    [NSThread detachNewThreadSelector:@selector(runInterpreter:) toTarget:self withObject:nil];
+    [self runInterpreter];
 }
 
 - (void)loadSpriteKit {
     // Configure the view.
-    SKView * skView = (SKView *)self.view;
-    skView.showsFPS = YES;
-    skView.showsNodeCount = YES;
+    _SKView = (SKView *)self.view;
+    _SKView.showsFPS = YES;
+    _SKView.showsNodeCount = YES;
     
     // Create and configure the scene.
-    SKScene * scene = [ZSSarahTestScene sceneWithSize:skView.bounds.size];
-    scene.scaleMode = SKSceneScaleModeAspectFill;
+    _scene = [[ZSSarahTestScene alloc] initWithSize:_SKView.bounds.size interpreter:_interpreter];
+    _scene.scaleMode = SKSceneScaleModeAspectFill;
     
     // Present the scene.
-    [skView presentScene:scene];
+    [_SKView presentScene:_scene];
 }
 
-- (void) runInterpreter:(id)object {
+- (void) runInterpreter {
     [_interpreter triggerEvent:@"start"];
 }
 

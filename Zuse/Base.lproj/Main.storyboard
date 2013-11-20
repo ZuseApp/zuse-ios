@@ -12,7 +12,7 @@
                         <viewControllerLayoutGuide type="top" id="gRL-iq-EMb"/>
                         <viewControllerLayoutGuide type="bottom" id="Abt-lm-h8I"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="BD5-eA-hCi">
+                    <view key="view" contentMode="scaleToFill" id="BD5-eA-hCi" customClass="SKView">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
