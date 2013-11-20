@@ -1,11 +1,12 @@
 #import <Foundation/Foundation.h>
 #import "ZSCodeStatement.h"
 
-@interface ZSCodeSuite : ZSCodeStatement
+@interface ZSCodeSuite : NSObject
 
--(id)initWithLevel:(NSInteger)level;
-+(id)suiteWithJSON:(NSArray *)JSONSuite
-             level:(NSInteger)level;
++(id) suiteWithJSON:(NSArray *)JSONSuite
+              level:(NSInteger)level;
 -(void) addStatement:(ZSCodeStatement *)statement;
+-(NSArray *) codeLines;
+-(NSArray *) JSONObject;
 
 @end

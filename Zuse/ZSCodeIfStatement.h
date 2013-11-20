@@ -5,10 +5,6 @@
 
 @interface ZSCodeIfStatement : ZSCodeStatement
 
-@property (strong, nonatomic) ZSCodeBoolExpression *boolExp;
-@property (strong, nonatomic) ZSCodeSuite *trueSuite;
-@property (strong, nonatomic) ZSCodeSuite *falseSuite;
-
 +(id)statementWithBoolExp:(ZSCodeBoolExpression*)boolExp
                 trueSuite:(ZSCodeSuite *)trueSuite
                falseSuite:(ZSCodeSuite *)falseSuite

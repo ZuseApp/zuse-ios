@@ -2,9 +2,10 @@
 
 @interface ZSCodeStatement : NSObject
 
-@property (strong, nonatomic) NSMutableArray *codeLines;
 @property (nonatomic) NSInteger level;
 
 -(id)init;
+-(NSDictionary *) JSONObject;
+-(NSArray *) codeLines;
 
 @end

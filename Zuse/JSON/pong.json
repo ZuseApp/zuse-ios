@@ -47,11 +47,54 @@
       ],
       "properties": { 
         "x": 10,
-        "y": 10,
+        "y": 30,
         "width": 100,
         "height": 20
       },
       "code": []
+    },
+    {
+      "id": "paddle2",
+      "traits": [
+        {
+          "id": "Draggable",
+          "parameters": {
+             "vertical": false
+          }
+        }
+      ],
+      "properties": { 
+        "x": 200,
+        "y": 520,
+        "width": 100,
+        "height": 20
+      },
+      "code": []
+    },
+    {
+      "id": "ball",
+      "traits": [],
+      "properties": { 
+        "x": 160,
+        "y": 240,
+        "width": 30,
+        "height": 30,
+        "bouncy": true
+      },
+      "code": [
+        {
+          "on_event": {
+            "name": "start",
+            "parameters": [],
+            "code": [
+              "call": {
+                "method": "move",
+                "parameters": [10, 10]
+              }
+            ]
+          }
+        }
+      ]
     }
   ]
 }

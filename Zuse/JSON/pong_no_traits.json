@@ -25,15 +25,11 @@
                 }
               },
               {
-                "if":
-                {
+                "if": {
                   "test": { "==": [{ "get": "vertical"}, true] },
-                  
-                  "true":
-                  [
+                  "true": [
                     { "set": ["y", { "get": "touch_y" }] }
                   ]
-                     
                 }
               }
             ]
