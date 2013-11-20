@@ -86,12 +86,7 @@
           "on_event": {
             "name": "start",
             "parameters": [],
-            "code": [
-              "call": {
-                "method": "move",
-                "parameters": [10, 10]
-              }
-            ]
+            "code": [ ]
           }
         }
       ]
