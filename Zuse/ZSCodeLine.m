@@ -1,10 +1,11 @@
 #import "ZSCodeLine.h"
 
-NSString *const IF_STATEMENT_TYPE = @"IF";
-NSString *const CALL_STATEMENT_TYPE = @"CALL";
-NSString *const SET_STATEMENT_TYPE = @"SET";
-NSString *const NEW_STATEMENT_TYPE = @"NEW";
-NSString *const DEFAULT_STATEMENT_TYPE = @"DEFAULT";
+NSString *const ZSCodeLineStatementIf = @"IF";
+NSString *const ZSCodeLineStatementCall = @"CALL";
+NSString *const ZSCodeLineStatementSet = @"SET";
+NSString *const ZSCodeLineStatementOnEvent = @"ON EVENT";
+NSString *const ZSCodeLineStatementNew = @"NEW";
+NSString *const ZSCodeLineStatementDefault = @"DEFAULT";
 
 @implementation ZSCodeLine
 

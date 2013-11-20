@@ -55,6 +55,7 @@
 		5FBDDC3817FF2D2400A1037A /* ZSPlaygroundViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBDDC3417FF2D2400A1037A /* ZSPlaygroundViewController.m */; };
 		5FBDDC3917FF2D2400A1037A /* ZSSuiteController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBDDC3617FF2D2400A1037A /* ZSSuiteController.m */; };
 		5FEFB89A182B5376007DAFCF /* pong.json in Resources */ = {isa = PBXBuildFile; fileRef = 5FEFB899182B5376007DAFCF /* pong.json */; };
+		78346A0A183C623400540D54 /* ZSCodeObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 78346A09183C623400540D54 /* ZSCodeObject.m */; };
 		7855BCBE1837F47E006493F9 /* ZSCodeBoolExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 7855BCB11837F47E006493F9 /* ZSCodeBoolExpression.m */; };
 		7855BCBF1837F47E006493F9 /* ZSCodeCallStatement.m in Sources */ = {isa = PBXBuildFile; fileRef = 7855BCB31837F47E006493F9 /* ZSCodeCallStatement.m */; };
 		7855BCC01837F47E006493F9 /* ZSCodeIfStatement.m in Sources */ = {isa = PBXBuildFile; fileRef = 7855BCB51837F47E006493F9 /* ZSCodeIfStatement.m */; };
@@ -66,6 +67,8 @@
 		7855BCCD1837FB6D006493F9 /* ZSSetStatementEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7855BCCC1837FB6D006493F9 /* ZSSetStatementEditorViewController.m */; };
 		7855BCD01837FB8A006493F9 /* ZSIfStatementEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7855BCCF1837FB8A006493F9 /* ZSIfStatementEditorViewController.m */; };
 		7855BCD31837FBA7006493F9 /* ZSCallStatementEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7855BCD21837FBA7006493F9 /* ZSCallStatementEditorViewController.m */; };
+		78F79EB61839BC9E00012726 /* ZSCodeOnEventStatement.m in Sources */ = {isa = PBXBuildFile; fileRef = 78F79EB51839BC9E00012726 /* ZSCodeOnEventStatement.m */; };
+		78F79EB8183A8C0300012726 /* TCCodeEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 78F79EB7183A8C0300012726 /* TCCodeEditor.m */; };
 		F188741646A541119F9E0DE4 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A26E7A8391C049E78AB2860A /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -149,6 +152,8 @@
 		5FBDDC3517FF2D2400A1037A /* ZSSuiteController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSSuiteController.h; sourceTree = "<group>"; };
 		5FBDDC3617FF2D2400A1037A /* ZSSuiteController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSSuiteController.m; sourceTree = "<group>"; };
 		5FEFB899182B5376007DAFCF /* pong.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = pong.json; path = JSON/pong.json; sourceTree = "<group>"; };
+		78346A08183C623400540D54 /* ZSCodeObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCodeObject.h; sourceTree = "<group>"; };
+		78346A09183C623400540D54 /* ZSCodeObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCodeObject.m; sourceTree = "<group>"; };
 		7855BCB01837F47E006493F9 /* ZSCodeBoolExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCodeBoolExpression.h; sourceTree = "<group>"; };
 		7855BCB11837F47E006493F9 /* ZSCodeBoolExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCodeBoolExpression.m; sourceTree = "<group>"; };
 		7855BCB21837F47E006493F9 /* ZSCodeCallStatement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCodeCallStatement.h; sourceTree = "<group>"; };
@@ -171,6 +176,9 @@
 		7855BCCF1837FB8A006493F9 /* ZSIfStatementEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSIfStatementEditorViewController.m; sourceTree = "<group>"; };
 		7855BCD11837FBA7006493F9 /* ZSCallStatementEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCallStatementEditorViewController.h; sourceTree = "<group>"; };
 		7855BCD21837FBA7006493F9 /* ZSCallStatementEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCallStatementEditorViewController.m; sourceTree = "<group>"; };
+		78F79EB41839BC9E00012726 /* ZSCodeOnEventStatement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCodeOnEventStatement.h; sourceTree = "<group>"; };
+		78F79EB51839BC9E00012726 /* ZSCodeOnEventStatement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCodeOnEventStatement.m; sourceTree = "<group>"; };
+		78F79EB7183A8C0300012726 /* TCCodeEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCCodeEditor.m; sourceTree = "<group>"; };
 		A26E7A8391C049E78AB2860A /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2EA1C412CB64638977AE594 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -212,12 +220,12 @@
 		4C9BE76E1815B49200F5EF57 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				7855BCC81837FA97006493F9 /* ZSCodeEditorViewController.h */,
+				7855BCC91837FA97006493F9 /* ZSCodeEditorViewController.m */,
 				7855BCC71837F501006493F9 /* If Statement Editor */,
 				7855BCC61837F4F4006493F9 /* Set Statement Editor */,
 				7855BCC51837F4E0006493F9 /* Call Statement Editor */,
 				7855BCAF1837F2BF006493F9 /* CodeModel */,
-				7855BCC81837FA97006493F9 /* ZSCodeEditorViewController.h */,
-				7855BCC91837FA97006493F9 /* ZSCodeEditorViewController.m */,
 				5FBDDC3317FF2D2400A1037A /* ZSPlaygroundViewController.h */,
 				5FBDDC3417FF2D2400A1037A /* ZSPlaygroundViewController.m */,
 				4CE340311809DB3C009A63A2 /* ZSBallViewController.h */,
@@ -335,6 +343,7 @@
 		4CF1CBD617EF882A00636E0D /* ZuseTests */ = {
 			isa = PBXGroup;
 			children = (
+				78F79EB7183A8C0300012726 /* TCCodeEditor.m */,
 				5F099D4717F1136000EB2AC7 /* InterpreterTests.m */,
 				4CF1CBD717EF882A00636E0D /* Supporting Files */,
 			);
@@ -440,18 +449,22 @@
 		7855BCAF1837F2BF006493F9 /* CodeModel */ = {
 			isa = PBXGroup;
 			children = (
+				78346A08183C623400540D54 /* ZSCodeObject.h */,
+				78346A09183C623400540D54 /* ZSCodeObject.m */,
+				7855BCB61837F47E006493F9 /* ZSCodeLine.h */,
+				7855BCB71837F47E006493F9 /* ZSCodeLine.m */,
 				7855BCB01837F47E006493F9 /* ZSCodeBoolExpression.h */,
 				7855BCB11837F47E006493F9 /* ZSCodeBoolExpression.m */,
+				7855BCBA1837F47E006493F9 /* ZSCodeStatement.h */,
+				7855BCBB1837F47E006493F9 /* ZSCodeStatement.m */,
 				7855BCB21837F47E006493F9 /* ZSCodeCallStatement.h */,
 				7855BCB31837F47E006493F9 /* ZSCodeCallStatement.m */,
 				7855BCB41837F47E006493F9 /* ZSCodeIfStatement.h */,
 				7855BCB51837F47E006493F9 /* ZSCodeIfStatement.m */,
-				7855BCB61837F47E006493F9 /* ZSCodeLine.h */,
-				7855BCB71837F47E006493F9 /* ZSCodeLine.m */,
 				7855BCB81837F47E006493F9 /* ZSCodeSetStatement.h */,
 				7855BCB91837F47E006493F9 /* ZSCodeSetStatement.m */,
-				7855BCBA1837F47E006493F9 /* ZSCodeStatement.h */,
-				7855BCBB1837F47E006493F9 /* ZSCodeStatement.m */,
+				78F79EB41839BC9E00012726 /* ZSCodeOnEventStatement.h */,
+				78F79EB51839BC9E00012726 /* ZSCodeOnEventStatement.m */,
 				7855BCBC1837F47E006493F9 /* ZSCodeSuite.h */,
 				7855BCBD1837F47E006493F9 /* ZSCodeSuite.m */,
 			);
@@ -649,11 +662,13 @@
 				4CE340481809F880009A63A2 /* ZSMenuController.m in Sources */,
 				7855BCC41837F47E006493F9 /* ZSCodeSuite.m in Sources */,
 				4CE3404E180A0154009A63A2 /* ZSRendererViewController.m in Sources */,
+				78F79EB61839BC9E00012726 /* ZSCodeOnEventStatement.m in Sources */,
 				5F41ACB818341C980089D136 /* ZSExecutionContext.m in Sources */,
 				4CF1CBC217EF882A00636E0D /* TCAppDelegate.m in Sources */,
 				5FBDDC3717FF2D2400A1037A /* ZSEditorViewController.m in Sources */,
 				4CE340361809DCFD009A63A2 /* ZSScene.m in Sources */,
 				4CE340331809DB3C009A63A2 /* ZSBallViewController.m in Sources */,
+				78346A0A183C623400540D54 /* ZSCodeObject.m in Sources */,
 				2C19FF05181ADCB600D10D2B /* ZSSarahTestScene.m in Sources */,
 				4CF1CC0E17EFF64500636E0D /* TCSpriteView.m in Sources */,
 				7855BCC01837F47E006493F9 /* ZSCodeIfStatement.m in Sources */,
@@ -673,6 +688,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				78F79EB8183A8C0300012726 /* TCCodeEditor.m in Sources */,
 				5F099D4817F1136000EB2AC7 /* InterpreterTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -2,14 +2,15 @@
 #import "ZSSetStatementEditorViewController.h"
 #import "ZSIfStatementEditorViewController.h"
 #import "ZSCallStatementEditorViewController.h"
-#import "ZSCodeSuite.h"
 #import "ZSCodeLine.h"
+#import "ZSCodeObject.h"
 
 
 @interface ZSCodeEditorViewController()
 
-@property (strong, nonatomic) ZSCodeSuite *codeSuite;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) ZSCodeObject *object;
+@property (strong, nonatomic) NSArray *codeLines;
 
 @end
 
@@ -28,21 +29,21 @@
     [self.tableView reloadData];
 }
 
-- (void)processJSON:(NSMutableArray *)json
+- (void)processJSON:(NSDictionary *)json
 {
-    self.codeSuite = [ZSCodeSuite suiteWithJSON:json
-                                          level:0];
+    self.object = [ZSCodeObject codeObjectWithJSON:json];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.codeSuite.codeLines count];
+    self.codeLines = self.object.codeLines;
+    return [self.codeLines count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // get line of code
-    ZSCodeLine *line = self.codeSuite.codeLines[indexPath.row];
+    ZSCodeLine *line = self.codeLines[indexPath.row];
     
     // form text
     NSMutableString *text = [NSMutableString stringWithString:@""];
@@ -88,6 +89,10 @@
         ZSCallStatementEditorViewController *c = (ZSCallStatementEditorViewController *)segue.destinationViewController;
         c.codeLine = ((UITableViewCell *)sender).textLabel.text;
     }
+    else if ([segue.identifier isEqualToString:@"on event statement editor segue"])
+    {
+        NSLog(@"On Event Statement Editor.");
+    }    
     else
     {
         NSLog(@"not implemented.");
