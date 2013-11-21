@@ -64,7 +64,7 @@
     _menuTable.dataSource = _menuController;
     
 #pragma Load Sprites
-    _program = [ZSProgram programForResource:@"pong" ofType:@"json"];
+    _program = [ZSProgram dataWithFile:@"pong.json"];
     for (TCSprite *sprite in _program.sprites) {
         
         // TODO: Consider uncoupling the UI frame component from the sprite.
@@ -147,7 +147,7 @@
 }
 
 -(void)saveProject {
-    [_program saveToResource:@"pong" ofType:@"json"];
+    [_program writeToFile:@"pong.json"];
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {

@@ -25,50 +25,73 @@
     return self;
 }
 
-+(ZSProgram *)programForResource:(NSString *)name ofType:(NSString *)extension {
-    
-    // Read the resource into an NSDictionary representing the JSON.
-    NSString *jsonPath = [[NSBundle mainBundle] pathForResource:name ofType:extension];
-    NSData *jsonData = [NSData dataWithContentsOfFile:jsonPath];
-    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
-
-    // Load the program into memory.
-    ZSProgram *program = [[ZSProgram alloc] init];
-    program.rawJSON = json;
-    program.version = [json[@"version"] floatValue];
-    program.interpreterVersion = [json[@"interpreter_version"] floatValue];
-    
-    // Load the sprites.
-    for (NSDictionary *jsonObject in json[@"objects"]) {
-        NSDictionary *variables = jsonObject[@"properties"];
+-(id)initWithFile:(NSString *)name {
+    self = [super init];
+    if (self) {
+        _sprites = [[NSMutableArray alloc] init];
+        NSData *jsonData = nil;
+        NSString *path = [self completePathForFile:name];
+        if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
+            jsonData = [NSData dataWithContentsOfFile:path];
+        } else {
+            // Look for the project in the bundle.
+            NSString *jsonPath = [[NSBundle mainBundle] pathForResource:name ofType:@"json"];
+            jsonData = [NSData dataWithContentsOfFile:jsonPath];
+        }
         
-        // Load the sprite frame.
-        CGRect frame = CGRectZero;
-        frame.origin.x = [variables[@"x"] floatValue];
-        frame.origin.y = [variables[@"y"] floatValue];
-        frame.size.width = [variables[@"width"] floatValue];
-        frame.size.height = [variables[@"height"] floatValue];
+        NSDictionary *json = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
         
-        TCSprite *sprite = [[TCSprite alloc] init];
-        sprite.identifier = jsonObject[@"id"];
-        sprite.frame = frame;
-        sprite.code = jsonObject[@"code"];
-        sprite.traits = jsonObject[@"traits"];
+        // Load the program into memory.
+        _rawJSON = json;
+        _version = [json[@"version"] floatValue];
+        _interpreterVersion = [json[@"interpreter_version"] floatValue];
         
-        [program.sprites addObject:sprite];
+        // Load the sprites.
+        for (NSDictionary *jsonObject in json[@"objects"]) {
+            NSDictionary *variables = jsonObject[@"properties"];
+            
+            // Load the sprite frame.
+            CGRect frame = CGRectZero;
+            frame.origin.x = [variables[@"x"] floatValue];
+            frame.origin.y = [variables[@"y"] floatValue];
+            frame.size.width = [variables[@"width"] floatValue];
+            frame.size.height = [variables[@"height"] floatValue];
+            
+            TCSprite *sprite = [[TCSprite alloc] init];
+            sprite.identifier = jsonObject[@"id"];
+            sprite.frame = frame;
+            sprite.code = jsonObject[@"code"];
+            sprite.traits = jsonObject[@"traits"];
+            
+            [_sprites addObject:sprite];
+        }
     }
-    
-    return program;
+    return self;
 }
 
--(void)saveToResource:(NSString *)name ofType:(NSString *)extension {
+-(NSString *)documentDirectory {
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSLog(@"%@", documentsDirectory);
+    return documentsDirectory;
+}
+
+-(NSString *)completePathForFile:(NSString *)name {
+    return [NSString stringWithFormat:@"%@/%@", [self documentDirectory], name];
+}
+
++(ZSProgram *)dataWithFile:(NSString *)name {
+    return [[ZSProgram alloc] initWithFile:name];
+}
+
+-(void)writeToFile:(NSString *)name {
     NSError *error;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[self projectJSON] options:NSJSONWritingPrettyPrinted error:&error];
     
     if (!jsonData) {
         NSLog(@"Error serializing: %@", error);
     } else {
-        [jsonData writeToFile:[NSString stringWithFormat:@"%@.%@", name, extension] options:0 error:nil];
+        [jsonData writeToFile:[self completePathForFile:name] options:0 error:nil];
     }
 }
 
@@ -94,8 +117,6 @@
     }
     
     [projectJSON setObject:objects forKey:@"objects"];
-    
-    NSLog(@"%@", projectJSON);
     
     return projectJSON;
 }
