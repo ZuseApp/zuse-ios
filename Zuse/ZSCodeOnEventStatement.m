@@ -44,15 +44,9 @@
     return lines;
 }
 
-
--(void)updateCodeLines
-{
-
-}
-
 -(NSDictionary *) JSONObject
 {
-    return @{@"on_event" : @{@"name":self.eventName, @"parameters": self.parameters, @"code":[self.code JSONObject]}};
+    return @{@"on_event" : @{@"name":self.eventName, @"parameters": self.parameters, @"code":self.code.JSONObject}};
 }
 
 @end

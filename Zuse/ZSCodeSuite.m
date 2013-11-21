@@ -59,7 +59,6 @@
             [suite addStatement:[ZSCodeIfStatement statementWithJSON:JSONStatement
                                                                level:level]];
         }
-        
         // Process ON_EVENT statement
         else if ([statementName isEqualToString:@"on_event"])
         {
@@ -67,7 +66,7 @@
                                                                     level:level]];
         }
     }
-    return JSONSuite ? suite : nil;
+    return suite;
 }
 
 -(void)addStatement:(ZSCodeStatement *)statement
@@ -95,10 +94,9 @@
 -(NSArray *) JSONObject
 {
     NSMutableArray *json = [[NSMutableArray alloc]init];
-    
     for (ZSCodeStatement *s in self.statements)
     {
-        [json addObject:[s JSONObject]];
+        [json addObject:s.JSONObject];
     }
     return json;
 }
