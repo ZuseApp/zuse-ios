@@ -81,7 +81,7 @@
     return [NSString stringWithFormat:@"%@/%@", [self documentDirectory], name];
 }
 
-+(ZSProgram *)dataWithFile:(NSString *)name {
++(ZSProgram *)programWithFile:(NSString *)name {
     return [[ZSProgram alloc] initWithFile:name];
 }
 

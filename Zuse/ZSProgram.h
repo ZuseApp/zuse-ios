@@ -14,7 +14,7 @@
 @property(assign, nonatomic) CGFloat interpreterVersion;
 @property(strong, nonatomic) NSMutableArray *sprites;
 
-+ (ZSProgram *)dataWithFile:(NSString *)name;
++ (ZSProgram *)programWithFile:(NSString *)name;
 
 -(void)writeToFile:(NSString *)name;
 -(NSDictionary *) projectJSON;

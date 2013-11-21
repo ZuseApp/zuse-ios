@@ -64,7 +64,7 @@
     _menuTable.dataSource = _menuController;
     
 #pragma Load Sprites
-    _program = [ZSProgram dataWithFile:@"pong.json"];
+    _program = [ZSProgram programWithFile:@"pong.json"];
     for (TCSprite *sprite in _program.sprites) {
         
         // TODO: Consider uncoupling the UI frame component from the sprite.
