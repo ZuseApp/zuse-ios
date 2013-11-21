@@ -37,7 +37,7 @@
 
 -(NSArray *) codeLines
 {
-    ZSCodeLine *ifLine = [ZSCodeLine lineWithText:[NSString stringWithFormat:@"IF %@", self.boolExp.text]
+    ZSCodeLine *ifLine = [ZSCodeLine lineWithText:[NSString stringWithFormat:@"IF %@", self.boolExp.stringValue]
                                              type:ZSCodeLineStatementIf
                                       indentation:self.level];
     

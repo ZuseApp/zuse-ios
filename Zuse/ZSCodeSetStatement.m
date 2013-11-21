@@ -4,7 +4,9 @@
 @interface ZSCodeSetStatement()
 
 @property (strong, nonatomic) NSString *variableName;
-@property (strong, nonatomic) NSObject *variableValue; // either NSString, or ZSCodeCallStatement, or NSDictionary (get)
+
+// either NSString, or NSNumber, or ZSCodeCallStatement, or NSDictionary (get)
+@property (strong, nonatomic) NSObject *variableValue;
 
 @end
 
@@ -62,11 +64,30 @@
     {
         value = ((NSDictionary *)self.variableValue)[@"get"];
     }
-    // value is constant (text)
+    // value is a number
+    else if([self.variableValue isKindOfClass: [NSNumber class]])
+    {
+        NSNumber *n = (NSNumber *)self.variableValue;
+        
+        // Check if it is BOOL
+        if (strcmp([n objCType], @encode(BOOL)) == 0)
+        {
+            value = [n integerValue]? @"true" : @"false";
+        }
+        // it is a number
+        else
+        {
+            value = [n stringValue];
+        }
+    }
+    // value is a text
     else
     {
         value = (NSString *)self.variableValue;
     }
+    
+    
+    
     NSString *text =  [NSString stringWithFormat:@"SET %@ TO %@", self.variableName, value];
     
     // Create code line object

@@ -10,12 +10,6 @@
     e.oper = oper;
     e.exp1 = e1;
     e.exp2 = e2;
-    
-    // form text
-    e1 = [e1 isKindOfClass:[NSDictionary class]] ? ((NSDictionary *)e1)[@"get"] : e1;
-    e2 = [e2 isKindOfClass:[NSDictionary class]] ? ((NSDictionary *)e2)[@"get"] : e2;
-    
-    e.text = [NSString stringWithFormat:@"%@ %@ %@", e1, oper, e2];
     return e;
 }
 
@@ -26,5 +20,14 @@
                                exp1:json[oper][0]
                                exp2:json[oper][1]];
 }
+
+-(NSString *)stringValue
+{
+    NSString *e1 = [self.exp1 isKindOfClass:[NSDictionary class]] ? ((NSDictionary *)self.exp1)[@"get"] : self.exp1;
+    NSString *e2 = [self.exp2 isKindOfClass:[NSDictionary class]] ? ((NSDictionary *)self.exp2)[@"get"] : self.exp2;
+    
+    return [NSString stringWithFormat:@"%@ %@ %@", e1, self.oper, e2];
+}
+
 
 @end
