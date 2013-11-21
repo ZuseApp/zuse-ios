@@ -25,7 +25,7 @@
     return self;
 }
 
--(id)initWithFile:(NSString *)name {
+-(id)initWithFile:(NSString *)name{
     self = [super init];
     if (self) {
         _sprites = [[NSMutableArray alloc] init];
@@ -35,7 +35,8 @@
             jsonData = [NSData dataWithContentsOfFile:path];
         } else {
             // Look for the project in the bundle.
-            NSString *jsonPath = [[NSBundle mainBundle] pathForResource:name ofType:@"json"];
+            NSString *modifiedName = [name componentsSeparatedByString:@"."][0];
+            NSString *jsonPath = [[NSBundle mainBundle] pathForResource:modifiedName ofType:@"json"];
             jsonData = [NSData dataWithContentsOfFile:jsonPath];
         }
         
