@@ -87,12 +87,11 @@
             "name": "start",
             "parameters": [],
             "code": [
-              { "set": ["direction", "up right"] },
               { "set": ["speed", 100] },
               {
                 "call": {
                   "method": "move",
-                  "parameters": [{ "get": "direction" }, { "get": "speed" }]
+                  "parameters": ["up right", { "get": "speed" }]
                 }
               }
             ]
