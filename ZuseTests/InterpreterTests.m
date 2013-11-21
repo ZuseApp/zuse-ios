@@ -292,6 +292,44 @@
     }
 }
 
+- (void)testScopeSetObjectScopeProperty {
+    __block BOOL didRunCheckOne = NO;
+    
+    NSDictionary *method = @{
+        @"method":  @"check1",
+        @"block": ^id(NSArray *args) {
+            didRunCheckOne = YES;
+            XCTAssertEqual(args.count, [@1 unsignedIntegerValue], @"");
+            XCTAssertEqualObjects(args[0], @"bar", @"");
+            return @YES;
+        }
+    };
+    
+    [_interpreter loadMethod:method];
+    
+    __block BOOL didRunCheckTwo = NO;
+    method = @{
+        @"method":  @"check2",
+        @"block": ^id(NSArray *args) {
+            didRunCheckTwo = YES;
+            XCTAssertEqual(args.count, [@1 unsignedIntegerValue], @"");
+            XCTAssertEqualObjects(args[0], @"bar", @"");
+            return @YES;
+        }
+    };
+
+    [_interpreter loadMethod:method];
+    
+    NSDictionary *json = [self loadTestFileAtPath:@"scope_set_object_var"];
+    
+    for (NSDictionary *dict in json[@"objects"]) {
+        [_interpreter loadObject:dict];
+    }
+    
+    XCTAssert(didRunCheckOne, @"");
+    XCTAssert(didRunCheckTwo, @"");
+}
+
 - (void)testEventScope {
     __block BOOL checkOneDidRun = NO;
     NSDictionary *method = @{

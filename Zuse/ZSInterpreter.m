@@ -16,6 +16,7 @@
 @property (strong, nonatomic) NSMutableDictionary *events;
 @property (strong, nonatomic) NSMutableDictionary *properties;
 @property (strong, nonatomic) NSMutableDictionary *objects;
+@property (strong, nonatomic) NSMutableDictionary *dataStore;
 
 @end
 
@@ -33,6 +34,7 @@
         _events     = [@{} mutableCopy];
         _objects    = [@{} mutableCopy];
         _properties = [@{} mutableCopy];
+        _dataStore  = [@{} mutableCopy];
     }
     
     return self;
@@ -98,7 +100,11 @@
     else if ([key isEqualToString:@"set"]) {
         id newValue = [self evaluateExpression:data[1] context:context];
         
-        context.environment[data[0]] = newValue;
+        NSString *identifier = context.environment[data[0]];
+        if (identifier)
+            _dataStore[identifier] = newValue;
+        else
+            context.environment[data[0]] = [self IDForStoringValue:newValue];
         
         if (_delegate)
             [_delegate interpreter:self
@@ -127,6 +133,19 @@
     }
 
     return nil;
+}
+
+- (NSString *)IDForStoringValue:(id)value {
+    NSString *UUID = [NSUUID UUID];
+    _dataStore[UUID] = value;
+    return UUID;
+}
+
+- (NSMutableDictionary *)dictionaryForStoringDictionary:(NSDictionary *)dictionary {
+    NSMutableDictionary *dict = [[dictionary map:^id(id key, id obj) {
+        return [self IDForStoringValue:obj];
+    }] mutableCopy];
+    return dict;
 }
 
 - (id)evaluateExpression:(id)expression context:(ZSExecutionContext *)context {
@@ -182,7 +201,10 @@
     }
     
     else if ([key isEqualToString:@"get"]) {
-        return context.environment[code];
+        NSString *identifier = context.environment[code];
+        if (!identifier)
+            NSLog(@"ZSInterpreter#evaluateExpression:context: - Attempt to access unknown variable: %@", code);
+        return _dataStore[identifier];
     }
     
     else {
@@ -202,7 +224,7 @@
 
 - (void)loadObject:(NSDictionary *)obj {
     [_events setObject:[NSMutableDictionary dictionary] forKey:obj[@"id"]];
-    [_properties setObject:[obj[@"properties"] mutableCopy] forKey:obj[@"id"]];
+    [_properties setObject:[self dictionaryForStoringDictionary:obj[@"properties"]] forKey:obj[@"id"]];
     [_objects setObject:obj forKey:obj[@"id"]];
     ZSExecutionContext *context = [ZSExecutionContext contextWithObjectId:obj[@"id"]
                                                               environment:_properties[obj[@"id"]]];
@@ -228,7 +250,7 @@
 onObjectWithIdentifier:(NSString *)objectID
             parameters:(NSDictionary *)parameters {
     NSMutableDictionary *environment = [[_events[objectID][event][@"context"] environment] mutableCopy];
-    [environment addEntriesFromDictionary:parameters];
+    [environment addEntriesFromDictionary:[self dictionaryForStoringDictionary:parameters]];
     ZSExecutionContext *newContext = [ZSExecutionContext contextWithObjectId:objectID
                                                                  environment:environment];
     [self runSuite:_events[objectID][event][@"code"] context:newContext];
