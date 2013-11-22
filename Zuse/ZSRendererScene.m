@@ -10,6 +10,8 @@
 #import "ZSSpriteTouchComponent.h"
 #import <SpriteKit-Components/SKComponents.h>
 #import <BlocksKit/BlocksKit.h>
+#import <PhysicsDebugger/YMCPhysicsDebugger.h>
+#import <PhysicsDebugger/YMCSKNode+PhysicsDebug.h>
 
 @interface ZSRendererScene() <ZSInterpreterDelegate>
 
@@ -31,6 +33,12 @@
         _interpreter.delegate = self;
         
         NSDictionary *objects = [_interpreter objects];
+        
+        //init the debugger
+        [YMCPhysicsDebugger init];
+        
+        //Set the physics edges to the frame
+        self.physicsBody = [SKPhysicsBody bodyWithEdgeLoopFromRect:self.frame];
         
         // TODO: render objects on screen...
         _spriteNodes = [[NSMutableDictionary alloc] init];
@@ -56,6 +64,8 @@
             
             sprite.size = CGSizeMake([properties[@"width"] floatValue], [properties[@"height"] floatValue]);
             
+            //add the node as a physics body for physics debugging
+            //sprite.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:sprite.size];
             
             //add the sprite to the scene
             [node addChild:sprite];
@@ -64,14 +74,17 @@
             
             // ...
             [_spriteNodes setObject:node forKey:key];
+            
         }];
-        
         
         // getting size of screen
         NSLog(@"Size: %@", NSStringFromCGSize(size));
         
         // setting background color
         self.backgroundColor = [SKColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0];
+        
+        //call debug render method
+        [self drawPhysicsBodies];
         
     }
     return self;
