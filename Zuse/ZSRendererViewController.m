@@ -12,7 +12,7 @@
 #import "ZSRendererViewController.h"
 #import "ZSInterpreter.h"
 #import "ZSCompiler.h"
-#import "ZSSarahTestScene.h"
+#import "ZSRendererScene.h"
 
 @interface ZSRendererViewController ()
 
@@ -62,7 +62,7 @@
     _SKView.showsNodeCount = YES;
     
     // Create and configure the scene.
-    _scene = [[ZSSarahTestScene alloc] initWithSize:_SKView.bounds.size interpreter:_interpreter];
+    _scene = [[ZSRendererScene alloc] initWithSize:_SKView.bounds.size interpreter:_interpreter];
     _scene.scaleMode = SKSceneScaleModeAspectFill;
     
     // Present the scene.

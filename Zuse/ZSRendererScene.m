@@ -1,17 +1,17 @@
 //
-//  ZSSarahTestScene.m
+//  ZSRendererScene.m
 //  Zuse
 //
 //  Created by Sarah Hong on 10/25/13.
 //  Copyright (c) 2013 Michael Hogenson. All rights reserved.
 //
 
-#import "ZSSarahTestScene.h"
+#import "ZSRendererScene.h"
 #import "ZSSpriteTouchComponent.h"
 #import <SpriteKit-Components/SKComponents.h>
 #import <BlocksKit/BlocksKit.h>
 
-@interface ZSSarahTestScene() <ZSInterpreterDelegate>
+@interface ZSRendererScene() <ZSInterpreterDelegate>
 
 @property (nonatomic) SKSpriteNode *player;
 @property (nonatomic) NSTimeInterval lastSpawnTimeInterval;
@@ -23,7 +23,7 @@
 @end
 
 
-@implementation ZSSarahTestScene
+@implementation ZSRendererScene
 
 -(id)initWithSize:(CGSize)size  interpreter:(ZSInterpreter *)interpreter {
     if (self = [super initWithSize:size]) {

@@ -16,6 +16,7 @@
 		2C19FF10181AE6B600D10D2B /* projectile.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C19FF0A181AE6B600D10D2B /* projectile.png */; };
 		2C19FF11181AE6B600D10D2B /* projectile@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C19FF0B181AE6B600D10D2B /* projectile@2x.png */; };
 		2C6B5D6A183D43AB00E3D56C /* ZSSpriteTouchComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C6B5D69183D43AB00E3D56C /* ZSSpriteTouchComponent.m */; };
+		2CA9D387183F3F0300401231 /* ZSRendererScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9D386183F3F0300401231 /* ZSRendererScene.m */; };
 		4C0D470517FB800400F13786 /* TestProject.json in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D470417FB800400F13786 /* TestProject.json */; };
 		4C0D470817FB927600F13786 /* ZSCanvasViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0D470717FB927600F13786 /* ZSCanvasViewController.m */; };
 		4C7527321800D5C3002B41E6 /* ZSProgram.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C7527311800D5C3002B41E6 /* ZSProgram.m */; };
@@ -103,6 +104,8 @@
 		2C19FF0B181AE6B600D10D2B /* projectile@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "projectile@2x.png"; sourceTree = "<group>"; };
 		2C6B5D68183D43AB00E3D56C /* ZSSpriteTouchComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSSpriteTouchComponent.h; sourceTree = "<group>"; };
 		2C6B5D69183D43AB00E3D56C /* ZSSpriteTouchComponent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSSpriteTouchComponent.m; sourceTree = "<group>"; };
+		2CA9D385183F3F0300401231 /* ZSRendererScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSRendererScene.h; sourceTree = "<group>"; };
+		2CA9D386183F3F0300401231 /* ZSRendererScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSRendererScene.m; sourceTree = "<group>"; };
 		4C0D470417FB800400F13786 /* TestProject.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = TestProject.json; path = JSON/TestProject.json; sourceTree = "<group>"; };
 		4C0D470617FB927600F13786 /* ZSCanvasViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCanvasViewController.h; sourceTree = "<group>"; };
 		4C0D470717FB927600F13786 /* ZSCanvasViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCanvasViewController.m; sourceTree = "<group>"; };
@@ -225,6 +228,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2CA9D384183F3EBD00401231 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				2CA9D385183F3F0300401231 /* ZSRendererScene.h */,
+				2CA9D386183F3F0300401231 /* ZSRendererScene.m */,
+			);
+			name = Scenes;
+			sourceTree = "<group>";
+		};
 		4C9BE76D1815B48000F5EF57 /* Playground */ = {
 			isa = PBXGroup;
 			children = (
@@ -403,6 +415,7 @@
 		5F099D4017F0E0F700EB2AC7 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				2CA9D384183F3EBD00401231 /* Scenes */,
 				5FBDDC3117FF2D2400A1037A /* ZSEditorViewController.h */,
 				5FBDDC3217FF2D2400A1037A /* ZSEditorViewController.m */,
 				4C0D470617FB927600F13786 /* ZSCanvasViewController.h */,
@@ -716,6 +729,7 @@
 				2C6B5D6A183D43AB00E3D56C /* ZSSpriteTouchComponent.m in Sources */,
 				7855BCCA1837FA97006493F9 /* ZSCodeEditorViewController.m in Sources */,
 				4CE3404B1809FC57009A63A2 /* ZSSpriteController.m in Sources */,
+				2CA9D387183F3F0300401231 /* ZSRendererScene.m in Sources */,
 				7855BCC11837F47E006493F9 /* ZSCodeLine.m in Sources */,
 				5FBDDC3817FF2D2400A1037A /* ZSPlaygroundViewController.m in Sources */,
 				7855BCBE1837F47E006493F9 /* ZSCodeBoolExpression.m in Sources */,

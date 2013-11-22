@@ -1,5 +1,5 @@
 //
-//  ZSSarahTestScene.h
+//  ZSRendererScene.h
 //  Zuse
 //
 //  Created by Sarah Hong on 10/25/13.
@@ -10,7 +10,7 @@
 #import <SpriteKit-Components/SKComponents.h>
 #import "ZSInterpreter.h"
 
-@interface ZSSarahTestScene : SKComponentScene
+@interface ZSRendererScene : SKComponentScene
 
 
 - (instancetype)initWithSize:(CGSize)size interpreter:(ZSInterpreter *)interpreter;
