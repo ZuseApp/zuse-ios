@@ -1,5 +1,5 @@
 {
-  "method": "move",
+  "method": "move [speed] [direction]",
   "parameters": [
     {
       "placeholder": "speed",
