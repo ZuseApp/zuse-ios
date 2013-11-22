@@ -101,15 +101,19 @@
         id newValue = [self evaluateExpression:data[1] context:context];
         
         NSString *identifier = context.environment[data[0]];
+        // If the identifier already exists, we want to update the one
+        // already in the data store so that nested scopes update their
+        // outer-scopes
         if (identifier)
             _dataStore[identifier] = newValue;
         else
             context.environment[data[0]] = [self IDForStoringValue:newValue];
         
-        if (_delegate)
+        if (_delegate) {
             [_delegate interpreter:self
               objectWithIdentifier:context.objectID
                didUpdateProperties:@{ data[0]: newValue }];
+        }
     }
     
     else if ([key isEqualToString:@"if"]) {
