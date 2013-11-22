@@ -54,7 +54,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return 3;
+    return 2;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -66,12 +66,6 @@
     }
     
     if (indexPath.row == 1) {
-        static NSString *CellIdentifier = @"SarahTest";
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-        return cell;
-    }
-    
-    if (indexPath.row == 2) {
         static NSString *CellIdentifier = @"VladTest";
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
         return cell;

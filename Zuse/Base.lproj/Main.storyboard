@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4514" systemVersion="13A603" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="6Rn-3r-9jY">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3746"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
     <scenes>
         <!--Renderer View Controller-->
@@ -328,28 +328,8 @@
                                     <segue destination="vlE-E9-ANq" kind="push" id="6ls-0L-7ST"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="SarahTest" textLabel="Ai0-7b-pkz" style="IBUITableViewCellStyleDefault" id="ph3-jz-Gx8">
-                                <rect key="frame" x="0.0" y="130" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ph3-jz-Gx8" id="Bwn-uP-eey">
-                                    <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Sarah test" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Ai0-7b-pkz">
-                                            <rect key="frame" x="15" y="0.0" width="270" height="43"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                </tableViewCellContentView>
-                                <connections>
-                                    <segue destination="7vv-cF-5eA" kind="push" id="KGx-Cy-kdu"/>
-                                </connections>
-                            </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="VladTest" textLabel="csl-GZ-qhv" style="IBUITableViewCellStyleDefault" id="vEg-An-DwP">
-                                <rect key="frame" x="0.0" y="174" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="130" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vEg-An-DwP" id="4eI-4q-ydF">
                                     <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -375,25 +355,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RXf-os-Wj5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="994" y="-178"/>
-        </scene>
-        <!--Sarah Test View Controller-->
-        <scene sceneID="qgM-FI-7C8">
-            <objects>
-                <viewController id="7vv-cF-5eA" customClass="ZSSarahTestViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="rvn-4W-9h3"/>
-                        <viewControllerLayoutGuide type="bottom" id="QMt-fr-xhw"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="6Iv-Se-z6m" customClass="SKView">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="h7k-UH-NSc"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="wAy-bk-gVh" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1421" y="-753"/>
         </scene>
         <!--Ball View Controller-->
         <scene sceneID="cDG-TD-afP">
