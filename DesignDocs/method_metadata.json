@@ -1,15 +1,15 @@
 {
   "method": "move [speed] [direction]",
-  "parameters": [
-    {
-      "placeholder": "speed",
+  "parameters": {
+    "speed": {
       "types": ["numeric"]
     },
-    {
-      "placeholder": "direction",
+    "direction": {
       "types": [
-        "numeric": {
-          "range": [0, 360]
+        {
+          "numeric": {
+            "range": [0, 360]
+          }
         }
       ],
       "custom_types": [
@@ -23,5 +23,5 @@
         "left"
       ]
     }
-  ]
+  }
 }
