@@ -1,0 +1,27 @@
+{
+  "method": "move",
+  "parameters": [
+    {
+      "placeholder": "speed",
+      "types": ["numeric"]
+    },
+    {
+      "placeholder": "direction",
+      "types": [
+        "numeric": {
+          "range": [0, 360]
+        }
+      ],
+      "custom_types": [
+        "up right",
+        "up left",
+        "up",
+        "right",
+        "down right",
+        "down left",
+        "down",
+        "left"
+      ]
+    }
+  ]
+}
