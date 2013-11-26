@@ -86,7 +86,36 @@
           "on_event": {
             "name": "start",
             "parameters": [],
-            "code": [ ]
+            "code": [
+              { "set": ["speed", 100] },
+              {
+                "call": {
+                  "method": "move",
+                  "parameters": ["up right", { "get": "speed" }]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "on_event": {
+            "name": "collision",
+            "parameters": ["other_sprite"],
+            "code": [
+              {
+                "if": {
+                  "test": { 
+                    "or": [
+                      { "==": [{ "get": "other_sprite" }, "paddle1"] },
+                      { "==": [{ "get": "other_sprite" }, "paddle2"] }
+                    ]
+                  },
+                  "true": [
+                    { "set": ["speed", { "+": [{ "get": "speed" }, 2] }] }
+                  ]
+                }
+              }
+            ]
           }
         }
       ]
