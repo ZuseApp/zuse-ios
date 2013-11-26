@@ -63,6 +63,7 @@
 		5FBDDC3917FF2D2400A1037A /* ZSSuiteController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBDDC3617FF2D2400A1037A /* ZSSuiteController.m */; };
 		5FEFB89A182B5376007DAFCF /* pong.json in Resources */ = {isa = PBXBuildFile; fileRef = 5FEFB899182B5376007DAFCF /* pong.json */; };
 		78346A0A183C623400540D54 /* ZSCodeObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 78346A09183C623400540D54 /* ZSCodeObject.m */; };
+		784BFD071844680D00FB0694 /* ZSCodeEditorTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 784BFD061844680D00FB0694 /* ZSCodeEditorTableViewCell.m */; };
 		7855BCBE1837F47E006493F9 /* ZSCodeBoolExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 7855BCB11837F47E006493F9 /* ZSCodeBoolExpression.m */; };
 		7855BCBF1837F47E006493F9 /* ZSCodeCallStatement.m in Sources */ = {isa = PBXBuildFile; fileRef = 7855BCB31837F47E006493F9 /* ZSCodeCallStatement.m */; };
 		7855BCC01837F47E006493F9 /* ZSCodeIfStatement.m in Sources */ = {isa = PBXBuildFile; fileRef = 7855BCB51837F47E006493F9 /* ZSCodeIfStatement.m */; };
@@ -74,6 +75,7 @@
 		7855BCCD1837FB6D006493F9 /* ZSSetStatementEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7855BCCC1837FB6D006493F9 /* ZSSetStatementEditorViewController.m */; };
 		7855BCD01837FB8A006493F9 /* ZSIfStatementEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7855BCCF1837FB8A006493F9 /* ZSIfStatementEditorViewController.m */; };
 		7855BCD31837FBA7006493F9 /* ZSCallStatementEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7855BCD21837FBA7006493F9 /* ZSCallStatementEditorViewController.m */; };
+		78645C5018446FBF00EE14A9 /* ZSStatementEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 78645C4F18446FBF00EE14A9 /* ZSStatementEditorViewController.m */; };
 		78F79EB61839BC9E00012726 /* ZSCodeOnEventStatement.m in Sources */ = {isa = PBXBuildFile; fileRef = 78F79EB51839BC9E00012726 /* ZSCodeOnEventStatement.m */; };
 		78F79EB8183A8C0300012726 /* TCCodeEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 78F79EB7183A8C0300012726 /* TCCodeEditor.m */; };
 		F188741646A541119F9E0DE4 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A26E7A8391C049E78AB2860A /* libPods.a */; };
@@ -168,6 +170,8 @@
 		5FEFB899182B5376007DAFCF /* pong.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = pong.json; path = JSON/pong.json; sourceTree = "<group>"; };
 		78346A08183C623400540D54 /* ZSCodeObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCodeObject.h; sourceTree = "<group>"; };
 		78346A09183C623400540D54 /* ZSCodeObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCodeObject.m; sourceTree = "<group>"; };
+		784BFD051844680D00FB0694 /* ZSCodeEditorTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCodeEditorTableViewCell.h; sourceTree = "<group>"; };
+		784BFD061844680D00FB0694 /* ZSCodeEditorTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCodeEditorTableViewCell.m; sourceTree = "<group>"; };
 		7855BCB01837F47E006493F9 /* ZSCodeBoolExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCodeBoolExpression.h; sourceTree = "<group>"; };
 		7855BCB11837F47E006493F9 /* ZSCodeBoolExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCodeBoolExpression.m; sourceTree = "<group>"; };
 		7855BCB21837F47E006493F9 /* ZSCodeCallStatement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCodeCallStatement.h; sourceTree = "<group>"; };
@@ -190,6 +194,8 @@
 		7855BCCF1837FB8A006493F9 /* ZSIfStatementEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSIfStatementEditorViewController.m; sourceTree = "<group>"; };
 		7855BCD11837FBA7006493F9 /* ZSCallStatementEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCallStatementEditorViewController.h; sourceTree = "<group>"; };
 		7855BCD21837FBA7006493F9 /* ZSCallStatementEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCallStatementEditorViewController.m; sourceTree = "<group>"; };
+		78645C4E18446FBF00EE14A9 /* ZSStatementEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSStatementEditorViewController.h; sourceTree = "<group>"; };
+		78645C4F18446FBF00EE14A9 /* ZSStatementEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSStatementEditorViewController.m; sourceTree = "<group>"; };
 		78F79EB41839BC9E00012726 /* ZSCodeOnEventStatement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCodeOnEventStatement.h; sourceTree = "<group>"; };
 		78F79EB51839BC9E00012726 /* ZSCodeOnEventStatement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCodeOnEventStatement.m; sourceTree = "<group>"; };
 		78F79EB7183A8C0300012726 /* TCCodeEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCCodeEditor.m; sourceTree = "<group>"; };
@@ -243,12 +249,6 @@
 		4C9BE76E1815B49200F5EF57 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				7855BCC81837FA97006493F9 /* ZSCodeEditorViewController.h */,
-				7855BCC91837FA97006493F9 /* ZSCodeEditorViewController.m */,
-				7855BCC71837F501006493F9 /* If Statement Editor */,
-				7855BCC61837F4F4006493F9 /* Set Statement Editor */,
-				7855BCC51837F4E0006493F9 /* Call Statement Editor */,
-				7855BCAF1837F2BF006493F9 /* CodeModel */,
 				5FBDDC3317FF2D2400A1037A /* ZSPlaygroundViewController.h */,
 				5FBDDC3417FF2D2400A1037A /* ZSPlaygroundViewController.m */,
 				4CE340311809DB3C009A63A2 /* ZSBallViewController.h */,
@@ -334,6 +334,7 @@
 		4CF1CBB717EF882A00636E0D /* Zuse */ = {
 			isa = PBXGroup;
 			children = (
+				784BFD041844679C00FB0694 /* Code Editor */,
 				5F099D4217F0E11200EB2AC7 /* Models */,
 				4C9BE76D1815B48000F5EF57 /* Playground */,
 				4C9BE7701815B4D700F5EF57 /* Table Controllers */,
@@ -483,6 +484,19 @@
 			name = JSON;
 			sourceTree = "<group>";
 		};
+		784BFD041844679C00FB0694 /* Code Editor */ = {
+			isa = PBXGroup;
+			children = (
+				784BFD051844680D00FB0694 /* ZSCodeEditorTableViewCell.h */,
+				784BFD061844680D00FB0694 /* ZSCodeEditorTableViewCell.m */,
+				7855BCC81837FA97006493F9 /* ZSCodeEditorViewController.h */,
+				7855BCC91837FA97006493F9 /* ZSCodeEditorViewController.m */,
+				78645C4D18446F6600EE14A9 /* StatementEditors */,
+				7855BCAF1837F2BF006493F9 /* CodeModel */,
+			);
+			name = "Code Editor";
+			sourceTree = "<group>";
+		};
 		7855BCAF1837F2BF006493F9 /* CodeModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -533,6 +547,18 @@
 				7855BCCF1837FB8A006493F9 /* ZSIfStatementEditorViewController.m */,
 			);
 			name = "If Statement Editor";
+			sourceTree = "<group>";
+		};
+		78645C4D18446F6600EE14A9 /* StatementEditors */ = {
+			isa = PBXGroup;
+			children = (
+				78645C4E18446FBF00EE14A9 /* ZSStatementEditorViewController.h */,
+				78645C4F18446FBF00EE14A9 /* ZSStatementEditorViewController.m */,
+				7855BCC71837F501006493F9 /* If Statement Editor */,
+				7855BCC61837F4F4006493F9 /* Set Statement Editor */,
+				7855BCC51837F4E0006493F9 /* Call Statement Editor */,
+			);
+			name = StatementEditors;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -701,10 +727,12 @@
 				4C7527321800D5C3002B41E6 /* ZSProgram.m in Sources */,
 				7855BCC21837F47E006493F9 /* ZSCodeSetStatement.m in Sources */,
 				4CE340481809F880009A63A2 /* ZSMenuController.m in Sources */,
+				78645C5018446FBF00EE14A9 /* ZSStatementEditorViewController.m in Sources */,
 				7855BCC41837F47E006493F9 /* ZSCodeSuite.m in Sources */,
 				4CE3404E180A0154009A63A2 /* ZSRendererViewController.m in Sources */,
 				78F79EB61839BC9E00012726 /* ZSCodeOnEventStatement.m in Sources */,
 				5F41ACB818341C980089D136 /* ZSExecutionContext.m in Sources */,
+				784BFD071844680D00FB0694 /* ZSCodeEditorTableViewCell.m in Sources */,
 				4CF1CBC217EF882A00636E0D /* TCAppDelegate.m in Sources */,
 				5FBDDC3717FF2D2400A1037A /* ZSEditorViewController.m in Sources */,
 				4CE340361809DCFD009A63A2 /* ZSScene.m in Sources */,

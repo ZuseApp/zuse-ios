@@ -87,7 +87,8 @@
     // add new code line
     [lines addObject:[ZSCodeLine lineWithText:@"+"
                                          type:ZSCodeLineStatementNew
-                                  indentation:self.level]];
+                                  indentation:self.level
+                                    statement:nil]];
     return lines;
 }
 

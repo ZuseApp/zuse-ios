@@ -46,7 +46,8 @@
     // Create code line object
     ZSCodeLine *line = [ZSCodeLine lineWithText:text
                                            type:ZSCodeLineStatementCall
-                                    indentation:self.level];
+                                    indentation:self.level
+                                      statement:self];
     // Put code line in array
     return [NSMutableArray arrayWithObject:line];
 }

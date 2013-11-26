@@ -1,12 +1,8 @@
+#import "ZSCodeBoolExpression.h"
 #import "ZSCodeSetStatement.h"
 #import "ZSCodeLine.h"
 
 @interface ZSCodeSetStatement()
-
-@property (strong, nonatomic) NSString *variableName;
-
-// either NSString, or NSNumber, or ZSCodeCallStatement, or NSDictionary (get)
-@property (strong, nonatomic) NSObject *variableValue;
 
 @end
 
@@ -47,9 +43,8 @@
                                      level:level];
 }
 
--(NSArray *) codeLines
+-(NSString *)variableValueStringValue
 {
-    // Form text for code line
     NSString *value;
     
     // value is call statement
@@ -68,17 +63,7 @@
     else if([self.variableValue isKindOfClass: [NSNumber class]])
     {
         NSNumber *n = (NSNumber *)self.variableValue;
-        
-        // Check if it is BOOL
-        if (strcmp([n objCType], @encode(BOOL)) == 0)
-        {
-            value = [n integerValue]? @"true" : @"false";
-        }
-        // it is a number
-        else
-        {
-            value = [n stringValue];
-        }
+        value = [ZSCodeBoolExpression isBooleanType:n] ? [n integerValue]? @"true" : @"false" : [n stringValue];
     }
     // value is a text
     else
@@ -86,14 +71,19 @@
         value = (NSString *)self.variableValue;
     }
     
-    
-    
-    NSString *text =  [NSString stringWithFormat:@"SET %@ TO %@", self.variableName, value];
+    return value;
+}
+
+-(NSArray *) codeLines
+{
+    // Form text for code line
+    NSString *text =  [NSString stringWithFormat:@"SET %@ TO %@", self.variableName, self.variableValueStringValue];
     
     // Create code line object
     ZSCodeLine *line = [ZSCodeLine lineWithText:text
                                            type:ZSCodeLineStatementSet
-                                    indentation:self.level];
+                                    indentation:self.level
+                                      statement:self];
     // Put code line in array
     return [NSMutableArray arrayWithObject:line];
 }

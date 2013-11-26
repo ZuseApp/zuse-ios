@@ -13,7 +13,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.ifLabel.text = self.ifStatement;
 }
 
 @end

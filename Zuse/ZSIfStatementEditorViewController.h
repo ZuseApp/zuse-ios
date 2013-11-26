@@ -7,9 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ZSStatementEditorViewController.h"
 
-@interface ZSIfStatementEditorViewController : UIViewController
-@property (strong, nonatomic) NSString *ifStatement;
-@property (weak, nonatomic) IBOutlet UILabel *ifLabel;
+@interface ZSIfStatementEditorViewController : ZSStatementEditorViewController
 
 @end

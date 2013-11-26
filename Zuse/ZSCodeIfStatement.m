@@ -39,7 +39,8 @@
 {
     ZSCodeLine *ifLine = [ZSCodeLine lineWithText:[NSString stringWithFormat:@"IF %@", self.boolExp.stringValue]
                                              type:ZSCodeLineStatementIf
-                                      indentation:self.level];
+                                      indentation:self.level
+                                        statement:self];
     
     NSMutableArray *lines = [[NSMutableArray alloc]init];
     [lines addObject:ifLine];
@@ -49,7 +50,8 @@
     {
         ZSCodeLine *elseLine = [ZSCodeLine lineWithText:@"ELSE"
                                                    type:ZSCodeLineStatementDefault
-                                            indentation:self.level];
+                                            indentation:self.level
+                                              statement:self];
         [lines addObject:elseLine];
         [lines addObjectsFromArray: self.falseSuite.codeLines];
     }

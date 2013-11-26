@@ -1,5 +1,11 @@
 #import "ZSCodeBoolExpression.h"
 
+@interface ZSCodeBoolExpression()
+
+//+(NSString *)convertToStringExpression:(NSObject *)exp;
+
+@end
+
 @implementation ZSCodeBoolExpression
 
 +(id)expressionWithOper:(NSString *) oper
@@ -23,11 +29,37 @@
 
 -(NSString *)stringValue
 {
-    NSString *e1 = [self.exp1 isKindOfClass:[NSDictionary class]] ? ((NSDictionary *)self.exp1)[@"get"] : self.exp1;
-    NSString *e2 = [self.exp2 isKindOfClass:[NSDictionary class]] ? ((NSDictionary *)self.exp2)[@"get"] : self.exp2;
+    NSString *e1 = [self convertToStringExpression:self.exp1];
+    NSString *e2 = [self convertToStringExpression:self.exp2];
     
     return [NSString stringWithFormat:@"%@ %@ %@", e1, self.oper, e2];
 }
 
++(BOOL)isBooleanType:(NSNumber *)n
+{
+    return strcmp([n objCType], @encode(BOOL)) == 0;
+}
+
+-(NSString *)convertToStringExpression:(NSObject *)exp
+{
+    NSString *str;
+    
+    // if it is get statement
+    if ([exp isKindOfClass:[NSDictionary class]])
+    {
+        str = ((NSDictionary *)exp)[@"get"];
+    }
+    // if it is number
+    else if ([exp isKindOfClass:[NSNumber class]])
+    {
+        NSNumber *n = (NSNumber *)exp;
+        str = [ZSCodeBoolExpression isBooleanType:n] ? ([n integerValue] ? @"true" : @"false") : [n stringValue];
+    }
+    // if it is constant (string)
+    else
+        str = (NSString *)exp;
+    
+    return str;
+}
 
 @end

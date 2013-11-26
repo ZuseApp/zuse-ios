@@ -17,7 +17,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.methodName.text = self.codeLine;
 }
 
 @end

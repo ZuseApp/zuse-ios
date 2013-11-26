@@ -6,8 +6,12 @@
 //  Copyright (c) 2013 turing-complete. All rights reserved.
 //
 #import "ZSSetStatementEditorViewController.h"
+#import "ZSCodeSetStatement.h"
 
 @interface ZSSetStatementEditorViewController()
+
+@property (weak, nonatomic) IBOutlet UITextField *nameTextField;
+@property (weak, nonatomic) IBOutlet UITextField *valueTextField;
 
 @end
 
@@ -16,7 +20,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.setLabel.text = self.setStatement;
+    ZSCodeSetStatement *statement = (ZSCodeSetStatement *)self.codeLine.statement;
+    
+    self.nameTextField.text = statement.variableName;
+    self.valueTextField.text = statement.variableValueStringValue;
 }
 
 @end

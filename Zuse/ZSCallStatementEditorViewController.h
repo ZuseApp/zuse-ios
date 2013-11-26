@@ -7,11 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ZSStatementEditorViewController.h"
 
-@interface ZSCallStatementEditorViewController : UIViewController
-
-@property (weak, nonatomic) IBOutlet UITextField *methodName;
-@property (weak, nonatomic) IBOutlet UITextField *methodParams;
-@property (strong, nonatomic) NSString *codeLine;
+@interface ZSCallStatementEditorViewController : ZSStatementEditorViewController
 
 @end
