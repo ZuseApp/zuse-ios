@@ -65,12 +65,15 @@
             sprite.size = CGSizeMake([properties[@"width"] floatValue], [properties[@"height"] floatValue]);
             
             //add the node as a physics body for physics debugging
-            //sprite.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:sprite.size];
+//            sprite.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:sprite.size];
             
             //add the sprite to the scene
             [node addChild:sprite];
             
             [self addChild:node];
+            
+            //call debug render method
+            [self drawPhysicsBodies];
             
             // ...
             [_spriteNodes setObject:node forKey:key];
@@ -83,8 +86,7 @@
         // setting background color
         self.backgroundColor = [SKColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0];
         
-        //call debug render method
-        [self drawPhysicsBodies];
+       
         
     }
     return self;
