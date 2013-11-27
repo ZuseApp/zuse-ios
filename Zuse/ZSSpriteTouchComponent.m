@@ -18,7 +18,7 @@
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    if (_touchesMoved) _touchesMoved([touches anyObject]);
+    if (_touchesBegan) _touchesBegan([touches anyObject]);
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event

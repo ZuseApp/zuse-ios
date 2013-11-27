@@ -7,6 +7,18 @@
         "vertical":   true
       },
       "code": [
+        { "set": ["offset_x", 0] },
+        { "set": ["offset_y", 0] },
+        {
+          "on_event": {
+            "name": "touch_began",
+            "parameters": ["touch_x", "touch_y"],
+            "code": [
+              { "set": ["offset_x", { "-": [{ "get": "touch_x" }, { "get": "x" }] }] },
+              { "set": ["offset_y", { "-": [{ "get": "touch_y" }, { "get": "y" }] }] }
+            ]
+          }
+        },
         {
           "on_event": {
             "name": "touch_moved",
@@ -16,7 +28,7 @@
                 "if": {
                   "test": { "==": [{ "get": "horizontal"}, true] },
                   "true": [
-                    { "set": ["x", { "get": "touch_x" }] }
+                    { "set": ["x", { "-": [{ "get": "touch_x" }, { "get": "offset_x" }] } ] }
                   ]
                 }
               },
@@ -24,7 +36,7 @@
                 "if": {
                   "test": { "==": [{ "get": "vertical"}, true] },
                   "true": [
-                    { "set": ["y", { "get": "touch_y" }] }
+                    { "set": ["y", { "-": [{ "get": "touch_y" }, { "get": "offset_y" }] } ] }
                   ]
                 }
               }

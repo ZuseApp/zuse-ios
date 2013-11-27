@@ -38,6 +38,9 @@
     
     [super viewDidLoad];
     
+    // This makes it so you can still do the swipe-to-get-back
+    self.navigationController.interactivePopGestureRecognizer.delegate = nil;
+    
     [self loadSpriteKit];
     
     [_scene.interpreter triggerEvent:@"start"];
@@ -62,7 +65,6 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    self.navigationController.navigationBarHidden = NO;
 }
 
 - (void)didReceiveMemoryWarning

@@ -196,6 +196,31 @@
     XCTAssertEqual(YES, didRun, @"");
 }
 
+- (void)testSubtraction {
+    __block BOOL didRun = NO;
+    
+    NSDictionary *method = @{
+        @"method":  @"print",
+        @"block": ^(NSArray *args) {
+            didRun = YES;
+            XCTAssertEqualObjects(@(-1), args[0], @"");
+        }
+    };
+    
+    [_interpreter loadMethod:method];
+    
+    NSDictionary *program = @{
+        @"call": @{
+            @"method": @"print",
+            @"parameters": @[ @{ @"-": @[ @1, @2 ] } ]
+        }
+    };
+    
+    [_interpreter runJSON:program];
+    
+    XCTAssertEqual(YES, didRun, @"");
+}
+
 - (void)testNestedExpression {
     __block BOOL didRun = NO;
     

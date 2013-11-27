@@ -52,20 +52,30 @@
 
             component.touchesMoved = ^(UITouch *touch) {
                 CGPoint point = [touch locationInNode:self];
-//                NSLog(@"touch moved");
-//                NSLog(@"%@", touch);
                 [_interpreter triggerEvent:@"touch_moved"
                     onObjectWithIdentifier:object[@"id"]
                                 parameters:@{ @"touch_x": @(point.x), @"touch_y": @(point.y) }];
             };
+            
+            component.touchesBegan = ^(UITouch *touch) {
+                CGPoint point = [touch locationInNode:self];
+                [_interpreter triggerEvent:@"touch_began"
+                    onObjectWithIdentifier:object[@"id"]
+                                parameters:@{ @"touch_x": @(point.x), @"touch_y": @(point.y) }];
+            };
+            
             [node addComponent:component];
             
             //set up the sprite size and position on screen
             SKSpriteNode *sprite = [SKSpriteNode spriteNodeWithImageNamed:object[@"image"][@"path"]];
             
-            node.position = CGPointMake([properties[@"x"] floatValue], [properties[@"y"] floatValue]);
+            CGFloat height = size.height - [properties[@"y"] floatValue] - [properties[@"height"] floatValue];
+            
+            node.position = CGPointMake([properties[@"x"] floatValue], height);
             
             sprite.size = CGSizeMake([properties[@"width"] floatValue], [properties[@"height"] floatValue]);
+            
+            sprite.anchorPoint = CGPointMake(0, 0);
             
             
             //add the node as a physics body for physics debugging
@@ -106,8 +116,6 @@ didUpdateProperties:(NSDictionary *)properties {
         sprite.position = CGPointMake([properties[@"x"] floatValue], sprite.position.y);
     if (properties[@"y"])
         sprite.position = CGPointMake(sprite.position.x, [properties[@"y"] floatValue]);
-    
-    NSLog(@"%@", properties);
 }
 
 - (void)update:(NSTimeInterval)currentTime {
