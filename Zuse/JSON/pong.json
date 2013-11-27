@@ -37,6 +37,9 @@
   "objects": [
     {
       "id": "paddle1",
+      "image": {
+        "path": "paddle.png"
+      },
       "traits": [
         {
           "id": "Draggable",
@@ -48,13 +51,16 @@
       "properties": { 
         "x": 40,
         "y": 30,
-        "width": 100,
-        "height": 20
+        "width": 129,
+        "height": 28
       },
       "code": []
     },
     {
       "id": "paddle2",
+      "image": {
+        "path": "paddle.png"
+      },
       "traits": [
         {
           "id": "Draggable",
@@ -64,15 +70,18 @@
         }
       ],
       "properties": { 
-        "x": 200,
+        "x": 160,
         "y": 520,
-        "width": 100,
-        "height": 20
+        "width": 129,
+        "height": 28
       },
       "code": []
     },
     {
       "id": "ball",
+      "image": {
+        "path": "basketball.png"
+      },
       "traits": [],
       "properties": { 
         "x": 160,

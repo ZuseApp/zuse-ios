@@ -18,6 +18,7 @@
 		4C0D470517FB800400F13786 /* TestProject.json in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D470417FB800400F13786 /* TestProject.json */; };
 		4C0D470817FB927600F13786 /* ZSCanvasViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0D470717FB927600F13786 /* ZSCanvasViewController.m */; };
 		4C7527321800D5C3002B41E6 /* ZSProgram.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C7527311800D5C3002B41E6 /* ZSProgram.m */; };
+		4CCE4F841845A541006C7DA0 /* paddle.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CCE4F831845A541006C7DA0 /* paddle.png */; };
 		4CE340331809DB3C009A63A2 /* ZSBallViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE340321809DB3C009A63A2 /* ZSBallViewController.m */; };
 		4CE340361809DCFD009A63A2 /* ZSScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE340351809DCFD009A63A2 /* ZSScene.m */; };
 		4CE340401809EDC1009A63A2 /* basketball.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CE3403F1809EDC1009A63A2 /* basketball.png */; };
@@ -107,6 +108,7 @@
 		4C0D470717FB927600F13786 /* ZSCanvasViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCanvasViewController.m; sourceTree = "<group>"; };
 		4C7527301800D5C3002B41E6 /* ZSProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSProgram.h; sourceTree = "<group>"; };
 		4C7527311800D5C3002B41E6 /* ZSProgram.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSProgram.m; sourceTree = "<group>"; };
+		4CCE4F831845A541006C7DA0 /* paddle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = paddle.png; sourceTree = "<group>"; };
 		4CE340311809DB3C009A63A2 /* ZSBallViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSBallViewController.h; sourceTree = "<group>"; };
 		4CE340321809DB3C009A63A2 /* ZSBallViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSBallViewController.m; sourceTree = "<group>"; };
 		4CE340341809DCFD009A63A2 /* ZSScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSScene.h; sourceTree = "<group>"; };
@@ -387,6 +389,7 @@
 		4CF1CBFE17EFE13C00636E0D /* images */ = {
 			isa = PBXGroup;
 			children = (
+				4CCE4F831845A541006C7DA0 /* paddle.png */,
 				2C19FF06181AE6B600D10D2B /* monster.png */,
 				2C19FF07181AE6B600D10D2B /* monster@2x.png */,
 				2C19FF08181AE6B600D10D2B /* player.png */,
@@ -651,6 +654,7 @@
 				2C19FF10181AE6B600D10D2B /* projectile.png in Resources */,
 				5F41ACB11833DCFE0089D136 /* pong_compiled.json in Resources */,
 				4CF1CC0817EFE14A00636E0D /* yoda.jpeg in Resources */,
+				4CCE4F841845A541006C7DA0 /* paddle.png in Resources */,
 				2C19FF0C181AE6B600D10D2B /* monster.png in Resources */,
 				2C19FF0D181AE6B600D10D2B /* monster@2x.png in Resources */,
 				4CF1CC0717EFE14A00636E0D /* sonic.jpeg in Resources */,

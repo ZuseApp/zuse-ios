@@ -30,15 +30,16 @@
     if (self) {
         _sprites = [[NSMutableArray alloc] init];
         NSData *jsonData = nil;
-        NSString *path = [self completePathForFile:name];
-        if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
-            jsonData = [NSData dataWithContentsOfFile:path];
-        } else {
-            // Look for the project in the bundle.
-            NSString *modifiedName = [name componentsSeparatedByString:@"."][0];
-            NSString *jsonPath = [[NSBundle mainBundle] pathForResource:modifiedName ofType:@"json"];
-            jsonData = [NSData dataWithContentsOfFile:jsonPath];
-        }
+        // NSString *path = [self completePathForFile:name];
+        // NSLog(@"%@", path);
+        // if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
+        //     jsonData = [NSData dataWithContentsOfFile:path];
+        // } else {
+        // Look for the project in the bundle.
+        NSString *modifiedName = [name componentsSeparatedByString:@"."][0];
+        NSString *jsonPath = [[NSBundle mainBundle] pathForResource:modifiedName ofType:@"json"];
+        jsonData = [NSData dataWithContentsOfFile:jsonPath];
+        // }
         
         NSDictionary *json = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
         
@@ -63,6 +64,9 @@
             sprite.frame = frame;
             sprite.code = jsonObject[@"code"];
             sprite.traits = jsonObject[@"traits"];
+            
+            NSDictionary *image = jsonObject[@"image"];
+            sprite.imagePath = image[@"path"];
             
             [_sprites addObject:sprite];
         }
@@ -111,6 +115,12 @@
         [properties setObject:@(sprite.frame.origin.y) forKey:@"y"];
         [properties setObject:@(sprite.frame.size.width) forKey:@"width"];
         [properties setObject:@(sprite.frame.size.height) forKey:@"height"];
+        
+        if (sprite.imagePath) {
+            NSMutableDictionary *image = [NSMutableDictionary dictionary];
+            [image setObject:sprite.imagePath forKey:@"path"];
+            [object setObject:image forKey:@"image"];
+        }
         
         [object setObject:properties forKey:@"properties"];
         [object setObject:sprite.traits forKey:@"traits"];
