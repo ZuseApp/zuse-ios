@@ -12,6 +12,7 @@
 #import <BlocksKit/BlocksKit.h>
 #import <PhysicsDebugger/YMCPhysicsDebugger.h>
 #import <PhysicsDebugger/YMCSKNode+PhysicsDebug.h>
+#import "ZSCompiler.h"
 
 @interface ZSRendererScene() <ZSInterpreterDelegate>
 
@@ -25,14 +26,14 @@
 
 @implementation ZSRendererScene
 
--(id)initWithSize:(CGSize)size  interpreter:(ZSInterpreter *)interpreter {
+-(id)initWithSize:(CGSize)size projectJSON:(NSDictionary *)projectJSON {
     if (self = [super initWithSize:size]) {
         
     
-        _interpreter = interpreter;
-        _interpreter.delegate = self;
+        ZSCompiler *compiler = [ZSCompiler compilerWithProjectJSON:projectJSON];
+        _interpreter = [compiler interpreter];
         
-        NSDictionary *objects = [_interpreter objects];
+        _interpreter.delegate = self;
         
         //init the debugger
         [YMCPhysicsDebugger init];
@@ -42,7 +43,9 @@
         
         // TODO: render objects on screen...
         _spriteNodes = [[NSMutableDictionary alloc] init];
-        [objects each:^(id key, NSDictionary *properties) {
+        [projectJSON[@"objects"] each:^(NSDictionary *object) {
+            
+            NSDictionary *properties = object[@"properties"];
             
             SKComponentNode *node = [SKComponentNode node];
             ZSSpriteTouchComponent *component = [ZSSpriteTouchComponent new];
@@ -52,17 +55,18 @@
 //                NSLog(@"touch moved");
 //                NSLog(@"%@", touch);
                 [_interpreter triggerEvent:@"touch_moved"
-                    onObjectWithIdentifier:key
+                    onObjectWithIdentifier:object[@"id"]
                                 parameters:@{ @"touch_x": @(point.x), @"touch_y": @(point.y) }];
             };
             [node addComponent:component];
             
             //set up the sprite size and position on screen
-            SKSpriteNode *sprite = [SKSpriteNode spriteNodeWithImageNamed:@"monster"];
+            SKSpriteNode *sprite = [SKSpriteNode spriteNodeWithImageNamed:object[@"image"][@"path"]];
             
             node.position = CGPointMake([properties[@"x"] floatValue], [properties[@"y"] floatValue]);
             
             sprite.size = CGSizeMake([properties[@"width"] floatValue], [properties[@"height"] floatValue]);
+            
             
             //add the node as a physics body for physics debugging
 //            sprite.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:sprite.size];
@@ -76,7 +80,7 @@
             [self drawPhysicsBodies];
             
             // ...
-            [_spriteNodes setObject:node forKey:key];
+            [_spriteNodes setObject:node forKey:object[@"id"]];
             
         }];
         
