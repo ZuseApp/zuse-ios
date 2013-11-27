@@ -71,7 +71,11 @@
         TCSpriteView *view = [[TCSpriteView alloc] initWithFrame:sprite.frame];
         __weak TCSpriteView *weakView = view;
         view.sprite = sprite;
-        view.backgroundColor = [UIColor blackColor];
+        if (sprite.image) {
+            view.image = sprite.image;
+        } else {
+            view.backgroundColor = [UIColor blackColor];
+        }
         view.longTouch = ^(){
             [self performSegueWithIdentifier:@"editor" sender:weakView];
         };
@@ -118,7 +122,7 @@
     
     CALayer *rightBorder = [CALayer layer];
     rightBorder.frame = CGRectMake(_menuTable.frame.size.width, 0.0f, 1.0f, _menuTable.frame.size.height);
-    rightBorder.backgroundColor = [UIColor colorWithWhite:0.8f alpha:1.0f].CGColor;
+    rightBorder.backgroundColor = [UIColor colorWithWhite:0.8f alpha:.0f].CGColor;
     [_menuTable.layer addSublayer:rightBorder];
     
     [[UIApplication sharedApplication] setStatusBarHidden:YES];

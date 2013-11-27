@@ -31,14 +31,15 @@
         _sprites = [[NSMutableArray alloc] init];
         NSData *jsonData = nil;
         NSString *path = [self completePathForFile:name];
-        if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
-            jsonData = [NSData dataWithContentsOfFile:path];
-        } else {
-            // Look for the project in the bundle.
-            NSString *modifiedName = [name componentsSeparatedByString:@"."][0];
-            NSString *jsonPath = [[NSBundle mainBundle] pathForResource:modifiedName ofType:@"json"];
-            jsonData = [NSData dataWithContentsOfFile:jsonPath];
-        }
+        // NSLog(@"%@", path);
+        // if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
+        //     jsonData = [NSData dataWithContentsOfFile:path];
+        // } else {
+        // Look for the project in the bundle.
+        NSString *modifiedName = [name componentsSeparatedByString:@"."][0];
+        NSString *jsonPath = [[NSBundle mainBundle] pathForResource:modifiedName ofType:@"json"];
+        jsonData = [NSData dataWithContentsOfFile:jsonPath];
+        // }
         
         NSDictionary *json = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
         
@@ -63,6 +64,9 @@
             sprite.frame = frame;
             sprite.code = jsonObject[@"code"];
             sprite.traits = jsonObject[@"traits"];
+            
+            NSDictionary *image = jsonObject[@"image"];
+            sprite.image = [UIImage imageNamed:image[@"path"]];
             
             [_sprites addObject:sprite];
         }
