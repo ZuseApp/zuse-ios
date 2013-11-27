@@ -30,7 +30,7 @@
     if (self) {
         _sprites = [[NSMutableArray alloc] init];
         NSData *jsonData = nil;
-        NSString *path = [self completePathForFile:name];
+        // NSString *path = [self completePathForFile:name];
         // NSLog(@"%@", path);
         // if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
         //     jsonData = [NSData dataWithContentsOfFile:path];
@@ -66,7 +66,7 @@
             sprite.traits = jsonObject[@"traits"];
             
             NSDictionary *image = jsonObject[@"image"];
-            sprite.image = [UIImage imageNamed:image[@"path"]];
+            sprite.imagePath = image[@"path"];
             
             [_sprites addObject:sprite];
         }
@@ -115,6 +115,12 @@
         [properties setObject:@(sprite.frame.origin.y) forKey:@"y"];
         [properties setObject:@(sprite.frame.size.width) forKey:@"width"];
         [properties setObject:@(sprite.frame.size.height) forKey:@"height"];
+        
+        if (sprite.imagePath) {
+            NSMutableDictionary *image = [NSMutableDictionary dictionary];
+            [image setObject:sprite.imagePath forKey:@"path"];
+            [object setObject:image forKey:@"image"];
+        }
         
         [object setObject:properties forKey:@"properties"];
         [object setObject:sprite.traits forKey:@"traits"];
