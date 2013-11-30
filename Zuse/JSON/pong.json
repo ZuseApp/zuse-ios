@@ -92,7 +92,7 @@
     {
       "id": "ball",
       "image": {
-        "path": "basketball.png"
+        "path": "grayball.png"
       },
       "traits": [],
       "properties": { 
