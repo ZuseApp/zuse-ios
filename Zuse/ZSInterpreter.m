@@ -169,10 +169,10 @@
         }];
 
         if (code[@"async"] && [code[@"async"] boolValue]) {
-            id (^method)(NSArray *, void(^)(id)) = _methods[code[@"method"]];
+            id (^method)(NSString *, NSArray *, void(^)(id)) = _methods[code[@"method"]];
 
             __block id returnValue = nil;
-            method(params, ^void(id obj){
+            method(context.objectID, params, ^void(id obj){
                 returnValue = obj;
             });
 
@@ -182,8 +182,8 @@
             
             return returnValue;
         } else {
-            id (^method)(NSArray *) = _methods[code[@"method"]];
-            return method(params);
+            id (^method)(NSString *, NSArray *) = _methods[code[@"method"]];
+            return method(context.objectID, params);
         }
     }
 

@@ -39,7 +39,7 @@
     
     [interpreter loadMethod:@{
         @"method": @"in_object",
-        @"block": ^id(NSArray *params) {
+        @"block": ^id(NSString *identifier, NSArray *params) {
             didRunInObject = YES;
             XCTAssertEqual(params.count, [@2 unsignedIntegerValue], @"");
             XCTAssertEqualObjects(params[0], [NSNull null], @"");
@@ -53,7 +53,7 @@
     
     [interpreter loadMethod:@{
         @"method": @"in_trait",
-        @"block": ^id(NSArray *params) {
+        @"block": ^id(NSString *identifier, NSArray *params) {
             didRunInTrait = YES;
             XCTAssertEqual(params.count, [@3 unsignedIntegerValue], @"");
             XCTAssertEqualObjects(params[0], @"bar", @"");

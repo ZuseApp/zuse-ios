@@ -18,6 +18,7 @@
 
 @property (nonatomic) NSTimeInterval lastUpdateTimeInterval;
 @property (nonatomic) NSMutableDictionary *spriteNodes;
+@property (nonatomic) NSMutableDictionary *movingSprites;
 
 @property (strong, nonatomic) ZSInterpreter *interpreter;
 
@@ -28,10 +29,12 @@
 
 -(id)initWithSize:(CGSize)size projectJSON:(NSDictionary *)projectJSON {
     if (self = [super initWithSize:size]) {
-        
+        _movingSprites = [NSMutableDictionary dictionary];
     
         ZSCompiler *compiler = [ZSCompiler compilerWithProjectJSON:projectJSON];
         _interpreter = [compiler interpreter];
+        
+        [self loadMethodsIntoInterpreter];
         
         _interpreter.delegate = self;
         
@@ -78,8 +81,12 @@
             sprite.anchorPoint = CGPointMake(0, 0);
             
             
+            
             //add the node as a physics body for physics debugging
-//            sprite.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:sprite.size];
+            node.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:sprite.size];
+            node.physicsBody.dynamic = NO;
+            self.physicsWorld.gravity = CGVectorMake(0, -9.8);
+            node.physicsBody.mass = 0.02;
             
             //add the sprite to the scene
             [node addChild:sprite];
@@ -104,6 +111,29 @@
         
     }
     return self;
+}
+
+- (void)moveSpriteWithIdentifier:(NSString *)identifier
+                       direction:(CGFloat)direction
+                           speed:(CGFloat)speed {
+    [_movingSprites setObject:@(speed) forKey:identifier];
+    SKSpriteNode *node = _spriteNodes[identifier];
+    node.physicsBody.dynamic = YES;
+//    node.physicsBody.velocity =
+}
+
+- (void)loadMethodsIntoInterpreter {
+    [_interpreter loadMethod:@{
+        @"method": @"move",
+        @"block": ^id(NSString *identifier, NSArray *args) {
+            CGFloat direction = [args[0] floatValue];
+            CGFloat speed = [args[1] floatValue];
+            [self moveSpriteWithIdentifier:identifier
+                                 direction:direction
+                                     speed:speed];
+            return nil;
+        }
+    }];
 }
 
 - (void)interpreter:(ZSInterpreter *)interpreter

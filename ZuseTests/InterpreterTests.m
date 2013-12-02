@@ -39,7 +39,7 @@
     
     NSDictionary *method = @{
         @"method":  @"print",
-        @"block": ^(NSArray *args) {
+        @"block": ^(NSString *identifier, NSArray *args) {
             didRun = YES;
             XCTAssertEqualObjects(@"Hello World!", args[0], @"");
         }
@@ -64,7 +64,7 @@
     
     NSDictionary *method = @{
         @"method":  @"print",
-        @"block": ^(NSArray *args) {
+        @"block": ^(NSString *identifier, NSArray *args) {
             didRun = YES;
             XCTAssertEqualObjects(@[], args, @"");
         }
@@ -90,7 +90,7 @@
     
     NSDictionary *method = @{
         @"method":  @"print",
-        @"block": ^(NSArray *args) {
+        @"block": ^(NSString *identifier, NSArray *args) {
             didRun = YES;
             XCTAssertEqualObjects(@"Hello World!", args[0], @"");
         }
@@ -144,8 +144,9 @@
     
     NSDictionary *method = @{
         @"method":  @"test",
-        @"block": ^(NSArray *args) {
+        @"block": ^id(NSString *identifier, NSArray *args) {
             didRun = YES;
+            return nil;
         }
     };
     
@@ -176,7 +177,7 @@
     
     NSDictionary *method = @{
         @"method":  @"print",
-        @"block": ^(NSArray *args) {
+        @"block": ^(NSString *identifier, NSArray *args) {
             didRun = YES;
             XCTAssertEqualObjects(@3, args[0], @"");
         }
@@ -201,7 +202,7 @@
     
     NSDictionary *method = @{
         @"method":  @"print",
-        @"block": ^(NSArray *args) {
+        @"block": ^(NSString *identifier, NSArray *args) {
             didRun = YES;
             XCTAssertEqualObjects(@(-1), args[0], @"");
         }
@@ -226,7 +227,7 @@
     
     NSDictionary *method = @{
         @"method":  @"print",
-        @"block": ^(NSArray *args) {
+        @"block": ^(NSString *identifier, NSArray *args) {
             didRun = YES;
             XCTAssertEqualObjects(@6, args[0], @"");
         }
@@ -257,7 +258,7 @@
     
     NSDictionary *method = @{
         @"method":  @"print",
-        @"block": ^(NSArray *args, void(^finishedBlock)(id)) {
+        @"block": ^(NSString *identifier, NSArray *args, void(^finishedBlock)(id)) {
             didRun = YES;
             finishedBlock(@YES);
         }
@@ -288,7 +289,7 @@
 - (void)testScope {
     NSDictionary *method = @{
         @"method":  @"check1",
-        @"block": ^id(NSArray *args) {
+        @"block": ^id(NSString *identifier, NSArray *args) {
             XCTAssertEqual(args.count, [@2 unsignedIntegerValue], @"");
             XCTAssertEqualObjects(args[0], @"foo", @"");
             XCTAssertEqualObjects(args[1], @"bar", @"");
@@ -300,7 +301,7 @@
     
     method = @{
         @"method":  @"check2",
-        @"block": ^id(NSArray *args) {
+        @"block": ^id(NSString *identifier, NSArray *args) {
             XCTAssertEqual(args.count, [@2 unsignedIntegerValue], @"");
             XCTAssertEqualObjects(args[0], @"foo", @"");
             XCTAssertEqual(args[1], [NSNull null], @"");
@@ -322,7 +323,7 @@
     
     NSDictionary *method = @{
         @"method":  @"check1",
-        @"block": ^id(NSArray *args) {
+        @"block": ^id(NSString *identifier, NSArray *args) {
             didRunCheckOne = YES;
             XCTAssertEqual(args.count, [@1 unsignedIntegerValue], @"");
             XCTAssertEqualObjects(args[0], @"bar", @"");
@@ -335,7 +336,7 @@
     __block BOOL didRunCheckTwo = NO;
     method = @{
         @"method":  @"check2",
-        @"block": ^id(NSArray *args) {
+        @"block": ^id(NSString *identifier, NSArray *args) {
             didRunCheckTwo = YES;
             XCTAssertEqual(args.count, [@1 unsignedIntegerValue], @"");
             XCTAssertEqualObjects(args[0], @"bar", @"");
@@ -359,7 +360,7 @@
     __block BOOL checkOneDidRun = NO;
     NSDictionary *method = @{
         @"method":  @"check1",
-        @"block": ^id(NSArray *args) {
+        @"block": ^id(NSString *identifier, NSArray *args) {
             checkOneDidRun = YES;
             XCTAssertEqual(args.count, [@2 unsignedIntegerValue], @"");
             XCTAssertEqualObjects(args[0], @"foo", @"");
@@ -373,7 +374,7 @@
     __block BOOL checkTwoDidRun = NO;
     method = @{
         @"method":  @"check2",
-        @"block": ^id(NSArray *args) {
+        @"block": ^id(NSString *identifier, NSArray *args) {
             checkTwoDidRun = YES;
             XCTAssertEqual(args.count, [@4 unsignedIntegerValue], @"");
             XCTAssertEqualObjects(args[0], @"foo", @"");
@@ -389,7 +390,7 @@
     __block BOOL checkParametersDidRun = NO;
     method = @{
         @"method":  @"checkParameters",
-        @"block": ^id(NSArray *args) {
+        @"block": ^id(NSString *identifier, NSArray *args) {
             checkParametersDidRun = YES;
             XCTAssertEqual(args.count, [@2 unsignedIntegerValue], @"");
             XCTAssertEqualObjects(args[0], @10, @"");
