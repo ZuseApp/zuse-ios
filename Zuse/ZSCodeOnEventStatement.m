@@ -3,33 +3,31 @@
 
 @interface ZSCodeOnEventStatement()
 
-@property (strong, nonatomic) NSString *eventName;
-@property (strong, nonatomic) NSMutableArray *parameters;
-@property (strong, nonatomic) ZSCodeSuite *code;
-
 @end
 
 @implementation ZSCodeOnEventStatement
 
 
-+(id)statementWith:(NSString *)name
-        parameters:(NSMutableArray *)params
-              code:(ZSCodeSuite *)code
++(id)statementWithName:(NSString *)name
+            parameters:(NSMutableArray *)params
+                  code:(ZSCodeSuite *)code
 {
     ZSCodeOnEventStatement *s = [[ZSCodeOnEventStatement alloc]init];
     s.eventName = name;
     s.parameters = params;
     s.code = code;
+    s.code.parentStatement = s;
     return s;
 }
 
 +(id)statementWithJSON:(NSDictionary *)json
                  level:(NSInteger)level
 {
-    return [self statementWith:json[@"on_event"][@"name"]
-                    parameters:json[@"on_event"][@"parameters"]
-                          code:[ZSCodeSuite suiteWithJSON:json[@"on_event"][@"code"]
-                                                    level:level+1]];
+    return [self statementWithName:json[@"on_event"][@"name"]
+                        parameters:json[@"on_event"][@"parameters"]
+                              code:[ZSCodeSuite suiteWithJSON:json[@"on_event"][@"code"]
+                                                    level:level+1
+                                                   parent:nil]];
 }
 
 -(NSArray *) codeLines

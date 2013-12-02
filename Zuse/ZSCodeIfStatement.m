@@ -3,10 +3,6 @@
 
 @interface ZSCodeIfStatement()
 
-@property (strong, nonatomic) ZSCodeBoolExpression *boolExp;
-@property (strong, nonatomic) ZSCodeSuite *trueSuite;
-@property (strong, nonatomic) ZSCodeSuite *falseSuite;
-
 @end
 
 @implementation ZSCodeIfStatement
@@ -19,7 +15,9 @@
     ZSCodeIfStatement *s = [[ZSCodeIfStatement alloc]init];
     s.boolExp = boolExp;
     s.trueSuite = trueSuite;
+    s.trueSuite.parentStatement = s;
     s.falseSuite = falseSuite;
+    s.falseSuite.parentStatement = s;
     s.level = level;
     return s;
 }
@@ -29,9 +27,11 @@
 {
     return [self statementWithBoolExp:[ZSCodeBoolExpression expressionWithJSON:json[@"if"][@"test"]]
                             trueSuite:[ZSCodeSuite suiteWithJSON:json[@"if"][@"true"]
-                                                           level:level+1]
+                                                           level:level+1
+                                                          parent:nil]
                            falseSuite:[ZSCodeSuite suiteWithJSON:json[@"if"][@"false"]
-                                                           level:level+1]
+                                                           level:level+1
+                                                          parent:nil]
                                 level:level];
 }
 

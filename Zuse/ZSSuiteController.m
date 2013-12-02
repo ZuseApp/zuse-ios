@@ -22,9 +22,9 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"command"];;
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"command"];
     
-    CGFloat height = 170;
+    //CGFloat height = 170;
     CGFloat width = 320;
     
     NSInteger row = indexPath.row;

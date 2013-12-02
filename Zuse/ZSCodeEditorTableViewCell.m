@@ -1,45 +1,25 @@
-//
-//  ZSCodeEditorTableViewCell.m
-//  Zuse
-//
-//  Created by Vladimir on 11/25/13.
-//  Copyright (c) 2013 Michael Hogenson. All rights reserved.
-//
-
 #import "ZSCodeEditorTableViewCell.h"
+#import "ZSCodeStatement.h"
+#import "ZSCodeSetStatement.h"
+
+#define ZSCodeEditorTableViewCellIndentation 15 // pixels
 
 @implementation ZSCodeEditorTableViewCell
 
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+#pragma mark - UITableViewCell
+
+- (void)layoutSubviews
 {
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    if (self) {
-        // Initialization code
-    }
-    return self;
+    // Add indentation
+    CGRect frame = self.contentView.frame;
+    frame.origin.x = self.codeLine.indentation * ZSCodeEditorTableViewCellIndentation;
+    frame.size.width -= frame.origin.x;
+    self.contentView.frame = frame;
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
+- (void)prepareForReuse
 {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
-}
-
-- (void)setCodeLine:(ZSCodeLine *)codeLine
-{
-    _codeLine = codeLine;
-    
-    // form text
-    NSMutableString *text = [NSMutableString stringWithString:@""];
-    for (NSInteger i = 0; i < codeLine.indentation; i++)
-    {
-        [text appendString:@"       "];
-    }
-    [text appendString:codeLine.text];
-    
-    self.textLabel.text = text;
-    self.textLabel.font = [UIFont fontWithName:@"Arial" size:14];
+    NSLog(@"prepare for reuse");
 }
 
 @end

@@ -7,9 +7,6 @@
 
 @interface ZSCodeSuite()
 
-@property (strong, nonatomic) NSMutableArray *statements;
-@property (nonatomic) NSInteger level;
-
 @end
 
 @implementation ZSCodeSuite
@@ -27,6 +24,7 @@
 
 +(id)suiteWithJSON:(NSArray *)JSONSuite
              level:(NSInteger)level
+            parent:(ZSCodeStatement *)parentStatement
 {
     if (JSONSuite == nil) {
         return nil;
@@ -35,6 +33,7 @@
     // Create a new suite object
     ZSCodeSuite *suite = [[ZSCodeSuite alloc]init];
     suite.level = level;
+    suite.parentStatement = parentStatement;
     
     // Process JSON suite
     for (NSDictionary *JSONStatement in JSONSuite)
@@ -84,9 +83,23 @@
         [lines addObjectsFromArray:s.codeLines];
     }
     
+    
+    // Decide on type of new statement
+    NSString *type;
+    if ([self.parentStatement isKindOfClass:[ZSCodeOnEventStatement class]])
+    {
+        type = ZSCodeLineStatementNewInsideOnEvent;
+    }
+    else if([self.parentStatement isKindOfClass:[ZSCodeIfStatement class]])
+    {
+        type = ZSCodeLineStatementNewInsideIf;
+    }
+    else
+        type = ZSCodeLineStatementNew;
+    
     // add new code line
     [lines addObject:[ZSCodeLine lineWithText:@"+"
-                                         type:ZSCodeLineStatementNew
+                                         type:type
                                   indentation:self.level
                                     statement:nil]];
     return lines;

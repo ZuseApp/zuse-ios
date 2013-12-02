@@ -6,6 +6,8 @@ extern NSString *const ZSCodeLineStatementCall;
 extern NSString *const ZSCodeLineStatementSet;
 extern NSString *const ZSCodeLineStatementOnEvent;
 extern NSString *const ZSCodeLineStatementNew;
+extern NSString *const ZSCodeLineStatementNewInsideIf;
+extern NSString *const ZSCodeLineStatementNewInsideOnEvent;
 extern NSString *const ZSCodeLineStatementDefault;
 
 @interface ZSCodeLine : NSObject
