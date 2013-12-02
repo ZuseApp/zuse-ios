@@ -12,7 +12,8 @@
 
 @interface ZSRendererScene : SKComponentScene
 
+- (instancetype)initWithSize:(CGSize)size projectJSON:(NSDictionary *)projectJSON;
 
-- (instancetype)initWithSize:(CGSize)size interpreter:(ZSInterpreter *)interpreter;
+@property (strong, nonatomic, readonly) ZSInterpreter *interpreter;
 
 @end

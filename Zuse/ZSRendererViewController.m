@@ -17,7 +17,7 @@
 @interface ZSRendererViewController ()
 
 @property (strong, nonatomic) ZSInterpreter *interpreter;
-@property (strong, nonatomic) SKScene *scene;
+@property (strong, nonatomic) ZSRendererScene *scene;
 @property (strong, nonatomic) SKView *SKView;
 
 @end
@@ -37,22 +37,13 @@
 {
     
     [super viewDidLoad];
-	// TODO: Redundant loading of the json since the program object already does this.
-//    NSString *jsonPath = [[NSBundle mainBundle] pathForResource:@"pong" ofType:@"json"];
-//    NSData *jsonData = [NSData dataWithContentsOfFile:jsonPath];
-//    _projectJSON = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
     
-    ZSCompiler *compiler = [ZSCompiler compilerWithProjectJSON:_projectJSON];
-    _interpreter = [compiler interpreter];
+    // This makes it so you can still do the swipe-to-get-back
+    self.navigationController.interactivePopGestureRecognizer.delegate = nil;
+    
     [self loadSpriteKit];
     
-    // compiler
-//    for (NSDictionary *dict in json[@"objects"]) {
-//        [_interpreter loadObject:dict];
-//    }
-    
-//    [NSThread detachNewThreadSelector:@selector(runInterpreter:) toTarget:self withObject:nil];
-    [self runInterpreter];
+    [_scene.interpreter triggerEvent:@"start"];
 }
 
 - (void)loadSpriteKit {
@@ -62,7 +53,7 @@
     _SKView.showsNodeCount = YES;
     
     // Create and configure the scene.
-    _scene = [[ZSRendererScene alloc] initWithSize:_SKView.bounds.size interpreter:_interpreter];
+    _scene = [[ZSRendererScene alloc] initWithSize:_SKView.bounds.size projectJSON:_projectJSON];
     _scene.scaleMode = SKSceneScaleModeAspectFill;
     
     // Present the scene.
@@ -74,7 +65,6 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    self.navigationController.navigationBarHidden = NO;
 }
 
 - (void)didReceiveMemoryWarning

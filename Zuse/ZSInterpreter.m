@@ -194,6 +194,13 @@
         return @(first + second);
     }
     
+    else if ([key isEqualToString:@"-"]) {
+        NSInteger first = [[self evaluateExpression:code[0] context:context] integerValue];
+        NSInteger second = [[self evaluateExpression:code[1] context:context] integerValue];
+        
+        return @(first - second);
+    }
+    
     else if ([key isEqualToString:@"=="]) {
         id firstExpression = [self evaluateExpression:code[0] context:context];
         id secondExpression = [self evaluateExpression:code[1] context:context];

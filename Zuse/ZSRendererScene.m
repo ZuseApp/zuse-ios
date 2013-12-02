@@ -12,6 +12,7 @@
 #import <BlocksKit/BlocksKit.h>
 #import <PhysicsDebugger/YMCPhysicsDebugger.h>
 #import <PhysicsDebugger/YMCSKNode+PhysicsDebug.h>
+#import "ZSCompiler.h"
 
 @interface ZSRendererScene() <ZSInterpreterDelegate>
 
@@ -25,14 +26,14 @@
 
 @implementation ZSRendererScene
 
--(id)initWithSize:(CGSize)size  interpreter:(ZSInterpreter *)interpreter {
+-(id)initWithSize:(CGSize)size projectJSON:(NSDictionary *)projectJSON {
     if (self = [super initWithSize:size]) {
         
     
-        _interpreter = interpreter;
-        _interpreter.delegate = self;
+        ZSCompiler *compiler = [ZSCompiler compilerWithProjectJSON:projectJSON];
+        _interpreter = [compiler interpreter];
         
-        NSDictionary *objects = [_interpreter objects];
+        _interpreter.delegate = self;
         
         //init the debugger
         [YMCPhysicsDebugger init];
@@ -42,38 +43,54 @@
         
         // TODO: render objects on screen...
         _spriteNodes = [[NSMutableDictionary alloc] init];
-        [objects each:^(id key, NSDictionary *properties) {
+        [projectJSON[@"objects"] each:^(NSDictionary *object) {
+            
+            NSDictionary *properties = object[@"properties"];
             
             SKComponentNode *node = [SKComponentNode node];
             ZSSpriteTouchComponent *component = [ZSSpriteTouchComponent new];
 
             component.touchesMoved = ^(UITouch *touch) {
                 CGPoint point = [touch locationInNode:self];
-//                NSLog(@"touch moved");
-//                NSLog(@"%@", touch);
                 [_interpreter triggerEvent:@"touch_moved"
-                    onObjectWithIdentifier:key
+                    onObjectWithIdentifier:object[@"id"]
                                 parameters:@{ @"touch_x": @(point.x), @"touch_y": @(point.y) }];
             };
+            
+            component.touchesBegan = ^(UITouch *touch) {
+                CGPoint point = [touch locationInNode:self];
+                [_interpreter triggerEvent:@"touch_began"
+                    onObjectWithIdentifier:object[@"id"]
+                                parameters:@{ @"touch_x": @(point.x), @"touch_y": @(point.y) }];
+            };
+            
             [node addComponent:component];
             
             //set up the sprite size and position on screen
-            SKSpriteNode *sprite = [SKSpriteNode spriteNodeWithImageNamed:@"monster"];
+            SKSpriteNode *sprite = [SKSpriteNode spriteNodeWithImageNamed:object[@"image"][@"path"]];
             
-            node.position = CGPointMake([properties[@"x"] floatValue], [properties[@"y"] floatValue]);
+            CGFloat height = size.height - [properties[@"y"] floatValue] - [properties[@"height"] floatValue];
+            
+            node.position = CGPointMake([properties[@"x"] floatValue], height);
             
             sprite.size = CGSizeMake([properties[@"width"] floatValue], [properties[@"height"] floatValue]);
             
+            sprite.anchorPoint = CGPointMake(0, 0);
+            
+            
             //add the node as a physics body for physics debugging
-            //sprite.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:sprite.size];
+//            sprite.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:sprite.size];
             
             //add the sprite to the scene
             [node addChild:sprite];
             
             [self addChild:node];
             
+            //call debug render method
+            [self drawPhysicsBodies];
+            
             // ...
-            [_spriteNodes setObject:node forKey:key];
+            [_spriteNodes setObject:node forKey:object[@"id"]];
             
         }];
         
@@ -83,8 +100,7 @@
         // setting background color
         self.backgroundColor = [SKColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0];
         
-        //call debug render method
-        [self drawPhysicsBodies];
+       
         
     }
     return self;
@@ -100,8 +116,6 @@ didUpdateProperties:(NSDictionary *)properties {
         sprite.position = CGPointMake([properties[@"x"] floatValue], sprite.position.y);
     if (properties[@"y"])
         sprite.position = CGPointMake(sprite.position.x, [properties[@"y"] floatValue]);
-    
-    NSLog(@"%@", properties);
 }
 
 - (void)update:(NSTimeInterval)currentTime {

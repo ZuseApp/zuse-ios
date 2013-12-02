@@ -71,7 +71,11 @@
         TCSpriteView *view = [[TCSpriteView alloc] initWithFrame:sprite.frame];
         __weak TCSpriteView *weakView = view;
         view.sprite = sprite;
-        view.backgroundColor = [UIColor blackColor];
+        if (sprite.imagePath) {
+            view.image = [UIImage imageNamed:sprite.imagePath];
+        } else {
+            view.backgroundColor = [UIColor blackColor];
+        }
         view.longTouch = ^(){
             [self performSegueWithIdentifier:@"editor" sender:weakView];
         };
