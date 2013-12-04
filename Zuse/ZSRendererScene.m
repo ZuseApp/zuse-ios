@@ -6,12 +6,14 @@
 //  Copyright (c) 2013 Michael Hogenson. All rights reserved.
 //
 
-#import "ZSRendererScene.h"
-#import "ZSSpriteTouchComponent.h"
 #import <SpriteKit-Components/SKComponents.h>
 #import <BlocksKit/BlocksKit.h>
 #import <PhysicsDebugger/YMCPhysicsDebugger.h>
 #import <PhysicsDebugger/YMCSKNode+PhysicsDebug.h>
+@import GLKit;
+
+#import "ZSRendererScene.h"
+#import "ZSSpriteTouchComponent.h"
 #import "ZSCompiler.h"
 
 @interface ZSRendererScene() <ZSInterpreterDelegate>
@@ -24,6 +26,8 @@
 
 @end
 
+NSString * const kZSSpriteName = @"sprite";
+CGFloat const kZSSpriteSpeed = 200;
 
 @implementation ZSRendererScene
 
@@ -51,6 +55,7 @@
             NSDictionary *properties = object[@"properties"];
             
             SKComponentNode *node = [SKComponentNode node];
+            node.name = kZSSpriteName;
             ZSSpriteTouchComponent *component = [ZSSpriteTouchComponent new];
 
             component.touchesMoved = ^(UITouch *touch) {
@@ -72,21 +77,20 @@
             //set up the sprite size and position on screen
             SKSpriteNode *sprite = [SKSpriteNode spriteNodeWithImageNamed:object[@"image"][@"path"]];
             
-            CGFloat height = size.height - [properties[@"y"] floatValue] - [properties[@"height"] floatValue];
-            
-            node.position = CGPointMake([properties[@"x"] floatValue], height);
+            node.position = CGPointMake([properties[@"x"] floatValue], [properties[@"y"] floatValue]);
             
             sprite.size = CGSizeMake([properties[@"width"] floatValue], [properties[@"height"] floatValue]);
             
-            sprite.anchorPoint = CGPointMake(0, 0);
-            
-            
             
             //add the node as a physics body for physics debugging
-            node.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:sprite.size];
+            if ([object[@"physics_body"] isEqualToString:@"circle"]) {
+                node.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:(sprite.size.width / 2)];
+            } else {
+                node.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:sprite.size];
+            }
             node.physicsBody.dynamic = NO;
-            self.physicsWorld.gravity = CGVectorMake(0, -9.8);
             node.physicsBody.mass = 0.02;
+            node.physicsBody.affectedByGravity = NO;
             
             //add the sprite to the scene
             [node addChild:sprite];
@@ -98,7 +102,6 @@
             
             // ...
             [_spriteNodes setObject:node forKey:object[@"id"]];
-            
         }];
         
         // getting size of screen
@@ -117,9 +120,22 @@
                        direction:(CGFloat)direction
                            speed:(CGFloat)speed {
     [_movingSprites setObject:@(speed) forKey:identifier];
-    SKSpriteNode *node = _spriteNodes[identifier];
+    SKNode *node = _spriteNodes[identifier];
     node.physicsBody.dynamic = YES;
-//    node.physicsBody.velocity =
+    node.physicsBody.velocity = CGVectorMake(kZSSpriteSpeed, kZSSpriteSpeed);
+}
+
+- (void)didSimulatePhysics {
+    
+    [self enumerateChildNodesWithName:kZSSpriteName
+                           usingBlock:^(SKNode *node, BOOL *stop) {
+                               GLKVector2 velocity = GLKVector2Make(node.physicsBody.velocity.dx, node.physicsBody.velocity.dy);
+                               GLKVector2 direction = GLKVector2Normalize(velocity);
+                               GLKVector2 newVelocity = GLKVector2MultiplyScalar(direction, kZSSpriteSpeed);
+                               node.physicsBody.velocity = CGVectorMake(newVelocity.x, newVelocity.y);
+                               node.physicsBody.angularVelocity = 0.0;
+                           }];
+    
 }
 
 - (void)loadMethodsIntoInterpreter {
@@ -139,8 +155,6 @@
 - (void)interpreter:(ZSInterpreter *)interpreter
 objectWithIdentifier:(NSString *)identifier
 didUpdateProperties:(NSDictionary *)properties {
-     // TODO: Update properties of onscreen objects based on changes.
-     // TODO: Create some node (Sprite object from interpreter) and add NodeComponent (move event i.e. touchMoved). touchMoved implementation has no concept of how sprite will be interacting with Zuse code, so must be generic and simply grab out the coordinate info for that sprite. This info must be transferred into the scene, then the scene will pass this info to the interpreter (ex; event->touchMoved, sprite->paddle1, parameters->touchX, touchY).
     SKComponentNode *sprite = _spriteNodes[identifier];
     if (properties[@"x"])
         sprite.position = CGPointMake([properties[@"x"] floatValue], sprite.position.y);

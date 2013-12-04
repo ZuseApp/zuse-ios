@@ -64,6 +64,7 @@
             sprite.frame = frame;
             sprite.code = jsonObject[@"code"];
             sprite.traits = jsonObject[@"traits"];
+            sprite.physicsBody = jsonObject[@"physics_body"];
             
             NSDictionary *image = jsonObject[@"image"];
             sprite.imagePath = image[@"path"];
@@ -111,8 +112,14 @@
         [object setObject:sprite.identifier forKey:@"id"];
         
         NSMutableDictionary *properties = [NSMutableDictionary dictionary];
-        [properties setObject:@(sprite.frame.origin.x) forKey:@"x"];
-        [properties setObject:@(sprite.frame.origin.y) forKey:@"y"];
+        
+        CGSize screenSize = [UIScreen mainScreen].bounds.size;
+        
+        CGFloat yPos = screenSize.height - sprite.frame.origin.y - (sprite.frame.size.height / 2);
+        CGFloat xPos = sprite.frame.origin.x + sprite.frame.size.width / 2;
+        
+        [properties setObject:@(xPos) forKey:@"x"];
+        [properties setObject:@(yPos) forKey:@"y"];
         [properties setObject:@(sprite.frame.size.width) forKey:@"width"];
         [properties setObject:@(sprite.frame.size.height) forKey:@"height"];
         
@@ -124,6 +131,7 @@
         
         [object setObject:properties forKey:@"properties"];
         [object setObject:sprite.traits forKey:@"traits"];
+        [object setObject:sprite.physicsBody forKey:@"physics_body"];
         [objects addObject:object];
     }
     

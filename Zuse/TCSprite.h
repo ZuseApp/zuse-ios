@@ -6,7 +6,8 @@
 @property (strong, nonatomic) NSString *imageData;
 @property (assign, nonatomic) CGRect frame;
 @property (assign, nonatomic) NSMutableArray *traits;
-@property(strong, nonatomic) NSMutableArray *code;
-@property(strong, nonatomic) TCSprite *identifier;
+@property (strong, nonatomic) NSMutableArray *code;
+@property (strong, nonatomic) TCSprite *identifier;
+@property (strong, nonatomic) NSString *physicsBody;
 
 @end

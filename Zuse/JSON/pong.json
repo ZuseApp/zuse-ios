@@ -49,6 +49,7 @@
   "objects": [
     {
       "id": "paddle1",
+      "physics_body": "rectangle",
       "image": {
         "path": "paddle.png"
       },
@@ -70,6 +71,7 @@
     },
     {
       "id": "paddle2",
+      "physics_body": "rectangle",
       "image": {
         "path": "paddle.png"
       },
@@ -91,6 +93,7 @@
     },
     {
       "id": "ball",
+      "physics_body": "circle",
       "image": {
         "path": "grayball.png"
       },
