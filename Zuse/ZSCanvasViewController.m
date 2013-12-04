@@ -111,6 +111,9 @@
     _menuController.playSelected = ^{
         [blockSelf performSegueWithIdentifier:@"renderer" sender:blockSelf];
     };
+    
+    [self.view bringSubviewToFront:_menuTable];
+    [self.view bringSubviewToFront:_spriteTable];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -196,11 +199,10 @@
 }
 
 - (IBAction)canvasPannedLeft:(id)sender {
-    // if (_menuTableViewShowing) return;
+    if (_menuTableViewShowing) return;
     
     UIScreenEdgePanGestureRecognizer *panRecognizer = (UIScreenEdgePanGestureRecognizer *)sender;
     
-    [self.view bringSubviewToFront:_menuTable];
     if (panRecognizer.state == UIGestureRecognizerStateBegan) {
         [UIView animateWithDuration:0.25 animations:^{
             _menuTableViewShowing = YES;
