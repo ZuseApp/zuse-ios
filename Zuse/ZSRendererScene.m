@@ -27,6 +27,7 @@
 @end
 
 NSString * const kZSSpriteName = @"sprite";
+NSString * const kZSJointName = @"joint";
 CGFloat const kZSSpriteSpeed = 200;
 
 @implementation ZSRendererScene
@@ -56,8 +57,32 @@ CGFloat const kZSSpriteSpeed = 200;
             
             SKComponentNode *node = [SKComponentNode node];
             node.name = kZSSpriteName;
+            
+            //set up the sprite size and position on screen
+            SKSpriteNode *sprite = [SKSpriteNode spriteNodeWithImageNamed:object[@"image"][@"path"]];
+            
+            node.position = CGPointMake([properties[@"x"] floatValue], [properties[@"y"] floatValue]);
+            
+            sprite.size = CGSizeMake([properties[@"width"] floatValue], [properties[@"height"] floatValue]);
+            
+            
+            //add the node as a physics body for physics debugging
+            SKComponentNode *jointNode = [SKComponentNode new];
+            jointNode.name = kZSJointName;
+            jointNode.alpha = 0;
+                                          
+            if ([object[@"physics_body"] isEqualToString:@"circle"]) {
+                node.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:(sprite.size.width / 2)];
+                jointNode.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:(sprite.size.width/2)];
+            } else {
+                node.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:sprite.size];
+                jointNode.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:(sprite.size)];
+            }
+            
+            SKPhysicsJointFixed *physicsJointFixed = [SKPhysicsJointFixed jointWithBodyA:node.physicsBody bodyB:jointNode.physicsBody anchor:sprite.anchorPoint];
+            
             ZSSpriteTouchComponent *component = [ZSSpriteTouchComponent new];
-
+            
             component.touchesMoved = ^(UITouch *touch) {
                 CGPoint point = [touch locationInNode:self];
                 [_interpreter triggerEvent:@"touch_moved"
@@ -72,36 +97,30 @@ CGFloat const kZSSpriteSpeed = 200;
                                 parameters:@{ @"touch_x": @(point.x), @"touch_y": @(point.y) }];
             };
             
-            [node addComponent:component];
+            [jointNode addComponent:component];
             
-            //set up the sprite size and position on screen
-            SKSpriteNode *sprite = [SKSpriteNode spriteNodeWithImageNamed:object[@"image"][@"path"]];
-            
-            node.position = CGPointMake([properties[@"x"] floatValue], [properties[@"y"] floatValue]);
-            
-            sprite.size = CGSizeMake([properties[@"width"] floatValue], [properties[@"height"] floatValue]);
-            
-            
-            //add the node as a physics body for physics debugging
-            if ([object[@"physics_body"] isEqualToString:@"circle"]) {
-                node.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:(sprite.size.width / 2)];
-            } else {
-                node.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:sprite.size];
-            }
+            //TODO: see if there are issues with fixed joint physics body in case there are sync issues on movement.
             node.physicsBody.dynamic = NO;
             node.physicsBody.mass = 0.02;
             node.physicsBody.affectedByGravity = NO;
             
-            //add the sprite to the scene
+            jointNode.physicsBody.dynamic = NO;
+            jointNode.physicsBody.mass = 0.02;
+            jointNode.physicsBody.affectedByGravity = NO;
+            
+            //add sprite to the node
             [node addChild:sprite];
             
+            //add both nodes to scene
             [self addChild:node];
+            [self addChild:jointNode];
+            [self.physicsWorld addJoint:physicsJointFixed];
             
-            //call debug render method
+            //TODO: call debug render method; doesn't seem to render red boxes around physics bodies
             [self drawPhysicsBodies];
             
             // ...
-            [_spriteNodes setObject:node forKey:object[@"id"]];
+            [_spriteNodes setObject:jointNode forKey:object[@"id"]];
         }];
         
         // getting size of screen
@@ -120,18 +139,22 @@ CGFloat const kZSSpriteSpeed = 200;
                        direction:(CGFloat)direction
                            speed:(CGFloat)speed {
     [_movingSprites setObject:@(speed) forKey:identifier];
-    SKNode *node = _spriteNodes[identifier];
+    SKComponentNode *node = _spriteNodes[identifier];
+    ZSSpriteTouchComponent *component = [node getComponent:[ZSSpriteTouchComponent class]];
     node.physicsBody.dynamic = YES;
-    node.physicsBody.velocity = CGVectorMake(kZSSpriteSpeed, kZSSpriteSpeed);
+    component.speed = speed;
+    node.physicsBody.velocity = CGVectorMake(speed, speed);
 }
 
 - (void)didSimulatePhysics {
     
-    [self enumerateChildNodesWithName:kZSSpriteName
+    [self enumerateChildNodesWithName:kZSJointName
                            usingBlock:^(SKNode *node, BOOL *stop) {
+                               SKComponentNode *componentNode = (SKComponentNode *)node;
+                               ZSSpriteTouchComponent *touchNode = [componentNode getComponent:[ZSSpriteTouchComponent class]];
                                GLKVector2 velocity = GLKVector2Make(node.physicsBody.velocity.dx, node.physicsBody.velocity.dy);
                                GLKVector2 direction = GLKVector2Normalize(velocity);
-                               GLKVector2 newVelocity = GLKVector2MultiplyScalar(direction, kZSSpriteSpeed);
+                               GLKVector2 newVelocity = GLKVector2MultiplyScalar(direction, touchNode.speed);
                                node.physicsBody.velocity = CGVectorMake(newVelocity.x, newVelocity.y);
                                node.physicsBody.angularVelocity = 0.0;
                            }];
@@ -157,9 +180,13 @@ objectWithIdentifier:(NSString *)identifier
 didUpdateProperties:(NSDictionary *)properties {
     SKComponentNode *sprite = _spriteNodes[identifier];
     if (properties[@"x"])
+    {
         sprite.position = CGPointMake([properties[@"x"] floatValue], sprite.position.y);
+    }
     if (properties[@"y"])
+    {
         sprite.position = CGPointMake(sprite.position.x, [properties[@"y"] floatValue]);
+    }
 }
 
 - (void)update:(NSTimeInterval)currentTime {
