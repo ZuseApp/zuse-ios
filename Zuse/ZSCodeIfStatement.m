@@ -19,7 +19,7 @@
         self.trueSuite.parentStatement = self;
         self.falseSuite = falseSuite;
         self.falseSuite.parentStatement = self;
-        self.level = level;
+        self.indentationLevel = level;
     }
     return self;
 }
@@ -29,7 +29,7 @@
 {
     if (self = [super init])
     {
-        self.level = level;
+        self.indentationLevel = level;
         self.boolExp = [ZSCodeBoolExpression expressionWithJSON:json[@"if"][@"test"]];
         self.trueSuite = [ZSCodeSuite suiteWithJSON:json[@"if"][@"true"]
                                              parent:self];
@@ -41,9 +41,8 @@
 
 -(NSArray *) codeLines
 {
-    ZSCodeLine *ifLine = [ZSCodeLine lineWithText:[NSString stringWithFormat:@"IF %@", self.boolExp.stringValue]
-                                             type:ZSCodeLineStatementIf
-                                      indentation:self.level
+    ZSCodeLine *ifLine = [ZSCodeLine lineWithType:ZSCodeLineStatementIf
+                                      indentation:self.indentationLevel
                                         statement:self];
     
     NSMutableArray *lines = [[NSMutableArray alloc]init];
@@ -52,9 +51,8 @@
         
     if(self.falseSuite)
     {
-        ZSCodeLine *elseLine = [ZSCodeLine lineWithText:@"ELSE"
-                                                   type:ZSCodeLineStatementDefault
-                                            indentation:self.level
+        ZSCodeLine *elseLine = [ZSCodeLine lineWithType:ZSCodeLineStatementDefault
+                                            indentation:self.indentationLevel
                                               statement:self];
         [lines addObject:elseLine];
         [lines addObjectsFromArray: self.falseSuite.codeLines];

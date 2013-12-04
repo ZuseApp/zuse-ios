@@ -12,13 +12,11 @@ extern NSString *const ZSCodeLineStatementDefault;
 
 @interface ZSCodeLine : NSObject
 
-@property (strong, nonatomic) NSString *text;
 @property (strong, nonatomic) NSString *type;
 @property (nonatomic) NSInteger indentation;
 @property (weak, nonatomic) ZSCodeStatement *statement;
 
-+(id)lineWithText:(NSString *)text
-             type:(NSString *)type
-      indentation:(NSInteger)idnent
++(id)lineWithType:(NSString *)type
+      indentation:(NSInteger)indentation
         statement:(ZSCodeStatement *)statement;
 @end
