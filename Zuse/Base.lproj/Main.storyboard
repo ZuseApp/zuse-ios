@@ -112,7 +112,6 @@
                     <connections>
                         <outlet property="menuTable" destination="Gsk-l2-lYD" id="BZv-pk-JEh"/>
                         <outlet property="spriteTable" destination="0vj-QJ-exO" id="DbB-QZ-XhV"/>
-                        <segue destination="Oo2-2I-21D" kind="push" identifier="editor" id="Bvr-kS-AGT"/>
                         <segue destination="xYJ-eA-5hz" kind="push" identifier="renderer" id="NAW-tK-E8o"/>
                     </connections>
                 </viewController>
@@ -125,72 +124,6 @@
                 </panGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="503" y="129"/>
-        </scene>
-        <!--Editor View Controller-->
-        <scene sceneID="JkR-h7-sdc">
-            <objects>
-                <viewController id="Oo2-2I-21D" customClass="ZSEditorViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="NK7-FF-3KE"/>
-                        <viewControllerLayoutGuide type="bottom" id="6Da-FK-y9p"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="BS3-lZ-hLX">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="cG5-Sk-1GP">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="command" id="xHp-R0-uHg">
-                                        <rect key="frame" x="0.0" y="86" width="320" height="44"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xHp-R0-uHg" id="fJh-8N-fFf">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </prototypes>
-                            </tableView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="KNu-bh-CNL" customClass="ZSCommandListTableView">
-                                <rect key="frame" x="320" y="0.0" width="150" height="480"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="150" id="Fdd-ai-d7j"/>
-                                </constraints>
-                                <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="command" id="1GR-aV-UBO">
-                                        <rect key="frame" x="0.0" y="22" width="150" height="44"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1GR-aV-UBO" id="Vir-QT-0PQ">
-                                            <rect key="frame" x="0.0" y="0.0" width="150" height="43"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </prototypes>
-                            </tableView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="cG5-Sk-1GP" firstAttribute="top" secondItem="BS3-lZ-hLX" secondAttribute="top" id="2VY-Q6-cXu"/>
-                            <constraint firstItem="KNu-bh-CNL" firstAttribute="leading" secondItem="cG5-Sk-1GP" secondAttribute="trailing" id="8U9-za-IGp"/>
-                            <constraint firstItem="cG5-Sk-1GP" firstAttribute="leading" secondItem="BS3-lZ-hLX" secondAttribute="leading" id="B3d-0I-whA"/>
-                            <constraint firstAttribute="trailing" secondItem="KNu-bh-CNL" secondAttribute="trailing" constant="-150" id="IWI-yO-guP"/>
-                            <constraint firstItem="6Da-FK-y9p" firstAttribute="top" secondItem="cG5-Sk-1GP" secondAttribute="bottom" id="RKg-F9-LHd"/>
-                            <constraint firstAttribute="bottom" secondItem="KNu-bh-CNL" secondAttribute="bottom" id="fky-us-qsD"/>
-                            <constraint firstItem="KNu-bh-CNL" firstAttribute="top" secondItem="BS3-lZ-hLX" secondAttribute="top" id="le6-f5-EEk"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" id="ygl-d7-5x6"/>
-                    <connections>
-                        <outlet property="tableView" destination="cG5-Sk-1GP" id="yfX-CP-lWL"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ZJh-t5-Qmi" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="994" y="458"/>
         </scene>
         <!--Code Editor View Controller-->
         <scene sceneID="mY1-2o-8Dt">

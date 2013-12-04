@@ -59,7 +59,6 @@
 		5F2EC4E3183DC2550091CEAD /* scope_set_object_var.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F2EC4E2183DC2550091CEAD /* scope_set_object_var.json */; };
 		5F41ACB11833DCFE0089D136 /* pong_compiled.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F41ACB01833DCFE0089D136 /* pong_compiled.json */; };
 		5F41ACB818341C980089D136 /* ZSExecutionContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F41ACB718341C980089D136 /* ZSExecutionContext.m */; };
-		5FBDDC3717FF2D2400A1037A /* ZSEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBDDC3217FF2D2400A1037A /* ZSEditorViewController.m */; };
 		5FBDDC3817FF2D2400A1037A /* ZSPlaygroundViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBDDC3417FF2D2400A1037A /* ZSPlaygroundViewController.m */; };
 		5FEFB89A182B5376007DAFCF /* pong.json in Resources */ = {isa = PBXBuildFile; fileRef = 5FEFB899182B5376007DAFCF /* pong.json */; };
 		78346A0A183C623400540D54 /* ZSCodeObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 78346A09183C623400540D54 /* ZSCodeObject.m */; };
@@ -174,8 +173,6 @@
 		5F41ACB01833DCFE0089D136 /* pong_compiled.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = pong_compiled.json; path = JSON/pong_compiled.json; sourceTree = "<group>"; };
 		5F41ACB618341C980089D136 /* ZSExecutionContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSExecutionContext.h; sourceTree = "<group>"; };
 		5F41ACB718341C980089D136 /* ZSExecutionContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSExecutionContext.m; sourceTree = "<group>"; };
-		5FBDDC3117FF2D2400A1037A /* ZSEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSEditorViewController.h; sourceTree = "<group>"; };
-		5FBDDC3217FF2D2400A1037A /* ZSEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSEditorViewController.m; sourceTree = "<group>"; };
 		5FBDDC3317FF2D2400A1037A /* ZSPlaygroundViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSPlaygroundViewController.h; sourceTree = "<group>"; };
 		5FBDDC3417FF2D2400A1037A /* ZSPlaygroundViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSPlaygroundViewController.m; sourceTree = "<group>"; };
 		5FBDDC3517FF2D2400A1037A /* ZSSuiteController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZSSuiteController.h; path = "/Users/michael/Xcode Projects/Zuse/Zuse/ZSSuiteController.h"; sourceTree = "<absolute>"; };
@@ -435,8 +432,6 @@
 			isa = PBXGroup;
 			children = (
 				2CA9D384183F3EBD00401231 /* Scenes */,
-				5FBDDC3117FF2D2400A1037A /* ZSEditorViewController.h */,
-				5FBDDC3217FF2D2400A1037A /* ZSEditorViewController.m */,
 				4C0D470617FB927600F13786 /* ZSCanvasViewController.h */,
 				4C0D470717FB927600F13786 /* ZSCanvasViewController.m */,
 				4CE3404C180A0154009A63A2 /* ZSRendererViewController.h */,
@@ -804,7 +799,6 @@
 				5F41ACB818341C980089D136 /* ZSExecutionContext.m in Sources */,
 				784BFD071844680D00FB0694 /* ZSCodeEditorTableViewCell.m in Sources */,
 				4CF1CBC217EF882A00636E0D /* TCAppDelegate.m in Sources */,
-				5FBDDC3717FF2D2400A1037A /* ZSEditorViewController.m in Sources */,
 				4CE340361809DCFD009A63A2 /* ZSScene.m in Sources */,
 				4CE340331809DB3C009A63A2 /* ZSBallViewController.m in Sources */,
 				78346A0A183C623400540D54 /* ZSCodeObject.m in Sources */,

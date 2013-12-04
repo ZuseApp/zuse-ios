@@ -1,6 +1,5 @@
 #import "ZSCanvasViewController.h"
 #import "ZSPlaygroundViewController.h"
-#import "ZSEditorViewController.h"
 #import "ZSRendererViewController.h"
 #import "TCSprite.h"
 #import "TCSpriteView.h"
@@ -72,10 +71,7 @@
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"editor"]) {
-        ZSEditorViewController *editorController = (ZSEditorViewController *)segue.destinationViewController;
-        editorController.code = [[(TCSpriteView *)sender sprite] code];
-    } else if ([segue.identifier isEqualToString:@"renderer"]) {
+    if ([segue.identifier isEqualToString:@"renderer"]) {
         [self saveProject];
         ZSRendererViewController *rendererController = (ZSRendererViewController *)segue.destinationViewController;
         rendererController.projectJSON = [_program projectJSON];
@@ -98,7 +94,7 @@
             view.backgroundColor = [UIColor blackColor];
         }
         view.longTouch = ^(){
-            [self performSegueWithIdentifier:@"editor" sender:weakView];
+            // [self performSegueWithIdentifier:@"editor" sender:weakView];
         };
         
         __block CGPoint offset;
