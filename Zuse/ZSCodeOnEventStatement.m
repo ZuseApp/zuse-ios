@@ -8,26 +8,32 @@
 @implementation ZSCodeOnEventStatement
 
 
-+(id)statementWithName:(NSString *)name
-            parameters:(NSMutableArray *)params
-                  code:(ZSCodeSuite *)code
+-(id)initWithName:(NSString *)name
+       parameters:(NSMutableArray *)params
+             code:(ZSCodeSuite *)code
 {
-    ZSCodeOnEventStatement *s = [[ZSCodeOnEventStatement alloc]init];
-    s.eventName = name;
-    s.parameters = params;
-    s.code = code;
-    s.code.parentStatement = s;
-    return s;
+    if (self = [super init])
+    {
+        self.eventName = name;
+        self.parameters = params;
+        self.code = code;
+        self.code.parentStatement = self;
+    }
+    return self;
 }
 
-+(id)statementWithJSON:(NSDictionary *)json
+-(id)initWithJSON:(NSDictionary *)json
                  level:(NSInteger)level
 {
-    return [self statementWithName:json[@"on_event"][@"name"]
-                        parameters:json[@"on_event"][@"parameters"]
-                              code:[ZSCodeSuite suiteWithJSON:json[@"on_event"][@"code"]
-                                                    level:level+1
-                                                   parent:nil]];
+    if (self = [super init])
+    {
+        self.eventName = json[@"on_event"][@"name"];
+        self.parameters = json[@"on_event"][@"parameters"];
+        self.code = [ZSCodeSuite suiteWithJSON:json[@"on_event"][@"code"]
+                                        parent:self];
+        self.code.parentStatement = self;
+    }
+    return self;
 }
 
 -(NSArray *) codeLines

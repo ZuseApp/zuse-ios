@@ -4,7 +4,6 @@
 
 @property (nonatomic) NSInteger level;
 
--(id)init;
 -(NSDictionary *) JSONObject;
 -(NSArray *) codeLines;
 
