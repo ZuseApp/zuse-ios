@@ -27,46 +27,68 @@
 @property (nonatomic, strong) NSArray *canvasSprites;
 @property (strong, nonatomic) ZSProgram *program;
 
-
 @end
 
 @implementation ZSCanvasViewController
 
+#pragma mark Initializers
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
     return self;
 }
+
+#pragma mark Override Methods
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    _rightEdgePanRecognizer = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(canvasPannedRight:)];
-    _rightEdgePanRecognizer.edges = UIRectEdgeRight;
-    _leftEdgePanRecognizer = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(canvasPannedLeft:)];
-    _leftEdgePanRecognizer.edges = UIRectEdgeLeft;
-    [self.view addGestureRecognizer:_rightEdgePanRecognizer];
-    [self.view addGestureRecognizer:_leftEdgePanRecognizer];
+    
+    [self setupTableDelegatesAndSources];
+    [self setupScreenEdgeGestures];
     
     _spriteTableViewShowing = NO;
     _menuTableViewShowing = NO;
     
-#pragma Set up Table delegates and data sources.
-    _spriteController = [[ZSSpriteController alloc] init];
-    _menuController = [[ZSMenuController alloc] init];
-    _spriteTable.delegate = _spriteController;
-    _spriteTable.dataSource = _spriteController;
-    _menuTable.delegate = _menuController;
-    _menuTable.dataSource = _menuController;
-    
-#pragma Load Sprites
+    // Load sprites.
     _program = [ZSProgram programWithFile:@"pong.json"];
+    [self loadSpritesFromProgram];
+    
+    // Bring menus to front.
+    [self.view bringSubviewToFront:_menuTable];
+    [self.view bringSubviewToFront:_spriteTable];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [[UIApplication sharedApplication] setStatusBarHidden:YES];
+    self.navigationController.navigationBarHidden = YES;
+    
+    [_spriteTable deselectRowAtIndexPath:[_spriteTable indexPathForSelectedRow] animated:YES];
+    [_menuTable deselectRowAtIndexPath:[_menuTable indexPathForSelectedRow] animated:YES];
+    _spriteTableViewShowing = NO;
+    _menuTableViewShowing = NO;
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"editor"]) {
+        ZSEditorViewController *editorController = (ZSEditorViewController *)segue.destinationViewController;
+        editorController.code = [[(TCSpriteView *)sender sprite] code];
+    } else if ([segue.identifier isEqualToString:@"renderer"]) {
+        [self saveProject];
+        ZSRendererViewController *rendererController = (ZSRendererViewController *)segue.destinationViewController;
+        rendererController.projectJSON = [_program projectJSON];
+    }
+}
+
+#pragma mark Private Methods
+
+// starting with verb indicates not returning anything
+// method name indicates passed parameters
+-(void)loadSpritesFromProgram {
     for (TCSprite *sprite in _program.sprites) {
         
-        // TODO: Consider uncoupling the UI frame component from the sprite.
         TCSpriteView *view = [[TCSpriteView alloc] initWithFrame:sprite.frame];
         __weak TCSpriteView *weakView = view;
         view.sprite = sprite;
@@ -98,62 +120,41 @@
             
             touchView.frame = frame;
             sprite.frame = frame;
-
+            
         };
-
+        
         view.touchesEnded = ^(UITouch *touch) {
-
+            
         };
         [self.view addSubview:view];
     }
     
-    __weak typeof(self) blockSelf = self;
+    WeakSelf
     _menuController.playSelected = ^{
-        [blockSelf performSegueWithIdentifier:@"renderer" sender:blockSelf];
+        [weakSelf performSegueWithIdentifier:@"renderer" sender:weakSelf];
     };
-    
-    [self.view bringSubviewToFront:_menuTable];
-    [self.view bringSubviewToFront:_spriteTable];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    CALayer *leftBorder = [CALayer layer];
-    leftBorder.frame = CGRectMake(0.0f, 0.0f, 1.0f, _spriteTable.frame.size.height);
-    leftBorder.backgroundColor = [UIColor colorWithWhite:0.8f alpha:1.0f].CGColor;
-    [_spriteTable.layer addSublayer:leftBorder];
-    
-    CALayer *rightBorder = [CALayer layer];
-    rightBorder.frame = CGRectMake(_menuTable.frame.size.width, 0.0f, 1.0f, _menuTable.frame.size.height);
-    rightBorder.backgroundColor = [UIColor colorWithWhite:0.8f alpha:1.0f].CGColor;
-    [_menuTable.layer addSublayer:rightBorder];
-    
-    [[UIApplication sharedApplication] setStatusBarHidden:YES];
-    
-    self.navigationController.navigationBarHidden = YES;
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-}
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"editor"]) {
-        ZSEditorViewController *editorController = (ZSEditorViewController *)segue.destinationViewController;
-        editorController.code = [[(TCSpriteView *)sender sprite] code];
-    } else if ([segue.identifier isEqualToString:@"renderer"]) {
-        [self saveProject];
-        ZSRendererViewController *rendererController = (ZSRendererViewController *)segue.destinationViewController;
-        rendererController.projectJSON = [_program projectJSON];
-    }
-    
-    [_spriteTable deselectRowAtIndexPath:[_spriteTable indexPathForSelectedRow] animated:YES];
-    _spriteTableViewShowing = NO;
-    _menuTableViewShowing = NO;
 }
 
 -(void)saveProject {
     [_program writeToFile:@"pong.json"];
+}
+
+-(void)setupTableDelegatesAndSources {
+    _spriteController = [[ZSSpriteController alloc] init];
+    _menuController = [[ZSMenuController alloc] init];
+    _spriteTable.delegate = _spriteController;
+    _spriteTable.dataSource = _spriteController;
+    _menuTable.delegate = _menuController;
+    _menuTable.dataSource = _menuController;
+}
+
+-(void)setupScreenEdgeGestures {
+    _rightEdgePanRecognizer = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(canvasPannedRight:)];
+    _rightEdgePanRecognizer.edges = UIRectEdgeRight;
+    _leftEdgePanRecognizer = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(canvasPannedLeft:)];
+    _leftEdgePanRecognizer.edges = UIRectEdgeLeft;
+    [self.view addGestureRecognizer:_rightEdgePanRecognizer];
+    [self.view addGestureRecognizer:_leftEdgePanRecognizer];
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
@@ -176,7 +177,7 @@
             [UIView animateWithDuration:0.25 animations:^{
                 _spriteTableViewShowing = NO;
                 CGRect frame = _spriteTable.frame;
-                frame.origin.x += 150;
+                frame.origin.x += _spriteTable.frame.size.width;
                 _spriteTable.frame = frame;
             }];
         }
@@ -192,7 +193,7 @@
         [UIView animateWithDuration:0.25 animations:^{
             _spriteTableViewShowing = YES;
             CGRect frame = _spriteTable.frame;
-            frame.origin.x -= 150;
+            frame.origin.x -= _spriteTable.frame.size.width;
             _spriteTable.frame = frame;
         }];
     }
@@ -207,7 +208,7 @@
         [UIView animateWithDuration:0.25 animations:^{
             _menuTableViewShowing = YES;
             CGRect frame = _menuTable.frame;
-            frame.origin.x += 150;
+            frame.origin.x += _menuTable.frame.size.width;
             _menuTable.frame = frame;
         }];
     }

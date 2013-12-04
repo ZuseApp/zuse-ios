@@ -61,7 +61,6 @@
 		5F41ACB818341C980089D136 /* ZSExecutionContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F41ACB718341C980089D136 /* ZSExecutionContext.m */; };
 		5FBDDC3717FF2D2400A1037A /* ZSEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBDDC3217FF2D2400A1037A /* ZSEditorViewController.m */; };
 		5FBDDC3817FF2D2400A1037A /* ZSPlaygroundViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBDDC3417FF2D2400A1037A /* ZSPlaygroundViewController.m */; };
-		5FBDDC3917FF2D2400A1037A /* ZSSuiteController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBDDC3617FF2D2400A1037A /* ZSSuiteController.m */; };
 		5FEFB89A182B5376007DAFCF /* pong.json in Resources */ = {isa = PBXBuildFile; fileRef = 5FEFB899182B5376007DAFCF /* pong.json */; };
 		78346A0A183C623400540D54 /* ZSCodeObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 78346A09183C623400540D54 /* ZSCodeObject.m */; };
 		7843FA90184BE51600DCE527 /* ZSCodeEditorIfStatementTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7843FA8F184BE51600DCE527 /* ZSCodeEditorIfStatementTableViewCell.m */; };
@@ -179,8 +178,8 @@
 		5FBDDC3217FF2D2400A1037A /* ZSEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSEditorViewController.m; sourceTree = "<group>"; };
 		5FBDDC3317FF2D2400A1037A /* ZSPlaygroundViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSPlaygroundViewController.h; sourceTree = "<group>"; };
 		5FBDDC3417FF2D2400A1037A /* ZSPlaygroundViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSPlaygroundViewController.m; sourceTree = "<group>"; };
-		5FBDDC3517FF2D2400A1037A /* ZSSuiteController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSSuiteController.h; sourceTree = "<group>"; };
-		5FBDDC3617FF2D2400A1037A /* ZSSuiteController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSSuiteController.m; sourceTree = "<group>"; };
+		5FBDDC3517FF2D2400A1037A /* ZSSuiteController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZSSuiteController.h; path = "/Users/michael/Xcode Projects/Zuse/Zuse/ZSSuiteController.h"; sourceTree = "<absolute>"; };
+		5FBDDC3617FF2D2400A1037A /* ZSSuiteController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZSSuiteController.m; path = "/Users/michael/Xcode Projects/Zuse/Zuse/ZSSuiteController.m"; sourceTree = "<absolute>"; };
 		5FEFB899182B5376007DAFCF /* pong.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = pong.json; path = JSON/pong.json; sourceTree = "<group>"; };
 		78346A08183C623400540D54 /* ZSCodeObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCodeObject.h; sourceTree = "<group>"; };
 		78346A09183C623400540D54 /* ZSCodeObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCodeObject.m; sourceTree = "<group>"; };
@@ -305,8 +304,6 @@
 				4CE340471809F880009A63A2 /* ZSMenuController.m */,
 				4CE340491809FC57009A63A2 /* ZSSpriteController.h */,
 				4CE3404A1809FC57009A63A2 /* ZSSpriteController.m */,
-				5FBDDC3517FF2D2400A1037A /* ZSSuiteController.h */,
-				5FBDDC3617FF2D2400A1037A /* ZSSuiteController.m */,
 			);
 			name = "Table Controllers";
 			sourceTree = "<group>";
@@ -796,7 +793,6 @@
 				7855BCBF1837F47E006493F9 /* ZSCodeCallStatement.m in Sources */,
 				7855BCD31837FBA7006493F9 /* ZSCallStatementEditorViewController.m in Sources */,
 				7855BCCD1837FB6D006493F9 /* ZSSetStatementEditorViewController.m in Sources */,
-				5FBDDC3917FF2D2400A1037A /* ZSSuiteController.m in Sources */,
 				4C7527321800D5C3002B41E6 /* ZSProgram.m in Sources */,
 				7855BCC21837F47E006493F9 /* ZSCodeSetStatement.m in Sources */,
 				7843FA93184BF70C00DCE527 /* ZSCodeEditorNewStatementTableViewCell.m in Sources */,
