@@ -33,7 +33,7 @@
     suite.parentStatement = parentStatement;
     
     // parentStatement = nil if this suite is of the highest level (just code)
-    NSInteger indentationLevel = parentStatement == nil ? 0 : parentStatement.level + 1;
+    NSInteger indentationLevel = parentStatement == nil ? 0 : parentStatement.indentationLevel + 1;
     
     // Process JSON suite
     for (NSDictionary *JSONStatement in JSONSuite)
@@ -100,11 +100,10 @@
     
     // Decide on indentation level
     // parentStatement = nil if this suite is of the highest level (just code)
-    NSInteger level = self.parentStatement == nil ? 0 : self.parentStatement.level + 1;
+    NSInteger level = self.parentStatement == nil ? 0 : self.parentStatement.indentationLevel + 1;
     
     // add new code line
-    [lines addObject:[ZSCodeLine lineWithText:@"+"
-                                         type:type
+    [lines addObject:[ZSCodeLine lineWithType:type
                                   indentation:level
                                     statement:nil]];
     return lines;

@@ -38,9 +38,8 @@
 
 -(NSArray *) codeLines
 {
-    ZSCodeLine *onEventLine = [ZSCodeLine lineWithText:[NSString stringWithFormat:@"ON EVENT: %@", self.eventName]
-                                                  type:ZSCodeLineStatementOnEvent
-                                           indentation:self.level
+    ZSCodeLine *onEventLine = [ZSCodeLine lineWithType:ZSCodeLineStatementOnEvent
+                                           indentation:self.indentationLevel
                                              statement:self];
     
     NSMutableArray *lines = [[NSMutableArray alloc]init];
