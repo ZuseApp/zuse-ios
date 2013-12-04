@@ -1,11 +1,6 @@
 #import "ZSCodeObject.h"
-#import "ZSCodeSuite.h"
 
 @interface ZSCodeObject()
-
-@property (strong, nonatomic) NSString *ID;
-@property (strong, nonatomic) NSDictionary *properties;
-@property (strong, nonatomic) ZSCodeSuite *code;
 
 @end
 
@@ -18,7 +13,6 @@
     obj.ID = json[@"id"];
     obj.properties = [NSDictionary dictionaryWithDictionary:json[@"properties"]];
     obj.code = [ZSCodeSuite suiteWithJSON:json[@"code"]
-                                    level:0
                                    parent:nil];
     return obj;
 }

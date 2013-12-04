@@ -2,44 +2,47 @@
 #import "ZSCodeLine.h"
 
 @interface ZSCodeIfStatement()
-
 @end
 
 @implementation ZSCodeIfStatement
 
-+(id)statementWithBoolExp:(ZSCodeBoolExpression*)boolExp
-                trueSuite:(ZSCodeSuite *)trueSuite
-               falseSuite:(ZSCodeSuite *)falseSuite
-                    level:(NSInteger)level
+
+-(id)initWithBoolExp:(ZSCodeBoolExpression*)boolExp
+           trueSuite:(ZSCodeSuite *)trueSuite
+          falseSuite:(ZSCodeSuite *)falseSuite
+               level:(NSInteger)level
 {
-    ZSCodeIfStatement *s = [[ZSCodeIfStatement alloc]init];
-    s.boolExp = boolExp;
-    s.trueSuite = trueSuite;
-    s.trueSuite.parentStatement = s;
-    s.falseSuite = falseSuite;
-    s.falseSuite.parentStatement = s;
-    s.level = level;
-    return s;
+    if (self = [super init])
+    {
+        self.boolExp = boolExp;
+        self.trueSuite = trueSuite;
+        self.trueSuite.parentStatement = self;
+        self.falseSuite = falseSuite;
+        self.falseSuite.parentStatement = self;
+        self.indentationLevel = level;
+    }
+    return self;
 }
 
-+(id)statementWithJSON:(NSDictionary *)json
-                 level:(NSInteger)level
+-(id)initWithJSON:(NSDictionary *)json
+            level:(NSInteger)level
 {
-    return [self statementWithBoolExp:[ZSCodeBoolExpression expressionWithJSON:json[@"if"][@"test"]]
-                            trueSuite:[ZSCodeSuite suiteWithJSON:json[@"if"][@"true"]
-                                                           level:level+1
-                                                          parent:nil]
-                           falseSuite:[ZSCodeSuite suiteWithJSON:json[@"if"][@"false"]
-                                                           level:level+1
-                                                          parent:nil]
-                                level:level];
+    if (self = [super init])
+    {
+        self.indentationLevel = level;
+        self.boolExp = [ZSCodeBoolExpression expressionWithJSON:json[@"if"][@"test"]];
+        self.trueSuite = [ZSCodeSuite suiteWithJSON:json[@"if"][@"true"]
+                                             parent:self];
+        self.falseSuite = [ZSCodeSuite suiteWithJSON:json[@"if"][@"false"]
+                                              parent:self];
+    }
+    return self;
 }
 
 -(NSArray *) codeLines
 {
-    ZSCodeLine *ifLine = [ZSCodeLine lineWithText:[NSString stringWithFormat:@"IF %@", self.boolExp.stringValue]
-                                             type:ZSCodeLineStatementIf
-                                      indentation:self.level
+    ZSCodeLine *ifLine = [ZSCodeLine lineWithType:ZSCodeLineStatementIf
+                                      indentation:self.indentationLevel
                                         statement:self];
     
     NSMutableArray *lines = [[NSMutableArray alloc]init];
@@ -48,9 +51,8 @@
         
     if(self.falseSuite)
     {
-        ZSCodeLine *elseLine = [ZSCodeLine lineWithText:@"ELSE"
-                                                   type:ZSCodeLineStatementDefault
-                                            indentation:self.level
+        ZSCodeLine *elseLine = [ZSCodeLine lineWithType:ZSCodeLineStatementDefault
+                                            indentation:self.indentationLevel
                                               statement:self];
         [lines addObject:elseLine];
         [lines addObjectsFromArray: self.falseSuite.codeLines];

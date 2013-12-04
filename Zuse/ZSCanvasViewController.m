@@ -1,11 +1,3 @@
-//
-//  ZSCanvasViewController.m
-//  Zuse
-//
-//  Created by Michael Hogenson on 10/1/13.
-//  Copyright (c) 2013 Michael Hogenson. All rights reserved.
-//
-
 #import "ZSCanvasViewController.h"
 #import "ZSPlaygroundViewController.h"
 #import "ZSEditorViewController.h"
@@ -17,17 +9,24 @@
 #import "ZSSpriteController.h"
 
 @interface ZSCanvasViewController ()
-@property (weak, nonatomic) IBOutlet UITableView *spriteTable;
-@property (weak, nonatomic) IBOutlet UITableView *menuTable;
+
+// Gesture Recognizers
 @property (strong, nonatomic) UIScreenEdgePanGestureRecognizer *rightEdgePanRecognizer;
 @property (strong, nonatomic) UIScreenEdgePanGestureRecognizer *leftEdgePanRecognizer;
+
+// Menus
+@property (weak, nonatomic) IBOutlet UITableView *spriteTable;
+@property (weak, nonatomic) IBOutlet UITableView *menuTable;
+@property (strong, nonatomic) ZSSpriteController *spriteController;
+@property (strong, nonatomic) ZSMenuController *menuController;
 @property (assign, nonatomic, getter = isSpriteTableViewShowing) BOOL spriteTableViewShowing;
 @property (assign, nonatomic, getter = isMenuTableViewShowing) BOOL menuTableViewShowing;
+
+// Sprites
 @property (nonatomic, strong) NSArray *templateSprites;
 @property (nonatomic, strong) NSArray *canvasSprites;
 @property (strong, nonatomic) ZSProgram *program;
-@property (strong, nonatomic) ZSSpriteController *spriteController;
-@property (strong, nonatomic) ZSMenuController *menuController;
+
 
 @end
 

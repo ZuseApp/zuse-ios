@@ -2,9 +2,8 @@
 
 @interface ZSCodeStatement : NSObject
 
-@property (nonatomic) NSInteger level;
+@property (nonatomic) NSInteger indentationLevel;
 
--(id)init;
 -(NSDictionary *) JSONObject;
 -(NSArray *) codeLines;
 

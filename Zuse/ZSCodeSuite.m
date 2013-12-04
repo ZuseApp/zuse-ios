@@ -17,13 +17,11 @@
     if (self = [super init])
     {
         self.statements = [[NSMutableArray alloc]init];
-        self.level = 0;
     }
     return self;
 }
 
 +(id)suiteWithJSON:(NSArray *)JSONSuite
-             level:(NSInteger)level
             parent:(ZSCodeStatement *)parentStatement
 {
     if (JSONSuite == nil) {
@@ -32,8 +30,10 @@
 
     // Create a new suite object
     ZSCodeSuite *suite = [[ZSCodeSuite alloc]init];
-    suite.level = level;
     suite.parentStatement = parentStatement;
+    
+    // parentStatement = nil if this suite is of the highest level (just code)
+    NSInteger indentationLevel = parentStatement == nil ? 0 : parentStatement.indentationLevel + 1;
     
     // Process JSON suite
     for (NSDictionary *JSONStatement in JSONSuite)
@@ -44,25 +44,25 @@
         if ([statementName isEqualToString:@"set"])
         {
             [suite addStatement:[ZSCodeSetStatement statementWithJSON:JSONStatement
-                                                                level:level]];
+                                                                level:indentationLevel]];
         }
         // Process CALL
         else if([statementName isEqualToString:@"call"])
         {
             [suite addStatement: [ZSCodeCallStatement statementWithJSON:JSONStatement
-                                                                  level:level]];
+                                                                  level:indentationLevel]];
         }
         // Process IF statement
         else if ([statementName isEqualToString:@"if"])
         {
-            [suite addStatement:[ZSCodeIfStatement statementWithJSON:JSONStatement
-                                                               level:level]];
+            [suite addStatement:[[ZSCodeIfStatement alloc] initWithJSON:JSONStatement
+                                                                  level:indentationLevel]];
         }
         // Process ON_EVENT statement
         else if ([statementName isEqualToString:@"on_event"])
         {
-            [suite addStatement:[ZSCodeOnEventStatement statementWithJSON:JSONStatement
-                                                                    level:level]];
+            [suite addStatement:[[ZSCodeOnEventStatement alloc] initWithJSON:JSONStatement
+                                                                       level:indentationLevel]];
         }
     }
     return suite;
@@ -84,7 +84,7 @@
     }
     
     
-    // Decide on type of new statement
+    // Decide on type of 'new statement'
     NSString *type;
     if ([self.parentStatement isKindOfClass:[ZSCodeOnEventStatement class]])
     {
@@ -97,10 +97,14 @@
     else
         type = ZSCodeLineStatementNew;
     
+    
+    // Decide on indentation level
+    // parentStatement = nil if this suite is of the highest level (just code)
+    NSInteger level = self.parentStatement == nil ? 0 : self.parentStatement.indentationLevel + 1;
+    
     // add new code line
-    [lines addObject:[ZSCodeLine lineWithText:@"+"
-                                         type:type
-                                  indentation:self.level
+    [lines addObject:[ZSCodeLine lineWithType:type
+                                  indentation:level
                                     statement:nil]];
     return lines;
 }

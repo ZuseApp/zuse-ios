@@ -15,7 +15,7 @@
     ZSCodeSetStatement *s = [[ZSCodeSetStatement alloc]init];
     s.variableName = name;
     s.variableValue = value;
-    s.level = level;
+    s.indentationLevel = level;
     return s;
 }
 
@@ -36,8 +36,7 @@
             value = [ZSCodeCallStatement statementWithJSON:(NSDictionary*)value
                                                      level:level];
         }
-    }
-    
+    }    
     return [self statementWithVariableName:name
                                      value:value
                                      level:level];
@@ -50,9 +49,8 @@
     // value is call statement
     if ([self.variableValue isKindOfClass: [ZSCodeCallStatement class]]) // variable value is call statement
     {
-        ZSCodeCallStatement *call = (ZSCodeCallStatement *)self.variableValue;
-        ZSCodeLine *line = call.codeLines[0];
-        value = line.text;
+        //ZSCodeCallStatement *call = (ZSCodeCallStatement *)self.variableValue;
+        value = @"!!!not implemented!!!";
     }
     // value is get statement
     else if([self.variableValue isKindOfClass: [NSDictionary class]])
@@ -76,13 +74,9 @@
 
 -(NSArray *) codeLines
 {
-    // Form text for code line
-    NSString *text =  [NSString stringWithFormat:@"SET %@ TO %@", self.variableName, self.variableValueStringValue];
-    
     // Create code line object
-    ZSCodeLine *line = [ZSCodeLine lineWithText:text
-                                           type:ZSCodeLineStatementSet
-                                    indentation:self.level
+    ZSCodeLine *line = [ZSCodeLine lineWithType:ZSCodeLineStatementSet
+                                    indentation:self.indentationLevel
                                       statement:self];
     // Put code line in array
     return [NSMutableArray arrayWithObject:line];
