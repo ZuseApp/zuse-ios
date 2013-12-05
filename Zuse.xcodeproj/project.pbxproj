@@ -17,6 +17,7 @@
 		2CA9D387183F3F0300401231 /* ZSRendererScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9D386183F3F0300401231 /* ZSRendererScene.m */; };
 		4C0D470517FB800400F13786 /* TestProject.json in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D470417FB800400F13786 /* TestProject.json */; };
 		4C0D470817FB927600F13786 /* ZSCanvasViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0D470717FB927600F13786 /* ZSCanvasViewController.m */; };
+		4C408703185005D9009117E1 /* ZSGestureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C408702185005D9009117E1 /* ZSGestureViewController.m */; };
 		4C7527321800D5C3002B41E6 /* ZSProgram.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C7527311800D5C3002B41E6 /* ZSProgram.m */; };
 		4CCE4F841845A541006C7DA0 /* paddle.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CCE4F831845A541006C7DA0 /* paddle.png */; };
 		4CE340331809DB3C009A63A2 /* ZSBallViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE340321809DB3C009A63A2 /* ZSBallViewController.m */; };
@@ -116,6 +117,8 @@
 		4C0D470417FB800400F13786 /* TestProject.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = TestProject.json; path = JSON/TestProject.json; sourceTree = "<group>"; };
 		4C0D470617FB927600F13786 /* ZSCanvasViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCanvasViewController.h; sourceTree = "<group>"; };
 		4C0D470717FB927600F13786 /* ZSCanvasViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCanvasViewController.m; sourceTree = "<group>"; };
+		4C408701185005D9009117E1 /* ZSGestureViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSGestureViewController.h; sourceTree = "<group>"; };
+		4C408702185005D9009117E1 /* ZSGestureViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSGestureViewController.m; sourceTree = "<group>"; };
 		4C7527301800D5C3002B41E6 /* ZSProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSProgram.h; sourceTree = "<group>"; };
 		4C7527311800D5C3002B41E6 /* ZSProgram.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSProgram.m; sourceTree = "<group>"; };
 		4CCE4F831845A541006C7DA0 /* paddle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = paddle.png; sourceTree = "<group>"; };
@@ -279,6 +282,8 @@
 				5FBDDC3417FF2D2400A1037A /* ZSPlaygroundViewController.m */,
 				4CE340311809DB3C009A63A2 /* ZSBallViewController.h */,
 				4CE340321809DB3C009A63A2 /* ZSBallViewController.m */,
+				4C408701185005D9009117E1 /* ZSGestureViewController.h */,
+				4C408702185005D9009117E1 /* ZSGestureViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -795,6 +800,7 @@
 				5F41ACB818341C980089D136 /* ZSExecutionContext.m in Sources */,
 				784BFD071844680D00FB0694 /* ZSCodeEditorTableViewCell.m in Sources */,
 				4CF1CBC217EF882A00636E0D /* TCAppDelegate.m in Sources */,
+				4C408703185005D9009117E1 /* ZSGestureViewController.m in Sources */,
 				4CE340361809DCFD009A63A2 /* ZSScene.m in Sources */,
 				4CE340331809DB3C009A63A2 /* ZSBallViewController.m in Sources */,
 				78346A0A183C623400540D54 /* ZSCodeObject.m in Sources */,
