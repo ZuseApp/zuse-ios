@@ -4,16 +4,19 @@ PODS:
   - libffi (3.0.13)
   - PhysicsDebugger (1.0.0)
   - SpriteKit-Components (1.0.0)
+  - WYPopoverController (0.1.7)
 
 DEPENDENCIES:
   - BlocksKit
   - PhysicsDebugger
   - SpriteKit-Components
+  - WYPopoverController
 
 SPEC CHECKSUMS:
   BlocksKit: 27257f9cbbec0ea98c80ba83cc2ea7111ae62eb2
   libffi: 64ef39353e747bb2b25e1026afd96a157bf9231c
   PhysicsDebugger: eff7aa78948b0f29e0d1d3454bc3d51e3493f000
   SpriteKit-Components: fc490ebfd92c1100f30b323ee1999b6c76687f64
+  WYPopoverController: 729963b2405c7763c99393a254021de9bffde763
 
 COCOAPODS: 0.28.0
