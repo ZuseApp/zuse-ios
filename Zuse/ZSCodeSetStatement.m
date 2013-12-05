@@ -8,38 +8,44 @@
 
 @implementation ZSCodeSetStatement
 
-+(id)statementWithVariableName:(NSString *)name
-                         value:(NSObject *)value
-                         level:(NSInteger)level
+
+- (id) initWithVariableName:(NSString *)name
+                      value:(NSObject *)value
+                parentSuite:(ZSCodeSuite *)suite
 {
-    ZSCodeSetStatement *s = [[ZSCodeSetStatement alloc]init];
-    s.variableName = name;
-    s.variableValue = value;
-    s.indentationLevel = level;
-    return s;
+    if (self = [super init])
+    {
+        self.variableName = name;
+        self.variableValue = value;
+        self.parentSuite = suite;
+    }
+    return self;
 }
 
-+(id)statementWithJSON:(NSDictionary *)json
-                 level:(NSInteger)level
+- (id) initWithJSON:(NSDictionary *)json
+        parentSuite:(ZSCodeSuite *)suite
 {
-    NSString *name  = json[@"set"][0];
-    NSObject *value = json[@"set"][1];
-    
-    // if value is call or get statement
-    if([value isKindOfClass:[NSDictionary class]])
+    if (self = [super init])
     {
+        NSString *name  = json[@"set"][0];
+        NSObject *value = json[@"set"][1];
         
-        NSString *statementName = [((NSDictionary *)value) allKeys][0];
-        
-        if([statementName isEqualToString:@"call"])
+        // if value is call or get statement
+        if([value isKindOfClass:[NSDictionary class]])
         {
-            value = [ZSCodeCallStatement statementWithJSON:(NSDictionary*)value
-                                                     level:level];
+            NSString *statementName = [((NSDictionary *)value) allKeys][0];
+            
+            if([statementName isEqualToString:@"call"])
+            {
+                value = [[ZSCodeCallStatement alloc] initWithJSON:(NSDictionary*)value
+                                                      parentSuite:self.parentSuite];
+            }
         }
-    }    
-    return [self statementWithVariableName:name
-                                     value:value
-                                     level:level];
+        self.variableName = name;
+        self.variableValue = value;
+        self.parentSuite = suite;
+    }
+    return self;
 }
 
 -(NSString *)variableValueStringValue
@@ -70,16 +76,6 @@
     }
     
     return value;
-}
-
--(NSArray *) codeLines
-{
-    // Create code line object
-    ZSCodeLine *line = [ZSCodeLine lineWithType:ZSCodeLineStatementSet
-                                    indentation:self.indentationLevel
-                                      statement:self];
-    // Put code line in array
-    return [NSMutableArray arrayWithObject:line];
 }
 
 -(NSDictionary *) JSONObject

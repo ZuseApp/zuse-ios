@@ -1,10 +1,9 @@
 #import <Foundation/Foundation.h>
+#import "ZSCodeSuite.h"
 
 @interface ZSCodeStatement : NSObject
 
-@property (nonatomic) NSInteger indentationLevel;
-
+@property (weak, nonatomic) ZSCodeSuite *parentSuite;
 -(NSDictionary *) JSONObject;
--(NSArray *) codeLines;
 
 @end

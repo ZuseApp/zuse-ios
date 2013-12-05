@@ -7,11 +7,13 @@
 @property (strong, nonatomic) NSString *methodName;
 @property (strong, nonatomic) NSMutableArray *args;
 
-+(id)statementWithMethodName:(NSString *)name
-                        args:(NSMutableArray *)args
-                       level:(NSInteger)level;
-+(id)statementWithJSON:(NSDictionary *)json
-                 level:(NSInteger)level;
+
+
+- (id)initWithMethodName:(NSString *)name
+                    args:(NSMutableArray *)args
+             parentSuite:(ZSCodeSuite *)suite;
+- (id)initWithJSON:(NSDictionary *)json
+       parentSuite:(ZSCodeSuite *)suite;
 
 @end
 

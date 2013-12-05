@@ -8,10 +8,11 @@
 @property (strong, nonatomic) ZSCodeSuite *code;
 
 -(id)initWithName:(NSString *)name
-            parameters:(NSMutableArray *)params
-                  code:(ZSCodeSuite *)code;
+       parameters:(NSMutableArray *)params
+             code:(ZSCodeSuite *)code
+      parentSuite:(ZSCodeSuite *)suite;
 
 -(id)initWithJSON:(NSDictionary *)json
-                 level:(NSInteger)level;
+      parentSuite:(ZSCodeSuite *)suite;
 
 @end

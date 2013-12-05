@@ -9,12 +9,11 @@
 @property (strong, nonatomic) ZSCodeSuite *trueSuite;
 @property (strong, nonatomic) ZSCodeSuite *falseSuite;
 
-
 -(id)initWithBoolExp:(ZSCodeBoolExpression*)boolExp
            trueSuite:(ZSCodeSuite *)trueSuite
           falseSuite:(ZSCodeSuite *)falseSuite
-               level:(NSInteger)level;
+         parentSuite:(ZSCodeSuite *)suite;
 -(id)initWithJSON:(NSDictionary *)json
-                 level:(NSInteger)level;
+      parentSuite:(ZSCodeSuite *)suite;  
 
 @end

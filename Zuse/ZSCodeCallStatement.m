@@ -8,33 +8,29 @@
 
 @implementation ZSCodeCallStatement
 
-+(id)statementWithMethodName:(NSString *)name
-                        args:(NSMutableArray *)args
-                       level:(NSInteger)level
+- (id)initWithMethodName:(NSString *)name
+                    args:(NSMutableArray *)args
+             parentSuite:(ZSCodeSuite *)suite
 {
-    ZSCodeCallStatement *s = [[ZSCodeCallStatement alloc]init];
-    s.methodName = name;
-    s.args = args;
-    s.indentationLevel = level;
-    return s;
+    if (self = [super init])
+    {
+        self.methodName = name;
+        self.args = args;
+        self.parentSuite = suite;
+    }
+    return self;
 }
 
-+(id)statementWithJSON:(NSDictionary *)json
-                 level:(NSInteger)level
+- (id)initWithJSON:(NSDictionary *)json
+       parentSuite:(ZSCodeSuite *)suite
 {
-    return [self statementWithMethodName:json[@"call"][@"method"]
-                                    args:json[@"call"][@"args"]
-                                   level:level];
-}
-
--(NSArray *) codeLines
-{
-    // Create code line object
-    ZSCodeLine *line = [ZSCodeLine lineWithType:ZSCodeLineStatementCall
-                                    indentation:self.indentationLevel
-                                      statement:self];
-    // Put code line in array
-    return [NSMutableArray arrayWithObject:line];
+    if (self = [super init])
+    {
+        self.methodName = json[@"call"][@"method"];
+        self.args = json[@"call"][@"args"];
+        self.parentSuite = suite;
+    }
+    return self;
 }
 
 -(NSDictionary *) JSONObject
