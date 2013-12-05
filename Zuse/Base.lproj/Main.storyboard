@@ -247,7 +247,7 @@
                                             <outlet property="eventButton" destination="vU9-zv-ebx" id="6qF-Ds-nhG"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="NEW" rowHeight="35" id="EqL-Uc-yR8" customClass="ZSCodeEditorNewStatementTableViewCell">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="NEW TOP LEVEL" rowHeight="35" id="EqL-Uc-yR8" customClass="ZSCodeEditorNewStatementTableViewCell">
                                         <rect key="frame" x="0.0" y="226" width="320" height="35"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="EqL-Uc-yR8" id="dGX-Q2-MoY">

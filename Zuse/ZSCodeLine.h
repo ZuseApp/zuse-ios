@@ -5,7 +5,7 @@ extern NSString *const ZSCodeLineStatementIf;
 extern NSString *const ZSCodeLineStatementCall;
 extern NSString *const ZSCodeLineStatementSet;
 extern NSString *const ZSCodeLineStatementOnEvent;
-extern NSString *const ZSCodeLineStatementNew;
+extern NSString *const ZSCodeLineStatementNewTopLevel;
 extern NSString *const ZSCodeLineStatementNewInsideIf;
 extern NSString *const ZSCodeLineStatementNewInsideOnEvent;
 extern NSString *const ZSCodeLineStatementDefault;

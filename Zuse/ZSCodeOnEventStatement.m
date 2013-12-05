@@ -7,10 +7,10 @@
 
 @implementation ZSCodeOnEventStatement
 
-
 -(id)initWithName:(NSString *)name
        parameters:(NSMutableArray *)params
              code:(ZSCodeSuite *)code
+      parentSuite:(ZSCodeSuite *)suite
 {
     if (self = [super init])
     {
@@ -18,34 +18,25 @@
         self.parameters = params;
         self.code = code;
         self.code.parentStatement = self;
+        self.parentSuite = suite;
     }
     return self;
 }
 
 -(id)initWithJSON:(NSDictionary *)json
-                 level:(NSInteger)level
+      parentSuite:(ZSCodeSuite *)suite
 {
     if (self = [super init])
     {
         self.eventName = json[@"on_event"][@"name"];
         self.parameters = json[@"on_event"][@"parameters"];
         self.code = [ZSCodeSuite suiteWithJSON:json[@"on_event"][@"code"]
-                                        parent:self];
+                                        parent:self
+                              indentationLevel:suite.indentationLevel + 1];
         self.code.parentStatement = self;
+        self.parentSuite = suite;
     }
     return self;
-}
-
--(NSArray *) codeLines
-{
-    ZSCodeLine *onEventLine = [ZSCodeLine lineWithType:ZSCodeLineStatementOnEvent
-                                           indentation:self.indentationLevel
-                                             statement:self];
-    
-    NSMutableArray *lines = [[NSMutableArray alloc]init];
-    [lines addObject:onEventLine];
-    [lines addObjectsFromArray: self.code.codeLines];    
-    return lines;
 }
 
 -(NSDictionary *) JSONObject

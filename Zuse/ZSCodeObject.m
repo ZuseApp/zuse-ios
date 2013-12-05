@@ -13,7 +13,8 @@
     obj.ID = json[@"id"];
     obj.properties = [NSDictionary dictionaryWithDictionary:json[@"properties"]];
     obj.code = [ZSCodeSuite suiteWithJSON:json[@"code"]
-                                   parent:nil];
+                                   parent:nil
+                         indentationLevel:0];
     return obj;
 }
 -(NSArray *) codeLines

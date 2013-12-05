@@ -115,7 +115,7 @@
     return cell;
 }
 
-#pragma mark - Custom ZSCodeEditorViewController
+#pragma mark - ZSCodeEditorViewController
 
 - (void)processJSON:(NSDictionary *)json
 {
