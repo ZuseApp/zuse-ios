@@ -100,14 +100,14 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    self.codeLines = self.object.codeLines; // get code lines
+    self.codeLines = self.object.code.codeLines; // get code lines
     return [self.codeLines count]; //return # of lines
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // get line of code
-    ZSCodeLine *line = self.object.codeLines[indexPath.row];
+    ZSCodeLine *line = self.codeLines[indexPath.row];
     
     // get the cell
     ZSCodeEditorTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:line.type];
@@ -119,7 +119,7 @@
 
 - (void)processJSON:(NSDictionary *)json
 {
-    self.object = [ZSCodeObject codeObjectWithJSON:json];
+    self.object = [[ZSCodeObject alloc] initWithJSON:json];
 }
 
 @end

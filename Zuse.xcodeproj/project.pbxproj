@@ -377,7 +377,6 @@
 				5F099D4117F0E10600EB2AC7 /* Views */,
 				5F099D4017F0E0F700EB2AC7 /* View Controllers */,
 				4CF1CBB817EF882A00636E0D /* Supporting Files */,
-				4CF1CBC317EF882A00636E0D /* Main.storyboard */,
 				4CF1CBC017EF882A00636E0D /* TCAppDelegate.h */,
 				4CF1CBC117EF882A00636E0D /* TCAppDelegate.m */,
 			);
@@ -389,10 +388,11 @@
 			children = (
 				5FEFB898182B5360007DAFCF /* JSON */,
 				4CF1CBC917EF882A00636E0D /* Images.xcassets */,
-				4CF1CBFE17EFE13C00636E0D /* images */,
 				4CF1CBB917EF882A00636E0D /* Zuse-Info.plist */,
+				4CF1CBC317EF882A00636E0D /* Main.storyboard */,
 				4CF1CBBA17EF882A00636E0D /* InfoPlist.strings */,
 				4CF1CBBD17EF882A00636E0D /* main.m */,
+				4CF1CBFE17EFE13C00636E0D /* images */,
 				4CF1CBBF17EF882A00636E0D /* Zuse-Prefix.pch */,
 			);
 			name = "Supporting Files";
@@ -511,9 +511,9 @@
 		5FEFB898182B5360007DAFCF /* JSON */ = {
 			isa = PBXGroup;
 			children = (
+				4C0D470417FB800400F13786 /* TestProject.json */,
 				5F41ACB01833DCFE0089D136 /* pong_compiled.json */,
 				5FEFB899182B5376007DAFCF /* pong.json */,
-				4C0D470417FB800400F13786 /* TestProject.json */,
 				5F1B5BA21837E05A00632DE6 /* pong_no_traits.json */,
 			);
 			name = JSON;
@@ -532,6 +532,7 @@
 				7843FA92184BF70C00DCE527 /* ZSCodeEditorNewStatementTableViewCell.m */,
 				7843FAA1184C16B000DCE527 /* ZSCodeEditorOnEventStatementTableViewCell.h */,
 				7843FAA2184C16B000DCE527 /* ZSCodeEditorOnEventStatementTableViewCell.m */,
+				78645C4D18446F6600EE14A9 /* StatementEditors */,
 			);
 			name = StatementTableViewCells;
 			sourceTree = "<group>";
@@ -558,7 +559,6 @@
 				7855BCC81837FA97006493F9 /* ZSCodeEditorViewController.h */,
 				7855BCC91837FA97006493F9 /* ZSCodeEditorViewController.m */,
 				7843FA8A184BE46F00DCE527 /* StatementTableViewCells */,
-				78645C4D18446F6600EE14A9 /* StatementEditors */,
 				7855BCAF1837F2BF006493F9 /* CodeModel */,
 				5F2B55FF18502963002D7149 /* ZSExpressionOptionsTableViewController.h */,
 				5F2B560018502963002D7149 /* ZSExpressionOptionsTableViewController.m */,

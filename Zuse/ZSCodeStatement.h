@@ -4,6 +4,7 @@
 @interface ZSCodeStatement : NSObject
 
 @property (weak, nonatomic) ZSCodeSuite *parentSuite;
--(NSDictionary *) JSONObject;
 
+- (NSDictionary *) JSONObject;
+- (NSArray *) availableVarNames;
 @end

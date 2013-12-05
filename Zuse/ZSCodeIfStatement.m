@@ -29,11 +29,11 @@
     if (self = [super init])
     {
         self.boolExp = [ZSCodeBoolExpression expressionWithJSON:json[@"if"][@"test"]];
-        self.trueSuite  = [ZSCodeSuite suiteWithJSON:json[@"if"][@"true"]
-                                              parent:self
+        self.trueSuite  = [[ZSCodeSuite alloc] initWithJSON:json[@"if"][@"true"]
+                                                     parent:self
                                     indentationLevel:suite.indentationLevel + 1];
-        self.falseSuite = [ZSCodeSuite suiteWithJSON:json[@"if"][@"false"]
-                                              parent:self
+        self.falseSuite = [[ZSCodeSuite alloc] initWithJSON:json[@"if"][@"false"]
+                                                     parent:self
                                     indentationLevel:suite.indentationLevel + 1];
         self.parentSuite = suite;
     }

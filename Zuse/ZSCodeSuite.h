@@ -6,15 +6,16 @@
 @interface ZSCodeSuite : NSObject
 
 @property (strong, nonatomic) NSMutableArray *statements;
+//@property (strong, nonatomic) NSMutableArray *allVarNames;
 @property (weak, nonatomic) ZSCodeStatement *parentStatement;
 @property (nonatomic) NSInteger indentationLevel;
 
-+(id) suiteWithJSON:(NSArray *)JSONSuite
-             parent:(ZSCodeStatement *)parentStatement
-   indentationLevel:(NSInteger)level;
+-(id) initWithJSON: (NSArray *) JSONSuite
+            parent: (ZSCodeStatement *) parentStatement
+  indentationLevel: (NSInteger)level;
 
--(void) addStatement:(ZSCodeStatement *)statement;
--(NSArray *) codeLines;
--(NSArray *) JSONObject;
+- (void) addStatement:(ZSCodeStatement *) statement;
+- (NSArray *) codeLines;
+- (NSArray *) JSONObject;
 
 @end
