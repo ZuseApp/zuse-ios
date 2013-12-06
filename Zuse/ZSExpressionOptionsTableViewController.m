@@ -50,7 +50,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 10;
+    return [self.varNames count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -58,8 +58,8 @@
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
-    cell.textLabel.text = [@(indexPath.row) stringValue];
-    
+    //cell.textLabel.text = [@(indexPath.row) stringValue];
+    cell.textLabel.text = self.varNames[indexPath.row];
     return cell;
 }
 
@@ -72,8 +72,10 @@
     // Pass the selected object to the new view controller.
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    _didSelectValueBlock(@(indexPath.row));
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    //_didSelectValueBlock(@(indexPath.row));
+    _didSelectValueBlock(self.varNames[indexPath.row]);
 }
 
 @end

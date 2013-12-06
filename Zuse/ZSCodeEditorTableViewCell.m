@@ -8,7 +8,7 @@
 
 #pragma mark - UITableViewCell
 
-- (void)layoutSubviews
+- (void) layoutSubviews
 {
     // Add indentation
     CGRect frame = self.contentView.frame;
@@ -17,9 +17,15 @@
     self.contentView.frame = frame;
 }
 
-- (void)prepareForReuse
+- (void) setCodeLine:(ZSCodeLine *)codeLine
 {
-    NSLog(@"prepare for reuse");
+    _codeLine = codeLine;
+    [self updateCellContents];
+}
+
+- (void) updateCellContents
+{
+    @throw @"ZSCodeEditorTableViewCell: updateCellContents should be overridden in subclasses";
 }
 
 @end

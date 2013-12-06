@@ -4,6 +4,7 @@
 #import "ZSCodeCallStatement.h"
 #import "ZSCodeOnEventStatement.h"
 #import "ZSCodeLine.h"
+#import "ZSCodeNewStatement.h"
 
 @interface ZSCodeSuite()
 
@@ -20,7 +21,6 @@
         return nil;
     }
     self.statements = [[NSMutableArray alloc]init];
-    //self.allVarNames = [[NSMutableArray alloc]init];
     self.parentStatement = parentStatement;
     self.indentationLevel = level;
     
@@ -63,6 +63,15 @@
     [self.statements addObject:statement];
 }
 
+- (void) addEmptySetStatement
+{
+    ZSCodeSetStatement *s = [[ZSCodeSetStatement alloc] initWithVariableName: @"..."
+                                                                       value: @"..."
+                                                                 parentSuite: self];
+    [self addStatement:s];
+}
+
+
 -(NSArray *) codeLines
 {
     NSMutableArray *lines = [[NSMutableArray alloc]init];
@@ -78,7 +87,8 @@
             [lines addObject:[ZSCodeLine lineWithType: ZSCodeLineStatementIf
                                           indentation: self.indentationLevel
                                             statement: statement]];
-            [lines addObjectsFromArray:statement.trueSuite.codeLines];
+            
+            [lines addObjectsFromArray: statement.trueSuite.codeLines];
             
             // ELSE block of if statement
             // ...
@@ -93,46 +103,33 @@
             [lines addObject:[ZSCodeLine lineWithType: ZSCodeLineStatementOnEvent
                                           indentation: self.indentationLevel
                                             statement: statement]];
-            [lines addObjectsFromArray:statement.code.codeLines];
+            
+            [lines addObjectsFromArray: statement.code.codeLines];
         }
         
         // 'SET' statement
         else if ([s isKindOfClass:[ZSCodeSetStatement class]])
         {
             [lines addObject:[ZSCodeLine lineWithType: ZSCodeLineStatementSet
-                                          indentation:self.indentationLevel
-                                            statement:s]];
+                                          indentation: self.indentationLevel
+                                            statement: s]];
         }
         
         // 'CALL' statement
         else if ([s isKindOfClass:[ZSCodeCallStatement class]])
         {
             [lines addObject:[ZSCodeLine lineWithType: ZSCodeLineStatementCall
-                                          indentation:self.indentationLevel
-                                            statement:s]];
+                                          indentation: self.indentationLevel
+                                            statement: s]];
         }
     }
     
-    // add 'new statement' code line
-    NSString *type;
-    if ([self.parentStatement isKindOfClass:[ZSCodeOnEventStatement class]])
-    {
-        type = ZSCodeLineStatementNewInsideOnEvent;
-    }
-    else if([self.parentStatement isKindOfClass:[ZSCodeIfStatement class]])
-    {
-        type = ZSCodeLineStatementNewInsideIf;
-    }
-    else
-        type = ZSCodeLineStatementNewTopLevel;
-    
     // add new code line
-    [lines addObject:[ZSCodeLine lineWithType:type
-                                  indentation:self.indentationLevel
-                                    statement:nil]];
+    [lines addObject:[ZSCodeLine lineWithType: ZSCodeLineStatementNew
+                                  indentation: self.indentationLevel
+                                    statement: [[ZSCodeNewStatement alloc] initWithSuite: self]]];
     return lines;
 }
-
 
 -(NSArray *) JSONObject
 {

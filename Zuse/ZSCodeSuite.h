@@ -6,7 +6,6 @@
 @interface ZSCodeSuite : NSObject
 
 @property (strong, nonatomic) NSMutableArray *statements;
-//@property (strong, nonatomic) NSMutableArray *allVarNames;
 @property (weak, nonatomic) ZSCodeStatement *parentStatement;
 @property (nonatomic) NSInteger indentationLevel;
 
@@ -15,6 +14,7 @@
   indentationLevel: (NSInteger)level;
 
 - (void) addStatement:(ZSCodeStatement *) statement;
+- (void) addEmptySetStatement;
 - (NSArray *) codeLines;
 - (NSArray *) JSONObject;
 

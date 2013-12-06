@@ -18,8 +18,6 @@
 
 @interface ZSCodeEditorViewController()
 
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
-
 @property (strong, nonatomic) ZSCodeObject *object;
 @property (strong, nonatomic) NSArray *codeLines;
 
@@ -36,48 +34,6 @@
     [super viewDidLoad];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    
-//    ZSCodeEditorOptionsViewController *
-//    
-//    controller.expressionTypes = ZSCodeEditorExpressionTypeAny |
-//                                 ZSCodeEditorExpressionTypeBoolean
-}
-
--(void)viewWillAppear:(BOOL)animated
-{
-    [self.tableView reloadData];
-}
-
-- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([segue.identifier isEqualToString:@"set statement editor segue"])
-    {
-        NSLog(@"Set Statement Editor.");
-        ZSSetStatementEditorViewController *c = (ZSSetStatementEditorViewController *)segue.destinationViewController;
-        c.codeLine = ((ZSCodeEditorTableViewCell *)sender).codeLine;
-        
-    }
-    else if ([segue.identifier isEqualToString:@"if statement editor segue"])
-    {
-        //ZSIfStatementEditorViewController *c = (ZSIfStatementEditorViewController *)segue.destinationViewController;
-        //c.ifStatement = ((UITableViewCell *)sender).textLabel.text;
-        NSLog(@"If Statement Editor.");
-    }
-    else if ([segue.identifier isEqualToString:@"call statement editor segue"])
-    {
-        NSLog(@"Call Statement Editor.");
-        
-        //ZSCallStatementEditorViewController *c = (ZSCallStatementEditorViewController *)segue.destinationViewController;
-        //c.codeLine = ((UITableViewCell *)sender).textLabel.text;
-    }
-    else if ([segue.identifier isEqualToString:@"on event statement editor segue"])
-    {
-        NSLog(@"On Event Statement Editor.");
-    }
-    else
-    {
-        NSLog(@"not implemented.");
-    }
 }
 
 # pragma mark - UITableViewDelegate
@@ -111,7 +67,8 @@
     
     // get the cell
     ZSCodeEditorTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:line.type];
-
+    cell.controller = self;
+    
     return cell;
 }
 

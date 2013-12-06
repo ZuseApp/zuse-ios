@@ -5,16 +5,14 @@ extern NSString *const ZSCodeLineStatementIf;
 extern NSString *const ZSCodeLineStatementCall;
 extern NSString *const ZSCodeLineStatementSet;
 extern NSString *const ZSCodeLineStatementOnEvent;
-extern NSString *const ZSCodeLineStatementNewTopLevel;
-extern NSString *const ZSCodeLineStatementNewInsideIf;
-extern NSString *const ZSCodeLineStatementNewInsideOnEvent;
+extern NSString *const ZSCodeLineStatementNew;
 extern NSString *const ZSCodeLineStatementDefault;
 
 @interface ZSCodeLine : NSObject
 
 @property (strong, nonatomic) NSString *type;
 @property (nonatomic) NSInteger indentation;
-@property (weak, nonatomic) ZSCodeStatement *statement;
+@property (strong, nonatomic) ZSCodeStatement *statement;
 
 +(id)lineWithType:(NSString *)type
       indentation:(NSInteger)indentation

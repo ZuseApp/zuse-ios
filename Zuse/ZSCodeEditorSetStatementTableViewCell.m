@@ -15,28 +15,38 @@
 
 @implementation ZSCodeEditorSetStatementTableViewCell
 
-#pragma mark - ZSCodeEditorSetStatementTableViewCell
+#pragma mark - ZSCodeEditorTableViewCell
 
-- (void)setCodeLine:(ZSCodeLine *)codeLine
+- (void) setCodeLine:(ZSCodeLine *)codeLine
 {
     super.codeLine = codeLine;
-    _statement = (ZSCodeSetStatement *)self.codeLine.statement;
-    [self updateCellContents];
+    self.statement = (ZSCodeSetStatement *)self.codeLine.statement;
 }
 
-- (void)updateCellContents {
-    [self.varNameButton setTitle:_statement.variableName forState:UIControlStateNormal];
-    [self.varValueButton setTitle:_statement.variableValueStringValue forState:UIControlStateNormal];
+- (void)updateCellContents
+{
+    ZSCodeSetStatement *s = (ZSCodeSetStatement *)self.codeLine.statement;
+    [self.varNameButton setTitle: s.variableName forState:UIControlStateNormal];
+    [self.varValueButton setTitle: s.variableValueStringValue forState:UIControlStateNormal];
 }
 
-- (IBAction)varNameTapped:(id)sender {
+#pragma mark - ZSCodeEditorSetStatementTableViewCell
+
+- (IBAction)varNameTapped:(id)sender
+{
     ZSExpressionOptionsTableViewController *controller = [[ZSExpressionOptionsTableViewController alloc] initWithStyle:UITableViewStylePlain];
     
-    controller.didSelectValueBlock = ^(id value) {
+    controller.varNames = self.codeLine.statement.availableVarNames;
+    
+    controller.didSelectValueBlock = ^(id value)
+    {
         [_popover dismissPopoverAnimated:YES];
         // TODO: This is wrong right now, need to change once I have variable
         // listing working correctly.
-        _statement.variableName = [value stringValue];
+        //_statement.variableName = [value stringValue];
+        
+        _statement.variableName = value;
+        
         [self updateCellContents];
     };
     
@@ -44,7 +54,8 @@
                                  fromView:sender];
 }
 
-- (IBAction)varValueTapped:(id)sender {
+- (IBAction)varValueTapped:(id)sender
+{
     ZSExpressionOptionsTableViewController *controller = [[ZSExpressionOptionsTableViewController alloc] initWithStyle:UITableViewStylePlain];
     
     controller.expressionTypeMask = ZSExpressionTypeAny;
@@ -61,14 +72,15 @@
 }
 
 - (void)presentExpressionViewController:(ZSExpressionOptionsTableViewController *)controller
-                               fromView:(UIView *)view{
+                               fromView:(UIView *)view
+{
     
     _popover = [[ZSPopoverController alloc] initWithContentViewController:controller];
     _popover.delegate = self;
     [_popover presentPopoverFromRect:[view bounds]
-                             inView:view
-           permittedArrowDirections:WYPopoverArrowDirectionUp
-                           animated:YES];
+                              inView:view
+            permittedArrowDirections:WYPopoverArrowDirectionUp
+                            animated:YES];
 }
 
 - (BOOL)popoverControllerShouldDismissPopover:(WYPopoverController *)controller

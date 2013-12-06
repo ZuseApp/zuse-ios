@@ -10,14 +10,14 @@
 
 typedef void (^ZSExpressionSelectionBlock)(id value);
 
-typedef NS_ENUM(NSInteger, ZSExpressionType) {
+typedef NS_OPTIONS(NSInteger, ZSExpressionType) {
     ZSExpressionTypeNumeric = 1 << 0,
     ZSExpressionTypeBoolean = 1 << 1,
     ZSExpressionTypeString  = 1 << 2,
     ZSExpressionTypeAny     = 0x7
 };
 
-typedef NS_ENUM(NSInteger, ZSExpressionValue) {
+typedef NS_OPTIONS(NSInteger, ZSExpressionValue) {
     ZSExpressionValueLiteral     = 1 << 0,
     ZSExpressionValueMethod      = 1 << 1,
     ZSExpressionValueProperty    = 1 << 2,
@@ -29,7 +29,7 @@ typedef NS_ENUM(NSInteger, ZSExpressionValue) {
 
 @property (assign, nonatomic) NSInteger expressionTypeMask;
 @property (assign, nonatomic) NSInteger expressionValueMask;
-
+@property (strong, nonatomic) NSArray *varNames;
 @property (copy, nonatomic) ZSExpressionSelectionBlock didSelectValueBlock;
 
 @end
