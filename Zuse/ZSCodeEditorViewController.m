@@ -40,11 +40,8 @@
 
 - (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // get line of code
-    ZSCodeLine *line = self.codeLines[indexPath.row];
-
-    ZSCodeEditorTableViewCell *c = (ZSCodeEditorTableViewCell *)cell;
-    c.codeLine = line;
+    // pass line of code to the cell
+    ((ZSCodeEditorTableViewCell *)cell).codeLine = self.codeLines[indexPath.row];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
