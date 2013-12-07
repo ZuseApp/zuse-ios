@@ -49,7 +49,6 @@
 		5F1B5BA31837E05A00632DE6 /* pong_no_traits.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F1B5BA21837E05A00632DE6 /* pong_no_traits.json */; };
 		5F1B5BA61837EE7800632DE6 /* ZSCompiler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F1B5BA51837EE7800632DE6 /* ZSCompiler.m */; };
 		5F1B5BA71838109600632DE6 /* ZSInterpreter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F099D4517F1135300EB2AC7 /* ZSInterpreter.m */; };
-		5F2B55FE184FBD82002D7149 /* ZSPopoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F2B55FD184FBD82002D7149 /* ZSPopoverView.m */; };
 		5F2B560118502963002D7149 /* ZSExpressionOptionsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F2B560018502963002D7149 /* ZSExpressionOptionsTableViewController.m */; };
 		5F2B56041850310E002D7149 /* ZSPopoverController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F2B56031850310E002D7149 /* ZSPopoverController.m */; };
 		5F2EC4D0183ABECE0091CEAD /* pong_compiled.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F2EC4CE183ABECE0091CEAD /* pong_compiled.json */; };
@@ -167,8 +166,6 @@
 		5F1B5BA21837E05A00632DE6 /* pong_no_traits.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = pong_no_traits.json; path = JSON/pong_no_traits.json; sourceTree = "<group>"; };
 		5F1B5BA41837EE7800632DE6 /* ZSCompiler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCompiler.h; sourceTree = "<group>"; };
 		5F1B5BA51837EE7800632DE6 /* ZSCompiler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCompiler.m; sourceTree = "<group>"; };
-		5F2B55FC184FBD82002D7149 /* ZSPopoverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSPopoverView.h; sourceTree = "<group>"; };
-		5F2B55FD184FBD82002D7149 /* ZSPopoverView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSPopoverView.m; sourceTree = "<group>"; };
 		5F2B55FF18502963002D7149 /* ZSExpressionOptionsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSExpressionOptionsTableViewController.h; sourceTree = "<group>"; };
 		5F2B560018502963002D7149 /* ZSExpressionOptionsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSExpressionOptionsTableViewController.m; sourceTree = "<group>"; };
 		5F2B56021850310E002D7149 /* ZSPopoverController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSPopoverController.h; sourceTree = "<group>"; };
@@ -448,8 +445,6 @@
 				4C0D470717FB927600F13786 /* ZSCanvasViewController.m */,
 				4CE3404C180A0154009A63A2 /* ZSRendererViewController.h */,
 				4CE3404D180A0154009A63A2 /* ZSRendererViewController.m */,
-				5F2B55FC184FBD82002D7149 /* ZSPopoverView.h */,
-				5F2B55FD184FBD82002D7149 /* ZSPopoverView.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -822,7 +817,6 @@
 				78346A0A183C623400540D54 /* ZSCodeObject.m in Sources */,
 				4CF1CC0E17EFF64500636E0D /* TCSpriteView.m in Sources */,
 				7843FA90184BE51600DCE527 /* ZSCodeEditorIfStatementTableViewCell.m in Sources */,
-				5F2B55FE184FBD82002D7149 /* ZSPopoverView.m in Sources */,
 				7855BCC01837F47E006493F9 /* ZSCodeIfStatement.m in Sources */,
 				5F1B5BA61837EE7800632DE6 /* ZSCompiler.m in Sources */,
 				5F2B56041850310E002D7149 /* ZSPopoverController.m in Sources */,
@@ -970,6 +964,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Zuse/Zuse-Prefix.pch";
 				INFOPLIST_FILE = "Zuse/Zuse-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALID_ARCHS = "arm64 armv7";
 				WRAPPER_EXTENSION = app;
@@ -985,6 +980,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Zuse/Zuse-Prefix.pch";
 				INFOPLIST_FILE = "Zuse/Zuse-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALID_ARCHS = "arm64 armv7";
 				WRAPPER_EXTENSION = app;
