@@ -1,9 +1,13 @@
 #import <Foundation/Foundation.h>
-#import "ZSCodeSuite.h"
+
+
+@class ZSCodeSuite;
 
 @interface ZSCodeStatement : NSObject
 
 @property (weak, nonatomic) ZSCodeSuite *parentSuite;
--(NSDictionary *) JSONObject;
+
+- (NSDictionary *) JSONObject;
+- (NSArray *) availableVarNames;
 
 @end

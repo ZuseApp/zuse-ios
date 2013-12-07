@@ -6,25 +6,27 @@
 
 @implementation ZSCodeObject
 
-+(id) codeObjectWithJSON:(NSDictionary *)json
+- (id) initWithJSON:(NSDictionary *)json
 {
-    ZSCodeObject *obj = [[ZSCodeObject alloc]init];
-    
-    obj.ID = json[@"id"];
-    obj.properties = [NSDictionary dictionaryWithDictionary:json[@"properties"]];
-    obj.code = [ZSCodeSuite suiteWithJSON:json[@"code"]
-                                   parent:nil
-                         indentationLevel:0];
-    return obj;
-}
--(NSArray *) codeLines
-{
-    return self.code.codeLines;
+    if (self = [super init])
+    {
+        self.ID = json[@"id"];
+        self.properties = [NSDictionary dictionaryWithDictionary:json[@"properties"]];
+        self.code = [[ZSCodeSuite alloc] initWithJSON:json[@"code"]
+                                               parent:self
+                                     indentationLevel:0];
+    }
+    return self;
 }
 
 -(NSDictionary *) JSONObject
 {
     return @{@"id":self.ID, @"properties":self.properties, @"code":self.code.JSONObject};
+}
+
+- (NSArray *) availableVarNames
+{
+    return [self.properties allKeys];
 }
 
 @end

@@ -9,10 +9,8 @@
 
 @implementation ZSCodeEditorIfStatementTableViewCell
 
-- (void)setCodeLine:(ZSCodeLine *)codeLine
+- (void)updateCellContents
 {
-    super.codeLine = codeLine;
-    
     ZSCodeIfStatement *s = (ZSCodeIfStatement *)self.codeLine.statement;
     [self.boolExpButton setTitle:s.boolExp.stringValue forState:UIControlStateNormal];
 }

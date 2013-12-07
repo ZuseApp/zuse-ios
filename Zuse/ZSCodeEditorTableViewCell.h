@@ -1,8 +1,16 @@
 #import <UIKit/UIKit.h>
 #import "ZSCodeLine.h"
+#import "ZSCodeEditorViewController.h"
+#import "ZSPopoverController.h"
 
-@interface ZSCodeEditorTableViewCell : UITableViewCell
+@interface ZSCodeEditorTableViewCell : UITableViewCell <WYPopoverControllerDelegate>
 
 @property (weak, nonatomic) ZSCodeLine *codeLine;
+@property (weak, nonatomic) ZSCodeEditorViewController *viewController;
+@property (strong, nonatomic) ZSPopoverController *popover;
+
+- (void)updateCellContents;
+- (void)presentPopoverWithViewController:(UIViewController *)controller
+                                  inView:(UIView *)view;
 
 @end

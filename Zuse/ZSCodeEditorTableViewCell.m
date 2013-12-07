@@ -8,7 +8,7 @@
 
 #pragma mark - UITableViewCell
 
-- (void)layoutSubviews
+- (void) layoutSubviews
 {
     // Add indentation
     CGRect frame = self.contentView.frame;
@@ -17,9 +17,40 @@
     self.contentView.frame = frame;
 }
 
-- (void)prepareForReuse
+- (void) setCodeLine:(ZSCodeLine *)codeLine
 {
-    NSLog(@"prepare for reuse");
+    _codeLine = codeLine;
+    [self updateCellContents];
 }
+
+- (void) updateCellContents
+{
+    @throw @"ZSCodeEditorTableViewCell: updateCellContents should be overridden in subclasses";
+}
+
+- (void)presentPopoverWithViewController:(UIViewController *)controller
+                                  inView:(UIView *)view
+{
+    self.popover = [[ZSPopoverController alloc] initWithContentViewController:controller];
+    self.popover.delegate = self;
+    [self.popover presentPopoverFromRect:[view bounds]
+                                  inView:view
+                permittedArrowDirections:WYPopoverArrowDirectionUp
+                                animated:YES];
+}
+
+
+- (BOOL)popoverControllerShouldDismissPopover:(WYPopoverController *)controller
+{
+    return YES;
+}
+
+- (void)popoverControllerDidDismissPopover:(WYPopoverController *)controller
+{
+    self.popover.delegate = nil;
+    self.popover = nil;
+}
+
+
 
 @end

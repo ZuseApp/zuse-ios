@@ -30,8 +30,8 @@
     {
         self.eventName = json[@"on_event"][@"name"];
         self.parameters = json[@"on_event"][@"parameters"];
-        self.code = [ZSCodeSuite suiteWithJSON:json[@"on_event"][@"code"]
-                                        parent:self
+        self.code = [[ZSCodeSuite alloc] initWithJSON:json[@"on_event"][@"code"]
+                                               parent:self
                               indentationLevel:suite.indentationLevel + 1];
         self.code.parentStatement = self;
         self.parentSuite = suite;

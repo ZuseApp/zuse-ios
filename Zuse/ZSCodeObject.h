@@ -1,15 +1,15 @@
 #import <Foundation/Foundation.h>
+#import "ZSCodeStatement.h"
 #import "ZSCodeSuite.h"
 
-@interface ZSCodeObject : NSObject
+@interface ZSCodeObject : ZSCodeStatement
 
 @property (strong, nonatomic) NSString *ID;
 @property (strong, nonatomic) NSDictionary *properties;
 @property (strong, nonatomic) ZSCodeSuite *code;
 
-+(id) codeObjectWithJSON:(NSDictionary *)json; // creates ZSCodeObject based on given json
-
--(NSArray *) codeLines; // forms an array of code lines
--(NSDictionary *) JSONObject; // forms JSON that represents this ZSCodeObject
+- (id) initWithJSON: (NSDictionary *) json;
+- (NSDictionary *) JSONObject;
+- (NSArray *) availableVarNames;
 
 @end
