@@ -1,5 +1,6 @@
 #import "ZSCodeEditorNewStatementTableViewCell.h"
 #import "ZSCodeNewStatement.h"
+#import "ZSCodeStatementOptionsTableViewController.h"
 
 @interface ZSCodeEditorNewStatementTableViewCell()
 
@@ -37,8 +38,15 @@
 
 - (IBAction)buttonTapped:(id)sender
 {
-    [self.codeLine.statement.parentSuite addEmptySetStatement];
-    [self.controller.tableView reloadData];
+    ZSCodeStatementOptionsTableViewController *controller = [[ZSCodeStatementOptionsTableViewController alloc]init];
     
+    controller.didSelectStatementBlock = ^(ZSCodeStatementType s)
+    {
+        [self.codeLine.statement.parentSuite addEmptyStatementWithType:s];
+        [self.popover dismissPopoverAnimated:YES];
+        [self.viewController.tableView reloadData];
+    };
+    [self presentPopoverWithViewController:controller
+                                    inView:sender];
 }
 @end

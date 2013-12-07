@@ -6,7 +6,7 @@
 @interface ZSCodeEditorTableViewCell : UITableViewCell <WYPopoverControllerDelegate>
 
 @property (weak, nonatomic) ZSCodeLine *codeLine;
-@property (weak, nonatomic) ZSCodeEditorViewController *controller;
+@property (weak, nonatomic) ZSCodeEditorViewController *viewController;
 @property (strong, nonatomic) ZSPopoverController *popover;
 
 - (void)updateCellContents;

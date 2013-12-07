@@ -50,7 +50,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.varNames count];
+    return 10;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -58,8 +58,7 @@
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
-    //cell.textLabel.text = [@(indexPath.row) stringValue];
-    cell.textLabel.text = self.varNames[indexPath.row];
+    cell.textLabel.text = [@(indexPath.row) stringValue];
     return cell;
 }
 
@@ -74,8 +73,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //_didSelectValueBlock(@(indexPath.row));
-    _didSelectValueBlock(self.varNames[indexPath.row]);
+    _didSelectValueBlock(@(indexPath.row));
 }
 
 @end

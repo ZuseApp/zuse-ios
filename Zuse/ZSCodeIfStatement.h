@@ -9,6 +9,8 @@
 @property (strong, nonatomic) ZSCodeSuite *trueSuite;
 @property (strong, nonatomic) ZSCodeSuite *falseSuite;
 
++(id)emptyStatementWithParentSuite:(ZSCodeSuite *)suite;
+
 -(id)initWithBoolExp:(ZSCodeBoolExpression*)boolExp
            trueSuite:(ZSCodeSuite *)trueSuite
           falseSuite:(ZSCodeSuite *)falseSuite

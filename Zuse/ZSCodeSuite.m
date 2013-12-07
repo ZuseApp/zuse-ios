@@ -12,6 +12,19 @@
 
 @implementation ZSCodeSuite
 
+
+- (id) initWithParent: (ZSCodeStatement *) parentStatement
+     indentationLevel: (NSInteger)level
+{
+    if (self = [super init])
+    {
+        self.parentStatement = parentStatement;
+        self.indentationLevel = level;
+        self.statements = [[NSMutableArray alloc]init];
+    }
+    return self;
+}
+
 -(id) initWithJSON:(NSArray *)JSONSuite
             parent:(ZSCodeStatement *)parentStatement
   indentationLevel:(NSInteger)level
@@ -63,14 +76,35 @@
     [self.statements addObject:statement];
 }
 
-- (void) addEmptySetStatement
+-(void)addEmptyStatementWithType:(ZSCodeStatementType)type
 {
-    ZSCodeSetStatement *s = [[ZSCodeSetStatement alloc] initWithVariableName: @"..."
-                                                                       value: @"..."
-                                                                 parentSuite: self];
-    [self addStatement:s];
+    ZSCodeStatement *s;
+    
+    switch (type)
+    {
+        case ZSCodeStatementTypeSet:
+            s = [[ZSCodeSetStatement alloc]initWithVariableName:@"..."
+                                                          value:@"..."
+                                                    parentSuite:self];
+            break;
+        case ZSCodeStatementTypeIf:
+            s = [ZSCodeIfStatement emptyStatementWithParentSuite:self];
+            break;
+            
+        case ZSCodeStatementTypeOnEvent:
+            
+            break;
+            
+        case ZSCodeStatementTypeCall:
+            
+            break;
+            
+        default:
+            @throw @"ZSCodeSuite: Unknown code statement type.";
+            break;
+    }
+    [self.statements addObject:s];
 }
-
 
 -(NSArray *) codeLines
 {
@@ -84,7 +118,7 @@
         {
             ZSCodeIfStatement *statement = (ZSCodeIfStatement *)s;
             
-            [lines addObject:[ZSCodeLine lineWithType: ZSCodeLineStatementIf
+            [lines addObject:[ZSCodeLine lineWithType: ZSCodeStatementTypeIf
                                           indentation: self.indentationLevel
                                             statement: statement]];
             
@@ -100,7 +134,7 @@
         {
             ZSCodeOnEventStatement *statement = (ZSCodeOnEventStatement *)s;
             
-            [lines addObject:[ZSCodeLine lineWithType: ZSCodeLineStatementOnEvent
+            [lines addObject:[ZSCodeLine lineWithType: ZSCodeStatementTypeOnEvent
                                           indentation: self.indentationLevel
                                             statement: statement]];
             
@@ -110,7 +144,7 @@
         // 'SET' statement
         else if ([s isKindOfClass:[ZSCodeSetStatement class]])
         {
-            [lines addObject:[ZSCodeLine lineWithType: ZSCodeLineStatementSet
+            [lines addObject:[ZSCodeLine lineWithType: ZSCodeStatementTypeSet
                                           indentation: self.indentationLevel
                                             statement: s]];
         }
@@ -118,14 +152,14 @@
         // 'CALL' statement
         else if ([s isKindOfClass:[ZSCodeCallStatement class]])
         {
-            [lines addObject:[ZSCodeLine lineWithType: ZSCodeLineStatementCall
+            [lines addObject:[ZSCodeLine lineWithType: ZSCodeStatementTypeCall
                                           indentation: self.indentationLevel
                                             statement: s]];
         }
     }
     
     // add new code line
-    [lines addObject:[ZSCodeLine lineWithType: ZSCodeLineStatementNew
+    [lines addObject:[ZSCodeLine lineWithType: ZSCodeStatementTypeNew
                                   indentation: self.indentationLevel
                                     statement: [[ZSCodeNewStatement alloc] initWithSuite: self]]];
     return lines;

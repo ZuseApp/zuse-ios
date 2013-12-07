@@ -1,26 +1,19 @@
 #import "ZSCodeEditorSetStatementTableViewCell.h"
 #import "ZSExpressionOptionsTableViewController.h"
 #import "ZSCodeSetStatement.h"
-
+#import "ZSVarNameOptionsTableViewController.h"
 #import "ZSPopoverController.h"
 
 @interface ZSCodeEditorSetStatementTableViewCell()
 
 @property (weak, nonatomic) IBOutlet UIButton *varNameButton;
 @property (weak, nonatomic) IBOutlet UIButton *varValueButton;
-@property (strong, nonatomic) ZSCodeSetStatement *statement;
 
 @end
 
 @implementation ZSCodeEditorSetStatementTableViewCell
 
 #pragma mark - ZSCodeEditorTableViewCell
-
-- (void) setCodeLine:(ZSCodeLine *)codeLine
-{
-    super.codeLine = codeLine;
-    self.statement = (ZSCodeSetStatement *)self.codeLine.statement;
-}
 
 - (void)updateCellContents
 {
@@ -29,26 +22,18 @@
     [self.varValueButton setTitle: s.variableValueStringValue forState:UIControlStateNormal];
 }
 
-#pragma mark - ZSCodeEditorSetStatementTableViewCell
+#pragma mark - buttons' action handlers
 
 - (IBAction)varNameTapped:(id)sender
 {
-    ZSExpressionOptionsTableViewController *controller = [[ZSExpressionOptionsTableViewController alloc] initWithStyle:UITableViewStylePlain];
-    
+    ZSVarNameOptionsTableViewController *controller = [[ZSVarNameOptionsTableViewController alloc] init];
     controller.varNames = self.codeLine.statement.availableVarNames;
-    
     controller.didSelectValueBlock = ^(id value)
     {
+        ((ZSCodeSetStatement *)self.codeLine.statement).variableName = value;
         [self.popover dismissPopoverAnimated:YES];
-        // TODO: This is wrong right now, need to change once I have variable
-        // listing working correctly.
-        //_statement.variableName = [value stringValue];
-        
-        _statement.variableName = value;
-        
-        [self updateCellContents];
-    };
-    
+        [self.viewController.tableView reloadData];
+    };    
     [self presentPopoverWithViewController:controller
                                     inView:sender];
 }
@@ -62,7 +47,7 @@
     
     controller.didSelectValueBlock = ^(id value) {
         [self.popover dismissPopoverAnimated:YES];
-        _statement.variableValue = value;
+        ((ZSCodeSetStatement *)self.codeLine.statement).variableValue = value;
         [self updateCellContents];
     };
     

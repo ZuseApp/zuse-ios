@@ -1,5 +1,7 @@
 #import <Foundation/Foundation.h>
-#import "ZSCodeSuite.h"
+
+
+@class ZSCodeSuite;
 
 @interface ZSCodeStatement : NSObject
 
@@ -7,4 +9,5 @@
 
 - (NSDictionary *) JSONObject;
 - (NSArray *) availableVarNames;
+
 @end

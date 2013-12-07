@@ -6,6 +6,20 @@
 
 @implementation ZSCodeIfStatement
 
++(id)emptyStatementWithParentSuite:(ZSCodeSuite *)suite
+{
+    ZSCodeBoolExpression *boolExp = [ZSCodeBoolExpression expressionWithOper:@"=="
+                                                                        exp1:@"..."
+                                                                        exp2:@"..."];
+    ZSCodeIfStatement *s = [[ZSCodeIfStatement alloc]initWithBoolExp: boolExp
+                                                           trueSuite: nil
+                                                          falseSuite: nil
+                                                         parentSuite: suite];    
+    s.trueSuite = [[ZSCodeSuite alloc]initWithParent:s
+                                    indentationLevel:suite.indentationLevel + 1];
+    return s;
+}
+
 -(id)initWithBoolExp:(ZSCodeBoolExpression*)boolExp
            trueSuite:(ZSCodeSuite *)trueSuite
           falseSuite:(ZSCodeSuite *)falseSuite

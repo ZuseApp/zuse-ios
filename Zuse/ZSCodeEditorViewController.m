@@ -7,15 +7,6 @@
 #import "ZSCodeEditorTableViewCell.h"
 #import "ZSCodeEditorSetStatementTableViewCell.h"
 
-//typedef NS_ENUM(NSInteger, ZSCodeEditorExpressionType) {
-//    ZSCodeEditorExpressionTypeNumeric = 1,
-//    ZSCodeEditorExpressionTypeBoolean = 1 << 1,
-//    ZSCodeEditorExpressionTypeString  = 1 << 2,
-//    ZSCodeEditorExpressionTypeVariable = 1 << 3,
-//    ZSCodeEditorExpressionTypeCreateVariable = 1 << 4,
-//    ZSCodeEditorExpressionTypeAny     = 64
-//};
-
 @interface ZSCodeEditorViewController()
 
 @property (strong, nonatomic) ZSCodeObject *object;
@@ -63,8 +54,8 @@
     ZSCodeLine *line = self.codeLines[indexPath.row];
     
     // get the cell
-    ZSCodeEditorTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:line.type];
-    cell.controller = self;
+    ZSCodeEditorTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[@(line.type) stringValue]];
+    cell.viewController = self;
     
     return cell;
 }

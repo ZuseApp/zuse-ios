@@ -65,6 +65,7 @@
 		5F41ACB818341C980089D136 /* ZSExecutionContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F41ACB718341C980089D136 /* ZSExecutionContext.m */; };
 		5FBDDC3817FF2D2400A1037A /* ZSPlaygroundViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBDDC3417FF2D2400A1037A /* ZSPlaygroundViewController.m */; };
 		5FEFB89A182B5376007DAFCF /* pong.json in Resources */ = {isa = PBXBuildFile; fileRef = 5FEFB899182B5376007DAFCF /* pong.json */; };
+		782125951852A16900BCC7BA /* ZSCodeStatementOptionsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 782125941852A16900BCC7BA /* ZSCodeStatementOptionsTableViewController.m */; };
 		78346A0A183C623400540D54 /* ZSCodeObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 78346A09183C623400540D54 /* ZSCodeObject.m */; };
 		7843FA90184BE51600DCE527 /* ZSCodeEditorIfStatementTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7843FA8F184BE51600DCE527 /* ZSCodeEditorIfStatementTableViewCell.m */; };
 		7843FA93184BF70C00DCE527 /* ZSCodeEditorNewStatementTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7843FA92184BF70C00DCE527 /* ZSCodeEditorNewStatementTableViewCell.m */; };
@@ -92,6 +93,7 @@
 		78645C5018446FBF00EE14A9 /* ZSStatementEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 78645C4F18446FBF00EE14A9 /* ZSStatementEditorViewController.m */; };
 		78645C53184AB12A00EE14A9 /* ZSCodeEditorSetStatementTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 78645C52184AB12A00EE14A9 /* ZSCodeEditorSetStatementTableViewCell.m */; };
 		788F70CF1851590700C68F83 /* ZSCodeNewStatement.m in Sources */ = {isa = PBXBuildFile; fileRef = 788F70CE1851590700C68F83 /* ZSCodeNewStatement.m */; };
+		788F70D31852766B00C68F83 /* ZSVarNameOptionsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 788F70D21852766B00C68F83 /* ZSVarNameOptionsTableViewController.m */; };
 		78F79EB61839BC9E00012726 /* ZSCodeOnEventStatement.m in Sources */ = {isa = PBXBuildFile; fileRef = 78F79EB51839BC9E00012726 /* ZSCodeOnEventStatement.m */; };
 		78F79EB8183A8C0300012726 /* TCCodeEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 78F79EB7183A8C0300012726 /* TCCodeEditor.m */; };
 		F188741646A541119F9E0DE4 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A26E7A8391C049E78AB2860A /* libPods.a */; };
@@ -189,6 +191,8 @@
 		5FBDDC3317FF2D2400A1037A /* ZSPlaygroundViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSPlaygroundViewController.h; sourceTree = "<group>"; };
 		5FBDDC3417FF2D2400A1037A /* ZSPlaygroundViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSPlaygroundViewController.m; sourceTree = "<group>"; };
 		5FEFB899182B5376007DAFCF /* pong.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = pong.json; path = JSON/pong.json; sourceTree = "<group>"; };
+		782125931852A16900BCC7BA /* ZSCodeStatementOptionsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCodeStatementOptionsTableViewController.h; sourceTree = "<group>"; };
+		782125941852A16900BCC7BA /* ZSCodeStatementOptionsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCodeStatementOptionsTableViewController.m; sourceTree = "<group>"; };
 		78346A08183C623400540D54 /* ZSCodeObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCodeObject.h; sourceTree = "<group>"; };
 		78346A09183C623400540D54 /* ZSCodeObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCodeObject.m; sourceTree = "<group>"; };
 		7843FA8E184BE51600DCE527 /* ZSCodeEditorIfStatementTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCodeEditorIfStatementTableViewCell.h; sourceTree = "<group>"; };
@@ -235,6 +239,8 @@
 		78645C52184AB12A00EE14A9 /* ZSCodeEditorSetStatementTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCodeEditorSetStatementTableViewCell.m; sourceTree = "<group>"; };
 		788F70CD1851590700C68F83 /* ZSCodeNewStatement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCodeNewStatement.h; sourceTree = "<group>"; };
 		788F70CE1851590700C68F83 /* ZSCodeNewStatement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCodeNewStatement.m; sourceTree = "<group>"; };
+		788F70D11852766B00C68F83 /* ZSVarNameOptionsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSVarNameOptionsTableViewController.h; sourceTree = "<group>"; };
+		788F70D21852766B00C68F83 /* ZSVarNameOptionsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSVarNameOptionsTableViewController.m; sourceTree = "<group>"; };
 		78F79EB41839BC9E00012726 /* ZSCodeOnEventStatement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCodeOnEventStatement.h; sourceTree = "<group>"; };
 		78F79EB51839BC9E00012726 /* ZSCodeOnEventStatement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCodeOnEventStatement.m; sourceTree = "<group>"; };
 		78F79EB7183A8C0300012726 /* TCCodeEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCCodeEditor.m; sourceTree = "<group>"; };
@@ -637,6 +643,10 @@
 		788F70D01852654500C68F83 /* PopOvers */ = {
 			isa = PBXGroup;
 			children = (
+				782125931852A16900BCC7BA /* ZSCodeStatementOptionsTableViewController.h */,
+				782125941852A16900BCC7BA /* ZSCodeStatementOptionsTableViewController.m */,
+				788F70D11852766B00C68F83 /* ZSVarNameOptionsTableViewController.h */,
+				788F70D21852766B00C68F83 /* ZSVarNameOptionsTableViewController.m */,
 				5F2B55FF18502963002D7149 /* ZSExpressionOptionsTableViewController.h */,
 				5F2B560018502963002D7149 /* ZSExpressionOptionsTableViewController.m */,
 				5F2B56021850310E002D7149 /* ZSPopoverController.h */,
@@ -826,6 +836,8 @@
 				7855BCC41837F47E006493F9 /* ZSCodeSuite.m in Sources */,
 				4CE3404E180A0154009A63A2 /* ZSRendererViewController.m in Sources */,
 				78F79EB61839BC9E00012726 /* ZSCodeOnEventStatement.m in Sources */,
+				782125951852A16900BCC7BA /* ZSCodeStatementOptionsTableViewController.m in Sources */,
+				788F70D31852766B00C68F83 /* ZSVarNameOptionsTableViewController.m in Sources */,
 				5F41ACB818341C980089D136 /* ZSExecutionContext.m in Sources */,
 				784BFD071844680D00FB0694 /* ZSCodeEditorTableViewCell.m in Sources */,
 				4CF1CBC217EF882A00636E0D /* TCAppDelegate.m in Sources */,
