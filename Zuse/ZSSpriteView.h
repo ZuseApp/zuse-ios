@@ -1,5 +1,5 @@
 //
-//  TCSpriteView.h
+//  ZSSpriteView.h
 //  Zuse
 //
 //  Created by Michael Hogenson on 9/22/13.
@@ -7,14 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "TCSprite.h"
+#import "ZSSprite.h"
 
-@interface TCSpriteView : UIImageView
+@interface ZSSpriteView : UIImageView
 
 @property (strong, nonatomic) void(^touchesBegan)(UITouch *touch);
 @property (strong, nonatomic) void(^touchesMoved)(UITouch *touch);
 @property (strong, nonatomic) void(^touchesEnded)(UITouch *touch);
 @property (strong, nonatomic) void(^longTouch)();
-@property (strong, nonatomic) TCSprite *sprite;
+@property (strong, nonatomic) ZSSprite *sprite;
 
 @end
