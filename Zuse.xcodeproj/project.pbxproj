@@ -21,6 +21,8 @@
 		4C4087091852480F009117E1 /* ZSSpriteLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C4087081852480F009117E1 /* ZSSpriteLibrary.m */; };
 		4C62B0AA18564CF0007CC9CD /* ZSSprite.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C62B0A918564CF0007CC9CD /* ZSSprite.m */; };
 		4C62B0AE18564D3E007CC9CD /* ZSProgram.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C62B0AD18564D3E007CC9CD /* ZSProgram.m */; };
+		4C62B0B518564E9C007CC9CD /* ZSMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C62B0B218564E9C007CC9CD /* ZSMenuController.m */; };
+		4C62B0B618564E9C007CC9CD /* ZSSpriteController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C62B0B418564E9C007CC9CD /* ZSSpriteController.m */; };
 		4CCE4F841845A541006C7DA0 /* paddle.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CCE4F831845A541006C7DA0 /* paddle.png */; };
 		4CE340331809DB3C009A63A2 /* ZSBallViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE340321809DB3C009A63A2 /* ZSBallViewController.m */; };
 		4CE340361809DCFD009A63A2 /* ZSScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE340351809DCFD009A63A2 /* ZSScene.m */; };
@@ -129,6 +131,10 @@
 		4C62B0A918564CF0007CC9CD /* ZSSprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSSprite.m; sourceTree = "<group>"; };
 		4C62B0AC18564D3E007CC9CD /* ZSProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSProgram.h; sourceTree = "<group>"; };
 		4C62B0AD18564D3E007CC9CD /* ZSProgram.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSProgram.m; sourceTree = "<group>"; };
+		4C62B0B118564E9C007CC9CD /* ZSMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSMenuController.h; sourceTree = "<group>"; };
+		4C62B0B218564E9C007CC9CD /* ZSMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSMenuController.m; sourceTree = "<group>"; };
+		4C62B0B318564E9C007CC9CD /* ZSSpriteController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSSpriteController.h; sourceTree = "<group>"; };
+		4C62B0B418564E9C007CC9CD /* ZSSpriteController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSSpriteController.m; sourceTree = "<group>"; };
 		4CCE4F831845A541006C7DA0 /* paddle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = paddle.png; sourceTree = "<group>"; };
 		4CE340311809DB3C009A63A2 /* ZSBallViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSBallViewController.h; sourceTree = "<group>"; };
 		4CE340321809DB3C009A63A2 /* ZSBallViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSBallViewController.m; sourceTree = "<group>"; };
@@ -304,10 +310,10 @@
 		4C62B0B018564D9D007CC9CD /* Table Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				4CE340461809F880009A63A2 /* ZSMenuController.h */,
-				4CE340471809F880009A63A2 /* ZSMenuController.m */,
-				4CE340491809FC57009A63A2 /* ZSSpriteController.h */,
-				4CE3404A1809FC57009A63A2 /* ZSSpriteController.m */,
+				4C62B0B118564E9C007CC9CD /* ZSMenuController.h */,
+				4C62B0B218564E9C007CC9CD /* ZSMenuController.m */,
+				4C62B0B318564E9C007CC9CD /* ZSSpriteController.h */,
+				4C62B0B418564E9C007CC9CD /* ZSSpriteController.m */,
 			);
 			name = "Table Controllers";
 			sourceTree = "<group>";
@@ -819,6 +825,8 @@
 				7855BCC31837F47E006493F9 /* ZSCodeStatement.m in Sources */,
 				78645C53184AB12A00EE14A9 /* ZSCodeEditorTableViewCellSet.m in Sources */,
 				7855BCBF1837F47E006493F9 /* ZSCodeStatementCall.m in Sources */,
+				4C62B0B518564E9C007CC9CD /* ZSMenuController.m in Sources */,
+				4C62B0B618564E9C007CC9CD /* ZSSpriteController.m in Sources */,
 				7855BCD31837FBA7006493F9 /* ZSCallStatementEditorViewController.m in Sources */,
 				7855BCCD1837FB6D006493F9 /* ZSSetStatementEditorViewController.m in Sources */,
 				7855BCC21837F47E006493F9 /* ZSCodeStatementSet.m in Sources */,
