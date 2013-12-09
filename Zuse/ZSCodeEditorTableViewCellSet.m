@@ -28,8 +28,7 @@
 {
     ZSCodeEditorVarNameOptionsTableViewController *controller = [[ZSCodeEditorVarNameOptionsTableViewController alloc] init];
     controller.varNames = self.codeLine.statement.availableVarNames;
-    controller.didSelectValueBlock = ^(id value)
-    {
+    controller.didSelectValueBlock = ^(id value) {
         ((ZSCodeStatementSet *)self.codeLine.statement).variableName = value;
         [self.popover dismissPopoverAnimated:YES];
         [self.viewController.tableView reloadData];
