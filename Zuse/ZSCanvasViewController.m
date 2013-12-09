@@ -1,8 +1,8 @@
 #import "ZSCanvasViewController.h"
 #import "ZSPlaygroundViewController.h"
 #import "ZSRendererViewController.h"
-#import "TCSprite.h"
-#import "TCSpriteView.h"
+#import "ZSSprite.h"
+#import "ZSSpriteView.h"
 #import "ZSProgram.h"
 #import "ZSMenuController.h"
 #import "ZSSpriteController.h"
@@ -83,10 +83,10 @@
 // starting with verb indicates not returning anything
 // method name indicates passed parameters
 -(void)loadSpritesFromProgram {
-    for (TCSprite *sprite in _program.sprites) {
+    for (ZSSprite *sprite in _program.sprites) {
         
-        TCSpriteView *view = [[TCSpriteView alloc] initWithFrame:sprite.frame];
-        //__weak TCSpriteView *weakView = view;
+        ZSSpriteView *view = [[ZSSpriteView alloc] initWithFrame:sprite.frame];
+        // __weak ZSSpriteView *weakView = view;
         view.sprite = sprite;
         if (sprite.imagePath) {
             view.image = [UIImage imageNamed:sprite.imagePath];

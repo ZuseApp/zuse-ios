@@ -1,42 +1,127 @@
 {
-  "traits": [
-    {
-      "id": "Draggable",
+  "traits": {
+    "Draggable": {
       "parameters": {
         "horizontal": true,
-        "vertical":   true
+        "vertical": true
       },
       "code": [
-        { "set": ["offset_x", 0] },
-        { "set": ["offset_y", 0] },
+        {
+          "set": [
+            "offset_x",
+            0
+          ]
+        },
+        {
+          "set": [
+            "offset_y",
+            0
+          ]
+        },
         {
           "on_event": {
             "name": "touch_began",
-            "parameters": ["touch_x", "touch_y"],
+            "parameters": [
+              "touch_x",
+              "touch_y"
+            ],
             "code": [
-              { "set": ["offset_x", { "-": [{ "get": "touch_x" }, { "get": "x" }] }] },
-              { "set": ["offset_y", { "-": [{ "get": "touch_y" }, { "get": "y" }] }] }
+              {
+                "set": [
+                  "offset_x",
+                  {
+                    "-": [
+                      {
+                        "get": "touch_x"
+                      },
+                      {
+                        "get": "x"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "set": [
+                  "offset_y",
+                  {
+                    "-": [
+                      {
+                        "get": "touch_y"
+                      },
+                      {
+                        "get": "y"
+                      }
+                    ]
+                  }
+                ]
+              }
             ]
           }
         },
         {
           "on_event": {
             "name": "touch_moved",
-            "parameters": ["touch_x", "touch_y"],
+            "parameters": [
+              "touch_x",
+              "touch_y"
+            ],
             "code": [
               {
                 "if": {
-                  "test": { "==": [{ "get": "horizontal"}, true] },
+                  "test": {
+                    "==": [
+                      {
+                        "get": "horizontal"
+                      },
+                      true
+                    ]
+                  },
                   "true": [
-                    { "set": ["x", { "-": [{ "get": "touch_x" }, { "get": "offset_x" }] } ] }
+                    {
+                      "set": [
+                        "x",
+                        {
+                          "-": [
+                            {
+                              "get": "touch_x"
+                            },
+                            {
+                              "get": "offset_x"
+                            }
+                          ]
+                        }
+                      ]
+                    }
                   ]
                 }
               },
               {
                 "if": {
-                  "test": { "==": [{ "get": "vertical"}, true] },
+                  "test": {
+                    "==": [
+                      {
+                        "get": "vertical"
+                      },
+                      true
+                    ]
+                  },
                   "true": [
-                    { "set": ["y", { "-": [{ "get": "touch_y" }, { "get": "offset_y" }] } ] }
+                    {
+                      "set": [
+                        "y",
+                        {
+                          "-": [
+                            {
+                              "get": "touch_y"
+                            },
+                            {
+                              "get": "offset_y"
+                            }
+                          ]
+                        }
+                      ]
+                    }
                   ]
                 }
               }
@@ -45,7 +130,7 @@
         }
       ]
     }
-  ],
+  },
   "objects": [
     {
       "id": "paddle1",
@@ -57,11 +142,11 @@
         {
           "id": "Draggable",
           "parameters": {
-             "vertical": false
+            "vertical": false
           }
         }
       ],
-      "properties": { 
+      "properties": {
         "x": 40,
         "y": 30,
         "width": 129,
@@ -79,11 +164,11 @@
         {
           "id": "Draggable",
           "parameters": {
-             "vertical": false
+            "vertical": false
           }
         }
       ],
-      "properties": { 
+      "properties": {
         "x": 160,
         "y": 420,
         "width": 129,
@@ -98,7 +183,7 @@
         "path": "grayball.png"
       },
       "traits": [],
-      "properties": { 
+      "properties": {
         "x": 160,
         "y": 240,
         "width": 30,
@@ -111,11 +196,21 @@
             "name": "start",
             "parameters": [],
             "code": [
-              { "set": ["speed", 100] },
+              {
+                "set": [
+                  "speed",
+                  100
+                ]
+              },
               {
                 "call": {
                   "method": "move",
-                  "parameters": [45, { "get": "speed" }]
+                  "parameters": [
+                    45,
+                    {
+                      "get": "speed"
+                    }
+                  ]
                 }
               }
             ]
@@ -124,18 +219,46 @@
         {
           "on_event": {
             "name": "collision",
-            "parameters": ["other_sprite"],
+            "parameters": [
+              "other_sprite"
+            ],
             "code": [
               {
                 "if": {
-                  "test": { 
+                  "test": {
                     "or": [
-                      { "==": [{ "get": "other_sprite" }, "paddle1"] },
-                      { "==": [{ "get": "other_sprite" }, "paddle2"] }
+                      {
+                        "==": [
+                          {
+                            "get": "other_sprite"
+                          },
+                          "paddle1"
+                        ]
+                      },
+                      {
+                        "==": [
+                          {
+                            "get": "other_sprite"
+                          },
+                          "paddle2"
+                        ]
+                      }
                     ]
                   },
                   "true": [
-                    { "set": ["speed", { "+": [{ "get": "speed" }, 2] }] }
+                    {
+                      "set": [
+                        "speed",
+                        {
+                          "+": [
+                            {
+                              "get": "speed"
+                            },
+                            2
+                          ]
+                        }
+                      ]
+                    }
                   ]
                 }
               }

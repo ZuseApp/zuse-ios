@@ -28,10 +28,7 @@
 }
 
 - (NSDictionary *)compiledJSON {
-    NSMutableDictionary *traits = [NSMutableDictionary dictionary];
-    [_projectJSON[@"traits"] each:^(NSDictionary *traitJSON) {
-        traits[traitJSON[@"id"]] = traitJSON;
-    }];
+    NSMutableDictionary *traits = _projectJSON[@"traits"];
     
     if (!traits) return _projectJSON[@"objects"];
     
