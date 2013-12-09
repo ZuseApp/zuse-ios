@@ -8,7 +8,7 @@
 
 #import "ZSGestureViewController.h"
 
-@interface ZSGestureViewController ()
+@interface ZSGestureViewController () <UIGestureRecognizerDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *stateLabel;
 
@@ -25,6 +25,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+        self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+    }
     
     UITapGestureRecognizer *singleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTapRecognized)];
     [self.view addGestureRecognizer:singleTapGesture];
@@ -54,6 +58,9 @@
     
     UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panRecognized:)];
     [self.view addGestureRecognizer:panGesture];
+    
+    [panGesture requireGestureRecognizerToFail:rightEdgePanGesture];
+    [panGesture requireGestureRecognizerToFail:leftEdgePanGesture];
 }
 
 -(void)singleTapRecognized {

@@ -23,6 +23,8 @@
 		4C62B0AE18564D3E007CC9CD /* ZSProgram.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C62B0AD18564D3E007CC9CD /* ZSProgram.m */; };
 		4C62B0BB18564F9D007CC9CD /* ZSMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C62B0B818564F9D007CC9CD /* ZSMenuController.m */; };
 		4C62B0BC18564F9D007CC9CD /* ZSSpriteController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C62B0BA18564F9D007CC9CD /* ZSSpriteController.m */; };
+		4C62B0BF1856626C007CC9CD /* ZSSpriteTraits.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C62B0BE1856626C007CC9CD /* ZSSpriteTraits.m */; };
+		4C62B0C118566409007CC9CD /* default_traits.json in Resources */ = {isa = PBXBuildFile; fileRef = 4C62B0C018566409007CC9CD /* default_traits.json */; };
 		4CCE4F841845A541006C7DA0 /* paddle.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CCE4F831845A541006C7DA0 /* paddle.png */; };
 		4CE340331809DB3C009A63A2 /* ZSBallViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE340321809DB3C009A63A2 /* ZSBallViewController.m */; };
 		4CE340361809DCFD009A63A2 /* ZSScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE340351809DCFD009A63A2 /* ZSScene.m */; };
@@ -135,6 +137,9 @@
 		4C62B0B818564F9D007CC9CD /* ZSMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSMenuController.m; sourceTree = "<group>"; };
 		4C62B0B918564F9D007CC9CD /* ZSSpriteController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSSpriteController.h; sourceTree = "<group>"; };
 		4C62B0BA18564F9D007CC9CD /* ZSSpriteController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSSpriteController.m; sourceTree = "<group>"; };
+		4C62B0BD1856626C007CC9CD /* ZSSpriteTraits.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSSpriteTraits.h; sourceTree = "<group>"; };
+		4C62B0BE1856626C007CC9CD /* ZSSpriteTraits.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSSpriteTraits.m; sourceTree = "<group>"; };
+		4C62B0C018566409007CC9CD /* default_traits.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = default_traits.json; sourceTree = "<group>"; };
 		4CCE4F831845A541006C7DA0 /* paddle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = paddle.png; sourceTree = "<group>"; };
 		4CE340311809DB3C009A63A2 /* ZSBallViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSBallViewController.h; sourceTree = "<group>"; };
 		4CE340321809DB3C009A63A2 /* ZSBallViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSBallViewController.m; sourceTree = "<group>"; };
@@ -286,10 +291,12 @@
 		4C62B0AB18564D0C007CC9CD /* Sprite */ = {
 			isa = PBXGroup;
 			children = (
-				4C4087071852480F009117E1 /* ZSSpriteLibrary.h */,
-				4C4087081852480F009117E1 /* ZSSpriteLibrary.m */,
 				4C62B0A818564CF0007CC9CD /* ZSSprite.h */,
 				4C62B0A918564CF0007CC9CD /* ZSSprite.m */,
+				4C4087071852480F009117E1 /* ZSSpriteLibrary.h */,
+				4C4087081852480F009117E1 /* ZSSpriteLibrary.m */,
+				4C62B0BD1856626C007CC9CD /* ZSSpriteTraits.h */,
+				4C62B0BE1856626C007CC9CD /* ZSSpriteTraits.m */,
 			);
 			name = Sprite;
 			sourceTree = "<group>";
@@ -516,6 +523,7 @@
 				5FEFB899182B5376007DAFCF /* pong.json */,
 				5F1B5BA21837E05A00632DE6 /* pong_no_traits.json */,
 				7826907218555E0D0093FD94 /* test empty json.json */,
+				4C62B0C018566409007CC9CD /* default_traits.json */,
 			);
 			name = JSON;
 			sourceTree = "<group>";
@@ -726,6 +734,7 @@
 			files = (
 				7843FA9C184C0DE000DCE527 /* to.png in Resources */,
 				4CE340421809F76E009A63A2 /* grayball.png in Resources */,
+				4C62B0C118566409007CC9CD /* default_traits.json in Resources */,
 				2C19FF0F181AE6B600D10D2B /* player@2x.png in Resources */,
 				7843FAA0184C154000DCE527 /* on event.png in Resources */,
 				2C19FF0E181AE6B600D10D2B /* player.png in Resources */,
@@ -834,6 +843,7 @@
 				784BFD071844680D00FB0694 /* ZSCodeEditorTableViewCell.m in Sources */,
 				4CF1CBC217EF882A00636E0D /* TCAppDelegate.m in Sources */,
 				4C408703185005D9009117E1 /* ZSGestureViewController.m in Sources */,
+				4C62B0BF1856626C007CC9CD /* ZSSpriteTraits.m in Sources */,
 				5F2B560118502963002D7149 /* ZSExpressionOptionsTableViewController.m in Sources */,
 				4CE340361809DCFD009A63A2 /* ZSScene.m in Sources */,
 				4CE340331809DB3C009A63A2 /* ZSBallViewController.m in Sources */,

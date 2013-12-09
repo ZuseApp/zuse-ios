@@ -41,7 +41,7 @@
         jsonData = [NSData dataWithContentsOfFile:jsonPath];
         // }
         
-        NSDictionary *json = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
+        NSMutableDictionary *json = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
         
         // Load the program into memory.
         _rawJSON = json;

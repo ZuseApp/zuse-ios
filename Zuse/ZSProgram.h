@@ -17,6 +17,6 @@
 + (ZSProgram *)programWithFile:(NSString *)name;
 
 -(void)writeToFile:(NSString *)name;
--(NSDictionary *) projectJSON;
+-(NSMutableDictionary *) projectJSON;
 
 @end
