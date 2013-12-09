@@ -1,19 +1,22 @@
 #import "ZSCodeStatement.h"
-#import "ZSCodeOnEventStatement.h"
-#import "ZSCodeSetStatement.h"
-#import "ZSCodeObject.h"
+#import "ZSCodeStatementOnEvent.h"
+#import "ZSCodeStatementSet.h"
+#import "ZSCodeStatementObject.h"
 
 @implementation ZSCodeStatement
 
--(NSDictionary *) JSONObject
+- (id)initWithParentSuite: (ZSCodeSuite *)s
 {
-    @throw @"ZSCodeStatement: JSONObject should be overridden in subclasses";
-    return nil;
+    if (self = [super init])
+    {
+        self.parentSuite = s;
+    }
+    return self;
 }
 
 - (NSArray *) availableVarNames
 {
-    NSMutableArray *varNames = [[NSMutableArray alloc]init];
+    NSMutableSet *varNames = [[NSMutableSet alloc]init];
     
     for (ZSCodeStatement *s in self.parentSuite.statements)
     {
@@ -22,20 +25,40 @@
             break;
         }
         // 'SET' statement
-        if ([s isKindOfClass:[ZSCodeSetStatement class]])
+        if ([s isKindOfClass:[ZSCodeStatementSet class]])
         {
-            [varNames addObject:((ZSCodeSetStatement *)s).variableName];
+            [varNames  addObject:((ZSCodeStatementSet *)s).variableName];
         }
     }
     
     // If inside ON EVENT statement
-    if( [self.parentSuite.parentStatement isKindOfClass: [ZSCodeOnEventStatement class]])
+    if( [self.parentSuite.parentStatement isKindOfClass: [ZSCodeStatementOnEvent class]])
     {
-        [varNames addObjectsFromArray:((ZSCodeOnEventStatement *)self.parentSuite.parentStatement).parameters];
+        [varNames addObjectsFromArray:((ZSCodeStatementOnEvent *)self.parentSuite.parentStatement).parameters];
     }
 
     [varNames addObjectsFromArray:self.parentSuite.parentStatement.availableVarNames];
     
-    return varNames;
+    return [varNames sortedArrayUsingDescriptors:nil];
 }
+
+#pragma mark - Messages to be implemented in subclass
+
++ (id)emptyWithParentSuite:(ZSCodeSuite *)suite
+{
+    @throw @"ZSCodeStatement: [emptyStatementWithParentSuite:] should be overridden in subclasses";
+    return nil;
+}
+- (id)initWithJSON:(NSDictionary *)json
+       parentSuite:(ZSCodeSuite *)suite
+{
+    @throw @"ZSCodeStatement: [initWithJSON: parentSuite:] should be overridden in subclasses";
+    return nil;
+}
+- (NSDictionary *) JSONObject
+{
+    @throw @"ZSCodeStatement: [JSONObject] should be overridden in subclasses";
+    return nil;
+}
+
 @end

@@ -1,8 +1,8 @@
-#import "ZSCodeEditorNewStatementTableViewCell.h"
-#import "ZSCodeNewStatement.h"
-#import "ZSCodeStatementOptionsTableViewController.h"
+#import "ZSCodeEditorTableViewCellNew.h"
+#import "ZSCodeStatementNew.h"
+#import "ZSCodeEditorStatementOptionsTableViewController.h"
 
-@interface ZSCodeEditorNewStatementTableViewCell()
+@interface ZSCodeEditorTableViewCellNew()
 
 @property (weak, nonatomic) IBOutlet UIButton *button;
 
@@ -10,27 +10,22 @@
 
 @end
 
-@implementation ZSCodeEditorNewStatementTableViewCell
+@implementation ZSCodeEditorTableViewCellNew
 
 - (void) updateCellContents
 {
-    ZSCodeNewStatementType type = ((ZSCodeNewStatement *)self.codeLine.statement).type;
+    ZSCodeStatementType type = ((ZSCodeStatementNew *)self.codeLine.statement).parentCodeStatementType;
     
     // Change the image of the button
     switch (type)
     {
-        case ZSCodeNewStatementInsideOnEvent:
-            
+        case ZSCodeStatementTypeOnEvent:
             self.button.imageView.image = [UIImage imageNamed:@"plus event"];
             break;
-            
-        case ZSCodeNewStatementInsideIf:
-            
+        case ZSCodeStatementTypeIf:
             self.button.imageView.image = [UIImage imageNamed:@"plus if"];
             break;
-            
         default:
-            
             self.button.imageView.image = [UIImage imageNamed:@"plus"];
             break;
     }
@@ -38,7 +33,7 @@
 
 - (IBAction)buttonTapped:(id)sender
 {
-    ZSCodeStatementOptionsTableViewController *controller = [[ZSCodeStatementOptionsTableViewController alloc]init];
+    ZSCodeEditorStatementOptionsTableViewController *controller = [[ZSCodeEditorStatementOptionsTableViewController alloc]init];
     
     controller.didSelectStatementBlock = ^(ZSCodeStatementType s)
     {

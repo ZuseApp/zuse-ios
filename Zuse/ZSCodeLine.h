@@ -1,4 +1,5 @@
 #import <Foundation/Foundation.h>
+#import "ZSCodeStatement.h"
 
 
 typedef NS_ENUM(NSInteger, ZSCodeStatementType)
@@ -8,19 +9,18 @@ typedef NS_ENUM(NSInteger, ZSCodeStatementType)
     ZSCodeStatementTypeOnEvent,
     ZSCodeStatementTypeCall,
     
-    ZSCodeStatementTypeNum,  // total number of statements (above) excluding New (below)
-    ZSCodeStatementTypeNew
+    ZSCodeStatementTypeNum,  // total number of statements (above) excluding New (below) and Object
+    ZSCodeStatementTypeNew,
+    ZSCodeStatementTypeObject
 };
-
-@class ZSCodeStatement;
 
 @interface ZSCodeLine : NSObject
 
 @property (nonatomic) ZSCodeStatementType type;
-@property (nonatomic) NSInteger indentation;
 @property (strong, nonatomic) ZSCodeStatement *statement;
 
-+(id)lineWithType:(ZSCodeStatementType)type
-      indentation:(NSInteger)indentation
-        statement:(ZSCodeStatement *)statement;
++(id)lineWithType: (ZSCodeStatementType)type
+        statement: (ZSCodeStatement *)statement;
+
+
 @end

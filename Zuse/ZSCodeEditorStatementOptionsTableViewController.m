@@ -1,16 +1,15 @@
-#import "ZSCodeStatementOptionsTableViewController.h"
+#import "ZSCodeEditorStatementOptionsTableViewController.h"
 #import "ZSCodeStatement.h"
-#import "ZSCodeIfStatement.h"
-#import "ZSCodeBoolExpression.h"
-#import "ZSCodeSetStatement.h"
-#import "ZSCodeOnEventStatement.h"
+#import "ZSCodeStatementIf.h"
+#import "ZSCodeStatementSet.h"
+#import "ZSCodeStatementOnEvent.h"
 #import "ZSCodeSuite.h"
 #import "ZSCodeLine.h"
-@interface ZSCodeStatementOptionsTableViewController ()
+@interface ZSCodeEditorStatementOptionsTableViewController ()
 
 @end
 
-@implementation ZSCodeStatementOptionsTableViewController
+@implementation ZSCodeEditorStatementOptionsTableViewController
 
 - (id)initWithStyle:(UITableViewStyle)style
 {

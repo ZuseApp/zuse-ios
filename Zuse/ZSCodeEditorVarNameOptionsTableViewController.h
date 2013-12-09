@@ -1,6 +1,6 @@
 #import <UIKit/UIKit.h>
 
-@interface ZSVarNameOptionsTableViewController : UITableViewController
+@interface ZSCodeEditorVarNameOptionsTableViewController : UITableViewController
 
 @property (strong, nonatomic) NSArray *varNames;
 @property (copy, nonatomic) void (^didSelectValueBlock)(id value);

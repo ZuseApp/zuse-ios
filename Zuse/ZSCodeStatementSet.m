@@ -1,31 +1,20 @@
-#import "ZSCodeBoolExpression.h"
-#import "ZSCodeSetStatement.h"
+#import "ZSCodeStatementSet.h"
 #import "ZSCodeLine.h"
 
-@interface ZSCodeSetStatement()
+@implementation ZSCodeStatementSet
 
-@end
-
-@implementation ZSCodeSetStatement
-
-
-- (id) initWithVariableName:(NSString *)name
-                      value:(NSObject *)value
-                parentSuite:(ZSCodeSuite *)suite
++ (id) emptyWithParentSuite:(ZSCodeSuite *)suite
 {
-    if (self = [super init])
-    {
-        self.variableName = name;
-        self.variableValue = value;
-        self.parentSuite = suite;
-    }
-    return self;
+    ZSCodeStatementSet *s = [[ZSCodeStatementSet alloc]initWithParentSuite:suite];
+    s.variableName = @"...";
+    s.variableValue = @"...";
+    return s;
 }
 
 - (id) initWithJSON:(NSDictionary *)json
         parentSuite:(ZSCodeSuite *)suite
 {
-    if (self = [super init])
+    if (self = [super initWithParentSuite:suite])
     {
         NSString *name  = json[@"set"][0];
         NSObject *value = json[@"set"][1];
@@ -37,13 +26,12 @@
             
             if([statementName isEqualToString:@"call"])
             {
-                value = [[ZSCodeCallStatement alloc] initWithJSON:(NSDictionary*)value
+                value = [[ZSCodeStatementCall alloc] initWithJSON:(NSDictionary*)value
                                                       parentSuite:self.parentSuite];
             }
         }
         self.variableName = name;
         self.variableValue = value;
-        self.parentSuite = suite;
     }
     return self;
 }
@@ -53,7 +41,7 @@
     NSString *value;
     
     // value is call statement
-    if ([self.variableValue isKindOfClass: [ZSCodeCallStatement class]]) // variable value is call statement
+    if ([self.variableValue isKindOfClass: [ZSCodeStatementCall class]]) // variable value is call statement
     {
         //ZSCodeCallStatement *call = (ZSCodeCallStatement *)self.variableValue;
         value = @"!!!not implemented!!!";
@@ -67,7 +55,7 @@
     else if([self.variableValue isKindOfClass: [NSNumber class]])
     {
         NSNumber *n = (NSNumber *)self.variableValue;
-        value = [ZSCodeBoolExpression isBooleanType:n] ? [n integerValue]? @"true" : @"false" : [n stringValue];
+        value = [ZSCodeStatementSet isBooleanType:n] ? [n integerValue]? @"true" : @"false" : [n stringValue];
     }
     // value is a text
     else
@@ -81,6 +69,11 @@
 -(NSDictionary *) JSONObject
 {
     return @{@"set" : @[self.variableName, self.variableValue]};
+}
+
++(BOOL)isBooleanType:(NSNumber *)n
+{
+    return strcmp([n objCType], @encode(BOOL)) == 0;
 }
 
 @end

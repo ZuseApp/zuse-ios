@@ -86,7 +86,7 @@
     for (TCSprite *sprite in _program.sprites) {
         
         TCSpriteView *view = [[TCSpriteView alloc] initWithFrame:sprite.frame];
-        __weak TCSpriteView *weakView = view;
+        //__weak TCSpriteView *weakView = view;
         view.sprite = sprite;
         if (sprite.imagePath) {
             view.image = [UIImage imageNamed:sprite.imagePath];

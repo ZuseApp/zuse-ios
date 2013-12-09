@@ -1,20 +1,16 @@
-#import "ZSCodeObject.h"
+#import "ZSCodeStatementObject.h"
 
-@interface ZSCodeObject()
+@implementation ZSCodeStatementObject
 
-@end
-
-@implementation ZSCodeObject
-
-- (id) initWithJSON:(NSDictionary *)json
+- (id)initWithJSON:(NSDictionary *)json
+       parentSuite:(ZSCodeSuite *)suite
 {
-    if (self = [super init])
+    if (self = [super initWithParentSuite:suite])
     {
         self.ID = json[@"id"];
         self.properties = [NSDictionary dictionaryWithDictionary:json[@"properties"]];
         self.code = [[ZSCodeSuite alloc] initWithJSON:json[@"code"]
-                                               parent:self
-                                     indentationLevel:0];
+                                      parentStatement:self];
     }
     return self;
 }

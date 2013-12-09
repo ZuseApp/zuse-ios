@@ -2,7 +2,7 @@
 #import "ZSCodeStatement.h"
 #import "ZSCodeLine.h"
 
-@interface ZSCodeStatementOptionsTableViewController : UITableViewController
+@interface ZSCodeEditorStatementOptionsTableViewController : UITableViewController
 
 @property (copy, nonatomic) void (^didSelectStatementBlock)(ZSCodeStatementType s);
 

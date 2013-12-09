@@ -3,13 +3,13 @@
 #import "ZSIfStatementEditorViewController.h"
 #import "ZSCallStatementEditorViewController.h"
 #import "ZSCodeLine.h"
-#import "ZSCodeObject.h"
+#import "ZSCodeStatementObject.h"
 #import "ZSCodeEditorTableViewCell.h"
-#import "ZSCodeEditorSetStatementTableViewCell.h"
+#import "ZSCodeEditorTableViewCellSet.h"
 
 @interface ZSCodeEditorViewController()
 
-@property (strong, nonatomic) ZSCodeObject *object;
+@property (strong, nonatomic) ZSCodeStatementObject *object;
 @property (strong, nonatomic) NSArray *codeLines;
 
 @end
@@ -64,7 +64,8 @@
 
 - (void)processJSON:(NSDictionary *)json
 {
-    self.object = [[ZSCodeObject alloc] initWithJSON:json];
+    self.object = [[ZSCodeStatementObject alloc] initWithJSON:json
+                                         parentSuite:nil];
 }
 
 @end

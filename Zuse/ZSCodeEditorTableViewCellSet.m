@@ -1,23 +1,23 @@
-#import "ZSCodeEditorSetStatementTableViewCell.h"
+#import "ZSCodeEditorTableViewCellSet.h"
 #import "ZSExpressionOptionsTableViewController.h"
-#import "ZSCodeSetStatement.h"
-#import "ZSVarNameOptionsTableViewController.h"
+#import "ZSCodeStatementSet.h"
+#import "ZSCodeEditorVarNameOptionsTableViewController.h"
 #import "ZSPopoverController.h"
 
-@interface ZSCodeEditorSetStatementTableViewCell()
+@interface ZSCodeEditorTableViewCellSet()
 
 @property (weak, nonatomic) IBOutlet UIButton *varNameButton;
 @property (weak, nonatomic) IBOutlet UIButton *varValueButton;
 
 @end
 
-@implementation ZSCodeEditorSetStatementTableViewCell
+@implementation ZSCodeEditorTableViewCellSet
 
 #pragma mark - ZSCodeEditorTableViewCell
 
 - (void)updateCellContents
 {
-    ZSCodeSetStatement *s = (ZSCodeSetStatement *)self.codeLine.statement;
+    ZSCodeStatementSet *s = (ZSCodeStatementSet *)self.codeLine.statement;
     [self.varNameButton setTitle: s.variableName forState:UIControlStateNormal];
     [self.varValueButton setTitle: s.variableValueStringValue forState:UIControlStateNormal];
 }
@@ -26,11 +26,11 @@
 
 - (IBAction)varNameTapped:(id)sender
 {
-    ZSVarNameOptionsTableViewController *controller = [[ZSVarNameOptionsTableViewController alloc] init];
+    ZSCodeEditorVarNameOptionsTableViewController *controller = [[ZSCodeEditorVarNameOptionsTableViewController alloc] init];
     controller.varNames = self.codeLine.statement.availableVarNames;
     controller.didSelectValueBlock = ^(id value)
     {
-        ((ZSCodeSetStatement *)self.codeLine.statement).variableName = value;
+        ((ZSCodeStatementSet *)self.codeLine.statement).variableName = value;
         [self.popover dismissPopoverAnimated:YES];
         [self.viewController.tableView reloadData];
     };    
@@ -47,7 +47,7 @@
     
     controller.didSelectValueBlock = ^(id value) {
         [self.popover dismissPopoverAnimated:YES];
-        ((ZSCodeSetStatement *)self.codeLine.statement).variableValue = value;
+        ((ZSCodeStatementSet *)self.codeLine.statement).variableValue = value;
         [self updateCellContents];
     };
     

@@ -1,10 +1,10 @@
-#import "ZSVarNameOptionsTableViewController.h"
+#import "ZSCodeEditorVarNameOptionsTableViewController.h"
 
-@interface ZSVarNameOptionsTableViewController ()
+@interface ZSCodeEditorVarNameOptionsTableViewController ()
 
 @end
 
-@implementation ZSVarNameOptionsTableViewController
+@implementation ZSCodeEditorVarNameOptionsTableViewController
 
 - (id)initWithStyle:(UITableViewStyle)style
 {

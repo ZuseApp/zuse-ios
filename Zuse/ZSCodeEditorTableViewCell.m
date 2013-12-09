@@ -1,6 +1,6 @@
 #import "ZSCodeEditorTableViewCell.h"
 #import "ZSCodeStatement.h"
-#import "ZSCodeSetStatement.h"
+#import "ZSCodeStatementSet.h"
 
 #define ZSCodeEditorTableViewCellIndentation 15 // pixels
 
@@ -12,7 +12,7 @@
 {
     // Add indentation
     CGRect frame = self.contentView.frame;
-    frame.origin.x = self.codeLine.indentation * ZSCodeEditorTableViewCellIndentation;
+    frame.origin.x = self.codeLine.statement.parentSuite.indentationLevel * ZSCodeEditorTableViewCellIndentation;
     frame.size.width -= frame.origin.x;
     self.contentView.frame = frame;
 }
@@ -38,7 +38,6 @@
                 permittedArrowDirections:WYPopoverArrowDirectionUp
                                 animated:YES];
 }
-
 
 - (BOOL)popoverControllerShouldDismissPopover:(WYPopoverController *)controller
 {
