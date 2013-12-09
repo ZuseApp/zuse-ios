@@ -842,7 +842,6 @@
 				78346A0A183C623400540D54 /* ZSCodeStatementObject.m in Sources */,
 				4CF1CC0E17EFF64500636E0D /* TCSpriteView.m in Sources */,
 				7843FA90184BE51600DCE527 /* ZSCodeEditorTableViewCellIf.m in Sources */,
-				5F2B55FE184FBD82002D7149 /* ZSPopoverView.m in Sources */,
 				7855BCC01837F47E006493F9 /* ZSCodeStatementIf.m in Sources */,
 				5F1B5BA61837EE7800632DE6 /* ZSCompiler.m in Sources */,
 				5F2B56041850310E002D7149 /* ZSPopoverController.m in Sources */,
@@ -989,7 +988,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Zuse/Zuse-Prefix.pch";
 				INFOPLIST_FILE = "Zuse/Zuse-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALID_ARCHS = "arm64 armv7";
 				WRAPPER_EXTENSION = app;
@@ -1005,7 +1004,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Zuse/Zuse-Prefix.pch";
 				INFOPLIST_FILE = "Zuse/Zuse-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALID_ARCHS = "arm64 armv7";
 				WRAPPER_EXTENSION = app;
