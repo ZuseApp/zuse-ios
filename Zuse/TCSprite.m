@@ -2,5 +2,9 @@
 
 @implementation TCSprite
 
+-(NSString *) spriteJson {
+    return nil;
+}
+
 @end
     
