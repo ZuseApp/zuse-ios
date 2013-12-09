@@ -3,24 +3,13 @@
 #import "ZSIfStatementEditorViewController.h"
 #import "ZSCallStatementEditorViewController.h"
 #import "ZSCodeLine.h"
-#import "ZSCodeObject.h"
+#import "ZSCodeStatementObject.h"
 #import "ZSCodeEditorTableViewCell.h"
-#import "ZSCodeEditorSetStatementTableViewCell.h"
-
-//typedef NS_ENUM(NSInteger, ZSCodeEditorExpressionType) {
-//    ZSCodeEditorExpressionTypeNumeric = 1,
-//    ZSCodeEditorExpressionTypeBoolean = 1 << 1,
-//    ZSCodeEditorExpressionTypeString  = 1 << 2,
-//    ZSCodeEditorExpressionTypeVariable = 1 << 3,
-//    ZSCodeEditorExpressionTypeCreateVariable = 1 << 4,
-//    ZSCodeEditorExpressionTypeAny     = 64
-//};
+#import "ZSCodeEditorTableViewCellSet.h"
 
 @interface ZSCodeEditorViewController()
 
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
-
-@property (strong, nonatomic) ZSCodeObject *object;
+@property (strong, nonatomic) ZSCodeStatementObject *object;
 @property (strong, nonatomic) NSArray *codeLines;
 
 @end
@@ -36,59 +25,14 @@
     [super viewDidLoad];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    
-//    ZSCodeEditorOptionsViewController *
-//    
-//    controller.expressionTypes = ZSCodeEditorExpressionTypeAny |
-//                                 ZSCodeEditorExpressionTypeBoolean
-}
-
--(void)viewWillAppear:(BOOL)animated
-{
-    [self.tableView reloadData];
-}
-
-- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([segue.identifier isEqualToString:@"set statement editor segue"])
-    {
-        NSLog(@"Set Statement Editor.");
-        ZSSetStatementEditorViewController *c = (ZSSetStatementEditorViewController *)segue.destinationViewController;
-        c.codeLine = ((ZSCodeEditorTableViewCell *)sender).codeLine;
-        
-    }
-    else if ([segue.identifier isEqualToString:@"if statement editor segue"])
-    {
-        //ZSIfStatementEditorViewController *c = (ZSIfStatementEditorViewController *)segue.destinationViewController;
-        //c.ifStatement = ((UITableViewCell *)sender).textLabel.text;
-        NSLog(@"If Statement Editor.");
-    }
-    else if ([segue.identifier isEqualToString:@"call statement editor segue"])
-    {
-        NSLog(@"Call Statement Editor.");
-        
-        //ZSCallStatementEditorViewController *c = (ZSCallStatementEditorViewController *)segue.destinationViewController;
-        //c.codeLine = ((UITableViewCell *)sender).textLabel.text;
-    }
-    else if ([segue.identifier isEqualToString:@"on event statement editor segue"])
-    {
-        NSLog(@"On Event Statement Editor.");
-    }
-    else
-    {
-        NSLog(@"not implemented.");
-    }
 }
 
 # pragma mark - UITableViewDelegate
 
 - (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // get line of code
-    ZSCodeLine *line = self.codeLines[indexPath.row];
-
-    ZSCodeEditorTableViewCell *c = (ZSCodeEditorTableViewCell *)cell;
-    c.codeLine = line;
+    // pass line of code to the cell
+    ((ZSCodeEditorTableViewCell *)cell).codeLine = self.codeLines[indexPath.row];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -100,26 +44,28 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    self.codeLines = self.object.codeLines; // get code lines
+    self.codeLines = self.object.code.codeLines; // get code lines
     return [self.codeLines count]; //return # of lines
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // get line of code
-    ZSCodeLine *line = self.object.codeLines[indexPath.row];
+    ZSCodeLine *line = self.codeLines[indexPath.row];
     
     // get the cell
-    ZSCodeEditorTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:line.type];
-
+    ZSCodeEditorTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[@(line.type) stringValue]];
+    cell.viewController = self;
+    
     return cell;
 }
 
-#pragma mark - Custom ZSCodeEditorViewController
+#pragma mark - ZSCodeEditorViewController
 
 - (void)processJSON:(NSDictionary *)json
 {
-    self.object = [ZSCodeObject codeObjectWithJSON:json];
+    self.object = [[ZSCodeStatementObject alloc] initWithJSON:json
+                                         parentSuite:nil];
 }
 
 @end

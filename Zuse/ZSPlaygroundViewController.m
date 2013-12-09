@@ -54,20 +54,26 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return 2;
+    return 3;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 0) {
-        static NSString *CellIdentifier = @"RendererTest";
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+        static NSString *cellIdentifier = @"RendererTest";
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
         return cell;
     }
     
     if (indexPath.row == 1) {
-        static NSString *CellIdentifier = @"VladTest";
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+        static NSString *cellIdentifier = @"VladTest";
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+        return cell;
+    }
+    
+    if (indexPath.row == 2) {
+        static NSString *cellIdentifier = @"GestureRecognition";
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
         return cell;
     }
     
@@ -81,7 +87,7 @@
         ZSCodeEditorViewController *c = (ZSCodeEditorViewController *)segue.destinationViewController;
         
         // Read the resource into an NSDictionary representing the JSON.
-        NSString *jsonPath = [[NSBundle mainBundle] pathForResource:@"pong_no_traits"
+        NSString *jsonPath = [[NSBundle mainBundle] pathForResource:@"test empty json"//@"pong_no_traits"
                                                              ofType:@"json"];
         NSData *jsonData = [NSData dataWithContentsOfFile:jsonPath];
         NSDictionary *json = [NSJSONSerialization JSONObjectWithData:jsonData

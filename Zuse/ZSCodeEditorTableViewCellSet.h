@@ -2,6 +2,6 @@
 #import "ZSCodeEditorTableViewCell.h"
 #import "ZSCodeLine.h"
 
-@interface ZSCodeEditorSetStatementTableViewCell : ZSCodeEditorTableViewCell
+@interface ZSCodeEditorTableViewCellSet : ZSCodeEditorTableViewCell
 
 @end

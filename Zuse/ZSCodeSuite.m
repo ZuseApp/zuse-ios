@@ -1,39 +1,32 @@
 #import "ZSCodeSuite.h"
-#import "ZSCodeSetStatement.h"
-#import "ZSCodeIfStatement.h"
-#import "ZSCodeCallStatement.h"
-#import "ZSCodeOnEventStatement.h"
+#import "ZSCodeStatementSet.h"
+#import "ZSCodeStatementIf.h"
+#import "ZSCodeStatementCall.h"
+#import "ZSCodeStatementOnEvent.h"
 #import "ZSCodeLine.h"
-
-@interface ZSCodeSuite()
-
-@end
+#import "ZSCodeStatementNew.h"
 
 @implementation ZSCodeSuite
 
-
--(id)init
+- (id) initWithParentStatement: (ZSCodeStatement *)s
 {
     if (self = [super init])
     {
+        self.parentStatement = s;
         self.statements = [[NSMutableArray alloc]init];
     }
     return self;
 }
 
-+(id)suiteWithJSON:(NSArray *)JSONSuite
-            parent:(ZSCodeStatement *)parentStatement
+-(id) initWithJSON:(NSArray *)JSONSuite
+   parentStatement:(ZSCodeStatement *)p
 {
-    if (JSONSuite == nil) {
+    if (JSONSuite == nil || (self = [super init]) == nil)
+    {
         return nil;
     }
-
-    // Create a new suite object
-    ZSCodeSuite *suite = [[ZSCodeSuite alloc]init];
-    suite.parentStatement = parentStatement;
-    
-    // parentStatement = nil if this suite is of the highest level (just code)
-    NSInteger indentationLevel = parentStatement == nil ? 0 : parentStatement.indentationLevel + 1;
+    self.statements = [[NSMutableArray alloc]init];
+    self.parentStatement = p;
     
     // Process JSON suite
     for (NSDictionary *JSONStatement in JSONSuite)
@@ -43,34 +36,56 @@
         // Process SET statement
         if ([statementName isEqualToString:@"set"])
         {
-            [suite addStatement:[ZSCodeSetStatement statementWithJSON:JSONStatement
-                                                                level:indentationLevel]];
+            [self addStatement:[[ZSCodeStatementSet alloc] initWithJSON:JSONStatement
+                                                            parentSuite:self]];
         }
         // Process CALL
         else if([statementName isEqualToString:@"call"])
         {
-            [suite addStatement: [ZSCodeCallStatement statementWithJSON:JSONStatement
-                                                                  level:indentationLevel]];
+            [self addStatement: [[ZSCodeStatementCall alloc] initWithJSON:JSONStatement
+                                                              parentSuite:self]];
         }
         // Process IF statement
         else if ([statementName isEqualToString:@"if"])
         {
-            [suite addStatement:[[ZSCodeIfStatement alloc] initWithJSON:JSONStatement
-                                                                  level:indentationLevel]];
+            [self addStatement:[[ZSCodeStatementIf alloc] initWithJSON:JSONStatement
+                                                           parentSuite:self]];
         }
         // Process ON_EVENT statement
         else if ([statementName isEqualToString:@"on_event"])
         {
-            [suite addStatement:[[ZSCodeOnEventStatement alloc] initWithJSON:JSONStatement
-                                                                       level:indentationLevel]];
+            [self addStatement:[[ZSCodeStatementOnEvent alloc] initWithJSON:JSONStatement
+                                                                parentSuite:self]];
         }
     }
-    return suite;
+    
+    return self;
 }
 
 -(void)addStatement:(ZSCodeStatement *)statement
 {
     [self.statements addObject:statement];
+}
+
+-(void)addEmptyStatementWithType:(ZSCodeStatementType)type
+{
+    switch (type)
+    {
+        case ZSCodeStatementTypeSet:
+            [self.statements addObject: [ZSCodeStatementSet emptyWithParentSuite:self]];
+            break;
+        case ZSCodeStatementTypeIf:
+            [self.statements addObject: [ZSCodeStatementIf emptyWithParentSuite:self]];
+            break;
+        case ZSCodeStatementTypeOnEvent:
+            [self.statements addObject: [ZSCodeStatementOnEvent emptyWithParentSuite:self]];
+            break;
+        case ZSCodeStatementTypeCall:
+            break;
+        default:
+            @throw @"ZSCodeSuite: Unknown code statement type.";
+            break;
+    }
 }
 
 -(NSArray *) codeLines
@@ -80,32 +95,42 @@
     // Generate code lines from all statements
     for (ZSCodeStatement *s in self.statements)
     {
-        [lines addObjectsFromArray:s.codeLines];
+        // 'IF' statement
+        if ([s isKindOfClass:[ZSCodeStatementIf class]])
+        {
+            ZSCodeStatementIf *statement = (ZSCodeStatementIf *)s;
+            [lines addObject:[ZSCodeLine lineWithType: ZSCodeStatementTypeIf
+                                            statement: statement]];
+            [lines addObjectsFromArray: statement.trueSuite.codeLines];
+            
+            // ELSE block of if statement
+            // ...
+            
+        }
+        // 'ON EVENT' statement
+        else if ([s isKindOfClass:[ZSCodeStatementOnEvent class]])
+        {
+            ZSCodeStatementOnEvent *statement = (ZSCodeStatementOnEvent *)s;
+            [lines addObject:[ZSCodeLine lineWithType: ZSCodeStatementTypeOnEvent
+                                            statement: statement]];
+            [lines addObjectsFromArray: statement.code.codeLines];
+        }
+        // 'SET' statement
+        else if ([s isKindOfClass:[ZSCodeStatementSet class]])
+        {
+            [lines addObject:[ZSCodeLine lineWithType: ZSCodeStatementTypeSet
+                                            statement: s]];
+        }
+        // 'CALL' statement
+        else if ([s isKindOfClass:[ZSCodeStatementCall class]])
+        {
+            [lines addObject:[ZSCodeLine lineWithType: ZSCodeStatementTypeCall
+                                            statement: s]];
+        }
     }
-    
-    
-    // Decide on type of 'new statement'
-    NSString *type;
-    if ([self.parentStatement isKindOfClass:[ZSCodeOnEventStatement class]])
-    {
-        type = ZSCodeLineStatementNewInsideOnEvent;
-    }
-    else if([self.parentStatement isKindOfClass:[ZSCodeIfStatement class]])
-    {
-        type = ZSCodeLineStatementNewInsideIf;
-    }
-    else
-        type = ZSCodeLineStatementNew;
-    
-    
-    // Decide on indentation level
-    // parentStatement = nil if this suite is of the highest level (just code)
-    NSInteger level = self.parentStatement == nil ? 0 : self.parentStatement.indentationLevel + 1;
-    
     // add new code line
-    [lines addObject:[ZSCodeLine lineWithType:type
-                                  indentation:level
-                                    statement:nil]];
+    [lines addObject:[ZSCodeLine lineWithType: ZSCodeStatementTypeNew
+                                    statement: [[ZSCodeStatementNew alloc] initWithParentSuite: self]]];
     return lines;
 }
 
@@ -117,6 +142,12 @@
         [json addObject:s.JSONObject];
     }
     return json;
+}
+
+- (NSInteger) indentationLevel
+{
+    ZSCodeSuite *parentSuite = self.parentStatement.parentSuite;
+    return parentSuite ? parentSuite.indentationLevel + 1  : 0;
 }
 
 @end

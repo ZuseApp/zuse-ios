@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 turing-complete. All rights reserved.
 //
 #import "ZSSetStatementEditorViewController.h"
-#import "ZSCodeSetStatement.h"
+#import "ZSCodeStatementSet.h"
 
 @interface ZSSetStatementEditorViewController()
 
@@ -20,7 +20,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    ZSCodeSetStatement *statement = (ZSCodeSetStatement *)self.codeLine.statement;
+    ZSCodeStatementSet *statement = (ZSCodeStatementSet *)self.codeLine.statement;
     
     self.nameTextField.text = statement.variableName;
     self.valueTextField.text = statement.variableValueStringValue;

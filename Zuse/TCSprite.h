@@ -10,4 +10,7 @@
 @property (strong, nonatomic) TCSprite *identifier;
 @property (strong, nonatomic) NSString *physicsBody;
 
+-(void) initWithJson:(NSDictionary *)json;
+-(NSString *) spriteJson;
+
 @end
