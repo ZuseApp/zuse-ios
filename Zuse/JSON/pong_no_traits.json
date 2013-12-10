@@ -2,6 +2,7 @@
   "objects": [
     {
       "id": "paddle1",
+      "traits": {},
       "properties": {
         "x": 10,
         "y": 10,

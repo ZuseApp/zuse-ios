@@ -39,15 +39,15 @@
         else
             newObject[@"code"] = [newObject[@"code"] mutableCopy];
         
-        NSArray *objectTraits = object[@"traits"];
+        NSDictionary *objectTraits = object[@"traits"];
         
         if (objectTraits && objectTraits.count > 0) {
-            [objectTraits each:^(NSDictionary *objectTrait) {
-                NSDictionary *globalTrait = traits[objectTrait[@"id"]];
+            [objectTraits each:^(NSString *identifier, NSDictionary *traitOptions) {
+                NSDictionary *globalTrait = traits[identifier];
                 
                 if (globalTrait) {
                     NSMutableDictionary *traitParams = [globalTrait[@"parameters"] mutableCopy];
-                    [(NSDictionary *)objectTrait[@"parameters"] each:^(id key, id obj) {
+                    [(NSDictionary *)traitOptions[@"parameters"] each:^(id key, id obj) {
                         traitParams[key] = obj;
                     }];
                     
@@ -62,7 +62,7 @@
                     NSDictionary *newStatement = @{ @"scope": newSuite };
                     [newObject[@"code"] addObject:newStatement];
                 } else {
-                    NSLog(@"Trait not found: %@", objectTrait[@"id"]);
+                    NSLog(@"Trait not found: %@", identifier);
                 }
             }];
         }

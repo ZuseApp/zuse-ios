@@ -8,6 +8,7 @@
 
 #import "ZSEditorViewController.h"
 #import "ZSCodeEditorViewController.h"
+#import "ZSTraitEditorViewController.h"
 
 @interface ZSEditorViewController ()
 
@@ -20,7 +21,10 @@
     [super viewDidLoad];
     ZSCodeEditorViewController *codeController = (ZSCodeEditorViewController *)self.viewControllers[0];
     [codeController processJSON:self.spriteObject];
-	// Do any additional setup after loading the view.
+    
+    ZSTraitEditorViewController *traitController = (ZSTraitEditorViewController *)self.viewControllers[1];
+    traitController.traits = self.spriteObject[@"traits"];
+    
 }
 
 @end

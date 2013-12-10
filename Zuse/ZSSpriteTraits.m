@@ -14,7 +14,7 @@
     NSString *jsonPath = [[NSBundle mainBundle] pathForResource:@"default_traits" ofType:@"json"];
     NSData *jsonData = [NSData dataWithContentsOfFile:jsonPath];
     
-    NSMutableDictionary *json = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
+    NSMutableDictionary *json = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:nil];
     
     return json;
 }
