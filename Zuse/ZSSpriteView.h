@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ZSSprite.h"
 
 @interface ZSSpriteView : UIImageView
 
@@ -15,6 +14,6 @@
 @property (strong, nonatomic) void(^touchesMoved)(UITouch *touch);
 @property (strong, nonatomic) void(^touchesEnded)(UITouch *touch);
 @property (strong, nonatomic) void(^longTouch)();
-@property (strong, nonatomic) ZSSprite *sprite;
+@property (nonatomic, strong) NSMutableDictionary *spriteJSON;
 
 @end

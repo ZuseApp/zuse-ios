@@ -1,47 +1,15 @@
-//
-//  ZSProgram.m
-//  Zuse
-//
-//  Created by Michael Hogenson on 10/5/13.
-//  Copyright (c) 2013 Michael Hogenson. All rights reserved.
-//
-
 #import "ZSProgram.h"
 #import "ZSSprite.h"
 
 @interface ZSProgram()
 
-@property (nonatomic, strong) NSDictionary * rawJSON;
-
 @end
 
 @implementation ZSProgram
 
-- (id)init {
-    self = [super init];
-    if (self) {
-        _sprites = [[NSMutableArray alloc] init];
-    }
-    return self;
-}
-
 -(id)initWithFile:(NSString *)name{
     self = [super init];
     if (self) {
-        _sprites = [[NSMutableArray alloc] init];
-        NSData *jsonData = nil;
-        // NSString *path = [self completePathForFile:name];
-        // NSLog(@"%@", path);
-        // if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
-        //     jsonData = [NSData dataWithContentsOfFile:path];
-        // } else {
-        // Look for the project in the bundle.
-        NSString *modifiedName = [name componentsSeparatedByString:@"."][0];
-        NSString *jsonPath = [[NSBundle mainBundle] pathForResource:modifiedName ofType:@"json"];
-        jsonData = [NSData dataWithContentsOfFile:jsonPath];
-        // }
-        
-        NSMutableDictionary *json = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
         
         // Load the program into memory.
         _rawJSON = json;
@@ -84,10 +52,6 @@
 
 -(NSString *)completePathForFile:(NSString *)name {
     return [NSString stringWithFormat:@"%@/%@", [self documentDirectory], name];
-}
-
-+(ZSProgram *)programWithFile:(NSString *)name {
-    return [[ZSProgram alloc] initWithFile:name];
 }
 
 -(void)writeToFile:(NSString *)name {

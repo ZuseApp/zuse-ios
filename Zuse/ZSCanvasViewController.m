@@ -1,11 +1,11 @@
 #import "ZSCanvasViewController.h"
 #import "ZSPlaygroundViewController.h"
 #import "ZSRendererViewController.h"
-#import "ZSSprite.h"
 #import "ZSSpriteView.h"
-#import "ZSProgram.h"
+#import "ZSProject.h"
 #import "ZSMenuController.h"
 #import "ZSSpriteController.h"
+#import "ZSEditorViewController.h"
 
 @interface ZSCanvasViewController ()
 
@@ -24,7 +24,7 @@
 // Sprites
 @property (nonatomic, strong) NSArray *templateSprites;
 @property (nonatomic, strong) NSArray *canvasSprites;
-@property (strong, nonatomic) ZSProgram *program;
+@property (strong, nonatomic) ZSProject *project;
 
 @end
 
@@ -51,8 +51,8 @@
     _menuTableViewShowing = NO;
     
     // Load sprites.
-    _program = [ZSProgram programWithFile:@"pong.json"];
-    [self loadSpritesFromProgram];
+    _project = [ZSProject projectWithFile:@"pong.json"];
+    [self loadSpritesFromProject];
     
     // Bring menus to front.
     [self.view bringSubviewToFront:_menuTable];
@@ -72,9 +72,11 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"renderer"]) {
-        [self saveProject];
         ZSRendererViewController *rendererController = (ZSRendererViewController *)segue.destinationViewController;
-        rendererController.projectJSON = [_program projectJSON];
+        rendererController.projectJSON = [_project assembledJSON];
+    } else if ([segue.identifier isEqualToString:@"editor"]) {
+        ZSEditorViewController *editorController = (ZSEditorViewController *)segue.destinationViewController;
+        editorController.spriteObject = ((ZSSpriteView *)sender).spriteJSON;
     }
 }
 
@@ -82,19 +84,31 @@
 
 // starting with verb indicates not returning anything
 // method name indicates passed parameters
--(void)loadSpritesFromProgram {
-    for (ZSSprite *sprite in _program.sprites) {
+-(void)loadSpritesFromProject {
+    NSMutableDictionary *assembledJSON = [_project assembledJSON];
+    for (NSMutableDictionary *jsonObject in assembledJSON[@"objects"]) {
+        NSMutableDictionary *variables = jsonObject[@"properties"];
         
-        ZSSpriteView *view = [[ZSSpriteView alloc] initWithFrame:sprite.frame];
-        // __weak ZSSpriteView *weakView = view;
-        view.sprite = sprite;
-        if (sprite.imagePath) {
-            view.image = [UIImage imageNamed:sprite.imagePath];
+        CGRect frame = CGRectZero;
+        frame.origin.x = [variables[@"x"] floatValue];
+        frame.origin.y = [variables[@"y"] floatValue];
+        frame.size.width = [variables[@"width"] floatValue];
+        frame.size.height = [variables[@"height"] floatValue];
+        
+        NSDictionary *image = jsonObject[@"image"];
+        NSString *imagePath = image[@"path"];
+        
+        ZSSpriteView *view = [[ZSSpriteView alloc] initWithFrame:frame];
+        __weak ZSSpriteView *weakView = view;
+        if (imagePath) {
+            view.image = [UIImage imageNamed:imagePath];
         } else {
             view.backgroundColor = [UIColor blackColor];
         }
+        view.spriteJSON = jsonObject;
+        
         view.longTouch = ^(){
-            // [self performSegueWithIdentifier:@"editor" sender:weakView];
+            [self performSegueWithIdentifier:@"editor" sender:weakView];
         };
         
         __block CGPoint offset;
@@ -115,12 +129,14 @@
             frame.origin.y = currentPoint.y - offset.y;
             
             touchView.frame = frame;
-            sprite.frame = frame;
-            
         };
         
         view.touchesEnded = ^(UITouch *touch) {
-            
+            UIView *touchView = touch.view;
+            variables[@"x"] = @(touchView.frame.origin.x);
+            variables[@"y"] = @(touchView.frame.origin.y);
+            variables[@"width"] = @(touchView.frame.size.width);
+            variables[@"height"] = @(touchView.frame.size.height);
         };
         [self.view addSubview:view];
     }
@@ -129,10 +145,6 @@
     _menuController.playSelected = ^{
         [weakSelf performSegueWithIdentifier:@"renderer" sender:weakSelf];
     };
-}
-
--(void)saveProject {
-    [_program writeToFile:@"pong.json"];
 }
 
 -(void)setupTableDelegatesAndSources {
