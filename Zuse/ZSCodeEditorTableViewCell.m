@@ -31,7 +31,7 @@
 - (void)presentPopoverWithViewController:(UIViewController *)controller
                                   inView:(UIView *)view
 {
-    self.popover = [[ZSPopoverController alloc] initWithContentViewController:controller];
+    self.popover = [[WYPopoverController alloc] initWithContentViewController:controller];
     self.popover.delegate = self;
     [self.popover presentPopoverFromRect:[view bounds]
                                   inView:view
@@ -49,7 +49,5 @@
     self.popover.delegate = nil;
     self.popover = nil;
 }
-
-
 
 @end

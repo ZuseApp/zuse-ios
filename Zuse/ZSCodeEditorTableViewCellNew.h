@@ -1,5 +1,5 @@
 #import "ZSCodeEditorTableViewCell.h"
 
-@interface ZSCodeEditorTableViewCellNew : ZSCodeEditorTableViewCell
+@interface ZSCodeEditorTableViewCellNew : ZSCodeEditorTableViewCell <UITableViewDataSource>
 
 @end

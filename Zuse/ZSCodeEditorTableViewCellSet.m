@@ -1,8 +1,7 @@
 #import "ZSCodeEditorTableViewCellSet.h"
-#import "ZSExpressionOptionsTableViewController.h"
 #import "ZSCodeStatementSet.h"
-#import "ZSCodeEditorVarNameOptionsTableViewController.h"
-#import "ZSPopoverController.h"
+#import "ZSCodeEditorPopoverExpressionOptionsDataSource.h"
+#import "ZSCodeEditorPopoverVarNameOptionsDataSource.h"
 
 @interface ZSCodeEditorTableViewCellSet()
 
@@ -26,32 +25,32 @@
 
 - (IBAction)varNameTapped:(id)sender
 {
-    ZSCodeEditorVarNameOptionsTableViewController *controller = [[ZSCodeEditorVarNameOptionsTableViewController alloc] init];
-    controller.varNames = self.codeLine.statement.availableVarNames;
-    controller.didSelectValueBlock = ^(id value)
+    ZSCodeEditorPopoverVarNameOptionsDataSource *s = [[ZSCodeEditorPopoverVarNameOptionsDataSource alloc]initWithAvailableVarNames:self.codeLine.statement.availableVarNames];
+    ZSCodeEditorPopoverTableViewController *c = [[ZSCodeEditorPopoverTableViewController alloc]initWithStyle:UITableViewStylePlain dataSource:s];
+    
+    c.didSelectRowBlock = ^(NSInteger row)
     {
-        ((ZSCodeStatementSet *)self.codeLine.statement).variableName = value;
+        ((ZSCodeStatementSet *)self.codeLine.statement).variableName = self.codeLine.statement.availableVarNames[row];
         [self.popover dismissPopoverAnimated:YES];
         [self.viewController.tableView reloadData];
     };    
-    [self presentPopoverWithViewController:controller
+    [self presentPopoverWithViewController:c
                                     inView:sender];
 }
 
 - (IBAction)varValueTapped:(id)sender
 {
-    ZSExpressionOptionsTableViewController *controller = [[ZSExpressionOptionsTableViewController alloc] initWithStyle:UITableViewStylePlain];
-    
-    controller.expressionTypeMask = ZSExpressionTypeAny;
-    controller.expressionValueMask = ZSExpressionValueAny;
-    
-    controller.didSelectValueBlock = ^(id value) {
+    ZSCodeEditorPopoverExpressionOptionsDataSource *s = [[ZSCodeEditorPopoverExpressionOptionsDataSource alloc]init];
+    ZSCodeEditorPopoverTableViewController *c
+    = [[ZSCodeEditorPopoverTableViewController alloc]initWithStyle:UITableViewStylePlain
+                                                        dataSource:s];
+    c.didSelectRowBlock = ^(NSInteger row)
+    {
         [self.popover dismissPopoverAnimated:YES];
-        ((ZSCodeStatementSet *)self.codeLine.statement).variableValue = value;
+        ((ZSCodeStatementSet *)self.codeLine.statement).variableValue = [@(row) stringValue];
         [self updateCellContents];
     };
-    
-    [self presentPopoverWithViewController:controller
+    [self presentPopoverWithViewController:c
                                     inView:sender];
 }
 

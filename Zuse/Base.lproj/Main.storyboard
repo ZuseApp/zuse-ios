@@ -43,7 +43,7 @@
                                 <gestureRecognizers/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="debug" textLabel="zxU-RW-tdd" style="IBUITableViewCellStyleDefault" id="izT-61-As7">
-                                        <rect key="frame" x="0.0" y="22" width="150" height="44"/>
+                                        <rect key="frame" x="0.0" y="86" width="150" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="izT-61-As7" id="y6N-EI-FRF">
                                             <rect key="frame" x="0.0" y="0.0" width="117" height="44"/>
@@ -63,7 +63,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="sprite" id="ahn-IX-Gi6">
-                                        <rect key="frame" x="0.0" y="66" width="150" height="44"/>
+                                        <rect key="frame" x="0.0" y="130" width="150" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ahn-IX-Gi6" id="wof-F5-KWi">
                                             <rect key="frame" x="0.0" y="0.0" width="150" height="44"/>
@@ -151,7 +151,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="0" rowHeight="35" id="CL9-lZ-OCz" customClass="ZSCodeEditorTableViewCellSet">
-                                        <rect key="frame" x="0.0" y="22" width="320" height="35"/>
+                                        <rect key="frame" x="0.0" y="86" width="320" height="35"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="CL9-lZ-OCz" id="hE1-hw-ztl">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="35"/>
@@ -195,18 +195,36 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="1" rowHeight="35" id="nWY-qe-w64" customClass="ZSCodeEditorTableViewCellIf">
-                                        <rect key="frame" x="0.0" y="57" width="320" height="35"/>
+                                        <rect key="frame" x="0.0" y="121" width="320" height="35"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nWY-qe-w64" id="TFv-4k-z2p">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="35"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iZ9-NU-boS">
-                                                    <rect key="frame" x="60" y="2" width="173" height="30"/>
+                                                    <rect key="frame" x="51" y="0.0" width="92" height="30"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" name="ChalkboardSE-Bold" family="Chalkboard SE" pointSize="20"/>
-                                                    <state key="normal" title="boolExp">
+                                                    <state key="normal" title="exp1">
                                                         <color key="titleColor" red="1" green="0.60314524922923729" blue="0.11999114710742997" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                </button>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T5T-3k-IWN">
+                                                    <rect key="frame" x="212" y="0.0" width="92" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" name="ChalkboardSE-Bold" family="Chalkboard SE" pointSize="20"/>
+                                                    <state key="normal" title="exp2">
+                                                        <color key="titleColor" red="1" green="0.60314524920000001" blue="0.1199911471" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                </button>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IqV-Hp-CNg">
+                                                    <rect key="frame" x="151" y="0.0" width="53" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" name="ChalkboardSE-Bold" family="Chalkboard SE" pointSize="20"/>
+                                                    <state key="normal" title="sign">
+                                                        <color key="titleColor" red="1" green="0.60314524920000001" blue="0.1199911471" alpha="1" colorSpace="calibratedRGB"/>
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                 </button>
@@ -217,11 +235,13 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="boolExpButton" destination="iZ9-NU-boS" id="ifs-6a-Wqf"/>
+                                            <outlet property="exp1" destination="iZ9-NU-boS" id="6q0-G1-zuK"/>
+                                            <outlet property="exp2" destination="T5T-3k-IWN" id="hH0-an-EDi"/>
+                                            <outlet property="sign" destination="IqV-Hp-CNg" id="hcx-ji-gYl"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="2" rowHeight="35" id="JtC-EN-xdQ" customClass="ZSCodeEditorTableViewCellOnEvent">
-                                        <rect key="frame" x="0.0" y="92" width="320" height="35"/>
+                                        <rect key="frame" x="0.0" y="156" width="320" height="35"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JtC-EN-xdQ" id="4qa-bB-qoW">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="35"/>
@@ -247,7 +267,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="3" rowHeight="35" id="cHR-BB-EgA" customClass="ZSCodeEditorTableViewCell">
-                                        <rect key="frame" x="0.0" y="127" width="320" height="35"/>
+                                        <rect key="frame" x="0.0" y="191" width="320" height="35"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cHR-BB-EgA" id="O7Y-2t-Bhc">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="35"/>
@@ -255,7 +275,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="5" rowHeight="35" id="EqL-Uc-yR8" customClass="ZSCodeEditorTableViewCellNew">
-                                        <rect key="frame" x="0.0" y="162" width="320" height="35"/>
+                                        <rect key="frame" x="0.0" y="226" width="320" height="35"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="EqL-Uc-yR8" id="dGX-Q2-MoY">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="35"/>
@@ -301,7 +321,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="RendererTest" textLabel="s31-Bf-bPv" style="IBUITableViewCellStyleDefault" id="ilJ-M1-7z7">
-                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="86" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ilJ-M1-7z7" id="upr-ho-Yp7">
                                     <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -321,7 +341,7 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="VladTest" textLabel="csl-GZ-qhv" style="IBUITableViewCellStyleDefault" id="vEg-An-DwP">
-                                <rect key="frame" x="0.0" y="66" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="130" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vEg-An-DwP" id="4eI-4q-ydF">
                                     <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -341,7 +361,7 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="GestureRecognition" textLabel="A5h-6F-6dP" style="IBUITableViewCellStyleDefault" id="kvK-o2-3Pm">
-                                <rect key="frame" x="0.0" y="110" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="174" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="kvK-o2-3Pm" id="ytk-Et-Cxi">
                                     <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>

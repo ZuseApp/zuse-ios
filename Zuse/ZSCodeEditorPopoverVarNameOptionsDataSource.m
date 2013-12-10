@@ -1,47 +1,32 @@
-#import "ZSCodeEditorVarNameOptionsTableViewController.h"
+#import "ZSCodeEditorPopoverVarNameOptionsDataSource.h"
 
-@interface ZSCodeEditorVarNameOptionsTableViewController ()
+@implementation ZSCodeEditorPopoverVarNameOptionsDataSource
 
-@end
-
-@implementation ZSCodeEditorVarNameOptionsTableViewController
-
-- (id)initWithStyle:(UITableViewStyle)style
+- (id) initWithAvailableVarNames:(NSArray *)n
 {
-    self = [super initWithStyle:style];
-    if (self)
+    if (self = [super init])
     {
-        [self.tableView registerClass:[UITableViewCell class]
-               forCellReuseIdentifier:@"Cell"];
+        self.availableVarNames = n;
     }
     return self;
 }
 
-#pragma mark - Table view data source
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.varNames count];
+    return [self.availableVarNames count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"
                                                             forIndexPath:indexPath];
-    
-    cell.textLabel.text = self.varNames[indexPath.row];
+    cell.textLabel.text = self.availableVarNames[indexPath.row];
     cell.textLabel.textColor = [UIColor colorWithRed: 0
                                                green: 0.4
                                                 blue: 1
                                                alpha: 1];
     cell.textLabel.font =  [UIFont fontWithName:@"Chalkboard SE" size:20];
-    
     return cell;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    self.didSelectValueBlock(self.varNames[indexPath.row]);
 }
 
 @end
