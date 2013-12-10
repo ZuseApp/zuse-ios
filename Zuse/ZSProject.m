@@ -41,7 +41,6 @@
 }
 
 - (NSMutableDictionary *)assembledJSON {
-    // For now just return the project JSON.
     return _projectJSON;
 }
 
