@@ -74,7 +74,7 @@
     if (_traits[traitIdentifier]) {
         [_traits removeObjectForKey:traitIdentifier];
     } else {
-        _traits[traitIdentifier] = _globalTraits[traitIdentifier][@"parameters"];
+        _traits[traitIdentifier] = _globalTraits[traitIdentifier];
     }
     [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
 }
@@ -83,7 +83,7 @@
     NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
     NSString *traitIdentifier = _globalTraitNames[indexPath.row];
     ZSTraitEditorParametersViewController *controller = (ZSTraitEditorParametersViewController *)segue.destinationViewController;
-    controller.parameters = _traits[traitIdentifier];
+    controller.parameters = _globalTraits[traitIdentifier][@"parameters"] ;
 }
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
