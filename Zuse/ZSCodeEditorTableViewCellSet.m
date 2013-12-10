@@ -41,7 +41,8 @@
 
 - (IBAction)varValueTapped:(id)sender
 {
-    ZSCodeEditorPopoverExpressionOptionsDataSource *s = [[ZSCodeEditorPopoverExpressionOptionsDataSource alloc]initWithAvailableVarNames:self.codeLine.statement.availableVarNames];
+    ZSCodeEditorPopoverExpressionOptionsDataSource *s = [[ZSCodeEditorPopoverExpressionOptionsDataSource alloc]initWithAvailableVarNames:self.codeLine.statement.availableVarNames
+                                                         StatementType:ZSCodeStatementTypeSet];
     ZSCodeEditorPopoverTableViewController *c
     = [[ZSCodeEditorPopoverTableViewController alloc]initWithStyle:UITableViewStylePlain
                                                         dataSource:s];

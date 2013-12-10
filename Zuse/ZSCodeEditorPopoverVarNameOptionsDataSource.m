@@ -1,4 +1,5 @@
 #import "ZSCodeEditorPopoverVarNameOptionsDataSource.h"
+#import "ZSCodeLine.h"
 
 @implementation ZSCodeEditorPopoverVarNameOptionsDataSource
 

@@ -30,6 +30,12 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"
                                                             forIndexPath:indexPath];
     cell.textLabel.text = self.events[indexPath.row];
+    cell.textLabel.textColor = [UIColor colorWithRed: 0
+                                               green: 1
+                                                blue: 0.4
+                                               alpha: 1];
+    cell.textLabel.font =  [UIFont fontWithName:@"Chalkboard SE" size:20];
+
     return cell;
 }
 

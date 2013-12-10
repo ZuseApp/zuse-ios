@@ -1,4 +1,5 @@
 #import <Foundation/Foundation.h>
+#import "ZSCodeLine.h"
 
 typedef NS_OPTIONS(NSInteger, ZSExpressionType) {
     ZSExpressionTypeNumeric = 1 << 0,
@@ -16,8 +17,11 @@ typedef NS_OPTIONS(NSInteger, ZSExpressionValue) {
 };
 
 @interface ZSCodeEditorPopoverExpressionOptionsDataSource : NSObject <UITableViewDataSource>
+//
+//@property (strong, nonatomic) NSMutableArray *availableVarNames;
+//@property (nonatomic) ZSCodeStatementType type;
 
-@property (strong, nonatomic) NSMutableArray *availableVarNames;
-- (id) initWithAvailableVarNames:(NSArray *)n;
+- (id) initWithAvailableVarNames:(NSArray *)n
+                   StatementType:(ZSCodeStatementType) type;
 
 @end

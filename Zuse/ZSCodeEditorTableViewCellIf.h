@@ -1,6 +1,6 @@
 #import "ZSCodeEditorTableViewCell.h"
 #import "ZSCodeLine.h"
 
-@interface ZSCodeEditorTableViewCellIf : ZSCodeEditorTableViewCell
+@interface ZSCodeEditorTableViewCellIf : ZSCodeEditorTableViewCell <UITableViewDataSource>
 
 @end
