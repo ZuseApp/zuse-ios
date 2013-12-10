@@ -18,18 +18,12 @@
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
-    
-    [self.tableView registerClass:[UITableViewCell class]
-           forCellReuseIdentifier:@"Cell"];
-    
-    _events = @[ @"start", @"touch_began", @"touch_moved" ];
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+//    [super viewDidLoad];
+//    
+//    [self.tableView registerClass:[UITableViewCell class]
+//           forCellReuseIdentifier:@"Cell"];
+//    
+//    _events = @[ @"start", @"touch_began", @"touch_moved" ];
 }
 
 #pragma mark - Table view data source
@@ -41,16 +35,17 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    
-    cell.textLabel.text = _events[indexPath.row];
-    
-    return cell;
+//    static NSString *CellIdentifier = @"Cell";
+//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+//    
+//    cell.textLabel.text = _events[indexPath.row];
+//    
+//    return cell;
+    return nil;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    _didSelectEventBlock(_events[indexPath.row]);
+//    _didSelectEventBlock(_events[indexPath.row]);
 }
 
 @end

@@ -555,13 +555,13 @@
 			isa = PBXGroup;
 			children = (
 				7843FA94184BFBD400DCE527 /* Images */,
+				5F0139AA1856896F005D7FAE /* ZSEditorViewController.h */,
+				5F0139AB1856896F005D7FAE /* ZSEditorViewController.m */,
 				7855BCC81837FA97006493F9 /* ZSCodeEditorViewController.h */,
 				7855BCC91837FA97006493F9 /* ZSCodeEditorViewController.m */,
 				788F70D01852654500C68F83 /* PopOvers */,
 				7843FA8A184BE46F00DCE527 /* StatementTableViewCells */,
 				7855BCAF1837F2BF006493F9 /* CodeModel */,
-				5F0139AA1856896F005D7FAE /* ZSEditorViewController.h */,
-				5F0139AB1856896F005D7FAE /* ZSEditorViewController.m */,
 			);
 			name = "Code Editor";
 			sourceTree = "<group>";
@@ -596,10 +596,10 @@
 			children = (
 				5F0139B61856B233005D7FAE /* ZSCodeEditorPopoverVarNameOptionsDataSource.h */,
 				5F0139B71856B233005D7FAE /* ZSCodeEditorPopoverVarNameOptionsDataSource.m */,
-				5F0139B31856B225005D7FAE /* ZSCodeEditorPopoverTableViewController.h */,
-				5F0139B41856B225005D7FAE /* ZSCodeEditorPopoverTableViewController.m */,
 				5F0139B018569EBD005D7FAE /* ZSCodeEditorPopoverExpressionOptionsDataSource.h */,
 				5F0139B118569EBD005D7FAE /* ZSCodeEditorPopoverExpressionOptionsDataSource.m */,
+				5F0139B31856B225005D7FAE /* ZSCodeEditorPopoverTableViewController.h */,
+				5F0139B41856B225005D7FAE /* ZSCodeEditorPopoverTableViewController.m */,
 				5F0139A118566A31005D7FAE /* ZSCodeEditorEventOptionsTableViewController.h */,
 				5F0139A218566A31005D7FAE /* ZSCodeEditorEventOptionsTableViewController.m */,
 			);
