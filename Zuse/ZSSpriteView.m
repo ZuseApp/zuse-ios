@@ -1,12 +1,12 @@
 //
-//  TCSpriteView.m
+//  ZSSpriteView.m
 //  Zuse
 //
 //  Created by Michael Hogenson on 9/22/13.
 //  Copyright (c) 2013 Michael Hogenson. All rights reserved.
 //
 
-#import "TCSpriteView.h"
+#import "ZSSpriteView.h"
 
 typedef NS_ENUM(NSInteger, StateType) {
     STARTED,
@@ -14,13 +14,13 @@ typedef NS_ENUM(NSInteger, StateType) {
     EXECUTED
 };
 
-@interface TCSpriteView ()
+@interface ZSSpriteView ()
 
 @property (nonatomic, assign) StateType state;
 
 @end
 
-@implementation TCSpriteView
+@implementation ZSSpriteView
 
 
 

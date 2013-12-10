@@ -25,12 +25,19 @@
 
 - (IBAction)varNameTapped:(id)sender
 {
+<<<<<<< HEAD
     ZSCodeEditorPopoverVarNameOptionsDataSource *s = [[ZSCodeEditorPopoverVarNameOptionsDataSource alloc]initWithAvailableVarNames:self.codeLine.statement.availableVarNames];
     ZSCodeEditorPopoverTableViewController *c = [[ZSCodeEditorPopoverTableViewController alloc]initWithStyle:UITableViewStylePlain dataSource:s];
     
     c.didSelectRowBlock = ^(NSInteger row)
     {
         ((ZSCodeStatementSet *)self.codeLine.statement).variableName = self.codeLine.statement.availableVarNames[row];
+=======
+    ZSCodeEditorVarNameOptionsTableViewController *controller = [[ZSCodeEditorVarNameOptionsTableViewController alloc] init];
+    controller.varNames = self.codeLine.statement.availableVarNames;
+    controller.didSelectValueBlock = ^(id value) {
+        ((ZSCodeStatementSet *)self.codeLine.statement).variableName = value;
+>>>>>>> 82bec66dd9d6c7be0487d4c1ea2cb3c4e2174bf4
         [self.popover dismissPopoverAnimated:YES];
         [self.viewController.tableView reloadData];
     };    
