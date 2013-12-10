@@ -17,4 +17,7 @@ typedef NS_OPTIONS(NSInteger, ZSExpressionValue) {
 
 @interface ZSCodeEditorPopoverExpressionOptionsDataSource : NSObject <UITableViewDataSource>
 
+@property (strong, nonatomic) NSMutableArray *availableVarNames;
+- (id) initWithAvailableVarNames:(NSArray *)n;
+
 @end

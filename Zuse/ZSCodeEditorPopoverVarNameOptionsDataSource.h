@@ -2,8 +2,7 @@
 
 @interface ZSCodeEditorPopoverVarNameOptionsDataSource : NSObject <UITableViewDataSource>
 
-@property (strong, nonatomic) NSArray *availableVarNames;
-
+@property (strong, nonatomic) NSMutableArray *availableVarNames;
 - (id) initWithAvailableVarNames:(NSArray *)n;
 
 @end

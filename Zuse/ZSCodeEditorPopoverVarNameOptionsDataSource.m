@@ -6,7 +6,8 @@
 {
     if (self = [super init])
     {
-        self.availableVarNames = n;
+        self.availableVarNames = [NSMutableArray arrayWithArray:n];
+        [self.availableVarNames insertObject:@"CREATE VARIABLE NAME" atIndex:0];
     }
     return self;
 }

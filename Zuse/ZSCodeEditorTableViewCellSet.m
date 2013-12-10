@@ -30,7 +30,8 @@
     
     c.didSelectRowBlock = ^(NSInteger row)
     {
-        ((ZSCodeStatementSet *)self.codeLine.statement).variableName = self.codeLine.statement.availableVarNames[row];
+        NSString *varName = row ? self.codeLine.statement.availableVarNames[row - 1] : @"...";
+        ((ZSCodeStatementSet *)self.codeLine.statement).variableName = varName;
         [self.popover dismissPopoverAnimated:YES];
         [self.viewController.tableView reloadData];
     };    
@@ -40,14 +41,26 @@
 
 - (IBAction)varValueTapped:(id)sender
 {
-    ZSCodeEditorPopoverExpressionOptionsDataSource *s = [[ZSCodeEditorPopoverExpressionOptionsDataSource alloc]init];
+    ZSCodeEditorPopoverExpressionOptionsDataSource *s = [[ZSCodeEditorPopoverExpressionOptionsDataSource alloc]initWithAvailableVarNames:self.codeLine.statement.availableVarNames];
     ZSCodeEditorPopoverTableViewController *c
     = [[ZSCodeEditorPopoverTableViewController alloc]initWithStyle:UITableViewStylePlain
                                                         dataSource:s];
     c.didSelectRowBlock = ^(NSInteger row)
     {
+        ZSCodeStatementSet *statement = ((ZSCodeStatementSet *)self.codeLine.statement);
+        
+        // If new value
+        if (row == 0)
+        {
+            statement.variableValue = @"...";
+        }
+        // existing variable
+        else
+        {
+            NSString *varName = self.codeLine.statement.availableVarNames[row - 1];
+            statement.variableValue = @{ @"get": varName };
+        }
         [self.popover dismissPopoverAnimated:YES];
-        ((ZSCodeStatementSet *)self.codeLine.statement).variableValue = [@(row) stringValue];
         [self updateCellContents];
     };
     [self presentPopoverWithViewController:c
