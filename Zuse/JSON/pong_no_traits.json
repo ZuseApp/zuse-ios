@@ -2,7 +2,13 @@
   "objects": [
     {
       "id": "paddle1",
-      "traits": {},
+      "traits": {
+        "Draggable": {
+          "parameters": {
+            "vertical": false
+          }
+        }
+      },
       "properties": {
         "x": 10,
         "y": 10,

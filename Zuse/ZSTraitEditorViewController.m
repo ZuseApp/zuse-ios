@@ -27,6 +27,7 @@
     
     _globalTraits     = [ZSSpriteTraits defaultTraits];
     _globalTraitNames = [_globalTraits allKeys];
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -39,8 +40,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
-    return [ZSSpriteTraits defaultTraits].count;
+    return _globalTraitNames.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -74,7 +74,7 @@
     if (_traits[traitIdentifier]) {
         [_traits removeObjectForKey:traitIdentifier];
     } else {
-        _traits[traitIdentifier] = _globalTraits[traitIdentifier];
+        _traits[traitIdentifier] = [_globalTraits[traitIdentifier] mutableCopy];
     }
     [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
 }
@@ -83,7 +83,13 @@
     NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
     NSString *traitIdentifier = _globalTraitNames[indexPath.row];
     ZSTraitEditorParametersViewController *controller = (ZSTraitEditorParametersViewController *)segue.destinationViewController;
-    controller.parameters = _globalTraits[traitIdentifier][@"parameters"] ;
+    
+    // Merge any current trait parameters with the default, preferring the current
+    NSMutableDictionary *defaultParams = [_globalTraits[traitIdentifier][@"parameters"] mutableCopy];
+    [defaultParams addEntriesFromDictionary:_traits[traitIdentifier][@"parameters"]];
+    _traits[traitIdentifier][@"parameters"] = defaultParams;
+    
+    controller.parameters = _traits[traitIdentifier][@"parameters"];
 }
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {

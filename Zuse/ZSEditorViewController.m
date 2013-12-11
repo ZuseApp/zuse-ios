@@ -23,8 +23,10 @@
     codeController.spriteObject = self.spriteObject;
     
     ZSTraitEditorViewController *traitController = (ZSTraitEditorViewController *)self.viewControllers[1];
+    if (!self.spriteObject[@"traits"]) {
+        self.spriteObject[@"traits"] = [NSMutableDictionary dictionary];
+    }
     traitController.traits = self.spriteObject[@"traits"];
-    
 }
 
 -(void)viewWillAppear:(BOOL)animated {
