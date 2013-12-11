@@ -3,6 +3,6 @@
 @interface ZSCodeEditorViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (weak, nonatomic) NSDictionary *json;
+@property (weak, nonatomic) NSMutableDictionary *spriteObject;
 
 @end

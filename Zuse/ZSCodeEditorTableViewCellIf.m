@@ -71,7 +71,7 @@
             ((ZSCodeStatementIf *)self.codeLine.statement).boolExp.exp1 = @{ @"get": varName };
         }
         [self.popover dismissPopoverAnimated:YES];
-        [self updateCellContents];
+        [self.viewController.tableView reloadData];
     };
     [self presentPopoverWithViewController:c
                                     inView:sender];
@@ -83,7 +83,7 @@
     c.didSelectRowBlock = ^(NSInteger row)
     {
         ((ZSCodeStatementIf *)self.codeLine.statement).boolExp.sign = self.signs[row];
-        [self updateCellContents];
+        [self.viewController.tableView reloadData];
         [self.popover dismissPopoverAnimated:YES];
     };
     [self presentPopoverWithViewController:c
@@ -110,7 +110,7 @@
             ((ZSCodeStatementIf *)self.codeLine.statement).boolExp.exp2 = @{ @"get": varName };
         }
         [self.popover dismissPopoverAnimated:YES];
-        [self updateCellContents];
+        [self.viewController.tableView reloadData];
     };
     [self presentPopoverWithViewController:c
                                     inView:sender];

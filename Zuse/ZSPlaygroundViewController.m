@@ -83,8 +83,8 @@
         ZSEditorViewController *c = (ZSEditorViewController *)segue.destinationViewController;
         
         // Read the resource into an NSDictionary representing the JSON.
-        NSString *resource = @"test empty json";
-        //NSString *resource = @"pong_no_traits";
+        //NSString *resource = @"test empty json";
+        NSString *resource = @"pong_no_traits";
         NSString *jsonPath = [[NSBundle mainBundle] pathForResource:resource                                                             ofType:@"json"];
         NSData *jsonData = [NSData dataWithContentsOfFile:jsonPath];
         NSDictionary *json = [NSJSONSerialization JSONObjectWithData:jsonData

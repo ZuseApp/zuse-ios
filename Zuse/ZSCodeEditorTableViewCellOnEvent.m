@@ -48,7 +48,7 @@
         ZSCodeStatementOnEvent *s = (ZSCodeStatementOnEvent *)self.codeLine.statement;
         s.eventName = self.events[i];
         s.parameters = [[NSMutableArray alloc]initWithArray:(i ? @[@"touch_x", @"touch_y"] : @[])];
-        [self updateCellContents];
+        [self.viewController.tableView reloadData];
         [self.popover dismissPopoverAnimated:YES];
     };
     [self presentPopoverWithViewController:c

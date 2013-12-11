@@ -62,7 +62,7 @@
             statement.variableValue = @{ @"get": varName };
         }
         [self.popover dismissPopoverAnimated:YES];
-        [self updateCellContents];
+        [self.viewController.tableView reloadData];
     };
     [self presentPopoverWithViewController:c
                                     inView:sender];
