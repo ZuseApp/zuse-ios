@@ -1,5 +1,4 @@
 #import "ZSCanvasViewController.h"
-#import "ZSPlaygroundViewController.h"
 #import "ZSRendererViewController.h"
 #import "ZSSpriteView.h"
 #import "ZSProject.h"
@@ -140,6 +139,7 @@
         view.touchesEnded = ^(UITouch *touch) {
             UIView *touchView = touch.view;
             
+            // Coordinates aren't represeted like they are
             CGFloat x = touchView.frame.origin.x + touchView.frame.size.width;
             CGFloat y = self.view.frame.size.height - touchView.frame.size.width - touchView.frame.origin.y;
             y += touchView.frame.size.height / 2;

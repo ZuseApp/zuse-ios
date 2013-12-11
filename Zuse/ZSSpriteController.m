@@ -11,18 +11,11 @@
 @implementation ZSSpriteController
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 1;
+    return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = nil;
-    if (indexPath.row == 0) {
-        cell = [tableView dequeueReusableCellWithIdentifier:@"debug"];
-        cell.textLabel.text = @"Playground";
-    } else {
-        // NSInteger row = indexPath.row - 1;
-    }
-    return cell;
+    return nil;
 }
 
 @end
