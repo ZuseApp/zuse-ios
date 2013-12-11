@@ -28,8 +28,7 @@
 
 - (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // pass line of code to the cell
-    ((ZSCodeEditorTableViewCell *)cell).codeLine = self.codeLines[indexPath.row];
+    [((ZSCodeEditorTableViewCell *)cell) updateCellContents];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -41,6 +40,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    //NSLog(@"%@", self.object.JSONObject);
     self.codeLines = self.object.code.codeLines; // get code lines
     return [self.codeLines count]; //return # of lines
 }
@@ -53,16 +53,21 @@
     // get the cell
     ZSCodeEditorTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[@(line.type) stringValue]];
     cell.viewController = self;
-    
+    cell.codeLine = line;
     return cell;
 }
 
 #pragma mark - ZSCodeEditorViewController
 
-- (void)processJSON:(NSDictionary *)json
+- (void)setJson:(NSDictionary *)json
 {
     self.object = [[ZSCodeStatementObject alloc] initWithJSON:json
                                          parentSuite:nil];
+}
+
+- (NSDictionary *)json
+{
+    return self.object.JSONObject;
 }
 
 @end

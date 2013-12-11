@@ -45,10 +45,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-//- (IBAction)didFinish:(id)sender {
-//    _didFinish();
-//}
-
 #pragma mark - Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

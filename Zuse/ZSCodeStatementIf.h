@@ -22,5 +22,6 @@
 - (id)initWithJSON:(NSDictionary *)json;
 - (NSString *)exp1stringValue;
 - (NSString *)exp2stringValue;
+- (NSDictionary *) JSONObject;
 
 @end
