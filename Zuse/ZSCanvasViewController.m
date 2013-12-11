@@ -95,6 +95,12 @@
         frame.size.width = [variables[@"width"] floatValue];
         frame.size.height = [variables[@"height"] floatValue];
         
+        // Coordinates in the project are stored in the center of the sprite and the canvas origin is
+        // in the bottom left corner, so adjust for that.
+        frame.origin.x -= frame.size.width / 2;
+        frame.origin.y -= frame.size.height / 2;
+        frame.origin.y = self.view.frame.size.height - frame.size.height - frame.origin.y;
+        
         NSDictionary *image = jsonObject[@"image"];
         NSString *imagePath = image[@"path"];
         
@@ -133,8 +139,13 @@
         
         view.touchesEnded = ^(UITouch *touch) {
             UIView *touchView = touch.view;
-            variables[@"x"] = @(touchView.frame.origin.x);
-            variables[@"y"] = @(touchView.frame.origin.y);
+            
+            CGFloat x = touchView.frame.origin.x + touchView.frame.size.width;
+            CGFloat y = self.view.frame.size.height - touchView.frame.size.width - touchView.frame.origin.y;
+            y += touchView.frame.size.height / 2;
+            
+            variables[@"x"] = @(x);
+            variables[@"y"] = @(y);
             variables[@"width"] = @(touchView.frame.size.width);
             variables[@"height"] = @(touchView.frame.size.height);
         };
