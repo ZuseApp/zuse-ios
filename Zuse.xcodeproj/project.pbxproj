@@ -44,6 +44,7 @@
 		4CF1CC0817EFE14A00636E0D /* yoda.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 4CF1CC0317EFE14A00636E0D /* yoda.jpeg */; };
 		4CF1CC0E17EFF64500636E0D /* ZSSpriteView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF1CC0D17EFF64500636E0D /* ZSSpriteView.m */; };
 		4CF303F11856E5DB00B57B95 /* ZSProject.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF303F01856E5DB00B57B95 /* ZSProject.m */; };
+		4CF303F31859238900B57B95 /* new_project.json in Resources */ = {isa = PBXBuildFile; fileRef = 4CF303F21859238900B57B95 /* new_project.json */; };
 		5F0139A318566A31005D7FAE /* ZSCodeEditorEventOptionsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0139A218566A31005D7FAE /* ZSCodeEditorEventOptionsTableViewController.m */; };
 		5F0139AC1856896F005D7FAE /* ZSEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0139AB1856896F005D7FAE /* ZSEditorViewController.m */; };
 		5F0139AF18568EC2005D7FAE /* ZSTraitEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0139AE18568EC2005D7FAE /* ZSTraitEditorViewController.m */; };
@@ -157,6 +158,7 @@
 		4CF1CC0D17EFF64500636E0D /* ZSSpriteView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSSpriteView.m; sourceTree = "<group>"; };
 		4CF303EF1856E5DB00B57B95 /* ZSProject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSProject.h; sourceTree = "<group>"; };
 		4CF303F01856E5DB00B57B95 /* ZSProject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSProject.m; sourceTree = "<group>"; };
+		4CF303F21859238900B57B95 /* new_project.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = new_project.json; sourceTree = "<group>"; };
 		5F0139A118566A31005D7FAE /* ZSCodeEditorEventOptionsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCodeEditorEventOptionsTableViewController.h; sourceTree = "<group>"; };
 		5F0139A218566A31005D7FAE /* ZSCodeEditorEventOptionsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCodeEditorEventOptionsTableViewController.m; sourceTree = "<group>"; };
 		5F0139AA1856896F005D7FAE /* ZSEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSEditorViewController.h; sourceTree = "<group>"; };
@@ -483,6 +485,7 @@
 				5F1B5BA21837E05A00632DE6 /* pong_no_traits.json */,
 				7826907218555E0D0093FD94 /* test empty json.json */,
 				4C62B0C018566409007CC9CD /* default_traits.json */,
+				4CF303F21859238900B57B95 /* new_project.json */,
 			);
 			name = JSON;
 			sourceTree = "<group>";
@@ -677,6 +680,7 @@
 				2C19FF0C181AE6B600D10D2B /* monster.png in Resources */,
 				7843FAA5184C1B5600DCE527 /* if.png in Resources */,
 				2C19FF0D181AE6B600D10D2B /* monster@2x.png in Resources */,
+				4CF303F31859238900B57B95 /* new_project.json in Resources */,
 				4CF1CC0717EFE14A00636E0D /* sonic.jpeg in Resources */,
 				4CF1CBCA17EF882A00636E0D /* Images.xcassets in Resources */,
 				7843FAAB184C4BF300DCE527 /* plus.png in Resources */,
