@@ -81,6 +81,7 @@
             [self.statements addObject: [ZSCodeStatementOnEvent emptyWithParentSuite:self]];
             break;
         case ZSCodeStatementTypeCall:
+            [self.statements addObject:[ZSCodeStatementCall emptyWithParentSuite:self]];
             break;
         default:
             @throw @"ZSCodeSuite: Unknown code statement type.";

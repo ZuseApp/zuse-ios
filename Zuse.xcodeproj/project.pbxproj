@@ -92,6 +92,7 @@
 		7855BCCA1837FA97006493F9 /* ZSCodeEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7855BCC91837FA97006493F9 /* ZSCodeEditorViewController.m */; };
 		78645C53184AB12A00EE14A9 /* ZSCodeEditorTableViewCellSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 78645C52184AB12A00EE14A9 /* ZSCodeEditorTableViewCellSet.m */; };
 		788F70CF1851590700C68F83 /* ZSCodeStatementNew.m in Sources */ = {isa = PBXBuildFile; fileRef = 788F70CE1851590700C68F83 /* ZSCodeStatementNew.m */; };
+		78C142041859262600C393ED /* ZSCodeEditorTableViewCellCall.m in Sources */ = {isa = PBXBuildFile; fileRef = 78C142031859262600C393ED /* ZSCodeEditorTableViewCellCall.m */; };
 		78F79EB61839BC9E00012726 /* ZSCodeStatementOnEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 78F79EB51839BC9E00012726 /* ZSCodeStatementOnEvent.m */; };
 		78F79EB8183A8C0300012726 /* TCCodeEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 78F79EB7183A8C0300012726 /* TCCodeEditor.m */; };
 		F188741646A541119F9E0DE4 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A26E7A8391C049E78AB2860A /* libPods.a */; };
@@ -232,6 +233,8 @@
 		78645C52184AB12A00EE14A9 /* ZSCodeEditorTableViewCellSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCodeEditorTableViewCellSet.m; sourceTree = "<group>"; };
 		788F70CD1851590700C68F83 /* ZSCodeStatementNew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCodeStatementNew.h; sourceTree = "<group>"; };
 		788F70CE1851590700C68F83 /* ZSCodeStatementNew.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCodeStatementNew.m; sourceTree = "<group>"; };
+		78C142021859262600C393ED /* ZSCodeEditorTableViewCellCall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCodeEditorTableViewCellCall.h; sourceTree = "<group>"; };
+		78C142031859262600C393ED /* ZSCodeEditorTableViewCellCall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCodeEditorTableViewCellCall.m; sourceTree = "<group>"; };
 		78F79EB41839BC9E00012726 /* ZSCodeStatementOnEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCodeStatementOnEvent.h; sourceTree = "<group>"; };
 		78F79EB51839BC9E00012726 /* ZSCodeStatementOnEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCodeStatementOnEvent.m; sourceTree = "<group>"; };
 		78F79EB7183A8C0300012726 /* TCCodeEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCCodeEditor.m; sourceTree = "<group>"; };
@@ -508,6 +511,8 @@
 				7843FA92184BF70C00DCE527 /* ZSCodeEditorTableViewCellNew.m */,
 				7843FAA1184C16B000DCE527 /* ZSCodeEditorTableViewCellOnEvent.h */,
 				7843FAA2184C16B000DCE527 /* ZSCodeEditorTableViewCellOnEvent.m */,
+				78C142021859262600C393ED /* ZSCodeEditorTableViewCellCall.h */,
+				78C142031859262600C393ED /* ZSCodeEditorTableViewCellCall.m */,
 			);
 			name = StatementTableViewCells;
 			sourceTree = "<group>";
@@ -759,6 +764,7 @@
 				78645C53184AB12A00EE14A9 /* ZSCodeEditorTableViewCellSet.m in Sources */,
 				7855BCBF1837F47E006493F9 /* ZSCodeStatementCall.m in Sources */,
 				4C62B0BB18564F9D007CC9CD /* ZSMenuController.m in Sources */,
+				78C142041859262600C393ED /* ZSCodeEditorTableViewCellCall.m in Sources */,
 				5F0139BB1856BCA7005D7FAE /* ZSTraitEditorParametersViewController.m in Sources */,
 				5F0139A318566A31005D7FAE /* ZSCodeEditorEventOptionsTableViewController.m in Sources */,
 				4CF303F11856E5DB00B57B95 /* ZSProject.m in Sources */,

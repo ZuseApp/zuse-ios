@@ -60,6 +60,32 @@
             @throw @"ZSCodeStatementOptionsTableViewController: unknown statement type";
             break;
     }
+    ZSCodeStatementType type = ((ZSCodeStatementNew *)self.codeLine.statement).parentCodeStatementType;
+    
+    // Change color depending on type of the new statement button
+    switch (type)
+    {
+        case ZSCodeStatementTypeOnEvent:
+            cell.textLabel.textColor = [UIColor colorWithRed: 0
+                                                       green: 1
+                                                        blue: 0.4
+                                                       alpha: 1];
+            break;
+        case ZSCodeStatementTypeIf:
+            cell.textLabel.textColor = [UIColor colorWithRed: 1
+                                                       green: 0.4
+                                                        blue: 0
+                                                       alpha: 1];
+            break;
+        default:
+            cell.textLabel.textColor = [UIColor colorWithRed: 0
+                                                       green: 0.4
+                                                        blue: 1
+                                                       alpha: 1];
+            break;
+    }
+    cell.textLabel.font =  [UIFont fontWithName:@"Chalkboard SE" size:20];
+    
     return cell;
 }
 

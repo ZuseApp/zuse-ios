@@ -5,7 +5,7 @@
 @interface ZSCodeStatementCall : ZSCodeStatement
 
 @property (strong, nonatomic) NSString *methodName;
-@property (strong, nonatomic) NSMutableArray *args;
+@property (strong, nonatomic) NSArray *params;
 
 @end
 
