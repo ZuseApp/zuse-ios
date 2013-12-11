@@ -50,7 +50,11 @@
     _menuTableViewShowing = NO;
     
     // Load sprites.
-    _project = [ZSProject projectWithFile:@"pong.json"];
+    if (!_projectPath) {
+        _projectPath = @"new_project.json";
+    }
+    
+    _project = [ZSProject projectWithFile:_projectPath];
     [self loadSpritesFromProject];
     
     // Bring menus to front.
