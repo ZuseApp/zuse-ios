@@ -1,5 +1,4 @@
 #import "ZSCodeEditorTableViewCellOnEvent.h"
-#import "ZSCodeEditorEventOptionsTableViewController.h"
 #import "ZSCodeStatementOnEvent.h"
 
 @interface ZSCodeEditorTableViewCellOnEvent()
