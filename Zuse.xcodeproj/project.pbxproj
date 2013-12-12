@@ -93,6 +93,7 @@
 		78645C53184AB12A00EE14A9 /* ZSCodeEditorTableViewCellSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 78645C52184AB12A00EE14A9 /* ZSCodeEditorTableViewCellSet.m */; };
 		788F70CF1851590700C68F83 /* ZSCodeStatementNew.m in Sources */ = {isa = PBXBuildFile; fileRef = 788F70CE1851590700C68F83 /* ZSCodeStatementNew.m */; };
 		78C142041859262600C393ED /* ZSCodeEditorTableViewCellCall.m in Sources */ = {isa = PBXBuildFile; fileRef = 78C142031859262600C393ED /* ZSCodeEditorTableViewCellCall.m */; };
+		78D8A960185A3A1100834B15 /* move.png in Resources */ = {isa = PBXBuildFile; fileRef = 78D8A95F185A3A1100834B15 /* move.png */; };
 		78F79EB61839BC9E00012726 /* ZSCodeStatementOnEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 78F79EB51839BC9E00012726 /* ZSCodeStatementOnEvent.m */; };
 		78F79EB8183A8C0300012726 /* TCCodeEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 78F79EB7183A8C0300012726 /* TCCodeEditor.m */; };
 		F188741646A541119F9E0DE4 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A26E7A8391C049E78AB2860A /* libPods.a */; };
@@ -234,6 +235,7 @@
 		788F70CE1851590700C68F83 /* ZSCodeStatementNew.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCodeStatementNew.m; sourceTree = "<group>"; };
 		78C142021859262600C393ED /* ZSCodeEditorTableViewCellCall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCodeEditorTableViewCellCall.h; sourceTree = "<group>"; };
 		78C142031859262600C393ED /* ZSCodeEditorTableViewCellCall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCodeEditorTableViewCellCall.m; sourceTree = "<group>"; };
+		78D8A95F185A3A1100834B15 /* move.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = move.png; sourceTree = "<group>"; };
 		78F79EB41839BC9E00012726 /* ZSCodeStatementOnEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCodeStatementOnEvent.h; sourceTree = "<group>"; };
 		78F79EB51839BC9E00012726 /* ZSCodeStatementOnEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCodeStatementOnEvent.m; sourceTree = "<group>"; };
 		78F79EB7183A8C0300012726 /* TCCodeEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCCodeEditor.m; sourceTree = "<group>"; };
@@ -528,6 +530,7 @@
 		7843FA94184BFBD400DCE527 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				78D8A95F185A3A1100834B15 /* move.png */,
 				7843FAAA184C4BF300DCE527 /* plus.png */,
 				7843FAA8184C47A200DCE527 /* plus event.png */,
 				7843FAA6184C1D7000DCE527 /* plus if.png */,
@@ -681,6 +684,7 @@
 				2C19FF0E181AE6B600D10D2B /* player.png in Resources */,
 				4CF1CC0617EFE14A00636E0D /* monkey.jpeg in Resources */,
 				5FEFB89A182B5376007DAFCF /* pong.json in Resources */,
+				78D8A960185A3A1100834B15 /* move.png in Resources */,
 				4C0D470517FB800400F13786 /* TestProject.json in Resources */,
 				7843FA96184BFBFE00DCE527 /* blue plus sign.png in Resources */,
 				4CF1CC0517EFE14A00636E0D /* dog.jpeg in Resources */,

@@ -317,13 +317,6 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="35"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="CALL" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZL5-IJ-PhS">
-                                                    <rect key="frame" x="12" y="7" width="66" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" name="ChalkboardSE-Bold" family="Chalkboard SE" pointSize="20"/>
-                                                    <color key="textColor" red="0.89012889070000001" green="0.1233526901" blue="0.1171628229" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
                                                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AJW-al-ZYH">
                                                     <rect key="frame" x="84" y="3" width="54" height="30"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -369,10 +362,17 @@
                                                     <color key="textColor" red="0.89012889070000001" green="0.1233526901" blue="0.1171628229" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pvv-i8-tBe">
+                                                    <rect key="frame" x="8" y="1" width="68" height="32"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <state key="normal" image="move.png">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                </button>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="methodName" destination="ZL5-IJ-PhS" id="2GF-lw-apb"/>
+                                            <outlet property="call" destination="Pvv-i8-tBe" id="vVv-Au-Ayo"/>
                                             <outlet property="param1" destination="AJW-al-ZYH" id="fa7-Ah-P01"/>
                                             <outlet property="param2" destination="S0p-d9-TnM" id="vnD-cL-Luk"/>
                                         </connections>
@@ -545,6 +545,7 @@
     </scenes>
     <resources>
         <image name="if.png" width="199" height="165"/>
+        <image name="move.png" width="276" height="163"/>
         <image name="on event.png" width="534" height="165"/>
         <image name="plus.png" width="192" height="165"/>
         <image name="set.png" width="278" height="167"/>

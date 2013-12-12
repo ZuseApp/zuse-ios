@@ -2,7 +2,7 @@
 #import "ZSCodeStatementCall.h"
 @interface ZSCodeEditorTableViewCellCall()
 
-@property (weak, nonatomic) IBOutlet UILabel *methodName;
+@property (weak, nonatomic) IBOutlet UIButton *call;
 @property (weak, nonatomic) IBOutlet UIButton *param1;
 @property (weak, nonatomic) IBOutlet UIButton *param2;
 
@@ -13,7 +13,7 @@
 - (void)updateCellContents
 {
     ZSCodeStatementCall *s = (ZSCodeStatementCall *)self.codeLine.statement;
-    self.methodName.text = s.methodName;
+    self.call.imageView.image = [UIImage imageNamed:@"move"];
     [self.param1 setTitle:[s.params[0] stringValue] forState:UIControlStateNormal];
     [self.param2 setTitle:[s.params[1] stringValue] forState:UIControlStateNormal];
 }
