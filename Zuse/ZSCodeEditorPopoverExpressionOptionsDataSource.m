@@ -16,7 +16,7 @@
     {
         self.type = type;
         self.availableVarNames = [NSMutableArray arrayWithArray:n];
-        [self.availableVarNames insertObject:@"CREATE VALUE" atIndex:0];
+        [self.availableVarNames insertObject:@"Enter number..." atIndex:0];
     }
     return self;
 }
@@ -31,7 +31,7 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"
                                                             forIndexPath:indexPath];
     cell.textLabel.text = self.availableVarNames[indexPath.row];
-    cell.textLabel.font =  [UIFont fontWithName:@"Chalkboard SE" size:20];
+    cell.textLabel.font = [UIFont fontWithName:@"Chalkboard SE" size:20];
     
     
     switch (self.type)

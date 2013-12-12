@@ -2,12 +2,14 @@ PODS:
   - BlocksKit (1.8.3):
     - libffi
   - libffi (3.0.13)
+  - MTBlockAlertView (0.1.1)
   - PhysicsDebugger (1.0.0)
   - SpriteKit-Components (1.0.0)
   - WYPopoverController (0.1.7)
 
 DEPENDENCIES:
   - BlocksKit
+  - MTBlockAlertView
   - PhysicsDebugger
   - SpriteKit-Components
   - WYPopoverController
@@ -15,6 +17,7 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   BlocksKit: 27257f9cbbec0ea98c80ba83cc2ea7111ae62eb2
   libffi: 64ef39353e747bb2b25e1026afd96a157bf9231c
+  MTBlockAlertView: 05cf381a078c0005bcbad973cf63d9740ca67323
   PhysicsDebugger: eff7aa78948b0f29e0d1d3454bc3d51e3493f000
   SpriteKit-Components: fc490ebfd92c1100f30b323ee1999b6c76687f64
   WYPopoverController: 729963b2405c7763c99393a254021de9bffde763

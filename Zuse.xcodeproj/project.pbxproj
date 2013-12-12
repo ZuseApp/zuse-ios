@@ -54,6 +54,7 @@
 		5F0139BB1856BCA7005D7FAE /* ZSTraitEditorParametersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0139BA1856BCA7005D7FAE /* ZSTraitEditorParametersViewController.m */; };
 		5F099D4817F1136000EB2AC7 /* InterpreterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F099D4717F1136000EB2AC7 /* InterpreterTests.m */; };
 		5F154BD91859264700A759F1 /* ZSMainMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F154BD81859264700A759F1 /* ZSMainMenuViewController.m */; };
+		5F154BDE18592E7E00A759F1 /* Main-iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F154BDD18592E7E00A759F1 /* Main-iPad.storyboard */; };
 		5F1B5BA31837E05A00632DE6 /* pong_no_traits.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F1B5BA21837E05A00632DE6 /* pong_no_traits.json */; };
 		5F1B5BA61837EE7800632DE6 /* ZSCompiler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F1B5BA51837EE7800632DE6 /* ZSCompiler.m */; };
 		5F1B5BA71838109600632DE6 /* ZSInterpreter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F099D4517F1135300EB2AC7 /* ZSInterpreter.m */; };
@@ -180,6 +181,7 @@
 		5F099D4717F1136000EB2AC7 /* InterpreterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InterpreterTests.m; sourceTree = "<group>"; };
 		5F154BD71859264700A759F1 /* ZSMainMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSMainMenuViewController.h; sourceTree = "<group>"; };
 		5F154BD81859264700A759F1 /* ZSMainMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSMainMenuViewController.m; sourceTree = "<group>"; };
+		5F154BDD18592E7E00A759F1 /* Main-iPad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Main-iPad.storyboard"; sourceTree = "<group>"; };
 		5F1B5BA21837E05A00632DE6 /* pong_no_traits.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = pong_no_traits.json; path = JSON/pong_no_traits.json; sourceTree = "<group>"; };
 		5F1B5BA41837EE7800632DE6 /* ZSCompiler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCompiler.h; sourceTree = "<group>"; };
 		5F1B5BA51837EE7800632DE6 /* ZSCompiler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCompiler.m; sourceTree = "<group>"; };
@@ -335,6 +337,7 @@
 		4CF1CBB717EF882A00636E0D /* Zuse */ = {
 			isa = PBXGroup;
 			children = (
+				5F154BDC18592DF900A759F1 /* iPad */,
 				784BFD041844679C00FB0694 /* Code Editor */,
 				5F099D4217F0E11200EB2AC7 /* Models */,
 				5F099D4117F0E10600EB2AC7 /* Views */,
@@ -344,6 +347,7 @@
 				4CF1CBC317EF882A00636E0D /* Main.storyboard */,
 				4CF1CBC017EF882A00636E0D /* TCAppDelegate.h */,
 				4CF1CBC117EF882A00636E0D /* TCAppDelegate.m */,
+				5F154BDD18592E7E00A759F1 /* Main-iPad.storyboard */,
 			);
 			path = Zuse;
 			sourceTree = "<group>";
@@ -468,6 +472,13 @@
 				5F1B5BA51837EE7800632DE6 /* ZSCompiler.m */,
 			);
 			name = Interpreter;
+			sourceTree = "<group>";
+		};
+		5F154BDC18592DF900A759F1 /* iPad */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = iPad;
 			sourceTree = "<group>";
 		};
 		5F2EC4D6183ABEEA0091CEAD /* JSON */ = {
@@ -694,6 +705,7 @@
 				4CF1CC0717EFE14A00636E0D /* sonic.jpeg in Resources */,
 				4CF1CBCA17EF882A00636E0D /* Images.xcassets in Resources */,
 				7843FAAB184C4BF300DCE527 /* plus.png in Resources */,
+				5F154BDE18592E7E00A759F1 /* Main-iPad.storyboard in Resources */,
 				4CF1CBBC17EF882A00636E0D /* InfoPlist.strings in Resources */,
 				4CF1CBC517EF882A00636E0D /* Main.storyboard in Resources */,
 				2C19FF11181AE6B600D10D2B /* projectile@2x.png in Resources */,
@@ -931,6 +943,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "arm64 armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
@@ -948,6 +961,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "arm64 armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};

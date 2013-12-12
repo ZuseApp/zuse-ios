@@ -6,7 +6,7 @@
 +(id)emptyWithParentSuite:(ZSCodeSuite *)suite
 {
     ZSCodeStatementCall *s = [[ZSCodeStatementCall alloc]initWithParentSuite:suite];
-    s.methodName = @"MOVE";
+    s.methodName = @"move";
     s.params = @[@45, @200];
     return s;
 }
