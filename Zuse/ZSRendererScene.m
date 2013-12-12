@@ -133,7 +133,7 @@ CGFloat const kZSSpriteSpeed = 200;
                                GLKVector2 direction = GLKVector2Normalize(velocity);
                                GLKVector2 newVelocity = GLKVector2MultiplyScalar(direction, kZSSpriteSpeed);
                                node.physicsBody.velocity = CGVectorMake(newVelocity.x, newVelocity.y);
-                               node.physicsBody.angularVelocity = 0.0;
+//                               node.physicsBody.angularVelocity = 0.0;
                            }];
     
 }
