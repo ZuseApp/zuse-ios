@@ -7,7 +7,7 @@
 {
     ZSCodeStatementCall *s = [[ZSCodeStatementCall alloc]initWithParentSuite:suite];
     s.methodName = @"move";
-    s.params = @[@45, @200];
+    s.params = [NSMutableArray arrayWithArray: @[@45, @200]];
     return s;
 }
 
