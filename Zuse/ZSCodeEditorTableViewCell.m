@@ -17,12 +17,6 @@
     self.contentView.frame = frame;
 }
 
-//- (void) setCodeLine:(ZSCodeLine *)codeLine
-//{
-//    _codeLine = codeLine;
-//    [self updateCellContents];
-//}
-
 - (void) updateCellContents
 {
     @throw @"ZSCodeEditorTableViewCell: updateCellContents should be overridden in subclasses";

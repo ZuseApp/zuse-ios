@@ -40,7 +40,6 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    //NSLog(@"%@", self.object.JSONObject);
     _spriteObject[@"code"] = self.object.JSONObject[@"code"];
     self.codeLines = self.object.code.codeLines; // get code lines
     return [self.codeLines count]; //return # of lines

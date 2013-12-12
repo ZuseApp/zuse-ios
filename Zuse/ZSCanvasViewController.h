@@ -10,4 +10,7 @@
 
 @interface ZSCanvasViewController : UIViewController <UIGestureRecognizerDelegate>
 
+// @"new_project.json"
+@property (strong, nonatomic) NSString *projectPath;
+
 @end

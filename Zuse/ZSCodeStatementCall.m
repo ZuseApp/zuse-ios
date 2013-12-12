@@ -6,8 +6,8 @@
 +(id)emptyWithParentSuite:(ZSCodeSuite *)suite
 {
     ZSCodeStatementCall *s = [[ZSCodeStatementCall alloc]initWithParentSuite:suite];
-    s.methodName = @"...";
-    s.args = [[NSMutableArray alloc]init];
+    s.methodName = @"MOVE";
+    s.params = @[@45, @200];
     return s;
 }
 
@@ -17,14 +17,14 @@
     if (self = [super initWithParentSuite:suite])
     {
         self.methodName = json[@"call"][@"method"];
-        self.args = json[@"call"][@"args"];
+        self.params = json[@"call"][@"parameters"];
     }
     return self;
 }
 
 -(NSDictionary *) JSONObject
 {
-    return @{@"call" : @[self.methodName, self.args]};
+    return @{@"call" : @{@"method" : self.methodName, @"parameters" : self.params}};
 }
 
 @end
