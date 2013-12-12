@@ -33,5 +33,9 @@
     self.didSelectRowBlock(indexPath.row);
 }
 
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
+}
+
 
 @end
