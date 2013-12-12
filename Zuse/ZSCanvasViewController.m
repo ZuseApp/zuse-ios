@@ -44,7 +44,7 @@
     [super viewDidLoad];
     
     [self setupTableDelegatesAndSources];
-    [self setupScreenEdgeGestures];
+    [self setupGestures];
     
     _spriteTableViewShowing = NO;
     _menuTableViewShowing = NO;
@@ -169,13 +169,46 @@
     _menuTable.dataSource = _menuController;
 }
 
--(void)setupScreenEdgeGestures {
+-(void)setupGestures {
+    // Canvas gesture recognizers.
     _rightEdgePanRecognizer = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(canvasPannedRight:)];
     _rightEdgePanRecognizer.edges = UIRectEdgeRight;
     _leftEdgePanRecognizer = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(canvasPannedLeft:)];
     _leftEdgePanRecognizer.edges = UIRectEdgeLeft;
     [self.view addGestureRecognizer:_rightEdgePanRecognizer];
     [self.view addGestureRecognizer:_leftEdgePanRecognizer];
+    
+    // Sprite Drawer
+    UISwipeGestureRecognizer *rightSwipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(hideSpriteDrawer)];
+    [rightSwipeGesture setDirection:UISwipeGestureRecognizerDirectionRight];
+    [_spriteTable addGestureRecognizer:rightSwipeGesture];
+    
+    // Menu Drawer
+    UISwipeGestureRecognizer *leftSwipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(hideMenuDrawer)];
+    [leftSwipeGesture setDirection:UISwipeGestureRecognizerDirectionLeft];
+    [_menuTable addGestureRecognizer:leftSwipeGesture];
+}
+
+- (void)hideSpriteDrawer {
+    if (_spriteTableViewShowing) {
+        _spriteTableViewShowing = NO;
+        [UIView animateWithDuration:0.25 animations:^{
+            CGRect frame = _spriteTable.frame;
+            frame.origin.x += _spriteTable.frame.size.width;
+            _spriteTable.frame = frame;
+        }];
+    }
+}
+
+- (void)hideMenuDrawer {
+    if (_menuTableViewShowing) {
+        _menuTableViewShowing = NO;
+        [UIView animateWithDuration:0.25 animations:^{
+            CGRect frame = _menuTable.frame;
+            frame.origin.x -= _menuTable.frame.size.width;
+            _menuTable.frame = frame;
+        }];
+    }
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
