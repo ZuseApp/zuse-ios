@@ -10,10 +10,10 @@
 
 @interface ZSSpriteView : UIImageView
 
-@property (strong, nonatomic) void(^touchesBegan)(UITouch *touch);
-@property (strong, nonatomic) void(^touchesMoved)(UITouch *touch);
-@property (strong, nonatomic) void(^touchesEnded)(UITouch *touch);
-@property (strong, nonatomic) void(^longTouch)();
+@property (strong, nonatomic) void(^singleTapped)();
+@property (strong, nonatomic) void(^panBegan)(UIPanGestureRecognizer *panGestureRecognizer);
+@property (strong, nonatomic) void(^panMoved)(UIPanGestureRecognizer *panGestureRecognizer);
+@property (strong, nonatomic) void(^panEnded)(UIPanGestureRecognizer *panGestureRecognizer);
 @property (nonatomic, strong) NSMutableDictionary *spriteJSON;
 
 @end

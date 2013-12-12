@@ -112,22 +112,20 @@
         }
         view.spriteJSON = jsonObject;
         
-        view.longTouch = ^(){
+        view.singleTapped = ^(){
             [self performSegueWithIdentifier:@"editor" sender:weakView];
         };
         
         __block CGPoint offset;
-        __block CGPoint originPoint;
         __block CGPoint currentPoint;
-        view.touchesBegan = ^(UITouch *touch) {
-            originPoint = [touch locationInView:self.view];
-            offset = [touch locationInView:touch.view];
+        view.panBegan = ^(UIPanGestureRecognizer *panGestureRecognizer) {
+            offset = [panGestureRecognizer locationInView:panGestureRecognizer.view];
         };
         
-        view.touchesMoved = ^(UITouch *touch) {
-            currentPoint = [touch locationInView:self.view];
+        view.panMoved = ^(UIPanGestureRecognizer *panGestureRecognizer) {
+            currentPoint = [panGestureRecognizer locationInView:self.view];
             
-            UIView *touchView = touch.view;
+            UIView *touchView = panGestureRecognizer.view;
             CGRect frame = touchView.frame;
             
             frame.origin.x = currentPoint.x - offset.x;
@@ -136,12 +134,12 @@
             touchView.frame = frame;
         };
         
-        view.touchesEnded = ^(UITouch *touch) {
-            UIView *touchView = touch.view;
+        view.panEnded = ^(UIPanGestureRecognizer *panGestureRecognizer) {
+            UIView *touchView = panGestureRecognizer.view;
             
             // Coordinates aren't represeted like they are
-            CGFloat x = touchView.frame.origin.x + touchView.frame.size.width;
-            CGFloat y = self.view.frame.size.height - touchView.frame.size.width - touchView.frame.origin.y;
+            CGFloat x = touchView.frame.origin.x + (touchView.frame.size.width / 2);
+            CGFloat y = self.view.frame.size.height - touchView.frame.size.height - touchView.frame.origin.y;
             y += touchView.frame.size.height / 2;
             
             variables[@"x"] = @(x);

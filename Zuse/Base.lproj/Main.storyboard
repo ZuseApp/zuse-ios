@@ -77,20 +77,20 @@
                                 </prototypes>
                             </tableView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Gsk-l2-lYD">
-                                <rect key="frame" x="-150" y="0.0" width="150" height="480"/>
+                                <rect key="frame" x="-120" y="0.0" width="120" height="480"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <gestureRecognizers/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="play" textLabel="06s-ut-unG" style="IBUITableViewCellStyleDefault" id="n6G-xo-6Ot">
-                                        <rect key="frame" x="0.0" y="22" width="150" height="44"/>
+                                        <rect key="frame" x="0.0" y="22" width="120" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="n6G-xo-6Ot" id="LUy-aQ-Lv5">
-                                            <rect key="frame" x="0.0" y="0.0" width="117" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="87" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Play" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="06s-ut-unG">
-                                                    <rect key="frame" x="15" y="0.0" width="100" height="44"/>
+                                                    <rect key="frame" x="15" y="0.0" width="70" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
