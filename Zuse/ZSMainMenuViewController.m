@@ -27,6 +27,9 @@
     if ([segue.identifier isEqualToString:@"canvas"]) {
         ZSCanvasViewController *controller = (ZSCanvasViewController *)segue.destinationViewController;
         controller.projectPath = _selectedProjectPath;
+        controller.didFinish = ^{
+            [self.navigationController popViewControllerAnimated:YES];
+        };
     }
 }
 

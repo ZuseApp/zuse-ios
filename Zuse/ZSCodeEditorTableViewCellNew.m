@@ -54,7 +54,7 @@
             cell.textLabel.text = @"ON EVENT";
             break;
         case ZSCodeStatementTypeCall:
-            cell.textLabel.text = @"CALL";
+            cell.textLabel.text = @"MOVE";
             break;
         default:
             @throw @"ZSCodeStatementOptionsTableViewController: unknown statement type";

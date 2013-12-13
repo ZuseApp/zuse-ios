@@ -12,5 +12,6 @@
 
 // @"new_project.json"
 @property (strong, nonatomic) NSString *projectPath;
+@property (copy, nonatomic) void(^didFinish)();
 
 @end

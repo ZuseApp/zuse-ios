@@ -124,6 +124,10 @@
     _menuController.playSelected = ^{
         [weakSelf performSegueWithIdentifier:@"renderer" sender:weakSelf];
     };
+    
+    _menuController.backSelected = ^{
+        weakSelf.didFinish();
+    };
 }
 
 - (void)setupGesturesForSpriteView:(ZSSpriteView *)view withProperties:(NSMutableDictionary *)properties {
@@ -167,6 +171,9 @@
         // Bring menus to front.
         [self.view bringSubviewToFront:_menuTable];
         [self.view bringSubviewToFront:_spriteTable];
+        
+        self.spriteTableViewShowing = NO;
+        self.menuTableViewShowing = NO;
     };
 }
 
@@ -233,6 +240,9 @@
         // Bring menus to front.
         [weakSelf.view bringSubviewToFront:weakSelf.menuTable];
         [weakSelf.view bringSubviewToFront:weakSelf.spriteTable];
+        
+        weakSelf.spriteTableViewShowing = NO;
+        weakSelf.menuTableViewShowing = NO;
     };
 }
 

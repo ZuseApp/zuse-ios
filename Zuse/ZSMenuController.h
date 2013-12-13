@@ -10,4 +10,5 @@
 
 @interface ZSMenuController : NSObject <UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) void(^playSelected)();
+@property (strong, nonatomic) void(^backSelected)();
 @end

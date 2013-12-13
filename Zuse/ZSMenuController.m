@@ -10,16 +10,24 @@
 
 @implementation ZSMenuController
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 1;
+    return 2;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"play"];
+    
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    
+    if (indexPath.row == 1) {
+        cell.textLabel.text = @"Back";
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    }
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (_playSelected) _playSelected();
+    if (indexPath.row == 0 && _playSelected) _playSelected();
+    else if (indexPath.row == 1 && _backSelected) _backSelected();
 }
 
 
