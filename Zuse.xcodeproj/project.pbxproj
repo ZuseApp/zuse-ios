@@ -22,6 +22,7 @@
 		4C62B0BC18564F9D007CC9CD /* ZSSpriteController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C62B0BA18564F9D007CC9CD /* ZSSpriteController.m */; };
 		4C62B0BF1856626C007CC9CD /* ZSSpriteTraits.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C62B0BE1856626C007CC9CD /* ZSSpriteTraits.m */; };
 		4C62B0C118566409007CC9CD /* default_traits.json in Resources */ = {isa = PBXBuildFile; fileRef = 4C62B0C018566409007CC9CD /* default_traits.json */; };
+		4C717208185ACCB600AD865C /* ZSSpriteTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C717207185ACCB600AD865C /* ZSSpriteTableViewCell.m */; };
 		4CCE4F841845A541006C7DA0 /* paddle.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CCE4F831845A541006C7DA0 /* paddle.png */; };
 		4CE340401809EDC1009A63A2 /* basketball.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CE3403F1809EDC1009A63A2 /* basketball.png */; };
 		4CE340421809F76E009A63A2 /* grayball.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CE340411809F76E009A63A2 /* grayball.png */; };
@@ -134,6 +135,8 @@
 		4C62B0BD1856626C007CC9CD /* ZSSpriteTraits.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSSpriteTraits.h; sourceTree = "<group>"; };
 		4C62B0BE1856626C007CC9CD /* ZSSpriteTraits.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSSpriteTraits.m; sourceTree = "<group>"; };
 		4C62B0C018566409007CC9CD /* default_traits.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = default_traits.json; sourceTree = "<group>"; };
+		4C717206185ACCB600AD865C /* ZSSpriteTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSSpriteTableViewCell.h; sourceTree = "<group>"; };
+		4C717207185ACCB600AD865C /* ZSSpriteTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSSpriteTableViewCell.m; sourceTree = "<group>"; };
 		4CCE4F831845A541006C7DA0 /* paddle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = paddle.png; sourceTree = "<group>"; };
 		4CE3403F1809EDC1009A63A2 /* basketball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = basketball.png; sourceTree = "<group>"; };
 		4CE340411809F76E009A63A2 /* grayball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grayball.png; sourceTree = "<group>"; };
@@ -464,6 +467,8 @@
 			children = (
 				4CF1CC0C17EFF64500636E0D /* ZSSpriteView.h */,
 				4CF1CC0D17EFF64500636E0D /* ZSSpriteView.m */,
+				4C717206185ACCB600AD865C /* ZSSpriteTableViewCell.h */,
+				4C717207185ACCB600AD865C /* ZSSpriteTableViewCell.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -814,6 +819,7 @@
 				7843FA90184BE51600DCE527 /* ZSCodeEditorTableViewCellIf.m in Sources */,
 				7855BCC01837F47E006493F9 /* ZSCodeStatementIf.m in Sources */,
 				5F1B5BA61837EE7800632DE6 /* ZSCompiler.m in Sources */,
+				4C717208185ACCB600AD865C /* ZSSpriteTableViewCell.m in Sources */,
 				5F0139AF18568EC2005D7FAE /* ZSTraitEditorViewController.m in Sources */,
 				4C0D470817FB927600F13786 /* ZSCanvasViewController.m in Sources */,
 				5F0139B51856B225005D7FAE /* ZSCodeEditorPopoverTableViewController.m in Sources */,

@@ -12,20 +12,36 @@
 
 +(NSMutableArray *) spriteLibrary {
     // TODO: Create from json library but for now return pong sprites.
-    NSMutableArray *sprites = [[NSMutableArray alloc] init];
+    NSMutableArray *sprites = [NSMutableArray array];
     
-    // Paddle Sprite
-    // @property (strong, nonatomic) NSString *imagePath;
-    // @property (strong, nonatomic) NSString *imageData;
-    // @property (assign, nonatomic) CGRect frame;
-    // @property (assign, nonatomic) NSMutableArray *traits;
-    // @property (strong, nonatomic) NSMutableArray *code;
-    // @property (strong, nonatomic) ZSSprite *identifier;
-    // @property (strong, nonatomic) NSString *physicsBody;
+    NSMutableDictionary *paddle = [NSMutableDictionary dictionary];
+    paddle[@"physics_body"] = @"rectangle";
+    NSMutableDictionary *image = [NSMutableDictionary dictionary];
+    image[@"path"] = @"paddle.png";
+    paddle[@"image"] = image;
+    paddle[@"traits"] = [NSMutableDictionary dictionary];
+    NSMutableDictionary *properties = [NSMutableDictionary dictionary];
+    properties[@"width"] = @(129);
+    properties[@"height"] = @(28);
+    paddle[@"properties"] = properties;
+    paddle[@"code"] = [NSMutableArray array];
     
+    NSMutableDictionary *ball = [NSMutableDictionary dictionary];
+    ball[@"physics_body"] = @"rectangle";
+    NSMutableDictionary *image2 = [NSMutableDictionary dictionary];
+    image2[@"path"] = @"grayball.png";
+    ball[@"image"] = image2;
+    ball[@"traits"] = [NSMutableDictionary dictionary];
+    NSMutableDictionary *properties2 = [NSMutableDictionary dictionary];
+    properties2[@"width"] = @(30);
+    properties2[@"height"] = @(30);
+    ball[@"properties"] = properties2;
+    ball[@"code"] = [NSMutableArray array];
     
+    [sprites addObject:paddle];
+    [sprites addObject:ball];
     
-    return nil;
+    return sprites;
 }
 
 @end

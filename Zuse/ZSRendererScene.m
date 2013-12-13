@@ -43,7 +43,7 @@ CGFloat const kZSSpriteSpeed = 200;
         _interpreter.delegate = self;
         
         //init the debugger
-        [YMCPhysicsDebugger init];
+        // [YMCPhysicsDebugger init];
         
         //Set the physics edges to the frame
         self.physicsBody = [SKPhysicsBody bodyWithEdgeLoopFromRect:self.frame];
@@ -98,7 +98,7 @@ CGFloat const kZSSpriteSpeed = 200;
             [self addChild:node];
             
             //call debug render method
-            [self drawPhysicsBodies];
+            // [self drawPhysicsBodies];
             
             // ...
             [_spriteNodes setObject:node forKey:object[@"id"]];

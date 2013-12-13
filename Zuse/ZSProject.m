@@ -1,4 +1,5 @@
 #import "ZSProject.h"
+#import "ZSSpriteTraits.h"
 
 @interface ZSProject ()
 
@@ -41,6 +42,7 @@
 }
 
 - (NSMutableDictionary *)assembledJSON {
+    _projectJSON[@"traits"] = [ZSSpriteTraits defaultTraits];
     return _projectJSON;
 }
 

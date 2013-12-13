@@ -108,7 +108,6 @@
         NSString *imagePath = image[@"path"];
         
         ZSSpriteView *view = [[ZSSpriteView alloc] initWithFrame:frame];
-        __weak ZSSpriteView *weakView = view;
         if (imagePath) {
             view.image = [UIImage imageNamed:imagePath];
         } else {
@@ -116,41 +115,8 @@
         }
         view.spriteJSON = jsonObject;
         
-        view.singleTapped = ^(){
-            [self performSegueWithIdentifier:@"editor" sender:weakView];
-        };
+        [self setupGesturesForSpriteView:view withProperties:variables];
         
-        __block CGPoint offset;
-        __block CGPoint currentPoint;
-        view.panBegan = ^(UIPanGestureRecognizer *panGestureRecognizer) {
-            offset = [panGestureRecognizer locationInView:panGestureRecognizer.view];
-        };
-        
-        view.panMoved = ^(UIPanGestureRecognizer *panGestureRecognizer) {
-            currentPoint = [panGestureRecognizer locationInView:self.view];
-            
-            UIView *touchView = panGestureRecognizer.view;
-            CGRect frame = touchView.frame;
-            
-            frame.origin.x = currentPoint.x - offset.x;
-            frame.origin.y = currentPoint.y - offset.y;
-            
-            touchView.frame = frame;
-        };
-        
-        view.panEnded = ^(UIPanGestureRecognizer *panGestureRecognizer) {
-            UIView *touchView = panGestureRecognizer.view;
-            
-            // Coordinates aren't represeted like they are
-            CGFloat x = touchView.frame.origin.x + (touchView.frame.size.width / 2);
-            CGFloat y = self.view.frame.size.height - touchView.frame.size.height - touchView.frame.origin.y;
-            y += touchView.frame.size.height / 2;
-            
-            variables[@"x"] = @(x);
-            variables[@"y"] = @(y);
-            variables[@"width"] = @(touchView.frame.size.width);
-            variables[@"height"] = @(touchView.frame.size.height);
-        };
         [self.view addSubview:view];
     }
     
@@ -160,13 +126,114 @@
     };
 }
 
--(void)setupTableDelegatesAndSources {
+- (void)setupGesturesForSpriteView:(ZSSpriteView *)view withProperties:(NSMutableDictionary *)properties {
+    
+    __weak ZSSpriteView *weakView = view;
+    view.singleTapped = ^(){
+        [self performSegueWithIdentifier:@"editor" sender:weakView];
+    };
+    
+    __block CGPoint offset;
+    __block CGPoint currentPoint;
+    view.panBegan = ^(UIPanGestureRecognizer *panGestureRecognizer) {
+        offset = [panGestureRecognizer locationInView:panGestureRecognizer.view];
+    };
+    
+    view.panMoved = ^(UIPanGestureRecognizer *panGestureRecognizer) {
+        currentPoint = [panGestureRecognizer locationInView:self.view];
+        
+        UIView *touchView = panGestureRecognizer.view;
+        CGRect frame = touchView.frame;
+        
+        frame.origin.x = currentPoint.x - offset.x;
+        frame.origin.y = currentPoint.y - offset.y;
+        
+        touchView.frame = frame;
+    };
+    
+    view.panEnded = ^(UIPanGestureRecognizer *panGestureRecognizer) {
+        UIView *touchView = panGestureRecognizer.view;
+        
+        // Coordinates aren't represeted like they are
+        CGFloat x = touchView.frame.origin.x + (touchView.frame.size.width / 2);
+        CGFloat y = self.view.frame.size.height - touchView.frame.size.height - touchView.frame.origin.y;
+        y += touchView.frame.size.height / 2;
+        
+        properties[@"x"] = @(x);
+        properties[@"y"] = @(y);
+        properties[@"width"] = @(touchView.frame.size.width);
+        properties[@"height"] = @(touchView.frame.size.height);
+        
+        // Bring menus to front.
+        [self.view bringSubviewToFront:_menuTable];
+        [self.view bringSubviewToFront:_spriteTable];
+    };
+}
+
+- (void)setupTableDelegatesAndSources {
     _spriteController = [[ZSSpriteController alloc] init];
     _menuController = [[ZSMenuController alloc] init];
     _spriteTable.delegate = _spriteController;
     _spriteTable.dataSource = _spriteController;
     _menuTable.delegate = _menuController;
     _menuTable.dataSource = _menuController;
+    
+    WeakSelf
+    __block CGPoint offset;
+    __block CGPoint currentPoint;
+    __block ZSSpriteView *draggedView;
+    _spriteController.panBegan = ^(UIPanGestureRecognizer *panGestureRecognizer, NSDictionary *json) {
+        offset = [panGestureRecognizer locationInView:panGestureRecognizer.view];
+        currentPoint = [panGestureRecognizer locationInView:weakSelf.view];
+        
+        CGRect frame = panGestureRecognizer.view.frame;
+        // frame.size.width = [json[@"properties"][@"width"] floatValue];
+        // frame.size.height = [json[@"properties"][@"height"] floatValue];
+        frame.origin.x = currentPoint.x - offset.x;
+        frame.origin.y = currentPoint.y - offset.y;
+        
+        draggedView = [[ZSSpriteView alloc] initWithFrame:frame];
+        draggedView.image = [UIImage imageNamed:json[@"image"][@"path"]];
+        draggedView.contentMode = UIViewContentModeScaleAspectFit;
+        [weakSelf.view addSubview:draggedView];
+    };
+    
+    _spriteController.panMoved = ^(UIPanGestureRecognizer *panGestureRecognizer, NSDictionary *json) {
+        currentPoint = [panGestureRecognizer locationInView:weakSelf.view];
+    
+        CGRect frame = draggedView.frame;
+        
+        frame.origin.x = currentPoint.x - offset.x;
+        frame.origin.y = currentPoint.y - offset.y;
+        
+        draggedView.frame = frame;
+    };
+    _spriteController.panEnded = ^(UIPanGestureRecognizer *panGestureRecognizer, NSDictionary *json) {
+        NSMutableDictionary *newJson = [json deepMutableCopy];
+        newJson[@"id"] = [NSUUID UUID];
+        NSMutableDictionary *properties = newJson[@"properties"];
+        [weakSelf setupGesturesForSpriteView:draggedView withProperties:properties];
+        [[weakSelf.project assembledJSON][@"objects"]addObject:newJson];
+
+        CGFloat x = draggedView.frame.origin.x + (draggedView.frame.size.width / 2);
+        CGFloat y = weakSelf.view.frame.size.height - draggedView.frame.size.height - draggedView.frame.origin.y;
+        y += draggedView.frame.size.height / 2;
+        
+        CGPoint center = draggedView.center;
+        CGRect frame = draggedView.frame;
+        frame.size.width = [properties[@"width"] floatValue];
+        frame.size.height = [properties[@"height"] floatValue];
+        draggedView.frame = frame;
+        draggedView.center = center;
+        draggedView.spriteJSON = newJson;
+        
+        properties[@"x"] = @(x);
+        properties[@"y"] = @(y);
+        
+        // Bring menus to front.
+        [weakSelf.view bringSubviewToFront:weakSelf.menuTable];
+        [weakSelf.view bringSubviewToFront:weakSelf.spriteTable];
+    };
 }
 
 -(void)setupGestures {

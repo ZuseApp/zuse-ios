@@ -10,14 +10,27 @@
 
 @implementation ZSSpriteView
 
+-(id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        [self sharedInit];
+    }
+    return self;
+}
+
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.userInteractionEnabled = YES;
-        [self setupGestures];
+        [self sharedInit];
     }
     return self;
+}
+
+- (void)sharedInit {
+    self.userInteractionEnabled = YES;
+    [self setupGestures];
 }
 
 - (void)setupGestures {
