@@ -51,6 +51,8 @@
 		5F0139B51856B225005D7FAE /* ZSCodeEditorPopoverTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0139B41856B225005D7FAE /* ZSCodeEditorPopoverTableViewController.m */; };
 		5F0139B81856B233005D7FAE /* ZSCodeEditorPopoverVarNameOptionsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0139B71856B233005D7FAE /* ZSCodeEditorPopoverVarNameOptionsDataSource.m */; };
 		5F0139BB1856BCA7005D7FAE /* ZSTraitEditorParametersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0139BA1856BCA7005D7FAE /* ZSTraitEditorParametersViewController.m */; };
+		5F030C6C185ADD1400584DCD /* NSDictionary+Zuse.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F030C6B185ADD1400584DCD /* NSDictionary+Zuse.m */; };
+		5F030C6F185AE0D300584DCD /* NSArray+Zuse.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F030C6E185AE0D300584DCD /* NSArray+Zuse.m */; };
 		5F099D4817F1136000EB2AC7 /* InterpreterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F099D4717F1136000EB2AC7 /* InterpreterTests.m */; };
 		5F154BD91859264700A759F1 /* ZSMainMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F154BD81859264700A759F1 /* ZSMainMenuViewController.m */; };
 		5F154BDE18592E7E00A759F1 /* Main-iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F154BDD18592E7E00A759F1 /* Main-iPad.storyboard */; };
@@ -174,6 +176,10 @@
 		5F0139B71856B233005D7FAE /* ZSCodeEditorPopoverVarNameOptionsDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCodeEditorPopoverVarNameOptionsDataSource.m; sourceTree = "<group>"; };
 		5F0139B91856BCA7005D7FAE /* ZSTraitEditorParametersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSTraitEditorParametersViewController.h; sourceTree = "<group>"; };
 		5F0139BA1856BCA7005D7FAE /* ZSTraitEditorParametersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSTraitEditorParametersViewController.m; sourceTree = "<group>"; };
+		5F030C6A185ADD1400584DCD /* NSDictionary+Zuse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+Zuse.h"; sourceTree = "<group>"; };
+		5F030C6B185ADD1400584DCD /* NSDictionary+Zuse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Zuse.m"; sourceTree = "<group>"; };
+		5F030C6D185AE0D300584DCD /* NSArray+Zuse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Zuse.h"; sourceTree = "<group>"; };
+		5F030C6E185AE0D300584DCD /* NSArray+Zuse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Zuse.m"; sourceTree = "<group>"; };
 		5F099D4417F1135300EB2AC7 /* ZSInterpreter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSInterpreter.h; sourceTree = "<group>"; };
 		5F099D4517F1135300EB2AC7 /* ZSInterpreter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSInterpreter.m; sourceTree = "<group>"; };
 		5F099D4717F1136000EB2AC7 /* InterpreterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InterpreterTests.m; sourceTree = "<group>"; };
@@ -336,6 +342,7 @@
 		4CF1CBB717EF882A00636E0D /* Zuse */ = {
 			isa = PBXGroup;
 			children = (
+				5F030C69185ADCE900584DCD /* Categories */,
 				5F154BDC18592DF900A759F1 /* iPad */,
 				784BFD041844679C00FB0694 /* Code Editor */,
 				5F099D4217F0E11200EB2AC7 /* Models */,
@@ -425,6 +432,17 @@
 				5F0139BA1856BCA7005D7FAE /* ZSTraitEditorParametersViewController.m */,
 			);
 			name = Traits;
+			sourceTree = "<group>";
+		};
+		5F030C69185ADCE900584DCD /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				5F030C6A185ADD1400584DCD /* NSDictionary+Zuse.h */,
+				5F030C6B185ADD1400584DCD /* NSDictionary+Zuse.m */,
+				5F030C6D185AE0D300584DCD /* NSArray+Zuse.h */,
+				5F030C6E185AE0D300584DCD /* NSArray+Zuse.m */,
+			);
+			name = Categories;
 			sourceTree = "<group>";
 		};
 		5F099D4017F0E0F700EB2AC7 /* View Controllers */ = {
@@ -776,6 +794,7 @@
 				7855BCBF1837F47E006493F9 /* ZSCodeStatementCall.m in Sources */,
 				4C62B0BB18564F9D007CC9CD /* ZSMenuController.m in Sources */,
 				78C142041859262600C393ED /* ZSCodeEditorTableViewCellCall.m in Sources */,
+				5F030C6F185AE0D300584DCD /* NSArray+Zuse.m in Sources */,
 				5F0139BB1856BCA7005D7FAE /* ZSTraitEditorParametersViewController.m in Sources */,
 				4CF303F11856E5DB00B57B95 /* ZSProject.m in Sources */,
 				5F154BD91859264700A759F1 /* ZSMainMenuViewController.m in Sources */,
@@ -805,6 +824,7 @@
 				7855BCC11837F47E006493F9 /* ZSCodeLine.m in Sources */,
 				7843FAA3184C16B000DCE527 /* ZSCodeEditorTableViewCellOnEvent.m in Sources */,
 				5F0139B81856B233005D7FAE /* ZSCodeEditorPopoverVarNameOptionsDataSource.m in Sources */,
+				5F030C6C185ADD1400584DCD /* NSDictionary+Zuse.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
