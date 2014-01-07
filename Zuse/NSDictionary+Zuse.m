@@ -7,7 +7,7 @@
 //
 
 #import "NSDictionary+Zuse.h"
-#import <BlocksKit/BlocksKit.h>
+#import "BlocksKit.h"
 
 @implementation NSDictionary (Zuse)
 

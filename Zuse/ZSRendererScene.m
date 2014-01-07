@@ -7,7 +7,7 @@
 //
 
 #import <SpriteKit-Components/SKComponents.h>
-#import <BlocksKit/BlocksKit.h>
+#import "BlocksKit.h"
 #import <PhysicsDebugger/YMCPhysicsDebugger.h>
 #import <PhysicsDebugger/YMCSKNode+PhysicsDebug.h>
 @import GLKit;

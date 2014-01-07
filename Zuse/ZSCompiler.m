@@ -7,7 +7,7 @@
 //
 
 #import "ZSCompiler.h"
-#import <BlocksKit/BlocksKit.h>
+#import "BlocksKit.h"
 
 @interface ZSCompiler ()
 

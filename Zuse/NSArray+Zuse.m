@@ -7,7 +7,7 @@
 //
 
 #import "NSArray+Zuse.h"
-#import <BlocksKit/BlocksKit.h>
+#import "BlocksKit.h"
 
 @implementation NSArray (Zuse)
 

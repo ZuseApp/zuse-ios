@@ -8,7 +8,7 @@
 
 #import "ZSInterpreter.h"
 #import "ZSExecutionContext.h"
-#import <BlocksKit/BlocksKit.h>
+#import "BlocksKit.h"
 
 @interface ZSInterpreter ()
 
