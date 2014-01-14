@@ -27,7 +27,6 @@
         <!--Project View Controller - Projects-->
         <scene sceneID="NUs-Kr-dDH">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Ldh-Lh-zI7" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tableViewController id="YfQ-Vx-02N" customClass="ZSProjectViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="HKr-1S-MA0">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
@@ -57,6 +56,7 @@
                         <outlet property="projectTableView" destination="HKr-1S-MA0" id="OnI-wV-Ikg"/>
                     </connections>
                 </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ldh-Lh-zI7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-369" y="165"/>
         </scene>
@@ -168,7 +168,6 @@
         <!--Tab Bar Controller-->
         <scene sceneID="Ebk-KZ-Gep">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ZeT-3H-6vf" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tabBarController definesPresentationContext="YES" id="S4p-l2-Rek" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="P0R-8C-xR6"/>
                     <nil key="simulatedBottomBarMetrics"/>
@@ -183,13 +182,13 @@
                         <segue destination="otJ-0W-r1N" kind="relationship" relationship="viewControllers" id="Kwh-qe-QNa"/>
                     </connections>
                 </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZeT-3H-6vf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-927" y="165"/>
         </scene>
         <!--Template View Controller - Templates-->
         <scene sceneID="8t0-pu-TgT">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="XGf-ft-9Ek" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tableViewController id="gjQ-uY-qCx" customClass="ZSTemplateViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="1X6-tP-WFj">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
@@ -218,13 +217,13 @@
                         <outlet property="projectTableView" destination="1X6-tP-WFj" id="TRc-BO-XB5"/>
                     </connections>
                 </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XGf-ft-9Ek" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-369" y="-499"/>
         </scene>
         <!--New Project View Controller - New-->
         <scene sceneID="h1M-CO-5kN">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="tDw-no-y3L" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="otJ-0W-r1N" customClass="ZSNewProjectViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="rGw-qD-8qQ"/>
@@ -265,6 +264,7 @@
                         <outlet property="projectName" destination="nml-H1-5VN" id="TyY-uw-fVD"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tDw-no-y3L" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-369" y="859"/>
         </scene>
@@ -660,6 +660,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="XFw-Ri-amw"/>
+        <segue reference="vBZ-13-8JQ"/>
     </inferredMetricsTieBreakers>
 </document>

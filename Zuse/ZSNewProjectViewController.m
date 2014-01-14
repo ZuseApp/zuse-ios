@@ -50,6 +50,9 @@
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Hide the keyboard.
+    [_projectName resignFirstResponder];
+    
     if ([segue.identifier isEqualToString:@"canvas"]) {
         ZSProject *project = [[ZSProject alloc] init];
         project.title = _projectName.text;
