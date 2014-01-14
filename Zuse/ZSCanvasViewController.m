@@ -68,6 +68,11 @@
     [_menuTable deselectRowAtIndexPath:[_menuTable indexPathForSelectedRow] animated:YES];
     _spriteTableViewShowing = NO;
     _menuTableViewShowing = NO;
+    
+    // TODO: Figure out the correct place to put this.  The editor may have modified the project
+    // so save the project here as well.  This means that the project gets loaded and than saved
+    // right away.
+    [_project write];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -113,16 +118,17 @@
         view.spriteJSON = jsonObject;
         
         [self setupGesturesForSpriteView:view withProperties:variables];
-        
         [self.view addSubview:view];
     }
     
     WeakSelf
+    __weak ZSProject *weakProject = _project;
     _menuController.playSelected = ^{
         [weakSelf performSegueWithIdentifier:@"renderer" sender:weakSelf];
     };
     
     _menuController.backSelected = ^{
+        [weakProject write];
         if (weakSelf.didFinish) {
             weakSelf.didFinish();
         }
@@ -187,6 +193,7 @@
     _menuTable.dataSource = _menuController;
     
     WeakSelf
+    __weak ZSProject *weakProject = _project;
     __block CGPoint offset;
     __block CGPoint currentPoint;
     __block ZSSpriteView *draggedView;
@@ -243,6 +250,8 @@
         
         weakSelf.spriteTableViewShowing = NO;
         weakSelf.menuTableViewShowing = NO;
+        
+        [weakProject write];
     };
 }
 
