@@ -1,7 +1,6 @@
 #import "ZSCanvasViewController.h"
 #import "ZSRendererViewController.h"
 #import "ZSSpriteView.h"
-#import "ZSProject.h"
 #import "ZSMenuController.h"
 #import "ZSSpriteController.h"
 #import "ZSEditorViewController.h"
@@ -23,7 +22,6 @@
 // Sprites
 @property (nonatomic, strong) NSArray *templateSprites;
 @property (nonatomic, strong) NSArray *canvasSprites;
-@property (strong, nonatomic) ZSProject *project;
 
 @end
 
@@ -50,11 +48,10 @@
     _menuTableViewShowing = NO;
     
     // Load sprites.
-    if (!_projectPath) {
-        _projectPath = @"new_project.json";
+    if (!_project) {
+        _project = [[ZSProject alloc] init];
     }
     
-    _project = [ZSProject projectWithFile:_projectPath];
     [self loadSpritesFromProject];
     
     // Bring menus to front.
@@ -126,7 +123,9 @@
     };
     
     _menuController.backSelected = ^{
-        weakSelf.didFinish();
+        if (weakSelf.didFinish) {
+            weakSelf.didFinish();
+        }
     };
 }
 
@@ -174,6 +173,8 @@
         
         self.spriteTableViewShowing = NO;
         self.menuTableViewShowing = NO;
+        
+        [_project write];
     };
 }
 
@@ -209,15 +210,14 @@
         currentPoint = [panGestureRecognizer locationInView:weakSelf.view];
     
         CGRect frame = draggedView.frame;
-        
         frame.origin.x = currentPoint.x - offset.x;
         frame.origin.y = currentPoint.y - offset.y;
-        
         draggedView.frame = frame;
     };
+    
     _spriteController.panEnded = ^(UIPanGestureRecognizer *panGestureRecognizer, NSDictionary *json) {
         NSMutableDictionary *newJson = [json deepMutableCopy];
-        newJson[@"id"] = [NSUUID UUID];
+        newJson[@"id"] = [[NSUUID UUID] UUIDString];
         NSMutableDictionary *properties = newJson[@"properties"];
         [weakSelf setupGesturesForSpriteView:draggedView withProperties:properties];
         [[weakSelf.project assembledJSON][@"objects"]addObject:newJson];

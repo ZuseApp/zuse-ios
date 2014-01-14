@@ -1,7 +1,7 @@
 PODS:
   - MTBlockAlertView (0.1.1)
   - PhysicsDebugger (1.0.0)
-  - SpriteKit-Components (1.0.0)
+  - SpriteKit-Components (1.0.2)
   - WYPopoverController (0.1.7)
 
 DEPENDENCIES:
@@ -13,7 +13,7 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   MTBlockAlertView: 05cf381a078c0005bcbad973cf63d9740ca67323
   PhysicsDebugger: eff7aa78948b0f29e0d1d3454bc3d51e3493f000
-  SpriteKit-Components: fc490ebfd92c1100f30b323ee1999b6c76687f64
+  SpriteKit-Components: f2d3ca5ea1abfc232bc9a774a9c751199f4bc458
   WYPopoverController: 729963b2405c7763c99393a254021de9bffde763
 
 COCOAPODS: 0.28.0

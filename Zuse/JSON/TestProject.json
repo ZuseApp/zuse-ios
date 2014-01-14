@@ -1,6 +1,7 @@
 {
     "version": 1.0,
     "interpreter_version": 1.0,
+    "title": "Guess a Number",
     "objects": [
         {
             "id": "some string",
