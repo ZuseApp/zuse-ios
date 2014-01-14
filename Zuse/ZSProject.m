@@ -91,14 +91,16 @@
 }
 
 - (void)write {
-    NSError *error;
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[self assembledJSON] options:NSJSONWritingPrettyPrinted error:&error];
-    
-    if (!jsonData) {
-        NSLog(@"Error serializing: %@", error);
-    } else {
-        [jsonData writeToFile:[NSString stringWithFormat:@"%@/%@", _documentsPath, _fileName] options:0 error:nil];
-    }
+    NSDictionary *assembledJSON = [[self assembledJSON] deepCopy];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        NSError *error;
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:assembledJSON options:NSJSONWritingPrettyPrinted error:&error];
+        if (!jsonData) {
+            NSLog(@"Error serializing: %@", error);
+        } else {
+            [jsonData writeToFile:[_documentsPath stringByAppendingPathComponent:_fileName] atomically:YES];
+        }
+    });
 }
 
 @end
