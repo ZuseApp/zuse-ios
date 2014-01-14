@@ -28,6 +28,7 @@
         
         // Create an empty project.
         _title = @"Untitled";
+        _version = @"1.0.0";
         _fileName = [NSString stringWithFormat:@"%@.json",[[NSUUID UUID] UUIDString]];
         _projectJSON = [NSMutableDictionary dictionary];
         [_projectJSON setObject:_title forKey:@"title"];
@@ -52,6 +53,7 @@
         
         _projectJSON = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:nil];
         _title = _projectJSON[@"title"];
+        _version = _projectJSON[@"version"];
     }
     return self;
 }
@@ -72,12 +74,18 @@
         
         _projectJSON = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:nil];
         _title = _projectJSON[@"title"];
+        _version = _projectJSON[@"version"];
     }
     return self;
 }
 
 - (NSMutableDictionary *)assembledJSON {
-    _projectJSON[@"title"] = _title;
+    if (_title) {
+        _projectJSON[@"title"] = _title;
+    }
+    if (_version) {
+        _projectJSON[@"version"] = _version;
+    }
     _projectJSON[@"traits"] = [ZSSpriteTraits defaultTraits];
     return _projectJSON;
 }

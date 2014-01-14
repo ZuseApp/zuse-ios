@@ -1,5 +1,6 @@
 {
   "title": "Pong",
+  "version": "1.0.0",
   "traits": {
     "Draggable": {
       "parameters": {

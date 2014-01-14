@@ -3,6 +3,7 @@
 @interface ZSProject : NSObject
 
 @property (nonatomic, strong) NSString *title;
+@property (nonatomic, strong) NSString *version;
 
 + (ZSProject *)projectWithFile:(NSString *)name;
 + (ZSProject *)projectWithTemplate:(NSString *)name;

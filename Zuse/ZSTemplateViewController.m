@@ -13,7 +13,7 @@
 @interface ZSTemplateViewController ()
 
 @property (nonatomic, strong) NSString *bundleRoot;
-@property (nonatomic, strong) NSArray *filePaths;
+@property (nonatomic, strong) NSMutableArray *filePaths;
 @property (strong, nonatomic) IBOutlet UITableView *projectTableView;
 
 @end
@@ -37,7 +37,8 @@
         NSFileManager *fm = [NSFileManager defaultManager];
         NSArray *dirContents = [fm contentsOfDirectoryAtPath:_bundleRoot error:nil];
         NSPredicate *fltr = [NSPredicate predicateWithFormat:@"self ENDSWITH '.json'"];
-        _filePaths = [dirContents filteredArrayUsingPredicate:fltr];
+        _filePaths = [[dirContents filteredArrayUsingPredicate:fltr] mutableCopy];
+        [self purgeTemplates];
     }
     return self;
 }
@@ -51,6 +52,21 @@
     [super viewWillAppear:animated];
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
     self.navigationController.navigationBarHidden = YES;
+}
+
+- (void)purgeTemplates {
+    NSMutableArray *removeIndexes = [NSMutableArray array];
+    for (NSInteger i = [_filePaths count] - 1; i >= 0; i--) {
+        ZSProject *project = [ZSProject projectWithTemplate:_filePaths[i]];
+        if (!project.version) {
+            [removeIndexes addObject:[NSNumber numberWithInt:i]];
+        }
+    }
+    
+    for (NSNumber *number in removeIndexes) {
+        NSUInteger index = [number integerValue];
+        [_filePaths removeObjectAtIndex:index];
+    }
 }
 
 #pragma mark - Table view data source
