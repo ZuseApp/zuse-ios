@@ -1,7 +1,6 @@
 #import "ZSCanvasViewController.h"
 #import "ZSRendererViewController.h"
 #import "ZSSpriteView.h"
-#import "ZSProject.h"
 #import "ZSMenuController.h"
 #import "ZSSpriteController.h"
 #import "ZSEditorViewController.h"
@@ -23,7 +22,6 @@
 // Sprites
 @property (nonatomic, strong) NSArray *templateSprites;
 @property (nonatomic, strong) NSArray *canvasSprites;
-@property (strong, nonatomic) ZSProject *project;
 
 @end
 
@@ -50,11 +48,10 @@
     _menuTableViewShowing = NO;
     
     // Load sprites.
-    if (!_projectPath) {
-        _projectPath = @"new_project.json";
+    if (!_project) {
+        _project = [[ZSProject alloc] init];
     }
     
-    _project = [ZSProject projectWithFile:_projectPath];
     [self loadSpritesFromProject];
     
     // Bring menus to front.
@@ -71,6 +68,11 @@
     [_menuTable deselectRowAtIndexPath:[_menuTable indexPathForSelectedRow] animated:YES];
     _spriteTableViewShowing = NO;
     _menuTableViewShowing = NO;
+    
+    // TODO: Figure out the correct place to put this.  The editor may have modified the project
+    // so save the project here as well.  This means that the project gets loaded and than saved
+    // right away.
+    [_project write];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -116,17 +118,20 @@
         view.spriteJSON = jsonObject;
         
         [self setupGesturesForSpriteView:view withProperties:variables];
-        
         [self.view addSubview:view];
     }
     
     WeakSelf
+    __weak ZSProject *weakProject = _project;
     _menuController.playSelected = ^{
         [weakSelf performSegueWithIdentifier:@"renderer" sender:weakSelf];
     };
     
     _menuController.backSelected = ^{
-        weakSelf.didFinish();
+        [weakProject write];
+        if (weakSelf.didFinish) {
+            weakSelf.didFinish();
+        }
     };
 }
 
@@ -174,6 +179,8 @@
         
         self.spriteTableViewShowing = NO;
         self.menuTableViewShowing = NO;
+        
+        [_project write];
     };
 }
 
@@ -186,6 +193,7 @@
     _menuTable.dataSource = _menuController;
     
     WeakSelf
+    __weak ZSProject *weakProject = _project;
     __block CGPoint offset;
     __block CGPoint currentPoint;
     __block ZSSpriteView *draggedView;
@@ -209,15 +217,14 @@
         currentPoint = [panGestureRecognizer locationInView:weakSelf.view];
     
         CGRect frame = draggedView.frame;
-        
         frame.origin.x = currentPoint.x - offset.x;
         frame.origin.y = currentPoint.y - offset.y;
-        
         draggedView.frame = frame;
     };
+    
     _spriteController.panEnded = ^(UIPanGestureRecognizer *panGestureRecognizer, NSDictionary *json) {
         NSMutableDictionary *newJson = [json deepMutableCopy];
-        newJson[@"id"] = [NSUUID UUID];
+        newJson[@"id"] = [[NSUUID UUID] UUIDString];
         NSMutableDictionary *properties = newJson[@"properties"];
         [weakSelf setupGesturesForSpriteView:draggedView withProperties:properties];
         [[weakSelf.project assembledJSON][@"objects"]addObject:newJson];
@@ -243,6 +250,8 @@
         
         weakSelf.spriteTableViewShowing = NO;
         weakSelf.menuTableViewShowing = NO;
+        
+        [weakProject write];
     };
 }
 
