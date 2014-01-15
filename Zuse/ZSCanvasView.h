@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ZSGrid.h"
 
 @interface ZSCanvasView : UIView
+
+@property (nonatomic, strong) ZSGrid *grid;
 
 @end

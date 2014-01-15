@@ -14,18 +14,33 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        // Initialization code
+        _grid = [[ZSGrid alloc] init];
     }
     return self;
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        _grid = [[ZSGrid alloc] init];
+    }
+    return self;
+}
+
 - (void)drawRect:(CGRect)rect
 {
-    // Drawing code
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    // CGContextSetStrokeColorWithColor(context, [[UIColor blackColor] CGColor]);
+    // CGContextSetLineWidth(context, 3.0);
+    // CGContextSetLineCap(context, kCGLineCapRound);
+    // CGContextSetLineJoin(context, kCGLineJoinRound);
+    // CGContextMoveToPoint(context, 5, 5);
+    // CGContextAddLineToPoint(context, 45, 43);
+    // CGContextStrokePath(context);
+    
+    CGContextSetStrokeColorWithColor(context, [[UIColor grayColor] CGColor]);
+    
+    // for (NSUInteger i = 0; i < _grid.dimensions.)
 }
-*/
 
 @end

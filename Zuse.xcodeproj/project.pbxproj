@@ -20,6 +20,8 @@
 		4C4087091852480F009117E1 /* ZSSpriteLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C4087081852480F009117E1 /* ZSSpriteLibrary.m */; };
 		4C5080D9188480F500E1F57A /* ZSProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C5080D8188480F500E1F57A /* ZSProjectViewController.m */; };
 		4C5080DF188485C900E1F57A /* ZSNewProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C5080DE188485C900E1F57A /* ZSNewProjectViewController.m */; };
+		4C5F732318873A59007F61B3 /* ZSGrid.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C5F732218873A59007F61B3 /* ZSGrid.m */; };
+		4C5F732718874B51007F61B3 /* ZSCanvasView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C5F732618874B51007F61B3 /* ZSCanvasView.m */; };
 		4C62B0BB18564F9D007CC9CD /* ZSMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C62B0B818564F9D007CC9CD /* ZSMenuController.m */; };
 		4C62B0BC18564F9D007CC9CD /* ZSSpriteController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C62B0BA18564F9D007CC9CD /* ZSSpriteController.m */; };
 		4C62B0BF1856626C007CC9CD /* ZSSpriteTraits.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C62B0BE1856626C007CC9CD /* ZSSpriteTraits.m */; };
@@ -149,6 +151,10 @@
 		4C5080D8188480F500E1F57A /* ZSProjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSProjectViewController.m; sourceTree = "<group>"; };
 		4C5080DD188485C900E1F57A /* ZSNewProjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSNewProjectViewController.h; sourceTree = "<group>"; };
 		4C5080DE188485C900E1F57A /* ZSNewProjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSNewProjectViewController.m; sourceTree = "<group>"; };
+		4C5F732118873A59007F61B3 /* ZSGrid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSGrid.h; sourceTree = "<group>"; };
+		4C5F732218873A59007F61B3 /* ZSGrid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSGrid.m; sourceTree = "<group>"; };
+		4C5F732518874B51007F61B3 /* ZSCanvasView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCanvasView.h; sourceTree = "<group>"; };
+		4C5F732618874B51007F61B3 /* ZSCanvasView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCanvasView.m; sourceTree = "<group>"; };
 		4C62B0B718564F9D007CC9CD /* ZSMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSMenuController.h; sourceTree = "<group>"; };
 		4C62B0B818564F9D007CC9CD /* ZSMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSMenuController.m; sourceTree = "<group>"; };
 		4C62B0B918564F9D007CC9CD /* ZSSpriteController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSSpriteController.h; sourceTree = "<group>"; };
@@ -342,6 +348,15 @@
 			name = Scenes;
 			sourceTree = "<group>";
 		};
+		4C5F732018873A3F007F61B3 /* Grid */ = {
+			isa = PBXGroup;
+			children = (
+				4C5F732118873A59007F61B3 /* ZSGrid.h */,
+				4C5F732218873A59007F61B3 /* ZSGrid.m */,
+			);
+			name = Grid;
+			sourceTree = "<group>";
+		};
 		4C62B0AB18564D0C007CC9CD /* Sprite */ = {
 			isa = PBXGroup;
 			children = (
@@ -528,6 +543,8 @@
 				4CF1CC0D17EFF64500636E0D /* ZSSpriteView.m */,
 				4C717206185ACCB600AD865C /* ZSSpriteTableViewCell.h */,
 				4C717207185ACCB600AD865C /* ZSSpriteTableViewCell.m */,
+				4C5F732518874B51007F61B3 /* ZSCanvasView.h */,
+				4C5F732618874B51007F61B3 /* ZSCanvasView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -535,6 +552,7 @@
 		5F099D4217F0E11200EB2AC7 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				4C5F732018873A3F007F61B3 /* Grid */,
 				4CF303EE1856E5BC00B57B95 /* Project */,
 				4C62B0AB18564D0C007CC9CD /* Sprite */,
 				5F099D4317F1133D00EB2AC7 /* Interpreter */,
@@ -910,6 +928,7 @@
 				4C62B0BC18564F9D007CC9CD /* ZSSpriteController.m in Sources */,
 				5F0139AC1856896F005D7FAE /* ZSEditorViewController.m in Sources */,
 				7855BCC21837F47E006493F9 /* ZSCodeStatementSet.m in Sources */,
+				4C5F732718874B51007F61B3 /* ZSCanvasView.m in Sources */,
 				7843FA93184BF70C00DCE527 /* ZSCodeEditorTableViewCellNew.m in Sources */,
 				7855BCC41837F47E006493F9 /* ZSCodeSuite.m in Sources */,
 				5F2C2647187CA26900F4E514 /* NSMutableDictionary+BlocksKit.m in Sources */,
@@ -937,6 +956,7 @@
 				5F2C2649187CA26900F4E514 /* NSMutableOrderedSet+BlocksKit.m in Sources */,
 				2C6B5D6A183D43AB00E3D56C /* ZSSpriteTouchComponent.m in Sources */,
 				7855BCCA1837FA97006493F9 /* ZSCodeEditorViewController.m in Sources */,
+				4C5F732318873A59007F61B3 /* ZSGrid.m in Sources */,
 				4C4087091852480F009117E1 /* ZSSpriteLibrary.m in Sources */,
 				5F2C2648187CA26900F4E514 /* NSMutableIndexSet+BlocksKit.m in Sources */,
 				2CA9D387183F3F0300401231 /* ZSRendererScene.m in Sources */,

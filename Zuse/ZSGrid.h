@@ -10,4 +10,10 @@
 
 @interface ZSGrid : NSObject
 
+@property (nonatomic, assign) CGSize screenSize;
+@property (nonatomic, assign) CGSize dimensions;
+
+- (CGSize)cellSize;
+- (CGPoint)adjustedPointForPoint:(CGPoint)point;
+
 @end

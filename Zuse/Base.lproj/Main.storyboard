@@ -68,7 +68,7 @@
                         <viewControllerLayoutGuide type="top" id="mKr-v8-cPS"/>
                         <viewControllerLayoutGuide type="bottom" id="2nn-wb-eWr"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="FEa-94-2Ad">
+                    <view key="view" contentMode="scaleToFill" id="FEa-94-2Ad" customClass="ZSCanvasView">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>

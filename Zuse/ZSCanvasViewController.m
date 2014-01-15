@@ -4,6 +4,8 @@
 #import "ZSMenuController.h"
 #import "ZSSpriteController.h"
 #import "ZSEditorViewController.h"
+#import "ZSGrid.h"
+#import "ZSCanvasView.h"
 
 @interface ZSCanvasViewController ()
 
@@ -22,7 +24,6 @@
 // Sprites
 @property (nonatomic, strong) NSArray *templateSprites;
 @property (nonatomic, strong) NSArray *canvasSprites;
-
 @end
 
 @implementation ZSCanvasViewController
@@ -31,7 +32,11 @@
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+        ZSCanvasView *view = (ZSCanvasView *)self.view;
+        // view.gri
+    }
     return self;
 }
 
