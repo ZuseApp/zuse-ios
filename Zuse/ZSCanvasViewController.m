@@ -169,17 +169,24 @@
     };
     
     view.panEnded = ^(UIPanGestureRecognizer *panGestureRecognizer) {
-        UIView *touchView = panGestureRecognizer.view;
+        CGRect frame = weakView.frame;
+        ZSCanvasView *view = (ZSCanvasView *)self.view;
+        frame.origin = [view.grid adjustedPointForPoint:frame.origin];
         
         // Coordinates aren't represeted like they are
-        CGFloat x = touchView.frame.origin.x + (touchView.frame.size.width / 2);
-        CGFloat y = self.view.frame.size.height - touchView.frame.size.height - touchView.frame.origin.y;
-        y += touchView.frame.size.height / 2;
+        // CGFloat x = weakView.frame.origin.x + (weakView.frame.size.width / 2);
+        // CGFloat y = self.view.frame.size.height - weakView.frame.size.height - weakView.frame.origin.y;
+        // y += weakView.frame.size.height / 2;
+        CGFloat x = frame.origin.x + (frame.size.width / 2);
+        CGFloat y = self.view.frame.size.height - frame.size.height - frame.origin.y;
+        y += frame.size.height / 2;
+        
+        weakView.frame = frame;
         
         properties[@"x"] = @(x);
         properties[@"y"] = @(y);
-        properties[@"width"] = @(touchView.frame.size.width);
-        properties[@"height"] = @(touchView.frame.size.height);
+        properties[@"width"] = @(frame.size.width);
+        properties[@"height"] = @(frame.size.height);
         
         // Bring menus to front.
         [self.view bringSubviewToFront:_menuTable];

@@ -35,9 +35,8 @@
             for (NSUInteger column = 0; column < _grid.dimensions.width; column++) {
                 CGContextRef context = UIGraphicsGetCurrentContext();
                 CGContextSetStrokeColorWithColor(context, [[UIColor lightGrayColor] CGColor]);
-                CGContextSetLineWidth(context, 0.1f);
-                CGContextAddRect(context, [_grid frameForPosition:CGPointMake(column, row)]);
-                CGContextStrokePath(context);
+                CGContextSetLineWidth(context, 0.5f);
+                CGContextStrokeRect(context, [_grid frameForPosition:CGPointMake(column, row)]);
             }
         }
     }
