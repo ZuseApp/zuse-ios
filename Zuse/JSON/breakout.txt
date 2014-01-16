@@ -1,0 +1,53 @@
+Paddle
+======
+
+  Traits:
+    Draggable
+      vertical: false
+      horizontal: true
+
+Ball
+====
+
+  Code:
+    on_event "start"
+      move(up_right, 200)
+
+Text
+====
+
+  Properties
+  ----------
+    score = 0
+    text = "0" // Default property on text nodes
+
+  Code
+  ----
+    on_event "score" {
+      score += 1
+      text = score
+    }
+
+Block
+=======
+
+  Properties
+  ----------
+    hitsLeft = 3
+
+
+  Traits
+  ------
+    Disappearable
+
+
+
+  Disappearable Code
+  ------------------
+    on_event "collide" {
+      hitsLeft -= 1
+      if (hitsLeft == 0) {
+        removeFromWorld()
+        trigger_event "score"
+      }
+    }
