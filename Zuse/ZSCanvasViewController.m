@@ -34,8 +34,6 @@
 {
     if (self) {
         self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-        ZSCanvasView *view = (ZSCanvasView *)self.view;
-        // view.gri
     }
     return self;
 }
@@ -46,6 +44,11 @@
 {
     [super viewDidLoad];
     
+    // Set up the grid.
+    ZSCanvasView *view = (ZSCanvasView *)self.view;
+    view.grid.dimensions = CGSizeMake(10, 10);
+    
+    // Setup delgates, sources and gestures.
     [self setupTableDelegatesAndSources];
     [self setupGestures];
     

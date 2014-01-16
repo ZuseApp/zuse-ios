@@ -14,7 +14,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        _grid = [[ZSGrid alloc] init];
+        
     }
     return self;
 }
@@ -29,18 +29,18 @@
 
 - (void)drawRect:(CGRect)rect
 {
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    // CGContextSetStrokeColorWithColor(context, [[UIColor blackColor] CGColor]);
-    // CGContextSetLineWidth(context, 3.0);
-    // CGContextSetLineCap(context, kCGLineCapRound);
-    // CGContextSetLineJoin(context, kCGLineJoinRound);
-    // CGContextMoveToPoint(context, 5, 5);
-    // CGContextAddLineToPoint(context, 45, 43);
-    // CGContextStrokePath(context);
-    
-    CGContextSetStrokeColorWithColor(context, [[UIColor grayColor] CGColor]);
-    
-    // for (NSUInteger i = 0; i < _grid.dimensions.)
+    if (_grid) {
+        _grid.size = rect.size;
+        for (NSUInteger row = 0; row < _grid.dimensions.height; row++) {
+            for (NSUInteger column = 0; column < _grid.dimensions.width; column++) {
+                CGContextRef context = UIGraphicsGetCurrentContext();
+                CGContextSetStrokeColorWithColor(context, [[UIColor lightGrayColor] CGColor]);
+                CGContextSetLineWidth(context, 0.1f);
+                CGContextAddRect(context, [_grid frameForPosition:CGPointMake(column, row)]);
+                CGContextStrokePath(context);
+            }
+        }
+    }
 }
 
 @end

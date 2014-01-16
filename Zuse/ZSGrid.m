@@ -10,9 +10,28 @@
 
 @implementation ZSGrid
 
+- (CGRect)frameForPosition:(CGPoint)position {
+    CGFloat screenWidth = _size.width;
+    CGFloat screenHeight = _size.height;
+    
+    CGFloat columnCount = _dimensions.width;
+    CGFloat rowCount = _dimensions.height;
+    
+    CGFloat columnWidth = screenWidth / columnCount;
+    CGFloat rowHeight = screenHeight / rowCount;
+    
+    CGFloat x = position.x;
+    CGFloat y = position.y;
+    
+    CGPoint framePoint = CGPointMake(x * columnWidth, y * rowHeight);
+    CGSize frameSize = CGSizeMake(columnWidth, rowHeight);
+    
+    return CGRectMake(framePoint.x, framePoint.y, frameSize.width, frameSize.height);
+}
+
 - (CGPoint)adjustedPointForPoint:(CGPoint)point {
-    CGFloat screenWidth = _screenSize.width;
-    CGFloat screenHeight = _screenSize.height;
+    CGFloat screenWidth = _size.width;
+    CGFloat screenHeight = _size.height;
     
     CGFloat columnCount = _dimensions.width;
     CGFloat rowCount = _dimensions.height;
