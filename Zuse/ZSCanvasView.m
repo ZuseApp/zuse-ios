@@ -30,11 +30,13 @@
 - (void)drawRect:(CGRect)rect
 {
     if (_grid) {
+        UIColor *lineColor = [UIColor colorWithRed:0.86f green:0.86f blue:0.86f alpha:1];
+        
         _grid.size = rect.size;
         for (NSUInteger row = 0; row < _grid.dimensions.height; row++) {
             for (NSUInteger column = 0; column < _grid.dimensions.width; column++) {
                 CGContextRef context = UIGraphicsGetCurrentContext();
-                CGContextSetStrokeColorWithColor(context, [[UIColor lightGrayColor] CGColor]);
+                CGContextSetStrokeColorWithColor(context, [lineColor CGColor]);
                 CGContextSetLineWidth(context, 0.5f);
                 CGContextStrokeRect(context, [_grid frameForPosition:CGPointMake(column, row)]);
             }
