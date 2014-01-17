@@ -45,10 +45,15 @@
 - (IBAction)sliderValueChanged:(id)sender {
     UISlider *slider = (UISlider *) sender;
     
-    float width = slider.value;
-    float height = width * _grid.size.height / _grid.size.width;
+    if (slider.value > 1) {
+        float width = slider.value;
+        float height = width * _grid.size.height / _grid.size.width;
     
-    _grid.dimensions = CGSizeMake(width, height);
+        _grid.dimensions = CGSizeMake(width, height);
+    }
+    else {
+        _grid.dimensions = CGSizeMake(0, 0);
+    }
     [self updateLabel];
 }
 
