@@ -45,10 +45,6 @@
 {
     [super viewDidLoad];
     
-    // Set up the grid.
-    ZSCanvasView *view = (ZSCanvasView *)self.view;
-    view.grid.dimensions = CGSizeMake(16, 28);
-    
     // Setup delgates, sources and gestures.
     [self setupTableDelegatesAndSources];
     [self setupGestures];

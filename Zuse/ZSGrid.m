@@ -10,6 +10,14 @@
 
 @implementation ZSGrid
 
+- (id)init {
+    self = [super init];
+    if (self) {
+        _dimensions = CGSizeMake(0, 0);
+    }
+    return self;
+}
+
 - (CGRect)frameForPosition:(CGPoint)position {
     CGFloat screenWidth = _size.width;
     CGFloat screenHeight = _size.height;
