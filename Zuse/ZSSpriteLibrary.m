@@ -38,8 +38,21 @@
     ball[@"properties"] = properties2;
     ball[@"code"] = [NSMutableArray array];
     
+    NSMutableDictionary *yoda = [NSMutableDictionary dictionary];
+    yoda[@"physics_body"] = @"rectangle";
+    NSMutableDictionary *image3 = [NSMutableDictionary dictionary];
+    image3[@"path"] = @"yoda.jpeg";
+    yoda[@"image"] = image3;
+    yoda[@"traits"] = [NSMutableDictionary dictionary];
+    NSMutableDictionary *properties3 = [NSMutableDictionary dictionary];
+    properties3[@"width"] = @(259);
+    properties3[@"height"] = @(194);
+    yoda[@"properties"] = properties3;
+    yoda[@"code"] = [NSMutableArray array];
+    
     [sprites addObject:paddle];
     [sprites addObject:ball];
+    [sprites addObject:yoda];
     
     return sprites;
 }

@@ -68,7 +68,7 @@
                         <viewControllerLayoutGuide type="top" id="mKr-v8-cPS"/>
                         <viewControllerLayoutGuide type="bottom" id="2nn-wb-eWr"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="FEa-94-2Ad">
+                    <view key="view" contentMode="scaleToFill" id="FEa-94-2Ad" customClass="ZSCanvasView">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
@@ -159,6 +159,7 @@
                         <outlet property="spriteTable" destination="0vj-QJ-exO" id="DbB-QZ-XhV"/>
                         <segue destination="xYJ-eA-5hz" kind="push" identifier="renderer" id="NAW-tK-E8o"/>
                         <segue destination="Zkj-rO-exu" kind="push" identifier="editor" id="f8x-t6-B0l"/>
+                        <segue destination="SwP-Yj-UZM" kind="push" identifier="settings" id="bwy-CX-igi"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZHF-Bn-kfF" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -220,6 +221,51 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XGf-ft-9Ek" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-369" y="-499"/>
+        </scene>
+        <!--Settings View Controller-->
+        <scene sceneID="6Wl-kP-llC">
+            <objects>
+                <viewController id="SwP-Yj-UZM" customClass="ZSSettingsViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="C0f-TJ-RcA"/>
+                        <viewControllerLayoutGuide type="bottom" id="81G-Sw-PVN"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="yEw-Yw-JZI">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="1" maxValue="64" translatesAutoresizingMaskIntoConstraints="NO" id="4cK-eL-Gfl">
+                                <rect key="frame" x="18" y="104" width="284" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="sliderValueChanged:" destination="SwP-Yj-UZM" eventType="valueChanged" id="sTW-9v-tlo"/>
+                                </connections>
+                            </slider>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Grid Size:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZCa-6g-QWZ">
+                                <rect key="frame" x="20" y="75" width="280" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vHP-cu-RT7">
+                                <rect key="frame" x="20" y="145" width="280" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="cOU-lU-igv"/>
+                    <connections>
+                        <outlet property="gridSizeLabel" destination="vHP-cu-RT7" id="oHO-7N-Ya0"/>
+                        <outlet property="gridSizeSlider" destination="4cK-eL-Gfl" id="m5H-lK-aWt"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VU8-rj-6xc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="634" y="-499"/>
         </scene>
         <!--New Project View Controller - New-->
         <scene sceneID="h1M-CO-5kN">

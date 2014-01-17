@@ -10,7 +10,7 @@
 
 @implementation ZSMenuController
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 2;
+    return 3;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -19,6 +19,9 @@
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     if (indexPath.row == 1) {
+        cell.textLabel.text = @"Settings";
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    } else if (indexPath.row == 2) {
         cell.textLabel.text = @"Back";
         cell.accessoryType = UITableViewCellAccessoryNone;
     }
@@ -26,8 +29,15 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == 0 && _playSelected) _playSelected();
-    else if (indexPath.row == 1 && _backSelected) _backSelected();
+    if (indexPath.row == 0 && _playSelected) {
+        _playSelected();
+    }
+    else if (indexPath.row == 1 && _settingsSelected) {
+        _settingsSelected();
+    }
+    else if (indexPath.row == 2 && _backSelected) {
+        _backSelected();
+    }
 }
 
 
