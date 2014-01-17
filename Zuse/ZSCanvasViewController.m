@@ -29,16 +29,6 @@
 
 @implementation ZSCanvasViewController
 
-#pragma mark Initializers
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    if (self) {
-        self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    }
-    return self;
-}
-
 #pragma mark Override Methods
 
 - (void)viewDidLoad
