@@ -17,7 +17,7 @@
 @property (strong, nonatomic) void(^panEnded)(UIPanGestureRecognizer *panGestureRecognizer);
 @property (strong, nonatomic) void(^cut)(ZSSpriteView *sprite);
 @property (strong, nonatomic) void(^copy)(ZSSpriteView *sprite);
-@property (strong, nonatomic) void(^paste)(ZSSpriteView *sprite);
+@property (strong, nonatomic) void(^paste)();
 @property (strong, nonatomic) void(^delete)(ZSSpriteView *sprite);
 @property (nonatomic, strong) NSMutableDictionary *spriteJSON;
 

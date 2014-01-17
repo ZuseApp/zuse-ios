@@ -28,6 +28,7 @@
 
 // UIMenuController
 @property (nonatomic, assign) CGPoint lastTouch;
+@property (nonatomic, strong) ZSSpriteView *spriteViewCopy;
 
 @end
 
@@ -192,6 +193,7 @@
 - (void)setupMenuItemsForSpriteView:(ZSSpriteView *)view {
     WeakSelf
     __weak ZSProject *weakProject = _project;
+    __weak ZSSpriteView *weakView = view;
     view.delete = ^(ZSSpriteView *sprite) {
         [sprite removeFromSuperview];
         NSMutableArray *objects = [weakSelf.project rawJSON][@"objects"];
@@ -204,6 +206,36 @@
         [weakProject write];
     };
     
+    view.copy = ^(ZSSpriteView *sprite) {
+        _spriteViewCopy = [weakSelf copySpriteView:sprite];
+    };
+    
+    view.cut = ^(ZSSpriteView *sprite) {
+        _spriteViewCopy = [weakSelf copySpriteView:sprite];
+        [sprite removeFromSuperview];
+        NSMutableArray *objects = [weakSelf.project rawJSON][@"objects"];
+        for (NSMutableDictionary *currentSprite in objects) {
+            if (currentSprite[@"id"] == sprite.spriteJSON[@"id"]) {
+                [objects removeObject:currentSprite];
+                break;
+            }
+        }
+        [weakProject write];
+    };
+    
+    view.paste = ^(ZSSpriteView *sprite) {
+        [weakSelf paste:weakView];
+    };
+}
+
+- (ZSSpriteView *)copySpriteView:(ZSSpriteView *)spriteView {
+    ZSSpriteView *copy = [[ZSSpriteView alloc] initWithFrame:spriteView.frame];
+    copy.spriteJSON = [spriteView.spriteJSON deepMutableCopy];
+    copy.spriteJSON[@"id"] = [[NSUUID UUID] UUIDString];
+    copy.image = [UIImage imageNamed:copy.spriteJSON[@"image"][@"path"]];
+    [self setupGesturesForSpriteView:copy withProperties:copy.spriteJSON[@"properties"]];
+    [self setupMenuItemsForSpriteView:copy];
+    return copy;
 }
 
 - (void)setupTableDelegatesAndSources {
@@ -408,7 +440,7 @@
 }
 
 - (BOOL)canPerformAction:(SEL)action withSender:(id)sender {
-    if (action == @selector(paste:)) {
+    if (_spriteViewCopy && action == @selector(paste:)) {
         return YES;
     }
     return NO;
@@ -416,6 +448,38 @@
 
 - (BOOL)canBecomeFirstResponder {
     return YES;
+}
+
+- (void)paste:(id)sender {
+    if (_spriteViewCopy) {
+        CGRect frame = _spriteViewCopy.frame;
+        frame.origin = _lastTouch;
+        
+        ZSCanvasView *view = (ZSCanvasView *)self.view;
+        if (view.grid.dimensions.width > 1 && view.grid.dimensions.height > 1) {
+            frame.origin = [view.grid adjustedPointForPoint:frame.origin];
+        }
+        
+        CGFloat x = frame.origin.x + (frame.size.width / 2);
+        CGFloat y = self.view.frame.size.height - frame.size.height - frame.origin.y;
+        y += frame.size.height / 2;
+        
+        _spriteViewCopy.frame = frame;
+        
+        NSMutableDictionary *properties = _spriteViewCopy.spriteJSON[@"properties"];
+        properties[@"x"] = @(x);
+        properties[@"y"] = @(y);
+        properties[@"width"] = @(frame.size.width);
+        properties[@"height"] = @(frame.size.height);
+        
+        
+        [self.view addSubview:_spriteViewCopy];
+        [[_project rawJSON][@"objects"] addObject:_spriteViewCopy.spriteJSON];
+        [_project write];
+        
+        // Create a new _spriteViewCopy.
+        _spriteViewCopy = [self copySpriteView:_spriteViewCopy];
+    }
 }
 
 @end

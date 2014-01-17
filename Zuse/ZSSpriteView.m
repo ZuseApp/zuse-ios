@@ -98,7 +98,7 @@
 
 - (void)paste:(id)sender {
     if (_paste) {
-        _paste(self);
+        _paste();
     }
 }
 

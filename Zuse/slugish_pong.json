@@ -1,0 +1,1211 @@
+{
+  "title" : "Slugish Pong Example",
+  "traits" : {
+    "Draggable" : {
+      "code" : [
+        {
+          "set" : [
+            "offset_x",
+            0
+          ]
+        },
+        {
+          "set" : [
+            "offset_y",
+            0
+          ]
+        },
+        {
+          "on_event" : {
+            "name" : "touch_began",
+            "code" : [
+              {
+                "set" : [
+                  "offset_x",
+                  {
+                    "-" : [
+                      {
+                        "get" : "touch_x"
+                      },
+                      {
+                        "get" : "x"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "set" : [
+                  "offset_y",
+                  {
+                    "-" : [
+                      {
+                        "get" : "touch_y"
+                      },
+                      {
+                        "get" : "y"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "parameters" : [
+              "touch_x",
+              "touch_y"
+            ]
+          }
+        },
+        {
+          "on_event" : {
+            "name" : "touch_moved",
+            "code" : [
+              {
+                "if" : {
+                  "test" : {
+                    "==" : [
+                      {
+                        "get" : "horizontal"
+                      },
+                      true
+                    ]
+                  },
+                  "true" : [
+                    {
+                      "set" : [
+                        "x",
+                        {
+                          "-" : [
+                            {
+                              "get" : "touch_x"
+                            },
+                            {
+                              "get" : "offset_x"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "if" : {
+                  "test" : {
+                    "==" : [
+                      {
+                        "get" : "vertical"
+                      },
+                      true
+                    ]
+                  },
+                  "true" : [
+                    {
+                      "set" : [
+                        "y",
+                        {
+                          "-" : [
+                            {
+                              "get" : "touch_y"
+                            },
+                            {
+                              "get" : "offset_y"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "parameters" : [
+              "touch_x",
+              "touch_y"
+            ]
+          }
+        }
+      ],
+      "parameters" : {
+        "vertical" : true,
+        "horizontal" : true
+      }
+    }
+  },
+  "version" : "1.0.0",
+  "objects" : [
+    {
+      "code" : [
+
+      ],
+      "id" : "132271DF-2565-4857-B2B4-B7B534AA1A01",
+      "properties" : {
+        "y" : 531.5,
+        "width" : 129,
+        "x" : 219,
+        "height" : 28
+      },
+      "physics_body" : "rectangle",
+      "image" : {
+        "path" : "paddle.png"
+      },
+      "traits" : {
+        "Draggable" : {
+          "code" : [
+            {
+              "set" : [
+                "offset_x",
+                0
+              ]
+            },
+            {
+              "set" : [
+                "offset_y",
+                0
+              ]
+            },
+            {
+              "on_event" : {
+                "name" : "touch_began",
+                "code" : [
+                  {
+                    "set" : [
+                      "offset_x",
+                      {
+                        "-" : [
+                          {
+                            "get" : "touch_x"
+                          },
+                          {
+                            "get" : "x"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "set" : [
+                      "offset_y",
+                      {
+                        "-" : [
+                          {
+                            "get" : "touch_y"
+                          },
+                          {
+                            "get" : "y"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "parameters" : [
+                  "touch_x",
+                  "touch_y"
+                ]
+              }
+            },
+            {
+              "on_event" : {
+                "name" : "touch_moved",
+                "code" : [
+                  {
+                    "if" : {
+                      "test" : {
+                        "==" : [
+                          {
+                            "get" : "horizontal"
+                          },
+                          true
+                        ]
+                      },
+                      "true" : [
+                        {
+                          "set" : [
+                            "x",
+                            {
+                              "-" : [
+                                {
+                                  "get" : "touch_x"
+                                },
+                                {
+                                  "get" : "offset_x"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "if" : {
+                      "test" : {
+                        "==" : [
+                          {
+                            "get" : "vertical"
+                          },
+                          true
+                        ]
+                      },
+                      "true" : [
+                        {
+                          "set" : [
+                            "y",
+                            {
+                              "-" : [
+                                {
+                                  "get" : "touch_y"
+                                },
+                                {
+                                  "get" : "offset_y"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "parameters" : [
+                  "touch_x",
+                  "touch_y"
+                ]
+              }
+            }
+          ],
+          "parameters" : {
+            "vertical" : 0,
+            "horizontal" : true
+          }
+        }
+      }
+    },
+    {
+      "code" : [
+
+      ],
+      "id" : "784FFBF9-5C5A-46DF-9B51-9AECCEEBEC17",
+      "properties" : {
+        "y" : 41,
+        "width" : 129,
+        "x" : 96,
+        "height" : 28
+      },
+      "image" : {
+        "path" : "paddle.png"
+      },
+      "physics_body" : "rectangle",
+      "traits" : {
+        "Draggable" : {
+          "code" : [
+            {
+              "set" : [
+                "offset_x",
+                0
+              ]
+            },
+            {
+              "set" : [
+                "offset_y",
+                0
+              ]
+            },
+            {
+              "on_event" : {
+                "parameters" : [
+                  "touch_x",
+                  "touch_y"
+                ],
+                "code" : [
+                  {
+                    "set" : [
+                      "offset_x",
+                      {
+                        "-" : [
+                          {
+                            "get" : "touch_x"
+                          },
+                          {
+                            "get" : "x"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "set" : [
+                      "offset_y",
+                      {
+                        "-" : [
+                          {
+                            "get" : "touch_y"
+                          },
+                          {
+                            "get" : "y"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "name" : "touch_began"
+              }
+            },
+            {
+              "on_event" : {
+                "parameters" : [
+                  "touch_x",
+                  "touch_y"
+                ],
+                "code" : [
+                  {
+                    "if" : {
+                      "test" : {
+                        "==" : [
+                          {
+                            "get" : "horizontal"
+                          },
+                          true
+                        ]
+                      },
+                      "true" : [
+                        {
+                          "set" : [
+                            "x",
+                            {
+                              "-" : [
+                                {
+                                  "get" : "touch_x"
+                                },
+                                {
+                                  "get" : "offset_x"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "if" : {
+                      "test" : {
+                        "==" : [
+                          {
+                            "get" : "vertical"
+                          },
+                          true
+                        ]
+                      },
+                      "true" : [
+                        {
+                          "set" : [
+                            "y",
+                            {
+                              "-" : [
+                                {
+                                  "get" : "touch_y"
+                                },
+                                {
+                                  "get" : "offset_y"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "name" : "touch_moved"
+              }
+            }
+          ],
+          "parameters" : {
+            "vertical" : 0,
+            "horizontal" : true
+          }
+        }
+      }
+    },
+    {
+      "code" : [
+        {
+          "on_event" : {
+            "parameters" : [
+
+            ],
+            "code" : [
+              {
+                "call" : {
+                  "method" : "move",
+                  "parameters" : [
+                    45,
+                    200
+                  ]
+                }
+              }
+            ],
+            "name" : "start"
+          }
+        }
+      ],
+      "id" : "022FC18B-188D-4292-A1D5-C73E6A1442A0",
+      "properties" : {
+        "y" : 316.5,
+        "width" : 30,
+        "x" : 75.5,
+        "height" : 30
+      },
+      "image" : {
+        "path" : "grayball.png"
+      },
+      "physics_body" : "rectangle",
+      "traits" : {
+
+      }
+    },
+    {
+      "code" : [
+        {
+          "on_event" : {
+            "parameters" : [
+
+            ],
+            "code" : [
+              {
+                "call" : {
+                  "method" : "move",
+                  "parameters" : [
+                    45,
+                    200
+                  ]
+                }
+              }
+            ],
+            "name" : "start"
+          }
+        }
+      ],
+      "id" : "FA4ED2C8-628A-4A82-A092-2E205A869720",
+      "properties" : {
+        "y" : 411.5,
+        "width" : 30,
+        "x" : 139.5,
+        "height" : 30
+      },
+      "physics_body" : "rectangle",
+      "image" : {
+        "path" : "grayball.png"
+      },
+      "traits" : {
+
+      }
+    },
+    {
+      "code" : [
+        {
+          "on_event" : {
+            "code" : [
+              {
+                "call" : {
+                  "method" : "move",
+                  "parameters" : [
+                    45,
+                    200
+                  ]
+                }
+              }
+            ],
+            "name" : "start",
+            "parameters" : [
+
+            ]
+          }
+        }
+      ],
+      "id" : "B842141E-7012-43F7-AD4F-0B8056552121",
+      "properties" : {
+        "y" : 437,
+        "width" : 30,
+        "x" : 56,
+        "height" : 30
+      },
+      "image" : {
+        "path" : "grayball.png"
+      },
+      "physics_body" : "rectangle",
+      "traits" : {
+
+      }
+    },
+    {
+      "code" : [
+        {
+          "on_event" : {
+            "parameters" : [
+
+            ],
+            "name" : "start",
+            "code" : [
+              {
+                "call" : {
+                  "method" : "move",
+                  "parameters" : [
+                    45,
+                    200
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "id" : "5FFA9E82-5E30-4FB5-9702-17D9A792E21E",
+      "properties" : {
+        "y" : 448.5,
+        "width" : 30,
+        "x" : 211.5,
+        "height" : 30
+      },
+      "physics_body" : "rectangle",
+      "image" : {
+        "path" : "grayball.png"
+      },
+      "traits" : {
+
+      }
+    },
+    {
+      "code" : [
+        {
+          "on_event" : {
+            "name" : "start",
+            "code" : [
+              {
+                "call" : {
+                  "method" : "move",
+                  "parameters" : [
+                    45,
+                    200
+                  ]
+                }
+              }
+            ],
+            "parameters" : [
+
+            ]
+          }
+        }
+      ],
+      "id" : "57E037A1-D8B5-4807-88FA-5A641CCF89AC",
+      "properties" : {
+        "y" : 526.5,
+        "width" : 30,
+        "x" : 65,
+        "height" : 30
+      },
+      "image" : {
+        "path" : "grayball.png"
+      },
+      "physics_body" : "rectangle",
+      "traits" : {
+
+      }
+    },
+    {
+      "code" : [
+        {
+          "on_event" : {
+            "parameters" : [
+
+            ],
+            "code" : [
+              {
+                "call" : {
+                  "method" : "move",
+                  "parameters" : [
+                    45,
+                    200
+                  ]
+                }
+              }
+            ],
+            "name" : "start"
+          }
+        }
+      ],
+      "id" : "C94C0CF9-7CDA-4C1C-89C7-DAFD9CACF41E",
+      "properties" : {
+        "y" : 311,
+        "width" : 30,
+        "x" : 225,
+        "height" : 30
+      },
+      "physics_body" : "rectangle",
+      "image" : {
+        "path" : "grayball.png"
+      },
+      "traits" : {
+
+      }
+    },
+    {
+      "code" : [
+        {
+          "on_event" : {
+            "code" : [
+              {
+                "call" : {
+                  "method" : "move",
+                  "parameters" : [
+                    45,
+                    200
+                  ]
+                }
+              }
+            ],
+            "name" : "start",
+            "parameters" : [
+
+            ]
+          }
+        }
+      ],
+      "id" : "AF2234CA-1450-4F8F-B7EB-956FF46037B0",
+      "properties" : {
+        "y" : 262.5,
+        "width" : 30,
+        "x" : 167,
+        "height" : 30
+      },
+      "image" : {
+        "path" : "grayball.png"
+      },
+      "physics_body" : "rectangle",
+      "traits" : {
+
+      }
+    },
+    {
+      "code" : [
+        {
+          "on_event" : {
+            "parameters" : [
+
+            ],
+            "name" : "start",
+            "code" : [
+              {
+                "call" : {
+                  "method" : "move",
+                  "parameters" : [
+                    45,
+                    200
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "id" : "CF5EBAE0-F96C-463A-AD2A-C83A661FF48E",
+      "properties" : {
+        "y" : 190.5,
+        "width" : 30,
+        "x" : 95.5,
+        "height" : 30
+      },
+      "physics_body" : "rectangle",
+      "image" : {
+        "path" : "grayball.png"
+      },
+      "traits" : {
+
+      }
+    },
+    {
+      "code" : [
+        {
+          "on_event" : {
+            "name" : "start",
+            "code" : [
+              {
+                "call" : {
+                  "method" : "move",
+                  "parameters" : [
+                    45,
+                    200
+                  ]
+                }
+              }
+            ],
+            "parameters" : [
+
+            ]
+          }
+        }
+      ],
+      "id" : "7A5B7631-EA92-4830-BD32-74E442AE36F4",
+      "properties" : {
+        "y" : 121.5,
+        "width" : 30,
+        "x" : 234,
+        "height" : 30
+      },
+      "image" : {
+        "path" : "grayball.png"
+      },
+      "physics_body" : "rectangle",
+      "traits" : {
+
+      }
+    },
+    {
+      "code" : [
+        {
+          "on_event" : {
+            "parameters" : [
+
+            ],
+            "code" : [
+              {
+                "call" : {
+                  "method" : "move",
+                  "parameters" : [
+                    45,
+                    200
+                  ]
+                }
+              }
+            ],
+            "name" : "start"
+          }
+        }
+      ],
+      "id" : "1458FE25-C6EC-457B-9BF9-AD31D916BE40",
+      "properties" : {
+        "y" : 152,
+        "width" : 30,
+        "x" : 194.5,
+        "height" : 30
+      },
+      "physics_body" : "rectangle",
+      "image" : {
+        "path" : "grayball.png"
+      },
+      "traits" : {
+
+      }
+    },
+    {
+      "code" : [
+        {
+          "on_event" : {
+            "code" : [
+              {
+                "call" : {
+                  "method" : "move",
+                  "parameters" : [
+                    45,
+                    200
+                  ]
+                }
+              }
+            ],
+            "name" : "start",
+            "parameters" : [
+
+            ]
+          }
+        }
+      ],
+      "id" : "536E02DE-4ECF-4630-89C3-2D39607E1AA3",
+      "properties" : {
+        "y" : 132,
+        "width" : 30,
+        "x" : 60.5,
+        "height" : 30
+      },
+      "image" : {
+        "path" : "grayball.png"
+      },
+      "physics_body" : "rectangle",
+      "traits" : {
+
+      }
+    },
+    {
+      "code" : [
+        {
+          "on_event" : {
+            "parameters" : [
+
+            ],
+            "name" : "start",
+            "code" : [
+              {
+                "call" : {
+                  "method" : "move",
+                  "parameters" : [
+                    45,
+                    200
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "id" : "4F06873A-4E4D-4F59-BAE4-84D2A1BE5D2C",
+      "properties" : {
+        "y" : 88.5,
+        "width" : 30,
+        "x" : 140.5,
+        "height" : 30
+      },
+      "physics_body" : "rectangle",
+      "image" : {
+        "path" : "grayball.png"
+      },
+      "traits" : {
+
+      }
+    },
+    {
+      "code" : [
+        {
+          "on_event" : {
+            "name" : "start",
+            "code" : [
+              {
+                "call" : {
+                  "method" : "move",
+                  "parameters" : [
+                    45,
+                    200
+                  ]
+                }
+              }
+            ],
+            "parameters" : [
+
+            ]
+          }
+        }
+      ],
+      "id" : "ABD6B20C-51F7-42CF-AFD7-51D8E4D1B0EA",
+      "properties" : {
+        "y" : 291.5,
+        "width" : 30,
+        "x" : 141.5,
+        "height" : 30
+      },
+      "image" : {
+        "path" : "grayball.png"
+      },
+      "physics_body" : "rectangle",
+      "traits" : {
+
+      }
+    },
+    {
+      "code" : [
+        {
+          "on_event" : {
+            "parameters" : [
+
+            ],
+            "code" : [
+              {
+                "call" : {
+                  "method" : "move",
+                  "parameters" : [
+                    45,
+                    200
+                  ]
+                }
+              }
+            ],
+            "name" : "start"
+          }
+        }
+      ],
+      "id" : "ABCD6CEE-7408-41BB-A867-91214F893584",
+      "properties" : {
+        "y" : 362,
+        "width" : 30,
+        "x" : 256,
+        "height" : 30
+      },
+      "physics_body" : "rectangle",
+      "image" : {
+        "path" : "grayball.png"
+      },
+      "traits" : {
+
+      }
+    },
+    {
+      "code" : [
+        {
+          "on_event" : {
+            "code" : [
+              {
+                "call" : {
+                  "method" : "move",
+                  "parameters" : [
+                    45,
+                    200
+                  ]
+                }
+              }
+            ],
+            "name" : "start",
+            "parameters" : [
+
+            ]
+          }
+        }
+      ],
+      "id" : "A05CEF12-3644-4490-B9E5-1FB321AFCB26",
+      "properties" : {
+        "y" : 363,
+        "width" : 30,
+        "x" : 77,
+        "height" : 30
+      },
+      "image" : {
+        "path" : "grayball.png"
+      },
+      "physics_body" : "rectangle",
+      "traits" : {
+
+      }
+    },
+    {
+      "code" : [
+        {
+          "on_event" : {
+            "parameters" : [
+
+            ],
+            "name" : "start",
+            "code" : [
+              {
+                "call" : {
+                  "method" : "move",
+                  "parameters" : [
+                    45,
+                    200
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "id" : "17E801CB-346F-406D-8990-6082650D0A1F",
+      "properties" : {
+        "y" : 459.5,
+        "width" : 30,
+        "x" : 128.5,
+        "height" : 30
+      },
+      "physics_body" : "rectangle",
+      "image" : {
+        "path" : "grayball.png"
+      },
+      "traits" : {
+
+      }
+    },
+    {
+      "code" : [
+        {
+          "on_event" : {
+            "name" : "start",
+            "code" : [
+              {
+                "call" : {
+                  "method" : "move",
+                  "parameters" : [
+                    45,
+                    200
+                  ]
+                }
+              }
+            ],
+            "parameters" : [
+
+            ]
+          }
+        }
+      ],
+      "id" : "7EF4EBAF-17BF-49C2-BF5A-CF14000982E9",
+      "properties" : {
+        "y" : 209.5,
+        "width" : 30,
+        "x" : 263.5,
+        "height" : 30
+      },
+      "image" : {
+        "path" : "grayball.png"
+      },
+      "physics_body" : "rectangle",
+      "traits" : {
+
+      }
+    },
+    {
+      "code" : [
+        {
+          "on_event" : {
+            "parameters" : [
+
+            ],
+            "code" : [
+              {
+                "call" : {
+                  "method" : "move",
+                  "parameters" : [
+                    45,
+                    200
+                  ]
+                }
+              }
+            ],
+            "name" : "start"
+          }
+        }
+      ],
+      "id" : "0C3E19DC-02F8-4E01-80BD-10AE52B1BA60",
+      "properties" : {
+        "y" : 243,
+        "width" : 30,
+        "x" : 36.5,
+        "height" : 30
+      },
+      "physics_body" : "rectangle",
+      "image" : {
+        "path" : "grayball.png"
+      },
+      "traits" : {
+
+      }
+    },
+    {
+      "code" : [
+        {
+          "on_event" : {
+            "code" : [
+              {
+                "call" : {
+                  "method" : "move",
+                  "parameters" : [
+                    45,
+                    200
+                  ]
+                }
+              }
+            ],
+            "name" : "start",
+            "parameters" : [
+
+            ]
+          }
+        }
+      ],
+      "id" : "5F7F3A08-B3AD-4EA8-AF64-FA02EE038CF0",
+      "properties" : {
+        "y" : 328,
+        "width" : 30,
+        "x" : 152,
+        "height" : 30
+      },
+      "image" : {
+        "path" : "grayball.png"
+      },
+      "physics_body" : "rectangle",
+      "traits" : {
+
+      }
+    },
+    {
+      "code" : [
+        {
+          "on_event" : {
+            "parameters" : [
+
+            ],
+            "name" : "start",
+            "code" : [
+              {
+                "call" : {
+                  "method" : "move",
+                  "parameters" : [
+                    45,
+                    200
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "id" : "85C675AF-EE25-4B7E-A656-EDF4D4EE36C0",
+      "properties" : {
+        "y" : 365,
+        "width" : 30,
+        "x" : 206.5,
+        "height" : 30
+      },
+      "physics_body" : "rectangle",
+      "image" : {
+        "path" : "grayball.png"
+      },
+      "traits" : {
+
+      }
+    },
+    {
+      "code" : [
+        {
+          "on_event" : {
+            "name" : "start",
+            "code" : [
+              {
+                "call" : {
+                  "method" : "move",
+                  "parameters" : [
+                    45,
+                    200
+                  ]
+                }
+              }
+            ],
+            "parameters" : [
+
+            ]
+          }
+        }
+      ],
+      "id" : "C8490FF0-0B73-42BF-BA65-7F04EA2F5978",
+      "properties" : {
+        "y" : 472.5,
+        "width" : 30,
+        "x" : 271.5,
+        "height" : 30
+      },
+      "image" : {
+        "path" : "grayball.png"
+      },
+      "physics_body" : "rectangle",
+      "traits" : {
+
+      }
+    }
+  ]
+}
