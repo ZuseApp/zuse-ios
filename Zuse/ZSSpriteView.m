@@ -41,11 +41,20 @@
     [panGesture setMinimumNumberOfTouches:1];
     [panGesture setMaximumNumberOfTouches:1];
     [self addGestureRecognizer:panGesture];
+    
+    UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressRecognized)];
+    [self addGestureRecognizer:longPressGesture];
 }
 
 - (void)singleTapRecognized {
     if (_singleTapped) {
         _singleTapped();
+    }
+}
+
+- (void)longPressRecognized {
+    if (_longPressed) {
+        _longPressed();
     }
 }
 

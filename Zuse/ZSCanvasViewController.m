@@ -6,6 +6,7 @@
 #import "ZSEditorViewController.h"
 #import "ZSGrid.h"
 #import "ZSCanvasView.h"
+#import "ZSSettingsViewController.h"
 
 @interface ZSCanvasViewController ()
 
@@ -46,7 +47,7 @@
     
     // Set up the grid.
     ZSCanvasView *view = (ZSCanvasView *)self.view;
-    view.grid.dimensions = CGSizeMake(10, 10);
+    view.grid.dimensions = CGSizeMake(16, 28);
     
     // Setup delgates, sources and gestures.
     [self setupTableDelegatesAndSources];
@@ -81,6 +82,7 @@
     // so save the project here as well.  This means that the project gets loaded and than saved
     // right away.
     [_project write];
+    [self.view setNeedsDisplay];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -90,6 +92,9 @@
     } else if ([segue.identifier isEqualToString:@"editor"]) {
         ZSEditorViewController *editorController = (ZSEditorViewController *)segue.destinationViewController;
         editorController.spriteObject = ((ZSSpriteView *)sender).spriteJSON;
+    } else if  ([segue.identifier isEqualToString:@"settings"]) {
+        ZSSettingsViewController *settingsController = (ZSSettingsViewController *)segue.destinationViewController;
+        settingsController.grid = ((ZSCanvasView *) self.view).grid;
     }
 }
 
@@ -128,19 +133,6 @@
         [self setupGesturesForSpriteView:view withProperties:variables];
         [self.view addSubview:view];
     }
-    
-    WeakSelf
-    __weak ZSProject *weakProject = _project;
-    _menuController.playSelected = ^{
-        [weakSelf performSegueWithIdentifier:@"renderer" sender:weakSelf];
-    };
-    
-    _menuController.backSelected = ^{
-        [weakProject write];
-        if (weakSelf.didFinish) {
-            weakSelf.didFinish();
-        }
-    };
 }
 
 - (void)setupGesturesForSpriteView:(ZSSpriteView *)view withProperties:(NSMutableDictionary *)properties {
@@ -148,6 +140,11 @@
     __weak ZSSpriteView *weakView = view;
     view.singleTapped = ^(){
         [self performSegueWithIdentifier:@"editor" sender:weakView];
+    };
+    
+    view.longPressed = ^(){
+        NSLog(@"Long Pressed.");
+        [self.view becomeFirstResponder];
     };
     
     __block CGPoint offset;
@@ -165,22 +162,20 @@
         frame.origin.x = currentPoint.x - offset.x;
         frame.origin.y = currentPoint.y - offset.y;
         
+        ZSCanvasView *view = (ZSCanvasView *)self.view;
+        if (view.grid.dimensions.width > 1 && view.grid.dimensions.height > 1) {
+
+            frame.origin = [view.grid adjustedPointForPoint:frame.origin];
+        }
+        
         touchView.frame = frame;
     };
     
     view.panEnded = ^(UIPanGestureRecognizer *panGestureRecognizer) {
         CGRect frame = weakView.frame;
-        ZSCanvasView *view = (ZSCanvasView *)self.view;
-        frame.origin = [view.grid adjustedPointForPoint:frame.origin];
-        
-        // Coordinates aren't represeted like they are
-        // CGFloat x = weakView.frame.origin.x + (weakView.frame.size.width / 2);
-        // CGFloat y = self.view.frame.size.height - weakView.frame.size.height - weakView.frame.origin.y;
-        // y += weakView.frame.size.height / 2;
         CGFloat x = frame.origin.x + (frame.size.width / 2);
         CGFloat y = self.view.frame.size.height - frame.size.height - frame.origin.y;
         y += frame.size.height / 2;
-        
         weakView.frame = frame;
         
         properties[@"x"] = @(x);
@@ -209,6 +204,21 @@
     
     WeakSelf
     __weak ZSProject *weakProject = _project;
+    _menuController.playSelected = ^{
+        [weakSelf performSegueWithIdentifier:@"renderer" sender:weakSelf];
+    };
+    
+    _menuController.settingsSelected = ^{
+        [weakSelf performSegueWithIdentifier:@"settings" sender:weakSelf];
+    };
+    
+    _menuController.backSelected = ^{
+        [weakProject write];
+        if (weakSelf.didFinish) {
+            weakSelf.didFinish();
+        }
+    };
+    
     __block CGPoint offset;
     __block CGPoint currentPoint;
     __block ZSSpriteView *draggedView;
@@ -217,8 +227,6 @@
         currentPoint = [panGestureRecognizer locationInView:weakSelf.view];
         
         CGRect frame = panGestureRecognizer.view.frame;
-        // frame.size.width = [json[@"properties"][@"width"] floatValue];
-        // frame.size.height = [json[@"properties"][@"height"] floatValue];
         frame.origin.x = currentPoint.x - offset.x;
         frame.origin.y = currentPoint.y - offset.y;
         
@@ -367,6 +375,14 @@
             _menuTable.frame = frame;
         }];
     }
+}
+
+- (BOOL)canPerformAction:(SEL)action withSender:(id)sender {
+    return YES;
+}
+
+- (BOOL)canBecomeFirstResponder {
+    return YES;
 }
 
 @end
