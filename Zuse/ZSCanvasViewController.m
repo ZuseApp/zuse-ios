@@ -25,6 +25,10 @@
 // Sprites
 @property (nonatomic, strong) NSArray *templateSprites;
 @property (nonatomic, strong) NSArray *canvasSprites;
+
+// UIMenuController
+@property (nonatomic, assign) CGPoint lastTouch;
+
 @end
 
 @implementation ZSCanvasViewController
@@ -117,6 +121,7 @@
         view.spriteJSON = jsonObject;
         
         [self setupGesturesForSpriteView:view withProperties:variables];
+        [self setupMenuItemsForSpriteView:view];
         [self.view addSubview:view];
     }
 }
@@ -128,9 +133,14 @@
         [self performSegueWithIdentifier:@"editor" sender:weakView];
     };
     
-    view.longPressed = ^(){
-        NSLog(@"Long Pressed.");
-        [self.view becomeFirstResponder];
+    view.longPressed = ^(UILongPressGestureRecognizer *longPressedGestureRecognizer){
+
+        if (longPressedGestureRecognizer.state == UIGestureRecognizerStateBegan) {
+            [weakView becomeFirstResponder];
+            UIMenuController *menuController = [UIMenuController sharedMenuController];
+            [menuController setTargetRect:weakView.frame inView:self.view];
+            [menuController setMenuVisible:YES animated:YES];
+        }
     };
     
     __block CGPoint offset;
@@ -150,7 +160,6 @@
         
         ZSCanvasView *view = (ZSCanvasView *)self.view;
         if (view.grid.dimensions.width > 1 && view.grid.dimensions.height > 1) {
-
             frame.origin = [view.grid adjustedPointForPoint:frame.origin];
         }
         
@@ -178,6 +187,23 @@
         
         [_project write];
     };
+}
+
+- (void)setupMenuItemsForSpriteView:(ZSSpriteView *)view {
+    WeakSelf
+    __weak ZSProject *weakProject = _project;
+    view.delete = ^(ZSSpriteView *sprite) {
+        [sprite removeFromSuperview];
+        NSMutableArray *objects = [weakSelf.project rawJSON][@"objects"];
+        for (NSMutableDictionary *currentSprite in objects) {
+            if (currentSprite[@"id"] == sprite.spriteJSON[@"id"]) {
+                [objects removeObject:currentSprite];
+                break;
+            }
+        }
+        [weakProject write];
+    };
+    
 }
 
 - (void)setupTableDelegatesAndSources {
@@ -236,7 +262,8 @@
         newJson[@"id"] = [[NSUUID UUID] UUIDString];
         NSMutableDictionary *properties = newJson[@"properties"];
         [weakSelf setupGesturesForSpriteView:draggedView withProperties:properties];
-        [[weakSelf.project assembledJSON][@"objects"]addObject:newJson];
+        [weakSelf setupMenuItemsForSpriteView:draggedView];
+        [[weakSelf.project rawJSON][@"objects"] addObject:newJson];
 
         CGFloat x = draggedView.frame.origin.x + (draggedView.frame.size.width / 2);
         CGFloat y = weakSelf.view.frame.size.height - draggedView.frame.size.height - draggedView.frame.origin.y;
@@ -270,8 +297,10 @@
     _rightEdgePanRecognizer.edges = UIRectEdgeRight;
     _leftEdgePanRecognizer = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(canvasPannedLeft:)];
     _leftEdgePanRecognizer.edges = UIRectEdgeLeft;
+    UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressRecognized:)];
     [self.view addGestureRecognizer:_rightEdgePanRecognizer];
     [self.view addGestureRecognizer:_leftEdgePanRecognizer];
+    [self.view addGestureRecognizer:longPressGesture];
     
     // Sprite Drawer
     UISwipeGestureRecognizer *rightSwipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(hideSpriteDrawer)];
@@ -363,8 +392,26 @@
     }
 }
 
+- (void)longPressRecognized:(id)sender {
+    UILongPressGestureRecognizer *longPressGesture = (UILongPressGestureRecognizer *)sender;
+    
+    if (longPressGesture.state == UIGestureRecognizerStateBegan) {
+        [self becomeFirstResponder];
+        UIMenuController *theMenu = [UIMenuController sharedMenuController];
+        [theMenu setTargetRect:CGRectMake(_lastTouch.x, _lastTouch.y, 0, 0) inView:self.view];
+        [theMenu setMenuVisible:YES animated:YES];
+    }
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    _lastTouch = [[touches anyObject] locationInView:self.view];
+}
+
 - (BOOL)canPerformAction:(SEL)action withSender:(id)sender {
-    return YES;
+    if (action == @selector(paste:)) {
+        return YES;
+    }
+    return NO;
 }
 
 - (BOOL)canBecomeFirstResponder {
