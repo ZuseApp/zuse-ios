@@ -27,7 +27,7 @@
     paddle[@"code"] = [NSMutableArray array];
     
     NSMutableDictionary *ball = [NSMutableDictionary dictionary];
-    ball[@"physics_body"] = @"rectangle";
+    ball[@"physics_body"] = @"circle";
     NSMutableDictionary *image2 = [NSMutableDictionary dictionary];
     image2[@"path"] = @"grayball.png";
     ball[@"image"] = image2;

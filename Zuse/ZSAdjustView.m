@@ -7,24 +7,25 @@
 //
 
 #import "ZSAdjustView.h"
+#import <FXBlurView.h>
 
 @interface ZSAdjustView ()
 
-
+@property (weak, nonatomic) IBOutlet FXBlurView *blurView;
 
 @end
 
 @implementation ZSAdjustView
 
-//- (id)initWithCoder:(NSCoder *)aDecoder {
-//    self = [super initWithCoder:aDecoder];
-//    if (self) {
-//        self.layer.borderColor = [[UIColor blackColor] CGColor];
-//        self.layer.borderWidth = 0.5f;
-//        self.tintColor = [UIColor yellowColor];
-//        [ZSAdjustView setBlurEnabled:YES];
-//    }
-//    return self;
-//}
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        self.layer.borderColor = [[UIColor blackColor] CGColor];
+        self.layer.borderWidth = 0.5f;
+        self.tintColor = [UIColor yellowColor];
+        [ZSAdjustView setBlurEnabled:YES];
+    }
+    return self;
+}
 
 @end
