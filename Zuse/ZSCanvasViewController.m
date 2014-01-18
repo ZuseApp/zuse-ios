@@ -10,10 +10,6 @@
 
 @interface ZSCanvasViewController ()
 
-// Gesture Recognizers
-@property (strong, nonatomic) UIScreenEdgePanGestureRecognizer *rightEdgePanRecognizer;
-@property (strong, nonatomic) UIScreenEdgePanGestureRecognizer *leftEdgePanRecognizer;
-
 // Menus
 @property (weak, nonatomic) IBOutlet UITableView *spriteTable;
 @property (weak, nonatomic) IBOutlet UITableView *menuTable;
@@ -21,6 +17,13 @@
 @property (strong, nonatomic) ZSMenuController *menuController;
 @property (assign, nonatomic, getter = isSpriteTableViewShowing) BOOL spriteTableViewShowing;
 @property (assign, nonatomic, getter = isMenuTableViewShowing) BOOL menuTableViewShowing;
+
+// Grid Menu
+@property (weak, nonatomic) IBOutlet UIView *gridMenu;
+@property (weak, nonatomic) IBOutlet UITextField *gridWidth;
+@property (weak, nonatomic) IBOutlet UITextField *gridHeight;
+@property (weak, nonatomic) IBOutlet UITextField *gridPadding;
+
 
 // Sprites
 @property (nonatomic, strong) NSArray *templateSprites;
@@ -134,11 +137,17 @@
         [self performSegueWithIdentifier:@"editor" sender:weakView];
     };
     
+    view.doubleTapped = ^(){
+        [self doubleTapRecognized];
+    };
+    
     view.longPressed = ^(UILongPressGestureRecognizer *longPressedGestureRecognizer){
-
+        
         if (longPressedGestureRecognizer.state == UIGestureRecognizerStateBegan) {
             [weakView becomeFirstResponder];
+            UIMenuItem *menuItem = [[UIMenuItem alloc] initWithTitle:@"Grid" action:@selector(showGrid:)];
             UIMenuController *menuController = [UIMenuController sharedMenuController];
+            menuController.menuItems = [NSArray arrayWithObject:menuItem];
             [menuController setTargetRect:weakView.frame inView:self.view];
             [menuController setMenuVisible:YES animated:YES];
         }
@@ -282,7 +291,7 @@
     
     _spriteController.panMoved = ^(UIPanGestureRecognizer *panGestureRecognizer, NSDictionary *json) {
         currentPoint = [panGestureRecognizer locationInView:weakSelf.view];
-    
+        
         CGRect frame = draggedView.frame;
         frame.origin.x = currentPoint.x - offset.x;
         frame.origin.y = currentPoint.y - offset.y;
@@ -296,7 +305,7 @@
         [weakSelf setupGesturesForSpriteView:draggedView withProperties:properties];
         [weakSelf setupMenuItemsForSpriteView:draggedView];
         [[weakSelf.project rawJSON][@"objects"] addObject:newJson];
-
+        
         CGFloat x = draggedView.frame.origin.x + (draggedView.frame.size.width / 2);
         CGFloat y = weakSelf.view.frame.size.height - draggedView.frame.size.height - draggedView.frame.origin.y;
         y += draggedView.frame.size.height / 2;
@@ -325,14 +334,12 @@
 
 -(void)setupGestures {
     // Canvas gesture recognizers.
-    _rightEdgePanRecognizer = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(canvasPannedRight:)];
-    _rightEdgePanRecognizer.edges = UIRectEdgeRight;
-    _leftEdgePanRecognizer = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(canvasPannedLeft:)];
-    _leftEdgePanRecognizer.edges = UIRectEdgeLeft;
     UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressRecognized:)];
-    [self.view addGestureRecognizer:_rightEdgePanRecognizer];
-    [self.view addGestureRecognizer:_leftEdgePanRecognizer];
     [self.view addGestureRecognizer:longPressGesture];
+    
+    UITapGestureRecognizer *doubleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTapRecognized)];
+    doubleTapGesture.numberOfTapsRequired = 2;
+    [self.view addGestureRecognizer:doubleTapGesture];
     
     // Sprite Drawer
     UISwipeGestureRecognizer *rightSwipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(hideSpriteDrawer)];
@@ -394,34 +401,20 @@
     }
 }
 
-- (IBAction)canvasPannedRight:(id)sender {
+- (void)doubleTapRecognized {
     if (_spriteTableViewShowing) return;
     
-    UIScreenEdgePanGestureRecognizer *panRecognizer = (UIScreenEdgePanGestureRecognizer *)sender;
-    
-    if (panRecognizer.state == UIGestureRecognizerStateBegan) {
-        [UIView animateWithDuration:0.25 animations:^{
-            _spriteTableViewShowing = YES;
-            CGRect frame = _spriteTable.frame;
-            frame.origin.x -= _spriteTable.frame.size.width;
-            _spriteTable.frame = frame;
-        }];
-    }
-}
-
-- (IBAction)canvasPannedLeft:(id)sender {
-    if (_menuTableViewShowing) return;
-    
-    UIScreenEdgePanGestureRecognizer *panRecognizer = (UIScreenEdgePanGestureRecognizer *)sender;
-    
-    if (panRecognizer.state == UIGestureRecognizerStateBegan) {
-        [UIView animateWithDuration:0.25 animations:^{
-            _menuTableViewShowing = YES;
-            CGRect frame = _menuTable.frame;
-            frame.origin.x += _menuTable.frame.size.width;
-            _menuTable.frame = frame;
-        }];
-    }
+    [UIView animateWithDuration:0.25 animations:^{
+        _spriteTableViewShowing = YES;
+        CGRect frame = _spriteTable.frame;
+        frame.origin.x -= _spriteTable.frame.size.width;
+        _spriteTable.frame = frame;
+        
+        _menuTableViewShowing = YES;
+        CGRect menuFrame = _menuTable.frame;
+        menuFrame.origin.x += _menuTable.frame.size.width;
+        _menuTable.frame = menuFrame;
+    }];
 }
 
 - (void)longPressRecognized:(id)sender {
@@ -441,6 +434,9 @@
 
 - (BOOL)canPerformAction:(SEL)action withSender:(id)sender {
     if (_spriteViewCopy && action == @selector(paste:)) {
+        return YES;
+    }
+    if (action == @selector(showGrid:)) {
         return YES;
     }
     return NO;
@@ -472,7 +468,6 @@
         properties[@"width"] = @(frame.size.width);
         properties[@"height"] = @(frame.size.height);
         
-        
         [self.view addSubview:_spriteViewCopy];
         [[_project rawJSON][@"objects"] addObject:_spriteViewCopy.spriteJSON];
         [_project write];
@@ -480,6 +475,56 @@
         // Create a new _spriteViewCopy.
         _spriteViewCopy = [self copySpriteView:_spriteViewCopy];
     }
+}
+
+#pragma mark Grid
+- (void)showGrid:(id)sender {
+    _gridMenu.hidden = NO;
+}
+
+//- (IBAction)gridWidthChanged:(id)sender {
+//    ZSCanvasView *view = (ZSCanvasView *)self.view;
+//    UISlider *slider = (UISlider*)sender;
+//    CGSize size = view.grid.dimensions;
+//    size.width = view.grid.size.width / slider.value;
+//    view.grid.dimensions = size;
+//    NSInteger value = slider.value;
+//    _gridWidth.text = [NSString stringWithFormat:@"%i", value];
+//    [view setNeedsDisplay];
+//}
+//
+//- (IBAction)gridHeightChanged:(id)sender {
+//    ZSCanvasView *view = (ZSCanvasView *)self.view;
+//    UISlider *slider = (UISlider*)sender;
+//    CGSize size = view.grid.dimensions;
+//    size.height = view.grid.size.height / slider.value;
+//    view.grid.dimensions = size;
+//    NSInteger value = slider.value;
+//    _gridHeight.text = [NSString stringWithFormat:@"%i", value];
+//    [view setNeedsDisplay];
+//}
+
+- (IBAction)gridWidthChanged:(id)sender {
+    ZSCanvasView *view = (ZSCanvasView *)self.view;
+    UIStepper *slider = (UIStepper*)sender;
+    CGSize size = view.grid.dimensions;
+    NSInteger value = slider.value;
+    size.width = view.grid.size.width / value;
+    view.grid.dimensions = size;
+    
+    _gridWidth.text = [NSString stringWithFormat:@"%ld", (long)value];
+    [view setNeedsDisplay];
+}
+
+- (IBAction)gridHeightChanged:(id)sender {
+    ZSCanvasView *view = (ZSCanvasView *)self.view;
+    UIStepper *slider = (UIStepper*)sender;
+    CGSize size = view.grid.dimensions;
+    NSInteger value = slider.value;
+    size.height = view.grid.size.height / value;
+    view.grid.dimensions = size;
+    _gridHeight.text = [NSString stringWithFormat:@"%ld", (long)value];
+    [view setNeedsDisplay];
 }
 
 @end

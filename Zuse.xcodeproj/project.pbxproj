@@ -34,6 +34,7 @@
 		4CE340401809EDC1009A63A2 /* basketball.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CE3403F1809EDC1009A63A2 /* basketball.png */; };
 		4CE340421809F76E009A63A2 /* grayball.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CE340411809F76E009A63A2 /* grayball.png */; };
 		4CE3404E180A0154009A63A2 /* ZSRendererViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE3404D180A0154009A63A2 /* ZSRendererViewController.m */; };
+		4CE3561C188A1355007024C0 /* red_brick.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CE3561B188A1355007024C0 /* red_brick.png */; };
 		4CF1CBB217EF882A00636E0D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1CBB117EF882A00636E0D /* Foundation.framework */; };
 		4CF1CBB417EF882A00636E0D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1CBB317EF882A00636E0D /* CoreGraphics.framework */; };
 		4CF1CBB617EF882A00636E0D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1CBB517EF882A00636E0D /* UIKit.framework */; };
@@ -177,6 +178,7 @@
 		4CE340411809F76E009A63A2 /* grayball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grayball.png; sourceTree = "<group>"; };
 		4CE3404C180A0154009A63A2 /* ZSRendererViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSRendererViewController.h; sourceTree = "<group>"; };
 		4CE3404D180A0154009A63A2 /* ZSRendererViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSRendererViewController.m; sourceTree = "<group>"; };
+		4CE3561B188A1355007024C0 /* red_brick.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = red_brick.png; sourceTree = "<group>"; };
 		4CF1CBAE17EF882A00636E0D /* Zuse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Zuse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CF1CBB117EF882A00636E0D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4CF1CBB317EF882A00636E0D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -478,6 +480,7 @@
 		4CF1CBFE17EFE13C00636E0D /* images */ = {
 			isa = PBXGroup;
 			children = (
+				4CE3561B188A1355007024C0 /* red_brick.png */,
 				4CCE4F831845A541006C7DA0 /* paddle.png */,
 				2C19FF06181AE6B600D10D2B /* monster.png */,
 				2C19FF07181AE6B600D10D2B /* monster@2x.png */,
@@ -858,6 +861,7 @@
 				7843FA9A184C0AC000DCE527 /* set.png in Resources */,
 				4CCE4F841845A541006C7DA0 /* paddle.png in Resources */,
 				2C19FF0C181AE6B600D10D2B /* monster.png in Resources */,
+				4CE3561C188A1355007024C0 /* red_brick.png in Resources */,
 				7843FAA5184C1B5600DCE527 /* if.png in Resources */,
 				2C19FF0D181AE6B600D10D2B /* monster@2x.png in Resources */,
 				4CF303F31859238900B57B95 /* new_project.json in Resources */,

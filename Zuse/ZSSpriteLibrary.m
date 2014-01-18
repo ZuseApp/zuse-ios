@@ -50,9 +50,22 @@
     yoda[@"properties"] = properties3;
     yoda[@"code"] = [NSMutableArray array];
     
+    NSMutableDictionary *redBrick = [NSMutableDictionary dictionary];
+    redBrick[@"physics_body"] = @"rectangle";
+    NSMutableDictionary *image4 = [NSMutableDictionary dictionary];
+    image4[@"path"] = @"red_brick.png";
+    redBrick[@"image"] = image4;
+    redBrick[@"traits"] = [NSMutableDictionary dictionary];
+    NSMutableDictionary *properties4 = [NSMutableDictionary dictionary];
+    properties4[@"width"] = @(64);
+    properties4[@"height"] = @(32);
+    redBrick[@"properties"] = properties4;
+    redBrick[@"code"] = [NSMutableArray array];
+    
     [sprites addObject:paddle];
     [sprites addObject:ball];
     [sprites addObject:yoda];
+    [sprites addObject:redBrick];
     
     return sprites;
 }

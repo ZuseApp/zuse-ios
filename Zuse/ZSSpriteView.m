@@ -34,7 +34,12 @@
 }
 
 - (void)setupGestures {
+    UITapGestureRecognizer *doubleTapGeture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTapRecognized)];
+    doubleTapGeture.numberOfTapsRequired = 2;
+    [self addGestureRecognizer:doubleTapGeture];
+    
     UITapGestureRecognizer *singleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTapRecognized)];
+    [singleTapGesture requireGestureRecognizerToFail:doubleTapGeture];
     [self addGestureRecognizer:singleTapGesture];
     
     UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panRecognized:)];
@@ -49,6 +54,12 @@
 - (void)singleTapRecognized {
     if (_singleTapped) {
         _singleTapped();
+    }
+}
+
+- (void)doubleTapRecognized {
+    if (_doubleTapped) {
+        _doubleTapped();
     }
 }
 
@@ -93,12 +104,6 @@
 - (void)delete:(id)sender {
     if (_delete) {
         _delete(self);
-    }
-}
-
-- (void)paste:(id)sender {
-    if (_paste) {
-        _paste();
     }
 }
 
