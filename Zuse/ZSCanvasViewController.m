@@ -20,10 +20,6 @@
 
 // Grid Menu
 @property (weak, nonatomic) IBOutlet UIView *gridMenu;
-@property (weak, nonatomic) IBOutlet UITextField *gridWidth;
-@property (weak, nonatomic) IBOutlet UITextField *gridHeight;
-@property (weak, nonatomic) IBOutlet UITextField *gridPadding;
-
 
 // Sprites
 @property (nonatomic, strong) NSArray *templateSprites;
@@ -60,6 +56,7 @@
     // Bring menus to front.
     [self.view bringSubviewToFront:_menuTable];
     [self.view bringSubviewToFront:_spriteTable];
+    [self.view bringSubviewToFront:_gridMenu];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -503,28 +500,5 @@
 //    _gridHeight.text = [NSString stringWithFormat:@"%i", value];
 //    [view setNeedsDisplay];
 //}
-
-- (IBAction)gridWidthChanged:(id)sender {
-    ZSCanvasView *view = (ZSCanvasView *)self.view;
-    UIStepper *slider = (UIStepper*)sender;
-    CGSize size = view.grid.dimensions;
-    NSInteger value = slider.value;
-    size.width = view.grid.size.width / value;
-    view.grid.dimensions = size;
-    
-    _gridWidth.text = [NSString stringWithFormat:@"%ld", (long)value];
-    [view setNeedsDisplay];
-}
-
-- (IBAction)gridHeightChanged:(id)sender {
-    ZSCanvasView *view = (ZSCanvasView *)self.view;
-    UIStepper *slider = (UIStepper*)sender;
-    CGSize size = view.grid.dimensions;
-    NSInteger value = slider.value;
-    size.height = view.grid.size.height / value;
-    view.grid.dimensions = size;
-    _gridHeight.text = [NSString stringWithFormat:@"%ld", (long)value];
-    [view setNeedsDisplay];
-}
 
 @end
