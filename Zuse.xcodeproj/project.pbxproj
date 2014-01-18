@@ -344,17 +344,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2CA9D384183F3EBD00401231 /* Scenes */ = {
-			isa = PBXGroup;
-			children = (
-				2C6B5D68183D43AB00E3D56C /* ZSSpriteTouchComponent.h */,
-				2C6B5D69183D43AB00E3D56C /* ZSSpriteTouchComponent.m */,
-				2CA9D385183F3F0300401231 /* ZSRendererScene.h */,
-				2CA9D386183F3F0300401231 /* ZSRendererScene.m */,
-			);
-			name = Scenes;
-			sourceTree = "<group>";
-		};
 		4C5F732018873A3F007F61B3 /* Grid */ = {
 			isa = PBXGroup;
 			children = (
@@ -375,7 +364,181 @@
 			name = Sprite;
 			sourceTree = "<group>";
 		};
-		4C62B0B018564D9D007CC9CD /* Table Controllers */ = {
+		4CE3561D188B07D9007024C0 /* Editor */ = {
+			isa = PBXGroup;
+			children = (
+				7843FA94184BFBD400DCE527 /* Images */,
+				4CE35623188B082B007024C0 /* Models */,
+				788F70D01852654500C68F83 /* PopOvers */,
+				7843FA8A184BE46F00DCE527 /* StatementTableViewCells */,
+				5F0139BC1856BCB0005D7FAE /* Traits */,
+				4CE35622188B0810007024C0 /* View Controllers */,
+			);
+			name = Editor;
+			sourceTree = "<group>";
+		};
+		4CE3561E188B07E1007024C0 /* Canvas */ = {
+			isa = PBXGroup;
+			children = (
+				4CE35624188B0863007024C0 /* Models */,
+				4CE3562C188B0957007024C0 /* Table Controllers */,
+				4CE35625188B0868007024C0 /* View Controllers */,
+				4CE3562B188B0943007024C0 /* Views */,
+			);
+			name = Canvas;
+			sourceTree = "<group>";
+		};
+		4CE3561F188B07E7007024C0 /* Renderer */ = {
+			isa = PBXGroup;
+			children = (
+				4CE35629188B0915007024C0 /* Scenes */,
+				4CE3562A188B092B007024C0 /* View Controllers */,
+			);
+			name = Renderer;
+			sourceTree = "<group>";
+		};
+		4CE35620188B07F1007024C0 /* Project */ = {
+			isa = PBXGroup;
+			children = (
+				4CE35627188B08AD007024C0 /* Models */,
+				4CE35628188B08F6007024C0 /* View Controllers */,
+			);
+			name = Project;
+			sourceTree = "<group>";
+		};
+		4CE35621188B07FB007024C0 /* Interpreter */ = {
+			isa = PBXGroup;
+			children = (
+				4CE35626188B08A0007024C0 /* Models */,
+			);
+			name = Interpreter;
+			sourceTree = "<group>";
+		};
+		4CE35622188B0810007024C0 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				5F0139AA1856896F005D7FAE /* ZSEditorViewController.h */,
+				5F0139AB1856896F005D7FAE /* ZSEditorViewController.m */,
+				7855BCC81837FA97006493F9 /* ZSCodeEditorViewController.h */,
+				7855BCC91837FA97006493F9 /* ZSCodeEditorViewController.m */,
+			);
+			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		4CE35623188B082B007024C0 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				7855BCB61837F47E006493F9 /* ZSCodeLine.h */,
+				7855BCB71837F47E006493F9 /* ZSCodeLine.m */,
+				7855BCBC1837F47E006493F9 /* ZSCodeSuite.h */,
+				7855BCBD1837F47E006493F9 /* ZSCodeSuite.m */,
+				7855BCBA1837F47E006493F9 /* ZSCodeStatement.h */,
+				7855BCBB1837F47E006493F9 /* ZSCodeStatement.m */,
+				78346A08183C623400540D54 /* ZSCodeStatementObject.h */,
+				78346A09183C623400540D54 /* ZSCodeStatementObject.m */,
+				7855BCB21837F47E006493F9 /* ZSCodeStatementCall.h */,
+				7855BCB31837F47E006493F9 /* ZSCodeStatementCall.m */,
+				7855BCB41837F47E006493F9 /* ZSCodeStatementIf.h */,
+				7855BCB51837F47E006493F9 /* ZSCodeStatementIf.m */,
+				7855BCB81837F47E006493F9 /* ZSCodeStatementSet.h */,
+				7855BCB91837F47E006493F9 /* ZSCodeStatementSet.m */,
+				78F79EB41839BC9E00012726 /* ZSCodeStatementOnEvent.h */,
+				78F79EB51839BC9E00012726 /* ZSCodeStatementOnEvent.m */,
+				788F70CD1851590700C68F83 /* ZSCodeStatementNew.h */,
+				788F70CE1851590700C68F83 /* ZSCodeStatementNew.m */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		4CE35624188B0863007024C0 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				4C5F732018873A3F007F61B3 /* Grid */,
+				4C62B0AB18564D0C007CC9CD /* Sprite */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		4CE35625188B0868007024C0 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				4C0D470617FB927600F13786 /* ZSCanvasViewController.h */,
+				4C0D470717FB927600F13786 /* ZSCanvasViewController.m */,
+				4C1BB6F71888B36F004A3DEA /* ZSSettingsViewController.h */,
+				4C1BB6F81888B36F004A3DEA /* ZSSettingsViewController.m */,
+			);
+			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		4CE35626188B08A0007024C0 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				5F099D4417F1135300EB2AC7 /* ZSInterpreter.h */,
+				5F099D4517F1135300EB2AC7 /* ZSInterpreter.m */,
+				5F41ACB618341C980089D136 /* ZSExecutionContext.h */,
+				5F41ACB718341C980089D136 /* ZSExecutionContext.m */,
+				5F1B5BA41837EE7800632DE6 /* ZSCompiler.h */,
+				5F1B5BA51837EE7800632DE6 /* ZSCompiler.m */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		4CE35627188B08AD007024C0 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				4CF303EF1856E5DB00B57B95 /* ZSProject.h */,
+				4CF303F01856E5DB00B57B95 /* ZSProject.m */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		4CE35628188B08F6007024C0 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				4C5080D7188480F500E1F57A /* ZSProjectViewController.h */,
+				4C5080D8188480F500E1F57A /* ZSProjectViewController.m */,
+				4C7C748A18847A0000729888 /* ZSTemplateViewController.h */,
+				4C7C748B18847A0000729888 /* ZSTemplateViewController.m */,
+				4C5080DD188485C900E1F57A /* ZSNewProjectViewController.h */,
+				4C5080DE188485C900E1F57A /* ZSNewProjectViewController.m */,
+			);
+			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		4CE35629188B0915007024C0 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				2C6B5D68183D43AB00E3D56C /* ZSSpriteTouchComponent.h */,
+				2C6B5D69183D43AB00E3D56C /* ZSSpriteTouchComponent.m */,
+				2CA9D385183F3F0300401231 /* ZSRendererScene.h */,
+				2CA9D386183F3F0300401231 /* ZSRendererScene.m */,
+			);
+			name = Scenes;
+			sourceTree = "<group>";
+		};
+		4CE3562A188B092B007024C0 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				4CE3404C180A0154009A63A2 /* ZSRendererViewController.h */,
+				4CE3404D180A0154009A63A2 /* ZSRendererViewController.m */,
+			);
+			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		4CE3562B188B0943007024C0 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				4CF1CC0C17EFF64500636E0D /* ZSSpriteView.h */,
+				4CF1CC0D17EFF64500636E0D /* ZSSpriteView.m */,
+				4C717206185ACCB600AD865C /* ZSSpriteTableViewCell.h */,
+				4C717207185ACCB600AD865C /* ZSSpriteTableViewCell.m */,
+				4C5F732518874B51007F61B3 /* ZSCanvasView.h */,
+				4C5F732618874B51007F61B3 /* ZSCanvasView.m */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		4CE3562C188B0957007024C0 /* Table Controllers */ = {
 			isa = PBXGroup;
 			children = (
 				4C62B0B718564F9D007CC9CD /* ZSMenuController.h */,
@@ -389,11 +552,11 @@
 		4CF1CBA517EF882A00636E0D = {
 			isa = PBXGroup;
 			children = (
-				4CF1CBB717EF882A00636E0D /* Zuse */,
-				4CF1CBD617EF882A00636E0D /* ZuseTests */,
-				5F2C2620187CA0D900F4E514 /* Vendor */,
 				4CF1CBB017EF882A00636E0D /* Frameworks */,
 				4CF1CBAF17EF882A00636E0D /* Products */,
+				5F2C2620187CA0D900F4E514 /* Vendor */,
+				4CF1CBB717EF882A00636E0D /* Zuse */,
+				4CF1CBD617EF882A00636E0D /* ZuseTests */,
 				B2EA1C412CB64638977AE594 /* Pods.xcconfig */,
 			);
 			sourceTree = "<group>";
@@ -422,13 +585,13 @@
 		4CF1CBB717EF882A00636E0D /* Zuse */ = {
 			isa = PBXGroup;
 			children = (
+				4CE35621188B07FB007024C0 /* Interpreter */,
+				4CE35620188B07F1007024C0 /* Project */,
+				4CE3561F188B07E7007024C0 /* Renderer */,
+				4CE3561E188B07E1007024C0 /* Canvas */,
+				4CE3561D188B07D9007024C0 /* Editor */,
 				5F030C69185ADCE900584DCD /* Categories */,
 				5F154BDC18592DF900A759F1 /* iPad */,
-				784BFD041844679C00FB0694 /* Code Editor */,
-				5F099D4217F0E11200EB2AC7 /* Models */,
-				5F099D4117F0E10600EB2AC7 /* Views */,
-				5F099D4017F0E0F700EB2AC7 /* View Controllers */,
-				4C62B0B018564D9D007CC9CD /* Table Controllers */,
 				4CF1CBB817EF882A00636E0D /* Supporting Files */,
 				4CF1CBC317EF882A00636E0D /* Main.storyboard */,
 				5F154BDD18592E7E00A759F1 /* Main-iPad.storyboard */,
@@ -495,15 +658,6 @@
 			name = images;
 			sourceTree = "<group>";
 		};
-		4CF303EE1856E5BC00B57B95 /* Project */ = {
-			isa = PBXGroup;
-			children = (
-				4CF303EF1856E5DB00B57B95 /* ZSProject.h */,
-				4CF303F01856E5DB00B57B95 /* ZSProject.m */,
-			);
-			name = Project;
-			sourceTree = "<group>";
-		};
 		5F0139BC1856BCB0005D7FAE /* Traits */ = {
 			isa = PBXGroup;
 			children = (
@@ -524,63 +678,6 @@
 				5F030C6E185AE0D300584DCD /* NSArray+Zuse.m */,
 			);
 			name = Categories;
-			sourceTree = "<group>";
-		};
-		5F099D4017F0E0F700EB2AC7 /* View Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				2CA9D384183F3EBD00401231 /* Scenes */,
-				4C0D470617FB927600F13786 /* ZSCanvasViewController.h */,
-				4C0D470717FB927600F13786 /* ZSCanvasViewController.m */,
-				4C5080D7188480F500E1F57A /* ZSProjectViewController.h */,
-				4C5080D8188480F500E1F57A /* ZSProjectViewController.m */,
-				4CE3404C180A0154009A63A2 /* ZSRendererViewController.h */,
-				4CE3404D180A0154009A63A2 /* ZSRendererViewController.m */,
-				4C7C748A18847A0000729888 /* ZSTemplateViewController.h */,
-				4C7C748B18847A0000729888 /* ZSTemplateViewController.m */,
-				4C5080DD188485C900E1F57A /* ZSNewProjectViewController.h */,
-				4C5080DE188485C900E1F57A /* ZSNewProjectViewController.m */,
-				4C1BB6F71888B36F004A3DEA /* ZSSettingsViewController.h */,
-				4C1BB6F81888B36F004A3DEA /* ZSSettingsViewController.m */,
-			);
-			name = "View Controllers";
-			sourceTree = "<group>";
-		};
-		5F099D4117F0E10600EB2AC7 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				4CF1CC0C17EFF64500636E0D /* ZSSpriteView.h */,
-				4CF1CC0D17EFF64500636E0D /* ZSSpriteView.m */,
-				4C717206185ACCB600AD865C /* ZSSpriteTableViewCell.h */,
-				4C717207185ACCB600AD865C /* ZSSpriteTableViewCell.m */,
-				4C5F732518874B51007F61B3 /* ZSCanvasView.h */,
-				4C5F732618874B51007F61B3 /* ZSCanvasView.m */,
-			);
-			name = Views;
-			sourceTree = "<group>";
-		};
-		5F099D4217F0E11200EB2AC7 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				4C5F732018873A3F007F61B3 /* Grid */,
-				4CF303EE1856E5BC00B57B95 /* Project */,
-				4C62B0AB18564D0C007CC9CD /* Sprite */,
-				5F099D4317F1133D00EB2AC7 /* Interpreter */,
-			);
-			name = Models;
-			sourceTree = "<group>";
-		};
-		5F099D4317F1133D00EB2AC7 /* Interpreter */ = {
-			isa = PBXGroup;
-			children = (
-				5F099D4417F1135300EB2AC7 /* ZSInterpreter.h */,
-				5F099D4517F1135300EB2AC7 /* ZSInterpreter.m */,
-				5F41ACB618341C980089D136 /* ZSExecutionContext.h */,
-				5F41ACB718341C980089D136 /* ZSExecutionContext.m */,
-				5F1B5BA41837EE7800632DE6 /* ZSCompiler.h */,
-				5F1B5BA51837EE7800632DE6 /* ZSCompiler.m */,
-			);
-			name = Interpreter;
 			sourceTree = "<group>";
 		};
 		5F154BDC18592DF900A759F1 /* iPad */ = {
@@ -700,47 +797,6 @@
 				7843FA95184BFBFE00DCE527 /* blue plus sign.png */,
 			);
 			name = Images;
-			sourceTree = "<group>";
-		};
-		784BFD041844679C00FB0694 /* Code Editor */ = {
-			isa = PBXGroup;
-			children = (
-				5F0139BC1856BCB0005D7FAE /* Traits */,
-				7843FA94184BFBD400DCE527 /* Images */,
-				5F0139AA1856896F005D7FAE /* ZSEditorViewController.h */,
-				5F0139AB1856896F005D7FAE /* ZSEditorViewController.m */,
-				7855BCC81837FA97006493F9 /* ZSCodeEditorViewController.h */,
-				7855BCC91837FA97006493F9 /* ZSCodeEditorViewController.m */,
-				788F70D01852654500C68F83 /* PopOvers */,
-				7843FA8A184BE46F00DCE527 /* StatementTableViewCells */,
-				7855BCAF1837F2BF006493F9 /* CodeModel */,
-			);
-			name = "Code Editor";
-			sourceTree = "<group>";
-		};
-		7855BCAF1837F2BF006493F9 /* CodeModel */ = {
-			isa = PBXGroup;
-			children = (
-				7855BCB61837F47E006493F9 /* ZSCodeLine.h */,
-				7855BCB71837F47E006493F9 /* ZSCodeLine.m */,
-				7855BCBC1837F47E006493F9 /* ZSCodeSuite.h */,
-				7855BCBD1837F47E006493F9 /* ZSCodeSuite.m */,
-				7855BCBA1837F47E006493F9 /* ZSCodeStatement.h */,
-				7855BCBB1837F47E006493F9 /* ZSCodeStatement.m */,
-				78346A08183C623400540D54 /* ZSCodeStatementObject.h */,
-				78346A09183C623400540D54 /* ZSCodeStatementObject.m */,
-				7855BCB21837F47E006493F9 /* ZSCodeStatementCall.h */,
-				7855BCB31837F47E006493F9 /* ZSCodeStatementCall.m */,
-				7855BCB41837F47E006493F9 /* ZSCodeStatementIf.h */,
-				7855BCB51837F47E006493F9 /* ZSCodeStatementIf.m */,
-				7855BCB81837F47E006493F9 /* ZSCodeStatementSet.h */,
-				7855BCB91837F47E006493F9 /* ZSCodeStatementSet.m */,
-				78F79EB41839BC9E00012726 /* ZSCodeStatementOnEvent.h */,
-				78F79EB51839BC9E00012726 /* ZSCodeStatementOnEvent.m */,
-				788F70CD1851590700C68F83 /* ZSCodeStatementNew.h */,
-				788F70CE1851590700C68F83 /* ZSCodeStatementNew.m */,
-			);
-			name = CodeModel;
 			sourceTree = "<group>";
 		};
 		788F70D01852654500C68F83 /* PopOvers */ = {
