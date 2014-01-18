@@ -90,6 +90,7 @@
 		5F39DFD3188A40A0008ECAC1 /* NSOrderedSet+BlocksKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F39DFC2188A40A0008ECAC1 /* NSOrderedSet+BlocksKit.m */; };
 		5F39DFD4188A40A0008ECAC1 /* NSSet+BlocksKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F39DFC4188A40A0008ECAC1 /* NSSet+BlocksKit.m */; };
 		5F39DFD5188A40A0008ECAC1 /* NSTimer+BlocksKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F39DFC6188A40A0008ECAC1 /* NSTimer+BlocksKit.m */; };
+		5F39DFD7188A472E008ECAC1 /* ZSInterpreterExpressionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F39DFD6188A472E008ECAC1 /* ZSInterpreterExpressionTests.m */; };
 		5F41ACB11833DCFE0089D136 /* pong_compiled.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F41ACB01833DCFE0089D136 /* pong_compiled.json */; };
 		5F41ACB818341C980089D136 /* ZSExecutionContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F41ACB718341C980089D136 /* ZSExecutionContext.m */; };
 		5FEFB89A182B5376007DAFCF /* pong.json in Resources */ = {isa = PBXBuildFile; fileRef = 5FEFB899182B5376007DAFCF /* pong.json */; };
@@ -266,6 +267,7 @@
 		5F39DFC4188A40A0008ECAC1 /* NSSet+BlocksKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSSet+BlocksKit.m"; path = "Zuse/Vendor/BlocksKit/NSSet+BlocksKit.m"; sourceTree = "<group>"; };
 		5F39DFC5188A40A0008ECAC1 /* NSTimer+BlocksKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSTimer+BlocksKit.h"; path = "Zuse/Vendor/BlocksKit/NSTimer+BlocksKit.h"; sourceTree = "<group>"; };
 		5F39DFC6188A40A0008ECAC1 /* NSTimer+BlocksKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSTimer+BlocksKit.m"; path = "Zuse/Vendor/BlocksKit/NSTimer+BlocksKit.m"; sourceTree = "<group>"; };
+		5F39DFD6188A472E008ECAC1 /* ZSInterpreterExpressionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSInterpreterExpressionTests.m; sourceTree = "<group>"; };
 		5F41ACB01833DCFE0089D136 /* pong_compiled.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = pong_compiled.json; path = JSON/pong_compiled.json; sourceTree = "<group>"; };
 		5F41ACB618341C980089D136 /* ZSExecutionContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSExecutionContext.h; sourceTree = "<group>"; };
 		5F41ACB718341C980089D136 /* ZSExecutionContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSExecutionContext.m; sourceTree = "<group>"; };
@@ -454,6 +456,7 @@
 			isa = PBXGroup;
 			children = (
 				78F79EB7183A8C0300012726 /* TCCodeEditor.m */,
+				5F39DFD6188A472E008ECAC1 /* ZSInterpreterExpressionTests.m */,
 				5F099D4717F1136000EB2AC7 /* InterpreterTests.m */,
 				5F2EC4D7183ABF160091CEAD /* ZSCompilerTests.m */,
 				5F2EC4DB183AD7510091CEAD /* ZSInterpreterDelegateTests.m */,
@@ -996,6 +999,7 @@
 				5F099D4817F1136000EB2AC7 /* InterpreterTests.m in Sources */,
 				5F2EC4DC183AD7510091CEAD /* ZSInterpreterDelegateTests.m in Sources */,
 				5F2EC4D8183ABF160091CEAD /* ZSCompilerTests.m in Sources */,
+				5F39DFD7188A472E008ECAC1 /* ZSInterpreterExpressionTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

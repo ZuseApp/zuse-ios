@@ -186,29 +186,15 @@
             return method(context.objectID, params);
         }
     }
-
-    else if ([key isEqualToString:@"+"]) {
-        NSInteger first = [[self evaluateExpression:code[0] context:context] integerValue];
-        NSInteger second = [[self evaluateExpression:code[1] context:context] integerValue];
-        
-        return @(first + second);
+    
+    id returnValue = nil;
+    
+    if ((returnValue = [self evaluateMathExpression:expression context:context])) {
+        return returnValue;
     }
     
-    else if ([key isEqualToString:@"-"]) {
-        NSInteger first = [[self evaluateExpression:code[0] context:context] integerValue];
-        NSInteger second = [[self evaluateExpression:code[1] context:context] integerValue];
-        
-        return @(first - second);
-    }
-    
-    else if ([key isEqualToString:@"=="]) {
-        id firstExpression = [self evaluateExpression:code[0] context:context];
-        id secondExpression = [self evaluateExpression:code[1] context:context];
-        
-        if ([firstExpression isEqual:secondExpression])
-            return @YES;
-        else
-            return @NO;
+    else if ((returnValue = [self evaluateBooleanExpression:expression context:context])) {
+        return returnValue;
     }
     
     else if ([key isEqualToString:@"get"]) {
@@ -223,6 +209,102 @@
     }
     
     return nil;
+}
+
+- (id)evaluateMathExpression:(id)expression context:(ZSExecutionContext *)context {
+    NSString *key = [expression allKeys][0];
+    id code = expression[key];
+    
+    if ([key isEqualToString:@"+"]) {
+        CGFloat first = [[self evaluateExpression:code[0] context:context] floatValue];
+        CGFloat second = [[self evaluateExpression:code[1] context:context] floatValue];
+        
+        return @(first + second);
+    }
+    
+    else if ([key isEqualToString:@"-"]) {
+        CGFloat first = [[self evaluateExpression:code[0] context:context] floatValue];
+        CGFloat second = [[self evaluateExpression:code[1] context:context] floatValue];
+        
+        return @(first - second);
+    }
+    
+    else if ([key isEqualToString:@"*"]) {
+        CGFloat first = [[self evaluateExpression:code[0] context:context] floatValue];
+        CGFloat second = [[self evaluateExpression:code[1] context:context] floatValue];
+        
+        return @(first * second);
+    }
+    
+    else if ([key isEqualToString:@"/"]) {
+        CGFloat first = [[self evaluateExpression:code[0] context:context] floatValue];
+        CGFloat second = [[self evaluateExpression:code[1] context:context] floatValue];
+        
+        return @(first / second);
+    }
+    
+    else {
+        return nil;
+    }
+}
+
+- (id)evaluateBooleanExpression:(id)expression context:(ZSExecutionContext *)context {
+    NSString *key = [expression allKeys][0];
+    id code = expression[key];
+    
+    if ([key isEqualToString:@"=="]) {
+        id firstExpression = [self evaluateExpression:code[0] context:context];
+        id secondExpression = [self evaluateExpression:code[1] context:context];
+        
+        if ([firstExpression isEqual:secondExpression])
+            return @YES;
+        else
+            return @NO;
+    }
+    
+    else if ([key isEqualToString:@"<"]) {
+        CGFloat firstExpression = [[self evaluateExpression:code[0] context:context] floatValue];
+        CGFloat secondExpression = [[self evaluateExpression:code[1] context:context] floatValue];
+        
+        if (firstExpression < secondExpression)
+            return @YES;
+        else
+            return @NO;
+    }
+    
+    else if ([key isEqualToString:@">"]) {
+        CGFloat firstExpression = [[self evaluateExpression:code[0] context:context] floatValue];
+        CGFloat secondExpression = [[self evaluateExpression:code[1] context:context] floatValue];
+        
+        if (firstExpression > secondExpression)
+            return @YES;
+        else
+            return @NO;
+    }
+    
+    else if ([key isEqualToString:@"<="]) {
+        CGFloat firstExpression = [[self evaluateExpression:code[0] context:context] floatValue];
+        CGFloat secondExpression = [[self evaluateExpression:code[1] context:context] floatValue];
+        
+        if (firstExpression <= secondExpression)
+            return @YES;
+        else
+            return @NO;
+    }
+    
+    else if ([key isEqualToString:@">="]) {
+        CGFloat firstExpression = [[self evaluateExpression:code[0] context:context] floatValue];
+        CGFloat secondExpression = [[self evaluateExpression:code[1] context:context] floatValue];
+        
+        if (firstExpression >= secondExpression)
+            return @YES;
+        else
+            return @NO;
+    }
+    
+    else {
+        return nil;
+    }
 }
 
 - (void)loadMethod:(NSDictionary *)method {
