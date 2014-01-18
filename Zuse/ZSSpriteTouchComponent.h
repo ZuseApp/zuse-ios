@@ -15,5 +15,6 @@
 @property (strong, nonatomic) void(^touchesBegan)(UITouch *touch);
 @property (strong, nonatomic) void(^touchesMoved)(UITouch *touch);
 @property (strong, nonatomic) void(^touchesEnded)(UITouch *touch);
+@property (assign, nonatomic) NSInteger speed;
 
 @end

@@ -48,4 +48,17 @@
     }
 }
 
+- (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    
+    if(!_touchesEnded) return;
+    
+    
+    for (UITouch *touch in touches) {
+        if (_currentTouch == touch) {
+            _touchesEnded(touch);
+        }
+    }
+
+}
+
 @end
