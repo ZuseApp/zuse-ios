@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Michael Hogenson. All rights reserved.
 //
 
-#import <BlocksKit/BlocksKit.h>
+#import "BlocksKit.h"
 #import <SpriteKit/SpriteKit.h>
 
 #import "ZSRendererViewController.h"

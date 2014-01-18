@@ -1,7 +1,4 @@
 #import "ZSCodeEditorViewController.h"
-#import "ZSSetStatementEditorViewController.h"
-#import "ZSIfStatementEditorViewController.h"
-#import "ZSCallStatementEditorViewController.h"
 #import "ZSCodeLine.h"
 #import "ZSCodeStatementObject.h"
 #import "ZSCodeEditorTableViewCell.h"
@@ -31,8 +28,7 @@
 
 - (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // pass line of code to the cell
-    ((ZSCodeEditorTableViewCell *)cell).codeLine = self.codeLines[indexPath.row];
+    [((ZSCodeEditorTableViewCell *)cell) updateCellContents];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -44,6 +40,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    _spriteObject[@"code"] = self.object.JSONObject[@"code"];
     self.codeLines = self.object.code.codeLines; // get code lines
     return [self.codeLines count]; //return # of lines
 }
@@ -56,16 +53,23 @@
     // get the cell
     ZSCodeEditorTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[@(line.type) stringValue]];
     cell.viewController = self;
-    
+    cell.codeLine = line;
     return cell;
 }
 
 #pragma mark - ZSCodeEditorViewController
 
-- (void)processJSON:(NSDictionary *)json
+- (void)setSpriteObject:(NSMutableDictionary *)spriteObject
 {
-    self.object = [[ZSCodeStatementObject alloc] initWithJSON:json
+    _spriteObject = spriteObject;
+    self.object = [[ZSCodeStatementObject alloc] initWithJSON:spriteObject
                                          parentSuite:nil];
+    
+}
+
+- (NSDictionary *)json
+{
+    return self.object.JSONObject;
 }
 
 @end

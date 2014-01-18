@@ -14,12 +14,14 @@
 
 @interface ZSCodeBoolExpression : NSObject
 
-@property (strong, nonatomic) NSString *oper; // '==', or '=>', or '<=', or '!='
+@property (strong, nonatomic) NSString *sign; // '==', or '=>', or '<=', or '!='
 @property (strong, nonatomic) NSObject *exp1; // either NSDictionary (variable) or NSString (constant) or NSNumber
 @property (strong, nonatomic) NSObject *exp2; // either NSDictionary (variable) or NSString (constant) or NSNumber
 
 + (id)emptyExpression;
 - (id)initWithJSON:(NSDictionary *)json;
--(NSString *)stringValue;
+- (NSString *)exp1stringValue;
+- (NSString *)exp2stringValue;
+- (NSDictionary *) JSONObject;
 
 @end

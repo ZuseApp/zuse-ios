@@ -1,0 +1,107 @@
+#import "ZSProgram.h"
+#import "ZSSprite.h"
+
+@interface ZSProgram()
+
+@end
+
+@implementation ZSProgram
+
+-(id)initWithFile:(NSString *)name{
+    self = [super init];
+    if (self) {
+        
+        // Load the program into memory.
+        _rawJSON = json;
+        _version = [json[@"version"] floatValue];
+        _interpreterVersion = [json[@"interpreter_version"] floatValue];
+        
+        // Load the sprites.
+        for (NSDictionary *jsonObject in json[@"objects"]) {
+            NSDictionary *variables = jsonObject[@"properties"];
+            
+            // Load the sprite frame.
+            CGRect frame = CGRectZero;
+            frame.origin.x = [variables[@"x"] floatValue];
+            frame.origin.y = [variables[@"y"] floatValue];
+            frame.size.width = [variables[@"width"] floatValue];
+            frame.size.height = [variables[@"height"] floatValue];
+            
+            ZSSprite *sprite = [[ZSSprite alloc] init];
+            sprite.identifier = jsonObject[@"id"];
+            sprite.frame = frame;
+            sprite.code = jsonObject[@"code"];
+            sprite.traits = jsonObject[@"traits"];
+            sprite.physicsBody = jsonObject[@"physics_body"];
+            
+            NSDictionary *image = jsonObject[@"image"];
+            sprite.imagePath = image[@"path"];
+            
+            [_sprites addObject:sprite];
+        }
+    }
+    return self;
+}
+
+-(NSString *)documentDirectory {
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSLog(@"%@", documentsDirectory);
+    return documentsDirectory;
+}
+
+-(NSString *)completePathForFile:(NSString *)name {
+    return [NSString stringWithFormat:@"%@/%@", [self documentDirectory], name];
+}
+
+-(void)writeToFile:(NSString *)name {
+    NSError *error;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[self projectJSON] options:NSJSONWritingPrettyPrinted error:&error];
+    
+    if (!jsonData) {
+        NSLog(@"Error serializing: %@", error);
+    } else {
+        [jsonData writeToFile:[self completePathForFile:name] options:0 error:nil];
+    }
+}
+
+-(NSDictionary *)projectJSON {
+    NSMutableDictionary *projectJSON = [NSMutableDictionary dictionary];
+    [projectJSON setObject:_rawJSON[@"traits"] forKey:@"traits"];
+    
+    NSMutableArray *objects = [NSMutableArray array];
+    for (ZSSprite *sprite in _sprites) {
+        NSMutableDictionary *object = [NSMutableDictionary dictionary];
+        [object setObject:sprite.code forKey:@"code"];
+        [object setObject:sprite.identifier forKey:@"id"];
+        
+        NSMutableDictionary *properties = [NSMutableDictionary dictionary];
+        
+        CGSize screenSize = [UIScreen mainScreen].bounds.size;
+        
+        CGFloat yPos = screenSize.height - sprite.frame.origin.y - (sprite.frame.size.height / 2);
+        CGFloat xPos = sprite.frame.origin.x + sprite.frame.size.width / 2;
+        
+        [properties setObject:@(xPos) forKey:@"x"];
+        [properties setObject:@(yPos) forKey:@"y"];
+        [properties setObject:@(sprite.frame.size.width) forKey:@"width"];
+        [properties setObject:@(sprite.frame.size.height) forKey:@"height"];
+        
+        if (sprite.imagePath) {
+            NSMutableDictionary *image = [NSMutableDictionary dictionary];
+            [image setObject:sprite.imagePath forKey:@"path"];
+            [object setObject:image forKey:@"image"];
+        }
+        
+        [object setObject:properties forKey:@"properties"];
+        [object setObject:sprite.traits forKey:@"traits"];
+        [object setObject:sprite.physicsBody forKey:@"physics_body"];
+        [objects addObject:object];
+    }
+    
+    [projectJSON setObject:objects forKey:@"objects"];
+    
+    return projectJSON;
+}
+
+@end

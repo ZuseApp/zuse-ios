@@ -1,11 +1,12 @@
 #import "ZSCanvasViewController.h"
-#import "ZSPlaygroundViewController.h"
 #import "ZSRendererViewController.h"
-#import "TCSprite.h"
-#import "TCSpriteView.h"
-#import "ZSProgram.h"
+#import "ZSSpriteView.h"
 #import "ZSMenuController.h"
 #import "ZSSpriteController.h"
+#import "ZSEditorViewController.h"
+#import "ZSGrid.h"
+#import "ZSCanvasView.h"
+#import "ZSSettingsViewController.h"
 
 @interface ZSCanvasViewController ()
 
@@ -24,19 +25,14 @@
 // Sprites
 @property (nonatomic, strong) NSArray *templateSprites;
 @property (nonatomic, strong) NSArray *canvasSprites;
-@property (strong, nonatomic) ZSProgram *program;
+
+// UIMenuController
+@property (nonatomic, assign) CGPoint lastTouch;
+@property (nonatomic, strong) ZSSpriteView *spriteViewCopy;
 
 @end
 
 @implementation ZSCanvasViewController
-
-#pragma mark Initializers
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    return self;
-}
 
 #pragma mark Override Methods
 
@@ -44,15 +40,19 @@
 {
     [super viewDidLoad];
     
+    // Setup delgates, sources and gestures.
     [self setupTableDelegatesAndSources];
-    [self setupScreenEdgeGestures];
+    [self setupGestures];
     
     _spriteTableViewShowing = NO;
     _menuTableViewShowing = NO;
     
     // Load sprites.
-    _program = [ZSProgram programWithFile:@"pong.json"];
-    [self loadSpritesFromProgram];
+    if (!_project) {
+        _project = [[ZSProject alloc] init];
+    }
+    
+    [self loadSpritesFromProject];
     
     // Bring menus to front.
     [self.view bringSubviewToFront:_menuTable];
@@ -68,13 +68,24 @@
     [_menuTable deselectRowAtIndexPath:[_menuTable indexPathForSelectedRow] animated:YES];
     _spriteTableViewShowing = NO;
     _menuTableViewShowing = NO;
+    
+    // TODO: Figure out the correct place to put this.  The editor may have modified the project
+    // so save the project here as well.  This means that the project gets loaded and than saved
+    // right away.
+    [_project write];
+    [self.view setNeedsDisplay];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"renderer"]) {
-        [self saveProject];
         ZSRendererViewController *rendererController = (ZSRendererViewController *)segue.destinationViewController;
-        rendererController.projectJSON = [_program projectJSON];
+        rendererController.projectJSON = [_project assembledJSON];
+    } else if ([segue.identifier isEqualToString:@"editor"]) {
+        ZSEditorViewController *editorController = (ZSEditorViewController *)segue.destinationViewController;
+        editorController.spriteObject = ((ZSSpriteView *)sender).spriteJSON;
+    } else if  ([segue.identifier isEqualToString:@"settings"]) {
+        ZSSettingsViewController *settingsController = (ZSSettingsViewController *)segue.destinationViewController;
+        settingsController.grid = ((ZSCanvasView *) self.view).grid;
     }
 }
 
@@ -82,75 +93,278 @@
 
 // starting with verb indicates not returning anything
 // method name indicates passed parameters
--(void)loadSpritesFromProgram {
-    for (TCSprite *sprite in _program.sprites) {
+-(void)loadSpritesFromProject {
+    NSMutableDictionary *assembledJSON = [_project assembledJSON];
+    for (NSMutableDictionary *jsonObject in assembledJSON[@"objects"]) {
+        NSMutableDictionary *variables = jsonObject[@"properties"];
         
-        TCSpriteView *view = [[TCSpriteView alloc] initWithFrame:sprite.frame];
-        // __weak TCSpriteView *weakView = view;
-        view.sprite = sprite;
-        if (sprite.imagePath) {
-            view.image = [UIImage imageNamed:sprite.imagePath];
+        CGRect frame = CGRectZero;
+        frame.origin.x = [variables[@"x"] floatValue];
+        frame.origin.y = [variables[@"y"] floatValue];
+        frame.size.width = [variables[@"width"] floatValue];
+        frame.size.height = [variables[@"height"] floatValue];
+        
+        // Coordinates in the project are stored in the center of the sprite and the canvas origin is
+        // in the bottom left corner, so adjust for that.
+        frame.origin.x -= frame.size.width / 2;
+        frame.origin.y -= frame.size.height / 2;
+        frame.origin.y = self.view.frame.size.height - frame.size.height - frame.origin.y;
+        
+        NSDictionary *image = jsonObject[@"image"];
+        NSString *imagePath = image[@"path"];
+        
+        ZSSpriteView *view = [[ZSSpriteView alloc] initWithFrame:frame];
+        if (imagePath) {
+            view.image = [UIImage imageNamed:imagePath];
         } else {
             view.backgroundColor = [UIColor blackColor];
         }
-        view.longTouch = ^(){
-            // [self performSegueWithIdentifier:@"editor" sender:weakView];
-        };
+        view.spriteJSON = jsonObject;
         
-        __block CGPoint offset;
-        __block CGPoint originPoint;
-        __block CGPoint currentPoint;
-        view.touchesBegan = ^(UITouch *touch) {
-            originPoint = [touch locationInView:self.view];
-            offset = [touch locationInView:touch.view];
-        };
-        
-        view.touchesMoved = ^(UITouch *touch) {
-            currentPoint = [touch locationInView:self.view];
-            
-            UIView *touchView = touch.view;
-            CGRect frame = touchView.frame;
-            
-            frame.origin.x = currentPoint.x - offset.x;
-            frame.origin.y = currentPoint.y - offset.y;
-            
-            touchView.frame = frame;
-            sprite.frame = frame;
-            
-        };
-        
-        view.touchesEnded = ^(UITouch *touch) {
-            
-        };
+        [self setupGesturesForSpriteView:view withProperties:variables];
+        [self setupMenuItemsForSpriteView:view];
         [self.view addSubview:view];
     }
+}
+
+- (void)setupGesturesForSpriteView:(ZSSpriteView *)view withProperties:(NSMutableDictionary *)properties {
     
-    WeakSelf
-    _menuController.playSelected = ^{
-        [weakSelf performSegueWithIdentifier:@"renderer" sender:weakSelf];
+    __weak ZSSpriteView *weakView = view;
+    view.singleTapped = ^(){
+        [self performSegueWithIdentifier:@"editor" sender:weakView];
+    };
+    
+    view.longPressed = ^(UILongPressGestureRecognizer *longPressedGestureRecognizer){
+
+        if (longPressedGestureRecognizer.state == UIGestureRecognizerStateBegan) {
+            [weakView becomeFirstResponder];
+            UIMenuController *menuController = [UIMenuController sharedMenuController];
+            [menuController setTargetRect:weakView.frame inView:self.view];
+            [menuController setMenuVisible:YES animated:YES];
+        }
+    };
+    
+    __block CGPoint offset;
+    __block CGPoint currentPoint;
+    view.panBegan = ^(UIPanGestureRecognizer *panGestureRecognizer) {
+        offset = [panGestureRecognizer locationInView:panGestureRecognizer.view];
+    };
+    
+    view.panMoved = ^(UIPanGestureRecognizer *panGestureRecognizer) {
+        currentPoint = [panGestureRecognizer locationInView:self.view];
+        
+        UIView *touchView = panGestureRecognizer.view;
+        CGRect frame = touchView.frame;
+        
+        frame.origin.x = currentPoint.x - offset.x;
+        frame.origin.y = currentPoint.y - offset.y;
+        
+        ZSCanvasView *view = (ZSCanvasView *)self.view;
+        if (view.grid.dimensions.width > 1 && view.grid.dimensions.height > 1) {
+            frame.origin = [view.grid adjustedPointForPoint:frame.origin];
+        }
+        
+        touchView.frame = frame;
+    };
+    
+    view.panEnded = ^(UIPanGestureRecognizer *panGestureRecognizer) {
+        CGRect frame = weakView.frame;
+        CGFloat x = frame.origin.x + (frame.size.width / 2);
+        CGFloat y = self.view.frame.size.height - frame.size.height - frame.origin.y;
+        y += frame.size.height / 2;
+        weakView.frame = frame;
+        
+        properties[@"x"] = @(x);
+        properties[@"y"] = @(y);
+        properties[@"width"] = @(frame.size.width);
+        properties[@"height"] = @(frame.size.height);
+        
+        // Bring menus to front.
+        [self.view bringSubviewToFront:_menuTable];
+        [self.view bringSubviewToFront:_spriteTable];
+        
+        self.spriteTableViewShowing = NO;
+        self.menuTableViewShowing = NO;
+        
+        [_project write];
     };
 }
 
--(void)saveProject {
-    [_program writeToFile:@"pong.json"];
+- (void)setupMenuItemsForSpriteView:(ZSSpriteView *)view {
+    WeakSelf
+    __weak ZSProject *weakProject = _project;
+    __weak ZSSpriteView *weakView = view;
+    view.delete = ^(ZSSpriteView *sprite) {
+        [sprite removeFromSuperview];
+        NSMutableArray *objects = [weakSelf.project rawJSON][@"objects"];
+        for (NSMutableDictionary *currentSprite in objects) {
+            if (currentSprite[@"id"] == sprite.spriteJSON[@"id"]) {
+                [objects removeObject:currentSprite];
+                break;
+            }
+        }
+        [weakProject write];
+    };
+    
+    view.copy = ^(ZSSpriteView *sprite) {
+        _spriteViewCopy = [weakSelf copySpriteView:sprite];
+    };
+    
+    view.cut = ^(ZSSpriteView *sprite) {
+        _spriteViewCopy = [weakSelf copySpriteView:sprite];
+        [sprite removeFromSuperview];
+        NSMutableArray *objects = [weakSelf.project rawJSON][@"objects"];
+        for (NSMutableDictionary *currentSprite in objects) {
+            if (currentSprite[@"id"] == sprite.spriteJSON[@"id"]) {
+                [objects removeObject:currentSprite];
+                break;
+            }
+        }
+        [weakProject write];
+    };
+    
+    view.paste = ^(ZSSpriteView *sprite) {
+        [weakSelf paste:weakView];
+    };
 }
 
--(void)setupTableDelegatesAndSources {
+- (ZSSpriteView *)copySpriteView:(ZSSpriteView *)spriteView {
+    ZSSpriteView *copy = [[ZSSpriteView alloc] initWithFrame:spriteView.frame];
+    copy.spriteJSON = [spriteView.spriteJSON deepMutableCopy];
+    copy.spriteJSON[@"id"] = [[NSUUID UUID] UUIDString];
+    copy.image = [UIImage imageNamed:copy.spriteJSON[@"image"][@"path"]];
+    [self setupGesturesForSpriteView:copy withProperties:copy.spriteJSON[@"properties"]];
+    [self setupMenuItemsForSpriteView:copy];
+    return copy;
+}
+
+- (void)setupTableDelegatesAndSources {
     _spriteController = [[ZSSpriteController alloc] init];
     _menuController = [[ZSMenuController alloc] init];
     _spriteTable.delegate = _spriteController;
     _spriteTable.dataSource = _spriteController;
     _menuTable.delegate = _menuController;
     _menuTable.dataSource = _menuController;
+    
+    WeakSelf
+    __weak ZSProject *weakProject = _project;
+    _menuController.playSelected = ^{
+        [weakSelf performSegueWithIdentifier:@"renderer" sender:weakSelf];
+    };
+    
+    _menuController.settingsSelected = ^{
+        [weakSelf performSegueWithIdentifier:@"settings" sender:weakSelf];
+    };
+    
+    _menuController.backSelected = ^{
+        [weakProject write];
+        if (weakSelf.didFinish) {
+            weakSelf.didFinish();
+        }
+    };
+    
+    __block CGPoint offset;
+    __block CGPoint currentPoint;
+    __block ZSSpriteView *draggedView;
+    _spriteController.panBegan = ^(UIPanGestureRecognizer *panGestureRecognizer, NSDictionary *json) {
+        offset = [panGestureRecognizer locationInView:panGestureRecognizer.view];
+        currentPoint = [panGestureRecognizer locationInView:weakSelf.view];
+        
+        CGRect frame = panGestureRecognizer.view.frame;
+        frame.origin.x = currentPoint.x - offset.x;
+        frame.origin.y = currentPoint.y - offset.y;
+        
+        draggedView = [[ZSSpriteView alloc] initWithFrame:frame];
+        draggedView.image = [UIImage imageNamed:json[@"image"][@"path"]];
+        draggedView.contentMode = UIViewContentModeScaleAspectFit;
+        [weakSelf.view addSubview:draggedView];
+    };
+    
+    _spriteController.panMoved = ^(UIPanGestureRecognizer *panGestureRecognizer, NSDictionary *json) {
+        currentPoint = [panGestureRecognizer locationInView:weakSelf.view];
+    
+        CGRect frame = draggedView.frame;
+        frame.origin.x = currentPoint.x - offset.x;
+        frame.origin.y = currentPoint.y - offset.y;
+        draggedView.frame = frame;
+    };
+    
+    _spriteController.panEnded = ^(UIPanGestureRecognizer *panGestureRecognizer, NSDictionary *json) {
+        NSMutableDictionary *newJson = [json deepMutableCopy];
+        newJson[@"id"] = [[NSUUID UUID] UUIDString];
+        NSMutableDictionary *properties = newJson[@"properties"];
+        [weakSelf setupGesturesForSpriteView:draggedView withProperties:properties];
+        [weakSelf setupMenuItemsForSpriteView:draggedView];
+        [[weakSelf.project rawJSON][@"objects"] addObject:newJson];
+
+        CGFloat x = draggedView.frame.origin.x + (draggedView.frame.size.width / 2);
+        CGFloat y = weakSelf.view.frame.size.height - draggedView.frame.size.height - draggedView.frame.origin.y;
+        y += draggedView.frame.size.height / 2;
+        
+        CGPoint center = draggedView.center;
+        CGRect frame = draggedView.frame;
+        frame.size.width = [properties[@"width"] floatValue];
+        frame.size.height = [properties[@"height"] floatValue];
+        draggedView.frame = frame;
+        draggedView.center = center;
+        draggedView.spriteJSON = newJson;
+        
+        properties[@"x"] = @(x);
+        properties[@"y"] = @(y);
+        
+        // Bring menus to front.
+        [weakSelf.view bringSubviewToFront:weakSelf.menuTable];
+        [weakSelf.view bringSubviewToFront:weakSelf.spriteTable];
+        
+        weakSelf.spriteTableViewShowing = NO;
+        weakSelf.menuTableViewShowing = NO;
+        
+        [weakProject write];
+    };
 }
 
--(void)setupScreenEdgeGestures {
+-(void)setupGestures {
+    // Canvas gesture recognizers.
     _rightEdgePanRecognizer = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(canvasPannedRight:)];
     _rightEdgePanRecognizer.edges = UIRectEdgeRight;
     _leftEdgePanRecognizer = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(canvasPannedLeft:)];
     _leftEdgePanRecognizer.edges = UIRectEdgeLeft;
+    UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressRecognized:)];
     [self.view addGestureRecognizer:_rightEdgePanRecognizer];
     [self.view addGestureRecognizer:_leftEdgePanRecognizer];
+    [self.view addGestureRecognizer:longPressGesture];
+    
+    // Sprite Drawer
+    UISwipeGestureRecognizer *rightSwipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(hideSpriteDrawer)];
+    [rightSwipeGesture setDirection:UISwipeGestureRecognizerDirectionRight];
+    [_spriteTable addGestureRecognizer:rightSwipeGesture];
+    
+    // Menu Drawer
+    UISwipeGestureRecognizer *leftSwipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(hideMenuDrawer)];
+    [leftSwipeGesture setDirection:UISwipeGestureRecognizerDirectionLeft];
+    [_menuTable addGestureRecognizer:leftSwipeGesture];
+}
+
+- (void)hideSpriteDrawer {
+    if (_spriteTableViewShowing) {
+        _spriteTableViewShowing = NO;
+        [UIView animateWithDuration:0.25 animations:^{
+            CGRect frame = _spriteTable.frame;
+            frame.origin.x += _spriteTable.frame.size.width;
+            _spriteTable.frame = frame;
+        }];
+    }
+}
+
+- (void)hideMenuDrawer {
+    if (_menuTableViewShowing) {
+        _menuTableViewShowing = NO;
+        [UIView animateWithDuration:0.25 animations:^{
+            CGRect frame = _menuTable.frame;
+            frame.origin.x -= _menuTable.frame.size.width;
+            _menuTable.frame = frame;
+        }];
+    }
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
@@ -207,6 +421,64 @@
             frame.origin.x += _menuTable.frame.size.width;
             _menuTable.frame = frame;
         }];
+    }
+}
+
+- (void)longPressRecognized:(id)sender {
+    UILongPressGestureRecognizer *longPressGesture = (UILongPressGestureRecognizer *)sender;
+    
+    if (longPressGesture.state == UIGestureRecognizerStateBegan) {
+        [self becomeFirstResponder];
+        UIMenuController *theMenu = [UIMenuController sharedMenuController];
+        [theMenu setTargetRect:CGRectMake(_lastTouch.x, _lastTouch.y, 0, 0) inView:self.view];
+        [theMenu setMenuVisible:YES animated:YES];
+    }
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    _lastTouch = [[touches anyObject] locationInView:self.view];
+}
+
+- (BOOL)canPerformAction:(SEL)action withSender:(id)sender {
+    if (_spriteViewCopy && action == @selector(paste:)) {
+        return YES;
+    }
+    return NO;
+}
+
+- (BOOL)canBecomeFirstResponder {
+    return YES;
+}
+
+- (void)paste:(id)sender {
+    if (_spriteViewCopy) {
+        CGRect frame = _spriteViewCopy.frame;
+        frame.origin = _lastTouch;
+        
+        ZSCanvasView *view = (ZSCanvasView *)self.view;
+        if (view.grid.dimensions.width > 1 && view.grid.dimensions.height > 1) {
+            frame.origin = [view.grid adjustedPointForPoint:frame.origin];
+        }
+        
+        CGFloat x = frame.origin.x + (frame.size.width / 2);
+        CGFloat y = self.view.frame.size.height - frame.size.height - frame.origin.y;
+        y += frame.size.height / 2;
+        
+        _spriteViewCopy.frame = frame;
+        
+        NSMutableDictionary *properties = _spriteViewCopy.spriteJSON[@"properties"];
+        properties[@"x"] = @(x);
+        properties[@"y"] = @(y);
+        properties[@"width"] = @(frame.size.width);
+        properties[@"height"] = @(frame.size.height);
+        
+        
+        [self.view addSubview:_spriteViewCopy];
+        [[_project rawJSON][@"objects"] addObject:_spriteViewCopy.spriteJSON];
+        [_project write];
+        
+        // Create a new _spriteViewCopy.
+        _spriteViewCopy = [self copySpriteView:_spriteViewCopy];
     }
 }
 

@@ -1,7 +1,6 @@
 {
-  "traits": [
-    {
-      "id": "Draggable",
+  "traits": {
+    "Draggable": {
       "parameters": {
         "foo": "bar",
         "baz": "bat"
@@ -15,18 +14,17 @@
         }
       ]
     }
-  ],
+  },
   "objects": [
     {
       "id": "paddle1",
-      "traits": [
-        {
-          "id": "Draggable",
+      "traits": {
+        "Draggable": {
           "parameters": {
             "baz": "test"
           }
         }
-      ],
+      },
       "properties": { 
         "x": 10,
         "y": 10,

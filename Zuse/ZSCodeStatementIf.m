@@ -8,6 +8,7 @@
     ZSCodeStatementIf *s = [[ZSCodeStatementIf alloc]initWithParentSuite:suite];
     s.boolExp = [ZSCodeBoolExpression emptyExpression];
     s.trueSuite = [[ZSCodeSuite alloc]initWithParentStatement:s];
+    s.falseSuite = nil;
     return s;
 }
 
@@ -27,7 +28,9 @@
 
 -(NSDictionary *) JSONObject
 {
-    return @{@"if" : @{@"test":@{}, @"true": self.trueSuite.JSONObject}};
+    return self.falseSuite ?
+  @{@"if" : @{@"test":_boolExp.JSONObject, @"true": _trueSuite.JSONObject, @"false": _falseSuite.JSONObject}} :
+  @{@"if" : @{@"test":_boolExp.JSONObject, @"true": _trueSuite.JSONObject}};
 }
 
 @end
@@ -38,7 +41,7 @@
 + (id)emptyExpression
 {
     ZSCodeBoolExpression *e = [[ZSCodeBoolExpression alloc]init];
-    e.oper = @"==";
+    e.sign = @"==";
     e.exp1 = @"...";
     e.exp2 = @"...";
     return e;
@@ -48,24 +51,31 @@
 {
     if (self = [super init])
     {
-        self.oper = [json allKeys][0];
-        self.exp1 = json[self.oper][0];
-        self.exp2 = json[self.oper][1];
+        self.sign = [json allKeys][0];
+        self.exp1 = json[self.sign][0];
+        self.exp2 = json[self.sign][1];
     }
     return self;
 }
 
--(NSString *)stringValue
+- (NSString *)exp1stringValue
 {
-    NSString *e1 = [self convertToStringExpression:self.exp1];
-    NSString *e2 = [self convertToStringExpression:self.exp2];
-    
-    return [NSString stringWithFormat:@"%@ %@ %@", e1, self.oper, e2];
+    return [self convertToStringExpression:self.exp1];
+}
+
+- (NSString *)exp2stringValue
+{
+    return [self convertToStringExpression:self.exp2];
 }
 
 +(BOOL)isBooleanType:(NSNumber *)n
 {
     return strcmp([n objCType], @encode(BOOL)) == 0;
+}
+
+- (NSDictionary *) JSONObject
+{
+    return @{self.sign : @[self.exp1, self.exp2]};
 }
 
 -(NSString *)convertToStringExpression:(NSObject *)exp
@@ -89,5 +99,6 @@
     
     return str;
 }
+
 
 @end

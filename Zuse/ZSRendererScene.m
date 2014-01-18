@@ -7,9 +7,7 @@
 //
 
 #import <SpriteKit-Components/SKComponents.h>
-#import <BlocksKit/BlocksKit.h>
-#import <PhysicsDebugger/YMCPhysicsDebugger.h>
-#import <PhysicsDebugger/YMCSKNode+PhysicsDebug.h>
+#import "BlocksKit.h"
 @import GLKit;
 
 #import "ZSRendererScene.h"
@@ -42,9 +40,6 @@ CGFloat const kZSSpriteSpeed = 200;
         [self loadMethodsIntoInterpreter];
         
         _interpreter.delegate = self;
-        
-        //init the debugger
-        [YMCPhysicsDebugger init];
         
         //Set the physics edges to the frame
         self.physicsBody = [SKPhysicsBody bodyWithEdgeLoopFromRect:self.frame];
@@ -115,9 +110,7 @@ CGFloat const kZSSpriteSpeed = 200;
             [self addChild:node];
             [self addChild:jointNode];
             [self.physicsWorld addJoint:physicsJointFixed];
-            
-            //TODO: call debug render method; doesn't seem to render red boxes around physics bodies
-            [self drawPhysicsBodies];
+
             
             // ...
             [_spriteNodes setObject:jointNode forKey:object[@"id"]];
@@ -156,7 +149,7 @@ CGFloat const kZSSpriteSpeed = 200;
                                GLKVector2 direction = GLKVector2Normalize(velocity);
                                GLKVector2 newVelocity = GLKVector2MultiplyScalar(direction, touchNode.speed);
                                node.physicsBody.velocity = CGVectorMake(newVelocity.x, newVelocity.y);
-                               node.physicsBody.angularVelocity = 0.0;
+//                               node.physicsBody.angularVelocity = 0.0;
                            }];
     
 }

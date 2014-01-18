@@ -24,8 +24,8 @@
         {
             break;
         }
-        // 'SET' statement
-        if ([s isKindOfClass:[ZSCodeStatementSet class]])
+        // 'SET' statement that does not have '...' as variable name
+        if ([s isKindOfClass:[ZSCodeStatementSet class]] && ![((ZSCodeStatementSet *)s).variableName isEqualToString:@"..."])
         {
             [varNames  addObject:((ZSCodeStatementSet *)s).variableName];
         }
@@ -36,7 +36,8 @@
     {
         [varNames addObjectsFromArray:((ZSCodeStatementOnEvent *)self.parentSuite.parentStatement).parameters];
     }
-
+    
+    // add from parent statement
     [varNames addObjectsFromArray:self.parentSuite.parentStatement.availableVarNames];
     
     return [varNames sortedArrayUsingDescriptors:nil];
