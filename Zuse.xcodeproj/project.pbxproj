@@ -65,21 +65,6 @@
 		5F1B5BA31837E05A00632DE6 /* pong_no_traits.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F1B5BA21837E05A00632DE6 /* pong_no_traits.json */; };
 		5F1B5BA61837EE7800632DE6 /* ZSCompiler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F1B5BA51837EE7800632DE6 /* ZSCompiler.m */; };
 		5F1B5BA71838109600632DE6 /* ZSInterpreter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F099D4517F1135300EB2AC7 /* ZSInterpreter.m */; };
-		5F2C2642187CA26900F4E514 /* NSArray+BlocksKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F2C2625187CA26800F4E514 /* NSArray+BlocksKit.m */; };
-		5F2C2643187CA26900F4E514 /* NSDictionary+BlocksKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F2C2627187CA26800F4E514 /* NSDictionary+BlocksKit.m */; };
-		5F2C2644187CA26900F4E514 /* NSIndexSet+BlocksKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F2C2629187CA26800F4E514 /* NSIndexSet+BlocksKit.m */; };
-		5F2C2645187CA26900F4E514 /* NSInvocation+BlocksKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F2C262B187CA26800F4E514 /* NSInvocation+BlocksKit.m */; };
-		5F2C2646187CA26900F4E514 /* NSMutableArray+BlocksKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F2C262D187CA26800F4E514 /* NSMutableArray+BlocksKit.m */; };
-		5F2C2647187CA26900F4E514 /* NSMutableDictionary+BlocksKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F2C262F187CA26800F4E514 /* NSMutableDictionary+BlocksKit.m */; };
-		5F2C2648187CA26900F4E514 /* NSMutableIndexSet+BlocksKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F2C2631187CA26800F4E514 /* NSMutableIndexSet+BlocksKit.m */; };
-		5F2C2649187CA26900F4E514 /* NSMutableOrderedSet+BlocksKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F2C2633187CA26800F4E514 /* NSMutableOrderedSet+BlocksKit.m */; };
-		5F2C264A187CA26900F4E514 /* NSMutableSet+BlocksKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F2C2635187CA26800F4E514 /* NSMutableSet+BlocksKit.m */; };
-		5F2C264B187CA26900F4E514 /* NSObject+AssociatedObjects.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F2C2637187CA26800F4E514 /* NSObject+AssociatedObjects.m */; };
-		5F2C264C187CA26900F4E514 /* NSObject+BlockObservation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F2C2639187CA26800F4E514 /* NSObject+BlockObservation.m */; };
-		5F2C264D187CA26900F4E514 /* NSObject+BlocksKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F2C263B187CA26800F4E514 /* NSObject+BlocksKit.m */; };
-		5F2C264E187CA26900F4E514 /* NSOrderedSet+BlocksKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F2C263D187CA26800F4E514 /* NSOrderedSet+BlocksKit.m */; };
-		5F2C264F187CA26900F4E514 /* NSSet+BlocksKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F2C263F187CA26800F4E514 /* NSSet+BlocksKit.m */; };
-		5F2C2650187CA26900F4E514 /* NSTimer+BlocksKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F2C2641187CA26800F4E514 /* NSTimer+BlocksKit.m */; };
 		5F2EC4D0183ABECE0091CEAD /* pong_compiled.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F2EC4CE183ABECE0091CEAD /* pong_compiled.json */; };
 		5F2EC4D1183ABECE0091CEAD /* pong.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F2EC4CF183ABECE0091CEAD /* pong.json */; };
 		5F2EC4D4183ABEE60091CEAD /* events_scope.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F2EC4D2183ABEE60091CEAD /* events_scope.json */; };
@@ -89,6 +74,21 @@
 		5F2EC4DC183AD7510091CEAD /* ZSInterpreterDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F2EC4DB183AD7510091CEAD /* ZSInterpreterDelegateTests.m */; };
 		5F2EC4DE183B06840091CEAD /* property_update.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F2EC4DD183B06840091CEAD /* property_update.json */; };
 		5F2EC4E3183DC2550091CEAD /* scope_set_object_var.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F2EC4E2183DC2550091CEAD /* scope_set_object_var.json */; };
+		5F39DFC7188A40A0008ECAC1 /* NSArray+BlocksKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F39DFAA188A40A0008ECAC1 /* NSArray+BlocksKit.m */; };
+		5F39DFC8188A40A0008ECAC1 /* NSDictionary+BlocksKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F39DFAC188A40A0008ECAC1 /* NSDictionary+BlocksKit.m */; };
+		5F39DFC9188A40A0008ECAC1 /* NSIndexSet+BlocksKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F39DFAE188A40A0008ECAC1 /* NSIndexSet+BlocksKit.m */; };
+		5F39DFCA188A40A0008ECAC1 /* NSInvocation+BlocksKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F39DFB0188A40A0008ECAC1 /* NSInvocation+BlocksKit.m */; };
+		5F39DFCB188A40A0008ECAC1 /* NSMutableArray+BlocksKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F39DFB2188A40A0008ECAC1 /* NSMutableArray+BlocksKit.m */; };
+		5F39DFCC188A40A0008ECAC1 /* NSMutableDictionary+BlocksKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F39DFB4188A40A0008ECAC1 /* NSMutableDictionary+BlocksKit.m */; };
+		5F39DFCD188A40A0008ECAC1 /* NSMutableIndexSet+BlocksKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F39DFB6188A40A0008ECAC1 /* NSMutableIndexSet+BlocksKit.m */; };
+		5F39DFCE188A40A0008ECAC1 /* NSMutableOrderedSet+BlocksKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F39DFB8188A40A0008ECAC1 /* NSMutableOrderedSet+BlocksKit.m */; };
+		5F39DFCF188A40A0008ECAC1 /* NSMutableSet+BlocksKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F39DFBA188A40A0008ECAC1 /* NSMutableSet+BlocksKit.m */; };
+		5F39DFD0188A40A0008ECAC1 /* NSObject+AssociatedObjects.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F39DFBC188A40A0008ECAC1 /* NSObject+AssociatedObjects.m */; };
+		5F39DFD1188A40A0008ECAC1 /* NSObject+BlockObservation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F39DFBE188A40A0008ECAC1 /* NSObject+BlockObservation.m */; };
+		5F39DFD2188A40A0008ECAC1 /* NSObject+BlocksKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F39DFC0188A40A0008ECAC1 /* NSObject+BlocksKit.m */; };
+		5F39DFD3188A40A0008ECAC1 /* NSOrderedSet+BlocksKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F39DFC2188A40A0008ECAC1 /* NSOrderedSet+BlocksKit.m */; };
+		5F39DFD4188A40A0008ECAC1 /* NSSet+BlocksKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F39DFC4188A40A0008ECAC1 /* NSSet+BlocksKit.m */; };
+		5F39DFD5188A40A0008ECAC1 /* NSTimer+BlocksKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F39DFC6188A40A0008ECAC1 /* NSTimer+BlocksKit.m */; };
 		5F41ACB11833DCFE0089D136 /* pong_compiled.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F41ACB01833DCFE0089D136 /* pong_compiled.json */; };
 		5F41ACB818341C980089D136 /* ZSExecutionContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F41ACB718341C980089D136 /* ZSExecutionContext.m */; };
 		5FEFB89A182B5376007DAFCF /* pong.json in Resources */ = {isa = PBXBuildFile; fileRef = 5FEFB899182B5376007DAFCF /* pong.json */; };
@@ -222,39 +222,6 @@
 		5F1B5BA21837E05A00632DE6 /* pong_no_traits.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = pong_no_traits.json; path = JSON/pong_no_traits.json; sourceTree = "<group>"; };
 		5F1B5BA41837EE7800632DE6 /* ZSCompiler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCompiler.h; sourceTree = "<group>"; };
 		5F1B5BA51837EE7800632DE6 /* ZSCompiler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCompiler.m; sourceTree = "<group>"; };
-		5F2C2621187CA26800F4E514 /* BKGlobals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKGlobals.h; sourceTree = "<group>"; };
-		5F2C2622187CA26800F4E514 /* BKMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKMacros.h; sourceTree = "<group>"; };
-		5F2C2623187CA26800F4E514 /* BlocksKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlocksKit.h; sourceTree = "<group>"; };
-		5F2C2624187CA26800F4E514 /* NSArray+BlocksKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+BlocksKit.h"; sourceTree = "<group>"; };
-		5F2C2625187CA26800F4E514 /* NSArray+BlocksKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+BlocksKit.m"; sourceTree = "<group>"; };
-		5F2C2626187CA26800F4E514 /* NSDictionary+BlocksKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+BlocksKit.h"; sourceTree = "<group>"; };
-		5F2C2627187CA26800F4E514 /* NSDictionary+BlocksKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+BlocksKit.m"; sourceTree = "<group>"; };
-		5F2C2628187CA26800F4E514 /* NSIndexSet+BlocksKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSIndexSet+BlocksKit.h"; sourceTree = "<group>"; };
-		5F2C2629187CA26800F4E514 /* NSIndexSet+BlocksKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSIndexSet+BlocksKit.m"; sourceTree = "<group>"; };
-		5F2C262A187CA26800F4E514 /* NSInvocation+BlocksKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSInvocation+BlocksKit.h"; sourceTree = "<group>"; };
-		5F2C262B187CA26800F4E514 /* NSInvocation+BlocksKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSInvocation+BlocksKit.m"; sourceTree = "<group>"; };
-		5F2C262C187CA26800F4E514 /* NSMutableArray+BlocksKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+BlocksKit.h"; sourceTree = "<group>"; };
-		5F2C262D187CA26800F4E514 /* NSMutableArray+BlocksKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+BlocksKit.m"; sourceTree = "<group>"; };
-		5F2C262E187CA26800F4E514 /* NSMutableDictionary+BlocksKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableDictionary+BlocksKit.h"; sourceTree = "<group>"; };
-		5F2C262F187CA26800F4E514 /* NSMutableDictionary+BlocksKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableDictionary+BlocksKit.m"; sourceTree = "<group>"; };
-		5F2C2630187CA26800F4E514 /* NSMutableIndexSet+BlocksKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableIndexSet+BlocksKit.h"; sourceTree = "<group>"; };
-		5F2C2631187CA26800F4E514 /* NSMutableIndexSet+BlocksKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableIndexSet+BlocksKit.m"; sourceTree = "<group>"; };
-		5F2C2632187CA26800F4E514 /* NSMutableOrderedSet+BlocksKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableOrderedSet+BlocksKit.h"; sourceTree = "<group>"; };
-		5F2C2633187CA26800F4E514 /* NSMutableOrderedSet+BlocksKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableOrderedSet+BlocksKit.m"; sourceTree = "<group>"; };
-		5F2C2634187CA26800F4E514 /* NSMutableSet+BlocksKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableSet+BlocksKit.h"; sourceTree = "<group>"; };
-		5F2C2635187CA26800F4E514 /* NSMutableSet+BlocksKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableSet+BlocksKit.m"; sourceTree = "<group>"; };
-		5F2C2636187CA26800F4E514 /* NSObject+AssociatedObjects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+AssociatedObjects.h"; sourceTree = "<group>"; };
-		5F2C2637187CA26800F4E514 /* NSObject+AssociatedObjects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+AssociatedObjects.m"; sourceTree = "<group>"; };
-		5F2C2638187CA26800F4E514 /* NSObject+BlockObservation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+BlockObservation.h"; sourceTree = "<group>"; };
-		5F2C2639187CA26800F4E514 /* NSObject+BlockObservation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+BlockObservation.m"; sourceTree = "<group>"; };
-		5F2C263A187CA26800F4E514 /* NSObject+BlocksKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+BlocksKit.h"; sourceTree = "<group>"; };
-		5F2C263B187CA26800F4E514 /* NSObject+BlocksKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+BlocksKit.m"; sourceTree = "<group>"; };
-		5F2C263C187CA26800F4E514 /* NSOrderedSet+BlocksKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSOrderedSet+BlocksKit.h"; sourceTree = "<group>"; };
-		5F2C263D187CA26800F4E514 /* NSOrderedSet+BlocksKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSOrderedSet+BlocksKit.m"; sourceTree = "<group>"; };
-		5F2C263E187CA26800F4E514 /* NSSet+BlocksKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSSet+BlocksKit.h"; sourceTree = "<group>"; };
-		5F2C263F187CA26800F4E514 /* NSSet+BlocksKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSSet+BlocksKit.m"; sourceTree = "<group>"; };
-		5F2C2640187CA26800F4E514 /* NSTimer+BlocksKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTimer+BlocksKit.h"; sourceTree = "<group>"; };
-		5F2C2641187CA26800F4E514 /* NSTimer+BlocksKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTimer+BlocksKit.m"; sourceTree = "<group>"; };
 		5F2EC4CE183ABECE0091CEAD /* pong_compiled.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = pong_compiled.json; path = CodeSamples/pong_compiled.json; sourceTree = "<group>"; };
 		5F2EC4CF183ABECE0091CEAD /* pong.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = pong.json; path = CodeSamples/pong.json; sourceTree = "<group>"; };
 		5F2EC4D2183ABEE60091CEAD /* events_scope.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = events_scope.json; path = CodeSamples/events_scope.json; sourceTree = "<group>"; };
@@ -264,6 +231,39 @@
 		5F2EC4DB183AD7510091CEAD /* ZSInterpreterDelegateTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSInterpreterDelegateTests.m; sourceTree = "<group>"; };
 		5F2EC4DD183B06840091CEAD /* property_update.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = property_update.json; path = CodeSamples/property_update.json; sourceTree = "<group>"; };
 		5F2EC4E2183DC2550091CEAD /* scope_set_object_var.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = scope_set_object_var.json; sourceTree = "<group>"; };
+		5F39DFA6188A40A0008ECAC1 /* BKGlobals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BKGlobals.h; path = Zuse/Vendor/BlocksKit/BKGlobals.h; sourceTree = "<group>"; };
+		5F39DFA7188A40A0008ECAC1 /* BKMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BKMacros.h; path = Zuse/Vendor/BlocksKit/BKMacros.h; sourceTree = "<group>"; };
+		5F39DFA8188A40A0008ECAC1 /* BlocksKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BlocksKit.h; path = Zuse/Vendor/BlocksKit/BlocksKit.h; sourceTree = "<group>"; };
+		5F39DFA9188A40A0008ECAC1 /* NSArray+BlocksKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSArray+BlocksKit.h"; path = "Zuse/Vendor/BlocksKit/NSArray+BlocksKit.h"; sourceTree = "<group>"; };
+		5F39DFAA188A40A0008ECAC1 /* NSArray+BlocksKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSArray+BlocksKit.m"; path = "Zuse/Vendor/BlocksKit/NSArray+BlocksKit.m"; sourceTree = "<group>"; };
+		5F39DFAB188A40A0008ECAC1 /* NSDictionary+BlocksKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDictionary+BlocksKit.h"; path = "Zuse/Vendor/BlocksKit/NSDictionary+BlocksKit.h"; sourceTree = "<group>"; };
+		5F39DFAC188A40A0008ECAC1 /* NSDictionary+BlocksKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDictionary+BlocksKit.m"; path = "Zuse/Vendor/BlocksKit/NSDictionary+BlocksKit.m"; sourceTree = "<group>"; };
+		5F39DFAD188A40A0008ECAC1 /* NSIndexSet+BlocksKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSIndexSet+BlocksKit.h"; path = "Zuse/Vendor/BlocksKit/NSIndexSet+BlocksKit.h"; sourceTree = "<group>"; };
+		5F39DFAE188A40A0008ECAC1 /* NSIndexSet+BlocksKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSIndexSet+BlocksKit.m"; path = "Zuse/Vendor/BlocksKit/NSIndexSet+BlocksKit.m"; sourceTree = "<group>"; };
+		5F39DFAF188A40A0008ECAC1 /* NSInvocation+BlocksKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSInvocation+BlocksKit.h"; path = "Zuse/Vendor/BlocksKit/NSInvocation+BlocksKit.h"; sourceTree = "<group>"; };
+		5F39DFB0188A40A0008ECAC1 /* NSInvocation+BlocksKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSInvocation+BlocksKit.m"; path = "Zuse/Vendor/BlocksKit/NSInvocation+BlocksKit.m"; sourceTree = "<group>"; };
+		5F39DFB1188A40A0008ECAC1 /* NSMutableArray+BlocksKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableArray+BlocksKit.h"; path = "Zuse/Vendor/BlocksKit/NSMutableArray+BlocksKit.h"; sourceTree = "<group>"; };
+		5F39DFB2188A40A0008ECAC1 /* NSMutableArray+BlocksKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableArray+BlocksKit.m"; path = "Zuse/Vendor/BlocksKit/NSMutableArray+BlocksKit.m"; sourceTree = "<group>"; };
+		5F39DFB3188A40A0008ECAC1 /* NSMutableDictionary+BlocksKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableDictionary+BlocksKit.h"; path = "Zuse/Vendor/BlocksKit/NSMutableDictionary+BlocksKit.h"; sourceTree = "<group>"; };
+		5F39DFB4188A40A0008ECAC1 /* NSMutableDictionary+BlocksKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableDictionary+BlocksKit.m"; path = "Zuse/Vendor/BlocksKit/NSMutableDictionary+BlocksKit.m"; sourceTree = "<group>"; };
+		5F39DFB5188A40A0008ECAC1 /* NSMutableIndexSet+BlocksKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableIndexSet+BlocksKit.h"; path = "Zuse/Vendor/BlocksKit/NSMutableIndexSet+BlocksKit.h"; sourceTree = "<group>"; };
+		5F39DFB6188A40A0008ECAC1 /* NSMutableIndexSet+BlocksKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableIndexSet+BlocksKit.m"; path = "Zuse/Vendor/BlocksKit/NSMutableIndexSet+BlocksKit.m"; sourceTree = "<group>"; };
+		5F39DFB7188A40A0008ECAC1 /* NSMutableOrderedSet+BlocksKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableOrderedSet+BlocksKit.h"; path = "Zuse/Vendor/BlocksKit/NSMutableOrderedSet+BlocksKit.h"; sourceTree = "<group>"; };
+		5F39DFB8188A40A0008ECAC1 /* NSMutableOrderedSet+BlocksKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableOrderedSet+BlocksKit.m"; path = "Zuse/Vendor/BlocksKit/NSMutableOrderedSet+BlocksKit.m"; sourceTree = "<group>"; };
+		5F39DFB9188A40A0008ECAC1 /* NSMutableSet+BlocksKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableSet+BlocksKit.h"; path = "Zuse/Vendor/BlocksKit/NSMutableSet+BlocksKit.h"; sourceTree = "<group>"; };
+		5F39DFBA188A40A0008ECAC1 /* NSMutableSet+BlocksKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableSet+BlocksKit.m"; path = "Zuse/Vendor/BlocksKit/NSMutableSet+BlocksKit.m"; sourceTree = "<group>"; };
+		5F39DFBB188A40A0008ECAC1 /* NSObject+AssociatedObjects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+AssociatedObjects.h"; path = "Zuse/Vendor/BlocksKit/NSObject+AssociatedObjects.h"; sourceTree = "<group>"; };
+		5F39DFBC188A40A0008ECAC1 /* NSObject+AssociatedObjects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+AssociatedObjects.m"; path = "Zuse/Vendor/BlocksKit/NSObject+AssociatedObjects.m"; sourceTree = "<group>"; };
+		5F39DFBD188A40A0008ECAC1 /* NSObject+BlockObservation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+BlockObservation.h"; path = "Zuse/Vendor/BlocksKit/NSObject+BlockObservation.h"; sourceTree = "<group>"; };
+		5F39DFBE188A40A0008ECAC1 /* NSObject+BlockObservation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+BlockObservation.m"; path = "Zuse/Vendor/BlocksKit/NSObject+BlockObservation.m"; sourceTree = "<group>"; };
+		5F39DFBF188A40A0008ECAC1 /* NSObject+BlocksKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+BlocksKit.h"; path = "Zuse/Vendor/BlocksKit/NSObject+BlocksKit.h"; sourceTree = "<group>"; };
+		5F39DFC0188A40A0008ECAC1 /* NSObject+BlocksKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+BlocksKit.m"; path = "Zuse/Vendor/BlocksKit/NSObject+BlocksKit.m"; sourceTree = "<group>"; };
+		5F39DFC1188A40A0008ECAC1 /* NSOrderedSet+BlocksKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSOrderedSet+BlocksKit.h"; path = "Zuse/Vendor/BlocksKit/NSOrderedSet+BlocksKit.h"; sourceTree = "<group>"; };
+		5F39DFC2188A40A0008ECAC1 /* NSOrderedSet+BlocksKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSOrderedSet+BlocksKit.m"; path = "Zuse/Vendor/BlocksKit/NSOrderedSet+BlocksKit.m"; sourceTree = "<group>"; };
+		5F39DFC3188A40A0008ECAC1 /* NSSet+BlocksKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSSet+BlocksKit.h"; path = "Zuse/Vendor/BlocksKit/NSSet+BlocksKit.h"; sourceTree = "<group>"; };
+		5F39DFC4188A40A0008ECAC1 /* NSSet+BlocksKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSSet+BlocksKit.m"; path = "Zuse/Vendor/BlocksKit/NSSet+BlocksKit.m"; sourceTree = "<group>"; };
+		5F39DFC5188A40A0008ECAC1 /* NSTimer+BlocksKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSTimer+BlocksKit.h"; path = "Zuse/Vendor/BlocksKit/NSTimer+BlocksKit.h"; sourceTree = "<group>"; };
+		5F39DFC6188A40A0008ECAC1 /* NSTimer+BlocksKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSTimer+BlocksKit.m"; path = "Zuse/Vendor/BlocksKit/NSTimer+BlocksKit.m"; sourceTree = "<group>"; };
 		5F41ACB01833DCFE0089D136 /* pong_compiled.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = pong_compiled.json; path = JSON/pong_compiled.json; sourceTree = "<group>"; };
 		5F41ACB618341C980089D136 /* ZSExecutionContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSExecutionContext.h; sourceTree = "<group>"; };
 		5F41ACB718341C980089D136 /* ZSExecutionContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSExecutionContext.m; sourceTree = "<group>"; };
@@ -427,9 +427,9 @@
 				4C62B0B018564D9D007CC9CD /* Table Controllers */,
 				4CF1CBB817EF882A00636E0D /* Supporting Files */,
 				4CF1CBC317EF882A00636E0D /* Main.storyboard */,
+				5F154BDD18592E7E00A759F1 /* Main-iPad.storyboard */,
 				4CF1CBC017EF882A00636E0D /* TCAppDelegate.h */,
 				4CF1CBC117EF882A00636E0D /* TCAppDelegate.m */,
-				5F154BDD18592E7E00A759F1 /* Main-iPad.storyboard */,
 			);
 			path = Zuse;
 			sourceTree = "<group>";
@@ -588,39 +588,7 @@
 		5F2C2620187CA0D900F4E514 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
-				5F2C2621187CA26800F4E514 /* BKGlobals.h */,
-				5F2C2622187CA26800F4E514 /* BKMacros.h */,
-				5F2C2623187CA26800F4E514 /* BlocksKit.h */,
-				5F2C2624187CA26800F4E514 /* NSArray+BlocksKit.h */,
-				5F2C2625187CA26800F4E514 /* NSArray+BlocksKit.m */,
-				5F2C2626187CA26800F4E514 /* NSDictionary+BlocksKit.h */,
-				5F2C2627187CA26800F4E514 /* NSDictionary+BlocksKit.m */,
-				5F2C2628187CA26800F4E514 /* NSIndexSet+BlocksKit.h */,
-				5F2C2629187CA26800F4E514 /* NSIndexSet+BlocksKit.m */,
-				5F2C262A187CA26800F4E514 /* NSInvocation+BlocksKit.h */,
-				5F2C262B187CA26800F4E514 /* NSInvocation+BlocksKit.m */,
-				5F2C262C187CA26800F4E514 /* NSMutableArray+BlocksKit.h */,
-				5F2C262D187CA26800F4E514 /* NSMutableArray+BlocksKit.m */,
-				5F2C262E187CA26800F4E514 /* NSMutableDictionary+BlocksKit.h */,
-				5F2C262F187CA26800F4E514 /* NSMutableDictionary+BlocksKit.m */,
-				5F2C2630187CA26800F4E514 /* NSMutableIndexSet+BlocksKit.h */,
-				5F2C2631187CA26800F4E514 /* NSMutableIndexSet+BlocksKit.m */,
-				5F2C2632187CA26800F4E514 /* NSMutableOrderedSet+BlocksKit.h */,
-				5F2C2633187CA26800F4E514 /* NSMutableOrderedSet+BlocksKit.m */,
-				5F2C2634187CA26800F4E514 /* NSMutableSet+BlocksKit.h */,
-				5F2C2635187CA26800F4E514 /* NSMutableSet+BlocksKit.m */,
-				5F2C2636187CA26800F4E514 /* NSObject+AssociatedObjects.h */,
-				5F2C2637187CA26800F4E514 /* NSObject+AssociatedObjects.m */,
-				5F2C2638187CA26800F4E514 /* NSObject+BlockObservation.h */,
-				5F2C2639187CA26800F4E514 /* NSObject+BlockObservation.m */,
-				5F2C263A187CA26800F4E514 /* NSObject+BlocksKit.h */,
-				5F2C263B187CA26800F4E514 /* NSObject+BlocksKit.m */,
-				5F2C263C187CA26800F4E514 /* NSOrderedSet+BlocksKit.h */,
-				5F2C263D187CA26800F4E514 /* NSOrderedSet+BlocksKit.m */,
-				5F2C263E187CA26800F4E514 /* NSSet+BlocksKit.h */,
-				5F2C263F187CA26800F4E514 /* NSSet+BlocksKit.m */,
-				5F2C2640187CA26800F4E514 /* NSTimer+BlocksKit.h */,
-				5F2C2641187CA26800F4E514 /* NSTimer+BlocksKit.m */,
+				5F39DFA5188A4090008ECAC1 /* BlocksKit */,
 			);
 			name = Vendor;
 			sourceTree = "<group>";
@@ -637,6 +605,46 @@
 				5F2EC4E2183DC2550091CEAD /* scope_set_object_var.json */,
 			);
 			name = JSON;
+			sourceTree = "<group>";
+		};
+		5F39DFA5188A4090008ECAC1 /* BlocksKit */ = {
+			isa = PBXGroup;
+			children = (
+				5F39DFA6188A40A0008ECAC1 /* BKGlobals.h */,
+				5F39DFA7188A40A0008ECAC1 /* BKMacros.h */,
+				5F39DFA8188A40A0008ECAC1 /* BlocksKit.h */,
+				5F39DFA9188A40A0008ECAC1 /* NSArray+BlocksKit.h */,
+				5F39DFAA188A40A0008ECAC1 /* NSArray+BlocksKit.m */,
+				5F39DFAB188A40A0008ECAC1 /* NSDictionary+BlocksKit.h */,
+				5F39DFAC188A40A0008ECAC1 /* NSDictionary+BlocksKit.m */,
+				5F39DFAD188A40A0008ECAC1 /* NSIndexSet+BlocksKit.h */,
+				5F39DFAE188A40A0008ECAC1 /* NSIndexSet+BlocksKit.m */,
+				5F39DFAF188A40A0008ECAC1 /* NSInvocation+BlocksKit.h */,
+				5F39DFB0188A40A0008ECAC1 /* NSInvocation+BlocksKit.m */,
+				5F39DFB1188A40A0008ECAC1 /* NSMutableArray+BlocksKit.h */,
+				5F39DFB2188A40A0008ECAC1 /* NSMutableArray+BlocksKit.m */,
+				5F39DFB3188A40A0008ECAC1 /* NSMutableDictionary+BlocksKit.h */,
+				5F39DFB4188A40A0008ECAC1 /* NSMutableDictionary+BlocksKit.m */,
+				5F39DFB5188A40A0008ECAC1 /* NSMutableIndexSet+BlocksKit.h */,
+				5F39DFB6188A40A0008ECAC1 /* NSMutableIndexSet+BlocksKit.m */,
+				5F39DFB7188A40A0008ECAC1 /* NSMutableOrderedSet+BlocksKit.h */,
+				5F39DFB8188A40A0008ECAC1 /* NSMutableOrderedSet+BlocksKit.m */,
+				5F39DFB9188A40A0008ECAC1 /* NSMutableSet+BlocksKit.h */,
+				5F39DFBA188A40A0008ECAC1 /* NSMutableSet+BlocksKit.m */,
+				5F39DFBB188A40A0008ECAC1 /* NSObject+AssociatedObjects.h */,
+				5F39DFBC188A40A0008ECAC1 /* NSObject+AssociatedObjects.m */,
+				5F39DFBD188A40A0008ECAC1 /* NSObject+BlockObservation.h */,
+				5F39DFBE188A40A0008ECAC1 /* NSObject+BlockObservation.m */,
+				5F39DFBF188A40A0008ECAC1 /* NSObject+BlocksKit.h */,
+				5F39DFC0188A40A0008ECAC1 /* NSObject+BlocksKit.m */,
+				5F39DFC1188A40A0008ECAC1 /* NSOrderedSet+BlocksKit.h */,
+				5F39DFC2188A40A0008ECAC1 /* NSOrderedSet+BlocksKit.m */,
+				5F39DFC3188A40A0008ECAC1 /* NSSet+BlocksKit.h */,
+				5F39DFC4188A40A0008ECAC1 /* NSSet+BlocksKit.m */,
+				5F39DFC5188A40A0008ECAC1 /* NSTimer+BlocksKit.h */,
+				5F39DFC6188A40A0008ECAC1 /* NSTimer+BlocksKit.m */,
+			);
+			name = BlocksKit;
 			sourceTree = "<group>";
 		};
 		5FEFB898182B5360007DAFCF /* JSON */ = {
@@ -916,29 +924,29 @@
 				5F0139B218569EBD005D7FAE /* ZSCodeEditorPopoverExpressionOptionsDataSource.m in Sources */,
 				4CF1CBBE17EF882A00636E0D /* main.m in Sources */,
 				788F70CF1851590700C68F83 /* ZSCodeStatementNew.m in Sources */,
+				5F39DFD0188A40A0008ECAC1 /* NSObject+AssociatedObjects.m in Sources */,
+				5F39DFCF188A40A0008ECAC1 /* NSMutableSet+BlocksKit.m in Sources */,
 				7855BCC31837F47E006493F9 /* ZSCodeStatement.m in Sources */,
 				78645C53184AB12A00EE14A9 /* ZSCodeEditorTableViewCellSet.m in Sources */,
 				7855BCBF1837F47E006493F9 /* ZSCodeStatementCall.m in Sources */,
-				5F2C2645187CA26900F4E514 /* NSInvocation+BlocksKit.m in Sources */,
 				4C62B0BB18564F9D007CC9CD /* ZSMenuController.m in Sources */,
-				5F2C264D187CA26900F4E514 /* NSObject+BlocksKit.m in Sources */,
-				5F2C264A187CA26900F4E514 /* NSMutableSet+BlocksKit.m in Sources */,
 				4C1BB6F91888B36F004A3DEA /* ZSSettingsViewController.m in Sources */,
 				78C142041859262600C393ED /* ZSCodeEditorTableViewCellCall.m in Sources */,
-				5F2C2642187CA26900F4E514 /* NSArray+BlocksKit.m in Sources */,
 				5F030C6F185AE0D300584DCD /* NSArray+Zuse.m in Sources */,
-				5F2C264E187CA26900F4E514 /* NSOrderedSet+BlocksKit.m in Sources */,
 				5F0139BB1856BCA7005D7FAE /* ZSTraitEditorParametersViewController.m in Sources */,
 				4CF303F11856E5DB00B57B95 /* ZSProject.m in Sources */,
-				5F2C264F187CA26900F4E514 /* NSSet+BlocksKit.m in Sources */,
 				4C62B0BC18564F9D007CC9CD /* ZSSpriteController.m in Sources */,
 				5F0139AC1856896F005D7FAE /* ZSEditorViewController.m in Sources */,
 				7855BCC21837F47E006493F9 /* ZSCodeStatementSet.m in Sources */,
+				5F39DFC7188A40A0008ECAC1 /* NSArray+BlocksKit.m in Sources */,
+				5F39DFD5188A40A0008ECAC1 /* NSTimer+BlocksKit.m in Sources */,
+				5F39DFCA188A40A0008ECAC1 /* NSInvocation+BlocksKit.m in Sources */,
+				5F39DFD2188A40A0008ECAC1 /* NSObject+BlocksKit.m in Sources */,
 				4C5F732718874B51007F61B3 /* ZSCanvasView.m in Sources */,
+				5F39DFD4188A40A0008ECAC1 /* NSSet+BlocksKit.m in Sources */,
+				5F39DFCB188A40A0008ECAC1 /* NSMutableArray+BlocksKit.m in Sources */,
 				7843FA93184BF70C00DCE527 /* ZSCodeEditorTableViewCellNew.m in Sources */,
 				7855BCC41837F47E006493F9 /* ZSCodeSuite.m in Sources */,
-				5F2C2647187CA26900F4E514 /* NSMutableDictionary+BlocksKit.m in Sources */,
-				5F2C2650187CA26900F4E514 /* NSTimer+BlocksKit.m in Sources */,
 				4C5080DF188485C900E1F57A /* ZSNewProjectViewController.m in Sources */,
 				4CE3404E180A0154009A63A2 /* ZSRendererViewController.m in Sources */,
 				78F79EB61839BC9E00012726 /* ZSCodeStatementOnEvent.m in Sources */,
@@ -946,33 +954,33 @@
 				5F41ACB818341C980089D136 /* ZSExecutionContext.m in Sources */,
 				784BFD071844680D00FB0694 /* ZSCodeEditorTableViewCell.m in Sources */,
 				4CF1CBC217EF882A00636E0D /* TCAppDelegate.m in Sources */,
+				5F39DFC8188A40A0008ECAC1 /* NSDictionary+BlocksKit.m in Sources */,
 				4C62B0BF1856626C007CC9CD /* ZSSpriteTraits.m in Sources */,
 				78346A0A183C623400540D54 /* ZSCodeStatementObject.m in Sources */,
-				5F2C2643187CA26900F4E514 /* NSDictionary+BlocksKit.m in Sources */,
 				4CF1CC0E17EFF64500636E0D /* ZSSpriteView.m in Sources */,
 				7843FA90184BE51600DCE527 /* ZSCodeEditorTableViewCellIf.m in Sources */,
-				5F2C264B187CA26900F4E514 /* NSObject+AssociatedObjects.m in Sources */,
 				7855BCC01837F47E006493F9 /* ZSCodeStatementIf.m in Sources */,
 				4C5080D9188480F500E1F57A /* ZSProjectViewController.m in Sources */,
+				5F39DFC9188A40A0008ECAC1 /* NSIndexSet+BlocksKit.m in Sources */,
 				5F1B5BA61837EE7800632DE6 /* ZSCompiler.m in Sources */,
 				4C717208185ACCB600AD865C /* ZSSpriteTableViewCell.m in Sources */,
 				5F0139AF18568EC2005D7FAE /* ZSTraitEditorViewController.m in Sources */,
+				5F39DFCC188A40A0008ECAC1 /* NSMutableDictionary+BlocksKit.m in Sources */,
 				4C0D470817FB927600F13786 /* ZSCanvasViewController.m in Sources */,
 				5F0139B51856B225005D7FAE /* ZSCodeEditorPopoverTableViewController.m in Sources */,
-				5F2C2649187CA26900F4E514 /* NSMutableOrderedSet+BlocksKit.m in Sources */,
 				2C6B5D6A183D43AB00E3D56C /* ZSSpriteTouchComponent.m in Sources */,
+				5F39DFCD188A40A0008ECAC1 /* NSMutableIndexSet+BlocksKit.m in Sources */,
 				7855BCCA1837FA97006493F9 /* ZSCodeEditorViewController.m in Sources */,
 				4C5F732318873A59007F61B3 /* ZSGrid.m in Sources */,
+				5F39DFD1188A40A0008ECAC1 /* NSObject+BlockObservation.m in Sources */,
 				4C4087091852480F009117E1 /* ZSSpriteLibrary.m in Sources */,
-				5F2C2648187CA26900F4E514 /* NSMutableIndexSet+BlocksKit.m in Sources */,
 				2CA9D387183F3F0300401231 /* ZSRendererScene.m in Sources */,
-				5F2C2644187CA26900F4E514 /* NSIndexSet+BlocksKit.m in Sources */,
 				7855BCC11837F47E006493F9 /* ZSCodeLine.m in Sources */,
 				7843FAA3184C16B000DCE527 /* ZSCodeEditorTableViewCellOnEvent.m in Sources */,
-				5F2C264C187CA26900F4E514 /* NSObject+BlockObservation.m in Sources */,
 				5F0139B81856B233005D7FAE /* ZSCodeEditorPopoverVarNameOptionsDataSource.m in Sources */,
-				5F2C2646187CA26900F4E514 /* NSMutableArray+BlocksKit.m in Sources */,
+				5F39DFD3188A40A0008ECAC1 /* NSOrderedSet+BlocksKit.m in Sources */,
 				5F030C6C185ADD1400584DCD /* NSDictionary+Zuse.m in Sources */,
+				5F39DFCE188A40A0008ECAC1 /* NSMutableOrderedSet+BlocksKit.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
