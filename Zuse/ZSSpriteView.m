@@ -42,7 +42,7 @@
     [panGesture setMaximumNumberOfTouches:1];
     [self addGestureRecognizer:panGesture];
     
-    UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressRecognized)];
+    UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressRecognized:)];
     [self addGestureRecognizer:longPressGesture];
 }
 
@@ -52,9 +52,9 @@
     }
 }
 
-- (void)longPressRecognized {
+- (void)longPressRecognized:(id)sender {
     if (_longPressed) {
-        _longPressed();
+        _longPressed(sender);
     }
 }
 
@@ -71,6 +71,34 @@
         if (_panEnded) {
             _panEnded(panGestureRecognizer);
         }
+    }
+}
+
+- (BOOL)canBecomeFirstResponder {
+    return YES;
+}
+
+- (void)copy:(id)sender {
+    if (_copy) {
+        _copy(self);
+    }
+}
+
+- (void)cut:(id)sender {
+    if (_cut) {
+        _cut(self);
+    }
+}
+
+- (void)delete:(id)sender {
+    if (_delete) {
+        _delete(self);
+    }
+}
+
+- (void)paste:(id)sender {
+    if (_paste) {
+        _paste();
     }
 }
 

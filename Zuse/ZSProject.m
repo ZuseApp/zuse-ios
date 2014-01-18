@@ -79,6 +79,10 @@
     return self;
 }
 
+- (NSMutableDictionary *)rawJSON {
+    return _projectJSON;
+}
+
 - (NSMutableDictionary *)assembledJSON {
     if (_title) {
         _projectJSON[@"title"] = _title;

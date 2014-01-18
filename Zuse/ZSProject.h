@@ -10,6 +10,7 @@
 
 - (id)init;
 - (id)initWithFile:(NSString *)name;
+- (NSMutableDictionary *)rawJSON;
 - (NSMutableDictionary *)assembledJSON;
 - (void)write;
 
