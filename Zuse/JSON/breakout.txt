@@ -41,13 +41,12 @@ Block
     Disappearable
 
 
-
   Disappearable Code
   ------------------
     on_event "collide" {
       hitsLeft -= 1
       if (hitsLeft == 0) {
         removeFromWorld()
-        trigger_event "score"
       }
+      trigger_event "score"
     }

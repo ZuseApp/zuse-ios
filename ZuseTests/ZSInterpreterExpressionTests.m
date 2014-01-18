@@ -144,60 +144,17 @@
 }
 
 
-- (void)testSimpleExpression {
-    __block BOOL didRun = NO;
-    
-    NSDictionary *method = @{
-        @"method":  @"print",
-        @"block": ^(NSString *identifier, NSArray *args) {
-            didRun = YES;
-            XCTAssertEqualObjects(@3, args[0], @"");
-        }
-    };
-    
-    [_interpreter loadMethod:method];
-    
-    NSDictionary *program = @{
-        @"call": @{
-            @"method": @"print",
-            @"parameters": @[ @{ @"+": @[ @1, @2 ] } ]
-        }
-    };
-    
-    [_interpreter runJSON:program];
-    
-    XCTAssertEqual(YES, didRun, @"");
-}
-
 - (void)testNestedExpression {
-    __block BOOL didRun = NO;
-    
-    NSDictionary *method = @{
-        @"method":  @"print",
-        @"block": ^(NSString *identifier, NSArray *args) {
-            didRun = YES;
-            XCTAssertEqualObjects(@6, args[0], @"");
-        }
-    };
-    
-   [_interpreter loadMethod:method];
-    
     NSDictionary *program = @{
-        @"call": @{
-            @"method": @"print",
-            @"parameters": @[
-                @{
                     @"+": @[
                         @{ @"+": @[ @1, @1 ] },
                         @{ @"+": @[ @2, @2 ] }
                     ]
-                }
-            ]
-        }
     };
     
-    [_interpreter runJSON:program];
+    NSNumber *returnValue = [_interpreter runJSON:program];
     
+    XCTAssertEqualObjects(@6, returnValue, @"");
 }
 
 
