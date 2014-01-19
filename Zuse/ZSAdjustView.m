@@ -20,12 +20,68 @@
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        self.layer.borderColor = [[UIColor blackColor] CGColor];
-        self.layer.borderWidth = 0.5f;
-        self.tintColor = [UIColor yellowColor];
-        [ZSAdjustView setBlurEnabled:YES];
+        self.userInteractionEnabled = YES;
+        [self setupGestures];
     }
     return self;
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    _blurView.tintColor = [UIColor whiteColor];
+    _blurView.underlyingView = self.superview;
+}
+
+- (void)setupGestures {
+    UITapGestureRecognizer *doubleTapGeture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTapRecognized)];
+    doubleTapGeture.numberOfTapsRequired = 2;
+    [self addGestureRecognizer:doubleTapGeture];
+    
+    UITapGestureRecognizer *singleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTapRecognized)];
+    [singleTapGesture requireGestureRecognizerToFail:doubleTapGeture];
+    [self addGestureRecognizer:singleTapGesture];
+    
+    UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panRecognized:)];
+    [panGesture setMinimumNumberOfTouches:1];
+    [panGesture setMaximumNumberOfTouches:1];
+    [self addGestureRecognizer:panGesture];
+    
+    UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressRecognized:)];
+    [self addGestureRecognizer:longPressGesture];
+}
+
+- (void)singleTapRecognized {
+    if (_singleTapped) {
+        _singleTapped();
+    }
+}
+
+- (void)doubleTapRecognized {
+    if (_doubleTapped) {
+        _doubleTapped();
+    }
+}
+
+- (void)longPressRecognized:(id)sender {
+    if (_longPressed) {
+        _longPressed(sender);
+    }
+}
+
+- (void)panRecognized:(UIPanGestureRecognizer *) panGestureRecognizer {
+    if (panGestureRecognizer.state == UIGestureRecognizerStateBegan) {
+        if (_panBegan) {
+            _panBegan(panGestureRecognizer);
+        }
+    } else if (panGestureRecognizer.state == UIGestureRecognizerStateChanged) {
+        if (_panMoved) {
+            _panMoved(panGestureRecognizer);
+        }
+    } else if (panGestureRecognizer.state == UIGestureRecognizerStateEnded) {
+        if (_panEnded) {
+            _panEnded(panGestureRecognizer);
+        }
+    }
 }
 
 @end

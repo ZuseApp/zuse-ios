@@ -9,7 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "FXBlurView.h"
 
-@interface ZSAdjustView
+@interface ZSAdjustView : UIView
 
+@property (strong, nonatomic) void(^singleTapped)();
+@property (strong, nonatomic) void(^doubleTapped)();
+@property (strong, nonatomic) void(^longPressed)(UILongPressGestureRecognizer *longPressedGestureRecognizer);
+@property (strong, nonatomic) void(^panBegan)(UIPanGestureRecognizer *panGestureRecognizer);
+@property (strong, nonatomic) void(^panMoved)(UIPanGestureRecognizer *panGestureRecognizer);
+@property (strong, nonatomic) void(^panEnded)(UIPanGestureRecognizer *panGestureRecognizer);
 
 @end

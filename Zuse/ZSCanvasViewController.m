@@ -7,6 +7,7 @@
 #import "ZSGrid.h"
 #import "ZSCanvasView.h"
 #import "ZSSettingsViewController.h"
+#import "ZSAdjustView.h"
 
 @interface ZSCanvasViewController ()
 
@@ -19,7 +20,7 @@
 @property (assign, nonatomic, getter = isMenuTableViewShowing) BOOL menuTableViewShowing;
 
 // Grid Menu
-@property (weak, nonatomic) IBOutlet UIView *gridMenu;
+@property (weak, nonatomic) IBOutlet ZSAdjustView *gridMenu;
 
 // Sprites
 @property (nonatomic, strong) NSArray *templateSprites;
@@ -347,6 +348,23 @@
     UISwipeGestureRecognizer *leftSwipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(hideMenuDrawer)];
     [leftSwipeGesture setDirection:UISwipeGestureRecognizerDirectionLeft];
     [_menuTable addGestureRecognizer:leftSwipeGesture];
+    
+    // Adjust Menu
+    __weak ZSAdjustView *weakAdjust = _gridMenu;
+    __block CGPoint offset;
+    __block CGPoint currentPoint;
+    _gridMenu.panBegan = ^(UIPanGestureRecognizer *panGestureRecognizer) {
+        offset = [panGestureRecognizer locationInView:weakAdjust];
+    };
+    
+    _gridMenu.panMoved = ^(UIPanGestureRecognizer *panGestureRecognizer) {
+        currentPoint = [panGestureRecognizer locationInView:self.view];
+        
+        CGRect frame = weakAdjust.frame;
+        frame.origin.x = currentPoint.x - offset.x;
+        frame.origin.y = currentPoint.y - offset.y;
+        weakAdjust.frame = frame;
+    };
 }
 
 - (void)hideSpriteDrawer {
@@ -477,6 +495,10 @@
 #pragma mark Grid
 - (void)showGrid:(id)sender {
     _gridMenu.hidden = NO;
+}
+
+- (IBAction)hideGrid:(id)sender {
+    _gridMenu.hidden = YES;
 }
 
 //- (IBAction)gridWidthChanged:(id)sender {
