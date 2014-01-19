@@ -21,6 +21,9 @@
 
 // Grid Menu
 @property (weak, nonatomic) IBOutlet ZSAdjustView *gridMenu;
+@property (weak, nonatomic) IBOutlet UILabel *gridWidth;
+@property (weak, nonatomic) IBOutlet UILabel *gridHeight;
+
 
 // Sprites
 @property (nonatomic, strong) NSArray *templateSprites;
@@ -143,7 +146,7 @@
         
         if (longPressedGestureRecognizer.state == UIGestureRecognizerStateBegan) {
             [weakView becomeFirstResponder];
-            UIMenuItem *menuItem = [[UIMenuItem alloc] initWithTitle:@"Grid" action:@selector(showGrid:)];
+            UIMenuItem *menuItem = [[UIMenuItem alloc] initWithTitle:@"Adjust" action:@selector(showGrid:)];
             UIMenuController *menuController = [UIMenuController sharedMenuController];
             menuController.menuItems = [NSArray arrayWithObject:menuItem];
             [menuController setTargetRect:weakView.frame inView:self.view];
@@ -492,7 +495,8 @@
     }
 }
 
-#pragma mark Grid
+#pragma mark Adjustment Menu
+
 - (void)showGrid:(id)sender {
     _gridMenu.hidden = NO;
 }
@@ -501,26 +505,26 @@
     _gridMenu.hidden = YES;
 }
 
-//- (IBAction)gridWidthChanged:(id)sender {
-//    ZSCanvasView *view = (ZSCanvasView *)self.view;
-//    UISlider *slider = (UISlider*)sender;
-//    CGSize size = view.grid.dimensions;
-//    size.width = view.grid.size.width / slider.value;
-//    view.grid.dimensions = size;
-//    NSInteger value = slider.value;
-//    _gridWidth.text = [NSString stringWithFormat:@"%i", value];
-//    [view setNeedsDisplay];
-//}
-//
-//- (IBAction)gridHeightChanged:(id)sender {
-//    ZSCanvasView *view = (ZSCanvasView *)self.view;
-//    UISlider *slider = (UISlider*)sender;
-//    CGSize size = view.grid.dimensions;
-//    size.height = view.grid.size.height / slider.value;
-//    view.grid.dimensions = size;
-//    NSInteger value = slider.value;
-//    _gridHeight.text = [NSString stringWithFormat:@"%i", value];
-//    [view setNeedsDisplay];
-//}
+- (IBAction)gridWidthChanged:(id)sender {
+    ZSCanvasView *view = (ZSCanvasView *)self.view;
+    UIStepper *slider = (UIStepper*)sender;
+    CGSize size = view.grid.dimensions;
+    size.width = view.grid.size.width / slider.value;
+    view.grid.dimensions = size;
+    NSInteger value = slider.value;
+    _gridWidth.text = [NSString stringWithFormat:@"%li", (long)value];
+    [view setNeedsDisplay];
+}
+
+- (IBAction)gridHeightChanged:(id)sender {
+    ZSCanvasView *view = (ZSCanvasView *)self.view;
+    UIStepper *slider = (UIStepper*)sender;
+    CGSize size = view.grid.dimensions;
+    size.height = view.grid.size.height / slider.value;
+    view.grid.dimensions = size;
+    NSInteger value = slider.value;
+    _gridHeight.text = [NSString stringWithFormat:@"%li", (long)value];
+    [view setNeedsDisplay];
+}
 
 @end

@@ -20,6 +20,7 @@
 		4C138A1F18892E35004F232E /* slugish_pong.json in Resources */ = {isa = PBXBuildFile; fileRef = 4C138A1E18892E35004F232E /* slugish_pong.json */; };
 		4C1BB6F91888B36F004A3DEA /* ZSSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1BB6F81888B36F004A3DEA /* ZSSettingsViewController.m */; };
 		4C4087091852480F009117E1 /* ZSSpriteLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C4087081852480F009117E1 /* ZSSpriteLibrary.m */; };
+		4C430DED188B8C12009D754C /* gear--pencil.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C430DEC188B8C12009D754C /* gear--pencil.png */; };
 		4C5080D9188480F500E1F57A /* ZSProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C5080D8188480F500E1F57A /* ZSProjectViewController.m */; };
 		4C5080DF188485C900E1F57A /* ZSNewProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C5080DE188485C900E1F57A /* ZSNewProjectViewController.m */; };
 		4C5F732318873A59007F61B3 /* ZSGrid.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C5F732218873A59007F61B3 /* ZSGrid.m */; };
@@ -159,6 +160,7 @@
 		4C1BB6F81888B36F004A3DEA /* ZSSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSSettingsViewController.m; sourceTree = "<group>"; };
 		4C4087071852480F009117E1 /* ZSSpriteLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSSpriteLibrary.h; sourceTree = "<group>"; };
 		4C4087081852480F009117E1 /* ZSSpriteLibrary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSSpriteLibrary.m; sourceTree = "<group>"; };
+		4C430DEC188B8C12009D754C /* gear--pencil.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gear--pencil.png"; sourceTree = "<group>"; };
 		4C5080D7188480F500E1F57A /* ZSProjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSProjectViewController.h; sourceTree = "<group>"; };
 		4C5080D8188480F500E1F57A /* ZSProjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSProjectViewController.m; sourceTree = "<group>"; };
 		4C5080DD188485C900E1F57A /* ZSNewProjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSNewProjectViewController.h; sourceTree = "<group>"; };
@@ -656,6 +658,7 @@
 		4CF1CBFE17EFE13C00636E0D /* images */ = {
 			isa = PBXGroup;
 			children = (
+				4C430DEC188B8C12009D754C /* gear--pencil.png */,
 				4C9E43E2188B698200045D86 /* cross.png */,
 				4C9E43DE188B66D300045D86 /* arrow-circle-double-135.png */,
 				4C9E43DC188B660700045D86 /* arrow-move.png */,
@@ -950,6 +953,7 @@
 				4CF1CBC517EF882A00636E0D /* Main.storyboard in Resources */,
 				2C19FF11181AE6B600D10D2B /* projectile@2x.png in Resources */,
 				5F1B5BA31837E05A00632DE6 /* pong_no_traits.json in Resources */,
+				4C430DED188B8C12009D754C /* gear--pencil.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

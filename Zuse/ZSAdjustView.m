@@ -21,51 +21,19 @@
     self = [super initWithCoder:aDecoder];
     if (self) {
         self.userInteractionEnabled = YES;
+        self.layer.borderColor = [[UIColor blackColor] CGColor];
+        self.layer.borderWidth = 0.5f;
         [self setupGestures];
+        _blurView.tintColor = [UIColor whiteColor];
     }
     return self;
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    _blurView.tintColor = [UIColor whiteColor];
-    _blurView.underlyingView = self.superview;
-}
-
 - (void)setupGestures {
-    UITapGestureRecognizer *doubleTapGeture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTapRecognized)];
-    doubleTapGeture.numberOfTapsRequired = 2;
-    [self addGestureRecognizer:doubleTapGeture];
-    
-    UITapGestureRecognizer *singleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTapRecognized)];
-    [singleTapGesture requireGestureRecognizerToFail:doubleTapGeture];
-    [self addGestureRecognizer:singleTapGesture];
-    
     UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panRecognized:)];
     [panGesture setMinimumNumberOfTouches:1];
     [panGesture setMaximumNumberOfTouches:1];
     [self addGestureRecognizer:panGesture];
-    
-    UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressRecognized:)];
-    [self addGestureRecognizer:longPressGesture];
-}
-
-- (void)singleTapRecognized {
-    if (_singleTapped) {
-        _singleTapped();
-    }
-}
-
-- (void)doubleTapRecognized {
-    if (_doubleTapped) {
-        _doubleTapped();
-    }
-}
-
-- (void)longPressRecognized:(id)sender {
-    if (_longPressed) {
-        _longPressed(sender);
-    }
 }
 
 - (void)panRecognized:(UIPanGestureRecognizer *) panGestureRecognizer {
