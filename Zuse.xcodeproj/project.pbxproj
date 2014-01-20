@@ -20,6 +20,7 @@
 		4C138A1F18892E35004F232E /* slugish_pong.json in Resources */ = {isa = PBXBuildFile; fileRef = 4C138A1E18892E35004F232E /* slugish_pong.json */; };
 		4C1BB6F91888B36F004A3DEA /* ZSSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1BB6F81888B36F004A3DEA /* ZSSettingsViewController.m */; };
 		4C4087091852480F009117E1 /* ZSSpriteLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C4087081852480F009117E1 /* ZSSpriteLibrary.m */; };
+		4C430DED188B8C12009D754C /* gear--pencil.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C430DEC188B8C12009D754C /* gear--pencil.png */; };
 		4C5080D9188480F500E1F57A /* ZSProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C5080D8188480F500E1F57A /* ZSProjectViewController.m */; };
 		4C5080DF188485C900E1F57A /* ZSNewProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C5080DE188485C900E1F57A /* ZSNewProjectViewController.m */; };
 		4C5F732318873A59007F61B3 /* ZSGrid.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C5F732218873A59007F61B3 /* ZSGrid.m */; };
@@ -30,6 +31,10 @@
 		4C62B0C118566409007CC9CD /* default_traits.json in Resources */ = {isa = PBXBuildFile; fileRef = 4C62B0C018566409007CC9CD /* default_traits.json */; };
 		4C717208185ACCB600AD865C /* ZSSpriteTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C717207185ACCB600AD865C /* ZSSpriteTableViewCell.m */; };
 		4C7C748C18847A0000729888 /* ZSTemplateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C7C748B18847A0000729888 /* ZSTemplateViewController.m */; };
+		4C9E43DB188B65B800045D86 /* grid.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C9E43DA188B65B800045D86 /* grid.png */; };
+		4C9E43DD188B660700045D86 /* arrow-move.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C9E43DC188B660700045D86 /* arrow-move.png */; };
+		4C9E43DF188B66D300045D86 /* arrow-circle-double-135.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C9E43DE188B66D300045D86 /* arrow-circle-double-135.png */; };
+		4C9E43E3188B698200045D86 /* cross.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C9E43E2188B698200045D86 /* cross.png */; };
 		4CCE4F841845A541006C7DA0 /* paddle.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CCE4F831845A541006C7DA0 /* paddle.png */; };
 		4CE340401809EDC1009A63A2 /* basketball.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CE3403F1809EDC1009A63A2 /* basketball.png */; };
 		4CE340421809F76E009A63A2 /* grayball.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CE340411809F76E009A63A2 /* grayball.png */; };
@@ -155,6 +160,7 @@
 		4C1BB6F81888B36F004A3DEA /* ZSSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSSettingsViewController.m; sourceTree = "<group>"; };
 		4C4087071852480F009117E1 /* ZSSpriteLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSSpriteLibrary.h; sourceTree = "<group>"; };
 		4C4087081852480F009117E1 /* ZSSpriteLibrary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSSpriteLibrary.m; sourceTree = "<group>"; };
+		4C430DEC188B8C12009D754C /* gear--pencil.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gear--pencil.png"; sourceTree = "<group>"; };
 		4C5080D7188480F500E1F57A /* ZSProjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSProjectViewController.h; sourceTree = "<group>"; };
 		4C5080D8188480F500E1F57A /* ZSProjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSProjectViewController.m; sourceTree = "<group>"; };
 		4C5080DD188485C900E1F57A /* ZSNewProjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSNewProjectViewController.h; sourceTree = "<group>"; };
@@ -174,6 +180,10 @@
 		4C717207185ACCB600AD865C /* ZSSpriteTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSSpriteTableViewCell.m; sourceTree = "<group>"; };
 		4C7C748A18847A0000729888 /* ZSTemplateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSTemplateViewController.h; sourceTree = "<group>"; };
 		4C7C748B18847A0000729888 /* ZSTemplateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSTemplateViewController.m; sourceTree = "<group>"; };
+		4C9E43DA188B65B800045D86 /* grid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grid.png; sourceTree = "<group>"; };
+		4C9E43DC188B660700045D86 /* arrow-move.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow-move.png"; sourceTree = "<group>"; };
+		4C9E43DE188B66D300045D86 /* arrow-circle-double-135.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow-circle-double-135.png"; sourceTree = "<group>"; };
+		4C9E43E2188B698200045D86 /* cross.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cross.png; sourceTree = "<group>"; };
 		4CCE4F831845A541006C7DA0 /* paddle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = paddle.png; sourceTree = "<group>"; };
 		4CE3403F1809EDC1009A63A2 /* basketball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = basketball.png; sourceTree = "<group>"; };
 		4CE340411809F76E009A63A2 /* grayball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grayball.png; sourceTree = "<group>"; };
@@ -648,6 +658,11 @@
 		4CF1CBFE17EFE13C00636E0D /* images */ = {
 			isa = PBXGroup;
 			children = (
+				4C430DEC188B8C12009D754C /* gear--pencil.png */,
+				4C9E43E2188B698200045D86 /* cross.png */,
+				4C9E43DE188B66D300045D86 /* arrow-circle-double-135.png */,
+				4C9E43DC188B660700045D86 /* arrow-move.png */,
+				4C9E43DA188B65B800045D86 /* grid.png */,
 				4CE3561B188A1355007024C0 /* red_brick.png */,
 				4CCE4F831845A541006C7DA0 /* paddle.png */,
 				2C19FF06181AE6B600D10D2B /* monster.png */,
@@ -911,6 +926,7 @@
 				78D8A960185A3A1100834B15 /* move.png in Resources */,
 				4C0D470517FB800400F13786 /* TestProject.json in Resources */,
 				7843FA96184BFBFE00DCE527 /* blue plus sign.png in Resources */,
+				4C9E43DF188B66D300045D86 /* arrow-circle-double-135.png in Resources */,
 				4CF1CC0517EFE14A00636E0D /* dog.jpeg in Resources */,
 				7826907318555E0D0093FD94 /* test empty json.json in Resources */,
 				4CE340401809EDC1009A63A2 /* basketball.png in Resources */,
@@ -920,6 +936,7 @@
 				7843FAA7184C1D7000DCE527 /* plus if.png in Resources */,
 				4CF1CC0817EFE14A00636E0D /* yoda.jpeg in Resources */,
 				7843FA9A184C0AC000DCE527 /* set.png in Resources */,
+				4C9E43DD188B660700045D86 /* arrow-move.png in Resources */,
 				4CCE4F841845A541006C7DA0 /* paddle.png in Resources */,
 				2C19FF0C181AE6B600D10D2B /* monster.png in Resources */,
 				4CE3561C188A1355007024C0 /* red_brick.png in Resources */,
@@ -928,12 +945,15 @@
 				4CF303F31859238900B57B95 /* new_project.json in Resources */,
 				4CF1CC0717EFE14A00636E0D /* sonic.jpeg in Resources */,
 				4CF1CBCA17EF882A00636E0D /* Images.xcassets in Resources */,
+				4C9E43DB188B65B800045D86 /* grid.png in Resources */,
 				7843FAAB184C4BF300DCE527 /* plus.png in Resources */,
+				4C9E43E3188B698200045D86 /* cross.png in Resources */,
 				5F154BDE18592E7E00A759F1 /* Main-iPad.storyboard in Resources */,
 				4CF1CBBC17EF882A00636E0D /* InfoPlist.strings in Resources */,
 				4CF1CBC517EF882A00636E0D /* Main.storyboard in Resources */,
 				2C19FF11181AE6B600D10D2B /* projectile@2x.png in Resources */,
 				5F1B5BA31837E05A00632DE6 /* pong_no_traits.json in Resources */,
+				4C430DED188B8C12009D754C /* gear--pencil.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
