@@ -10,7 +10,7 @@
 
 @implementation ZSMenuController
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 3;
+    return 5;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -18,13 +18,22 @@
     
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
-    if (indexPath.row == 1) {
-        cell.textLabel.text = @"Settings";
-        cell.accessoryType = UITableViewCellAccessoryNone;
-    } else if (indexPath.row == 2) {
-        cell.textLabel.text = @"Back";
-        cell.accessoryType = UITableViewCellAccessoryNone;
+    if (indexPath.row == 0) {
+        cell.imageView.image = [UIImage imageNamed:@"play.png"];
     }
+    else if (indexPath.row == 1) {
+        cell.imageView.image = [UIImage imageNamed:@"pause.png"];
+    }
+    else if (indexPath.row == 2) {
+        cell.imageView.image = [UIImage imageNamed:@"stop.png"];
+    }
+    else if (indexPath.row == 3) {
+        cell.imageView.image = [UIImage imageNamed:@"settings.png"];
+    }
+    else if (indexPath.row == 4) {
+        cell.imageView.image = [UIImage imageNamed:@"back_arrow.png"];
+    }
+    cell.accessoryType = UITableViewCellAccessoryNone;
     return cell;
 }
 
@@ -32,10 +41,13 @@
     if (indexPath.row == 0 && _playSelected) {
         _playSelected();
     }
-    else if (indexPath.row == 1 && _settingsSelected) {
+    else if (indexPath.row == 2 && _stopSelected) {
+        _stopSelected();
+    }
+    else if (indexPath.row == 3 && _settingsSelected) {
         _settingsSelected();
     }
-    else if (indexPath.row == 2 && _backSelected) {
+    else if (indexPath.row == 4 && _backSelected) {
         _backSelected();
     }
 }

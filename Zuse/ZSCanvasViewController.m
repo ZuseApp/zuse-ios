@@ -16,8 +16,6 @@
 @property (weak, nonatomic) IBOutlet UITableView *menuTable;
 @property (strong, nonatomic) ZSSpriteController *spriteController;
 @property (strong, nonatomic) ZSMenuController *menuController;
-@property (assign, nonatomic, getter = isSpriteTableViewShowing) BOOL spriteTableViewShowing;
-@property (assign, nonatomic, getter = isMenuTableViewShowing) BOOL menuTableViewShowing;
 
 // Grid Menu
 @property (weak, nonatomic) IBOutlet ZSAdjustView *adjustMenu;
@@ -25,6 +23,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *gridHeight;
 @property (weak, nonatomic) IBOutlet UIView *gridPanel;
 @property (weak, nonatomic) IBOutlet UIView *positionPanel;
+@property (weak, nonatomic) IBOutlet UIView *rendererView;
 
 
 // Sprites
@@ -34,6 +33,9 @@
 // UIMenuController
 @property (nonatomic, assign) CGPoint lastTouch;
 @property (nonatomic, strong) ZSSpriteView *spriteViewCopy;
+
+// Renderer
+@property (strong, nonatomic) ZSRendererViewController *rendererViewController;
 
 @end
 
@@ -49,15 +51,14 @@
     [self setupTableDelegatesAndSources];
     [self setupGestures];
     
-    _spriteTableViewShowing = NO;
-    _menuTableViewShowing = NO;
-    
     // Load sprites.
     if (!_project) {
         _project = [[ZSProject alloc] init];
     }
     
     [self loadSpritesFromProject];
+    
+    
     
     // Bring menus to front.
     [self.view bringSubviewToFront:_menuTable];
@@ -72,12 +73,10 @@
     
     [_spriteTable deselectRowAtIndexPath:[_spriteTable indexPathForSelectedRow] animated:YES];
     [_menuTable deselectRowAtIndexPath:[_menuTable indexPathForSelectedRow] animated:YES];
-    _spriteTableViewShowing = NO;
-    _menuTableViewShowing = NO;
     
     // TODO: Figure out the correct place to put this.  The editor may have modified the project
     // so save the project here as well.  This means that the project gets loaded and than saved
-    // right away.
+    // right away on creation as well.
     [_project write];
     [self.view setNeedsDisplay];
 }
@@ -86,6 +85,7 @@
     if ([segue.identifier isEqualToString:@"renderer"]) {
         ZSRendererViewController *rendererController = (ZSRendererViewController *)segue.destinationViewController;
         rendererController.projectJSON = [_project assembledJSON];
+        _rendererViewController = rendererController;
     } else if ([segue.identifier isEqualToString:@"editor"]) {
         ZSEditorViewController *editorController = (ZSEditorViewController *)segue.destinationViewController;
         editorController.spriteObject = ((ZSSpriteView *)sender).spriteJSON;
@@ -195,9 +195,6 @@
         [self.view bringSubviewToFront:_menuTable];
         [self.view bringSubviewToFront:_spriteTable];
         
-        self.spriteTableViewShowing = NO;
-        self.menuTableViewShowing = NO;
-        
         [_project write];
     };
 }
@@ -260,8 +257,14 @@
     
     WeakSelf
     __weak ZSProject *weakProject = _project;
+    __weak UIView *weakRendererView = _rendererView;
     _menuController.playSelected = ^{
-        [weakSelf performSegueWithIdentifier:@"renderer" sender:weakSelf];
+        [weakSelf hideDrawersAndPlay:YES];
+    };
+    
+    _menuController.stopSelected = ^{
+        [weakSelf.rendererViewController stop];
+        weakRendererView.hidden = YES;
     };
     
     _menuController.settingsSelected = ^{
@@ -328,9 +331,6 @@
         [weakSelf.view bringSubviewToFront:weakSelf.menuTable];
         [weakSelf.view bringSubviewToFront:weakSelf.spriteTable];
         
-        weakSelf.spriteTableViewShowing = NO;
-        weakSelf.menuTableViewShowing = NO;
-        
         [weakProject write];
     };
 }
@@ -343,16 +343,6 @@
     UITapGestureRecognizer *doubleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTapRecognized)];
     doubleTapGesture.numberOfTapsRequired = 2;
     [self.view addGestureRecognizer:doubleTapGesture];
-    
-    // Sprite Drawer
-    UISwipeGestureRecognizer *rightSwipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(hideSpriteDrawer)];
-    [rightSwipeGesture setDirection:UISwipeGestureRecognizerDirectionRight];
-    [_spriteTable addGestureRecognizer:rightSwipeGesture];
-    
-    // Menu Drawer
-    UISwipeGestureRecognizer *leftSwipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(hideMenuDrawer)];
-    [leftSwipeGesture setDirection:UISwipeGestureRecognizerDirectionLeft];
-    [_menuTable addGestureRecognizer:leftSwipeGesture];
     
     // Adjust Menu
     __weak ZSAdjustView *weakAdjust = _adjustMenu;
@@ -372,25 +362,57 @@
     };
 }
 
-- (void)hideSpriteDrawer {
-    if (_spriteTableViewShowing) {
-        _spriteTableViewShowing = NO;
+- (void)hideDrawersAndPlay:(BOOL)play {
+    if (!_spriteTable.hidden && !_menuTable.hidden) {
+        _adjustMenu.hidden = YES;
         [UIView animateWithDuration:0.25 animations:^{
-            CGRect frame = _spriteTable.frame;
-            frame.origin.x += _spriteTable.frame.size.width;
-            _spriteTable.frame = frame;
+            CGRect menuFrame = _menuTable.frame;
+            menuFrame.origin.x -= _menuTable.frame.size.width;
+            _menuTable.frame = menuFrame;
+            
+            CGRect spriteFrame = _spriteTable.frame;
+            spriteFrame.origin.x += _spriteTable.frame.size.width;
+            _spriteTable.frame = spriteFrame;
+        } completion:^(BOOL finished) {
+            _menuTable.hidden = YES;
+            _spriteTable.hidden = YES;
+            if (play) {
+                
+                [self.view bringSubviewToFront:_rendererView];
+                _rendererView.hidden = NO;
+                _rendererViewController.projectJSON = [_project assembledJSON];
+                [_rendererViewController play];
+//                [self performSegueWithIdentifier:@"renderer" sender:self];
+            }
         }];
     }
 }
 
-- (void)hideMenuDrawer {
-    if (_menuTableViewShowing) {
-        _menuTableViewShowing = NO;
+- (void)showDrawers {
+    if (_spriteTable.hidden && _menuTable.hidden) {
+        // Position the drawers off of the screen.
+        CGRect menuFrame = _menuTable.frame;
+        menuFrame.origin.x = -(_menuTable.frame.size.width);
+        _menuTable.frame = menuFrame;
+        
+        CGRect spriteFrame = _spriteTable.frame;
+        spriteFrame.origin.x = self.view.frame.size.width;
+        _spriteTable.frame = spriteFrame;
+        
+        // Make the drawers visible and animate them in.
+        _menuTable.hidden = NO;
+        _spriteTable.hidden = NO;
         [UIView animateWithDuration:0.25 animations:^{
-            CGRect frame = _menuTable.frame;
-            frame.origin.x -= _menuTable.frame.size.width;
-            _menuTable.frame = frame;
+            CGRect menuFrame = _menuTable.frame;
+            menuFrame.origin.x += _menuTable.frame.size.width;
+            _menuTable.frame = menuFrame;
+            
+            CGRect spriteFrame = _spriteTable.frame;
+            spriteFrame.origin.x -= _spriteTable.frame.size.width;
+            _spriteTable.frame = spriteFrame;
         }];
+        [self.view bringSubviewToFront:_menuTable];
+        [self.view bringSubviewToFront:_spriteTable];
     }
 }
 
@@ -404,37 +426,13 @@
     return result;
 }
 
-- (IBAction)tableViewPanned:(id)sender {
-    UIPanGestureRecognizer *panRecognizer = (UIPanGestureRecognizer *)sender;
-    
-    CGPoint velocity = [panRecognizer velocityInView:_spriteTable];
-    
-    if (panRecognizer.state == UIGestureRecognizerStateBegan) {
-        if (ABS(velocity.x) > ABS(velocity.y) && velocity.x > 0) {
-            [UIView animateWithDuration:0.25 animations:^{
-                _spriteTableViewShowing = NO;
-                CGRect frame = _spriteTable.frame;
-                frame.origin.x += _spriteTable.frame.size.width;
-                _spriteTable.frame = frame;
-            }];
-        }
-    }
-}
-
 - (void)doubleTapRecognized {
-    if (_spriteTableViewShowing) return;
-    
-    [UIView animateWithDuration:0.25 animations:^{
-        _spriteTableViewShowing = YES;
-        CGRect frame = _spriteTable.frame;
-        frame.origin.x -= _spriteTable.frame.size.width;
-        _spriteTable.frame = frame;
-        
-        _menuTableViewShowing = YES;
-        CGRect menuFrame = _menuTable.frame;
-        menuFrame.origin.x += _menuTable.frame.size.width;
-        _menuTable.frame = menuFrame;
-    }];
+    if (_menuTable.hidden && _spriteTable.hidden) {
+        [self showDrawers];
+    }
+    else {
+        [self hideDrawersAndPlay:NO];
+    }
 }
 
 - (void)longPressRecognized:(id)sender {

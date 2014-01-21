@@ -11,7 +11,7 @@
 
 @interface ZSAdjustView ()
 
-@property (weak, nonatomic) IBOutlet FXBlurView *blurView;
+@property (weak, nonatomic) IBOutlet UIButton *blurView;
 
 @end
 

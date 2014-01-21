@@ -18,7 +18,6 @@
 
 @property (strong, nonatomic) ZSInterpreter *interpreter;
 @property (strong, nonatomic) ZSRendererScene *scene;
-@property (strong, nonatomic) SKView *SKView;
 
 @end
 
@@ -41,36 +40,47 @@
     // This makes it so you can still do the swipe-to-get-back
     self.navigationController.interactivePopGestureRecognizer.delegate = nil;
     
-    [self loadSpriteKit];
+    // Configure the view.
+    self.SKView.showsFPS = YES;
+    self.SKView.showsNodeCount = YES;
+//    [self loadSpriteKit];
     
-    [_scene.interpreter triggerEvent:@"start"];
+//    [_scene.interpreter triggerEvent:@"start"];
 }
 
 - (void)loadSpriteKit {
-    // Configure the view.
-    _SKView = (SKView *)self.view;
-    _SKView.showsFPS = YES;
-    _SKView.showsNodeCount = YES;
     
     // Create and configure the scene.
-    _scene = [[ZSRendererScene alloc] initWithSize:_SKView.bounds.size projectJSON:_projectJSON];
+    _scene = [[ZSRendererScene alloc] initWithSize:self.SKView.bounds.size projectJSON:_projectJSON];
     _scene.scaleMode = SKSceneScaleModeAspectFill;
     
     // Present the scene.
-    [_SKView presentScene:_scene];
+    [self.SKView presentScene:_scene];
 }
 
 - (void) runInterpreter {
     [_interpreter triggerEvent:@"start"];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)play {
+    self.SKView.paused = NO;
+    [self runInterpreter];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)stop {
+    self.SKView.paused = YES;
+}
+
+- (SKView *)SKView {
+    return (SKView *)self.view;
+}
+
+- (void)setProjectJSON:(NSDictionary *)projectJSON {
+    _projectJSON = projectJSON;
+    [self loadSpriteKit];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
 }
 
 @end

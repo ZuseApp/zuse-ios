@@ -12,4 +12,7 @@
 
 @property (strong, nonatomic) NSDictionary *projectJSON;
 
+- (void)play;
+- (void)stop;
+
 @end
