@@ -33,6 +33,10 @@
                                              error:nil];
 }
 
+
+/************ Numeric Expressions *************/
+
+
 - (void)testAddition {
     NSDictionary *program = @{ @"+": @[ @1, @2 ] };
     NSNumber *result = [_interpreter runJSON:program];
@@ -62,6 +66,12 @@
     NSNumber *result = [_interpreter runJSON:program];
     XCTAssertEqualObjects(result, @5.5, @"");
 }
+
+
+
+/************ Boolean Expressions *************/
+
+
 
 - (void)testIsEqualNumber {
     NSDictionary *program = @{ @"==": @[ @2, @2 ] };
@@ -154,6 +164,9 @@
     result = [_interpreter runJSON:program];
     XCTAssertEqualObjects(result, @YES, @"");
 }
+
+
+/************ Complex Expressions *************/
 
 
 - (void)testNestedExpression {
