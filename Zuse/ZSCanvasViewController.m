@@ -262,6 +262,10 @@
         [weakSelf hideDrawersAndPlay:YES];
     };
     
+    _menuController.pauseSelected = ^{
+        [weakSelf.rendererViewController stop];
+    };
+    
     _menuController.stopSelected = ^{
         [weakSelf.rendererViewController stop];
         weakRendererView.hidden = YES;
@@ -377,12 +381,15 @@
             _menuTable.hidden = YES;
             _spriteTable.hidden = YES;
             if (play) {
-                
                 [self.view bringSubviewToFront:_rendererView];
-                _rendererView.hidden = NO;
-                _rendererViewController.projectJSON = [_project assembledJSON];
-                [_rendererViewController play];
-//                [self performSegueWithIdentifier:@"renderer" sender:self];
+                if (_rendererView.hidden) {
+                    _rendererView.hidden = NO;
+                    _rendererViewController.projectJSON = [_project assembledJSON];
+                    [_rendererViewController play];
+                }
+                else {
+                    [_rendererViewController resume];
+                }
             }
         }];
     }

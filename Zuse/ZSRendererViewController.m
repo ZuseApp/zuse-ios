@@ -66,6 +66,10 @@
     [self runInterpreter];
 }
 
+- (void)resume {
+    self.SKView.paused = NO;
+}
+
 - (void)stop {
     self.SKView.paused = YES;
 }

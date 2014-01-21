@@ -151,7 +151,6 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="foo:" destination="CAQ-jq-lyC" eventType="touchUpInside" id="HW9-fo-7B5"/>
                                             <action selector="showPositionPanel:" destination="xaZ-al-QhV" eventType="touchUpInside" id="NSl-x3-E80"/>
                                         </connections>
                                     </button>
@@ -298,9 +297,6 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.80000001192092896" green="0.80000001192092896" blue="0.80000001192092896" alpha="0.90000000000000002" colorSpace="calibratedRGB"/>
                                 <color key="tintColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <connections>
-                                    <outlet property="blurView" destination="67y-XW-Pfv" id="F9e-ms-vBX"/>
-                                </connections>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
