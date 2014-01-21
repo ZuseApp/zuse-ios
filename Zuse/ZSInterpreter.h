@@ -43,4 +43,6 @@ onObjectWithIdentifier:(NSString *)objectID
 
 - (void)loadObject:(NSDictionary *)obj;
 
+- (void)removeObjectWithIdentifier:(NSString *)identifier;
+
 @end
