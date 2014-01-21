@@ -196,7 +196,7 @@
     else if ((returnValue = [self evaluateBooleanExpression:expression context:context])) {
         return returnValue;
     }
-    
+
     else if ([key isEqualToString:@"get"]) {
         NSString *identifier = context.environment[code];
         if (!identifier)
@@ -347,6 +347,12 @@ onObjectWithIdentifier:(NSString *)objectID
     ZSExecutionContext *newContext = [ZSExecutionContext contextWithObjectId:objectID
                                                                  environment:environment];
     [self runSuite:_events[objectID][event][@"code"] context:newContext];
+}
+
+- (void)removeObjectWithIdentifier:(NSString *)identifier {
+    [_objects removeObjectForKey:identifier];
+    [_events removeObjectForKey:identifier];
+    [_properties removeObjectForKey:identifier];
 }
 
 /*
