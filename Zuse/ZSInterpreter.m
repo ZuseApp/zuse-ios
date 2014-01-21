@@ -262,6 +262,16 @@
             return @NO;
     }
     
+    if ([key isEqualToString:@"!="]) {
+        id firstExpression = [self evaluateExpression:code[0] context:context];
+        id secondExpression = [self evaluateExpression:code[1] context:context];
+        
+        if ([firstExpression isEqual:secondExpression])
+            return @NO;
+        else
+            return @YES;
+    }
+    
     else if ([key isEqualToString:@"<"]) {
         CGFloat firstExpression = [[self evaluateExpression:code[0] context:context] floatValue];
         CGFloat secondExpression = [[self evaluateExpression:code[1] context:context] floatValue];

@@ -87,6 +87,18 @@
     XCTAssertEqualObjects(result, @NO, @"");
 }
 
+- (void)testIsNotEqual {
+    NSDictionary *program = @{ @"!=": @[ @"foo", @"bar" ] };
+    NSNumber *result = [_interpreter runJSON:program];
+    XCTAssertEqualObjects(result, @YES, @"");
+}
+
+- (void)testIsNotEqualFails {
+    NSDictionary *program = @{ @"!=": @[ @"foo", @"foo" ] };
+    NSNumber *result = [_interpreter runJSON:program];
+    XCTAssertEqualObjects(result, @NO, @"");
+}
+
 - (void)testLessThan {
     NSDictionary *program = @{ @"<": @[ @2.1, @2.2 ] };
     NSNumber *result = [_interpreter runJSON:program];
