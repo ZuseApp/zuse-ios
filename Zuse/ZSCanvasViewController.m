@@ -20,9 +20,11 @@
 @property (assign, nonatomic, getter = isMenuTableViewShowing) BOOL menuTableViewShowing;
 
 // Grid Menu
-@property (weak, nonatomic) IBOutlet ZSAdjustView *gridMenu;
+@property (weak, nonatomic) IBOutlet ZSAdjustView *adjustMenu;
 @property (weak, nonatomic) IBOutlet UILabel *gridWidth;
 @property (weak, nonatomic) IBOutlet UILabel *gridHeight;
+@property (weak, nonatomic) IBOutlet UIView *gridPanel;
+@property (weak, nonatomic) IBOutlet UIView *positionPanel;
 
 
 // Sprites
@@ -60,7 +62,7 @@
     // Bring menus to front.
     [self.view bringSubviewToFront:_menuTable];
     [self.view bringSubviewToFront:_spriteTable];
-    [self.view bringSubviewToFront:_gridMenu];
+    [self.view bringSubviewToFront:_adjustMenu];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -353,14 +355,14 @@
     [_menuTable addGestureRecognizer:leftSwipeGesture];
     
     // Adjust Menu
-    __weak ZSAdjustView *weakAdjust = _gridMenu;
+    __weak ZSAdjustView *weakAdjust = _adjustMenu;
     __block CGPoint offset;
     __block CGPoint currentPoint;
-    _gridMenu.panBegan = ^(UIPanGestureRecognizer *panGestureRecognizer) {
+    _adjustMenu.panBegan = ^(UIPanGestureRecognizer *panGestureRecognizer) {
         offset = [panGestureRecognizer locationInView:weakAdjust];
     };
     
-    _gridMenu.panMoved = ^(UIPanGestureRecognizer *panGestureRecognizer) {
+    _adjustMenu.panMoved = ^(UIPanGestureRecognizer *panGestureRecognizer) {
         currentPoint = [panGestureRecognizer locationInView:self.view];
         
         CGRect frame = weakAdjust.frame;
@@ -498,12 +500,23 @@
 #pragma mark Adjustment Menu
 
 - (void)showGrid:(id)sender {
-    _gridMenu.hidden = NO;
+    _adjustMenu.hidden = NO;
 }
 
 - (IBAction)hideGrid:(id)sender {
-    _gridMenu.hidden = YES;
+    _adjustMenu.hidden = YES;
 }
+
+- (IBAction)showGridPanel:(id)sender {
+    _gridPanel.hidden = NO;
+    _positionPanel.hidden = YES;
+}
+
+- (IBAction)showPositionPanel:(id)sender {
+    _positionPanel.hidden = NO;
+    _gridPanel.hidden = YES;
+}
+
 
 - (IBAction)gridWidthChanged:(id)sender {
     ZSCanvasView *view = (ZSCanvasView *)self.view;
