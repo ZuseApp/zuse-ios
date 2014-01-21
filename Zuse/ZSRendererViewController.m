@@ -16,7 +16,6 @@
 
 @interface ZSRendererViewController ()
 
-@property (strong, nonatomic) ZSInterpreter *interpreter;
 @property (strong, nonatomic) ZSRendererScene *scene;
 
 @end
@@ -59,7 +58,7 @@
 }
 
 - (void) runInterpreter {
-    [_interpreter triggerEvent:@"start"];
+    [_scene.interpreter triggerEvent:@"start"];
 }
 
 - (void)play {
