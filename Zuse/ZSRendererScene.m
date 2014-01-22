@@ -20,7 +20,6 @@
 
 @property (nonatomic) NSTimeInterval lastUpdateTimeInterval;
 @property (nonatomic) NSMutableDictionary *spriteNodes;
-@property (nonatomic) NSMutableDictionary *movingSprites;
 
 @property (strong, nonatomic) ZSInterpreter *interpreter;
 
@@ -42,8 +41,6 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
 
 -(id)initWithSize:(CGSize)size projectJSON:(NSDictionary *)projectJSON {
     if (self = [super initWithSize:size]) {
-        _movingSprites = [NSMutableDictionary dictionary];
-    
         ZSCompiler *compiler = [ZSCompiler compilerWithProjectJSON:projectJSON];
         _interpreter = [compiler interpreter];
         
@@ -168,12 +165,8 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
             
         }];
         
-        // getting size of screen
-        NSLog(@"Size: %@", NSStringFromCGSize(size));
-        
         // setting background color
         self.backgroundColor = [SKColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0];
-        
     }
     return self;
 }
@@ -182,7 +175,6 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
 - (void)moveSpriteWithIdentifier:(NSString *)identifier
                        direction:(CGFloat)direction
                            speed:(CGFloat)speed {
-    [_movingSprites setObject:@(speed) forKey:identifier];
     SKComponentNode *node = _spriteNodes[identifier];
     ZSSpriteTouchComponent *component = [node getComponent:[ZSSpriteTouchComponent class]];
     node.physicsBody.dynamic = YES;
@@ -217,6 +209,21 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
             return nil;
         }
     }];
+    
+    [_interpreter loadMethod:@{
+        @"method": @"remove",
+        @"block": ^id(NSString *identifier, NSArray *args) {
+            [self removeSpriteWithIdentifier:identifier];
+            return nil;
+        }
+    }];
+}
+
+- (void)removeSpriteWithIdentifier:(NSString *)identifier {
+    SKSpriteNode *node = _spriteNodes[identifier];
+    [node removeFromParent];
+    [_spriteNodes removeObjectForKey:identifier];
+    [_interpreter removeObjectWithIdentifier:identifier];
 }
 
 - (void)interpreter:(ZSInterpreter *)interpreter

@@ -196,7 +196,7 @@
     else if ((returnValue = [self evaluateBooleanExpression:expression context:context])) {
         return returnValue;
     }
-    
+
     else if ([key isEqualToString:@"get"]) {
         NSString *identifier = context.environment[code];
         if (!identifier)
@@ -260,6 +260,16 @@
             return @YES;
         else
             return @NO;
+    }
+    
+    if ([key isEqualToString:@"!="]) {
+        id firstExpression = [self evaluateExpression:code[0] context:context];
+        id secondExpression = [self evaluateExpression:code[1] context:context];
+        
+        if ([firstExpression isEqual:secondExpression])
+            return @NO;
+        else
+            return @YES;
     }
     
     else if ([key isEqualToString:@"<"]) {
@@ -347,6 +357,12 @@ onObjectWithIdentifier:(NSString *)objectID
     ZSExecutionContext *newContext = [ZSExecutionContext contextWithObjectId:objectID
                                                                  environment:environment];
     [self runSuite:_events[objectID][event][@"code"] context:newContext];
+}
+
+- (void)removeObjectWithIdentifier:(NSString *)identifier {
+    [_objects removeObjectForKey:identifier];
+    [_events removeObjectForKey:identifier];
+    [_properties removeObjectForKey:identifier];
 }
 
 /*
