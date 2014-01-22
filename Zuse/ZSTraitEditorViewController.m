@@ -74,7 +74,9 @@
     if (_traits[traitIdentifier]) {
         [_traits removeObjectForKey:traitIdentifier];
     } else {
-        _traits[traitIdentifier] = [_globalTraits[traitIdentifier] mutableCopy];
+        _traits[traitIdentifier] = [@{
+                @"parameters": [_globalTraits[traitIdentifier][@"parameters"] mutableCopy]
+        } mutableCopy];
     }
     [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
 }

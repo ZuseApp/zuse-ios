@@ -52,7 +52,7 @@
     // TODO: This should handle arbitrary literals eventually and have the same
     // interface as the properties editor.
     BOOL currentValue = [_parameters[parameterName] boolValue];
-    _parameters[parameterName] = @(!currentValue);
+    _parameters[parameterName] = @((BOOL)(!currentValue));
     
     [tableView reloadRowsAtIndexPaths:@[indexPath]
                      withRowAnimation:UITableViewRowAnimationNone];
