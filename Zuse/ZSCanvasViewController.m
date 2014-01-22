@@ -47,23 +47,15 @@
 {
     [super viewDidLoad];
     
-    // Setup delgates, sources and gestures.
-    [self setupTableDelegatesAndSources];
-    [self setupGestures];
-    
-    // Load sprites.
-    if (!_project) {
-        _project = [[ZSProject alloc] init];
+    // Load the project if it exists.
+    if (_project) {
+        // Setup delgates, sources and gestures.
+        [self setupTableDelegatesAndSources];
+        [self setupGestures];
+        
+        // Load Sprites.
+        [self loadSpritesFromProject];
     }
-    
-    [self loadSpritesFromProject];
-    
-    
-    
-    // Bring menus to front.
-    [self.view bringSubviewToFront:_menuTable];
-    [self.view bringSubviewToFront:_spriteTable];
-    [self.view bringSubviewToFront:_adjustMenu];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -128,7 +120,7 @@
         view.spriteJSON = jsonObject;
         
         [self setupGesturesForSpriteView:view withProperties:variables];
-        [self setupMenuItemsForSpriteView:view];
+        [self setupEditOptionsForSpriteView:view];
         [self.view addSubview:view];
     }
 }
@@ -201,7 +193,7 @@
     };
 }
 
-- (void)setupMenuItemsForSpriteView:(ZSSpriteView *)view {
+- (void)setupEditOptionsForSpriteView:(ZSSpriteView *)view {
     WeakSelf
     __weak ZSProject *weakProject = _project;
     __weak ZSSpriteView *weakView = view;
@@ -245,7 +237,7 @@
     copy.spriteJSON[@"id"] = [[NSUUID UUID] UUIDString];
     copy.image = [UIImage imageNamed:copy.spriteJSON[@"image"][@"path"]];
     [self setupGesturesForSpriteView:copy withProperties:copy.spriteJSON[@"properties"]];
-    [self setupMenuItemsForSpriteView:copy];
+    [self setupEditOptionsForSpriteView:copy];
     return copy;
 }
 
@@ -326,7 +318,7 @@
         newJson[@"id"] = [[NSUUID UUID] UUIDString];
         NSMutableDictionary *properties = newJson[@"properties"];
         [weakSelf setupGesturesForSpriteView:draggedView withProperties:properties];
-        [weakSelf setupMenuItemsForSpriteView:draggedView];
+        [weakSelf setupEditOptionsForSpriteView:draggedView];
         [[weakSelf.project rawJSON][@"objects"] addObject:newJson];
         
         CGFloat x = draggedView.frame.origin.x + (draggedView.frame.size.width / 2);
@@ -456,20 +448,15 @@
 }
 
 - (void)longPressRecognized:(id)sender {
-//            [weakView becomeFirstResponder];
-//            UIMenuItem *menuItem = [[UIMenuItem alloc] initWithTitle:@"Adjust" action:@selector(showGrid:)];
-//            UIMenuController *menuController = [UIMenuController sharedMenuController];
-//            menuController.menuItems = [NSArray arrayWithObject:menuItem];
-//            [menuController setTargetRect:weakView.frame inView:self.view];
-//            [menuController setMenuVisible:YES animated:YES];
-
     UILongPressGestureRecognizer *longPressGesture = (UILongPressGestureRecognizer *)sender;
-    [longPressGesture.view becomeFirstResponder];
     
     if (longPressGesture.state == UIGestureRecognizerStateBegan) {
         [self hideDrawersAndPerformAction:nil];
-        [self becomeFirstResponder];
+        [longPressGesture.view becomeFirstResponder];
         UIMenuController *theMenu = [UIMenuController sharedMenuController];
+        UIMenuItem *menuItem = [[UIMenuItem alloc] initWithTitle:@"Adjust" action:@selector(showGrid:)];
+        UIMenuController *menuController = [UIMenuController sharedMenuController];
+        menuController.menuItems = [NSArray arrayWithObject:menuItem];
         [theMenu setTargetRect:CGRectMake(_lastTouch.x, _lastTouch.y, 0, 0) inView:self.view];
         [theMenu setMenuVisible:YES animated:YES];
     }
