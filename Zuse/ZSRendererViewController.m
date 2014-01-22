@@ -55,6 +55,7 @@
     
     // Present the scene.
     [self.SKView presentScene:_scene];
+    self.SKView.paused = YES;
 }
 
 - (void) runInterpreter {
