@@ -1,5 +1,5 @@
 {
-  "title" : "Breakout P",
+  "title" : "Breakout",
   "version" : "1.0.0",
   "traits" : {
     "Disappearable" : {
