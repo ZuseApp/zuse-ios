@@ -138,15 +138,6 @@
     };
     
     view.longPressed = ^(UILongPressGestureRecognizer *longPressedGestureRecognizer){
-        
-//        if (longPressedGestureRecognizer.state == UIGestureRecognizerStateBegan) {
-//            [weakView becomeFirstResponder];
-//            UIMenuItem *menuItem = [[UIMenuItem alloc] initWithTitle:@"Adjust" action:@selector(showGrid:)];
-//            UIMenuController *menuController = [UIMenuController sharedMenuController];
-//            menuController.menuItems = [NSArray arrayWithObject:menuItem];
-//            [menuController setTargetRect:weakView.frame inView:self.view];
-//            [menuController setMenuVisible:YES animated:YES];
-//        }
         [weakSelf longPressRecognized:longPressedGestureRecognizer];
     };
     
@@ -372,11 +363,7 @@
 }
 
 - (void)hideDrawersAndPerformAction:(void (^)())action {
-    if (!_adjustMenu.hidden) {
-        _adjustMenu.hidden = YES;
-    }
     if (!_spriteTable.hidden && !_menuTable.hidden) {
-        _adjustMenu.hidden = YES;
         [UIView animateWithDuration:0.25 animations:^{
             CGRect menuFrame = _menuTable.frame;
             menuFrame.origin.x -= _menuTable.frame.size.width;
@@ -399,6 +386,11 @@
 
 - (void)showDrawers {
     if (_spriteTable.hidden && _menuTable.hidden) {
+        // If the adjust menu is showing, hide it.
+        if (!_adjustMenu.hidden) {
+            [self hideGrid:self];
+        }
+        
         // Position the drawers off of the screen.
         CGRect menuFrame = _menuTable.frame;
         menuFrame.origin.x = -(_menuTable.frame.size.width);
@@ -467,10 +459,15 @@
 }
 
 - (BOOL)canPerformAction:(SEL)action withSender:(id)sender {
+    // Check to see if the action is being performed on top of the adjust menu.
+    CGRect frame = _adjustMenu.frame;
+    if ((_adjustMenu.hidden == NO) && _lastTouch.x >= frame.origin.x && _lastTouch.x <= frame.origin.x + frame.size.width && _lastTouch.y >= frame.origin.y && _lastTouch.y <= frame.origin.y + frame.size.height) {
+        return NO;
+    }
     if (_spriteViewCopy && action == @selector(paste:)) {
         return YES;
     }
-    if (action == @selector(showGrid:)) {
+    if (action == @selector(showGrid:) && _adjustMenu.hidden == YES) {
         return YES;
     }
     return NO;
@@ -514,6 +511,7 @@
 #pragma mark Adjustment Menu
 
 - (void)showGrid:(id)sender {
+    [self.view bringSubviewToFront:_adjustMenu];
     _adjustMenu.hidden = NO;
 }
 
