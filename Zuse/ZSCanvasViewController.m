@@ -444,7 +444,13 @@
     
     if (longPressGesture.state == UIGestureRecognizerStateBegan) {
         [self hideDrawersAndPerformAction:nil];
-        [longPressGesture.view becomeFirstResponder];
+        if (longPressGesture.view == self.view) {
+            // For some reason it doesn't work to make the self.view the first responder.
+            [self becomeFirstResponder];
+        }
+        else {
+            [longPressGesture.view becomeFirstResponder];
+        }
         UIMenuController *theMenu = [UIMenuController sharedMenuController];
         UIMenuItem *menuItem = [[UIMenuItem alloc] initWithTitle:@"Adjust" action:@selector(showGrid:)];
         UIMenuController *menuController = [UIMenuController sharedMenuController];
