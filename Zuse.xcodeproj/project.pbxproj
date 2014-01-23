@@ -109,6 +109,7 @@
 		5F39DFD7188A472E008ECAC1 /* ZSInterpreterExpressionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F39DFD6188A472E008ECAC1 /* ZSInterpreterExpressionTests.m */; };
 		5F41ACB11833DCFE0089D136 /* pong_compiled.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F41ACB01833DCFE0089D136 /* pong_compiled.json */; };
 		5F41ACB818341C980089D136 /* ZSExecutionContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F41ACB718341C980089D136 /* ZSExecutionContext.m */; };
+		5FAFE3601891C8B300131354 /* breakout.json in Resources */ = {isa = PBXBuildFile; fileRef = 5FAFE35F1891C8B300131354 /* breakout.json */; };
 		5FEFB89A182B5376007DAFCF /* pong.json in Resources */ = {isa = PBXBuildFile; fileRef = 5FEFB899182B5376007DAFCF /* pong.json */; };
 		7826907318555E0D0093FD94 /* test empty json.json in Resources */ = {isa = PBXBuildFile; fileRef = 7826907218555E0D0093FD94 /* test empty json.json */; };
 		78346A0A183C623400540D54 /* ZSCodeStatementObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 78346A09183C623400540D54 /* ZSCodeStatementObject.m */; };
@@ -304,6 +305,7 @@
 		5F41ACB01833DCFE0089D136 /* pong_compiled.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = pong_compiled.json; path = JSON/pong_compiled.json; sourceTree = "<group>"; };
 		5F41ACB618341C980089D136 /* ZSExecutionContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSExecutionContext.h; sourceTree = "<group>"; };
 		5F41ACB718341C980089D136 /* ZSExecutionContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSExecutionContext.m; sourceTree = "<group>"; };
+		5FAFE35F1891C8B300131354 /* breakout.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = breakout.json; path = JSON/breakout.json; sourceTree = "<group>"; };
 		5FEFB899182B5376007DAFCF /* pong.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = pong.json; path = JSON/pong.json; sourceTree = "<group>"; };
 		7826907218555E0D0093FD94 /* test empty json.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "test empty json.json"; sourceTree = "<group>"; };
 		78346A08183C623400540D54 /* ZSCodeStatementObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCodeStatementObject.h; sourceTree = "<group>"; };
@@ -809,6 +811,7 @@
 				7826907218555E0D0093FD94 /* test empty json.json */,
 				4C62B0C018566409007CC9CD /* default_traits.json */,
 				4CF303F21859238900B57B95 /* new_project.json */,
+				5FAFE35F1891C8B300131354 /* breakout.json */,
 				4C138A1E18892E35004F232E /* slugish_pong.json */,
 			);
 			name = JSON;
@@ -957,6 +960,7 @@
 				4C9E43DF188B66D300045D86 /* arrow-circle-double-135.png in Resources */,
 				4CF1CC0517EFE14A00636E0D /* dog.jpeg in Resources */,
 				7826907318555E0D0093FD94 /* test empty json.json in Resources */,
+				5FAFE3601891C8B300131354 /* breakout.json in Resources */,
 				4CE340401809EDC1009A63A2 /* basketball.png in Resources */,
 				4C721A59188EFAF000D3FDEF /* pause.png in Resources */,
 				4C721A55188EF97600D3FDEF /* stop.png in Resources */,
