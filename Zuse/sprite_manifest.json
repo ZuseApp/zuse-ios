@@ -1,0 +1,29 @@
+[
+  {
+    "name": "Gray Ball",
+    "path": "grayball.png",
+    "physics_body": "circle",
+    "preferred_size": {
+      "width": 30,
+      "height": 30
+    }
+  },
+  {
+    "name": "Fancy Paddle",
+    "path": "paddle.png",
+    "physics_body": "rectangle",
+    "preferred_size": {
+      "width": 129,
+      "height": 28
+    }
+  },
+  {
+    "name": "Red Brick",
+    "path": "red_brick.png",
+    "physics_body": "rectangle",
+    "preferred_size": {
+      "width": 64,
+      "height": 32
+    }
+  }
+]

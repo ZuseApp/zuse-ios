@@ -31,6 +31,7 @@
 @property (nonatomic, strong) NSArray *canvasSprites;
 
 // UIMenuController
+@property (nonatomic, strong) UIMenuController *editMenu;
 @property (nonatomic, assign) CGPoint lastTouch;
 @property (nonatomic, strong) ZSSpriteView *spriteViewCopy;
 
@@ -74,6 +75,11 @@
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Hide the UIMenuController if it exists and is showing.
+    if (_editMenu) {
+        [_editMenu setMenuVisible:NO animated:YES];
+    }
+    
     if ([segue.identifier isEqualToString:@"renderer"]) {
         ZSRendererViewController *rendererController = (ZSRendererViewController *)segue.destinationViewController;
         rendererController.projectJSON = [_project assembledJSON];
@@ -451,12 +457,12 @@
         else {
             [longPressGesture.view becomeFirstResponder];
         }
-        UIMenuController *theMenu = [UIMenuController sharedMenuController];
+        _editMenu = [UIMenuController sharedMenuController];
         UIMenuItem *menuItem = [[UIMenuItem alloc] initWithTitle:@"Adjust" action:@selector(showGrid:)];
         UIMenuController *menuController = [UIMenuController sharedMenuController];
         menuController.menuItems = [NSArray arrayWithObject:menuItem];
-        [theMenu setTargetRect:CGRectMake(_lastTouch.x, _lastTouch.y, 0, 0) inView:self.view];
-        [theMenu setMenuVisible:YES animated:YES];
+        [_editMenu setTargetRect:CGRectMake(_lastTouch.x, _lastTouch.y, 0, 0) inView:self.view];
+        [_editMenu setMenuVisible:YES animated:YES];
     }
 }
 

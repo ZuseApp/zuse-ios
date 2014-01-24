@@ -1,5 +1,6 @@
 {
-  "title": "New Project"
+  "title": "Blank Project"
+  "version": "0.0.1"
   "traits": {
   },
   "objects": [

@@ -73,6 +73,13 @@
         NSData *jsonData = [NSData dataWithContentsOfFile:filePath];
         
         _projectJSON = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:nil];
+        
+        // If the project json is an array then it can't be a valid project file so return
+        // a blank project.
+        if ([_projectJSON isKindOfClass:[NSArray class]]) {
+            return nil;
+        }
+        
         _title = _projectJSON[@"title"];
         _version = _projectJSON[@"version"];
     }
