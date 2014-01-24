@@ -1,0 +1,18 @@
+[
+  {
+    "name": "start",
+    "parameters": []
+  },
+  {
+    "name": "touch_began",
+    "parameters": ["touch_x", "touch_y"]
+  },
+  {
+    "name": "touch_moved",
+    "parameters": ["touch_x", "touch_y"]
+  },
+  {
+    "name": "touch_ended",
+    "parameters": ["touch_x", "touch_y"]
+  }
+]
