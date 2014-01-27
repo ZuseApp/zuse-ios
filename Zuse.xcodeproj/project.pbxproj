@@ -43,6 +43,7 @@
 		4CE3404E180A0154009A63A2 /* ZSRendererViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE3404D180A0154009A63A2 /* ZSRendererViewController.m */; };
 		4CE3561C188A1355007024C0 /* red_brick.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CE3561B188A1355007024C0 /* red_brick.png */; };
 		4CE3562F188B0FF1007024C0 /* ZSAdjustView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE3562E188B0FF1007024C0 /* ZSAdjustView.m */; };
+		4CEB19C018971F27009D89B3 /* text_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CEB19BF18971F27009D89B3 /* text_icon.png */; };
 		4CF1CBB217EF882A00636E0D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1CBB117EF882A00636E0D /* Foundation.framework */; };
 		4CF1CBB417EF882A00636E0D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1CBB317EF882A00636E0D /* CoreGraphics.framework */; };
 		4CF1CBB617EF882A00636E0D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1CBB517EF882A00636E0D /* UIKit.framework */; };
@@ -190,6 +191,7 @@
 		4CE3561B188A1355007024C0 /* red_brick.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = red_brick.png; sourceTree = "<group>"; };
 		4CE3562D188B0FF1007024C0 /* ZSAdjustView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSAdjustView.h; sourceTree = "<group>"; };
 		4CE3562E188B0FF1007024C0 /* ZSAdjustView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSAdjustView.m; sourceTree = "<group>"; };
+		4CEB19BF18971F27009D89B3 /* text_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = text_icon.png; sourceTree = "<group>"; };
 		4CF1CBAE17EF882A00636E0D /* Zuse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Zuse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CF1CBB117EF882A00636E0D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4CF1CBB317EF882A00636E0D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -354,6 +356,7 @@
 		4C2D1ECC1891EA32002C431A /* ui-images */ = {
 			isa = PBXGroup;
 			children = (
+				4CEB19BF18971F27009D89B3 /* text_icon.png */,
 				4C9E43E2188B698200045D86 /* cross.png */,
 				4C9E43DE188B66D300045D86 /* arrow-circle-double-135.png */,
 				4C9E43DC188B660700045D86 /* arrow-move.png */,
@@ -916,6 +919,7 @@
 				7843FAA0184C154000DCE527 /* on event.png in Resources */,
 				4C2D1ECE1891EB65002C431A /* sprite_manifest.json in Resources */,
 				5FEFB89A182B5376007DAFCF /* pong.json in Resources */,
+				4CEB19C018971F27009D89B3 /* text_icon.png in Resources */,
 				78D8A960185A3A1100834B15 /* move.png in Resources */,
 				4C0D470517FB800400F13786 /* guess_a_number.json in Resources */,
 				4C721A4F188EF2EB00D3FDEF /* play.png in Resources */,
