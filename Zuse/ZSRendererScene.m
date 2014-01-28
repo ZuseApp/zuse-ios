@@ -76,8 +76,6 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
                 
                 return;
             }
-//            SKLabelNode *textNode =
-            
             
             SKComponentNode *node = [SKComponentNode node];
             node.name = kZSSpriteName;

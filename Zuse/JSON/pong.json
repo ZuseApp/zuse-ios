@@ -135,8 +135,8 @@
   },
   "collision_groups": {
     "paddle": ["ball"],
-    "ball": ["paddle"],
-  }
+    "ball": ["paddle"]
+  },
   "objects": [
     {
       "id": "paddle1",
