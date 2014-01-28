@@ -73,6 +73,13 @@
         NSData *jsonData = [NSData dataWithContentsOfFile:filePath];
         
         _projectJSON = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:nil];
+        
+        // If the project json is an array then it can't be a valid project file so return
+        // a blank project.
+        if ([_projectJSON isKindOfClass:[NSArray class]]) {
+            return nil;
+        }
+        
         _title = _projectJSON[@"title"];
         _version = _projectJSON[@"version"];
     }
@@ -90,7 +97,29 @@
     if (_version) {
         _projectJSON[@"version"] = _version;
     }
-    _projectJSON[@"traits"] = [ZSSpriteTraits defaultTraits];
+    
+    // Find all of the traits being referenced in the project by looking at all of the sprites.
+    NSMutableArray *traitsReferencedInProject = [NSMutableArray array];
+    for (NSMutableDictionary *sprites in _projectJSON[@"objects"]) {
+        NSMutableDictionary *traits = sprites[@"traits"];
+        if (traits) {
+            for (NSString *key in traits) {
+                [traitsReferencedInProject addObject:key];
+            }
+        }
+    }
+    
+    // Go through all of the traits referenced in the project and if they don't exist already
+    // add them to the project JSON.
+    NSDictionary *defaultTraits = [ZSSpriteTraits defaultTraits];
+    NSMutableDictionary *previouslySavedTraits = _projectJSON[@"traits"];
+    for (NSString *trait in traitsReferencedInProject) {
+        if (!previouslySavedTraits[trait]) {
+            if (defaultTraits[trait]) {
+                previouslySavedTraits[trait] = defaultTraits[trait];
+            }
+        }
+    }
     return _projectJSON;
 }
 

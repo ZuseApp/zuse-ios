@@ -1,0 +1,26 @@
+[
+  {
+    "name": "move",
+    "return_type": "none",
+    "parameters": [
+      {
+        "name": "direction",
+        "types": ["numeric"]
+      },
+      {
+        "name": "speed",
+        "types": ["numeric"]
+      }
+    ]
+  },
+  {
+    "name": "remove",
+    "return_type": "none",
+    "parameters": []
+  },
+  {
+    "name": "square root",
+    "return_type": "numeric",
+    "parameters": []
+  }
+]

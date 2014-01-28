@@ -41,6 +41,9 @@
     if (indexPath.row == 0 && _playSelected) {
         _playSelected();
     }
+    else if (indexPath.row == 1 && _pauseSelected) {
+        _pauseSelected();
+    }
     else if (indexPath.row == 2 && _stopSelected) {
         _stopSelected();
     }

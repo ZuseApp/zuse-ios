@@ -36,12 +36,18 @@
     ZSSpriteTableViewCell *cell = (ZSSpriteTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"sprite"];
     
     NSMutableDictionary *json = [_spriteLibrary[indexPath.row] copy];
-    
-    // Assumes image is stored in a path.
     cell.spriteView.spriteJSON = json;
-    NSDictionary *image = json[@"image"];
-    NSString *imagePath = image[@"path"];
-    cell.spriteView.image = [UIImage imageNamed:imagePath];
+    
+    NSString *type = json[@"type"];
+    if ([type isEqualToString:@"image"]) {
+        NSDictionary *image = json[@"image"];
+        NSString *imagePath = image[@"path"];
+        [cell.spriteView setContentFromImage:[UIImage imageNamed:imagePath]];
+    }
+    else if ([type isEqualToString:@"text"]) {
+        [cell.spriteView setContentFromImage:[UIImage imageNamed:@"text_icon.png"]];
+    }
+    
     cell.spriteView.contentMode = UIViewContentModeScaleAspectFit;
     cell.spriteView.panBegan = ^(UIPanGestureRecognizer *panGestureRecognizer) {
         if (_panBegan) {

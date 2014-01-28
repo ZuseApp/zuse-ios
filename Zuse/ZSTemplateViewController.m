@@ -59,7 +59,7 @@
     for (NSInteger i = [_filePaths count] - 1; i >= 0; i--) {
         ZSProject *project = [ZSProject projectWithTemplate:_filePaths[i]];
         if (!project.version) {
-            [removeIndexes addObject:[NSNumber numberWithInt:i]];
+            [removeIndexes addObject:@(i)];
         }
     }
     

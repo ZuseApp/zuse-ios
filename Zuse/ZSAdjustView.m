@@ -7,11 +7,8 @@
 //
 
 #import "ZSAdjustView.h"
-#import <FXBlurView.h>
 
 @interface ZSAdjustView ()
-
-@property (weak, nonatomic) IBOutlet UIButton *blurView;
 
 @end
 
@@ -24,7 +21,6 @@
         self.layer.borderColor = [[UIColor blackColor] CGColor];
         self.layer.borderWidth = 0.5f;
         [self setupGestures];
-        _blurView.tintColor = [UIColor whiteColor];
     }
     return self;
 }

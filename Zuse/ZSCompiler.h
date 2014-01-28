@@ -7,12 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ZSInterpreter.h"
 
 @interface ZSCompiler : NSObject
 
 + (instancetype) compilerWithProjectJSON:(NSDictionary *)projectJSON;
 - (NSDictionary *)compiledJSON;
-- (ZSInterpreter *)interpreter;
 
 @end

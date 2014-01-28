@@ -31,6 +31,7 @@
 @property (nonatomic, strong) NSArray *canvasSprites;
 
 // UIMenuController
+@property (nonatomic, strong) UIMenuController *editMenu;
 @property (nonatomic, assign) CGPoint lastTouch;
 @property (nonatomic, strong) ZSSpriteView *spriteViewCopy;
 
@@ -47,23 +48,15 @@
 {
     [super viewDidLoad];
     
-    // Setup delgates, sources and gestures.
-    [self setupTableDelegatesAndSources];
-    [self setupGestures];
-    
-    // Load sprites.
-    if (!_project) {
-        _project = [[ZSProject alloc] init];
+    // Load the project if it exists.
+    if (_project) {
+        // Setup delgates, sources and gestures.
+        [self setupTableDelegatesAndSources];
+        [self setupGestures];
+        
+        // Load Sprites.
+        [self loadSpritesFromProject];
     }
-    
-    [self loadSpritesFromProject];
-    
-    
-    
-    // Bring menus to front.
-    [self.view bringSubviewToFront:_menuTable];
-    [self.view bringSubviewToFront:_spriteTable];
-    [self.view bringSubviewToFront:_adjustMenu];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -82,6 +75,11 @@
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Hide the UIMenuController if it exists and is showing.
+    if (_editMenu) {
+        [_editMenu setMenuVisible:NO animated:YES];
+    }
+    
     if ([segue.identifier isEqualToString:@"renderer"]) {
         ZSRendererViewController *rendererController = (ZSRendererViewController *)segue.destinationViewController;
         rendererController.projectJSON = [_project assembledJSON];
@@ -116,25 +114,38 @@
         frame.origin.y -= frame.size.height / 2;
         frame.origin.y = self.view.frame.size.height - frame.size.height - frame.origin.y;
         
-        NSDictionary *image = jsonObject[@"image"];
-        NSString *imagePath = image[@"path"];
-        
         ZSSpriteView *view = [[ZSSpriteView alloc] initWithFrame:frame];
-        if (imagePath) {
-            view.image = [UIImage imageNamed:imagePath];
-        } else {
-            view.backgroundColor = [UIColor blackColor];
+        
+        NSString *type = jsonObject[@"type"];
+        if ([type isEqualToString:@"image"]) {
+            NSDictionary *image = jsonObject[@"image"];
+            NSString *imagePath = image[@"path"];
+            if (imagePath) {
+                [view setContentFromImage:[UIImage imageNamed:imagePath]];
+            } else {
+                view.backgroundColor = [UIColor blackColor];
+            }
         }
+        else if ([type isEqualToString:@"text"]){
+            [view setContentFromText:jsonObject[@"text"]];
+        }
+        else {
+            // If the sprite isn't marked with a type, ignore it.
+            NSLog(@"WARNING: Unkown sprite type.  Skipping adding it to canvas.");
+            continue;
+        }
+        
         view.spriteJSON = jsonObject;
         
         [self setupGesturesForSpriteView:view withProperties:variables];
-        [self setupMenuItemsForSpriteView:view];
+        [self setupEditOptionsForSpriteView:view];
         [self.view addSubview:view];
     }
 }
 
 - (void)setupGesturesForSpriteView:(ZSSpriteView *)view withProperties:(NSMutableDictionary *)properties {
     
+    WeakSelf
     __weak ZSSpriteView *weakView = view;
     view.singleTapped = ^(){
         [self performSegueWithIdentifier:@"editor" sender:weakView];
@@ -145,15 +156,7 @@
     };
     
     view.longPressed = ^(UILongPressGestureRecognizer *longPressedGestureRecognizer){
-        
-        if (longPressedGestureRecognizer.state == UIGestureRecognizerStateBegan) {
-            [weakView becomeFirstResponder];
-            UIMenuItem *menuItem = [[UIMenuItem alloc] initWithTitle:@"Adjust" action:@selector(showGrid:)];
-            UIMenuController *menuController = [UIMenuController sharedMenuController];
-            menuController.menuItems = [NSArray arrayWithObject:menuItem];
-            [menuController setTargetRect:weakView.frame inView:self.view];
-            [menuController setMenuVisible:YES animated:YES];
-        }
+        [weakSelf longPressRecognized:longPressedGestureRecognizer];
     };
     
     __block CGPoint offset;
@@ -199,7 +202,7 @@
     };
 }
 
-- (void)setupMenuItemsForSpriteView:(ZSSpriteView *)view {
+- (void)setupEditOptionsForSpriteView:(ZSSpriteView *)view {
     WeakSelf
     __weak ZSProject *weakProject = _project;
     __weak ZSSpriteView *weakView = view;
@@ -241,9 +244,9 @@
     ZSSpriteView *copy = [[ZSSpriteView alloc] initWithFrame:spriteView.frame];
     copy.spriteJSON = [spriteView.spriteJSON deepMutableCopy];
     copy.spriteJSON[@"id"] = [[NSUUID UUID] UUIDString];
-    copy.image = [UIImage imageNamed:copy.spriteJSON[@"image"][@"path"]];
+    [copy setContentFromImage:[UIImage imageNamed:copy.spriteJSON[@"image"][@"path"]]];
     [self setupGesturesForSpriteView:copy withProperties:copy.spriteJSON[@"properties"]];
-    [self setupMenuItemsForSpriteView:copy];
+    [self setupEditOptionsForSpriteView:copy];
     return copy;
 }
 
@@ -257,14 +260,29 @@
     
     WeakSelf
     __weak ZSProject *weakProject = _project;
-    __weak UIView *weakRendererView = _rendererView;
     _menuController.playSelected = ^{
-        [weakSelf hideDrawersAndPlay:YES];
+        [weakSelf hideDrawersAndPerformAction:^{
+            [weakSelf.view bringSubviewToFront:weakSelf.rendererView];
+            if (weakSelf.rendererView.hidden) {
+                weakSelf.rendererView.hidden = NO;
+                weakSelf.rendererViewController.projectJSON = [weakSelf.project assembledJSON];
+                [weakSelf.rendererViewController play];
+            }
+            else {
+                [weakSelf.rendererViewController resume];
+            }
+        }];
+    };
+    
+    _menuController.pauseSelected = ^{
+        [weakSelf.rendererViewController stop];
     };
     
     _menuController.stopSelected = ^{
-        [weakSelf.rendererViewController stop];
-        weakRendererView.hidden = YES;
+        [weakSelf hideDrawersAndPerformAction:^{
+            [weakSelf.rendererViewController stop];
+            weakSelf.rendererView.hidden = YES;
+        }];
     };
     
     _menuController.settingsSelected = ^{
@@ -290,9 +308,15 @@
         frame.origin.y = currentPoint.y - offset.y;
         
         draggedView = [[ZSSpriteView alloc] initWithFrame:frame];
-        draggedView.image = [UIImage imageNamed:json[@"image"][@"path"]];
+        NSString *type = json[@"type"];
+        if ([type isEqualToString:@"image"]) {
+            [draggedView setContentFromImage:[UIImage imageNamed:json[@"image"][@"path"]]];
+        } else if ([type isEqualToString:@"text"]) {
+            [draggedView setContentFromText:@"Value"];
+        }
         draggedView.contentMode = UIViewContentModeScaleAspectFit;
         [weakSelf.view addSubview:draggedView];
+        [weakSelf hideDrawersAndPerformAction:nil];
     };
     
     _spriteController.panMoved = ^(UIPanGestureRecognizer *panGestureRecognizer, NSDictionary *json) {
@@ -309,7 +333,7 @@
         newJson[@"id"] = [[NSUUID UUID] UUIDString];
         NSMutableDictionary *properties = newJson[@"properties"];
         [weakSelf setupGesturesForSpriteView:draggedView withProperties:properties];
-        [weakSelf setupMenuItemsForSpriteView:draggedView];
+        [weakSelf setupEditOptionsForSpriteView:draggedView];
         [[weakSelf.project rawJSON][@"objects"] addObject:newJson];
         
         CGFloat x = draggedView.frame.origin.x + (draggedView.frame.size.width / 2);
@@ -326,18 +350,23 @@
         
         properties[@"x"] = @(x);
         properties[@"y"] = @(y);
+        if ([newJson[@"type"] isEqualToString:@"text"]) {
+            newJson[@"text"] = @"Value";
+        }
         
         // Bring menus to front.
         [weakSelf.view bringSubviewToFront:weakSelf.menuTable];
         [weakSelf.view bringSubviewToFront:weakSelf.spriteTable];
         
         [weakProject write];
+        [weakSelf showDrawers];
     };
 }
 
 -(void)setupGestures {
     // Canvas gesture recognizers.
     UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressRecognized:)];
+    longPressGesture.delegate = self;
     [self.view addGestureRecognizer:longPressGesture];
     
     UITapGestureRecognizer *doubleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTapRecognized)];
@@ -362,27 +391,23 @@
     };
 }
 
-- (void)hideDrawersAndPlay:(BOOL)play {
+- (void)hideDrawersAndPerformAction:(void (^)())action {
     if (!_spriteTable.hidden && !_menuTable.hidden) {
-        _adjustMenu.hidden = YES;
         [UIView animateWithDuration:0.25 animations:^{
             CGRect menuFrame = _menuTable.frame;
             menuFrame.origin.x -= _menuTable.frame.size.width;
             _menuTable.frame = menuFrame;
             
-            CGRect spriteFrame = _spriteTable.frame;
-            spriteFrame.origin.x += _spriteTable.frame.size.width;
-            _spriteTable.frame = spriteFrame;
+            if (_rendererView.hidden) {
+                CGRect spriteFrame = _spriteTable.frame;
+                spriteFrame.origin.x += _spriteTable.frame.size.width;
+                _spriteTable.frame = spriteFrame;
+            }
         } completion:^(BOOL finished) {
-            _menuTable.hidden = YES;
-            _spriteTable.hidden = YES;
-            if (play) {
-                
-                [self.view bringSubviewToFront:_rendererView];
-                _rendererView.hidden = NO;
-                _rendererViewController.projectJSON = [_project assembledJSON];
-                [_rendererViewController play];
-//                [self performSegueWithIdentifier:@"renderer" sender:self];
+            self.menuTable.hidden = YES;
+            self.spriteTable.hidden = YES;
+            if (action) {
+                action();
             }
         }];
     }
@@ -390,6 +415,11 @@
 
 - (void)showDrawers {
     if (_spriteTable.hidden && _menuTable.hidden) {
+        // If the adjust menu is showing, hide it.
+        if (!_adjustMenu.hidden) {
+            [self hideGrid:self];
+        }
+        
         // Position the drawers off of the screen.
         CGRect menuFrame = _menuTable.frame;
         menuFrame.origin.x = -(_menuTable.frame.size.width);
@@ -399,6 +429,9 @@
         spriteFrame.origin.x = self.view.frame.size.width;
         _spriteTable.frame = spriteFrame;
         
+        [self.view bringSubviewToFront:_menuTable];
+        [self.view bringSubviewToFront:_spriteTable];
+        
         // Make the drawers visible and animate them in.
         _menuTable.hidden = NO;
         _spriteTable.hidden = NO;
@@ -407,13 +440,20 @@
             menuFrame.origin.x += _menuTable.frame.size.width;
             _menuTable.frame = menuFrame;
             
-            CGRect spriteFrame = _spriteTable.frame;
-            spriteFrame.origin.x -= _spriteTable.frame.size.width;
-            _spriteTable.frame = spriteFrame;
+            if (_rendererView.hidden) {
+                CGRect spriteFrame = _spriteTable.frame;
+                spriteFrame.origin.x -= _spriteTable.frame.size.width;
+                _spriteTable.frame = spriteFrame;
+            }
         }];
-        [self.view bringSubviewToFront:_menuTable];
-        [self.view bringSubviewToFront:_spriteTable];
     }
+}
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    if ([gestureRecognizer isKindOfClass:[UILongPressGestureRecognizer class]] && !_rendererView.hidden) {
+        return NO;
+    }
+    return YES;
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
@@ -431,7 +471,7 @@
         [self showDrawers];
     }
     else {
-        [self hideDrawersAndPlay:NO];
+        [self hideDrawersAndPerformAction:nil];
     }
 }
 
@@ -439,10 +479,20 @@
     UILongPressGestureRecognizer *longPressGesture = (UILongPressGestureRecognizer *)sender;
     
     if (longPressGesture.state == UIGestureRecognizerStateBegan) {
-        [self becomeFirstResponder];
-        UIMenuController *theMenu = [UIMenuController sharedMenuController];
-        [theMenu setTargetRect:CGRectMake(_lastTouch.x, _lastTouch.y, 0, 0) inView:self.view];
-        [theMenu setMenuVisible:YES animated:YES];
+        [self hideDrawersAndPerformAction:nil];
+        if (longPressGesture.view == self.view) {
+            // For some reason it doesn't work to make the self.view the first responder.
+            [self becomeFirstResponder];
+        }
+        else {
+            [longPressGesture.view becomeFirstResponder];
+        }
+        _editMenu = [UIMenuController sharedMenuController];
+        UIMenuItem *menuItem = [[UIMenuItem alloc] initWithTitle:@"Adjust" action:@selector(showGrid:)];
+        UIMenuController *menuController = [UIMenuController sharedMenuController];
+        menuController.menuItems = [NSArray arrayWithObject:menuItem];
+        [_editMenu setTargetRect:CGRectMake(_lastTouch.x, _lastTouch.y, 0, 0) inView:self.view];
+        [_editMenu setMenuVisible:YES animated:YES];
     }
 }
 
@@ -451,10 +501,20 @@
 }
 
 - (BOOL)canPerformAction:(SEL)action withSender:(id)sender {
+    // If the renderer is showing, don't capture anything.
+    if (!_rendererView.hidden) {
+        return NO;
+    }
+    
+    // Check to see if the action is being performed on top of the adjust menu.
+    CGRect frame = _adjustMenu.frame;
+    if ((_adjustMenu.hidden == NO) && _lastTouch.x >= frame.origin.x && _lastTouch.x <= frame.origin.x + frame.size.width && _lastTouch.y >= frame.origin.y && _lastTouch.y <= frame.origin.y + frame.size.height) {
+        return NO;
+    }
     if (_spriteViewCopy && action == @selector(paste:)) {
         return YES;
     }
-    if (action == @selector(showGrid:)) {
+    if (action == @selector(showGrid:) && _adjustMenu.hidden == YES) {
         return YES;
     }
     return NO;
@@ -498,6 +558,7 @@
 #pragma mark Adjustment Menu
 
 - (void)showGrid:(id)sender {
+    [self.view bringSubviewToFront:_adjustMenu];
     _adjustMenu.hidden = NO;
 }
 

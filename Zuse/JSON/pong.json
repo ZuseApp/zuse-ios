@@ -133,9 +133,14 @@
       ]
     }
   },
+  "collision_groups": {
+    "paddle": ["ball"],
+    "ball": ["paddle"]
+  },
   "objects": [
     {
       "id": "paddle1",
+      "type": "image",
       "physics_body": "rectangle",
       "image": {
         "path": "paddle.png"
@@ -147,6 +152,7 @@
           }
         }
       },
+      "collision_group": "paddle",
       "properties": {
         "x": 104,
         "y": 44,
@@ -157,6 +163,7 @@
     },
     {
       "id": "paddle2",
+      "type": "image",
       "physics_body": "rectangle",
       "image": {
         "path": "paddle.png"
@@ -168,6 +175,7 @@
           }
         }
       },
+      "collision_group": "paddle",
       "properties": {
         "x": 224,
         "y": 434,
@@ -178,6 +186,7 @@
     },
     {
       "id": "ball",
+      "type": "image",
       "physics_body": "circle",
       "image": {
         "path": "grayball.png"
@@ -190,6 +199,7 @@
         "height": 30,
         "bouncy": true
       },
+      "collision_group": "ball",
       "code": [
         {
           "on_event": {
@@ -199,7 +209,7 @@
               {
                 "set": [
                   "speed",
-                  100
+                  200
                 ]
               },
               {

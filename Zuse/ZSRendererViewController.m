@@ -55,6 +55,7 @@
     
     // Present the scene.
     [self.SKView presentScene:_scene];
+    self.SKView.paused = YES;
 }
 
 - (void) runInterpreter {
@@ -64,6 +65,10 @@
 - (void)play {
     self.SKView.paused = NO;
     [self runInterpreter];
+}
+
+- (void)resume {
+    self.SKView.paused = NO;
 }
 
 - (void)stop {

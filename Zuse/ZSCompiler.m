@@ -30,8 +30,19 @@
 - (NSDictionary *)compiledJSON {
     NSMutableDictionary *traits = _projectJSON[@"traits"];
     
-    if (!traits) return _projectJSON[@"objects"];
+    NSArray *newObjects = _projectJSON[@"objects"];
     
+    if (traits) {
+        newObjects = [self objectsByInliningTraits:_projectJSON[@"traits"]
+                                           objects:_projectJSON[@"objects"]];
+    }
+    
+    newObjects = [self transformedObjectsForObjects:newObjects];
+    
+    return @{ @"code": newObjects };
+}
+
+- (NSArray *)objectsByInliningTraits:(NSDictionary *)traits objects:(NSArray *)objects {
     NSArray *newObjects = [_projectJSON[@"objects"] map:^id(NSDictionary *object) {
         NSMutableDictionary *newObject = [object mutableCopy];
         if (!newObject[@"code"])
@@ -72,18 +83,21 @@
         return newObject;
     }];
     
-    NSLog(@"%@", newObjects);
-    
-    return @{ @"objects": newObjects };
+    return newObjects;
 }
 
-- (ZSInterpreter *)interpreter {
-    ZSInterpreter *interpreter = [ZSInterpreter interpreter];
-    [[self compiledJSON][@"objects"] each:^(NSDictionary *object) {
-        [interpreter loadObject:object];
+- (NSArray *)transformedObjectsForObjects:(NSArray *)objects {
+    NSArray *newObjects = [objects map:^id(NSDictionary *obj) {
+        return @{
+            @"object": @{
+                @"id": obj[@"id"],
+                @"properties": (obj[@"properties"] ?: @{}),
+                @"code": (obj[@"code"] ?: @[])
+            }
+        };
     }];
     
-    return interpreter;
+    return newObjects;
 }
 
 @end
