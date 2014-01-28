@@ -156,18 +156,25 @@
       }
     }
   },
+  "collision_groups": {
+    "ball": ["paddle", "brick"],
+    "paddle": ["ball"],
+    "brick": ["ball"],
+    "text": []
+  },
   "objects" : [
     {
       "id": "score",
       "properties": {
-        "x": 0,
-        "y": 0,
+        "x": 270,
+        "y": 543,
         "width": 100,
-        "height": 100,
+        "height": 50,
         "text": "0",
         "score": 0
       },
       "physics_body": "none",
+      "collision_group": "text",
       "type": "text",
       "code": [
         {
@@ -197,6 +204,7 @@
       "image" : {
         "path" : "red_brick.png"
       },
+      "collision_group": "brick",
       "physics_body" : "rectangle",
       "traits" : {
         "Disappearable": {
@@ -217,6 +225,7 @@
         "height" : 32
       },
       "physics_body" : "rectangle",
+      "collision_group": "brick",
       "image" : {
         "path" : "red_brick.png"
       },
@@ -242,6 +251,7 @@
         "path" : "red_brick.png"
       },
       "physics_body" : "rectangle",
+      "collision_group": "brick",
       "traits" : {
         "Disappearable": {
           "parameters": []
@@ -261,6 +271,7 @@
         "height" : 32
       },
       "physics_body" : "rectangle",
+      "collision_group": "brick",
       "image" : {
         "path" : "red_brick.png"
       },
@@ -285,6 +296,7 @@
       "image" : {
         "path" : "red_brick.png"
       },
+      "collision_group": "brick",
       "physics_body" : "rectangle",
       "traits" : {
         "Disappearable": {
@@ -304,6 +316,7 @@
         "x" : 158,
         "height" : 32
       },
+      "collision_group": "brick",
       "physics_body" : "rectangle",
       "image" : {
         "path" : "red_brick.png"
@@ -330,6 +343,7 @@
         "path" : "red_brick.png"
       },
       "physics_body" : "rectangle",
+      "collision_group": "brick",
       "traits" : {
         "Disappearable": {
           "parameters": []
@@ -349,6 +363,7 @@
         "height" : 32
       },
       "physics_body" : "rectangle",
+      "collision_group": "brick",
       "image" : {
         "path" : "red_brick.png"
       },
@@ -373,6 +388,7 @@
       "image" : {
         "path" : "red_brick.png"
       },
+      "collision_group": "brick",
       "physics_body" : "rectangle",
       "traits" : {
         "Disappearable": {
@@ -393,6 +409,7 @@
         "height" : 32
       },
       "physics_body" : "rectangle",
+      "collision_group": "brick",
       "image" : {
         "path" : "red_brick.png"
       },
@@ -417,6 +434,7 @@
       "image" : {
         "path" : "red_brick.png"
       },
+      "collision_group": "brick",
       "physics_body" : "rectangle",
       "traits" : {
         "Disappearable": {
@@ -437,6 +455,7 @@
         "height" : 32
       },
       "physics_body" : "rectangle",
+      "collision_group": "brick",
       "image" : {
         "path" : "red_brick.png"
       },
@@ -461,6 +480,7 @@
       "image" : {
         "path" : "red_brick.png"
       },
+      "collision_group": "brick",
       "physics_body" : "rectangle",
       "traits" : {
         "Disappearable": {
@@ -481,6 +501,7 @@
         "height" : 32
       },
       "physics_body" : "rectangle",
+      "collision_group": "brick",
       "image" : {
         "path" : "red_brick.png"
       },
@@ -505,6 +526,7 @@
       "image" : {
         "path" : "red_brick.png"
       },
+      "collision_group": "brick",
       "physics_body" : "rectangle",
       "traits" : {
         "Disappearable": {
@@ -525,6 +547,7 @@
         "height" : 32
       },
       "physics_body" : "rectangle",
+      "collision_group": "brick",
       "image" : {
         "path" : "red_brick.png"
       },
@@ -549,6 +572,7 @@
       "image" : {
         "path" : "red_brick.png"
       },
+      "collision_group": "brick",
       "physics_body" : "rectangle",
       "traits" : {
         "Disappearable": {
@@ -569,6 +593,7 @@
         "height" : 32
       },
       "physics_body" : "rectangle",
+      "collision_group": "brick",
       "image" : {
         "path" : "red_brick.png"
       },
@@ -591,13 +616,14 @@
         "height" : 28
       },
       "physics_body" : "rectangle",
+      "collision_group": "paddle",
       "image" : {
         "path" : "paddle.png"
       },
       "traits" : {
         "Draggable" : {
           "parameters" : {
-            "vertical" : true,
+            "vertical" : false,
             "horizontal" : true
           }
         }
@@ -633,6 +659,7 @@
         "x" : 106,
         "height" : 30
       },
+      "collision_group": "ball",
       "physics_body" : "circle",
       "image" : {
         "path" : "grayball.png"
