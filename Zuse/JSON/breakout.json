@@ -186,6 +186,7 @@
       "code" : [
 
       ],
+      "type" : "image",
       "id" : "AA230D34-CA98-45D7-9C6D-F2CD7BD15EFA",
       "properties" : {
         "y" : 496,
@@ -207,6 +208,7 @@
       "code" : [
 
       ],
+      "type" : "image",
       "id" : "AB37B553-8E5A-4331-9CE0-4535BE4BD511",
       "properties" : {
         "y" : 496,
@@ -228,6 +230,7 @@
       "code" : [
 
       ],
+      "type" : "image",
       "id" : "193EA3F5-C059-4223-87B7-EE554C713CE0",
       "properties" : {
         "y" : 496,
@@ -249,6 +252,7 @@
       "code" : [
 
       ],
+      "type" : "image",
       "id" : "B2EC74F2-7484-412C-8F3F-5EBE68C87CD4",
       "properties" : {
         "y" : 496,
@@ -270,6 +274,7 @@
       "code" : [
 
       ],
+      "type" : "image",
       "id" : "9A75DF35-2992-4271-ABA0-BB786BE59E6B",
       "properties" : {
         "y" : 461,
@@ -291,6 +296,7 @@
       "code" : [
 
       ],
+      "type" : "image",
       "id" : "E8825123-AA3F-4E5E-B6F8-D1FBCEEB389E",
       "properties" : {
         "y" : 461,
@@ -312,6 +318,7 @@
       "code" : [
 
       ],
+      "type" : "image",
       "id" : "DF35FE55-BE9C-4011-98B9-089579B2CA07",
       "properties" : {
         "y" : 461,
@@ -333,6 +340,7 @@
       "code" : [
 
       ],
+      "type" : "image",
       "id" : "06B2560B-3E0C-428E-B672-B0464AB2E1F2",
       "properties" : {
         "y" : 426,
@@ -354,6 +362,7 @@
       "code" : [
 
       ],
+      "type" : "image",
       "id" : "C30FB6D2-99F3-4AD4-A4C2-FC55707F5510",
       "properties" : {
         "y" : 426,
@@ -375,6 +384,7 @@
       "code" : [
 
       ],
+      "type" : "image",
       "id" : "428956B0-B6AA-4EDD-BB7C-83809BFF1327",
       "properties" : {
         "y" : 426,
@@ -396,6 +406,7 @@
       "code" : [
 
       ],
+      "type" : "image",
       "id" : "A3BC4097-0258-4284-9978-E4B67DAC797F",
       "properties" : {
         "y" : 426,
@@ -417,6 +428,7 @@
       "code" : [
 
       ],
+      "type" : "image",
       "id" : "E3E37F7E-5062-4B81-A7F8-D103C5A5E9DA",
       "properties" : {
         "y" : 391,
@@ -438,6 +450,7 @@
       "code" : [
 
       ],
+      "type" : "image",
       "id" : "7CF87828-2687-43D8-BEB6-C4C6DC4BFBE9",
       "properties" : {
         "y" : 391,
@@ -459,6 +472,7 @@
       "code" : [
 
       ],
+      "type" : "image",
       "id" : "90F23CB9-62CE-4FEF-AB35-09FF1B4A5547",
       "properties" : {
         "y" : 391,
@@ -480,6 +494,7 @@
       "code" : [
 
       ],
+      "type" : "image",
       "id" : "C4CDDCC8-32A4-4C1B-94AA-D69F9BAFFB62",
       "properties" : {
         "y" : 356,
@@ -501,6 +516,7 @@
       "code" : [
 
       ],
+      "type" : "image",
       "id" : "66BBF7CA-985A-40C7-9587-5CA64DD5D178",
       "properties" : {
         "y" : 356,
@@ -522,6 +538,7 @@
       "code" : [
 
       ],
+      "type" : "image",
       "id" : "DE9B3D74-12C6-4B76-86AE-A7A08A99507A",
       "properties" : {
         "y" : 356,
@@ -543,6 +560,7 @@
       "code" : [
 
       ],
+      "type" : "image",
       "id" : "0B214181-92FE-4CE2-94A7-9B5C684973E7",
       "properties" : {
         "y" : 356,
@@ -564,6 +582,7 @@
       "code" : [
 
       ],
+      "type" : "image",
       "id" : "20E26463-2409-4D90-8ED9-937FE6746DED",
       "properties" : {
         "y" : 43,
@@ -606,6 +625,7 @@
           }
         }
       ],
+      "type" : "image",
       "id" : "B00B8AED-B3C3-4A3C-AB0E-3559E0BCA33C",
       "properties" : {
         "y" : 77.00003,
