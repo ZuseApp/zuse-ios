@@ -7,7 +7,6 @@
 //
 
 #import "ZSAdjustView.h"
-#import <FXBlurView.h>
 
 @interface ZSAdjustView ()
 

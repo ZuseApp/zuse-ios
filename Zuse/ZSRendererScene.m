@@ -8,8 +8,6 @@
 
 #import <SpriteKit-Components/SKComponents.h>
 #import "BlocksKit.h"
-#import <PhysicsDebugger/YMCPhysicsDebugger.h>
-#import <PhysicsDebugger/YMCSKNode+PhysicsDebug.h>
 @import GLKit;
 
 #import "ZSRendererScene.h"
@@ -51,12 +49,10 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
         
         _interpreter.delegate = self;
         
-        //init the debugger
-//        [YMCPhysicsDebugger init];
-        
         //Set the physics edges to the frame
         self.physicsBody = [SKPhysicsBody bodyWithEdgeLoopFromRect:self.frame];
         self.physicsBody.categoryBitMask = GFPhysicsCategoryWorld;
+        
         
         // TODO: render objects on screen...
         _spriteNodes = [[NSMutableDictionary alloc] init];
@@ -64,16 +60,36 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
             
             NSDictionary *properties = object[@"properties"];
             
+            CGPoint position = CGPointMake([properties[@"x"] floatValue], [properties[@"y"] floatValue]);
+            CGSize size = CGSizeMake([properties[@"width"] floatValue], [properties[@"height"] floatValue]);
+        
+            if ([object[@"type"] isEqualToString:@"text"]) {
+                SKLabelNode *node = [SKLabelNode labelNodeWithFontNamed:@"Helvetica"];
+                node.name = @"Text";
+                node.text = properties[@"text"];
+                node.fontColor = [SKColor blackColor];
+                node.fontSize = 30;
+                node.verticalAlignmentMode = SKLabelVerticalAlignmentModeCenter;
+                node.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
+                node.position = position;
+                [self addChild:node];
+                
+                return;
+            }
+//            SKLabelNode *textNode =
+            
+            
             SKComponentNode *node = [SKComponentNode node];
             node.name = kZSSpriteName;
             
             //set up the sprite size and position on screen
+            
             SKSpriteNode *sprite = [SKSpriteNode spriteNodeWithImageNamed:object[@"image"][@"path"]];
             sprite.alpha = 0.1;
             
-            node.position = CGPointMake([properties[@"x"] floatValue], [properties[@"y"] floatValue]);
+            node.position = position;
             
-            sprite.size = CGSizeMake([properties[@"width"] floatValue], [properties[@"height"] floatValue]);
+            sprite.size = size;
             
             //add sprite to the node
             [node addChild:sprite];
@@ -83,8 +99,8 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
             jointNode.position = CGPointMake([properties[@"x"] floatValue], [properties[@"y"] floatValue]);
             jointNode.name = kZSJointName;
             jointNode.alpha =1.0;
-            //make a transparent sprite for the joint with the same dimensions as the node's sprite
-//            SKSpriteNode *jointSprite = [SKSpriteNode new];
+            // make a transparent sprite for the joint with the same dimensions as the node's sprite
+            // SKSpriteNode *jointSprite = [SKSpriteNode new];
             SKSpriteNode *jointSprite = [SKSpriteNode spriteNodeWithImageNamed:object[@"image"][@"path"]];
             jointSprite.size = CGSizeMake([properties[@"width"] floatValue], [properties[@"height"] floatValue]);
             [jointNode addChild:jointSprite];
@@ -159,11 +175,6 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
             [self addChild:jointNode];
             [self.physicsWorld addJoint:physicsJointFixed];
             
-            
-            //TODO: call debug render method; doesn't seem to render red boxes around physics bodies
-//            [self drawPhysicsBodies];
-            
-            // ...
             [_spriteNodes setObject:jointNode forKey:object[@"id"]];
             
         }];
@@ -189,6 +200,7 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
     
     [self enumerateChildNodesWithName:kZSJointName
                            usingBlock:^(SKNode *node, BOOL *stop) {
+                               NSLog(@"running");
                                SKComponentNode *componentNode = (SKComponentNode *)node;
                                ZSSpriteTouchComponent *touchNode = [componentNode getComponent:[ZSSpriteTouchComponent class]];
                                GLKVector2 velocity = GLKVector2Make(node.physicsBody.velocity.dx, node.physicsBody.velocity.dy);
@@ -240,6 +252,9 @@ didUpdateProperties:(NSDictionary *)properties {
     if (properties[@"y"])
     {
         sprite.position = CGPointMake(sprite.position.x, [properties[@"y"] floatValue]);
+    }
+    if (properties[@"text"]) {
+        
     }
 }
 
