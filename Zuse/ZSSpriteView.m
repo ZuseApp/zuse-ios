@@ -33,6 +33,38 @@
     [self setupGestures];
 }
 
+- (void)setContent:(UIView *)content {
+    if (_content) {
+        [_content removeFromSuperview];
+    }
+    
+    _content = content;
+    if (content) {
+        [self addSubview:content];
+    }
+}
+
+- (void)setContentFromImage:(UIImage*)image {
+    UIImageView *imageView = [[UIImageView alloc] init];
+    imageView.image = image;
+    self.content = imageView;
+}
+
+- (void)setContentFromText:(NSString*)text {
+    UITextView *textView = [[UITextView alloc] init];
+    textView.userInteractionEnabled = NO;
+    textView.text = text;
+    textView.layer.backgroundColor = [[UIColor lightGrayColor] CGColor];
+    textView.layer.borderWidth = 0.5f;
+    self.content = textView;
+}
+
+- (void)layoutSubviews {
+    if (_content) {
+        _content.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
+    }
+}
+
 - (void)setupGestures {
     UITapGestureRecognizer *doubleTapGeture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTapRecognized)];
     doubleTapGeture.numberOfTapsRequired = 2;

@@ -42,14 +42,11 @@
     if ([type isEqualToString:@"image"]) {
         NSDictionary *image = json[@"image"];
         NSString *imagePath = image[@"path"];
-        cell.spriteView.image = [UIImage imageNamed:imagePath];
+        [cell.spriteView setContentFromImage:[UIImage imageNamed:imagePath]];
     }
     else if ([type isEqualToString:@"text"]) {
-        NSDictionary *thumbnail = json[@"thumbnail"];
-        NSString *imagePath = thumbnail[@"path"];
-        cell.spriteView.image = [UIImage imageNamed:imagePath];
+        [cell.spriteView setContentFromImage:[UIImage imageNamed:@"text_icon.png"]];
     }
-    
     
     cell.spriteView.contentMode = UIViewContentModeScaleAspectFit;
     cell.spriteView.panBegan = ^(UIPanGestureRecognizer *panGestureRecognizer) {

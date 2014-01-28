@@ -121,18 +121,18 @@
             NSDictionary *image = jsonObject[@"image"];
             NSString *imagePath = image[@"path"];
             if (imagePath) {
-                view.image = [UIImage imageNamed:imagePath];
+                [view setContentFromImage:[UIImage imageNamed:imagePath]];
             } else {
                 view.backgroundColor = [UIColor blackColor];
             }
         }
         else if ([type isEqualToString:@"text"]){
-            CGRect frame = CGRectMake(0, 0, view.frame.size.width, view.frame.size.height);
-            UITextView *textView = [[UITextView alloc] initWithFrame:frame];
-            textView.userInteractionEnabled = NO;
-            textView.text = @"This is a test";
-            [view addSubview:textView];
-            [view bringSubviewToFront:textView];
+            [view setContentFromText:jsonObject[@"text"]];
+        }
+        else {
+            // If the sprite isn't marked with a type, ignore it.
+            NSLog(@"WARNING: Unkown sprite type.  Skipping adding it to canvas.");
+            continue;
         }
         
         view.spriteJSON = jsonObject;
@@ -244,7 +244,7 @@
     ZSSpriteView *copy = [[ZSSpriteView alloc] initWithFrame:spriteView.frame];
     copy.spriteJSON = [spriteView.spriteJSON deepMutableCopy];
     copy.spriteJSON[@"id"] = [[NSUUID UUID] UUIDString];
-    copy.image = [UIImage imageNamed:copy.spriteJSON[@"image"][@"path"]];
+    [copy setContentFromImage:[UIImage imageNamed:copy.spriteJSON[@"image"][@"path"]]];
     [self setupGesturesForSpriteView:copy withProperties:copy.spriteJSON[@"properties"]];
     [self setupEditOptionsForSpriteView:copy];
     return copy;
@@ -310,9 +310,9 @@
         draggedView = [[ZSSpriteView alloc] initWithFrame:frame];
         NSString *type = json[@"type"];
         if ([type isEqualToString:@"image"]) {
-            draggedView.image = [UIImage imageNamed:json[@"image"][@"path"]];
+            [draggedView setContentFromImage:[UIImage imageNamed:json[@"image"][@"path"]]];
         } else if ([type isEqualToString:@"text"]) {
-            draggedView.image = [UIImage imageNamed:json[@"thumbnail"][@"path"]];
+            [draggedView setContentFromText:@"Value"];
         }
         draggedView.contentMode = UIViewContentModeScaleAspectFit;
         [weakSelf.view addSubview:draggedView];
@@ -350,6 +350,9 @@
         
         properties[@"x"] = @(x);
         properties[@"y"] = @(y);
+        if ([newJson[@"type"] isEqualToString:@"text"]) {
+            newJson[@"text"] = @"Value";
+        }
         
         // Bring menus to front.
         [weakSelf.view bringSubviewToFront:weakSelf.menuTable];
