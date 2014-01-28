@@ -10,7 +10,7 @@
 #import <SpriteKit-Components/SKComponents.h>
 #import "ZSInterpreter.h"
 
-@interface ZSRendererScene : SKComponentScene
+@interface ZSRendererScene : SKComponentScene <SKPhysicsContactDelegate>
 
 - (instancetype)initWithSize:(CGSize)size projectJSON:(NSDictionary *)projectJSON;
 

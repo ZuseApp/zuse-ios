@@ -16,5 +16,6 @@
 @property (strong, nonatomic) void(^touchesMoved)(UITouch *touch);
 @property (strong, nonatomic) void(^touchesEnded)(UITouch *touch);
 @property (assign, nonatomic) NSInteger speed;
+@property (assign, nonatomic) NSString *spriteId;
 
 @end
