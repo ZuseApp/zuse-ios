@@ -39,13 +39,13 @@
                                  @"physics_body": @"rectangle",
                                  @"traits": @{},
                                  @"properties": @{
-                                         @"thumbnail": @{
-                                                 @"image": @"text_icon.png",
-                                                 @"width": @(38),
-                                                 @"height": @(44)
-                                                 },
                                          @"width": @(200),
                                          @"height": @(20)
+                                         },
+                                 @"thumbnail": @{
+                                         @"path": @"text_icon.png",
+                                         @"width": @(38),
+                                         @"height": @(44)
                                          },
                                  @"code": @{},
                                  @"type": @"text"
