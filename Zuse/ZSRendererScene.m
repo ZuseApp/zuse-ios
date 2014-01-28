@@ -42,9 +42,12 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
 -(id)initWithSize:(CGSize)size projectJSON:(NSDictionary *)projectJSON {
     if (self = [super initWithSize:size]) {
         ZSCompiler *compiler = [ZSCompiler compilerWithProjectJSON:projectJSON];
-        _interpreter = [compiler interpreter];
         
-        [self loadMethodsIntoInterpreter];
+        _interpreter = [ZSInterpreter interpreter];
+        
+        [self loadMethodsIntoInterpreter:_interpreter];
+        
+        [_interpreter runJSON:compiler.compiledJSON];
         
         _interpreter.delegate = self;
         
@@ -197,8 +200,8 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
     
 }
 
-- (void)loadMethodsIntoInterpreter {
-    [_interpreter loadMethod:@{
+- (void)loadMethodsIntoInterpreter:(ZSInterpreter *)interpreter {
+    [interpreter loadMethod:@{
         @"method": @"move",
         @"block": ^id(NSString *identifier, NSArray *args) {
             CGFloat direction = [args[0] floatValue];
@@ -210,7 +213,7 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
         }
     }];
     
-    [_interpreter loadMethod:@{
+    [interpreter loadMethod:@{
         @"method": @"remove",
         @"block": ^id(NSString *identifier, NSArray *args) {
             [self removeSpriteWithIdentifier:identifier];

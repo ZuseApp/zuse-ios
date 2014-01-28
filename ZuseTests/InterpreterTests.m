@@ -8,9 +8,11 @@
 
 #import <XCTest/XCTest.h>
 #import "ZSInterpreter.h"
+#import "ZSCompiler.h"
 
 @interface InterpreterTests : XCTestCase
 
+@property (strong, nonatomic) ZSCompiler *compiler;
 @property (strong, nonatomic) ZSInterpreter *interpreter;
 
 @end
@@ -42,6 +44,7 @@
         @"block": ^(NSString *identifier, NSArray *args) {
             didRun = YES;
             XCTAssertEqualObjects(@"Hello World!", args[0], @"");
+            return [NSNull null];
         }
     };
     
@@ -64,9 +67,10 @@
     
     NSDictionary *method = @{
         @"method":  @"print",
-        @"block": ^(NSString *identifier, NSArray *args) {
+        @"block": ^id(NSString *identifier, NSArray *args) {
             didRun = YES;
             XCTAssertEqualObjects(@[], args, @"");
+            return [NSNull null];
         }
     };
     
@@ -74,7 +78,7 @@
     
     NSDictionary *program = @{
         @"call": @{
-            @"method": @"print",
+            @"method": @"print"
         }
     };
     
@@ -90,9 +94,10 @@
     
     NSDictionary *method = @{
         @"method":  @"print",
-        @"block": ^(NSString *identifier, NSArray *args) {
+        @"block": ^id(NSString *identifier, NSArray *args) {
             didRun = YES;
             XCTAssertEqualObjects(@"Hello World!", args[0], @"");
+            return [NSNull null];
         }
     };
     
@@ -146,25 +151,19 @@
         @"method":  @"test",
         @"block": ^id(NSString *identifier, NSArray *args) {
             didRun = YES;
-            return nil;
+            return [NSNull null];
         }
     };
     
     [_interpreter loadMethod:method];
     
-    [_interpreter loadObject:@{
-        @"id": @"foo",
-        @"properties": @{},
-        @"code": @[
-            @{
-                @"on_event": @{
-                    @"name": @"start",
-                    @"code": @[
-                        @{ @"call": @{ @"method": @"test", @"parameters": @[] } }
-                    ]
-                }
-            }
-        ]
+    [_interpreter runJSON: @{
+        @"on_event": @{
+            @"name": @"start",
+            @"code": @[
+                @{ @"call": @{ @"method": @"test", @"parameters": @[] } }
+            ]
+        }
     }];
     
     [_interpreter triggerEvent:@"start"];
@@ -172,15 +171,12 @@
     XCTAssert(didRun, @"");
 }
 
-
 - (void)testAsyncMethod {
-    __block BOOL didRun = NO;
-    
     NSDictionary *method = @{
         @"method":  @"print",
         @"block": ^(NSString *identifier, NSArray *args, void(^finishedBlock)(id)) {
-            didRun = YES;
             finishedBlock(@YES);
+            return [NSNull null];
         }
     };
     
@@ -207,35 +203,41 @@
 }
 
 - (void)testScope {
+    __block BOOL didRun1 = NO;
     NSDictionary *method = @{
         @"method":  @"check1",
         @"block": ^id(NSString *identifier, NSArray *args) {
             XCTAssertEqual(args.count, [@2 unsignedIntegerValue], @"");
             XCTAssertEqualObjects(args[0], @"foo", @"");
             XCTAssertEqualObjects(args[1], @"bar", @"");
+            didRun1 = YES;
             return @YES;
         }
     };
     
     [_interpreter loadMethod:method];
     
+    __block BOOL didRun2 = NO;
     method = @{
         @"method":  @"check2",
         @"block": ^id(NSString *identifier, NSArray *args) {
             XCTAssertEqual(args.count, [@2 unsignedIntegerValue], @"");
             XCTAssertEqualObjects(args[0], @"foo", @"");
             XCTAssertEqual(args[1], [NSNull null], @"");
+            didRun2 = YES;
             return @YES;
         }
     };
-
+    
     [_interpreter loadMethod:method];
     
     NSDictionary *json = [self loadTestFileAtPath:@"scope"];
+    ZSCompiler *compiler = [ZSCompiler compilerWithProjectJSON:json];
     
-    for (NSDictionary *dict in json[@"objects"]) {
-        [_interpreter loadObject:dict];
-    }
+    [_interpreter runJSON:compiler.compiledJSON];
+    
+    XCTAssert(didRun1, @"");
+    XCTAssert(didRun2, @"");
 }
 
 - (void)testScopeSetObjectScopeProperty {
@@ -267,10 +269,9 @@
     [_interpreter loadMethod:method];
     
     NSDictionary *json = [self loadTestFileAtPath:@"scope_set_object_var"];
+    ZSCompiler *compiler = [ZSCompiler compilerWithProjectJSON:json];
     
-    for (NSDictionary *dict in json[@"objects"]) {
-        [_interpreter loadObject:dict];
-    }
+    [_interpreter runJSON:compiler.compiledJSON];
     
     XCTAssert(didRunCheckOne, @"");
     XCTAssert(didRunCheckTwo, @"");
@@ -322,10 +323,9 @@
     [_interpreter loadMethod:method];
     
     NSDictionary *json = [self loadTestFileAtPath:@"events_scope"];
+    ZSCompiler *compiler = [ZSCompiler compilerWithProjectJSON:json];
     
-    for (NSDictionary *dict in json[@"objects"]) {
-        [_interpreter loadObject:dict];
-    }
+    [_interpreter runJSON:compiler.compiledJSON];
     
     [_interpreter triggerEvent:@"my_event" onObjectWithIdentifier:@"my_object" parameters:@{
         @"x": @10,
@@ -338,13 +338,15 @@
 }
 
 - (void)testObjects {
-    [_interpreter loadObject:@{
-        @"id": @"foo",
-        @"properties": @{
-            @"x": @10,
-            @"y": @11
-        },
-        @"code": @[ ]
+    [_interpreter runJSON:@{
+        @"object": @{
+            @"id": @"foo",
+            @"properties": @{
+                @"x": @10,
+                @"y": @11
+            },
+            @"code": @[ ]
+        }
     }];
     
     NSDictionary *expectedObjects = @{
@@ -354,7 +356,7 @@
         }
     };
     
-    XCTAssertEqualObjects(expectedObjects, [_interpreter objects], @"");
+    XCTAssertEqualObjects((expectedObjects[@"foo"]), ([_interpreter objects][@"foo"]), @"");
 }
 
 @end

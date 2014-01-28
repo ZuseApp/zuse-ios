@@ -72,7 +72,6 @@
 		5F1B5BA61837EE7800632DE6 /* ZSCompiler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F1B5BA51837EE7800632DE6 /* ZSCompiler.m */; };
 		5F1B5BA71838109600632DE6 /* ZSInterpreter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F099D4517F1135300EB2AC7 /* ZSInterpreter.m */; };
 		5F2EC4D0183ABECE0091CEAD /* pong_compiled.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F2EC4CE183ABECE0091CEAD /* pong_compiled.json */; };
-		5F2EC4D1183ABECE0091CEAD /* pong.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F2EC4CF183ABECE0091CEAD /* pong.json */; };
 		5F2EC4D4183ABEE60091CEAD /* events_scope.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F2EC4D2183ABEE60091CEAD /* events_scope.json */; };
 		5F2EC4D5183ABEE60091CEAD /* scope.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F2EC4D3183ABEE60091CEAD /* scope.json */; };
 		5F2EC4D8183ABF160091CEAD /* ZSCompilerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F2EC4D7183ABF160091CEAD /* ZSCompilerTests.m */; };
@@ -97,6 +96,8 @@
 		5F39DFD5188A40A0008ECAC1 /* NSTimer+BlocksKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F39DFC6188A40A0008ECAC1 /* NSTimer+BlocksKit.m */; };
 		5F39DFD7188A472E008ECAC1 /* ZSInterpreterExpressionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F39DFD6188A472E008ECAC1 /* ZSInterpreterExpressionTests.m */; };
 		5F41ACB818341C980089D136 /* ZSExecutionContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F41ACB718341C980089D136 /* ZSExecutionContext.m */; };
+		5F8138C918945D8F009F3495 /* object_transform.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F8138C818945D8F009F3495 /* object_transform.json */; };
+		5F8138CD18945DDD009F3495 /* object_transform_result.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F8138CC18945DDD009F3495 /* object_transform_result.json */; };
 		5FAFE3601891C8B300131354 /* breakout.json in Resources */ = {isa = PBXBuildFile; fileRef = 5FAFE35F1891C8B300131354 /* breakout.json */; };
 		5FEFB89A182B5376007DAFCF /* pong.json in Resources */ = {isa = PBXBuildFile; fileRef = 5FEFB899182B5376007DAFCF /* pong.json */; };
 		78346A0A183C623400540D54 /* ZSCodeStatementObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 78346A09183C623400540D54 /* ZSCodeStatementObject.m */; };
@@ -236,7 +237,6 @@
 		5F1B5BA41837EE7800632DE6 /* ZSCompiler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCompiler.h; sourceTree = "<group>"; };
 		5F1B5BA51837EE7800632DE6 /* ZSCompiler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCompiler.m; sourceTree = "<group>"; };
 		5F2EC4CE183ABECE0091CEAD /* pong_compiled.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = pong_compiled.json; path = CodeSamples/pong_compiled.json; sourceTree = "<group>"; };
-		5F2EC4CF183ABECE0091CEAD /* pong.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = pong.json; path = CodeSamples/pong.json; sourceTree = "<group>"; };
 		5F2EC4D2183ABEE60091CEAD /* events_scope.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = events_scope.json; path = CodeSamples/events_scope.json; sourceTree = "<group>"; };
 		5F2EC4D3183ABEE60091CEAD /* scope.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = scope.json; path = CodeSamples/scope.json; sourceTree = "<group>"; };
 		5F2EC4D7183ABF160091CEAD /* ZSCompilerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCompilerTests.m; sourceTree = "<group>"; };
@@ -280,6 +280,8 @@
 		5F39DFD6188A472E008ECAC1 /* ZSInterpreterExpressionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSInterpreterExpressionTests.m; sourceTree = "<group>"; };
 		5F41ACB618341C980089D136 /* ZSExecutionContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSExecutionContext.h; sourceTree = "<group>"; };
 		5F41ACB718341C980089D136 /* ZSExecutionContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSExecutionContext.m; sourceTree = "<group>"; };
+		5F8138C818945D8F009F3495 /* object_transform.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = object_transform.json; path = CodeSamples/object_transform.json; sourceTree = "<group>"; };
+		5F8138CC18945DDD009F3495 /* object_transform_result.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = object_transform_result.json; path = CodeSamples/object_transform_result.json; sourceTree = "<group>"; };
 		5FAFE35F1891C8B300131354 /* breakout.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = breakout.json; path = JSON/breakout.json; sourceTree = "<group>"; };
 		5FEFB899182B5376007DAFCF /* pong.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = pong.json; path = JSON/pong.json; sourceTree = "<group>"; };
 		78346A08183C623400540D54 /* ZSCodeStatementObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCodeStatementObject.h; sourceTree = "<group>"; };
@@ -726,12 +728,11 @@
 		5F2EC4D6183ABEEA0091CEAD /* JSON */ = {
 			isa = PBXGroup;
 			children = (
+				5F8138CE18945DE0009F3495 /* Compiler */,
 				5F2EC4DD183B06840091CEAD /* property_update.json */,
 				5F2EC4D2183ABEE60091CEAD /* events_scope.json */,
 				5F2EC4D3183ABEE60091CEAD /* scope.json */,
 				5F2EC4CE183ABECE0091CEAD /* pong_compiled.json */,
-				5F2EC4CF183ABECE0091CEAD /* pong.json */,
-				5F2EC4D9183AC7C10091CEAD /* project_traits.json */,
 				5F2EC4E2183DC2550091CEAD /* scope_set_object_var.json */,
 			);
 			name = JSON;
@@ -775,6 +776,16 @@
 				5F39DFC6188A40A0008ECAC1 /* NSTimer+BlocksKit.m */,
 			);
 			name = BlocksKit;
+			sourceTree = "<group>";
+		};
+		5F8138CE18945DE0009F3495 /* Compiler */ = {
+			isa = PBXGroup;
+			children = (
+				5F8138C818945D8F009F3495 /* object_transform.json */,
+				5F8138CC18945DDD009F3495 /* object_transform_result.json */,
+				5F2EC4D9183AC7C10091CEAD /* project_traits.json */,
+			);
+			name = Compiler;
 			sourceTree = "<group>";
 		};
 		5FEFB898182B5360007DAFCF /* JSON */ = {
@@ -957,7 +968,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5F2EC4D1183ABECE0091CEAD /* pong.json in Resources */,
 				5F2EC4D5183ABEE60091CEAD /* scope.json in Resources */,
 				5F2EC4DA183AC7C10091CEAD /* project_traits.json in Resources */,
 				5F2EC4D0183ABECE0091CEAD /* pong_compiled.json in Resources */,
@@ -965,6 +975,8 @@
 				5F2EC4DE183B06840091CEAD /* property_update.json in Resources */,
 				4CF1CBDB17EF882A00636E0D /* InfoPlist.strings in Resources */,
 				5F2EC4D4183ABEE60091CEAD /* events_scope.json in Resources */,
+				5F8138C918945D8F009F3495 /* object_transform.json in Resources */,
+				5F8138CD18945DDD009F3495 /* object_transform_result.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -53,8 +53,8 @@
 
 - (NSDictionary *)blankObject {
     return @{
-        @"id":        [NSUUID UUID],
-        @"properties": @[],
+        @"id":        [[NSUUID UUID] UUIDString],
+        @"properties": @{},
         @"code":      @[]
     };
 }
@@ -140,7 +140,7 @@
 }
 
 - (NSString *)IDForStoringValue:(id)value {
-    NSString *UUID = [NSUUID UUID];
+    NSString *UUID = [[NSUUID UUID] UUIDString];
     _dataStore[UUID] = value;
     return UUID;
 }
@@ -160,16 +160,21 @@
 
     NSString *key = [expression allKeys][0];
     id code = expression[key];
-
+    
+    if ([key isEqualToString:@"object"]) {
+        [self loadObject:code];
+        return code;
+    }
+    
     if ([key isEqualToString:@"call"]) {
         // It's legal to not specify an parameters array
-        NSArray *params = (code[@"parameters"] ? code[@"parameters"] : @[]);
+        NSArray *params = code[@"parameters"] ?: @[];
         params = [params map:^id(id obj) {
             return [self evaluateExpression:obj context:context];
         }];
 
         if (code[@"async"] && [code[@"async"] boolValue]) {
-            id (^method)(NSString *, NSArray *, void(^)(id)) = _methods[code[@"method"]];
+            void (^method)(NSString *, NSArray *, void(^)(id)) = _methods[code[@"method"]];
 
             __block id returnValue = nil;
             method(context.objectID, params, ^void(id obj){
@@ -321,10 +326,6 @@
     [_methods setObject:method[@"block"] forKey:method[@"method"]];
 }
 
-- (void)loadTrait:(NSDictionary *)trait {
-    [_methods setObject:trait forKey:trait[@"id"]];
-}
-
 - (void)loadObject:(NSDictionary *)obj {
     [_events setObject:[NSMutableDictionary dictionary] forKey:obj[@"id"]];
     [_properties setObject:[self dictionaryForStoringDictionary:obj[@"properties"]] forKey:obj[@"id"]];
@@ -346,7 +347,9 @@
 
 - (void)triggerEvent:(NSString *)event
           parameters:(NSDictionary *)parameters {
-    
+    [_objects each:^(id key, id obj) {
+        [self triggerEvent:event onObjectWithIdentifier:key parameters:parameters];
+    }];
 }
 
 - (void)  triggerEvent:(NSString *)event

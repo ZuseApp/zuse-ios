@@ -64,12 +64,18 @@
     }];
     
     
-    for (NSDictionary *object in compiledJSON[@"objects"]) {
-        [interpreter loadObject:object];
-    }
+    [interpreter runJSON:compiledJSON];
     
     XCTAssert(didRunInObject, @"");
     XCTAssert(didRunInTrait, @"");
 }
 
+- (void)testProjectObjectTransform {
+    NSDictionary *original = [self loadTestFileAtPath:@"object_transform"];
+    NSDictionary *expected = [self loadTestFileAtPath:@"object_transform_result"];
+    
+    ZSCompiler *compiler = [ZSCompiler compilerWithProjectJSON:original];
+    
+    XCTAssertEqualObjects(expected, compiler.compiledJSON, @"");
+}
 @end
