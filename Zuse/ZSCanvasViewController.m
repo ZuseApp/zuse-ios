@@ -81,9 +81,9 @@
     }
     
     if ([segue.identifier isEqualToString:@"renderer"]) {
-        ZSRendererViewController *rendererController = (ZSRendererViewController *)segue.destinationViewController;
-        rendererController.projectJSON = [_project assembledJSON];
-        _rendererViewController = rendererController;
+//        ZSRendererViewController *rendererController = (ZSRendererViewController *)segue.destinationViewController;
+//        rendererController.projectJSON = [_project assembledJSON];
+//        _rendererViewController = rendererController;
     } else if ([segue.identifier isEqualToString:@"editor"]) {
         ZSEditorViewController *editorController = (ZSEditorViewController *)segue.destinationViewController;
         editorController.spriteObject = ((ZSSpriteView *)sender).spriteJSON;
@@ -114,15 +114,27 @@
         frame.origin.y -= frame.size.height / 2;
         frame.origin.y = self.view.frame.size.height - frame.size.height - frame.origin.y;
         
-        NSDictionary *image = jsonObject[@"image"];
-        NSString *imagePath = image[@"path"];
-        
         ZSSpriteView *view = [[ZSSpriteView alloc] initWithFrame:frame];
-        if (imagePath) {
-            view.image = [UIImage imageNamed:imagePath];
-        } else {
-            view.backgroundColor = [UIColor blackColor];
+        
+        NSString *type = jsonObject[@"type"];
+        if ([type isEqualToString:@"image"]) {
+            NSDictionary *image = jsonObject[@"image"];
+            NSString *imagePath = image[@"path"];
+            if (imagePath) {
+                view.image = [UIImage imageNamed:imagePath];
+            } else {
+                view.backgroundColor = [UIColor blackColor];
+            }
         }
+        else if ([type isEqualToString:@"text"]){
+            CGRect frame = CGRectMake(0, 0, view.frame.size.width, view.frame.size.height);
+            UITextView *textView = [[UITextView alloc] initWithFrame:frame];
+            textView.userInteractionEnabled = NO;
+            textView.text = @"This is a test";
+            [view addSubview:textView];
+            [view bringSubviewToFront:textView];
+        }
+        
         view.spriteJSON = jsonObject;
         
         [self setupGesturesForSpriteView:view withProperties:variables];
@@ -296,9 +308,15 @@
         frame.origin.y = currentPoint.y - offset.y;
         
         draggedView = [[ZSSpriteView alloc] initWithFrame:frame];
-        draggedView.image = [UIImage imageNamed:json[@"image"][@"path"]];
+        NSString *type = json[@"type"];
+        if ([type isEqualToString:@"image"]) {
+            draggedView.image = [UIImage imageNamed:json[@"image"][@"path"]];
+        } else if ([type isEqualToString:@"text"]) {
+            draggedView.image = [UIImage imageNamed:json[@"thumbnail"][@"path"]];
+        }
         draggedView.contentMode = UIViewContentModeScaleAspectFit;
         [weakSelf.view addSubview:draggedView];
+        [weakSelf hideDrawersAndPerformAction:nil];
     };
     
     _spriteController.panMoved = ^(UIPanGestureRecognizer *panGestureRecognizer, NSDictionary *json) {
@@ -338,6 +356,7 @@
         [weakSelf.view bringSubviewToFront:weakSelf.spriteTable];
         
         [weakProject write];
+        [weakSelf showDrawers];
     };
 }
 
