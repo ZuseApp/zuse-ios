@@ -366,6 +366,7 @@
 -(void)setupGestures {
     // Canvas gesture recognizers.
     UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressRecognized:)];
+    longPressGesture.delegate = self;
     [self.view addGestureRecognizer:longPressGesture];
     
     UITapGestureRecognizer *doubleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTapRecognized)];
@@ -448,6 +449,13 @@
     }
 }
 
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    if ([gestureRecognizer isKindOfClass:[UILongPressGestureRecognizer class]] && !_rendererView.hidden) {
+        return NO;
+    }
+    return YES;
+}
+
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
     
     BOOL result = NO;
@@ -493,6 +501,11 @@
 }
 
 - (BOOL)canPerformAction:(SEL)action withSender:(id)sender {
+    // If the renderer is showing, don't capture anything.
+    if (!_rendererView.hidden) {
+        return NO;
+    }
+    
     // Check to see if the action is being performed on top of the adjust menu.
     CGRect frame = _adjustMenu.frame;
     if ((_adjustMenu.hidden == NO) && _lastTouch.x >= frame.origin.x && _lastTouch.x <= frame.origin.x + frame.size.width && _lastTouch.y >= frame.origin.y && _lastTouch.y <= frame.origin.y + frame.size.height) {
