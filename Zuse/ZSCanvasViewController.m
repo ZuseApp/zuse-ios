@@ -81,9 +81,9 @@
     }
     
     if ([segue.identifier isEqualToString:@"renderer"]) {
-//        ZSRendererViewController *rendererController = (ZSRendererViewController *)segue.destinationViewController;
-//        rendererController.projectJSON = [_project assembledJSON];
-//        _rendererViewController = rendererController;
+        ZSRendererViewController *rendererController = (ZSRendererViewController *)segue.destinationViewController;
+        rendererController.projectJSON = [_project assembledJSON];
+        _rendererViewController = rendererController;
     } else if ([segue.identifier isEqualToString:@"editor"]) {
         ZSEditorViewController *editorController = (ZSEditorViewController *)segue.destinationViewController;
         editorController.spriteObject = ((ZSSpriteView *)sender).spriteJSON;

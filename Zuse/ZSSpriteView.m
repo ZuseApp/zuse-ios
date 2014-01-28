@@ -54,7 +54,7 @@
     UITextView *textView = [[UITextView alloc] init];
     textView.userInteractionEnabled = NO;
     textView.text = text;
-    textView.layer.backgroundColor = [[UIColor lightGrayColor] CGColor];
+    textView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
     textView.layer.borderWidth = 0.5f;
     self.content = textView;
 }
