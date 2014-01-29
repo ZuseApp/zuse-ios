@@ -115,27 +115,11 @@
         frame.origin.y = self.view.frame.size.height - frame.size.height - frame.origin.y;
         
         ZSSpriteView *view = [[ZSSpriteView alloc] initWithFrame:frame];
-        
-        NSString *type = jsonObject[@"type"];
-        if ([type isEqualToString:@"image"]) {
-            NSDictionary *image = jsonObject[@"image"];
-            NSString *imagePath = image[@"path"];
-            if (imagePath) {
-                [view setContentFromImage:[UIImage imageNamed:imagePath]];
-            } else {
-                view.backgroundColor = [UIColor blackColor];
-            }
-        }
-        else if ([type isEqualToString:@"text"]){
-            [view setContentFromText:jsonObject[@"text"]];
-        }
-        else {
+        if (![view setContentFromJSON:jsonObject]) {
             // If the sprite isn't marked with a type, ignore it.
             NSLog(@"WARNING: Unkown sprite type.  Skipping adding it to canvas.");
             continue;
         }
-        
-        view.spriteJSON = jsonObject;
         
         [self setupGesturesForSpriteView:view withProperties:variables];
         [self setupEditOptionsForSpriteView:view];
@@ -242,9 +226,7 @@
 
 - (ZSSpriteView *)copySpriteView:(ZSSpriteView *)spriteView {
     ZSSpriteView *copy = [[ZSSpriteView alloc] initWithFrame:spriteView.frame];
-    copy.spriteJSON = [spriteView.spriteJSON deepMutableCopy];
-    copy.spriteJSON[@"id"] = [[NSUUID UUID] UUIDString];
-    [copy setContentFromImage:[UIImage imageNamed:copy.spriteJSON[@"image"][@"path"]]];
+    [copy setContentFromJSON:[spriteView.spriteJSON deepMutableCopy]];
     [self setupGesturesForSpriteView:copy withProperties:copy.spriteJSON[@"properties"]];
     [self setupEditOptionsForSpriteView:copy];
     return copy;
@@ -299,7 +281,7 @@
     __block CGPoint offset;
     __block CGPoint currentPoint;
     __block ZSSpriteView *draggedView;
-    _spriteController.panBegan = ^(UIPanGestureRecognizer *panGestureRecognizer, NSDictionary *json) {
+    _spriteController.panBegan = ^(UIPanGestureRecognizer *panGestureRecognizer) {
         offset = [panGestureRecognizer locationInView:panGestureRecognizer.view];
         currentPoint = [panGestureRecognizer locationInView:weakSelf.view];
         
@@ -307,19 +289,20 @@
         frame.origin.x = currentPoint.x - offset.x;
         frame.origin.y = currentPoint.y - offset.y;
         
-        draggedView = [[ZSSpriteView alloc] initWithFrame:frame];
-        NSString *type = json[@"type"];
-        if ([type isEqualToString:@"image"]) {
-            [draggedView setContentFromImage:[UIImage imageNamed:json[@"image"][@"path"]]];
-        } else if ([type isEqualToString:@"text"]) {
-            [draggedView setContentFromText:@"Value"];
+        ZSSpriteView *spriteView = (ZSSpriteView*)panGestureRecognizer.view;
+        NSMutableDictionary *json = [spriteView.spriteJSON mutableCopy];
+        if ([json[@"type"] isEqualToString:@"text"]) {
+             json[@"text"] = @"Value";
         }
-        draggedView.contentMode = UIViewContentModeScaleAspectFit;
+        
+        draggedView = [[ZSSpriteView alloc] initWithFrame:frame];
+        [draggedView setContentFromJSON:json];
+        
         [weakSelf.view addSubview:draggedView];
         [weakSelf hideDrawersAndPerformAction:nil];
     };
     
-    _spriteController.panMoved = ^(UIPanGestureRecognizer *panGestureRecognizer, NSDictionary *json) {
+    _spriteController.panMoved = ^(UIPanGestureRecognizer *panGestureRecognizer) {
         currentPoint = [panGestureRecognizer locationInView:weakSelf.view];
         
         CGRect frame = draggedView.frame;
@@ -328,7 +311,10 @@
         draggedView.frame = frame;
     };
     
-    _spriteController.panEnded = ^(UIPanGestureRecognizer *panGestureRecognizer, NSDictionary *json) {
+    _spriteController.panEnded = ^(UIPanGestureRecognizer *panGestureRecognizer) {
+        ZSSpriteView *spriteView = (ZSSpriteView*)panGestureRecognizer.view;
+        NSMutableDictionary *json = [spriteView.spriteJSON mutableCopy];
+        
         NSMutableDictionary *newJson = [json deepMutableCopy];
         newJson[@"id"] = [[NSUUID UUID] UUIDString];
         NSMutableDictionary *properties = newJson[@"properties"];
@@ -350,9 +336,6 @@
         
         properties[@"x"] = @(x);
         properties[@"y"] = @(y);
-        if ([newJson[@"type"] isEqualToString:@"text"]) {
-            newJson[@"text"] = @"Value";
-        }
         
         // Bring menus to front.
         [weakSelf.view bringSubviewToFront:weakSelf.menuTable];
@@ -502,7 +485,7 @@
 
 - (BOOL)canPerformAction:(SEL)action withSender:(id)sender {
     // If the renderer is showing, don't capture anything.
-    if (!_rendererView.hidden) {
+    if (!_rendererView.hidden || !_menuTable.hidden) {
         return NO;
     }
     

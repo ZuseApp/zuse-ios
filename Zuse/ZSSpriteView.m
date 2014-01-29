@@ -8,6 +8,12 @@
 
 #import "ZSSpriteView.h"
 
+@interface ZSSpriteView ()
+
+@property (nonatomic, strong) UIView *content;
+
+@end
+
 @implementation ZSSpriteView
 
 -(id)initWithCoder:(NSCoder *)aDecoder
@@ -44,19 +50,47 @@
     }
 }
 
-- (void)setContentFromImage:(UIImage*)image {
-    UIImageView *imageView = [[UIImageView alloc] init];
-    imageView.image = image;
-    self.content = imageView;
+- (BOOL)setContentFromJSON:(NSMutableDictionary*)spriteJSON {
+    self.spriteJSON = spriteJSON;
+    NSString *type = spriteJSON[@"type"];
+    if (type) {
+        if ([@"image" isEqualToString:type]) {
+            UIImageView *imageView = [[UIImageView alloc] init];
+            imageView.image = [UIImage imageNamed:spriteJSON[@"image"][@"path"]];
+            self.content = imageView;
+        }
+        else if ([@"text" isEqualToString:type]) {
+            UITextView *textView = [[UITextView alloc] init];
+            textView.userInteractionEnabled = NO;
+            textView.text = spriteJSON[@"text"];
+            textView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+            textView.layer.borderWidth = 0.5f;
+            self.content = textView;
+        }
+        else {
+            return NO;
+        }
+    }
+    return YES;
 }
 
-- (void)setContentFromText:(NSString*)text {
-    UITextView *textView = [[UITextView alloc] init];
-    textView.userInteractionEnabled = NO;
-    textView.text = text;
-    textView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-    textView.layer.borderWidth = 0.5f;
-    self.content = textView;
+- (BOOL)setThumbnailFromJSON:(NSMutableDictionary*)spriteJSON {
+    self.spriteJSON = spriteJSON;
+    NSString *type = spriteJSON[@"type"];
+    if (type) {
+        UIImageView *imageView = [[UIImageView alloc] init];
+        if ([@"image" isEqualToString:type]) {
+            imageView.image = [UIImage imageNamed:spriteJSON[@"image"][@"path"]];
+        }
+        else if ([@"text" isEqualToString:type]) {
+            imageView.image = [UIImage imageNamed:@"text_icon.png"];
+        }
+        else {
+            return NO;
+        }
+        self.content = imageView;
+    }
+    return YES;
 }
 
 - (void)layoutSubviews {

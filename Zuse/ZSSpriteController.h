@@ -10,8 +10,8 @@
 
 @interface ZSSpriteController : NSObject <UITableViewDataSource, UITableViewDelegate>
 
-@property (strong, nonatomic) void(^panBegan)(UIPanGestureRecognizer *panGestureRecognizer, NSDictionary *json);
-@property (strong, nonatomic) void(^panMoved)(UIPanGestureRecognizer *panGestureRecognizer, NSDictionary *json);
-@property (strong, nonatomic) void(^panEnded)(UIPanGestureRecognizer *panGestureRecognizer, NSDictionary *json);
+@property (strong, nonatomic) void(^panBegan)(UIPanGestureRecognizer *panGestureRecognizer);
+@property (strong, nonatomic) void(^panMoved)(UIPanGestureRecognizer *panGestureRecognizer);
+@property (strong, nonatomic) void(^panEnded)(UIPanGestureRecognizer *panGestureRecognizer);
 
 @end

@@ -10,8 +10,8 @@
 
 @interface ZSSpriteView : UIView
 
-- (void)setContentFromImage:(UIImage*)image;
-- (void)setContentFromText:(NSString*)text;
+- (BOOL)setContentFromJSON:(NSDictionary*)spriteJSON;
+- (BOOL)setThumbnailFromJSON:(NSMutableDictionary*)spriteJSON;
 
 @property (strong, nonatomic) void(^singleTapped)();
 @property (strong, nonatomic) void(^doubleTapped)();
@@ -24,6 +24,5 @@
 @property (strong, nonatomic) void(^paste)();
 @property (strong, nonatomic) void(^delete)(ZSSpriteView *sprite);
 @property (nonatomic, strong) NSMutableDictionary *spriteJSON;
-@property (nonatomic, strong) UIView *content;
 
 @end
