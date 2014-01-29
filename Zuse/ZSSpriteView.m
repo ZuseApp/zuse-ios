@@ -54,12 +54,13 @@
             self.content = imageView;
         }
         else if ([@"text" isEqualToString:type]) {
-            UITextView *textView = [[UITextView alloc] init];
-            textView.userInteractionEnabled = NO;
-            textView.text = spriteJSON[@"text"];
-            textView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-            textView.layer.borderWidth = 0.5f;
-            self.content = textView;
+            UILabel *labelView = [[UILabel alloc] init];
+            labelView.userInteractionEnabled = NO;
+            labelView.text = spriteJSON[@"text"];
+            labelView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+            labelView.layer.borderWidth = 0.5f;
+            [labelView setTextAlignment:NSTextAlignmentCenter];
+            self.content = labelView;
         }
         else {
             return NO;
