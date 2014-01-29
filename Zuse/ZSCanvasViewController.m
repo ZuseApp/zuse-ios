@@ -226,7 +226,9 @@
 
 - (ZSSpriteView *)copySpriteView:(ZSSpriteView *)spriteView {
     ZSSpriteView *copy = [[ZSSpriteView alloc] initWithFrame:spriteView.frame];
-    [copy setContentFromJSON:[spriteView.spriteJSON deepMutableCopy]];
+    NSMutableDictionary *json = [spriteView.spriteJSON deepMutableCopy];
+    json[@"id"] = [[NSUUID UUID] UUIDString];
+    [copy setContentFromJSON:json];
     [self setupGesturesForSpriteView:copy withProperties:copy.spriteJSON[@"properties"]];
     [self setupEditOptionsForSpriteView:copy];
     return copy;
