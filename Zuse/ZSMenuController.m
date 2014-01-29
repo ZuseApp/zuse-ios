@@ -47,13 +47,10 @@
             }
         }
     }
-    else if (indexPath.row == 1 && _stopSelected) {
-        _stopSelected();
-    }
-    else if (indexPath.row == 2 && _settingsSelected) {
+    else if (indexPath.row == 1 && _settingsSelected) {
         _settingsSelected();
     }
-    else if (indexPath.row == 3 && _backSelected) {
+    else if (indexPath.row == 2 && _backSelected) {
         _backSelected();
     }
 }
