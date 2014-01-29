@@ -24,7 +24,7 @@
 @property (weak, nonatomic) IBOutlet UIView *gridPanel;
 @property (weak, nonatomic) IBOutlet UIView *positionPanel;
 @property (weak, nonatomic) IBOutlet UIView *rendererView;
-
+@property (nonatomic, assign) BOOL showRendererAfterMenuClose;
 
 // Sprites
 @property (nonatomic, strong) NSArray *templateSprites;
@@ -241,6 +241,7 @@
     _spriteTable.dataSource = _spriteController;
     _menuTable.delegate = _menuController;
     _menuTable.dataSource = _menuController;
+    _showRendererAfterMenuClose = NO;
     
     WeakSelf
     __weak ZSProject *weakProject = _project;
@@ -258,15 +259,10 @@
         }];
     };
     
-    _menuController.pauseSelected = ^{
-        [weakSelf.rendererViewController stop];
-    };
-    
     _menuController.stopSelected = ^{
-        [weakSelf hideDrawersAndPerformAction:^{
-            [weakSelf.rendererViewController stop];
-            weakSelf.rendererView.hidden = YES;
-        }];
+        [weakSelf.rendererViewController stop];
+        weakSelf.rendererView.hidden = YES;
+        [weakSelf hideDrawersAndPerformAction:nil];
     };
     
     _menuController.settingsSelected = ^{
@@ -417,11 +413,17 @@
                 spriteFrame.origin.x += _spriteTable.frame.size.width;
                 _spriteTable.frame = spriteFrame;
             }
+            else {
+                [_rendererViewController play];
+            }
         } completion:^(BOOL finished) {
             self.menuTable.hidden = YES;
             self.spriteTable.hidden = YES;
             if (action) {
                 action();
+            }
+            if (_showRendererAfterMenuClose) {
+                [self showGrid:self];
             }
         }];
     }
@@ -430,7 +432,8 @@
 - (void)showDrawers {
     if (_spriteTable.hidden && _menuTable.hidden) {
         // If the adjust menu is showing, hide it.
-        if (!_adjustMenu.hidden) {
+        _showRendererAfterMenuClose = !_adjustMenu.hidden;
+        if (_showRendererAfterMenuClose) {
             [self hideGrid:self];
         }
         
@@ -446,6 +449,10 @@
         [self.view bringSubviewToFront:_menuTable];
         [self.view bringSubviewToFront:_spriteTable];
         
+        // Update the options
+        _menuController.rendererRunning = !_rendererView.hidden;
+        [_menuTable reloadData];
+        
         // Make the drawers visible and animate them in.
         _menuTable.hidden = NO;
         _spriteTable.hidden = NO;
@@ -458,6 +465,9 @@
                 CGRect spriteFrame = _spriteTable.frame;
                 spriteFrame.origin.x -= _spriteTable.frame.size.width;
                 _spriteTable.frame = spriteFrame;
+            }
+            else {
+                [_rendererViewController stop];
             }
         }];
     }
@@ -541,7 +551,7 @@
 - (void)paste:(id)sender {
     if (_spriteViewCopy) {
         CGRect frame = _spriteViewCopy.frame;
-        frame.origin = _lastTouch;
+        frame.origin = CGPointMake(_lastTouch.x - frame.size.width / 2, _lastTouch.y - frame.size.height / 2);
         
         ZSCanvasView *view = (ZSCanvasView *)self.view;
         if (view.grid.dimensions.width > 1 && view.grid.dimensions.height > 1) {
