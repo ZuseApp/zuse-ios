@@ -284,23 +284,42 @@
     __block CGPoint currentPoint;
     __block ZSSpriteView *draggedView;
     _spriteController.panBegan = ^(UIPanGestureRecognizer *panGestureRecognizer) {
-        offset = [panGestureRecognizer locationInView:panGestureRecognizer.view];
-        currentPoint = [panGestureRecognizer locationInView:weakSelf.view];
-        
-        CGRect frame = panGestureRecognizer.view.frame;
-        frame.origin.x = currentPoint.x - offset.x;
-        frame.origin.y = currentPoint.y - offset.y;
-        
         ZSSpriteView *spriteView = (ZSSpriteView*)panGestureRecognizer.view;
         NSMutableDictionary *json = [spriteView.spriteJSON mutableCopy];
         if ([json[@"type"] isEqualToString:@"text"]) {
              json[@"text"] = @"Value";
         }
         
-        draggedView = [[ZSSpriteView alloc] initWithFrame:frame];
+        // Width and height of frame can be calculated now.
+        CGRect originalFrame = spriteView.content.frame;
+        CGRect frame = CGRectZero;
+        frame.size.width = [json[@"properties"][@"width"] floatValue];
+        frame.size.height = [json[@"properties"][@"height"] floatValue];
+        
+        // Origin relys on scale between width and height so figure that out before
+        // setting the origin.
+        float scale = frame.size.width / spriteView.content.frame.size.width;
+        offset = [panGestureRecognizer locationInView:spriteView.content];
+        currentPoint = [panGestureRecognizer locationInView:weakSelf.view];
+        
+        originalFrame.origin.x = currentPoint.x - offset.x;
+        originalFrame.origin.y = currentPoint.y - offset.y;
+        
+        offset = CGPointMake(offset.x * scale, offset.y * scale);
+        
+        frame.origin.x = currentPoint.x - offset.x;
+        frame.origin.y = currentPoint.y - offset.y;
+        
+        draggedView = [[ZSSpriteView alloc] initWithFrame:originalFrame];
         [draggedView setContentFromJSON:json];
+        draggedView.backgroundColor = [UIColor blueColor];
         
         [weakSelf.view addSubview:draggedView];
+        [UIView animateWithDuration:10.0f animations:^{
+            draggedView.frame = frame;
+            [draggedView layoutIfNeeded];
+            
+        }];
         [weakSelf hideDrawersAndPerformAction:nil];
     };
     

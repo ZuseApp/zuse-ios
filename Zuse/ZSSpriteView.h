@@ -24,5 +24,6 @@
 @property (strong, nonatomic) void(^paste)();
 @property (strong, nonatomic) void(^delete)(ZSSpriteView *sprite);
 @property (nonatomic, strong) NSMutableDictionary *spriteJSON;
+@property (nonatomic, strong) UIView *content;
 
 @end

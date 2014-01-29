@@ -8,12 +8,6 @@
 
 #import "ZSSpriteView.h"
 
-@interface ZSSpriteView ()
-
-@property (nonatomic, strong) UIView *content;
-
-@end
-
 @implementation ZSSpriteView
 
 -(id)initWithCoder:(NSCoder *)aDecoder
@@ -95,7 +89,37 @@
 
 - (void)layoutSubviews {
     if (_content) {
-        _content.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
+        if ([_content isKindOfClass:[UIImageView class]]) {
+            NSString *type = _spriteJSON[@"type"];
+            if (type) {
+                CGSize viewSize = self.frame.size;
+                CGSize contentSize = CGSizeZero;
+                if ([@"image" isEqualToString:type]) {
+                    contentSize.width = [_spriteJSON[@"properties"][@"width"] floatValue];
+                    contentSize.height = [_spriteJSON[@"properties"][@"height"] floatValue];
+                }
+                else if ([@"text" isEqualToString:type]) {
+                    UIImage *image = ((UIImageView*)_content).image;
+                    contentSize = image.size;
+                }
+                
+                float scale = MIN(viewSize.width / contentSize.width, viewSize.height / contentSize.height);
+                if (scale < 1) {
+                    contentSize.width *= scale;
+                    contentSize.height *= scale;
+                }
+                
+                CGRect contentFrame = _content.frame;
+                contentFrame.size = contentSize;
+                _content.frame = contentFrame;
+            }
+        }
+        else {
+            _content.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
+        }
+        
+        // Tacky, there has to be a better way.
+        _content.center = CGPointMake(self.center.x - self.frame.origin.x, self.center.y - self.frame.origin.y);
     }
 }
 
