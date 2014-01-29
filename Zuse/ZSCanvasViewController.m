@@ -286,7 +286,8 @@
     _spriteController.panBegan = ^(UIPanGestureRecognizer *panGestureRecognizer) {
         ZSSpriteView *spriteView = (ZSSpriteView*)panGestureRecognizer.view;
         NSMutableDictionary *json = [spriteView.spriteJSON mutableCopy];
-        if ([json[@"type"] isEqualToString:@"text"]) {
+        NSString *type = json[@"type"];
+        if ([@"text" isEqualToString:type]) {
              json[@"text"] = @"Value";
         }
         
@@ -296,18 +297,19 @@
         frame.size.width = [json[@"properties"][@"width"] floatValue];
         frame.size.height = [json[@"properties"][@"height"] floatValue];
         
-        // Origin relys on scale between width and height so figure that out before
-        // setting the origin.
-        float scale = frame.size.width / spriteView.content.frame.size.width;
-        offset = [panGestureRecognizer locationInView:spriteView.content];
+        if (![@"text" isEqualToString:type]) {
+            float scale = frame.size.width / spriteView.content.frame.size.width;
+            offset = [panGestureRecognizer locationInView:spriteView.content];
+            offset = CGPointMake(offset.x * scale, offset.y * scale);
+        }
+        else {
+            offset = [panGestureRecognizer locationInView:spriteView];
+            offset = CGPointMake(offset.x, frame.size.height / 2);
+        }
         currentPoint = [panGestureRecognizer locationInView:weakSelf.view];
         
         originalFrame.origin.x = currentPoint.x - offset.x;
         originalFrame.origin.y = currentPoint.y - offset.y;
-        
-        offset = CGPointMake(offset.x * scale, offset.y * scale);
-        
-        scale = spriteView.content.frame.size.width / frame.size.width;
         
         frame.origin.x = currentPoint.x - offset.x;
         frame.origin.y = currentPoint.y - offset.y;
@@ -315,7 +317,8 @@
         draggedView = [[ZSSpriteView alloc] initWithFrame:frame];
         [draggedView setContentFromJSON:json];
         [weakSelf.view addSubview:draggedView];
-        
+       
+        float scale = spriteView.content.frame.size.width / frame.size.width;
         if (scale < 1) {
             draggedView.transform = CGAffineTransformMakeScale(scale, scale);
             [UIView animateWithDuration:0.25f animations:^{
@@ -331,6 +334,12 @@
         CGRect frame = draggedView.frame;
         frame.origin.x = currentPoint.x - offset.x;
         frame.origin.y = currentPoint.y - offset.y;
+        
+        ZSCanvasView *view = (ZSCanvasView *)weakSelf.view;
+        if (view.grid.dimensions.width > 1 && view.grid.dimensions.height > 1) {
+            frame.origin = [view.grid adjustedPointForPoint:frame.origin];
+        }
+        
         draggedView.frame = frame;
     };
     
