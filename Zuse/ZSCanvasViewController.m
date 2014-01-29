@@ -314,8 +314,7 @@
     };
     
     _spriteController.panEnded = ^(UIPanGestureRecognizer *panGestureRecognizer) {
-        ZSSpriteView *spriteView = (ZSSpriteView*)panGestureRecognizer.view;
-        NSMutableDictionary *json = [spriteView.spriteJSON mutableCopy];
+        NSMutableDictionary *json = draggedView.spriteJSON;
         
         NSMutableDictionary *newJson = [json deepMutableCopy];
         newJson[@"id"] = [[NSUUID UUID] UUIDString];
