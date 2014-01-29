@@ -307,19 +307,21 @@
         
         offset = CGPointMake(offset.x * scale, offset.y * scale);
         
+        scale = spriteView.content.frame.size.width / frame.size.width;
+        
         frame.origin.x = currentPoint.x - offset.x;
         frame.origin.y = currentPoint.y - offset.y;
         
-        draggedView = [[ZSSpriteView alloc] initWithFrame:originalFrame];
+        draggedView = [[ZSSpriteView alloc] initWithFrame:frame];
         [draggedView setContentFromJSON:json];
-        draggedView.backgroundColor = [UIColor blueColor];
-        
         [weakSelf.view addSubview:draggedView];
-        [UIView animateWithDuration:10.0f animations:^{
-            draggedView.frame = frame;
-            [draggedView layoutIfNeeded];
-            
-        }];
+        
+        if (scale < 1) {
+            draggedView.transform = CGAffineTransformMakeScale(scale, scale);
+            [UIView animateWithDuration:0.25f animations:^{
+                draggedView.transform = CGAffineTransformIdentity;
+            }];
+        }
         [weakSelf hideDrawersAndPerformAction:nil];
     };
     
