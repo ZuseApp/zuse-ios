@@ -98,6 +98,8 @@
 		5F41ACB818341C980089D136 /* ZSExecutionContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F41ACB718341C980089D136 /* ZSExecutionContext.m */; };
 		5F8138C918945D8F009F3495 /* object_transform.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F8138C818945D8F009F3495 /* object_transform.json */; };
 		5F8138CD18945DDD009F3495 /* object_transform_result.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F8138CC18945DDD009F3495 /* object_transform_result.json */; };
+		5F8138D11898C338009F3495 /* NSString+Zuse.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8138D01898C338009F3495 /* NSString+Zuse.m */; };
+		5F8138D41898C36B009F3495 /* NSNumber+Zuse.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8138D31898C36B009F3495 /* NSNumber+Zuse.m */; };
 		5FAFE3601891C8B300131354 /* breakout.json in Resources */ = {isa = PBXBuildFile; fileRef = 5FAFE35F1891C8B300131354 /* breakout.json */; };
 		5FEFB89A182B5376007DAFCF /* pong.json in Resources */ = {isa = PBXBuildFile; fileRef = 5FEFB899182B5376007DAFCF /* pong.json */; };
 		78346A0A183C623400540D54 /* ZSCodeStatementObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 78346A09183C623400540D54 /* ZSCodeStatementObject.m */; };
@@ -282,6 +284,10 @@
 		5F41ACB718341C980089D136 /* ZSExecutionContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSExecutionContext.m; sourceTree = "<group>"; };
 		5F8138C818945D8F009F3495 /* object_transform.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = object_transform.json; path = CodeSamples/object_transform.json; sourceTree = "<group>"; };
 		5F8138CC18945DDD009F3495 /* object_transform_result.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = object_transform_result.json; path = CodeSamples/object_transform_result.json; sourceTree = "<group>"; };
+		5F8138CF1898C338009F3495 /* NSString+Zuse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Zuse.h"; sourceTree = "<group>"; };
+		5F8138D01898C338009F3495 /* NSString+Zuse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Zuse.m"; sourceTree = "<group>"; };
+		5F8138D21898C36B009F3495 /* NSNumber+Zuse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNumber+Zuse.h"; sourceTree = "<group>"; };
+		5F8138D31898C36B009F3495 /* NSNumber+Zuse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNumber+Zuse.m"; sourceTree = "<group>"; };
 		5FAFE35F1891C8B300131354 /* breakout.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = breakout.json; path = JSON/breakout.json; sourceTree = "<group>"; };
 		5FEFB899182B5376007DAFCF /* pong.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = pong.json; path = JSON/pong.json; sourceTree = "<group>"; };
 		78346A08183C623400540D54 /* ZSCodeStatementObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCodeStatementObject.h; sourceTree = "<group>"; };
@@ -706,6 +712,10 @@
 				5F030C6B185ADD1400584DCD /* NSDictionary+Zuse.m */,
 				5F030C6D185AE0D300584DCD /* NSArray+Zuse.h */,
 				5F030C6E185AE0D300584DCD /* NSArray+Zuse.m */,
+				5F8138CF1898C338009F3495 /* NSString+Zuse.h */,
+				5F8138D01898C338009F3495 /* NSString+Zuse.m */,
+				5F8138D21898C36B009F3495 /* NSNumber+Zuse.h */,
+				5F8138D31898C36B009F3495 /* NSNumber+Zuse.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -1038,6 +1048,7 @@
 				4CF303F11856E5DB00B57B95 /* ZSProject.m in Sources */,
 				4C62B0BC18564F9D007CC9CD /* ZSSpriteController.m in Sources */,
 				5F0139AC1856896F005D7FAE /* ZSEditorViewController.m in Sources */,
+				5F8138D11898C338009F3495 /* NSString+Zuse.m in Sources */,
 				7855BCC21837F47E006493F9 /* ZSCodeStatementSet.m in Sources */,
 				5F39DFC7188A40A0008ECAC1 /* NSArray+BlocksKit.m in Sources */,
 				5F39DFD5188A40A0008ECAC1 /* NSTimer+BlocksKit.m in Sources */,
@@ -1071,6 +1082,7 @@
 				5F0139B51856B225005D7FAE /* ZSCodeEditorPopoverTableViewController.m in Sources */,
 				2C6B5D6A183D43AB00E3D56C /* ZSSpriteTouchComponent.m in Sources */,
 				5F39DFCD188A40A0008ECAC1 /* NSMutableIndexSet+BlocksKit.m in Sources */,
+				5F8138D41898C36B009F3495 /* NSNumber+Zuse.m in Sources */,
 				7855BCCA1837FA97006493F9 /* ZSCodeEditorViewController.m in Sources */,
 				4C5F732318873A59007F61B3 /* ZSGrid.m in Sources */,
 				5F39DFD1188A40A0008ECAC1 /* NSObject+BlockObservation.m in Sources */,
