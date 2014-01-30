@@ -57,6 +57,8 @@
 		4CF1CBD317EF882A00636E0D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1CBB517EF882A00636E0D /* UIKit.framework */; };
 		4CF1CBDB17EF882A00636E0D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4CF1CBD917EF882A00636E0D /* InfoPlist.strings */; };
 		4CF1CC0E17EFF64500636E0D /* ZSSpriteView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF1CC0D17EFF64500636E0D /* ZSSpriteView.m */; };
+		4CF1D4301898BB4300B5568F /* yoda.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4CF1D42F1898BB4300B5568F /* yoda.jpg */; };
+		4CF1D43218995EC000B5568F /* refresh.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CF1D43118995EC000B5568F /* refresh.png */; };
 		4CF303F11856E5DB00B57B95 /* ZSProject.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF303F01856E5DB00B57B95 /* ZSProject.m */; };
 		4CF303F31859238900B57B95 /* new_project.json in Resources */ = {isa = PBXBuildFile; fileRef = 4CF303F21859238900B57B95 /* new_project.json */; };
 		5F0139AC1856896F005D7FAE /* ZSEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0139AB1856896F005D7FAE /* ZSEditorViewController.m */; };
@@ -213,6 +215,8 @@
 		4CF1CBDA17EF882A00636E0D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		4CF1CC0C17EFF64500636E0D /* ZSSpriteView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSSpriteView.h; sourceTree = "<group>"; };
 		4CF1CC0D17EFF64500636E0D /* ZSSpriteView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSSpriteView.m; sourceTree = "<group>"; };
+		4CF1D42F1898BB4300B5568F /* yoda.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = yoda.jpg; sourceTree = "<group>"; };
+		4CF1D43118995EC000B5568F /* refresh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = refresh.png; sourceTree = "<group>"; };
 		4CF303EF1856E5DB00B57B95 /* ZSProject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSProject.h; sourceTree = "<group>"; };
 		4CF303F01856E5DB00B57B95 /* ZSProject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSProject.m; sourceTree = "<group>"; };
 		4CF303F21859238900B57B95 /* new_project.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = new_project.json; sourceTree = "<group>"; };
@@ -364,6 +368,7 @@
 		4C2D1ECC1891EA32002C431A /* ui-images */ = {
 			isa = PBXGroup;
 			children = (
+				4CF1D43118995EC000B5568F /* refresh.png */,
 				4CEB19BF18971F27009D89B3 /* text_icon.png */,
 				4C9E43E2188B698200045D86 /* cross.png */,
 				4C9E43DE188B66D300045D86 /* arrow-circle-double-135.png */,
@@ -687,6 +692,7 @@
 		4CF1CBFE17EFE13C00636E0D /* images */ = {
 			isa = PBXGroup;
 			children = (
+				4CF1D42F1898BB4300B5568F /* yoda.jpg */,
 				4CE3561B188A1355007024C0 /* red_brick.png */,
 				4CCE4F831845A541006C7DA0 /* paddle.png */,
 				4CE340411809F76E009A63A2 /* grayball.png */,
@@ -947,6 +953,7 @@
 				7843FA96184BFBFE00DCE527 /* blue plus sign.png in Resources */,
 				4C9E43DF188B66D300045D86 /* arrow-circle-double-135.png in Resources */,
 				5FAFE3601891C8B300131354 /* breakout.json in Resources */,
+				4CF1D43218995EC000B5568F /* refresh.png in Resources */,
 				4C721A59188EFAF000D3FDEF /* pause.png in Resources */,
 				4C721A55188EF97600D3FDEF /* stop.png in Resources */,
 				7843FAA9184C47A200DCE527 /* plus event.png in Resources */,
@@ -960,6 +967,7 @@
 				7843FAA5184C1B5600DCE527 /* if.png in Resources */,
 				4CF303F31859238900B57B95 /* new_project.json in Resources */,
 				4CF1CBCA17EF882A00636E0D /* Images.xcassets in Resources */,
+				4CF1D4301898BB4300B5568F /* yoda.jpg in Resources */,
 				4C9E43DB188B65B800045D86 /* grid.png in Resources */,
 				4CB1E181188E314B004F5D96 /* arrow-090.png in Resources */,
 				4CB1E183188E314B004F5D96 /* arrow-270.png in Resources */,

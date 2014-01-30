@@ -44,24 +44,83 @@
     }
 }
 
-- (void)setContentFromImage:(UIImage*)image {
-    UIImageView *imageView = [[UIImageView alloc] init];
-    imageView.image = image;
-    self.content = imageView;
+- (BOOL)setContentFromJSON:(NSMutableDictionary*)spriteJSON {
+    self.spriteJSON = spriteJSON;
+    NSString *type = spriteJSON[@"type"];
+    if (type) {
+        if ([@"image" isEqualToString:type]) {
+            UIImageView *imageView = [[UIImageView alloc] init];
+            imageView.image = [UIImage imageNamed:spriteJSON[@"image"][@"path"]];
+            self.content = imageView;
+        }
+        else if ([@"text" isEqualToString:type]) {
+            UILabel *labelView = [[UILabel alloc] init];
+            labelView.userInteractionEnabled = NO;
+            labelView.text = spriteJSON[@"text"];
+            labelView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+            labelView.layer.borderWidth = 0.5f;
+            [labelView setTextAlignment:NSTextAlignmentCenter];
+            self.content = labelView;
+        }
+        else {
+            return NO;
+        }
+    }
+    return YES;
 }
 
-- (void)setContentFromText:(NSString*)text {
-    UITextView *textView = [[UITextView alloc] init];
-    textView.userInteractionEnabled = NO;
-    textView.text = text;
-    textView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-    textView.layer.borderWidth = 0.5f;
-    self.content = textView;
+- (BOOL)setThumbnailFromJSON:(NSMutableDictionary*)spriteJSON {
+    self.spriteJSON = spriteJSON;
+    NSString *type = spriteJSON[@"type"];
+    if (type) {
+        UIImageView *imageView = [[UIImageView alloc] init];
+        if ([@"image" isEqualToString:type]) {
+            imageView.image = [UIImage imageNamed:spriteJSON[@"image"][@"path"]];
+        }
+        else if ([@"text" isEqualToString:type]) {
+            imageView.image = [UIImage imageNamed:@"text_icon.png"];
+        }
+        else {
+            return NO;
+        }
+        self.content = imageView;
+    }
+    return YES;
 }
 
 - (void)layoutSubviews {
     if (_content) {
-        _content.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
+        if ([_content isKindOfClass:[UIImageView class]]) {
+            NSString *type = _spriteJSON[@"type"];
+            if (type) {
+                CGSize viewSize = self.frame.size;
+                CGSize contentSize = CGSizeZero;
+                if ([@"image" isEqualToString:type]) {
+                    contentSize.width = [_spriteJSON[@"properties"][@"width"] floatValue];
+                    contentSize.height = [_spriteJSON[@"properties"][@"height"] floatValue];
+                }
+                else if ([@"text" isEqualToString:type]) {
+                    UIImage *image = ((UIImageView*)_content).image;
+                    contentSize = image.size;
+                }
+                
+                float scale = MIN(viewSize.width / contentSize.width, viewSize.height / contentSize.height);
+                if (scale < 1) {
+                    contentSize.width *= scale;
+                    contentSize.height *= scale;
+                }
+                
+                CGRect contentFrame = _content.frame;
+                contentFrame.size = contentSize;
+                _content.frame = contentFrame;
+            }
+        }
+        else {
+            _content.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
+        }
+        
+        // Tacky, there has to be a better way.
+        _content.center = CGPointMake(self.center.x - self.frame.origin.x, self.center.y - self.frame.origin.y);
     }
 }
 

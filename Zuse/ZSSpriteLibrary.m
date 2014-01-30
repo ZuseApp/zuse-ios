@@ -40,7 +40,7 @@
                                  @"traits": @{},
                                  @"properties": @{
                                          @"width": @(200),
-                                         @"height": @(20)
+                                         @"height": @(21)
                                          },
                                  @"code": @{},
                                  @"type": @"text"
