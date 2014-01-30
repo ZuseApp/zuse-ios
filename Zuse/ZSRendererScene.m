@@ -58,10 +58,16 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
         self.physicsWorld.contactDelegate = self;
 
         _jointNodes = [[NSMutableDictionary alloc] init];
-        _categoryBitMasks = [[NSMutableDictionary alloc] init];
         _physicsJoints = [[NSMutableDictionary alloc] init];
-
         _spriteNodes = [[NSMutableDictionary alloc] init];
+        
+        //create category bit masks for each group of sprites
+        _categoryBitMasks = [[NSMutableDictionary alloc] init];
+        NSDictionary *collisionGroups = projectJSON[@"collision_groups"];
+        for(id key in collisionGroups){
+            uint32_t categoryBitMask = 1 << categoryBitMaskCount++;
+            _categoryBitMasks[key] = @(categoryBitMask);
+        }
         
         [projectJSON[@"objects"] each:^(NSDictionary *object) {
             
@@ -87,14 +93,17 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
             
             SKComponentNode *node = [SKComponentNode node];
             node.name = kZSSpriteName;
+            node.position = position;
+            node.physicsBody.collisionBitMask = 0;
+            node.physicsBody.categoryBitMask = [_categoryBitMasks[object[@"collision_group"]] integerValue];
+            NSArray *spritesToCollideWith = [collisionGroups valueForKey:object[@"collision_group"]];
+            for(id spriteType in spritesToCollideWith){
+                node.physicsBody.collisionBitMask |= [_categoryBitMasks[spriteType] integerValue];
+            }
             
             //set up the sprite size and position on screen
-            
             SKSpriteNode *sprite = [SKSpriteNode spriteNodeWithImageNamed:object[@"image"][@"path"]];
             sprite.alpha = 0.1;
-            
-            node.position = position;
-            
             sprite.size = size;
             
             //add sprite to the node
@@ -108,7 +117,8 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
             SKComponentNode *jointNode = [SKComponentNode new];
             jointNode.position = CGPointMake([properties[@"x"] floatValue], [properties[@"y"] floatValue]);
             jointNode.alpha =1.0;
-
+            //set the joint to not collide with anything
+            jointNode.physicsBody.categoryBitMask = 0;
             jointNode.name = kZSJointName;
             //make a transparent sprite for the joint with the same dimensions as the node's sprite
 //            SKSpriteNode *jointSprite = [SKSpriteNode new];
@@ -118,25 +128,15 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
             [jointNode addChild:jointSprite];
             [_jointNodes setObject:jointNode forKey:object[@"id"]];
             
-            if(!_categoryBitMasks[object[@"id"]])
-            {
-                uint32_t categoryBitMask = 1 << categoryBitMaskCount++;
-                _categoryBitMasks[object[@"id"]] = @(categoryBitMask);
-            }
-            
             if ([object[@"physics_body"] isEqualToString:@"circle"]) {
                 node.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:(sprite.size.width / 2)];
-                node.physicsBody.categoryBitMask = [_categoryBitMasks[object[@"id"]] integerValue];
-                node.physicsBody.collisionBitMask = GFPhysicsCategoryWorld;
+                node.physicsBody.collisionBitMask |= GFPhysicsCategoryWorld;
                 jointNode.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:(sprite.size.width / 2)];
-                jointNode.physicsBody.categoryBitMask = 0;
 
             } else {
                 node.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:sprite.size];
-                node.physicsBody.categoryBitMask = [_categoryBitMasks[object[@"id"]] integerValue];
-                node.physicsBody.collisionBitMask = GFPhysicsCategoryWorld;
+                node.physicsBody.collisionBitMask |= GFPhysicsCategoryWorld;
                 jointNode.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:sprite.size];
-                jointNode.physicsBody.categoryBitMask = 0;
             }
             
             ZSSpriteTouchComponent *touchComponent = [ZSSpriteTouchComponent new];
@@ -154,13 +154,15 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
                     point.x += 2.0;
                 }
                 
-                    [_interpreter triggerEvent:@"touch_moved"
+                [_interpreter triggerEvent:@"touch_moved"
                         onObjectWithIdentifier:object[@"id"]
                                     parameters:@{ @"touch_x": @(point.x), @"touch_y": @(point.y) }];
                 
             };
             
             touchComponent.touchesBegan = ^(UITouch *touch) {
+                node.physicsBody.dynamic = YES;
+                
                 SKComponentNode *jointNode = _jointNodes[object[@"id"]];
                 //set up the physics of the joint node.
                 jointNode.physicsBody.dynamic = NO;
@@ -184,6 +186,8 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
             };
             
             touchComponent.touchesEnded = ^(UITouch *touch) {
+                node.physicsBody.dynamic = NO;
+                
                 //set the the last touch for the joint node
                 SKComponentNode *jointNode = _jointNodes[object[@"id"]];
                 
@@ -195,7 +199,7 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
              
             [node addComponent:touchComponent];
             
-            node.physicsBody.dynamic = YES;
+            node.physicsBody.dynamic = NO;
             node.physicsBody.mass = 0.02;
             node.physicsBody.affectedByGravity = NO;
 
@@ -212,7 +216,7 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
 
 - (void) didBeginContact:(SKPhysicsContact *)contact
 {
-    
+    NSLog(@"contact");
 }
 
 
@@ -229,7 +233,6 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
 - (void)didSimulatePhysics {
     [self enumerateChildNodesWithName:kZSSpriteName
                            usingBlock:^(SKNode *node, BOOL *stop) {
-                               NSLog(@"running");
                                SKComponentNode *componentNode = (SKComponentNode *)node;
                                ZSSpriteTouchComponent *touchNode = [componentNode getComponent:[ZSSpriteTouchComponent class]];
                                if(node.physicsBody.velocity.dx == 0 || node.physicsBody.velocity.dy == 0)

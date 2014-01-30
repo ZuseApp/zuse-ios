@@ -157,9 +157,9 @@
     }
   },
   "collision_groups": {
-    "ball": ["paddle", "brick"],
-    "paddle": ["ball"],
-    "brick": ["ball"],
+    "ball": [],
+    "paddle": [],
+    "brick": [],
     "text": []
   },
   "objects" : [
