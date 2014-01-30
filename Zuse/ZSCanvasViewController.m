@@ -294,7 +294,7 @@
         frame.size.height = [json[@"properties"][@"height"] floatValue];
         
         if (![@"text" isEqualToString:type]) {
-            float scale = frame.size.width / spriteView.content.frame.size.width;
+            CGFloat scale = frame.size.width / spriteView.content.frame.size.width;
             offset = [panGestureRecognizer locationInView:spriteView.content];
             offset = CGPointMake(offset.x * scale, offset.y * scale);
         }
@@ -314,7 +314,7 @@
         [draggedView setContentFromJSON:json];
         [weakSelf.view addSubview:draggedView];
        
-        float scale = spriteView.content.frame.size.width / frame.size.width;
+        CGFloat scale = spriteView.content.frame.size.width / frame.size.width;
         if (scale < 1) {
             draggedView.transform = CGAffineTransformMakeScale(scale, scale);
             [UIView animateWithDuration:0.25f animations:^{
