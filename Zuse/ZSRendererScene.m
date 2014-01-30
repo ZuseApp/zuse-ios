@@ -63,7 +63,7 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
             NSDictionary *properties = object[@"properties"];
             
             CGPoint position = CGPointMake([properties[@"x"] floatValue], [properties[@"y"] floatValue]);
-            CGSize size = CGSizeMake([properties[@"width"] floatValue], [properties[@"height"] floatValue]);
+            CGSize size      = CGSizeMake([properties[@"width"] floatValue], [properties[@"height"] floatValue]);
         
             
             ZSComponentNode *node = [ZSComponentNode node];
@@ -71,23 +71,12 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
             node.name = kZSSpriteName;
             node.position = position;
             
-            //set up the sprite size and position on screen
-            
             SKNode *childNode = [self childNodeForObjectJSON:object size:size];
-            
             [node addChild:childNode];
             
-            
-            node.position = position;
-            
-            //add sprite to the node
             if(!_spriteNodes[object[@"id"]]) {
                 _spriteNodes[object[@"id"]] = node;
             }
-            
-            //add the node as a physics body for physics debugging
-            
-            
             
             node.physicsBody = [self physicsBodyForType:object[@"physics_body"] size:size];
             
@@ -112,7 +101,7 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
                     ZSComponentNode *jointNode = [ZSComponentNode node];
                     _jointNodes[object[@"id"]] = jointNode;
                     jointNode.name     = kZSJointName;
-                    jointNode.position = position;
+                    jointNode.position = node.position;
                     
                     jointNode.physicsBody = [self physicsBodyForType:object[@"physics_body"] size:size];
                     [self configureJointNodePhysics:jointNode];
@@ -124,12 +113,9 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
                     jointSprite.size = size;
                     [jointNode addChild:jointSprite];
                     
-                    NSLog(@"Got before");
-                    //create the physics joint
                     SKPhysicsJointFixed *fixedJoint = [SKPhysicsJointFixed jointWithBodyA:node.physicsBody
                                                                                     bodyB:jointNode.physicsBody
                                                                                    anchor:node.position];
-                    NSLog(@"Got after");
                     [self.physicsWorld addJoint:fixedJoint];
                     _physicsJoints[object[@"id"]] = fixedJoint;
                 }
@@ -355,18 +341,18 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
 - (void)interpreter:(ZSInterpreter *)interpreter
         objectWithIdentifier:(NSString *)identifier
         didUpdateProperties:(NSDictionary *)properties {
-    SKComponentNode *node = _spriteNodes[identifier];
+    ZSComponentNode *node = _spriteNodes[identifier];
     if (properties[@"x"]) {
-        SKComponentNode *sprite = _jointNodes[identifier];
-        if (!sprite)
-            sprite = node;
-        sprite.position = CGPointMake([properties[@"x"] floatValue], sprite.position.y);
+        ZSComponentNode *joint = _jointNodes[identifier];
+        if (joint)
+            node = joint;
+        node.position = CGPointMake([properties[@"x"] floatValue], node.position.y);
     }
     if (properties[@"y"]) {
-        SKComponentNode *sprite = _jointNodes[identifier];
-        if (!sprite)
-            sprite = node;
-        sprite.position = CGPointMake(sprite.position.x, [properties[@"y"] floatValue]);
+        ZSComponentNode *joint = _jointNodes[identifier];
+        if (joint)
+            node = joint;
+        node.position = CGPointMake(node.position.x, [properties[@"y"] floatValue]);
     }
     if (properties[@"text"]) {
         SKLabelNode *textNode = [node.children match:^BOOL(id obj) {
