@@ -56,7 +56,7 @@
         else if ([@"text" isEqualToString:type]) {
             UILabel *labelView = [[UILabel alloc] init];
             labelView.userInteractionEnabled = NO;
-            labelView.text = spriteJSON[@"text"];
+            labelView.text = spriteJSON[@"properties"][@"text"];
             labelView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
             labelView.layer.borderWidth = 0.5f;
             [labelView setTextAlignment:NSTextAlignmentCenter];

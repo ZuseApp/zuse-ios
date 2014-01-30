@@ -281,10 +281,10 @@
     __block ZSSpriteView *draggedView;
     _spriteController.panBegan = ^(UIPanGestureRecognizer *panGestureRecognizer) {
         ZSSpriteView *spriteView = (ZSSpriteView*)panGestureRecognizer.view;
-        NSMutableDictionary *json = [spriteView.spriteJSON mutableCopy];
+        NSMutableDictionary *json = [spriteView.spriteJSON deepMutableCopy];
         NSString *type = json[@"type"];
         if ([@"text" isEqualToString:type]) {
-             json[@"text"] = @"Value";
+             json[@"properties"][@"text"] = @"Value";
         }
         
         // Width and height of frame can be calculated now.
