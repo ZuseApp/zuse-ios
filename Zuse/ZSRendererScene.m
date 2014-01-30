@@ -128,7 +128,7 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
             }
             
             //add the node as a physics body for physics debugging
-            SKComponentNode *jointNode = [SKComponentNode new];
+            ZSComponentNode *jointNode = [ZSComponentNode new];
             jointNode.position = CGPointMake([properties[@"x"] floatValue], [properties[@"y"] floatValue]);
             jointNode.alpha =1.0;
             //set the joint to not collide with anything
@@ -179,8 +179,15 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
             touchComponent.touchesBegan = ^(UITouch *touch) {
                 node.physicsBody.dynamic = YES;
                 
-                SKComponentNode *jointNode = _jointNodes[object[@"id"]];
+                ZSComponentNode *jointNode = _jointNodes[object[@"id"]];
                 _activeJointNodes[object[@"id"]] = jointNode;
+                if ([object[@"physics_body"] isEqualToString:@"circle"]) {
+                    jointNode.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:(size.width / 2)];
+                    
+                } else if ([object[@"physics_body"] isEqualToString:@"rectangle"]) {
+                    jointNode.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:size];
+                }
+                
                 //set up the physics of the joint node.
                 jointNode.physicsBody.dynamic = NO;
                 jointNode.physicsBody.mass = 0.02;
