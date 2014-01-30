@@ -25,7 +25,6 @@
 @property (nonatomic) NSMutableDictionary *spriteNodes;
 @property (nonatomic) NSMutableDictionary *movingSprites;
 @property (nonatomic) NSMutableDictionary *jointNodes;
-@property (nonatomic) NSMutableDictionary *activeJointNodes;
 @property (strong, nonatomic) ZSInterpreter *interpreter;
 @property (nonatomic) NSMutableDictionary *physicsJoints;
 
@@ -33,8 +32,7 @@
 
 NSString * const kZSSpriteName = @"sprite";
 NSString * const kZSJointName = @"joint";
-CGFloat const kZSSpriteSpeed = 200;
-CGPoint kZSSpritePosition;
+//CGFloat const kZSSpriteSpeed = 200;
 
 typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
 {
@@ -45,52 +43,24 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
 
 -(id)initWithSize:(CGSize)size projectJSON:(NSDictionary *)projectJSON {
     if (self = [super initWithSize:size]) {
-        ZSCompiler *compiler = [ZSCompiler compilerWithProjectJSON:projectJSON];
         
-        _interpreter = [ZSInterpreter interpreter];
+        self.backgroundColor = [SKColor whiteColor];
         
-        [self loadMethodsIntoInterpreter:_interpreter];
+        _interpreter   = [ZSInterpreter interpreter];
+        _physicsJoints = [[NSMutableDictionary alloc] init];
+        _spriteNodes   = [[NSMutableDictionary alloc] init];
         
-        [_interpreter runJSON:compiler.compiledJSON];
-
         _interpreter.delegate = self;
         
-        //Set the physics edges to the frame
-        self.physicsBody = [SKPhysicsBody bodyWithEdgeLoopFromRect:self.frame];
-        self.physicsBody.categoryBitMask = GFPhysicsCategoryWorld;
-        //set up the scene as the contact delegate
-        self.physicsWorld.contactDelegate = self;
+        [self setupInterpreterWithProjectJSON:projectJSON];
+        [self setupWorldPhysics];
 
-        _jointNodes = [[NSMutableDictionary alloc] init];
-        _physicsJoints = [[NSMutableDictionary alloc] init];
-        _spriteNodes = [[NSMutableDictionary alloc] init];
-        
-        //create category bit masks for each group of sprites
-        
-        NSInteger categoryBitMaskCount = 1;
-        NSMutableDictionary *categoryBitMasks = [NSMutableDictionary dictionary];
-        NSMutableDictionary *collisionBitMasks = [NSMutableDictionary dictionary];
-        NSDictionary *collisionGroups = projectJSON[@"collision_groups"];
-        
-        for(id key in collisionGroups){
-            uint32_t categoryBitMask = 1 << categoryBitMaskCount++;
-            categoryBitMasks[key] = @(categoryBitMask);
-            NSLog(@"category bitmask for %@: %@", key, binaryStringFromInteger(categoryBitMask));
-        }
-        
-        for (id key in collisionGroups) {
-            uint32_t collisionBitMask = 1;
-            for (NSString *group in collisionGroups[key]) {
-                collisionBitMask |= [categoryBitMasks[group] intValue];
-            }
-            collisionBitMasks[key] = @(collisionBitMask);
-            NSLog(@"collision bitmask for %@: %@", key, binaryStringFromInteger(collisionBitMask));
-        }
+        NSDictionary *categoryBitMasks = [self categoryBitMasksForCollisionGroups:projectJSON[@"collision_groups"]];
+        NSDictionary *collisionBitMasks = [self collisionBitMasksForCollisionGroups:projectJSON[@"collision_groups"] categoryBitMasks:categoryBitMasks];
         
         [projectJSON[@"objects"] each:^(NSDictionary *object) {
             
             NSDictionary *properties = object[@"properties"];
-            kZSSpritePosition = CGPointMake([properties[@"x"] floatValue], [properties[@"y"] floatValue]);
             
             CGPoint position = CGPointMake([properties[@"x"] floatValue], [properties[@"y"] floatValue]);
             CGSize size = CGSizeMake([properties[@"width"] floatValue], [properties[@"height"] floatValue]);
@@ -103,104 +73,66 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
             
             //set up the sprite size and position on screen
             
-            if ([object[@"type"] isEqualToString:@"image"]) {
-                SKSpriteNode *sprite = [SKSpriteNode spriteNodeWithImageNamed:object[@"image"][@"path"]];
-                sprite.size = size;
-                [node addChild:sprite];
-            }
-            else if ([object[@"type"] isEqualToString:@"text"]) {
-                SKLabelNode *labelNode = [SKLabelNode labelNodeWithFontNamed:@"Helvetica"];
-                labelNode.name = @"Text";
-                labelNode.text = properties[@"text"];
-                labelNode.fontColor = [SKColor blackColor];
-                labelNode.fontSize = 30;
-                labelNode.verticalAlignmentMode = SKLabelVerticalAlignmentModeCenter;
-                labelNode.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
-                [node addChild:labelNode];
-            }
+            SKNode *childNode = [self childNodeForObjectJSON:object size:size];
+            
+            [node addChild:childNode];
+            
             
             node.position = position;
             
             //add sprite to the node
-            if(!_spriteNodes[object[@"id"]])
-            {
+            if(!_spriteNodes[object[@"id"]]) {
                 _spriteNodes[object[@"id"]] = node;
             }
             
             //add the node as a physics body for physics debugging
-            ZSComponentNode *jointNode = [ZSComponentNode new];
-            jointNode.position = CGPointMake([properties[@"x"] floatValue], [properties[@"y"] floatValue]);
-            jointNode.alpha =1.0;
-            //set the joint to not collide with anything
-            jointNode.physicsBody.categoryBitMask = 0;
-            jointNode.name = kZSJointName;
-            //make a transparent sprite for the joint with the same dimensions as the node's sprite
-            SKSpriteNode *jointSprite = [SKSpriteNode new];
-
-//            SKSpriteNode *jointSprite = [SKSpriteNode spriteNodeWithImageNamed:object[@"image"][@"path"]];
-            jointSprite.size = CGSizeMake([properties[@"width"] floatValue], [properties[@"height"] floatValue]);
-            [jointNode addChild:jointSprite];
-            [_jointNodes setObject:jointNode forKey:object[@"id"]];
             
-            if ([object[@"physics_body"] isEqualToString:@"circle"]) {
-                node.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:(size.width / 2)];
-
-            } else if ([object[@"physics_body"] isEqualToString:@"rectangle"]) {
-                node.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:size];
-            }
+            
+            
+            node.physicsBody = [self physicsBodyForType:object[@"physics_body"] size:size];
             
             if (node.physicsBody) {
-                node.physicsBody.categoryBitMask = [categoryBitMasks[object[@"collision_group"]] integerValue];
-                node.physicsBody.collisionBitMask = [collisionBitMasks[object[@"collision_group"]] integerValue];
+                node.physicsBody.categoryBitMask    = [categoryBitMasks[object[@"collision_group"]] integerValue];
+                node.physicsBody.collisionBitMask   = [collisionBitMasks[object[@"collision_group"]] integerValue];
                 node.physicsBody.contactTestBitMask = [collisionBitMasks[object[@"collision_group"]] integerValue];
+                
+                node.physicsBody.dynamic = NO;
+                node.physicsBody.mass    = 0.02;
+                node.physicsBody.affectedByGravity = NO;
             }
             
             ZSSpriteTouchComponent *touchComponent = [ZSSpriteTouchComponent new];
             touchComponent.spriteId = object[@"id"];
             
-            touchComponent.touchesMoved = ^(UITouch *touch) {
-                CGPoint point = [touch locationInNode:self];
-                
-                SKComponentNode *jointNode = _jointNodes[object[@"id"]];
-                
-                if(jointNode.position.x < 0.0 || jointNode.position.x > self.size.width)
-                {
-                    jointNode.position = node.position;
-                    point = jointNode.position;
-                    point.x += 2.0;
-                }
-                
-                [_interpreter triggerEvent:@"touch_moved"
-                        onObjectWithIdentifier:object[@"id"]
-                                    parameters:@{ @"touch_x": @(point.x), @"touch_y": @(point.y) }];
-                
-            };
             
             touchComponent.touchesBegan = ^(UITouch *touch) {
-                node.physicsBody.dynamic = YES;
-                
-                ZSComponentNode *jointNode = _jointNodes[object[@"id"]];
-                _activeJointNodes[object[@"id"]] = jointNode;
-                if ([object[@"physics_body"] isEqualToString:@"circle"]) {
-                    jointNode.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:(size.width / 2)];
+                if (node.physicsBody) {
+                    node.physicsBody.dynamic = YES;
                     
-                } else if ([object[@"physics_body"] isEqualToString:@"rectangle"]) {
-                    jointNode.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:size];
+                    ZSComponentNode *jointNode = [ZSComponentNode node];
+                    _jointNodes[object[@"id"]] = jointNode;
+                    jointNode.name     = kZSJointName;
+                    jointNode.position = position;
+                    
+                    jointNode.physicsBody = [self physicsBodyForType:object[@"physics_body"] size:size];
+                    [self configureJointNodePhysics:jointNode];
+                    
+                    [self removeJointNode:object[@"id"]];
+                    [self addChild:jointNode];
+                    
+                    SKSpriteNode *jointSprite = [SKSpriteNode new];
+                    jointSprite.size = size;
+                    [jointNode addChild:jointSprite];
+                    
+                    NSLog(@"Got before");
+                    //create the physics joint
+                    SKPhysicsJointFixed *fixedJoint = [SKPhysicsJointFixed jointWithBodyA:node.physicsBody
+                                                                                    bodyB:jointNode.physicsBody
+                                                                                   anchor:node.position];
+                    NSLog(@"Got after");
+                    [self.physicsWorld addJoint:fixedJoint];
+                    _physicsJoints[object[@"id"]] = fixedJoint;
                 }
-                
-                //set up the physics of the joint node.
-                jointNode.physicsBody.dynamic = NO;
-                jointNode.physicsBody.mass = 0.02;
-                jointNode.physicsBody.velocity = CGVectorMake(0, 0);
-                jointNode.physicsBody.affectedByGravity = NO;
-                [self removeJointNode:object[@"id"]];
-                //add the joint node to the scene
-                [self addChild:jointNode];
-                
-                //create the physics joint
-                SKPhysicsJointFixed *physicsJointFixed = [SKPhysicsJointFixed jointWithBodyA:node.physicsBody bodyB:jointNode.physicsBody anchor:node.position];
-                [self.physicsWorld addJoint:physicsJointFixed];
-                _physicsJoints[object[@"id"]] = physicsJointFixed;
                 
                 CGPoint point = [touch locationInNode:self];
                 
@@ -209,34 +141,116 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
                                 parameters:@{ @"touch_x": @(point.x), @"touch_y": @(point.y) }];
             };
             
+            touchComponent.touchesMoved = ^(UITouch *touch) {
+                CGPoint point = [touch locationInNode:self];
+                
+                [_interpreter triggerEvent:@"touch_moved"
+                        onObjectWithIdentifier:object[@"id"]
+                                    parameters:@{ @"touch_x": @(point.x), @"touch_y": @(point.y) }];
+            };
+            
             touchComponent.touchesEnded = ^(UITouch *touch) {
-                node.physicsBody.dynamic = NO;
-                
-                //set the the last touch for the joint node
-                SKComponentNode *jointNode = _jointNodes[object[@"id"]];
-                [_activeJointNodes removeObjectForKey:object[@"id"]];
-                
-                jointNode.position = node.position;
-                //remove the physics joint once the touch event ends
-                [self removePhysicsJoint:object[@"id"]];
-                [self removeJointNode:object[@"id"]];
+                if (node.physicsBody) {
+                    
+                    //remove the physics joint once the touch event ends
+                    [self removePhysicsJoint:object[@"id"]];
+                    [self removeJointNode:object[@"id"]];
+                    node.physicsBody.dynamic = NO;
+                }
             };
              
             [node addComponent:touchComponent];
-            
-            node.physicsBody.dynamic = NO;
-            node.physicsBody.mass = 0.02;
-            node.physicsBody.affectedByGravity = NO;
-
-            //add both nodes to scene
             [self addChild:node];
 
         }];
-        
-        // setting background color
-        self.backgroundColor = [SKColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0];
     }
     return self;
+}
+
+- (void) setupInterpreterWithProjectJSON:(NSDictionary *)projectJSON {
+        ZSCompiler *compiler = [ZSCompiler compilerWithProjectJSON:projectJSON];
+        [self loadMethodsIntoInterpreter:_interpreter];
+        [_interpreter runJSON:compiler.compiledJSON];
+}
+
+- (void) setupWorldPhysics {
+    //Set the physics edges to the frame
+    self.physicsBody = [SKPhysicsBody bodyWithEdgeLoopFromRect:self.frame];
+    self.physicsBody.categoryBitMask = GFPhysicsCategoryWorld;
+    //set up the scene as the contact delegate
+    self.physicsWorld.contactDelegate = self;
+}
+
+- (NSDictionary *) categoryBitMasksForCollisionGroups:(NSDictionary *)collisionGroups {
+    NSInteger categoryBitMaskCount = 1;
+    NSMutableDictionary *categoryBitMasks = [NSMutableDictionary dictionary];
+    for(id key in collisionGroups){
+        uint32_t categoryBitMask = 1 << categoryBitMaskCount++;
+        categoryBitMasks[key] = @(categoryBitMask);
+        NSLog(@"category bitmask for %@: %@", key, binaryStringFromInteger(categoryBitMask));
+    }
+    
+    return categoryBitMasks;
+}
+
+- (NSDictionary *)collisionBitMasksForCollisionGroups:(NSDictionary *)collisionGroups
+                                     categoryBitMasks:(NSDictionary *)categoryBitMasks {
+    
+    NSMutableDictionary *collisionBitMasks = [NSMutableDictionary dictionary];
+    for (id key in collisionGroups) {
+        uint32_t collisionBitMask = 1;
+        for (NSString *group in collisionGroups[key]) {
+            collisionBitMask |= [categoryBitMasks[group] intValue];
+        }
+        collisionBitMasks[key] = @(collisionBitMask);
+        NSLog(@"collision bitmask for %@: %@", key, binaryStringFromInteger(collisionBitMask));
+    }
+    
+    return collisionBitMasks;
+}
+
+- (SKPhysicsBody *)physicsBodyForType:(NSString *)type size:(CGSize)size {
+    if ([type isEqualToString:@"circle"]) {
+        return [SKPhysicsBody bodyWithCircleOfRadius:(size.width / 2)];
+    } else if ([type isEqualToString:@"rectangle"]) {
+        return [SKPhysicsBody bodyWithRectangleOfSize:size];
+    }
+    
+    return nil;
+}
+
+- (SKNode *)childNodeForObjectJSON:(NSDictionary *)object size:(CGSize)size {
+    SKNode *node = nil;
+            if ([object[@"type"] isEqualToString:@"image"]) {
+                SKSpriteNode *sprite = [SKSpriteNode spriteNodeWithImageNamed:object[@"image"][@"path"]];
+                sprite.size = size;
+                node = sprite;
+            }
+            else if ([object[@"type"] isEqualToString:@"text"]) {
+                SKLabelNode *labelNode = [SKLabelNode labelNodeWithFontNamed:@"Helvetica"];
+                labelNode.name = @"Text";
+                labelNode.text = object[@"properties"][@"text"];
+                labelNode.fontColor = [SKColor blackColor];
+                labelNode.fontSize = 30;
+                labelNode.verticalAlignmentMode = SKLabelVerticalAlignmentModeCenter;
+                labelNode.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
+                node = labelNode;
+            }
+    
+    if (!node) {
+        @throw [NSString stringWithFormat:@"ZSRendererScene#childNodeForObjectJSON:size: - attempted to create unknown node type %@", object[@"image"][@"path"]];
+    }
+    
+    return node;
+}
+
+- (void)configureJointNodePhysics:(ZSComponentNode *)jointNode {
+    //set the joint to not collide with anything
+    jointNode.physicsBody.categoryBitMask = 0;
+    jointNode.physicsBody.dynamic = NO;
+    jointNode.physicsBody.mass = 0.02;
+    jointNode.physicsBody.velocity = CGVectorMake(0, 0);
+    jointNode.physicsBody.affectedByGravity = NO;
 }
 
 - (void) didBeginContact:(SKPhysicsContact *)contact
@@ -244,13 +258,16 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
     if (contact.bodyA.categoryBitMask != GFPhysicsCategoryWorld &&
         contact.bodyB.categoryBitMask != GFPhysicsCategoryWorld) {
         
-        [_interpreter triggerEvent:@"collision"
-            onObjectWithIdentifier:((ZSComponentNode *)contact.bodyA.node).identifier];
-        [_interpreter triggerEvent:@"collision"
-            onObjectWithIdentifier:((ZSComponentNode *)contact.bodyB.node).identifier];
+        ZSComponentNode *nodeA = (ZSComponentNode *)contact.bodyA.node;
+        ZSComponentNode *nodeB = (ZSComponentNode *)contact.bodyB.node;
         
-        NSLog(@"%@", ((ZSComponentNode *)contact.bodyA.node).identifier);
-        NSLog(@"%@", ((ZSComponentNode *)contact.bodyB.node).identifier);
+        [_interpreter triggerEvent:@"collision"
+            onObjectWithIdentifier:nodeA.identifier];
+        [_interpreter triggerEvent:@"collision"
+            onObjectWithIdentifier:nodeB.identifier];
+        
+        NSLog(@"%@", nodeA.identifier);
+        NSLog(@"%@", nodeB.identifier);
         NSLog(@"");
     }
 }
@@ -307,13 +324,9 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
 }
 
 - (void)removeSpriteWithIdentifier:(NSString *)identifier {
-    
-    SKSpriteNode *node = _spriteNodes[identifier];
-    [node removeFromParent];
-    
+    [self removePhysicsJoint:identifier];
     [self removeJointNode:identifier];
     [self removeSpriteNode:identifier];
-    [self removePhysicsJoint:identifier];
     [_interpreter removeObjectWithIdentifier:identifier];
 }
 
@@ -324,28 +337,32 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
 }
 
 - (void)removeJointNode:(NSString *)identifier{
-    SKSpriteNode *jointNode = _jointNodes[identifier];
-    [jointNode removeFromParent];
+    ZSComponentNode *jointNode = _jointNodes[identifier];
+    if (jointNode) {
+        [jointNode removeFromParent];
+        [_jointNodes removeObjectForKey:identifier];
+    }
 }
 
 - (void)removePhysicsJoint:(NSString *)identifier{
-    [self.physicsWorld removeJoint:_physicsJoints[identifier]];
-    [_physicsJoints removeObjectForKey:identifier];
+    SKPhysicsJoint *joint = _physicsJoints[identifier];
+    if (joint) {
+        [self.physicsWorld removeJoint:joint];
+        [_physicsJoints removeObjectForKey:identifier];
+    }
 }
 
 - (void)interpreter:(ZSInterpreter *)interpreter
         objectWithIdentifier:(NSString *)identifier
         didUpdateProperties:(NSDictionary *)properties {
     SKComponentNode *node = _spriteNodes[identifier];
-    if (properties[@"x"])
-    {
+    if (properties[@"x"]) {
         SKComponentNode *sprite = _jointNodes[identifier];
         if (!sprite)
             sprite = node;
         sprite.position = CGPointMake([properties[@"x"] floatValue], sprite.position.y);
     }
-    if (properties[@"y"])
-    {
+    if (properties[@"y"]) {
         SKComponentNode *sprite = _jointNodes[identifier];
         if (!sprite)
             sprite = node;
