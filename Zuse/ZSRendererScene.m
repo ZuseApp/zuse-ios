@@ -49,6 +49,7 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
         _interpreter   = [ZSInterpreter interpreter];
         _physicsJoints = [[NSMutableDictionary alloc] init];
         _spriteNodes   = [[NSMutableDictionary alloc] init];
+        _jointNodes    = [[NSMutableDictionary alloc] init];
         
         _interpreter.delegate = self;
         
@@ -98,18 +99,21 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
                 if (node.physicsBody) {
                     node.physicsBody.dynamic = YES;
                     
+                    [self removeJointNode:object[@"id"]];
+                    [self removePhysicsJoint:object[@"id"]];
+                    
                     ZSComponentNode *jointNode = [ZSComponentNode node];
-                    _jointNodes[object[@"id"]] = jointNode;
                     jointNode.name     = kZSJointName;
                     jointNode.position = node.position;
                     
                     jointNode.physicsBody = [self physicsBodyForType:object[@"physics_body"] size:size];
                     [self configureJointNodePhysics:jointNode];
                     
-                    [self removeJointNode:object[@"id"]];
+                    _jointNodes[object[@"id"]] = jointNode;
                     [self addChild:jointNode];
                     
                     SKSpriteNode *jointSprite = [SKSpriteNode new];
+//                    SKSpriteNode *jointSprite = [SKSpriteNode spriteNodeWithImageNamed:object[@"image"][@"path"]];
                     jointSprite.size = size;
                     [jointNode addChild:jointSprite];
                     
@@ -118,6 +122,11 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
                                                                                    anchor:node.position];
                     [self.physicsWorld addJoint:fixedJoint];
                     _physicsJoints[object[@"id"]] = fixedJoint;
+                    
+                    NSLog(@"node has physics body");
+                }
+                else{
+                    NSLog(@"node has no physics body");
                 }
                 
                 CGPoint point = [touch locationInNode:self];
