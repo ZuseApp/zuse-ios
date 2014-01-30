@@ -24,7 +24,7 @@
 @property (weak, nonatomic) IBOutlet UIView *gridPanel;
 @property (weak, nonatomic) IBOutlet UIView *positionPanel;
 @property (weak, nonatomic) IBOutlet UIView *rendererView;
-
+@property (nonatomic, assign) BOOL showRendererAfterMenuClose;
 
 // Sprites
 @property (nonatomic, strong) NSArray *templateSprites;
@@ -115,27 +115,11 @@
         frame.origin.y = self.view.frame.size.height - frame.size.height - frame.origin.y;
         
         ZSSpriteView *view = [[ZSSpriteView alloc] initWithFrame:frame];
-        
-        NSString *type = jsonObject[@"type"];
-        if ([type isEqualToString:@"image"]) {
-            NSDictionary *image = jsonObject[@"image"];
-            NSString *imagePath = image[@"path"];
-            if (imagePath) {
-                [view setContentFromImage:[UIImage imageNamed:imagePath]];
-            } else {
-                view.backgroundColor = [UIColor blackColor];
-            }
-        }
-        else if ([type isEqualToString:@"text"]){
-            [view setContentFromText:jsonObject[@"text"]];
-        }
-        else {
+        if (![view setContentFromJSON:jsonObject]) {
             // If the sprite isn't marked with a type, ignore it.
             NSLog(@"WARNING: Unkown sprite type.  Skipping adding it to canvas.");
             continue;
         }
-        
-        view.spriteJSON = jsonObject;
         
         [self setupGesturesForSpriteView:view withProperties:variables];
         [self setupEditOptionsForSpriteView:view];
@@ -242,9 +226,9 @@
 
 - (ZSSpriteView *)copySpriteView:(ZSSpriteView *)spriteView {
     ZSSpriteView *copy = [[ZSSpriteView alloc] initWithFrame:spriteView.frame];
-    copy.spriteJSON = [spriteView.spriteJSON deepMutableCopy];
-    copy.spriteJSON[@"id"] = [[NSUUID UUID] UUIDString];
-    [copy setContentFromImage:[UIImage imageNamed:copy.spriteJSON[@"image"][@"path"]]];
+    NSMutableDictionary *json = [spriteView.spriteJSON deepMutableCopy];
+    json[@"id"] = [[NSUUID UUID] UUIDString];
+    [copy setContentFromJSON:json];
     [self setupGesturesForSpriteView:copy withProperties:copy.spriteJSON[@"properties"]];
     [self setupEditOptionsForSpriteView:copy];
     return copy;
@@ -257,6 +241,7 @@
     _spriteTable.dataSource = _spriteController;
     _menuTable.delegate = _menuController;
     _menuTable.dataSource = _menuController;
+    _showRendererAfterMenuClose = NO;
     
     WeakSelf
     __weak ZSProject *weakProject = _project;
@@ -274,15 +259,10 @@
         }];
     };
     
-    _menuController.pauseSelected = ^{
-        [weakSelf.rendererViewController stop];
-    };
-    
     _menuController.stopSelected = ^{
-        [weakSelf hideDrawersAndPerformAction:^{
-            [weakSelf.rendererViewController stop];
-            weakSelf.rendererView.hidden = YES;
-        }];
+        [weakSelf.rendererViewController stop];
+        weakSelf.rendererView.hidden = YES;
+        [weakSelf hideDrawersAndPerformAction:nil];
     };
     
     _menuController.settingsSelected = ^{
@@ -299,36 +279,69 @@
     __block CGPoint offset;
     __block CGPoint currentPoint;
     __block ZSSpriteView *draggedView;
-    _spriteController.panBegan = ^(UIPanGestureRecognizer *panGestureRecognizer, NSDictionary *json) {
-        offset = [panGestureRecognizer locationInView:panGestureRecognizer.view];
+    _spriteController.panBegan = ^(UIPanGestureRecognizer *panGestureRecognizer) {
+        ZSSpriteView *spriteView = (ZSSpriteView*)panGestureRecognizer.view;
+        NSMutableDictionary *json = [spriteView.spriteJSON deepMutableCopy];
+        NSString *type = json[@"type"];
+        if ([@"text" isEqualToString:type]) {
+             json[@"properties"][@"text"] = @"Value";
+        }
+        
+        // Width and height of frame can be calculated now.
+        CGRect originalFrame = spriteView.content.frame;
+        CGRect frame = CGRectZero;
+        frame.size.width = [json[@"properties"][@"width"] floatValue];
+        frame.size.height = [json[@"properties"][@"height"] floatValue];
+        
+        if (![@"text" isEqualToString:type]) {
+            CGFloat scale = frame.size.width / spriteView.content.frame.size.width;
+            offset = [panGestureRecognizer locationInView:spriteView.content];
+            offset = CGPointMake(offset.x * scale, offset.y * scale);
+        }
+        else {
+            offset = [panGestureRecognizer locationInView:spriteView];
+            offset = CGPointMake(offset.x, frame.size.height / 2);
+        }
         currentPoint = [panGestureRecognizer locationInView:weakSelf.view];
         
-        CGRect frame = panGestureRecognizer.view.frame;
+        originalFrame.origin.x = currentPoint.x - offset.x;
+        originalFrame.origin.y = currentPoint.y - offset.y;
+        
         frame.origin.x = currentPoint.x - offset.x;
         frame.origin.y = currentPoint.y - offset.y;
         
         draggedView = [[ZSSpriteView alloc] initWithFrame:frame];
-        NSString *type = json[@"type"];
-        if ([type isEqualToString:@"image"]) {
-            [draggedView setContentFromImage:[UIImage imageNamed:json[@"image"][@"path"]]];
-        } else if ([type isEqualToString:@"text"]) {
-            [draggedView setContentFromText:@"Value"];
-        }
-        draggedView.contentMode = UIViewContentModeScaleAspectFit;
+        [draggedView setContentFromJSON:json];
         [weakSelf.view addSubview:draggedView];
+       
+        CGFloat scale = spriteView.content.frame.size.width / frame.size.width;
+        if (scale < 1) {
+            draggedView.transform = CGAffineTransformMakeScale(scale, scale);
+            [UIView animateWithDuration:0.25f animations:^{
+                draggedView.transform = CGAffineTransformIdentity;
+            }];
+        }
         [weakSelf hideDrawersAndPerformAction:nil];
     };
     
-    _spriteController.panMoved = ^(UIPanGestureRecognizer *panGestureRecognizer, NSDictionary *json) {
+    _spriteController.panMoved = ^(UIPanGestureRecognizer *panGestureRecognizer) {
         currentPoint = [panGestureRecognizer locationInView:weakSelf.view];
         
         CGRect frame = draggedView.frame;
         frame.origin.x = currentPoint.x - offset.x;
         frame.origin.y = currentPoint.y - offset.y;
+        
+        ZSCanvasView *view = (ZSCanvasView *)weakSelf.view;
+        if (view.grid.dimensions.width > 1 && view.grid.dimensions.height > 1) {
+            frame.origin = [view.grid adjustedPointForPoint:frame.origin];
+        }
+        
         draggedView.frame = frame;
     };
     
-    _spriteController.panEnded = ^(UIPanGestureRecognizer *panGestureRecognizer, NSDictionary *json) {
+    _spriteController.panEnded = ^(UIPanGestureRecognizer *panGestureRecognizer) {
+        NSMutableDictionary *json = draggedView.spriteJSON;
+        
         NSMutableDictionary *newJson = [json deepMutableCopy];
         newJson[@"id"] = [[NSUUID UUID] UUIDString];
         NSMutableDictionary *properties = newJson[@"properties"];
@@ -350,9 +363,6 @@
         
         properties[@"x"] = @(x);
         properties[@"y"] = @(y);
-        if ([newJson[@"type"] isEqualToString:@"text"]) {
-            newJson[@"text"] = @"Value";
-        }
         
         // Bring menus to front.
         [weakSelf.view bringSubviewToFront:weakSelf.menuTable];
@@ -403,11 +413,17 @@
                 spriteFrame.origin.x += _spriteTable.frame.size.width;
                 _spriteTable.frame = spriteFrame;
             }
+            else {
+                [_rendererViewController play];
+            }
         } completion:^(BOOL finished) {
             self.menuTable.hidden = YES;
             self.spriteTable.hidden = YES;
             if (action) {
                 action();
+            }
+            if (_showRendererAfterMenuClose) {
+                [self showGrid:self];
             }
         }];
     }
@@ -416,7 +432,8 @@
 - (void)showDrawers {
     if (_spriteTable.hidden && _menuTable.hidden) {
         // If the adjust menu is showing, hide it.
-        if (!_adjustMenu.hidden) {
+        _showRendererAfterMenuClose = !_adjustMenu.hidden;
+        if (_showRendererAfterMenuClose) {
             [self hideGrid:self];
         }
         
@@ -432,6 +449,10 @@
         [self.view bringSubviewToFront:_menuTable];
         [self.view bringSubviewToFront:_spriteTable];
         
+        // Update the options
+        _menuController.rendererRunning = !_rendererView.hidden;
+        [_menuTable reloadData];
+        
         // Make the drawers visible and animate them in.
         _menuTable.hidden = NO;
         _spriteTable.hidden = NO;
@@ -444,6 +465,9 @@
                 CGRect spriteFrame = _spriteTable.frame;
                 spriteFrame.origin.x -= _spriteTable.frame.size.width;
                 _spriteTable.frame = spriteFrame;
+            }
+            else {
+                [_rendererViewController stop];
             }
         }];
     }
@@ -502,7 +526,7 @@
 
 - (BOOL)canPerformAction:(SEL)action withSender:(id)sender {
     // If the renderer is showing, don't capture anything.
-    if (!_rendererView.hidden) {
+    if (!_rendererView.hidden || !_menuTable.hidden) {
         return NO;
     }
     
@@ -527,7 +551,7 @@
 - (void)paste:(id)sender {
     if (_spriteViewCopy) {
         CGRect frame = _spriteViewCopy.frame;
-        frame.origin = _lastTouch;
+        frame.origin = CGPointMake(_lastTouch.x - frame.size.width / 2, _lastTouch.y - frame.size.height / 2);
         
         ZSCanvasView *view = (ZSCanvasView *)self.view;
         if (view.grid.dimensions.width > 1 && view.grid.dimensions.height > 1) {

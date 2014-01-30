@@ -57,6 +57,8 @@
 		4CF1CBD317EF882A00636E0D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1CBB517EF882A00636E0D /* UIKit.framework */; };
 		4CF1CBDB17EF882A00636E0D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4CF1CBD917EF882A00636E0D /* InfoPlist.strings */; };
 		4CF1CC0E17EFF64500636E0D /* ZSSpriteView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF1CC0D17EFF64500636E0D /* ZSSpriteView.m */; };
+		4CF1D4301898BB4300B5568F /* yoda.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4CF1D42F1898BB4300B5568F /* yoda.jpg */; };
+		4CF1D43218995EC000B5568F /* refresh.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CF1D43118995EC000B5568F /* refresh.png */; };
 		4CF303F11856E5DB00B57B95 /* ZSProject.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF303F01856E5DB00B57B95 /* ZSProject.m */; };
 		4CF303F31859238900B57B95 /* new_project.json in Resources */ = {isa = PBXBuildFile; fileRef = 4CF303F21859238900B57B95 /* new_project.json */; };
 		5F0139AC1856896F005D7FAE /* ZSEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0139AB1856896F005D7FAE /* ZSEditorViewController.m */; };
@@ -98,6 +100,9 @@
 		5F41ACB818341C980089D136 /* ZSExecutionContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F41ACB718341C980089D136 /* ZSExecutionContext.m */; };
 		5F8138C918945D8F009F3495 /* object_transform.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F8138C818945D8F009F3495 /* object_transform.json */; };
 		5F8138CD18945DDD009F3495 /* object_transform_result.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F8138CC18945DDD009F3495 /* object_transform_result.json */; };
+		5F8138D11898C338009F3495 /* NSString+Zuse.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8138D01898C338009F3495 /* NSString+Zuse.m */; };
+		5F8138D41898C36B009F3495 /* NSNumber+Zuse.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8138D31898C36B009F3495 /* NSNumber+Zuse.m */; };
+		5F8138D9189A1DF1009F3495 /* ZSComponentNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8138D8189A1DF1009F3495 /* ZSComponentNode.m */; };
 		5FAFE3601891C8B300131354 /* breakout.json in Resources */ = {isa = PBXBuildFile; fileRef = 5FAFE35F1891C8B300131354 /* breakout.json */; };
 		5FEFB89A182B5376007DAFCF /* pong.json in Resources */ = {isa = PBXBuildFile; fileRef = 5FEFB899182B5376007DAFCF /* pong.json */; };
 		78346A0A183C623400540D54 /* ZSCodeStatementObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 78346A09183C623400540D54 /* ZSCodeStatementObject.m */; };
@@ -211,6 +216,8 @@
 		4CF1CBDA17EF882A00636E0D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		4CF1CC0C17EFF64500636E0D /* ZSSpriteView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSSpriteView.h; sourceTree = "<group>"; };
 		4CF1CC0D17EFF64500636E0D /* ZSSpriteView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSSpriteView.m; sourceTree = "<group>"; };
+		4CF1D42F1898BB4300B5568F /* yoda.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = yoda.jpg; sourceTree = "<group>"; };
+		4CF1D43118995EC000B5568F /* refresh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = refresh.png; sourceTree = "<group>"; };
 		4CF303EF1856E5DB00B57B95 /* ZSProject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSProject.h; sourceTree = "<group>"; };
 		4CF303F01856E5DB00B57B95 /* ZSProject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSProject.m; sourceTree = "<group>"; };
 		4CF303F21859238900B57B95 /* new_project.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = new_project.json; sourceTree = "<group>"; };
@@ -282,6 +289,12 @@
 		5F41ACB718341C980089D136 /* ZSExecutionContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSExecutionContext.m; sourceTree = "<group>"; };
 		5F8138C818945D8F009F3495 /* object_transform.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = object_transform.json; path = CodeSamples/object_transform.json; sourceTree = "<group>"; };
 		5F8138CC18945DDD009F3495 /* object_transform_result.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = object_transform_result.json; path = CodeSamples/object_transform_result.json; sourceTree = "<group>"; };
+		5F8138CF1898C338009F3495 /* NSString+Zuse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Zuse.h"; sourceTree = "<group>"; };
+		5F8138D01898C338009F3495 /* NSString+Zuse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Zuse.m"; sourceTree = "<group>"; };
+		5F8138D21898C36B009F3495 /* NSNumber+Zuse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNumber+Zuse.h"; sourceTree = "<group>"; };
+		5F8138D31898C36B009F3495 /* NSNumber+Zuse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNumber+Zuse.m"; sourceTree = "<group>"; };
+		5F8138D7189A1DF1009F3495 /* ZSComponentNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSComponentNode.h; sourceTree = "<group>"; };
+		5F8138D8189A1DF1009F3495 /* ZSComponentNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSComponentNode.m; sourceTree = "<group>"; };
 		5FAFE35F1891C8B300131354 /* breakout.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = breakout.json; path = JSON/breakout.json; sourceTree = "<group>"; };
 		5FEFB899182B5376007DAFCF /* pong.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = pong.json; path = JSON/pong.json; sourceTree = "<group>"; };
 		78346A08183C623400540D54 /* ZSCodeStatementObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCodeStatementObject.h; sourceTree = "<group>"; };
@@ -358,6 +371,7 @@
 		4C2D1ECC1891EA32002C431A /* ui-images */ = {
 			isa = PBXGroup;
 			children = (
+				4CF1D43118995EC000B5568F /* refresh.png */,
 				4CEB19BF18971F27009D89B3 /* text_icon.png */,
 				4C9E43E2188B698200045D86 /* cross.png */,
 				4C9E43DE188B66D300045D86 /* arrow-circle-double-135.png */,
@@ -549,6 +563,8 @@
 				2C6B5D69183D43AB00E3D56C /* ZSSpriteTouchComponent.m */,
 				2CA9D385183F3F0300401231 /* ZSRendererScene.h */,
 				2CA9D386183F3F0300401231 /* ZSRendererScene.m */,
+				5F8138D7189A1DF1009F3495 /* ZSComponentNode.h */,
+				5F8138D8189A1DF1009F3495 /* ZSComponentNode.m */,
 			);
 			name = Scenes;
 			sourceTree = "<group>";
@@ -681,6 +697,7 @@
 		4CF1CBFE17EFE13C00636E0D /* images */ = {
 			isa = PBXGroup;
 			children = (
+				4CF1D42F1898BB4300B5568F /* yoda.jpg */,
 				4CE3561B188A1355007024C0 /* red_brick.png */,
 				4CCE4F831845A541006C7DA0 /* paddle.png */,
 				4CE340411809F76E009A63A2 /* grayball.png */,
@@ -706,6 +723,10 @@
 				5F030C6B185ADD1400584DCD /* NSDictionary+Zuse.m */,
 				5F030C6D185AE0D300584DCD /* NSArray+Zuse.h */,
 				5F030C6E185AE0D300584DCD /* NSArray+Zuse.m */,
+				5F8138CF1898C338009F3495 /* NSString+Zuse.h */,
+				5F8138D01898C338009F3495 /* NSString+Zuse.m */,
+				5F8138D21898C36B009F3495 /* NSNumber+Zuse.h */,
+				5F8138D31898C36B009F3495 /* NSNumber+Zuse.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -937,6 +958,7 @@
 				7843FA96184BFBFE00DCE527 /* blue plus sign.png in Resources */,
 				4C9E43DF188B66D300045D86 /* arrow-circle-double-135.png in Resources */,
 				5FAFE3601891C8B300131354 /* breakout.json in Resources */,
+				4CF1D43218995EC000B5568F /* refresh.png in Resources */,
 				4C721A59188EFAF000D3FDEF /* pause.png in Resources */,
 				4C721A55188EF97600D3FDEF /* stop.png in Resources */,
 				7843FAA9184C47A200DCE527 /* plus event.png in Resources */,
@@ -950,6 +972,7 @@
 				7843FAA5184C1B5600DCE527 /* if.png in Resources */,
 				4CF303F31859238900B57B95 /* new_project.json in Resources */,
 				4CF1CBCA17EF882A00636E0D /* Images.xcassets in Resources */,
+				4CF1D4301898BB4300B5568F /* yoda.jpg in Resources */,
 				4C9E43DB188B65B800045D86 /* grid.png in Resources */,
 				4CB1E181188E314B004F5D96 /* arrow-090.png in Resources */,
 				4CB1E183188E314B004F5D96 /* arrow-270.png in Resources */,
@@ -1030,6 +1053,7 @@
 				7855BCC31837F47E006493F9 /* ZSCodeStatement.m in Sources */,
 				78645C53184AB12A00EE14A9 /* ZSCodeEditorTableViewCellSet.m in Sources */,
 				7855BCBF1837F47E006493F9 /* ZSCodeStatementCall.m in Sources */,
+				5F8138D9189A1DF1009F3495 /* ZSComponentNode.m in Sources */,
 				4C62B0BB18564F9D007CC9CD /* ZSMenuController.m in Sources */,
 				4C1BB6F91888B36F004A3DEA /* ZSSettingsViewController.m in Sources */,
 				78C142041859262600C393ED /* ZSCodeEditorTableViewCellCall.m in Sources */,
@@ -1038,6 +1062,7 @@
 				4CF303F11856E5DB00B57B95 /* ZSProject.m in Sources */,
 				4C62B0BC18564F9D007CC9CD /* ZSSpriteController.m in Sources */,
 				5F0139AC1856896F005D7FAE /* ZSEditorViewController.m in Sources */,
+				5F8138D11898C338009F3495 /* NSString+Zuse.m in Sources */,
 				7855BCC21837F47E006493F9 /* ZSCodeStatementSet.m in Sources */,
 				5F39DFC7188A40A0008ECAC1 /* NSArray+BlocksKit.m in Sources */,
 				5F39DFD5188A40A0008ECAC1 /* NSTimer+BlocksKit.m in Sources */,
@@ -1071,6 +1096,7 @@
 				5F0139B51856B225005D7FAE /* ZSCodeEditorPopoverTableViewController.m in Sources */,
 				2C6B5D6A183D43AB00E3D56C /* ZSSpriteTouchComponent.m in Sources */,
 				5F39DFCD188A40A0008ECAC1 /* NSMutableIndexSet+BlocksKit.m in Sources */,
+				5F8138D41898C36B009F3495 /* NSNumber+Zuse.m in Sources */,
 				7855BCCA1837FA97006493F9 /* ZSCodeEditorViewController.m in Sources */,
 				4C5F732318873A59007F61B3 /* ZSGrid.m in Sources */,
 				5F39DFD1188A40A0008ECAC1 /* NSObject+BlockObservation.m in Sources */,

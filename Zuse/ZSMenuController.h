@@ -9,9 +9,12 @@
 #import <UIKit/UIKit.h>
 
 @interface ZSMenuController : NSObject <UITableViewDataSource, UITableViewDelegate>
+
+@property (nonatomic, assign) BOOL rendererRunning;
+
 @property (strong, nonatomic) void(^playSelected)();
-@property (strong, nonatomic) void(^pauseSelected)();
 @property (strong, nonatomic) void(^backSelected)();
 @property (strong, nonatomic) void(^settingsSelected)();
 @property (strong, nonatomic) void(^stopSelected)();
+
 @end

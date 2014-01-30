@@ -131,6 +131,10 @@
     else if ([key isEqualToString:@"on_event"]) {
         [_events[context.objectID] setObject:@{ @"code": data[@"code"], @"context": context } forKey:data[@"name"]];
     }
+    
+    else if ([key isEqualToString:@"trigger_event"]) {
+        [self triggerEvent:data[@"name"] parameters:data[@"parameters"]];
+    }
 
     else {
         return [self evaluateExpression:code context:context];

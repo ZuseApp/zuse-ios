@@ -46,8 +46,8 @@
     UISlider *slider = (UISlider *) sender;
     
     if (slider.value > 1) {
-        float width = slider.value;
-        float height = width * _grid.size.height / _grid.size.width;
+        CGFloat width = slider.value;
+        CGFloat height = width * _grid.size.height / _grid.size.width;
     
         _grid.dimensions = CGSizeMake(width, height);
     }
