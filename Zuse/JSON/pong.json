@@ -134,10 +134,59 @@
     }
   },
   "collision_groups": {
-    "paddle": ["ball"],
-    "ball": ["paddle"]
+    "paddle": [
+      "ball"
+    ],
+    "ball": [
+      "paddle"
+    ]
   },
   "objects": [
+    {
+      "id": "score",
+      "properties": {
+        "x": 270,
+        "y": 543,
+        "width": 100,
+        "height": 50,
+        "text": "0",
+        "score": 0
+      },
+      "physics_body": "none",
+      "collision_group": "text",
+      "type": "text",
+      "code": [
+        {
+          "on_event": {
+            "name": "score",
+            "parameters": [],
+            "code": [
+              {
+                "set": [
+                  "score",
+                  {
+                    "+": [
+                      {
+                        "get": "score"
+                      },
+                      1
+                    ]
+                  }
+                ]
+              },
+              {
+                "set": [
+                  "text",
+                  {
+                    "get": "score"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
     {
       "id": "paddle1",
       "type": "image",
@@ -227,6 +276,12 @@
           }
         },
         {
+          "set": [
+            "hits left",
+            1
+          ]
+        },
+        {
           "on_event": {
             "name": "collision",
             "parameters": [
@@ -234,42 +289,9 @@
             ],
             "code": [
               {
-                "if": {
-                  "test": {
-                    "or": [
-                      {
-                        "==": [
-                          {
-                            "get": "other_sprite"
-                          },
-                          "paddle1"
-                        ]
-                      },
-                      {
-                        "==": [
-                          {
-                            "get": "other_sprite"
-                          },
-                          "paddle2"
-                        ]
-                      }
-                    ]
-                  },
-                  "true": [
-                    {
-                      "set": [
-                        "speed",
-                        {
-                          "+": [
-                            {
-                              "get": "speed"
-                            },
-                            2
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                "trigger_event": {
+                  "name": "score",
+                  "parameters": {}
                 }
               }
             ]

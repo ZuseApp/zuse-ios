@@ -5,6 +5,7 @@
     "Disappearable" : {
       "parameters" : [],
       "code" : [
+        { "set": ["hits left", 1] },
         {
           "on_event": {
             "name": "collision",
@@ -19,7 +20,7 @@
                   ]
                 }
               },
-              { "trigger_event": { "name": "score", "parameters": [] } }
+              { "trigger_event": { "name": "score", "parameters": {} } }
             ]
           }
         }
