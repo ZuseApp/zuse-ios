@@ -256,6 +256,8 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
         ZSComponentNode *nodeA = (ZSComponentNode *)contact.bodyA.node;
         ZSComponentNode *nodeB = (ZSComponentNode *)contact.bodyB.node;
         
+        [self addParticle:nodeA.identifier position:nodeA.position];
+        
         [_interpreter triggerEvent:@"collision"
             onObjectWithIdentifier:nodeA.identifier];
         [_interpreter triggerEvent:@"collision"
@@ -345,6 +347,34 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
         [self.physicsWorld removeJoint:joint];
         [_physicsJoints removeObjectForKey:identifier];
     }
+}
+
+- (void)addParticle:(NSString *)identifier
+            position:(CGPoint)position{
+    
+    //TODO make path generic
+    NSString *burstPath =
+    [[NSBundle mainBundle]
+     pathForResource:@"BrickExplosion" ofType:@"sks"];
+    
+    SKEmitterNode *burstNode =
+    [NSKeyedUnarchiver unarchiveObjectWithFile:burstPath];
+    
+    burstNode.position = CGPointMake(position.x, position.y);
+    
+    [self addChild:burstNode];
+    APARunOneShotEmitter(burstNode, 0.15f);
+}
+
+void APARunOneShotEmitter(SKEmitterNode *emitter, CGFloat duration) {
+    [emitter runAction:[SKAction sequence:@[
+                                            [SKAction waitForDuration:duration],
+                                            [SKAction runBlock:^{
+        emitter.particleBirthRate = 0;
+    }],
+                                            [SKAction waitForDuration:emitter.particleLifetime + emitter.particleLifetimeRange],
+                                            [SKAction removeFromParent],
+                                            ]]];
 }
 
 - (void)interpreter:(ZSInterpreter *)interpreter
