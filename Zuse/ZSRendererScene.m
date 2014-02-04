@@ -69,6 +69,7 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
             
             ZSComponentNode *node = [ZSComponentNode node];
             node.identifier = object[@"id"];
+//            node.particleType = object[@"particle_type"];
             node.name = kZSSpriteName;
             node.position = position;
             
@@ -93,7 +94,6 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
             
             ZSSpriteTouchComponent *touchComponent = [ZSSpriteTouchComponent new];
             touchComponent.spriteId = object[@"id"];
-            
             
             touchComponent.touchesBegan = ^(UITouch *touch) {
                 if (node.physicsBody) {
@@ -256,8 +256,6 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
         ZSComponentNode *nodeA = (ZSComponentNode *)contact.bodyA.node;
         ZSComponentNode *nodeB = (ZSComponentNode *)contact.bodyB.node;
         
-        [self addParticle:nodeA.identifier position:nodeA.position];
-        
         [_interpreter triggerEvent:@"collision"
             onObjectWithIdentifier:nodeA.identifier];
         [_interpreter triggerEvent:@"collision"
@@ -268,7 +266,6 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
         NSLog(@"");
     }
 }
-
 
 - (void)moveSpriteWithIdentifier:(NSString *)identifier
                        direction:(CGFloat)direction
@@ -321,6 +318,8 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
 }
 
 - (void)removeSpriteWithIdentifier:(NSString *)identifier {
+    ZSComponentNode *node = _spriteNodes[identifier];
+    [self addParticle:identifier position:node.position duration:0.15f particleType:@"BrickExplosion"];
     [self removePhysicsJoint:identifier];
     [self removeJointNode:identifier];
     [self removeSpriteNode:identifier];
@@ -350,12 +349,14 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
 }
 
 - (void)addParticle:(NSString *)identifier
-            position:(CGPoint)position{
+            position:(CGPoint)position
+            duration:(float)duration
+            particleType:(NSString *)particleType{
     
     //TODO make path generic
     NSString *burstPath =
     [[NSBundle mainBundle]
-     pathForResource:@"BrickExplosion" ofType:@"sks"];
+     pathForResource:particleType ofType:@"sks"];
     
     SKEmitterNode *burstNode =
     [NSKeyedUnarchiver unarchiveObjectWithFile:burstPath];
@@ -363,7 +364,7 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
     burstNode.position = CGPointMake(position.x, position.y);
     
     [self addChild:burstNode];
-    APARunOneShotEmitter(burstNode, 0.15f);
+    APARunOneShotEmitter(burstNode, duration);
 }
 
 void APARunOneShotEmitter(SKEmitterNode *emitter, CGFloat duration) {
