@@ -37,7 +37,7 @@
         cell.imageView.image = [UIImage imageNamed:@"back_arrow.png"];
     }
     else if (indexPath.row == 3) {
-        cell.textLabel.text = @"Groups";
+        cell.imageView.image = [UIImage imageNamed:@"groups.png"];
     }
     cell.accessoryType = UITableViewCellAccessoryNone;
     return cell;
