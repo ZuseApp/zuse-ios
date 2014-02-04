@@ -10,7 +10,11 @@
 
 @implementation ZSMenuController
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 3;
+    if (_rendererRunning) {
+        return 3;
+    } else {
+        return 4;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -32,6 +36,9 @@
     else if (indexPath.row == 2) {
         cell.imageView.image = [UIImage imageNamed:@"back_arrow.png"];
     }
+    else if (indexPath.row == 3) {
+        cell.textLabel.text = @"Groups";
+    }
     cell.accessoryType = UITableViewCellAccessoryNone;
     return cell;
 }
@@ -52,6 +59,8 @@
     }
     else if (indexPath.row == 2 && _backSelected) {
         _backSelected();
+    } else if (indexPath.row == 3 && _groupsSelected) {
+        _groupsSelected();
     }
 }
 

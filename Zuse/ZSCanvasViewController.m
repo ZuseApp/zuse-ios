@@ -1,5 +1,6 @@
 #import "ZSCanvasViewController.h"
 #import "ZSRendererViewController.h"
+#import "ZSPhysicsGroupingViewController.h"
 #import "ZSSpriteView.h"
 #import "ZSMenuController.h"
 #import "ZSSpriteController.h"
@@ -90,6 +91,14 @@
     } else if  ([segue.identifier isEqualToString:@"settings"]) {
         ZSSettingsViewController *settingsController = (ZSSettingsViewController *)segue.destinationViewController;
         settingsController.grid = ((ZSCanvasView *) self.view).grid;
+    } else if ([segue.identifier isEqualToString:@"physicsGroups"]) {
+        ZSPhysicsGroupingViewController *groupingController = (ZSPhysicsGroupingViewController *)segue.destinationViewController;
+        
+        groupingController.sprites = _project.assembledJSON[@"objects"];
+        groupingController.collisionGroups = _project.assembledJSON[@"collision_groups"];
+        groupingController.didFinish = ^{
+            [self dismissViewControllerAnimated:NO completion:^{ }];
+        };
     }
 }
 
@@ -274,6 +283,12 @@
         if (weakSelf.didFinish) {
             weakSelf.didFinish();
         }
+    };
+    
+    _menuController.groupsSelected = ^{
+        [weakSelf hideDrawersAndPerformAction:^{
+            [weakSelf performSegueWithIdentifier:@"physicsGroups" sender:weakSelf];
+        }];
     };
     
     __block CGPoint offset;

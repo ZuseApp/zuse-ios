@@ -98,11 +98,14 @@
 		5F39DFD5188A40A0008ECAC1 /* NSTimer+BlocksKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F39DFC6188A40A0008ECAC1 /* NSTimer+BlocksKit.m */; };
 		5F39DFD7188A472E008ECAC1 /* ZSInterpreterExpressionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F39DFD6188A472E008ECAC1 /* ZSInterpreterExpressionTests.m */; };
 		5F41ACB818341C980089D136 /* ZSExecutionContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F41ACB718341C980089D136 /* ZSExecutionContext.m */; };
+		5F50CBD218A1529000B7C020 /* ZSSelectedGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F50CBD118A1529000B7C020 /* ZSSelectedGroupViewController.m */; };
 		5F8138C918945D8F009F3495 /* object_transform.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F8138C818945D8F009F3495 /* object_transform.json */; };
 		5F8138CD18945DDD009F3495 /* object_transform_result.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F8138CC18945DDD009F3495 /* object_transform_result.json */; };
 		5F8138D11898C338009F3495 /* NSString+Zuse.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8138D01898C338009F3495 /* NSString+Zuse.m */; };
 		5F8138D41898C36B009F3495 /* NSNumber+Zuse.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8138D31898C36B009F3495 /* NSNumber+Zuse.m */; };
 		5F8138D9189A1DF1009F3495 /* ZSComponentNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8138D8189A1DF1009F3495 /* ZSComponentNode.m */; };
+		5F8138DC189CA574009F3495 /* ZSPhysicsGroupingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8138DB189CA574009F3495 /* ZSPhysicsGroupingViewController.m */; };
+		5F8138DF18A0BA07009F3495 /* ZSCollisionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8138DE18A0BA07009F3495 /* ZSCollisionsViewController.m */; };
 		5FAFE3601891C8B300131354 /* breakout.json in Resources */ = {isa = PBXBuildFile; fileRef = 5FAFE35F1891C8B300131354 /* breakout.json */; };
 		5FEFB89A182B5376007DAFCF /* pong.json in Resources */ = {isa = PBXBuildFile; fileRef = 5FEFB899182B5376007DAFCF /* pong.json */; };
 		78346A0A183C623400540D54 /* ZSCodeStatementObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 78346A09183C623400540D54 /* ZSCodeStatementObject.m */; };
@@ -287,6 +290,8 @@
 		5F39DFD6188A472E008ECAC1 /* ZSInterpreterExpressionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSInterpreterExpressionTests.m; sourceTree = "<group>"; };
 		5F41ACB618341C980089D136 /* ZSExecutionContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSExecutionContext.h; sourceTree = "<group>"; };
 		5F41ACB718341C980089D136 /* ZSExecutionContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSExecutionContext.m; sourceTree = "<group>"; };
+		5F50CBD018A1529000B7C020 /* ZSSelectedGroupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSSelectedGroupViewController.h; sourceTree = "<group>"; };
+		5F50CBD118A1529000B7C020 /* ZSSelectedGroupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSSelectedGroupViewController.m; sourceTree = "<group>"; };
 		5F8138C818945D8F009F3495 /* object_transform.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = object_transform.json; path = CodeSamples/object_transform.json; sourceTree = "<group>"; };
 		5F8138CC18945DDD009F3495 /* object_transform_result.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = object_transform_result.json; path = CodeSamples/object_transform_result.json; sourceTree = "<group>"; };
 		5F8138CF1898C338009F3495 /* NSString+Zuse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Zuse.h"; sourceTree = "<group>"; };
@@ -295,6 +300,10 @@
 		5F8138D31898C36B009F3495 /* NSNumber+Zuse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNumber+Zuse.m"; sourceTree = "<group>"; };
 		5F8138D7189A1DF1009F3495 /* ZSComponentNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSComponentNode.h; sourceTree = "<group>"; };
 		5F8138D8189A1DF1009F3495 /* ZSComponentNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSComponentNode.m; sourceTree = "<group>"; };
+		5F8138DA189CA574009F3495 /* ZSPhysicsGroupingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSPhysicsGroupingViewController.h; sourceTree = "<group>"; };
+		5F8138DB189CA574009F3495 /* ZSPhysicsGroupingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSPhysicsGroupingViewController.m; sourceTree = "<group>"; };
+		5F8138DD18A0BA07009F3495 /* ZSCollisionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCollisionsViewController.h; sourceTree = "<group>"; };
+		5F8138DE18A0BA07009F3495 /* ZSCollisionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCollisionsViewController.m; sourceTree = "<group>"; };
 		5FAFE35F1891C8B300131354 /* breakout.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = breakout.json; path = JSON/breakout.json; sourceTree = "<group>"; };
 		5FEFB899182B5376007DAFCF /* pong.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = pong.json; path = JSON/pong.json; sourceTree = "<group>"; };
 		78346A08183C623400540D54 /* ZSCodeStatementObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCodeStatementObject.h; sourceTree = "<group>"; };
@@ -513,6 +522,7 @@
 				4C0D470717FB927600F13786 /* ZSCanvasViewController.m */,
 				4C1BB6F71888B36F004A3DEA /* ZSSettingsViewController.h */,
 				4C1BB6F81888B36F004A3DEA /* ZSSettingsViewController.m */,
+				5F50CBCF18A1526900B7C020 /* Groups */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -799,6 +809,19 @@
 			name = BlocksKit;
 			sourceTree = "<group>";
 		};
+		5F50CBCF18A1526900B7C020 /* Groups */ = {
+			isa = PBXGroup;
+			children = (
+				5F8138DA189CA574009F3495 /* ZSPhysicsGroupingViewController.h */,
+				5F8138DB189CA574009F3495 /* ZSPhysicsGroupingViewController.m */,
+				5F8138DD18A0BA07009F3495 /* ZSCollisionsViewController.h */,
+				5F8138DE18A0BA07009F3495 /* ZSCollisionsViewController.m */,
+				5F50CBD018A1529000B7C020 /* ZSSelectedGroupViewController.h */,
+				5F50CBD118A1529000B7C020 /* ZSSelectedGroupViewController.m */,
+			);
+			name = Groups;
+			sourceTree = "<group>";
+		};
 		5F8138CE18945DE0009F3495 /* Compiler */ = {
 			isa = PBXGroup;
 			children = (
@@ -1049,6 +1072,7 @@
 				4CF1CBBE17EF882A00636E0D /* main.m in Sources */,
 				788F70CF1851590700C68F83 /* ZSCodeStatementNew.m in Sources */,
 				5F39DFD0188A40A0008ECAC1 /* NSObject+AssociatedObjects.m in Sources */,
+				5F8138DC189CA574009F3495 /* ZSPhysicsGroupingViewController.m in Sources */,
 				5F39DFCF188A40A0008ECAC1 /* NSMutableSet+BlocksKit.m in Sources */,
 				7855BCC31837F47E006493F9 /* ZSCodeStatement.m in Sources */,
 				78645C53184AB12A00EE14A9 /* ZSCodeEditorTableViewCellSet.m in Sources */,
@@ -1066,6 +1090,7 @@
 				7855BCC21837F47E006493F9 /* ZSCodeStatementSet.m in Sources */,
 				5F39DFC7188A40A0008ECAC1 /* NSArray+BlocksKit.m in Sources */,
 				5F39DFD5188A40A0008ECAC1 /* NSTimer+BlocksKit.m in Sources */,
+				5F50CBD218A1529000B7C020 /* ZSSelectedGroupViewController.m in Sources */,
 				5F39DFCA188A40A0008ECAC1 /* NSInvocation+BlocksKit.m in Sources */,
 				5F39DFD2188A40A0008ECAC1 /* NSObject+BlocksKit.m in Sources */,
 				4C5F732718874B51007F61B3 /* ZSCanvasView.m in Sources */,
@@ -1098,6 +1123,7 @@
 				5F39DFCD188A40A0008ECAC1 /* NSMutableIndexSet+BlocksKit.m in Sources */,
 				5F8138D41898C36B009F3495 /* NSNumber+Zuse.m in Sources */,
 				7855BCCA1837FA97006493F9 /* ZSCodeEditorViewController.m in Sources */,
+				5F8138DF18A0BA07009F3495 /* ZSCollisionsViewController.m in Sources */,
 				4C5F732318873A59007F61B3 /* ZSGrid.m in Sources */,
 				5F39DFD1188A40A0008ECAC1 /* NSObject+BlockObservation.m in Sources */,
 				4C4087091852480F009117E1 /* ZSSpriteLibrary.m in Sources */,

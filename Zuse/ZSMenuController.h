@@ -16,5 +16,6 @@
 @property (strong, nonatomic) void(^backSelected)();
 @property (strong, nonatomic) void(^settingsSelected)();
 @property (strong, nonatomic) void(^stopSelected)();
+@property (strong, nonatomic) void(^groupsSelected)();
 
 @end
