@@ -34,6 +34,7 @@
         [_projectJSON setObject:_title forKey:@"title"];
         [_projectJSON setObject:[NSMutableDictionary dictionary] forKey:@"traits"];
         [_projectJSON setObject:[NSMutableArray array] forKey:@"objects"];
+        [_projectJSON setObject:[NSMutableArray array] forKey:@"collision_groups"];
     }
     return self;
 }

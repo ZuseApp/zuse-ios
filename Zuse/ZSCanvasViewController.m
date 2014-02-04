@@ -301,6 +301,7 @@
         if ([@"text" isEqualToString:type]) {
              json[@"properties"][@"text"] = @"Value";
         }
+        json[@"collision_group"] = @"";
         
         // Width and height of frame can be calculated now.
         CGRect originalFrame = spriteView.content.frame;
