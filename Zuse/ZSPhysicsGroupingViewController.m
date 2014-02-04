@@ -183,6 +183,9 @@
     [UIView animateWithDuration:0.3
                      animations:^{
                          [self setUnzoomedPositions];
+                         [_spriteViews each:^(ZSSpriteView *spriteView) {
+                             spriteView.alpha = 1.0;
+                         }];
                      } completion:^(BOOL finished) {
                          _didFinish();
                      }];
