@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		2C6B5D6A183D43AB00E3D56C /* ZSSpriteTouchComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C6B5D69183D43AB00E3D56C /* ZSSpriteTouchComponent.m */; };
 		2CA9D387183F3F0300401231 /* ZSRendererScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9D386183F3F0300401231 /* ZSRendererScene.m */; };
+		2CF6E518189D7FB900E2779C /* BrickExplosion.sks in Resources */ = {isa = PBXBuildFile; fileRef = 2CF6E516189D7FB900E2779C /* BrickExplosion.sks */; };
+		2CF6E519189D7FB900E2779C /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CF6E517189D7FB900E2779C /* spark.png */; };
 		4C0D470517FB800400F13786 /* guess_a_number.json in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D470417FB800400F13786 /* guess_a_number.json */; };
 		4C0D470817FB927600F13786 /* ZSCanvasViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0D470717FB927600F13786 /* ZSCanvasViewController.m */; };
 		4C1BB6F91888B36F004A3DEA /* ZSSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1BB6F81888B36F004A3DEA /* ZSSettingsViewController.m */; };
@@ -152,6 +154,8 @@
 		2C6B5D69183D43AB00E3D56C /* ZSSpriteTouchComponent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSSpriteTouchComponent.m; sourceTree = "<group>"; };
 		2CA9D385183F3F0300401231 /* ZSRendererScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSRendererScene.h; sourceTree = "<group>"; };
 		2CA9D386183F3F0300401231 /* ZSRendererScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSRendererScene.m; sourceTree = "<group>"; };
+		2CF6E516189D7FB900E2779C /* BrickExplosion.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = BrickExplosion.sks; sourceTree = "<group>"; };
+		2CF6E517189D7FB900E2779C /* spark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spark.png; sourceTree = "<group>"; };
 		4C0D470417FB800400F13786 /* guess_a_number.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = guess_a_number.json; path = JSON/guess_a_number.json; sourceTree = "<group>"; };
 		4C0D470617FB927600F13786 /* ZSCanvasViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCanvasViewController.h; sourceTree = "<group>"; };
 		4C0D470717FB927600F13786 /* ZSCanvasViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCanvasViewController.m; sourceTree = "<group>"; };
@@ -377,6 +381,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2CF6E515189D7F8C00E2779C /* Particles */ = {
+			isa = PBXGroup;
+			children = (
+				2CF6E516189D7FB900E2779C /* BrickExplosion.sks */,
+				2CF6E517189D7FB900E2779C /* spark.png */,
+			);
+			name = Particles;
+			sourceTree = "<group>";
+		};
 		4C2D1ECC1891EA32002C431A /* ui-images */ = {
 			isa = PBXGroup;
 			children = (
@@ -669,6 +682,7 @@
 		4CF1CBB817EF882A00636E0D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				2CF6E515189D7F8C00E2779C /* Particles */,
 				4C2D1ECC1891EA32002C431A /* ui-images */,
 				4CF1CBFE17EFE13C00636E0D /* images */,
 				5FEFB898182B5360007DAFCF /* JSON */,
@@ -997,6 +1011,7 @@
 				4CF1CBCA17EF882A00636E0D /* Images.xcassets in Resources */,
 				4CF1D4301898BB4300B5568F /* yoda.jpg in Resources */,
 				4C9E43DB188B65B800045D86 /* grid.png in Resources */,
+				2CF6E519189D7FB900E2779C /* spark.png in Resources */,
 				4CB1E181188E314B004F5D96 /* arrow-090.png in Resources */,
 				4CB1E183188E314B004F5D96 /* arrow-270.png in Resources */,
 				7843FAAB184C4BF300DCE527 /* plus.png in Resources */,
@@ -1007,6 +1022,7 @@
 				4CF1CBC517EF882A00636E0D /* Main.storyboard in Resources */,
 				4C430DED188B8C12009D754C /* gear--pencil.png in Resources */,
 				4CB1E182188E314B004F5D96 /* arrow-180.png in Resources */,
+				2CF6E518189D7FB900E2779C /* BrickExplosion.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
