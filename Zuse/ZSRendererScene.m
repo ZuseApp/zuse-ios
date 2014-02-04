@@ -69,6 +69,7 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
             
             ZSComponentNode *node = [ZSComponentNode node];
             node.identifier = object[@"id"];
+//            node.particleType = object[@"particle_type"];
             node.name = kZSSpriteName;
             node.position = position;
             
@@ -93,7 +94,6 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
             
             ZSSpriteTouchComponent *touchComponent = [ZSSpriteTouchComponent new];
             touchComponent.spriteId = object[@"id"];
-            
             
             touchComponent.touchesBegan = ^(UITouch *touch) {
                 if (node.physicsBody) {
@@ -267,7 +267,6 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
     }
 }
 
-
 - (void)moveSpriteWithIdentifier:(NSString *)identifier
                        direction:(CGFloat)direction
                            speed:(CGFloat)speed {
@@ -319,6 +318,8 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
 }
 
 - (void)removeSpriteWithIdentifier:(NSString *)identifier {
+    ZSComponentNode *node = _spriteNodes[identifier];
+    [self addParticle:identifier position:node.position duration:0.15f particleType:@"BrickExplosion"];
     [self removePhysicsJoint:identifier];
     [self removeJointNode:identifier];
     [self removeSpriteNode:identifier];
@@ -345,6 +346,36 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
         [self.physicsWorld removeJoint:joint];
         [_physicsJoints removeObjectForKey:identifier];
     }
+}
+
+- (void)addParticle:(NSString *)identifier
+            position:(CGPoint)position
+            duration:(float)duration
+            particleType:(NSString *)particleType{
+    
+    //TODO make path generic
+    NSString *burstPath =
+    [[NSBundle mainBundle]
+     pathForResource:particleType ofType:@"sks"];
+    
+    SKEmitterNode *burstNode =
+    [NSKeyedUnarchiver unarchiveObjectWithFile:burstPath];
+    
+    burstNode.position = CGPointMake(position.x, position.y);
+    
+    [self addChild:burstNode];
+    APARunOneShotEmitter(burstNode, duration);
+}
+
+void APARunOneShotEmitter(SKEmitterNode *emitter, CGFloat duration) {
+    [emitter runAction:[SKAction sequence:@[
+                                            [SKAction waitForDuration:duration],
+                                            [SKAction runBlock:^{
+        emitter.particleBirthRate = 0;
+    }],
+                                            [SKAction waitForDuration:emitter.particleLifetime + emitter.particleLifetimeRange],
+                                            [SKAction removeFromParent],
+                                            ]]];
 }
 
 - (void)interpreter:(ZSInterpreter *)interpreter
