@@ -32,6 +32,7 @@
 		4C721A55188EF97600D3FDEF /* stop.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C721A54188EF97600D3FDEF /* stop.png */; };
 		4C721A59188EFAF000D3FDEF /* pause.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C721A58188EFAF000D3FDEF /* pause.png */; };
 		4C7C748C18847A0000729888 /* ZSTemplateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C7C748B18847A0000729888 /* ZSTemplateViewController.m */; };
+		4C9E3B3E18A33E03009CD8FB /* ZSAdjustControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C9E3B3D18A33E03009CD8FB /* ZSAdjustControl.m */; };
 		4C9E43DB188B65B800045D86 /* grid.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C9E43DA188B65B800045D86 /* grid.png */; };
 		4C9E43DD188B660700045D86 /* arrow-move.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C9E43DC188B660700045D86 /* arrow-move.png */; };
 		4C9E43DF188B66D300045D86 /* arrow-circle-double-135.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C9E43DE188B66D300045D86 /* arrow-circle-double-135.png */; };
@@ -63,6 +64,8 @@
 		4CF1D43218995EC000B5568F /* refresh.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CF1D43118995EC000B5568F /* refresh.png */; };
 		4CF303F11856E5DB00B57B95 /* ZSProject.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF303F01856E5DB00B57B95 /* ZSProject.m */; };
 		4CF303F31859238900B57B95 /* new_project.json in Resources */ = {isa = PBXBuildFile; fileRef = 4CF303F21859238900B57B95 /* new_project.json */; };
+		4CF3B00618A3190B0069973F /* EasyTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF3B00518A3190B0069973F /* EasyTableView.m */; };
+		4CF3B00A18A31EF80069973F /* ZSAdjustView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CF3B00918A31EF80069973F /* ZSAdjustView.xib */; };
 		5F0139AC1856896F005D7FAE /* ZSEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0139AB1856896F005D7FAE /* ZSEditorViewController.m */; };
 		5F0139AF18568EC2005D7FAE /* ZSTraitEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0139AE18568EC2005D7FAE /* ZSTraitEditorViewController.m */; };
 		5F0139B218569EBD005D7FAE /* ZSCodeEditorPopoverExpressionOptionsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0139B118569EBD005D7FAE /* ZSCodeEditorPopoverExpressionOptionsDataSource.m */; };
@@ -189,6 +192,8 @@
 		4C721A58188EFAF000D3FDEF /* pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pause.png; sourceTree = "<group>"; };
 		4C7C748A18847A0000729888 /* ZSTemplateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSTemplateViewController.h; sourceTree = "<group>"; };
 		4C7C748B18847A0000729888 /* ZSTemplateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSTemplateViewController.m; sourceTree = "<group>"; };
+		4C9E3B3C18A33E03009CD8FB /* ZSAdjustControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSAdjustControl.h; sourceTree = "<group>"; };
+		4C9E3B3D18A33E03009CD8FB /* ZSAdjustControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSAdjustControl.m; sourceTree = "<group>"; };
 		4C9E43DA188B65B800045D86 /* grid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grid.png; sourceTree = "<group>"; };
 		4C9E43DC188B660700045D86 /* arrow-move.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow-move.png"; sourceTree = "<group>"; };
 		4C9E43DE188B66D300045D86 /* arrow-circle-double-135.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow-circle-double-135.png"; sourceTree = "<group>"; };
@@ -228,6 +233,9 @@
 		4CF303EF1856E5DB00B57B95 /* ZSProject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSProject.h; sourceTree = "<group>"; };
 		4CF303F01856E5DB00B57B95 /* ZSProject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSProject.m; sourceTree = "<group>"; };
 		4CF303F21859238900B57B95 /* new_project.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = new_project.json; sourceTree = "<group>"; };
+		4CF3B00418A3190B0069973F /* EasyTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyTableView.h; sourceTree = "<group>"; };
+		4CF3B00518A3190B0069973F /* EasyTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EasyTableView.m; sourceTree = "<group>"; };
+		4CF3B00918A31EF80069973F /* ZSAdjustView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZSAdjustView.xib; sourceTree = "<group>"; };
 		5F0139AA1856896F005D7FAE /* ZSEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSEditorViewController.h; sourceTree = "<group>"; };
 		5F0139AB1856896F005D7FAE /* ZSEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSEditorViewController.m; sourceTree = "<group>"; };
 		5F0139AD18568EC2005D7FAE /* ZSTraitEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSTraitEditorViewController.h; sourceTree = "<group>"; };
@@ -604,8 +612,13 @@
 		4CE3562B188B0943007024C0 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				4CF3B00418A3190B0069973F /* EasyTableView.h */,
+				4CF3B00518A3190B0069973F /* EasyTableView.m */,
+				4C9E3B3C18A33E03009CD8FB /* ZSAdjustControl.h */,
+				4C9E3B3D18A33E03009CD8FB /* ZSAdjustControl.m */,
 				4CE3562D188B0FF1007024C0 /* ZSAdjustView.h */,
 				4CE3562E188B0FF1007024C0 /* ZSAdjustView.m */,
+				4CF3B00918A31EF80069973F /* ZSAdjustView.xib */,
 				4C5F732518874B51007F61B3 /* ZSCanvasView.h */,
 				4C5F732618874B51007F61B3 /* ZSCanvasView.m */,
 				4CF1CC0C17EFF64500636E0D /* ZSSpriteView.h */,
@@ -1017,6 +1030,7 @@
 				7843FAAB184C4BF300DCE527 /* plus.png in Resources */,
 				4CB1E184188E314B004F5D96 /* arrow.png in Resources */,
 				4C9E43E3188B698200045D86 /* cross.png in Resources */,
+				4CF3B00A18A31EF80069973F /* ZSAdjustView.xib in Resources */,
 				5F154BDE18592E7E00A759F1 /* Main-iPad.storyboard in Resources */,
 				4CF1CBBC17EF882A00636E0D /* InfoPlist.strings in Resources */,
 				4CF1CBC517EF882A00636E0D /* Main.storyboard in Resources */,
@@ -1096,6 +1110,7 @@
 				5F8138D9189A1DF1009F3495 /* ZSComponentNode.m in Sources */,
 				4C62B0BB18564F9D007CC9CD /* ZSMenuController.m in Sources */,
 				4C1BB6F91888B36F004A3DEA /* ZSSettingsViewController.m in Sources */,
+				4CF3B00618A3190B0069973F /* EasyTableView.m in Sources */,
 				78C142041859262600C393ED /* ZSCodeEditorTableViewCellCall.m in Sources */,
 				5F030C6F185AE0D300584DCD /* NSArray+Zuse.m in Sources */,
 				5F0139BB1856BCA7005D7FAE /* ZSTraitEditorParametersViewController.m in Sources */,
@@ -1141,6 +1156,7 @@
 				7855BCCA1837FA97006493F9 /* ZSCodeEditorViewController.m in Sources */,
 				5F8138DF18A0BA07009F3495 /* ZSCollisionsViewController.m in Sources */,
 				4C5F732318873A59007F61B3 /* ZSGrid.m in Sources */,
+				4C9E3B3E18A33E03009CD8FB /* ZSAdjustControl.m in Sources */,
 				5F39DFD1188A40A0008ECAC1 /* NSObject+BlockObservation.m in Sources */,
 				4C4087091852480F009117E1 /* ZSSpriteLibrary.m in Sources */,
 				2CA9D387183F3F0300401231 /* ZSRendererScene.m in Sources */,

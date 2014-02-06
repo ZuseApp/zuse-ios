@@ -10,8 +10,6 @@
 
 @interface ZSAdjustView : UIView
 
-@property (strong, nonatomic) void(^panBegan)(UIPanGestureRecognizer *panGestureRecognizer);
-@property (strong, nonatomic) void(^panMoved)(UIPanGestureRecognizer *panGestureRecognizer);
-@property (strong, nonatomic) void(^panEnded)(UIPanGestureRecognizer *panGestureRecognizer);
+@property (nonatomic, strong) void(^exitTapped)();
 
 @end

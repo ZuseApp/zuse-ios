@@ -8,7 +8,8 @@
 #import "ZSGrid.h"
 #import "ZSCanvasView.h"
 #import "ZSSettingsViewController.h"
-#import "ZSAdjustView.h"
+// #import "ZSAdjustView.h"
+#import "ZSAdjustControl.h"
 
 @interface ZSCanvasViewController ()
 
@@ -19,11 +20,7 @@
 @property (strong, nonatomic) ZSMenuController *menuController;
 
 // Grid Menu
-@property (weak, nonatomic) IBOutlet ZSAdjustView *adjustMenu;
-@property (weak, nonatomic) IBOutlet UILabel *gridWidth;
-@property (weak, nonatomic) IBOutlet UILabel *gridHeight;
-@property (weak, nonatomic) IBOutlet UIView *gridPanel;
-@property (weak, nonatomic) IBOutlet UIView *positionPanel;
+@property (weak, nonatomic) IBOutlet ZSAdjustControl *adjustMenu;
 @property (weak, nonatomic) IBOutlet UIView *rendererView;
 @property (nonatomic, assign) BOOL showRendererAfterMenuClose;
 
@@ -54,6 +51,7 @@
         // Setup delgates, sources and gestures.
         [self setupTableDelegatesAndSources];
         [self setupGestures];
+        [self setupAdjustMenu];
         
         // Load Sprites.
         [self loadSpritesFromProject];
@@ -299,7 +297,7 @@
         NSMutableDictionary *json = [spriteView.spriteJSON deepMutableCopy];
         NSString *type = json[@"type"];
         if ([@"text" isEqualToString:type]) {
-             json[@"properties"][@"text"] = @"Value";
+            json[@"properties"][@"text"] = @"Value";
         }
         json[@"collision_group"] = @"";
         
@@ -329,7 +327,7 @@
         draggedView = [[ZSSpriteView alloc] initWithFrame:frame];
         [draggedView setContentFromJSON:json];
         [weakSelf.view addSubview:draggedView];
-       
+        
         CGFloat scale = spriteView.content.frame.size.width / frame.size.width;
         if (scale < 1) {
             draggedView.transform = CGAffineTransformMakeScale(scale, scale);
@@ -400,7 +398,7 @@
     [self.view addGestureRecognizer:doubleTapGesture];
     
     // Adjust Menu
-    __weak ZSAdjustView *weakAdjust = _adjustMenu;
+    __weak ZSAdjustControl *weakAdjust = _adjustMenu;
     __block CGPoint offset;
     __block CGPoint currentPoint;
     _adjustMenu.panBegan = ^(UIPanGestureRecognizer *panGestureRecognizer) {
@@ -439,7 +437,7 @@
                 action();
             }
             if (_showRendererAfterMenuClose) {
-                [self showGrid:self];
+                [self showAdjustMenu:self];
             }
         }];
     }
@@ -450,7 +448,7 @@
         // If the adjust menu is showing, hide it.
         _showRendererAfterMenuClose = !_adjustMenu.hidden;
         if (_showRendererAfterMenuClose) {
-            [self hideGrid:self];
+            [self hideAdjustMenu:self];
         }
         
         // Position the drawers off of the screen.
@@ -528,7 +526,7 @@
             [longPressGesture.view becomeFirstResponder];
         }
         _editMenu = [UIMenuController sharedMenuController];
-        UIMenuItem *menuItem = [[UIMenuItem alloc] initWithTitle:@"Adjust" action:@selector(showGrid:)];
+        UIMenuItem *menuItem = [[UIMenuItem alloc] initWithTitle:@"Adjust" action:@selector(showAdjustMenu:)];
         UIMenuController *menuController = [UIMenuController sharedMenuController];
         menuController.menuItems = [NSArray arrayWithObject:menuItem];
         [_editMenu setTargetRect:CGRectMake(_lastTouch.x, _lastTouch.y, 0, 0) inView:self.view];
@@ -554,7 +552,7 @@
     if (_spriteViewCopy && action == @selector(paste:)) {
         return YES;
     }
-    if (action == @selector(showGrid:) && _adjustMenu.hidden == YES) {
+    if (action == @selector(showAdjustMenu:) && _adjustMenu.hidden == YES) {
         return YES;
     }
     return NO;
@@ -597,46 +595,19 @@
 
 #pragma mark Adjustment Menu
 
-- (void)showGrid:(id)sender {
+- (void)setupAdjustMenu {
+    _adjustMenu.closeMenu = ^{
+        [self hideAdjustMenu:self];
+    };
+}
+
+- (void)showAdjustMenu:(id)sender {
     [self.view bringSubviewToFront:_adjustMenu];
     _adjustMenu.hidden = NO;
 }
 
-- (IBAction)hideGrid:(id)sender {
+- (IBAction)hideAdjustMenu:(id)sender {
     _adjustMenu.hidden = YES;
-}
-
-- (IBAction)showGridPanel:(id)sender {
-    _gridPanel.hidden = NO;
-    _positionPanel.hidden = YES;
-}
-
-- (IBAction)showPositionPanel:(id)sender {
-    _positionPanel.hidden = NO;
-    _gridPanel.hidden = YES;
-}
-
-
-- (IBAction)gridWidthChanged:(id)sender {
-    ZSCanvasView *view = (ZSCanvasView *)self.view;
-    UIStepper *slider = (UIStepper*)sender;
-    CGSize size = view.grid.dimensions;
-    size.width = view.grid.size.width / slider.value;
-    view.grid.dimensions = size;
-    NSInteger value = slider.value;
-    _gridWidth.text = [NSString stringWithFormat:@"%li", (long)value];
-    [view setNeedsDisplay];
-}
-
-- (IBAction)gridHeightChanged:(id)sender {
-    ZSCanvasView *view = (ZSCanvasView *)self.view;
-    UIStepper *slider = (UIStepper*)sender;
-    CGSize size = view.grid.dimensions;
-    size.height = view.grid.size.height / slider.value;
-    view.grid.dimensions = size;
-    NSInteger value = slider.value;
-    _gridHeight.text = [NSString stringWithFormat:@"%li", (long)value];
-    [view setNeedsDisplay];
 }
 
 @end
