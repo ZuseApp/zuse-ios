@@ -42,6 +42,7 @@
 		4CB1E183188E314B004F5D96 /* arrow-270.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CB1E17F188E314B004F5D96 /* arrow-270.png */; };
 		4CB1E184188E314B004F5D96 /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CB1E180188E314B004F5D96 /* arrow.png */; };
 		4CCE4F841845A541006C7DA0 /* paddle.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CCE4F831845A541006C7DA0 /* paddle.png */; };
+		4CD2311918AC3CC100DC5619 /* ZSTutorial.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CD2311818AC3CC100DC5619 /* ZSTutorial.m */; };
 		4CE340421809F76E009A63A2 /* grayball.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CE340411809F76E009A63A2 /* grayball.png */; };
 		4CE3404E180A0154009A63A2 /* ZSRendererViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE3404D180A0154009A63A2 /* ZSRendererViewController.m */; };
 		4CE3561C188A1355007024C0 /* red_brick.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CE3561B188A1355007024C0 /* red_brick.png */; };
@@ -202,6 +203,8 @@
 		4CB1E17F188E314B004F5D96 /* arrow-270.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow-270.png"; sourceTree = "<group>"; };
 		4CB1E180188E314B004F5D96 /* arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow.png; sourceTree = "<group>"; };
 		4CCE4F831845A541006C7DA0 /* paddle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = paddle.png; sourceTree = "<group>"; };
+		4CD2311718AC3CC100DC5619 /* ZSTutorial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSTutorial.h; sourceTree = "<group>"; };
+		4CD2311818AC3CC100DC5619 /* ZSTutorial.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSTutorial.m; sourceTree = "<group>"; };
 		4CE340411809F76E009A63A2 /* grayball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grayball.png; sourceTree = "<group>"; };
 		4CE3404C180A0154009A63A2 /* ZSRendererViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSRendererViewController.h; sourceTree = "<group>"; };
 		4CE3404D180A0154009A63A2 /* ZSRendererViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSRendererViewController.m; sourceTree = "<group>"; };
@@ -436,6 +439,15 @@
 				4C2D1ECD1891EB65002C431A /* sprite_manifest.json */,
 			);
 			name = manifests;
+			sourceTree = "<group>";
+		};
+		4CD2311618AC3C4100DC5619 /* Tutorial */ = {
+			isa = PBXGroup;
+			children = (
+				4CD2311718AC3CC100DC5619 /* ZSTutorial.h */,
+				4CD2311818AC3CC100DC5619 /* ZSTutorial.m */,
+			);
+			name = Tutorial;
 			sourceTree = "<group>";
 		};
 		4CE3561D188B07D9007024C0 /* Editor */ = {
@@ -679,6 +691,7 @@
 				4CE3561F188B07E7007024C0 /* Renderer */,
 				5F154BDC18592DF900A759F1 /* iPad */,
 				4CF1CBB817EF882A00636E0D /* Supporting Files */,
+				4CD2311618AC3C4100DC5619 /* Tutorial */,
 				4CF1CBC317EF882A00636E0D /* Main.storyboard */,
 				5F154BDD18592E7E00A759F1 /* Main-iPad.storyboard */,
 				4CF1CBC017EF882A00636E0D /* TCAppDelegate.h */,
@@ -1111,6 +1124,7 @@
 				4CF303F11856E5DB00B57B95 /* ZSProject.m in Sources */,
 				4C62B0BC18564F9D007CC9CD /* ZSSpriteController.m in Sources */,
 				5F0139AC1856896F005D7FAE /* ZSEditorViewController.m in Sources */,
+				4CD2311918AC3CC100DC5619 /* ZSTutorial.m in Sources */,
 				5F8138D11898C338009F3495 /* NSString+Zuse.m in Sources */,
 				7855BCC21837F47E006493F9 /* ZSCodeStatementSet.m in Sources */,
 				5F39DFC7188A40A0008ECAC1 /* NSArray+BlocksKit.m in Sources */,

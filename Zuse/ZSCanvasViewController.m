@@ -8,8 +8,8 @@
 #import "ZSGrid.h"
 #import "ZSCanvasView.h"
 #import "ZSSettingsViewController.h"
-// #import "ZSAdjustView.h"
 #import "ZSAdjustControl.h"
+#import "ZSTutorial.h"
 
 @interface ZSCanvasViewController ()
 
@@ -56,6 +56,13 @@
         // Load Sprites.
         [self loadSpritesFromProject];
     }
+    
+    ZSTutorial *tutorial = [[ZSTutorial alloc] init];
+    [tutorial bindToView:self.view];
+    [tutorial show];
+    [tutorial touchActionOn:nil withText:@"Touch the white square to complete the tutorial." completetion:^{
+        [tutorial hide];
+    }];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
