@@ -60,8 +60,14 @@
     ZSTutorial *tutorial = [[ZSTutorial alloc] init];
     [tutorial bindToView:self.view];
     [tutorial show];
-    [tutorial touchActionOn:nil withText:@"Touch the white square to complete the tutorial." completetion:^{
-        [tutorial hide];
+    [tutorial touchActionOn:nil withText:@"Touch the white square to continue the tutorial." completion:^{
+        [tutorial refresh];
+        [tutorial touchActionOn:nil withText:@"Touch the white square again." completion:^{
+            [tutorial refresh];
+            [tutorial touchActionOn:nil withText:@"Nested blocks seem like a messy way to do this, but how else are we going to chain required actions?  Press the white square one more time to finish the tutorial." completion:^{
+                [tutorial hide];
+            }];
+        }];
     }];
 }
 

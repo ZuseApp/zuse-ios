@@ -39,7 +39,12 @@
     }
 }
 
--(void)touchActionOn:(UIView *)view withText:(NSString*)text completetion:(void(^)())completion {
+-(void)refresh {
+    [self hide];
+    [self show];
+}
+
+-(void)touchActionOn:(UIView *)view withText:(NSString*)text completion:(void(^)())completion {
     if (_overlayView) {
         UIView *test = [[UIView alloc] initWithFrame:CGRectMake(10, 10, 100, 100)];
         test.backgroundColor = [UIColor whiteColor];
