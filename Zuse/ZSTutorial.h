@@ -3,10 +3,8 @@
 
 @interface ZSTutorial : NSObject <CMPopTipViewDelegate>
 
--(void)bindToView:(UIView*)view;
--(void)show;
--(void)hide;
--(void)refresh;
--(void)touchActionOn:(UIView *)view withText:(NSString*)text completion:(void(^)())completion;
+-(void)present;
+-(void)addTouchActionWithText:(NSString*)text setup:(void(^)())setup completion:(void(^)())completion;
+-(void)addRightEdgeSwipeActionWithText:(NSString*)text setup:(void(^)())setup completion:(void(^)())completion;
 
 @end

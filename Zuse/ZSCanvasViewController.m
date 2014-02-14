@@ -36,6 +36,9 @@
 // Renderer
 @property (strong, nonatomic) ZSRendererViewController *rendererViewController;
 
+// Tutorial
+@property (strong, nonatomic) ZSTutorial *tutorial;
+
 @end
 
 @implementation ZSCanvasViewController
@@ -57,18 +60,17 @@
         [self loadSpritesFromProject];
     }
     
-    ZSTutorial *tutorial = [[ZSTutorial alloc] init];
-    [tutorial bindToView:self.view];
-    [tutorial show];
-    [tutorial touchActionOn:nil withText:@"Touch the white square to continue the tutorial." completion:^{
-        [tutorial refresh];
-        [tutorial touchActionOn:nil withText:@"Touch the white square again." completion:^{
-            [tutorial refresh];
-            [tutorial touchActionOn:nil withText:@"Nested blocks seem like a messy way to do this, but how else are we going to chain required actions?  Press the white square one more time to finish the tutorial." completion:^{
-                [tutorial hide];
-            }];
-        }];
+    _tutorial = [[ZSTutorial alloc] init];
+    [_tutorial addTouchActionWithText:@"Touch this view to continue." setup:nil completion:^{
+        NSLog(@"Completed touch action.");
     }];
+    [_tutorial addRightEdgeSwipeActionWithText:@"Now swipe from the right.  There has to be a better and newer library for tooltips than this one." setup:nil completion:^{
+        NSLog(@"Completed swipe.");
+    }];
+    [_tutorial addTouchActionWithText:@"After this second touch the tutorial will be over." setup:nil completion:^{
+        NSLog(@"Completed last action.");
+    }];
+    [_tutorial present];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
