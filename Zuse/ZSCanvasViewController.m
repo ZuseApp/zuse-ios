@@ -60,15 +60,14 @@
         [self loadSpritesFromProject];
     }
     
+    WeakSelf
     _tutorial = [[ZSTutorial alloc] init];
-    [_tutorial addTouchActionWithText:@"Touch this view to continue." setup:nil completion:^{
-        NSLog(@"Completed touch action.");
+    [_tutorial addRightEdgeSwipeActionWithText:@"Swipe from the right to bring up the menu." setup:nil completion:^{
+        [weakSelf showDrawers];
     }];
-    [_tutorial addRightEdgeSwipeActionWithText:@"Now swipe from the right.  There has to be a better and newer library for tooltips than this one." setup:nil completion:^{
-        NSLog(@"Completed swipe.");
-    }];
-    [_tutorial addTouchActionWithText:@"After this second touch the tutorial will be over." setup:nil completion:^{
-        NSLog(@"Completed last action.");
+    UITableViewCell *cell = [_spriteController tableView:_spriteTable cellForRowAtIndexPath:0];
+    [_tutorial addTouchActionWithText:@"Touch the sprite in the drawer to end the tutorial." forView:cell inView:_spriteTable setup:nil completion:^{
+        [weakSelf hideDrawersAndPerformAction:nil];
     }];
     [_tutorial present];
 }

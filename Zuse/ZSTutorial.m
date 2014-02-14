@@ -17,7 +17,7 @@
         _window = [[UIApplication sharedApplication] keyWindow];
         
         _overlayView = [[UIView alloc] initWithFrame:_window.frame];
-        _overlayView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5f];
+        // _overlayView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5f];
         UIScreenEdgePanGestureRecognizer *rightEdgePanGesture = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(rightEdgePanDetected:)];
         rightEdgePanGesture.edges = UIRectEdgeRight;
         [_overlayView addGestureRecognizer:rightEdgePanGesture];
@@ -54,38 +54,56 @@
     }
 }
 
--(void)addTouchActionWithText:(NSString*)text setup:(void(^)())setup completion:(void(^)())completion {
-    NSDictionary *action = @{@"action": @"touch",
-                             @"text": (text) ? text : [NSNull null],
-                             @"setup": (setup) ? [setup copy] : [NSNull null],
-                             @"completion": (completion) ? [completion copy] : [NSNull null]
-                             };
+-(void)addTouchActionWithText:(NSString*)text forView:(UIView*)targetView inView:(UIView*)containerView setup:(void(^)())setup completion:(void(^)())completion {
+    NSMutableDictionary *action = [NSMutableDictionary dictionary];
+    [action setObject:@"touch" forKey:@"action"];
+    if (text) {
+        [action setObject:text forKey:@"text"];
+    }
+    if (targetView) {
+        [action setObject:targetView forKey:@"targetView"];
+    }
+    if (containerView) {
+        [action setObject:containerView forKey:@"containerView"];
+    }
+    if (setup) {
+        [action setObject:setup forKey:@"setup"];
+    }
+    if (completion) {
+        [action setObject:completion forKey:@"completion"];
+    }
     [_actions addObject:action];
 }
 
 -(void)processTouchAction:(NSDictionary*)action {
-    if (_overlayView) {
+    UIView *targetView = action[@"targetView"];
+    if (_overlayView && targetView) {
         NSString *text = action[@"text"];
         void (^setup)() = action[@"setup"];
         _completion = action[@"completion"];
+        CGRect frame = targetView.frame;
+        if (action[@"containerView"]) {
+            UIView *containerView = action[@"containerView"];
+            frame = [containerView convertRect:frame toView:_overlayView];
+        }
         
         if (setup) {
             setup();
         }
         
-        UIView *test = [[UIView alloc] initWithFrame:CGRectMake(10, 10, 100, 100)];
-        test.backgroundColor = [UIColor whiteColor];
-        test.layer.borderColor = [[UIColor blackColor] CGColor];
-        test.layer.borderWidth = 0.5f;
+        UIView *touchView = [[UIView alloc] initWithFrame:frame];
+        // touchView.backgroundColor = [UIColor whiteColor];
+        // touchView.layer.borderColor = [[UIColor blackColor] CGColor];
+        // touchView.layer.borderWidth = 0.5f;
         
         UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(touchDetected)];
-        [test addGestureRecognizer:tapGesture];
-        [_overlayView addSubview:test];
+        [touchView addGestureRecognizer:tapGesture];
+        [_overlayView addSubview:touchView];
         
         CMPopTipView *testTipView = [[CMPopTipView alloc] initWithMessage:text];
         testTipView.delegate = self;
         testTipView.disableTapToDismiss = YES;
-        [testTipView presentPointingAtView:test inView:_overlayView animated:YES];
+        [testTipView presentPointingAtView:touchView inView:_overlayView animated:YES];
     }
 }
 
