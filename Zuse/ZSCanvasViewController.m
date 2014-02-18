@@ -76,7 +76,7 @@ NSString * const ZSTutorialGestureLongPress = @"ZSTutorialGestureLongPress";
     }
 
     // Curve the toolbox.
-    [_toolboxView.layer setCornerRadius:10.0f];
+    [_toolboxView.layer setCornerRadius:5];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -145,7 +145,7 @@ NSString * const ZSTutorialGestureLongPress = @"ZSTutorialGestureLongPress";
         // in the bottom left corner, so adjust for that.
         frame.origin.x -= frame.size.width / 2;
         frame.origin.y -= frame.size.height / 2;
-        frame.origin.y = self.view.frame.size.height - frame.size.height - frame.origin.y;
+        frame.origin.y = _canvasView.frame.size.height - frame.size.height - frame.origin.y;
         
         ZSSpriteView *view = [[ZSSpriteView alloc] initWithFrame:frame];
         if (![view setContentFromJSON:jsonObject]) {
@@ -166,10 +166,6 @@ NSString * const ZSTutorialGestureLongPress = @"ZSTutorialGestureLongPress";
     __weak ZSSpriteView *weakView = view;
     view.singleTapped = ^(){
         [self performSegueWithIdentifier:@"editor" sender:weakView];
-    };
-    
-    view.doubleTapped = ^(){
-        [self doubleTapRecognized];
     };
     
     view.longPressed = ^(UILongPressGestureRecognizer *longPressedGestureRecognizer){
@@ -318,9 +314,7 @@ NSString * const ZSTutorialGestureLongPress = @"ZSTutorialGestureLongPress";
                 draggedView.transform = CGAffineTransformIdentity;
             }];
         }
-        [weakSelf hideDrawersAndPerformAction:nil];
-        
-        // [_tutorial.broadcaster broadcastEvent:ZSTutorialBroadcastDidDropSprite];
+        [weakSelf hideToolbox];
     };
     
     _spriteController.panMoved = ^(UIPanGestureRecognizer *panGestureRecognizer) {
@@ -365,9 +359,10 @@ NSString * const ZSTutorialGestureLongPress = @"ZSTutorialGestureLongPress";
         
         // Bring menus to front.
         [weakSelf.view bringSubviewToFront:weakSelf.spriteTable];
-        
         [weakSelf.project write];
-        [weakSelf showDrawers];
+        
+        // Show the toolbox again.
+        [weakSelf showToolbox];
     };
 }
 
@@ -380,10 +375,6 @@ NSString * const ZSTutorialGestureLongPress = @"ZSTutorialGestureLongPress";
     UITapGestureRecognizer *singleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTapRecognized)];
     singleTapGesture.numberOfTapsRequired = 1;
     [_canvasView addGestureRecognizer:singleTapGesture];
-    
-    UITapGestureRecognizer *doubleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTapRecognized)];
-    doubleTapGesture.numberOfTapsRequired = 2;
-    [_canvasView addGestureRecognizer:doubleTapGesture];
     
     // Blurview gesture recognizers.
     singleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTapRecognized)];
@@ -406,60 +397,6 @@ NSString * const ZSTutorialGestureLongPress = @"ZSTutorialGestureLongPress";
         frame.origin.y = currentPoint.y - offset.y;
         weakAdjust.frame = frame;
     };
-}
-
-- (void)hideDrawersAndPerformAction:(void (^)())action {
-    if (!_spriteTable.hidden) {
-        [UIView animateWithDuration:0.25 animations:^{
-            if (_rendererView.hidden) {
-                CGRect spriteFrame = _spriteTable.frame;
-                spriteFrame.origin.x += _spriteTable.frame.size.width;
-                _spriteTable.frame = spriteFrame;
-            }
-            else {
-                [_rendererViewController play];
-            }
-        } completion:^(BOOL finished) {
-            self.spriteTable.hidden = YES;
-            if (action) {
-                action();
-            }
-            if (_showRendererAfterMenuClose) {
-                [self showAdjustMenu:self];
-            }
-        }];
-    }
-}
-
-- (void)showDrawers {
-    if (_spriteTable.hidden) {
-        // If the adjust menu is showing, hide it.
-        _showRendererAfterMenuClose = !_adjustMenu.hidden;
-        if (_showRendererAfterMenuClose) {
-            [self hideAdjustMenu:self];
-        }
-        
-        // Position the drawers off of the screen.
-        
-        CGRect spriteFrame = _spriteTable.frame;
-        spriteFrame.origin.x = self.view.frame.size.width;
-        _spriteTable.frame = spriteFrame;
-        
-        [self.view bringSubviewToFront:_spriteTable];
-        
-        // Make the drawers visible and animate them in.
-        _spriteTable.hidden = NO;
-        [UIView animateWithDuration:0.25 animations:^{
-            if (_rendererView.hidden) {
-                CGRect spriteFrame = _spriteTable.frame;
-                spriteFrame.origin.x -= _spriteTable.frame.size.width;
-                _spriteTable.frame = spriteFrame;
-            }
-            else {
-                [_rendererViewController stop];
-            }
-        }];
-    }
 }
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
@@ -485,21 +422,10 @@ NSString * const ZSTutorialGestureLongPress = @"ZSTutorialGestureLongPress";
     }
 }
 
-- (void)doubleTapRecognized {
-    if (_spriteTable.hidden) {
-        [self showDrawers];
-    }
-    else {
-        [self hideDrawersAndPerformAction:nil];
-    }
-    [_tutorial broadcastEvent:ZSTutorialBroadcastDidDoubleTap];
-}
-
 - (void)longPressRecognized:(id)sender {
     UILongPressGestureRecognizer *longPressGesture = (UILongPressGestureRecognizer *)sender;
     
     if (longPressGesture.state == UIGestureRecognizerStateBegan) {
-        [self hideDrawersAndPerformAction:nil];
         [longPressGesture.view becomeFirstResponder];
         _editMenu = [UIMenuController sharedMenuController];
         UIMenuItem *menuItem = [[UIMenuItem alloc] initWithTitle:@"Adjust" action:@selector(showAdjustMenu:)];
@@ -602,7 +528,6 @@ NSString * const ZSTutorialGestureLongPress = @"ZSTutorialGestureLongPress";
 - (IBAction)stopProject:(id)sender {
     [self.rendererViewController stop];
     self.rendererView.hidden = YES;
-    [self hideDrawersAndPerformAction:nil];
 }
 
 - (IBAction)modifyGroups:(id)sender {
