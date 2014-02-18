@@ -2,10 +2,11 @@
 #import "CMPopTipView.h"
 #import "ZSOverlayView.h"
 
-@interface ZSTutorial : NSObject <CMPopTipViewDelegate>
+@interface ZSTutorial : NSObject
 
 @property (nonatomic, strong) ZSOverlayView *overlayView;
 @property (nonatomic, strong) UIView* toolTipOverrideView;
+@property (nonatomic, assign, getter=isActive) BOOL active;
 
 - (void)present;
 - (void)broadcastEvent:(NSString*)event;

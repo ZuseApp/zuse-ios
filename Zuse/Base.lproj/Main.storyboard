@@ -722,11 +722,12 @@
                     <connections>
                         <outlet property="tableView" destination="ibX-ss-fDW" id="06g-Op-SbW"/>
                         <segue destination="pZF-Fu-eXH" kind="push" identifier="parameters" id="qxG-LS-U1q"/>
+                        <segue destination="kPz-BW-1Z9" kind="push" identifier="editor" id="5N5-nX-HVS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ODg-F2-aZ0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1703" y="765"/>
+            <point key="canvasLocation" x="1703" y="881"/>
         </scene>
         <!--Trait Editor Parameters View Controller-->
         <scene sceneID="WIR-mv-5qs">
@@ -970,5 +971,6 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="XFw-Ri-amw"/>
+        <segue reference="5N5-nX-HVS"/>
     </inferredMetricsTieBreakers>
 </document>

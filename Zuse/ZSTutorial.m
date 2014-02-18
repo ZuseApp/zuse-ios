@@ -30,7 +30,7 @@
 }
 
 - (void)broadcastEvent:(NSString*)event {
-    if ([_event isEqualToString:event]) {
+    if (_active && [_event isEqualToString:event]) {
         if (_completion) {
             _completion();
         }
@@ -67,55 +67,56 @@
 }
 
 - (void)present {
+    _active = YES;
     [_window addSubview:_overlayView];
     [self processNextAction];
 }
 
 - (void)processNextAction {
-    if (_actions.count == 0) {
-        [_overlayView removeFromSuperview];
-    }
-    else {
-        [self refresh];
-        NSDictionary *action = _actions[0];
-        [_actions removeObjectAtIndex:0];
-        
-        [self processAction:action];
+    if (_active) {
+        if (_actions.count == 0) {
+            [_overlayView removeFromSuperview];
+            _active = NO;
+        }
+        else {
+            [self refresh];
+            NSDictionary *action = _actions[0];
+            [_actions removeObjectAtIndex:0];
+            
+            [self processAction:action];
+        }
     }
 }
 
 - (void)processAction:(NSDictionary*)action {
-    _event = action[@"event"];
-    _allowedGestures = action[@"allowedGestures"];
-    void(^setup)() = action[@"setup"];
-    _completion = action[@"completion"];
-    
-    _overlayView.activeRegion = [action[@"activeRegion"] CGRectValue];
-    
-    if (setup) {
-        setup();
+    if (_active) {
+        _event = action[@"event"];
+        _allowedGestures = action[@"allowedGestures"];
+        void(^setup)() = action[@"setup"];
+        _completion = action[@"completion"];
+        
+        _overlayView.activeRegion = [action[@"activeRegion"] CGRectValue];
+        
+        if (setup) {
+            setup();
+        }
+        
+        // Show tooltip view
+        UIView *view = nil;
+        if (_toolTipOverrideView) {
+            view = _toolTipOverrideView;
+        }
+        else {
+            view = [[UIView alloc] initWithFrame:_overlayView.activeRegion];
+            // view.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.6];
+            [_overlayView addSubview:view];
+        }
+        
+        
+        _toolTipView = [[CMPopTipView alloc] initWithMessage:action[@"text"]];
+        _toolTipView.disableTapToDismiss = YES;
+        [_toolTipView presentPointingAtView:view inView:_overlayView animated:YES];
     }
-    
-    // Show tooltip view
-    UIView *view = nil;
-    if (_toolTipOverrideView) {
-        view = _toolTipOverrideView;
-    }
-    else {
-        view = [[UIView alloc] initWithFrame:_overlayView.activeRegion];
-        // view.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.6];
-        [_overlayView addSubview:view];
-    }
-    
-    
-    _toolTipView = [[CMPopTipView alloc] initWithMessage:action[@"text"]];
-    _toolTipView.delegate = self;
-    _toolTipView.disableTapToDismiss = YES;
-    [_toolTipView presentPointingAtView:view inView:_overlayView animated:YES];
-}
-
-- (void)popTipViewWasDismissedByUser:(CMPopTipView *)popTipView {
-    // Any cleanup code, such as releasing a CMPopTipView instance variable, if necessary
 }
 
 @end

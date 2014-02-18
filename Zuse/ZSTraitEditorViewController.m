@@ -8,6 +8,7 @@
 
 #import "ZSTraitEditorViewController.h"
 #import "ZSTraitEditorParametersViewController.h"
+#import "ZSCodeEditorViewController.h"
 #import "ZSSpriteTraits.h"
 
 @interface ZSTraitEditorViewController () <UITableViewDelegate, UITableViewDataSource>
@@ -59,13 +60,35 @@
                                                            green:0
                                                             blue:0
                                                            alpha:0.3];
-        cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+        // cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+        
+        UIButton *optionsButton = [UIButton buttonWithType:UIButtonTypeSystem];
+        optionsButton.frame = CGRectMake(190, 7, 56, 30);
+        [optionsButton setTitle:@"Options" forState:UIControlStateNormal];
+        [optionsButton addTarget:self action:@selector(options:) forControlEvents:UIControlEventTouchUpInside];
+        optionsButton.tag = indexPath.row;
+        [cell.contentView addSubview:optionsButton];
     } else {
         cell.contentView.backgroundColor = [UIColor whiteColor];
         cell.accessoryType = UITableViewCellAccessoryNone;
     }
     
+    UIButton *editButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    editButton.frame = CGRectMake(254, 7, 46, 30);
+    [editButton setTitle:@"Edit" forState:UIControlStateNormal];
+    [editButton addTarget:self action:@selector(edit:) forControlEvents:UIControlEventTouchUpInside];
+    // editButton.tag = indexPath.row;
+    [cell.contentView addSubview:editButton];
+    
     return cell;
+}
+
+- (void)edit:(id)sender {
+    [self performSegueWithIdentifier:@"editor" sender:self];
+}
+
+- (void)options:(id)sender {
+    [self performSegueWithIdentifier:@"parameters" sender:self];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -84,19 +107,29 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
     NSString *traitIdentifier = _globalTraitNames[indexPath.row];
-    ZSTraitEditorParametersViewController *controller = (ZSTraitEditorParametersViewController *)segue.destinationViewController;
     
     // Merge any current trait parameters with the default, preferring the current
     NSMutableDictionary *defaultParams = [_globalTraits[traitIdentifier][@"parameters"] mutableCopy];
     [defaultParams addEntriesFromDictionary:_traits[traitIdentifier][@"parameters"]];
     _traits[traitIdentifier][@"parameters"] = defaultParams;
     
-    controller.parameters = _traits[traitIdentifier][@"parameters"];
+    if ([segue.identifier isEqualToString:@"parameters"]) {
+        ZSTraitEditorParametersViewController *controller = (ZSTraitEditorParametersViewController *)segue.destinationViewController;
+        controller.parameters = _traits[traitIdentifier][@"parameters"];
+    }
+    else {
+        ZSCodeEditorViewController *controller = (ZSCodeEditorViewController*)segue.destinationViewController;
+        NSMutableDictionary *spriteObject = [NSMutableDictionary dictionary];
+        spriteObject[@"id"] = traitIdentifier;
+        spriteObject[@"parameters"] = defaultParams;
+        spriteObject[@"code"] = [_globalTraits[traitIdentifier][@"code"] mutableCopy];
+        controller.spriteObject = spriteObject;
+    }
 }
 
-- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
-    [self performSegueWithIdentifier:@"parameters" sender:self];
-    
-}
+//- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
+//    [self performSegueWithIdentifier:@"parameters" sender:self];
+//    
+//}
 
 @end
