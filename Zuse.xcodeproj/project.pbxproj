@@ -20,6 +20,9 @@
 		4C5080D9188480F500E1F57A /* ZSProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C5080D8188480F500E1F57A /* ZSProjectViewController.m */; };
 		4C5080DF188485C900E1F57A /* ZSNewProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C5080DE188485C900E1F57A /* ZSNewProjectViewController.m */; };
 		4C5A31C318B36A7800FCE1A9 /* ZSOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C5A31C218B36A7800FCE1A9 /* ZSOverlayView.m */; };
+		4C5A31C518B3F7AA00FCE1A9 /* sprite_paddle.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C5A31C418B3F7AA00FCE1A9 /* sprite_paddle.png */; };
+		4C5A31C718B3F94800FCE1A9 /* sprite_ball.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C5A31C618B3F94800FCE1A9 /* sprite_ball.png */; };
+		4C5A31C918B3FA2400FCE1A9 /* sprite_brick.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C5A31C818B3FA2400FCE1A9 /* sprite_brick.png */; };
 		4C5F732318873A59007F61B3 /* ZSGrid.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C5F732218873A59007F61B3 /* ZSGrid.m */; };
 		4C5F732718874B51007F61B3 /* ZSCanvasView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C5F732618874B51007F61B3 /* ZSCanvasView.m */; };
 		4C62B0BB18564F9D007CC9CD /* ZSMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C62B0B818564F9D007CC9CD /* ZSMenuController.m */; };
@@ -182,6 +185,9 @@
 		4C5080DE188485C900E1F57A /* ZSNewProjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSNewProjectViewController.m; sourceTree = "<group>"; };
 		4C5A31C118B36A7800FCE1A9 /* ZSOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSOverlayView.h; sourceTree = "<group>"; };
 		4C5A31C218B36A7800FCE1A9 /* ZSOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSOverlayView.m; sourceTree = "<group>"; };
+		4C5A31C418B3F7AA00FCE1A9 /* sprite_paddle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sprite_paddle.png; sourceTree = "<group>"; };
+		4C5A31C618B3F94800FCE1A9 /* sprite_ball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sprite_ball.png; sourceTree = "<group>"; };
+		4C5A31C818B3FA2400FCE1A9 /* sprite_brick.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sprite_brick.png; sourceTree = "<group>"; };
 		4C5F732118873A59007F61B3 /* ZSGrid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSGrid.h; sourceTree = "<group>"; };
 		4C5F732218873A59007F61B3 /* ZSGrid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSGrid.m; sourceTree = "<group>"; };
 		4C5F732518874B51007F61B3 /* ZSCanvasView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCanvasView.h; sourceTree = "<group>"; };
@@ -768,6 +774,9 @@
 		4CF1CBFE17EFE13C00636E0D /* images */ = {
 			isa = PBXGroup;
 			children = (
+				4C5A31C818B3FA2400FCE1A9 /* sprite_brick.png */,
+				4C5A31C618B3F94800FCE1A9 /* sprite_ball.png */,
+				4C5A31C418B3F7AA00FCE1A9 /* sprite_paddle.png */,
 				4CF1D42F1898BB4300B5568F /* yoda.jpg */,
 				4CE3561B188A1355007024C0 /* red_brick.png */,
 				4CCE4F831845A541006C7DA0 /* paddle.png */,
@@ -1037,10 +1046,12 @@
 				7843FAA0184C154000DCE527 /* on event.png in Resources */,
 				4C97DBED18B2FAC8006B551D /* bar_group.png in Resources */,
 				4C2D1ECE1891EB65002C431A /* sprite_manifest.json in Resources */,
+				4C5A31C918B3FA2400FCE1A9 /* sprite_brick.png in Resources */,
 				5FEFB89A182B5376007DAFCF /* pong.json in Resources */,
 				4C97DBEF18B313D5006B551D /* bar_menu.png in Resources */,
 				4CEB19C018971F27009D89B3 /* text_icon.png in Resources */,
 				78D8A960185A3A1100834B15 /* move.png in Resources */,
+				4C5A31C518B3F7AA00FCE1A9 /* sprite_paddle.png in Resources */,
 				4C0D470517FB800400F13786 /* guess_a_number.json in Resources */,
 				4C97DBE318B2E053006B551D /* bar_play.png in Resources */,
 				4C721A4F188EF2EB00D3FDEF /* play.png in Resources */,
@@ -1074,6 +1085,7 @@
 				4CF3B00A18A31EF80069973F /* ZSAdjustView.xib in Resources */,
 				5F154BDE18592E7E00A759F1 /* Main-iPad.storyboard in Resources */,
 				4CF1CBBC17EF882A00636E0D /* InfoPlist.strings in Resources */,
+				4C5A31C718B3F94800FCE1A9 /* sprite_ball.png in Resources */,
 				4CF1CBC517EF882A00636E0D /* Main.storyboard in Resources */,
 				4C430DED188B8C12009D754C /* gear--pencil.png in Resources */,
 				4CB1E182188E314B004F5D96 /* arrow-180.png in Resources */,

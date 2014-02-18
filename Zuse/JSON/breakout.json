@@ -203,7 +203,7 @@
         "height" : 32
       },
       "image" : {
-        "path" : "red_brick.png"
+        "path" : "sprite_brick.png"
       },
       "collision_group": "brick",
       "physics_body" : "rectangle",
@@ -228,7 +228,7 @@
       "physics_body" : "rectangle",
       "collision_group": "brick",
       "image" : {
-        "path" : "red_brick.png"
+        "path" : "sprite_brick.png"
       },
       "traits" : {
         "Disappearable": {
@@ -249,7 +249,7 @@
         "height" : 32
       },
       "image" : {
-        "path" : "red_brick.png"
+        "path" : "sprite_brick.png"
       },
       "physics_body" : "rectangle",
       "collision_group": "brick",
@@ -274,7 +274,7 @@
       "physics_body" : "rectangle",
       "collision_group": "brick",
       "image" : {
-        "path" : "red_brick.png"
+        "path" : "sprite_brick.png"
       },
       "traits" : {
         "Disappearable": {
@@ -295,7 +295,7 @@
         "height" : 32
       },
       "image" : {
-        "path" : "red_brick.png"
+        "path" : "sprite_brick.png"
       },
       "collision_group": "brick",
       "physics_body" : "rectangle",
@@ -320,7 +320,7 @@
       "collision_group": "brick",
       "physics_body" : "rectangle",
       "image" : {
-        "path" : "red_brick.png"
+        "path" : "sprite_brick.png"
       },
       "traits" : {
         "Disappearable": {
@@ -341,7 +341,7 @@
         "height" : 32
       },
       "image" : {
-        "path" : "red_brick.png"
+        "path" : "sprite_brick.png"
       },
       "physics_body" : "rectangle",
       "collision_group": "brick",
@@ -366,7 +366,7 @@
       "physics_body" : "rectangle",
       "collision_group": "brick",
       "image" : {
-        "path" : "red_brick.png"
+        "path" : "sprite_brick.png"
       },
       "traits" : {
         "Disappearable": {
@@ -387,7 +387,7 @@
         "height" : 32
       },
       "image" : {
-        "path" : "red_brick.png"
+        "path" : "sprite_brick.png"
       },
       "collision_group": "brick",
       "physics_body" : "rectangle",
@@ -412,7 +412,7 @@
       "physics_body" : "rectangle",
       "collision_group": "brick",
       "image" : {
-        "path" : "red_brick.png"
+        "path" : "sprite_brick.png"
       },
       "traits" : {
         "Disappearable": {
@@ -433,7 +433,7 @@
         "height" : 32
       },
       "image" : {
-        "path" : "red_brick.png"
+        "path" : "sprite_brick.png"
       },
       "collision_group": "brick",
       "physics_body" : "rectangle",
@@ -458,7 +458,7 @@
       "physics_body" : "rectangle",
       "collision_group": "brick",
       "image" : {
-        "path" : "red_brick.png"
+        "path" : "sprite_brick.png"
       },
       "traits" : {
         "Disappearable": {
@@ -479,7 +479,7 @@
         "height" : 32
       },
       "image" : {
-        "path" : "red_brick.png"
+        "path" : "sprite_brick.png"
       },
       "collision_group": "brick",
       "physics_body" : "rectangle",
@@ -504,7 +504,7 @@
       "physics_body" : "rectangle",
       "collision_group": "brick",
       "image" : {
-        "path" : "red_brick.png"
+        "path" : "sprite_brick.png"
       },
       "traits" : {
         "Disappearable": {
@@ -525,7 +525,7 @@
         "height" : 32
       },
       "image" : {
-        "path" : "red_brick.png"
+        "path" : "sprite_brick.png"
       },
       "collision_group": "brick",
       "physics_body" : "rectangle",
@@ -550,7 +550,7 @@
       "physics_body" : "rectangle",
       "collision_group": "brick",
       "image" : {
-        "path" : "red_brick.png"
+        "path" : "sprite_brick.png"
       },
       "traits" : {
         "Disappearable": {
@@ -571,7 +571,7 @@
         "height" : 32
       },
       "image" : {
-        "path" : "red_brick.png"
+        "path" : "sprite_brick.png"
       },
       "collision_group": "brick",
       "physics_body" : "rectangle",
@@ -596,7 +596,7 @@
       "physics_body" : "rectangle",
       "collision_group": "brick",
       "image" : {
-        "path" : "red_brick.png"
+        "path" : "sprite_brick.png"
       },
       "traits" : {
         "Disappearable": {
@@ -619,7 +619,7 @@
       "physics_body" : "rectangle",
       "collision_group": "paddle",
       "image" : {
-        "path" : "paddle.png"
+        "path" : "sprite_paddle.png"
       },
       "traits" : {
         "Draggable" : {
@@ -663,7 +663,7 @@
       "collision_group": "ball",
       "physics_body" : "circle",
       "image" : {
-        "path" : "grayball.png"
+        "path" : "sprite_ball.png"
       },
       "traits" : {
 

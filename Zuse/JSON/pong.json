@@ -192,7 +192,7 @@
       "type": "image",
       "physics_body": "rectangle",
       "image": {
-        "path": "paddle.png"
+        "path": "sprite_paddle.png"
       },
       "traits": {
         "Draggable": {
@@ -215,7 +215,7 @@
       "type": "image",
       "physics_body": "rectangle",
       "image": {
-        "path": "paddle.png"
+        "path": "sprite_paddle.png"
       },
       "traits": {
         "Draggable": {
@@ -238,7 +238,7 @@
       "type": "image",
       "physics_body": "circle",
       "image": {
-        "path": "grayball.png"
+        "path": "sprite_ball.png"
       },
       "traits": {},
       "properties": {
