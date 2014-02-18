@@ -7,6 +7,7 @@
 //
 
 #import "SKComponentNode.h"
+@import GLKit;
 
 @interface ZSComponentNode : SKComponentNode
 

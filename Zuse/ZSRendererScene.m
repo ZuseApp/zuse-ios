@@ -26,7 +26,6 @@
 @property (nonatomic) NSMutableDictionary *movingSprites;
 @property (nonatomic) NSMutableDictionary *jointNodes;
 @property (strong, nonatomic) ZSInterpreter *interpreter;
-@property (nonatomic) NSMutableDictionary *physicsJoints;
 
 @end
 
@@ -45,16 +44,14 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
     if (self = [super initWithSize:size]) {
         
         self.backgroundColor = [SKColor whiteColor];
+        self.name = @"world";
         
         _interpreter   = [ZSInterpreter interpreter];
-        _physicsJoints = [[NSMutableDictionary alloc] init];
         _spriteNodes   = [[NSMutableDictionary alloc] init];
-        _jointNodes    = [[NSMutableDictionary alloc] init];
         
         _interpreter.delegate = self;
         
         [self setupInterpreterWithProjectJSON:projectJSON];
-        [self setupWorldPhysics];
 
         NSDictionary *categoryBitMasks = [self categoryBitMasksForCollisionGroups:projectJSON[@"collision_groups"]];
         NSDictionary *collisionBitMasks = [self collisionBitMasksForCollisionGroups:projectJSON[@"collision_groups"] categoryBitMasks:categoryBitMasks];
@@ -65,11 +62,9 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
             
             CGPoint position = CGPointMake([properties[@"x"] floatValue], [properties[@"y"] floatValue]);
             CGSize size      = CGSizeMake([properties[@"width"] floatValue], [properties[@"height"] floatValue]);
-        
             
             ZSComponentNode *node = [ZSComponentNode node];
             node.identifier = object[@"id"];
-//            node.particleType = object[@"particle_type"];
             node.name = kZSSpriteName;
             node.position = position;
             
@@ -80,78 +75,30 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
                 _spriteNodes[object[@"id"]] = node;
             }
             
-            node.physicsBody = [self physicsBodyForType:object[@"physics_body"] size:size];
-            
-            if (node.physicsBody) {
-                node.physicsBody.categoryBitMask    = [categoryBitMasks[object[@"collision_group"]] integerValue];
-                node.physicsBody.collisionBitMask   = [collisionBitMasks[object[@"collision_group"]] integerValue];
-                node.physicsBody.contactTestBitMask = [collisionBitMasks[object[@"collision_group"]] integerValue];
-                
-                node.physicsBody.dynamic = NO;
-                node.physicsBody.mass    = 0.02;
-                node.physicsBody.affectedByGravity = NO;
-            }
-            
             ZSSpriteTouchComponent *touchComponent = [ZSSpriteTouchComponent new];
             touchComponent.spriteId = object[@"id"];
             
             touchComponent.touchesBegan = ^(UITouch *touch) {
-                if (node.physicsBody) {
-                    node.physicsBody.dynamic = YES;
-                    
-                    [self removeJointNode:object[@"id"]];
-                    [self removePhysicsJoint:object[@"id"]];
-                    
-                    ZSComponentNode *jointNode = [ZSComponentNode node];
-                    jointNode.name     = kZSJointName;
-                    jointNode.position = node.position;
-                    
-                    jointNode.physicsBody = [self physicsBodyForType:object[@"physics_body"] size:size];
-                    [self configureJointNodePhysics:jointNode];
-                    
-                    _jointNodes[object[@"id"]] = jointNode;
-                    [self addChild:jointNode];
-                    
-                    SKSpriteNode *jointSprite = [SKSpriteNode new];
-//                    SKSpriteNode *jointSprite = [SKSpriteNode spriteNodeWithImageNamed:object[@"image"][@"path"]];
-                    jointSprite.size = size;
-                    [jointNode addChild:jointSprite];
-                    
-                    SKPhysicsJointFixed *fixedJoint = [SKPhysicsJointFixed jointWithBodyA:node.physicsBody
-                                                                                    bodyB:jointNode.physicsBody
-                                                                                   anchor:node.position];
-                    [self.physicsWorld addJoint:fixedJoint];
-                    _physicsJoints[object[@"id"]] = fixedJoint;
-                    
-                    NSLog(@"node has physics body");
-                }
-                else{
-                    NSLog(@"node has no physics body");
-                }
-                
                 CGPoint point = [touch locationInNode:self];
+                    [_interpreter triggerEvent:@"touch_began"
+                        onObjectWithIdentifier:object[@"id"]
+                                    parameters:@{ @"touch_x": @(point.x), @"touch_y": @(point.y) }];
                 
-                [_interpreter triggerEvent:@"touch_began"
-                    onObjectWithIdentifier:object[@"id"]
-                                parameters:@{ @"touch_x": @(point.x), @"touch_y": @(point.y) }];
             };
             
             touchComponent.touchesMoved = ^(UITouch *touch) {
                 CGPoint point = [touch locationInNode:self];
                 
-                [_interpreter triggerEvent:@"touch_moved"
-                        onObjectWithIdentifier:object[@"id"]
-                                    parameters:@{ @"touch_x": @(point.x), @"touch_y": @(point.y) }];
+                if([self spriteWithinWorld:point size:size node:node])
+                {
+                    [_interpreter triggerEvent:@"touch_moved"
+                            onObjectWithIdentifier:object[@"id"]
+                                        parameters:@{ @"touch_x": @(point.x), @"touch_y": @(point.y) }];
+                }
             };
             
             touchComponent.touchesEnded = ^(UITouch *touch) {
-                if (node.physicsBody) {
-                    
-                    //remove the physics joint once the touch event ends
-                    [self removePhysicsJoint:object[@"id"]];
-                    [self removeJointNode:object[@"id"]];
-                    node.physicsBody.dynamic = NO;
-                }
+            
             };
              
             [node addComponent:touchComponent];
@@ -162,18 +109,47 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
     return self;
 }
 
+-(BOOL) spriteWithinWorld:(CGPoint)point size:(CGSize)size node:(ZSComponentNode *)node
+{
+    CGPoint midPointOfScene = CGPointMake(self.size.width / 2.0f, self.size.height / 2.0f);
+    CGPoint midPointOfSprite = CGPointMake(size.width / 2.0f, size.height / 2.0f);
+    
+    //get point touched in the sprite
+    CGPoint tempPointInSprite = [self convertPoint:point toNode:node];
+    CGPoint absOfTempPoint = CGPointMake(fabsf(tempPointInSprite.x), fabsf(tempPointInSprite.y));
+    CGPoint pointTouchedInSprite = CGPointMake(midPointOfSprite.x - absOfTempPoint.x, midPointOfSprite.y - absOfTempPoint.y);
+    
+    //compute the offsets for the sprite's touched location
+    CGPoint offsetright = CGPointMake(size.width - pointTouchedInSprite.x, size.height - pointTouchedInSprite.y);
+    //    CGpoint offsetabove = CGPointMake(<#CGFloat x#>, <#CGFloat y#>)
+    
+    NSLog(@"point %@", NSStringFromCGPoint(point));
+    NSLog(@"offset %@", NSStringFromCGPoint(offsetright));
+    NSLog(@"node at right %f", point.x+offsetright.x);
+    NSLog(@"node at left %f", point.x-pointTouchedInSprite.x);
+    if(point.x <= midPointOfScene.x)
+    {
+        if((point.x - pointTouchedInSprite.x) > 0.0f)
+        {
+            return YES;
+        }
+        return NO;
+    }
+    else if(point.x > midPointOfScene.x)
+    {
+        if((point.x + offsetright.x) < self.size.width)
+        {
+            return YES;
+        }
+        return NO;
+    }
+    return NO;
+}
+
 - (void) setupInterpreterWithProjectJSON:(NSDictionary *)projectJSON {
         ZSCompiler *compiler = [ZSCompiler compilerWithProjectJSON:projectJSON];
         [self loadMethodsIntoInterpreter:_interpreter];
         [_interpreter runJSON:compiler.compiledJSON];
-}
-
-- (void) setupWorldPhysics {
-    //Set the physics edges to the frame
-    self.physicsBody = [SKPhysicsBody bodyWithEdgeLoopFromRect:self.frame];
-    self.physicsBody.categoryBitMask = GFPhysicsCategoryWorld;
-    //set up the scene as the contact delegate
-    self.physicsWorld.contactDelegate = self;
 }
 
 - (NSDictionary *) categoryBitMasksForCollisionGroups:(NSDictionary *)collisionGroups {
@@ -204,16 +180,6 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
     return collisionBitMasks;
 }
 
-- (SKPhysicsBody *)physicsBodyForType:(NSString *)type size:(CGSize)size {
-    if ([type isEqualToString:@"circle"]) {
-        return [SKPhysicsBody bodyWithCircleOfRadius:(size.width / 2)];
-    } else if ([type isEqualToString:@"rectangle"]) {
-        return [SKPhysicsBody bodyWithRectangleOfSize:size];
-    }
-    
-    return nil;
-}
-
 - (SKNode *)childNodeForObjectJSON:(NSDictionary *)object size:(CGSize)size {
     SKNode *node = nil;
             if ([object[@"type"] isEqualToString:@"image"]) {
@@ -237,15 +203,6 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
     }
     
     return node;
-}
-
-- (void)configureJointNodePhysics:(ZSComponentNode *)jointNode {
-    //set the joint to not collide with anything
-    jointNode.physicsBody.categoryBitMask = 0;
-    jointNode.physicsBody.dynamic = NO;
-    jointNode.physicsBody.mass = 0.02;
-    jointNode.physicsBody.velocity = CGVectorMake(0, 0);
-    jointNode.physicsBody.affectedByGravity = NO;
 }
 
 - (void) didBeginContact:(SKPhysicsContact *)contact
@@ -272,9 +229,7 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
                            speed:(CGFloat)speed {
     SKComponentNode *node = _spriteNodes[identifier];
     ZSSpriteTouchComponent *component = [node getComponent:[ZSSpriteTouchComponent class]];
-    node.physicsBody.dynamic = YES;
-    component.speed = speed;
-    node.physicsBody.velocity = CGVectorMake(speed, speed);
+    
 }
 
 - (void)didSimulatePhysics {
@@ -282,15 +237,7 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
                            usingBlock:^(SKNode *node, BOOL *stop) {
                                SKComponentNode *componentNode = (SKComponentNode *)node;
                                ZSSpriteTouchComponent *touchNode = [componentNode getComponent:[ZSSpriteTouchComponent class]];
-                               if(node.physicsBody.velocity.dx == 0 || node.physicsBody.velocity.dy == 0)
-                               {
-                                   return;
-                               }
-                               GLKVector2 velocity = GLKVector2Make(node.physicsBody.velocity.dx, node.physicsBody.velocity.dy);
-                               GLKVector2 direction = GLKVector2Normalize(velocity);
-                               GLKVector2 newVelocity = GLKVector2MultiplyScalar(direction, touchNode.speed);
-                               node.physicsBody.velocity = CGVectorMake(newVelocity.x, newVelocity.y);
-                               node.physicsBody.angularVelocity = 0.0;
+                               
                            }];
     
 }
@@ -320,8 +267,6 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
 - (void)removeSpriteWithIdentifier:(NSString *)identifier {
     ZSComponentNode *node = _spriteNodes[identifier];
     [self addParticle:identifier position:node.position duration:0.15f particleType:@"BrickExplosion"];
-    [self removePhysicsJoint:identifier];
-    [self removeJointNode:identifier];
     [self removeSpriteNode:identifier];
     [_interpreter removeObjectWithIdentifier:identifier];
 }
@@ -330,22 +275,6 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
     SKSpriteNode *node = _spriteNodes[identifier];
     [node removeFromParent];
     [_spriteNodes removeObjectForKey:identifier];
-}
-
-- (void)removeJointNode:(NSString *)identifier{
-    ZSComponentNode *jointNode = _jointNodes[identifier];
-    if (jointNode) {
-        [jointNode removeFromParent];
-        [_jointNodes removeObjectForKey:identifier];
-    }
-}
-
-- (void)removePhysicsJoint:(NSString *)identifier{
-    SKPhysicsJoint *joint = _physicsJoints[identifier];
-    if (joint) {
-        [self.physicsWorld removeJoint:joint];
-        [_physicsJoints removeObjectForKey:identifier];
-    }
 }
 
 - (void)addParticle:(NSString *)identifier
