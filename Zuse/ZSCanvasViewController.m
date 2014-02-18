@@ -51,6 +51,12 @@ NSString * const ZSTutorialGestureLongPress = @"ZSTutorialGestureLongPress";
 @property (weak, nonatomic) IBOutlet UIView *toolboxView;
 @property (weak, nonatomic) IBOutlet FXBlurView *blurView;
 
+// Toolbar
+@property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *groupBarButtonItem;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *toolBarButtonItem;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *menuBarButtonItem;
+
 @end
 
 @implementation ZSCanvasViewController
@@ -77,6 +83,7 @@ NSString * const ZSTutorialGestureLongPress = @"ZSTutorialGestureLongPress";
 
     // Curve the toolbox.
     [_toolboxView.layer setCornerRadius:5];
+    [_adjustMenu.layer setCornerRadius:5];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -498,22 +505,36 @@ NSString * const ZSTutorialGestureLongPress = @"ZSTutorialGestureLongPress";
 
 - (void)setupAdjustMenu {
     _adjustMenu.closeMenu = ^{
-        [self hideAdjustMenu:self];
+        [self hideAdjustMenu];
     };
 }
 
-- (void)showAdjustMenu:(id)sender {
+- (void)showAdjustMenu {
     [self.view bringSubviewToFront:_adjustMenu];
+    _adjustMenu.alpha = 0;
     _adjustMenu.hidden = NO;
+    [UIView animateWithDuration:0.25 animations:^{
+        _adjustMenu.alpha = 1;
+    }];
 }
 
-- (IBAction)hideAdjustMenu:(id)sender {
-    _adjustMenu.hidden = YES;
+- (void)hideAdjustMenu {
+    [UIView animateWithDuration:0.25 animations:^{
+        _adjustMenu.alpha = 0;
+    } completion:^(BOOL finished) {
+        _adjustMenu.hidden = YES;
+    }];
 }
 
 #pragma mark Main Menu
 
 - (IBAction)playProject:(id)sender {
+    NSMutableArray *items = [_toolbar.items mutableCopy];
+    [items removeObject:_groupBarButtonItem];
+    [items removeObject:_toolBarButtonItem];
+    [items removeObject:_menuBarButtonItem];
+    [_toolbar setItems:items animated:YES];
+    
     [self.view bringSubviewToFront:self.rendererView];
     if (self.rendererView.hidden) {
         self.rendererView.hidden = NO;
@@ -526,6 +547,12 @@ NSString * const ZSTutorialGestureLongPress = @"ZSTutorialGestureLongPress";
 }
 
 - (IBAction)stopProject:(id)sender {
+    NSMutableArray *items = [_toolbar.items mutableCopy];
+    [items insertObject:_groupBarButtonItem atIndex:2];
+    [items addObject:_toolBarButtonItem];
+    [items addObject:_menuBarButtonItem];
+    [_toolbar setItems:items animated:YES];
+    
     [self.rendererViewController stop];
     self.rendererView.hidden = YES;
 }
@@ -542,11 +569,23 @@ NSString * const ZSTutorialGestureLongPress = @"ZSTutorialGestureLongPress";
 }
 
 - (IBAction)showToolbox:(id)sender {
+    if (!_adjustMenu.hidden) {
+        [self hideAdjustMenu];
+    }
     if (_toolboxView.hidden) {
         [self showToolbox];
     }
     else {
         [self hideToolbox];
+    }
+}
+
+- (IBAction)showAdjustMenu:(id)sender {
+    if (_adjustMenu.hidden) {
+        [self showAdjustMenu];
+    }
+    else {
+        [self hideAdjustMenu];
     }
 }
 
@@ -558,7 +597,7 @@ NSString * const ZSTutorialGestureLongPress = @"ZSTutorialGestureLongPress";
     _toolboxView.hidden = NO;
     _blurView.alpha = 0;
     _blurView.hidden = NO;
-    _blurView.blurRadius = 10;
+    _blurView.blurRadius = 5;
     [UIView animateWithDuration:0.25f animations:^{
         _toolboxView.alpha = 1;
         _blurView.alpha = 1;

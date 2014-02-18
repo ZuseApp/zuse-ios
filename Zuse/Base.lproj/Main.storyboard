@@ -63,15 +63,15 @@
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" text="TOOLBOX" textAlignment="center" minimumFontSize="17" id="y7d-Sy-xCV">
                                         <rect key="frame" x="0.0" y="0.0" width="280" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" red="0.11764705882352941" green="0.11764705882352941" blue="0.11764705882352941" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="0.11764705882352941" green="0.11764705882352941" blue="0.11764705882352941" alpha="0.95000000000000007" colorSpace="calibratedRGB"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="0vj-QJ-exO">
+                                    <tableView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="0vj-QJ-exO">
                                         <rect key="frame" x="0.0" y="40" width="280" height="254"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                        <color key="backgroundColor" white="0.66666666666666663" alpha="0.59999999999999998" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="0.95000000000000007" colorSpace="calibratedRGB"/>
                                         <gestureRecognizers/>
                                         <prototypes>
                                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="debug" textLabel="zxU-RW-tdd" style="IBUITableViewCellStyleDefault" id="izT-61-As7">
@@ -114,7 +114,7 @@
                                         </prototypes>
                                     </tableView>
                                 </subviews>
-                                <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                             <view clipsSubviews="YES" contentMode="scaleToFill" id="xLe-TB-h8T" customClass="ZSCanvasView">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="524"/>
@@ -130,7 +130,7 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
-                            <view hidden="YES" contentMode="scaleToFill" id="CAQ-jq-lyC" customClass="ZSAdjustControl">
+                            <view hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" id="CAQ-jq-lyC" customClass="ZSAdjustControl">
                                 <rect key="frame" x="20" y="312" width="259" height="167"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -191,13 +191,25 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="EUf-uy-5EC"/>
                                     <barButtonItem style="plain" id="90u-qW-x19">
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Qgm-2R-uWK">
-                                            <rect key="frame" x="260" y="0.0" width="44" height="44"/>
+                                            <rect key="frame" x="222" y="0.0" width="44" height="44"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" title="Button" image="bar_tools.png">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
                                                 <action selector="showToolbox:" destination="xaZ-al-QhV" eventType="touchUpInside" id="pni-W9-dpA"/>
+                                            </connections>
+                                        </button>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" id="epk-pi-C2t">
+                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="7SI-wV-W2t">
+                                            <rect key="frame" x="276" y="6" width="28" height="32"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal" title="Button" image="bar_menu.png">
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="showAdjustMenu:" destination="xaZ-al-QhV" eventType="touchUpInside" id="awi-Do-fYr"/>
                                             </connections>
                                         </button>
                                     </barButtonItem>
@@ -218,8 +230,12 @@
                         <outlet property="adjustMenu" destination="CAQ-jq-lyC" id="jXT-wo-Y9I"/>
                         <outlet property="blurView" destination="tXF-GV-6cd" id="4xz-qF-Dyw"/>
                         <outlet property="canvasView" destination="xLe-TB-h8T" id="jcJ-OF-c2C"/>
+                        <outlet property="groupBarButtonItem" destination="cLt-6f-qPb" id="ty2-Qx-3NA"/>
+                        <outlet property="menuBarButtonItem" destination="epk-pi-C2t" id="EAY-nb-daR"/>
                         <outlet property="rendererView" destination="zUs-oU-8qW" id="bD9-hp-fyI"/>
                         <outlet property="spriteTable" destination="0vj-QJ-exO" id="DbB-QZ-XhV"/>
+                        <outlet property="toolBarButtonItem" destination="90u-qW-x19" id="Sd6-v5-8TC"/>
+                        <outlet property="toolbar" destination="lke-3O-Z2W" id="LOB-tb-57j"/>
                         <outlet property="toolboxView" destination="MHU-4X-oWL" id="dLY-Vp-PlC"/>
                         <segue destination="Zkj-rO-exu" kind="push" identifier="editor" id="f8x-t6-B0l"/>
                         <segue destination="SwP-Yj-UZM" kind="push" identifier="settings" id="bwy-CX-igi"/>
@@ -919,6 +935,7 @@
     <resources>
         <image name="bar_back.png" width="478" height="478"/>
         <image name="bar_group.png" width="88" height="88"/>
+        <image name="bar_menu.png" width="88" height="88"/>
         <image name="bar_play.png" width="88" height="88"/>
         <image name="bar_stop.png" width="88" height="88"/>
         <image name="bar_tools.png" width="44" height="44"/>
