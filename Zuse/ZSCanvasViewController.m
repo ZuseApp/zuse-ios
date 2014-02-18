@@ -55,6 +55,7 @@ NSString * const ZSTutorialGestureLongPress = @"ZSTutorialGestureLongPress";
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *playBarButtonItem;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *pauseBarButtonItem;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *stopBarButtonItem;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *groupBarButtonItem;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *toolBarButtonItem;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *menuBarButtonItem;
@@ -87,9 +88,10 @@ NSString * const ZSTutorialGestureLongPress = @"ZSTutorialGestureLongPress";
     [_toolboxView.layer setCornerRadius:5];
     [_adjustMenu.layer setCornerRadius:5];
     
-    // Remove pause from the toolbar.
+    // Remove pause and stop from the toolbar.
     NSMutableArray *items = [_toolbar.items mutableCopy];
     [items removeObject:_pauseBarButtonItem];
+    [items removeObject:_stopBarButtonItem];
     [_toolbar setItems:items];
 }
 
@@ -539,9 +541,12 @@ NSString * const ZSTutorialGestureLongPress = @"ZSTutorialGestureLongPress";
     NSMutableArray *items = [_toolbar.items mutableCopy];
     [items insertObject:_pauseBarButtonItem atIndex:0];
     [items removeObject:_playBarButtonItem];
-    [items removeObject:_groupBarButtonItem];
-    [items removeObject:_toolBarButtonItem];
-    [items removeObject:_menuBarButtonItem];
+    if (![items containsObject:_stopBarButtonItem]) {
+        [items insertObject:_stopBarButtonItem atIndex:1];
+        [items removeObject:_groupBarButtonItem];
+        [items removeObject:_toolBarButtonItem];
+        [items removeObject:_menuBarButtonItem];
+    }
     [_toolbar setItems:items animated:YES];
     
     [self.view bringSubviewToFront:self.rendererView];
@@ -570,7 +575,8 @@ NSString * const ZSTutorialGestureLongPress = @"ZSTutorialGestureLongPress";
         [items insertObject:_playBarButtonItem atIndex:0];
         [items removeObject:_pauseBarButtonItem];
     }
-    [items insertObject:_groupBarButtonItem atIndex:2];
+    [items removeObject:_stopBarButtonItem];
+    [items insertObject:_groupBarButtonItem atIndex:1];
     [items addObject:_toolBarButtonItem];
     [items addObject:_menuBarButtonItem];
     [_toolbar setItems:items animated:YES];

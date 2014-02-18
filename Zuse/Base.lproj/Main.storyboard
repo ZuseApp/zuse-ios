@@ -172,7 +172,7 @@
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
-                                                <action selector="stopProject:" destination="xaZ-al-QhV" eventType="touchUpInside" id="lg1-ll-MbA"/>
+                                                <action selector="stopProject:" destination="xaZ-al-QhV" eventType="touchUpInside" id="JTE-PC-wkk"/>
                                             </connections>
                                         </button>
                                     </barButtonItem>
@@ -248,6 +248,7 @@
                         <outlet property="playBarButtonItem" destination="fWJ-y4-MEU" id="gRs-tl-kfK"/>
                         <outlet property="rendererView" destination="zUs-oU-8qW" id="bD9-hp-fyI"/>
                         <outlet property="spriteTable" destination="0vj-QJ-exO" id="DbB-QZ-XhV"/>
+                        <outlet property="stopBarButtonItem" destination="yt0-yU-sux" id="aoC-B3-luF"/>
                         <outlet property="toolBarButtonItem" destination="90u-qW-x19" id="Sd6-v5-8TC"/>
                         <outlet property="toolbar" destination="lke-3O-Z2W" id="LOB-tb-57j"/>
                         <outlet property="toolboxView" destination="MHU-4X-oWL" id="dLY-Vp-PlC"/>
