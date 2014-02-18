@@ -576,9 +576,9 @@ NSString * const ZSTutorialGestureLongPress = @"ZSTutorialGestureLongPress";
         [items removeObject:_pauseBarButtonItem];
     }
     [items removeObject:_stopBarButtonItem];
-    [items insertObject:_groupBarButtonItem atIndex:1];
-    [items addObject:_toolBarButtonItem];
-    [items addObject:_menuBarButtonItem];
+    [items insertObject:_groupBarButtonItem atIndex:2];
+    [items insertObject:_toolBarButtonItem atIndex:3];
+    [items insertObject:_menuBarButtonItem atIndex:4];
     [_toolbar setItems:items animated:YES];
     
     [self.rendererViewController stop];
