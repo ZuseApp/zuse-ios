@@ -1,17 +1,20 @@
 PODS:
   - CMPopTipView (2.1.0)
+  - FXBlurView (1.5.3)
   - MTBlockAlertView (0.1.1)
   - SpriteKit-Components (1.0.2)
   - WYPopoverController (0.1.7)
 
 DEPENDENCIES:
   - CMPopTipView
+  - FXBlurView
   - MTBlockAlertView
   - SpriteKit-Components
   - WYPopoverController
 
 SPEC CHECKSUMS:
   CMPopTipView: de01c6c169c24726356c46ae339ce3498ae9a41d
+  FXBlurView: 8d662dd5b4ba15a1a0e97235501326fbdfb2b755
   MTBlockAlertView: 05cf381a078c0005bcbad973cf63d9740ca67323
   SpriteKit-Components: f2d3ca5ea1abfc232bc9a774a9c751199f4bc458
   WYPopoverController: 729963b2405c7763c99393a254021de9bffde763

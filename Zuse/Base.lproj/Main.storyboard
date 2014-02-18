@@ -44,18 +44,47 @@
         <scene sceneID="LCo-ov-pl2">
             <objects>
                 <viewController id="xaZ-al-QhV" customClass="ZSCanvasViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="FEa-94-2Ad" customClass="ZSCanvasView">
+                    <view key="view" contentMode="scaleToFill" id="FEa-94-2Ad">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <containerView hidden="YES" contentMode="scaleToFill" id="zUs-oU-8qW">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="524"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <connections>
                                     <segue destination="h8z-ng-B06" kind="embed" identifier="renderer" id="DN3-pE-V9v"/>
                                 </connections>
                             </containerView>
+                            <view hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" id="MHU-4X-oWL">
+                                <rect key="frame" x="20" y="137" width="280" height="294"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" text="TOOLBOX" textAlignment="center" minimumFontSize="17" id="y7d-Sy-xCV">
+                                        <rect key="frame" x="0.0" y="0.0" width="280" height="40"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" red="0.11764705882352941" green="0.11764705882352941" blue="0.11764705882352941" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                </subviews>
+                                <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                            <view clipsSubviews="YES" contentMode="scaleToFill" id="xLe-TB-h8T" customClass="ZSCanvasView">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="524"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(Game Board)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="zas-av-GpJ">
+                                        <rect key="frame" x="107" y="251" width="107" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <color key="textColor" white="0.75" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
                             <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="0vj-QJ-exO">
                                 <rect key="frame" x="170" y="0.0" width="150" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -101,33 +130,84 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Gsk-l2-lYD">
-                                <rect key="frame" x="0.0" y="0.0" width="76" height="568"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="0.59999999999999998" colorSpace="calibratedWhite"/>
-                                <gestureRecognizers/>
-                                <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="play" id="n6G-xo-6Ot">
-                                        <rect key="frame" x="0.0" y="22" width="76" height="44"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="n6G-xo-6Ot" id="LUy-aQ-Lv5">
-                                            <rect key="frame" x="0.0" y="0.0" width="43" height="44"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </tableViewCellContentView>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    </tableViewCell>
-                                </prototypes>
-                                <connections>
-                                    <outlet property="dataSource" destination="xaZ-al-QhV" id="XlX-63-bTh"/>
-                                    <outlet property="delegate" destination="xaZ-al-QhV" id="6fh-TN-IYX"/>
-                                </connections>
-                            </tableView>
                             <view hidden="YES" contentMode="scaleToFill" id="CAQ-jq-lyC" customClass="ZSAdjustControl">
                                 <rect key="frame" x="20" y="312" width="259" height="167"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <color key="tintColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                            <toolbar autoresizesSubviews="NO" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="lke-3O-Z2W">
+                                <rect key="frame" x="0.0" y="524" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <items>
+                                    <barButtonItem style="plain" id="fWJ-y4-MEU">
+                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="thr-gj-rGv">
+                                            <rect key="frame" x="16" y="6" width="32" height="32"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal" title="Button" image="bar_play.png">
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="playProject:" destination="xaZ-al-QhV" eventType="touchUpInside" id="cJk-RK-fIa"/>
+                                            </connections>
+                                        </button>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" id="yt0-yU-sux">
+                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="R9K-fw-37E">
+                                            <rect key="frame" x="58" y="6" width="32" height="32"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal" title="Button" image="bar_stop.png">
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="stopProject:" destination="xaZ-al-QhV" eventType="touchUpInside" id="lg1-ll-MbA"/>
+                                            </connections>
+                                        </button>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" id="cLt-6f-qPb">
+                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="PIY-nr-bpi">
+                                            <rect key="frame" x="100" y="6" width="32" height="32"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal" title="Button" image="bar_group.png">
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="modifyGroups:" destination="xaZ-al-QhV" eventType="touchUpInside" id="KDi-Qd-qoj"/>
+                                            </connections>
+                                        </button>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" id="ej5-Re-jwP">
+                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="oIc-aG-frd">
+                                            <rect key="frame" x="142" y="3" width="38" height="38"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal" title="Button" image="bar_back.png">
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="return:" destination="xaZ-al-QhV" eventType="touchUpInside" id="SZg-5t-kW7"/>
+                                            </connections>
+                                        </button>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="EUf-uy-5EC"/>
+                                    <barButtonItem style="plain" id="90u-qW-x19">
+                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Qgm-2R-uWK">
+                                            <rect key="frame" x="260" y="0.0" width="44" height="44"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal" title="Button" image="bar_tools.png">
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="showToolbox:" destination="xaZ-al-QhV" eventType="touchUpInside" id="pni-W9-dpA"/>
+                                            </connections>
+                                        </button>
+                                    </barButtonItem>
+                                </items>
+                                <color key="barTintColor" red="0.11764705882352941" green="0.11764705882352941" blue="0.11764705882352941" alpha="1" colorSpace="calibratedRGB"/>
+                            </toolbar>
+                            <view hidden="YES" contentMode="scaleToFill" id="tXF-GV-6cd" customClass="FXBlurView">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -136,9 +216,11 @@
                     <navigationItem key="navigationItem" id="L0h-EV-yiz"/>
                     <connections>
                         <outlet property="adjustMenu" destination="CAQ-jq-lyC" id="jXT-wo-Y9I"/>
-                        <outlet property="menuTable" destination="Gsk-l2-lYD" id="BZv-pk-JEh"/>
+                        <outlet property="blurView" destination="tXF-GV-6cd" id="4xz-qF-Dyw"/>
+                        <outlet property="canvasView" destination="xLe-TB-h8T" id="jcJ-OF-c2C"/>
                         <outlet property="rendererView" destination="zUs-oU-8qW" id="bD9-hp-fyI"/>
                         <outlet property="spriteTable" destination="0vj-QJ-exO" id="DbB-QZ-XhV"/>
+                        <outlet property="toolboxView" destination="MHU-4X-oWL" id="dLY-Vp-PlC"/>
                         <segue destination="Zkj-rO-exu" kind="push" identifier="editor" id="f8x-t6-B0l"/>
                         <segue destination="SwP-Yj-UZM" kind="push" identifier="settings" id="bwy-CX-igi"/>
                         <segue destination="Jcf-4U-FpJ" kind="modal" identifier="physicsGroups" modalTransitionStyle="coverVertical" animates="NO" id="AEr-Kt-7sj"/>
@@ -780,7 +862,7 @@
             <objects>
                 <viewController automaticallyAdjustsScrollViewInsets="NO" id="h8z-ng-B06" customClass="ZSRendererViewController" sceneMemberID="viewController">
                     <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="bYw-Cf-fec" customClass="SKView">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="524"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -835,6 +917,11 @@
         </scene>
     </scenes>
     <resources>
+        <image name="bar_back.png" width="478" height="478"/>
+        <image name="bar_group.png" width="88" height="88"/>
+        <image name="bar_play.png" width="88" height="88"/>
+        <image name="bar_stop.png" width="88" height="88"/>
+        <image name="bar_tools.png" width="44" height="44"/>
         <image name="if.png" width="199" height="165"/>
         <image name="move.png" width="276" height="163"/>
         <image name="on event.png" width="534" height="165"/>
@@ -848,6 +935,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="vBZ-13-8JQ"/>
+        <segue reference="XFw-Ri-amw"/>
     </inferredMetricsTieBreakers>
 </document>

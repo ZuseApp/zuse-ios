@@ -611,7 +611,7 @@
       "type" : "image",
       "id" : "20E26463-2409-4D90-8ED9-937FE6746DED",
       "properties" : {
-        "y" : 43,
+        "y" : 73,
         "width" : 129,
         "x" : 106.5,
         "height" : 28
@@ -655,7 +655,7 @@
       "type" : "image",
       "id" : "B00B8AED-B3C3-4A3C-AB0E-3559E0BCA33C",
       "properties" : {
-        "y" : 77.00003,
+        "y" : 107,
         "width" : 30,
         "x" : 106,
         "height" : 30
