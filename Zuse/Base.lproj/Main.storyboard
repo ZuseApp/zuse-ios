@@ -152,9 +152,21 @@
                                             </connections>
                                         </button>
                                     </barButtonItem>
+                                    <barButtonItem style="plain" id="mvx-tN-Hlz">
+                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="sRv-sM-Hel">
+                                            <rect key="frame" x="58" y="6" width="32" height="32"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal" title="Button" image="bar_pause.png">
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="pauseProject:" destination="xaZ-al-QhV" eventType="touchUpInside" id="Ogh-7u-h3q"/>
+                                            </connections>
+                                        </button>
+                                    </barButtonItem>
                                     <barButtonItem style="plain" id="yt0-yU-sux">
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="R9K-fw-37E">
-                                            <rect key="frame" x="58" y="6" width="32" height="32"/>
+                                            <rect key="frame" x="100" y="6" width="32" height="32"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" title="Button" image="bar_stop.png">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -166,7 +178,7 @@
                                     </barButtonItem>
                                     <barButtonItem style="plain" id="cLt-6f-qPb">
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="PIY-nr-bpi">
-                                            <rect key="frame" x="100" y="6" width="32" height="32"/>
+                                            <rect key="frame" x="142" y="6" width="32" height="32"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" title="Button" image="bar_group.png">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -178,7 +190,7 @@
                                     </barButtonItem>
                                     <barButtonItem style="plain" id="ej5-Re-jwP">
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="oIc-aG-frd">
-                                            <rect key="frame" x="142" y="3" width="38" height="38"/>
+                                            <rect key="frame" x="184" y="3" width="38" height="38"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" title="Button" image="bar_back.png">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -232,6 +244,8 @@
                         <outlet property="canvasView" destination="xLe-TB-h8T" id="jcJ-OF-c2C"/>
                         <outlet property="groupBarButtonItem" destination="cLt-6f-qPb" id="ty2-Qx-3NA"/>
                         <outlet property="menuBarButtonItem" destination="epk-pi-C2t" id="EAY-nb-daR"/>
+                        <outlet property="pauseBarButtonItem" destination="mvx-tN-Hlz" id="9HZ-XC-qsy"/>
+                        <outlet property="playBarButtonItem" destination="fWJ-y4-MEU" id="gRs-tl-kfK"/>
                         <outlet property="rendererView" destination="zUs-oU-8qW" id="bD9-hp-fyI"/>
                         <outlet property="spriteTable" destination="0vj-QJ-exO" id="DbB-QZ-XhV"/>
                         <outlet property="toolBarButtonItem" destination="90u-qW-x19" id="Sd6-v5-8TC"/>
@@ -936,6 +950,7 @@
         <image name="bar_back.png" width="478" height="478"/>
         <image name="bar_group.png" width="88" height="88"/>
         <image name="bar_menu.png" width="88" height="88"/>
+        <image name="bar_pause.png" width="88" height="88"/>
         <image name="bar_play.png" width="88" height="88"/>
         <image name="bar_stop.png" width="88" height="88"/>
         <image name="bar_tools.png" width="44" height="44"/>

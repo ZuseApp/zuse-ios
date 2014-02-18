@@ -53,6 +53,8 @@ NSString * const ZSTutorialGestureLongPress = @"ZSTutorialGestureLongPress";
 
 // Toolbar
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *playBarButtonItem;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *pauseBarButtonItem;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *groupBarButtonItem;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *toolBarButtonItem;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *menuBarButtonItem;
@@ -84,6 +86,11 @@ NSString * const ZSTutorialGestureLongPress = @"ZSTutorialGestureLongPress";
     // Curve the toolbox.
     [_toolboxView.layer setCornerRadius:5];
     [_adjustMenu.layer setCornerRadius:5];
+    
+    // Remove pause from the toolbar.
+    NSMutableArray *items = [_toolbar.items mutableCopy];
+    [items removeObject:_pauseBarButtonItem];
+    [_toolbar setItems:items];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -530,6 +537,8 @@ NSString * const ZSTutorialGestureLongPress = @"ZSTutorialGestureLongPress";
 
 - (IBAction)playProject:(id)sender {
     NSMutableArray *items = [_toolbar.items mutableCopy];
+    [items insertObject:_pauseBarButtonItem atIndex:0];
+    [items removeObject:_playBarButtonItem];
     [items removeObject:_groupBarButtonItem];
     [items removeObject:_toolBarButtonItem];
     [items removeObject:_menuBarButtonItem];
@@ -546,8 +555,21 @@ NSString * const ZSTutorialGestureLongPress = @"ZSTutorialGestureLongPress";
     }
 }
 
+- (IBAction)pauseProject:(id)sender {
+    NSMutableArray *items = [_toolbar.items mutableCopy];
+    [items insertObject:_playBarButtonItem atIndex:0];
+    [items removeObject:_pauseBarButtonItem];
+    [_toolbar setItems:items animated:YES];
+    
+    [_rendererViewController stop];
+}
+
 - (IBAction)stopProject:(id)sender {
     NSMutableArray *items = [_toolbar.items mutableCopy];
+    if ([items containsObject:_pauseBarButtonItem]) {
+        [items insertObject:_playBarButtonItem atIndex:0];
+        [items removeObject:_pauseBarButtonItem];
+    }
     [items insertObject:_groupBarButtonItem atIndex:2];
     [items addObject:_toolBarButtonItem];
     [items addObject:_menuBarButtonItem];
