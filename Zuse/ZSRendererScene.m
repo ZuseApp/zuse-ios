@@ -89,12 +89,11 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
             touchComponent.touchesMoved = ^(UITouch *touch) {
                 CGPoint point = [touch locationInNode:self];
                 
-                if([self spriteWithinWorld:point size:size node:node])
-                {
+                
                     [_interpreter triggerEvent:@"touch_moved"
                             onObjectWithIdentifier:object[@"id"]
                                         parameters:@{ @"touch_x": @(point.x), @"touch_y": @(point.y) }];
-                }
+                
             };
             
             touchComponent.touchesEnded = ^(UITouch *touch) {
@@ -112,38 +111,39 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
 -(BOOL) spriteWithinWorld:(CGPoint)point size:(CGSize)size node:(ZSComponentNode *)node
 {
     CGPoint midPointOfScene = CGPointMake(self.size.width / 2.0f, self.size.height / 2.0f);
-    CGPoint midPointOfSprite = CGPointMake(size.width / 2.0f, size.height / 2.0f);
+//    CGPoint midPointOfSprite = CGPointMake(size.width / 2.0f, size.height / 2.0f);
     
     //get point touched in the sprite
-    CGPoint tempPointInSprite = [self convertPoint:point toNode:node];
-    CGPoint absOfTempPoint = CGPointMake(fabsf(tempPointInSprite.x), fabsf(tempPointInSprite.y));
-    CGPoint pointTouchedInSprite = CGPointMake(midPointOfSprite.x - absOfTempPoint.x, midPointOfSprite.y - absOfTempPoint.y);
+//    CGPoint tempPointInSprite = [self convertPoint:point toNode:node];
+//    CGPoint absOfTempPoint = CGPointMake(fabsf(tempPointInSprite.x), fabsf(tempPointInSprite.y));
+//    CGPoint pointTouchedInSprite = CGPointMake(midPointOfSprite.x - absOfTempPoint.x, midPointOfSprite.y - absOfTempPoint.y);
     
     //compute the offsets for the sprite's touched location
-    CGPoint offsetright = CGPointMake(size.width - pointTouchedInSprite.x, size.height - pointTouchedInSprite.y);
+//    CGPoint offsetright = CGPointMake(size.width - pointTouchedInSprite.x, size.height - pointTouchedInSprite.y);
     //    CGpoint offsetabove = CGPointMake(<#CGFloat x#>, <#CGFloat y#>)
     
-    NSLog(@"point %@", NSStringFromCGPoint(point));
-    NSLog(@"offset %@", NSStringFromCGPoint(offsetright));
-    NSLog(@"node at right %f", point.x+offsetright.x);
-    NSLog(@"node at left %f", point.x-pointTouchedInSprite.x);
+    CGFloat xLeftBound =point.x - size.width / 2.0f;
+    CGFloat xRightBound =point.x + size.width / 2.0f;
+    
+    NSLog(@"left side %f", xLeftBound);
+    NSLog(@"right side %f", xRightBound);
+    NSLog(@"point touched in sprite %@", NSStringFromCGPoint(point));
+    
     if(point.x <= midPointOfScene.x)
     {
-        if((point.x - pointTouchedInSprite.x) > 0.0f)
+        if((point.x - size.width / 2.0f) > 0.0f)
         {
             return YES;
         }
-        return NO;
     }
     else if(point.x > midPointOfScene.x)
     {
-        if((point.x + offsetright.x) < self.size.width)
+        if((point.x + size.width / 2.0f) < self.size.width)
         {
             return YES;
         }
-        return NO;
     }
-    return NO;
+        return NO;
 }
 
 - (void) setupInterpreterWithProjectJSON:(NSDictionary *)projectJSON {
@@ -311,11 +311,17 @@ void APARunOneShotEmitter(SKEmitterNode *emitter, CGFloat duration) {
         objectWithIdentifier:(NSString *)identifier
         didUpdateProperties:(NSDictionary *)properties {
     ZSComponentNode *node = _spriteNodes[identifier];
+    
     if (properties[@"x"]) {
-        ZSComponentNode *joint = _jointNodes[identifier];
-        if (joint)
-            node = joint;
-        node.position = CGPointMake([properties[@"x"] floatValue], node.position.y);
+        CGPoint point = CGPointMake([properties[@"x"] floatValue], node.position.y);
+        SKSpriteNode *sprite = node.children.firstObject;
+        CGSize size = sprite.size;
+        
+        if([self spriteWithinWorld:point size:size node:node])
+        {
+            node.position = CGPointMake([properties[@"x"] floatValue], node.position.y);
+        }
+//        node.position = CGPointMake([properties[@"x"] floatValue], node.position.y);
     }
     if (properties[@"y"]) {
         ZSComponentNode *joint = _jointNodes[identifier];
