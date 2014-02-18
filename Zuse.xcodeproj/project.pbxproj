@@ -19,6 +19,7 @@
 		4C430DED188B8C12009D754C /* gear--pencil.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C430DEC188B8C12009D754C /* gear--pencil.png */; };
 		4C5080D9188480F500E1F57A /* ZSProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C5080D8188480F500E1F57A /* ZSProjectViewController.m */; };
 		4C5080DF188485C900E1F57A /* ZSNewProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C5080DE188485C900E1F57A /* ZSNewProjectViewController.m */; };
+		4C5A31C318B36A7800FCE1A9 /* ZSOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C5A31C218B36A7800FCE1A9 /* ZSOverlayView.m */; };
 		4C5F732318873A59007F61B3 /* ZSGrid.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C5F732218873A59007F61B3 /* ZSGrid.m */; };
 		4C5F732718874B51007F61B3 /* ZSCanvasView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C5F732618874B51007F61B3 /* ZSCanvasView.m */; };
 		4C62B0BB18564F9D007CC9CD /* ZSMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C62B0B818564F9D007CC9CD /* ZSMenuController.m */; };
@@ -179,6 +180,8 @@
 		4C5080D8188480F500E1F57A /* ZSProjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSProjectViewController.m; sourceTree = "<group>"; };
 		4C5080DD188485C900E1F57A /* ZSNewProjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSNewProjectViewController.h; sourceTree = "<group>"; };
 		4C5080DE188485C900E1F57A /* ZSNewProjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSNewProjectViewController.m; sourceTree = "<group>"; };
+		4C5A31C118B36A7800FCE1A9 /* ZSOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSOverlayView.h; sourceTree = "<group>"; };
+		4C5A31C218B36A7800FCE1A9 /* ZSOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSOverlayView.m; sourceTree = "<group>"; };
 		4C5F732118873A59007F61B3 /* ZSGrid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSGrid.h; sourceTree = "<group>"; };
 		4C5F732218873A59007F61B3 /* ZSGrid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSGrid.m; sourceTree = "<group>"; };
 		4C5F732518874B51007F61B3 /* ZSCanvasView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCanvasView.h; sourceTree = "<group>"; };
@@ -467,6 +470,8 @@
 			children = (
 				4CD2311718AC3CC100DC5619 /* ZSTutorial.h */,
 				4CD2311818AC3CC100DC5619 /* ZSTutorial.m */,
+				4C5A31C118B36A7800FCE1A9 /* ZSOverlayView.h */,
+				4C5A31C218B36A7800FCE1A9 /* ZSOverlayView.m */,
 			);
 			name = Tutorial;
 			sourceTree = "<group>";
@@ -1190,6 +1195,7 @@
 				5F39DFCD188A40A0008ECAC1 /* NSMutableIndexSet+BlocksKit.m in Sources */,
 				5F8138D41898C36B009F3495 /* NSNumber+Zuse.m in Sources */,
 				7855BCCA1837FA97006493F9 /* ZSCodeEditorViewController.m in Sources */,
+				4C5A31C318B36A7800FCE1A9 /* ZSOverlayView.m in Sources */,
 				5F8138DF18A0BA07009F3495 /* ZSCollisionsViewController.m in Sources */,
 				4C5F732318873A59007F61B3 /* ZSGrid.m in Sources */,
 				4C9E3B3E18A33E03009CD8FB /* ZSAdjustControl.m in Sources */,

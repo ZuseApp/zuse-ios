@@ -57,7 +57,7 @@
                                 </connections>
                             </containerView>
                             <view hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" id="MHU-4X-oWL">
-                                <rect key="frame" x="20" y="137" width="280" height="294"/>
+                                <rect key="frame" x="20" y="117" width="280" height="314"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" text="TOOLBOX" textAlignment="center" minimumFontSize="17" id="y7d-Sy-xCV">
@@ -69,7 +69,7 @@
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <tableView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="0vj-QJ-exO">
-                                        <rect key="frame" x="0.0" y="40" width="280" height="254"/>
+                                        <rect key="frame" x="0.0" y="40" width="280" height="274"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="0.95000000000000007" colorSpace="calibratedRGB"/>
                                         <gestureRecognizers/>
@@ -141,7 +141,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
                                     <barButtonItem style="plain" id="fWJ-y4-MEU">
-                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="thr-gj-rGv">
+                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="thr-gj-rGv">
                                             <rect key="frame" x="16" y="6" width="32" height="32"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" title="Button" image="bar_play.png">
@@ -153,7 +153,7 @@
                                         </button>
                                     </barButtonItem>
                                     <barButtonItem style="plain" id="mvx-tN-Hlz">
-                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="sRv-sM-Hel">
+                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="sRv-sM-Hel">
                                             <rect key="frame" x="58" y="6" width="32" height="32"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" title="Button" image="bar_pause.png">
@@ -165,7 +165,7 @@
                                         </button>
                                     </barButtonItem>
                                     <barButtonItem style="plain" id="yt0-yU-sux">
-                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="R9K-fw-37E">
+                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="R9K-fw-37E">
                                             <rect key="frame" x="100" y="6" width="32" height="32"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" title="Button" image="bar_stop.png">
@@ -178,7 +178,7 @@
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="EUf-uy-5EC"/>
                                     <barButtonItem style="plain" id="cLt-6f-qPb">
-                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="PIY-nr-bpi">
+                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="PIY-nr-bpi">
                                             <rect key="frame" x="132" y="6" width="32" height="32"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" title="Button" image="bar_group.png">
@@ -190,7 +190,7 @@
                                         </button>
                                     </barButtonItem>
                                     <barButtonItem style="plain" id="90u-qW-x19">
-                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Qgm-2R-uWK">
+                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="Qgm-2R-uWK">
                                             <rect key="frame" x="174" y="0.0" width="44" height="44"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" title="Button" image="bar_tools.png">
@@ -202,7 +202,7 @@
                                         </button>
                                     </barButtonItem>
                                     <barButtonItem style="plain" id="epk-pi-C2t">
-                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="7SI-wV-W2t">
+                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="7SI-wV-W2t">
                                             <rect key="frame" x="228" y="6" width="28" height="32"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" title="Button" image="bar_menu.png">
@@ -214,7 +214,7 @@
                                         </button>
                                     </barButtonItem>
                                     <barButtonItem style="plain" id="ej5-Re-jwP">
-                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="oIc-aG-frd">
+                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="oIc-aG-frd">
                                             <rect key="frame" x="266" y="3" width="38" height="38"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" title="Button" image="bar_back.png">
@@ -250,6 +250,7 @@
                         <outlet property="spriteTable" destination="0vj-QJ-exO" id="DbB-QZ-XhV"/>
                         <outlet property="stopBarButtonItem" destination="yt0-yU-sux" id="aoC-B3-luF"/>
                         <outlet property="toolBarButtonItem" destination="90u-qW-x19" id="Sd6-v5-8TC"/>
+                        <outlet property="toolButton" destination="Qgm-2R-uWK" id="NC5-Y5-weJ"/>
                         <outlet property="toolbar" destination="lke-3O-Z2W" id="LOB-tb-57j"/>
                         <outlet property="toolboxView" destination="MHU-4X-oWL" id="dLY-Vp-PlC"/>
                         <segue destination="Zkj-rO-exu" kind="push" identifier="editor" id="f8x-t6-B0l"/>

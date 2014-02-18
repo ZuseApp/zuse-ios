@@ -15,8 +15,9 @@
 
 NSString * const ZSTutorialBroadcastDidDropSprite = @"ZSTutorialBroadcastDidDropSprite";
 NSString * const ZSTutorialBroadcastDidDoubleTap = @"ZSTutorialBroadcastDidDoubleTap";
-NSString * const ZSTutorialGestureDoupleTap = @"ZSTutorialGestureDoubleTap";
-NSString * const ZSTutorialGestureLongPress = @"ZSTutorialGestureLongPress";
+NSString * const ZSTutorialBroadcastDidShowToolbox = @"ZSTutorialBroadcastDidShowToolbox";
+NSString * const ZSTutorialBroadcastDidHideToolbox = @"ZSTutorialBroadcastDidHideToolbox";
+NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPaddle";
 
 @interface ZSCanvasViewController ()
 
@@ -59,6 +60,7 @@ NSString * const ZSTutorialGestureLongPress = @"ZSTutorialGestureLongPress";
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *groupBarButtonItem;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *toolBarButtonItem;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *menuBarButtonItem;
+@property (weak, nonatomic) IBOutlet UIButton *toolButton;
 
 @end
 
@@ -110,9 +112,34 @@ NSString * const ZSTutorialGestureLongPress = @"ZSTutorialGestureLongPress";
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-//    ZSSpriteView *view = ((ZSSpriteTableViewCell*)[_spriteController tableView:_spriteTable cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]]).spriteView;
-//    [_tutorial addActionWithText:@"Double tap to bring up the menu." forEvent:ZSTutorialBroadcastDidDoubleTap allowedGestures:@[ZSTutorialGestureDoupleTap, ZSTutorialGestureLongPress] activeRegion:self.view.frame completion:nil];
-//    [_tutorial present];
+    if (_showTutorial) {
+        CGRect ballRect = [_spriteTable rectForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+        CGRect paddleRect = [_spriteTable rectForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
+        __block UIView *paddle1 = nil;
+        __block UIView *paddle2 = nil;
+        __block UIView *ball = nil;
+        
+        WeakSelf
+        [_tutorial addActionWithText:@"Touch here to open the toolbox." forEvent:ZSTutorialBroadcastDidShowToolbox activeRegion:[_toolbar convertRect:_toolButton.frame toView:self.view] setup:nil completion:nil];
+        [_tutorial addActionWithText:@"Drag a paddle sprite onto the lower part of the canvas." forEvent:ZSTutorialBroadcastDidDropSprite activeRegion:[_spriteTable convertRect:paddleRect toView:self.view] setup:nil completion:^{
+            paddle1 = [weakSelf.canvasView.subviews lastObject];
+        }];
+        [_tutorial addActionWithText:@"Drag another paddle sprite onto the upper part of the canvas." forEvent:ZSTutorialBroadcastDidDropSprite activeRegion:[_spriteTable convertRect:paddleRect toView:self.view] setup:nil completion:^{
+            paddle2 = [weakSelf.canvasView.subviews lastObject];
+        }];
+        [_tutorial addActionWithText:@"Drag a ball sprite onto the middle of the canvas." forEvent:ZSTutorialBroadcastDidDropSprite activeRegion:[_spriteTable convertRect:ballRect toView:self.view] setup:nil completion:^{
+            ball = [weakSelf.canvasView.subviews lastObject];
+        }];
+        [_tutorial addActionWithText:@"Touch anywhere outside of the toolbox to close it." forEvent:ZSTutorialBroadcastDidHideToolbox activeRegion:self.view.frame setup:^{
+            weakSelf.tutorial.toolTipOverrideView = weakSelf.toolboxView;
+        } completion:^{
+            weakSelf.tutorial.toolTipOverrideView = nil;
+        }];
+        [_tutorial addActionWithText:@"Touch the lower paddle to bring up the sprite editor." forEvent:ZSTutorialBroadcastDidTapPaddle activeRegion:CGRectZero setup:^{
+            weakSelf.tutorial.overlayView.activeRegion = paddle1.frame;
+        } completion:nil];
+        [_tutorial present];
+    }
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -126,6 +153,7 @@ NSString * const ZSTutorialGestureLongPress = @"ZSTutorialGestureLongPress";
         rendererController.projectJSON = [_project assembledJSON];
         _rendererViewController = rendererController;
     } else if ([segue.identifier isEqualToString:@"editor"]) {
+        _showTutorial = NO;
         ZSEditorViewController *editorController = (ZSEditorViewController *)segue.destinationViewController;
         editorController.spriteObject = ((ZSSpriteView *)sender).spriteJSON;
     } else if  ([segue.identifier isEqualToString:@"settings"]) {
@@ -181,6 +209,7 @@ NSString * const ZSTutorialGestureLongPress = @"ZSTutorialGestureLongPress";
     WeakSelf
     __weak ZSSpriteView *weakView = view;
     view.singleTapped = ^(){
+        [_tutorial broadcastEvent:ZSTutorialBroadcastDidTapPaddle];
         [self performSegueWithIdentifier:@"editor" sender:weakView];
     };
     
@@ -330,6 +359,7 @@ NSString * const ZSTutorialGestureLongPress = @"ZSTutorialGestureLongPress";
                 draggedView.transform = CGAffineTransformIdentity;
             }];
         }
+        [weakSelf.tutorial hideMessage];
         [weakSelf hideToolbox];
     };
     
@@ -379,6 +409,7 @@ NSString * const ZSTutorialGestureLongPress = @"ZSTutorialGestureLongPress";
         
         // Show the toolbox again.
         [weakSelf showToolbox];
+        [weakSelf.tutorial broadcastEvent:ZSTutorialBroadcastDidDropSprite];
     };
 }
 
@@ -630,6 +661,7 @@ NSString * const ZSTutorialGestureLongPress = @"ZSTutorialGestureLongPress";
         _toolboxView.alpha = 1;
         _blurView.alpha = 1;
     }];
+    [_tutorial broadcastEvent:ZSTutorialBroadcastDidShowToolbox];
 }
 
 - (void)hideToolbox {
@@ -640,6 +672,7 @@ NSString * const ZSTutorialGestureLongPress = @"ZSTutorialGestureLongPress";
         _toolboxView.hidden = YES;
         _blurView.hidden = YES;
     }];
+    [_tutorial broadcastEvent:ZSTutorialBroadcastDidHideToolbox];
 }
 
 
