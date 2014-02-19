@@ -4,7 +4,6 @@
 
 @property (nonatomic, strong) UIWindow *window;
 @property (nonatomic, strong) NSMutableArray *actions;
-@property (nonatomic, strong) NSArray *allowedGestures;
 @property (nonatomic, strong) NSString *event;
 @property (nonatomic, strong) void (^completion)();
 @property (nonatomic, strong) CMPopTipView *toolTipView;
@@ -12,6 +11,15 @@
 @end
 
 @implementation ZSTutorial
+
++ (id)sharedTutorial {
+    static ZSTutorial *tutorial = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        tutorial = [[self alloc] init];
+    });
+    return tutorial;
+}
 
 -(id)init {
     self = [super init];
@@ -38,7 +46,7 @@
     }
 }
 
-- (void)addActionWithText:(NSString*)text forEvent:(NSString*)event activeRegion:(CGRect)activeRegion setup:(void(^)())setup completion:(void(^)())completion {
+- (void)addActionWithText:(NSString*)text forEvent:(NSString*)event allowedGestures:(NSArray*)allowedGestures activeRegion:(CGRect)activeRegion setup:(void(^)())setup completion:(void(^)())completion {
     
     NSMutableDictionary *action = [NSMutableDictionary dictionary];
     if (text) {
@@ -46,6 +54,9 @@
     }
     if (event) {
         action[@"event"] = event;
+    }
+    if (allowedGestures) {
+        action[@"allowedGestures"] = allowedGestures;
     }
     action[@"activeRegion"] = [NSValue valueWithCGRect:activeRegion];
     if (setup) {
@@ -74,6 +85,7 @@
 
 - (void)processNextAction {
     if (_active) {
+        _overlayView.invertActiveRegion = NO;
         if (_actions.count == 0) {
             [_overlayView removeFromSuperview];
             _active = NO;
@@ -94,7 +106,6 @@
         _allowedGestures = action[@"allowedGestures"];
         void(^setup)() = action[@"setup"];
         _completion = action[@"completion"];
-        
         _overlayView.activeRegion = [action[@"activeRegion"] CGRectValue];
         
         if (setup) {
@@ -103,15 +114,9 @@
         
         // Show tooltip view
         UIView *view = nil;
-        if (_toolTipOverrideView) {
-            view = _toolTipOverrideView;
-        }
-        else {
-            view = [[UIView alloc] initWithFrame:_overlayView.activeRegion];
-            // view.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.6];
-            [_overlayView addSubview:view];
-        }
-        
+        view = [[UIView alloc] initWithFrame:_overlayView.activeRegion];
+        // view.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.9];
+        [_overlayView addSubview:view];
         
         _toolTipView = [[CMPopTipView alloc] initWithMessage:action[@"text"]];
         _toolTipView.disableTapToDismiss = YES;

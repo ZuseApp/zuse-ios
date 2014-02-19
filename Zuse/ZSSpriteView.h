@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ZSSpriteView : UIView
+@interface ZSSpriteView : UIView <UIGestureRecognizerDelegate>
 
 - (BOOL)setContentFromJSON:(NSDictionary*)spriteJSON;
 - (BOOL)setThumbnailFromJSON:(NSMutableDictionary*)spriteJSON;

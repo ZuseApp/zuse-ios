@@ -5,12 +5,13 @@
 @interface ZSTutorial : NSObject
 
 @property (nonatomic, strong) ZSOverlayView *overlayView;
-@property (nonatomic, strong) UIView* toolTipOverrideView;
+@property (nonatomic, strong) NSArray *allowedGestures;
 @property (nonatomic, assign, getter=isActive) BOOL active;
 
++ (ZSTutorial*)sharedTutorial;
 - (void)present;
 - (void)broadcastEvent:(NSString*)event;
-- (void)addActionWithText:(NSString*)text forEvent:(NSString*)event activeRegion:(CGRect)activeRegion setup:(void(^)())setup completion:(void(^)())completion;
+- (void)addActionWithText:(NSString*)text forEvent:(NSString*)event allowedGestures:(NSArray*)allowedGestures activeRegion:(CGRect)activeRegion setup:(void(^)())setup completion:(void(^)())completion;
 
 - (void)hideMessage;
 

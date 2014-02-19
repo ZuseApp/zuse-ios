@@ -7,6 +7,7 @@
 //
 
 #import "ZSSpriteView.h"
+#import "ZSTutorial.h"
 
 @implementation ZSSpriteView
 
@@ -131,10 +132,20 @@
     UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panRecognized:)];
     [panGesture setMinimumNumberOfTouches:1];
     [panGesture setMaximumNumberOfTouches:1];
+    panGesture.delegate = self;
     [self addGestureRecognizer:panGesture];
     
     UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressRecognized:)];
+    longPressGesture.delegate = self;
     [self addGestureRecognizer:longPressGesture];
+}
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    ZSTutorial *tutorial = [ZSTutorial sharedTutorial];
+    if ([tutorial.allowedGestures containsObject:gestureRecognizer.class]) {
+        return YES;
+    }
+    return NO;
 }
 
 - (void)singleTapRecognized {

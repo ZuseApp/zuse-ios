@@ -73,7 +73,7 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
     [super viewDidLoad];
     
     // Tutorial
-    _tutorial = [[ZSTutorial alloc] init];
+    _tutorial = [ZSTutorial sharedTutorial];
     
     // Load the project if it exists.
     if (_project) {
@@ -120,24 +120,52 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
         __block UIView *ball = nil;
         
         WeakSelf
-        [_tutorial addActionWithText:@"Touch here to open the toolbox." forEvent:ZSTutorialBroadcastDidShowToolbox activeRegion:[_toolbar convertRect:_toolButton.frame toView:self.view] setup:nil completion:nil];
-        [_tutorial addActionWithText:@"Drag a paddle sprite onto the lower part of the canvas." forEvent:ZSTutorialBroadcastDidDropSprite activeRegion:[_spriteTable convertRect:paddleRect toView:self.view] setup:nil completion:^{
+        [_tutorial addActionWithText:@"Touch the toolbox icon to open the sprite toolbox."
+                            forEvent:ZSTutorialBroadcastDidShowToolbox
+                     allowedGestures:@[UITapGestureRecognizer.class]
+                        activeRegion:[_toolbar convertRect:_toolButton.frame toView:self.view]
+                               setup:nil
+                          completion:nil];
+        [_tutorial addActionWithText:@"Drag a paddle sprite onto the lower part of the canvas."
+                            forEvent:ZSTutorialBroadcastDidDropSprite
+                     allowedGestures:@[UIPanGestureRecognizer.class]
+                        activeRegion:[_spriteTable convertRect:paddleRect toView:self.view]
+                               setup:nil
+                          completion:^{
             paddle1 = [weakSelf.canvasView.subviews lastObject];
         }];
-        [_tutorial addActionWithText:@"Drag another paddle sprite onto the upper part of the canvas." forEvent:ZSTutorialBroadcastDidDropSprite activeRegion:[_spriteTable convertRect:paddleRect toView:self.view] setup:nil completion:^{
-            paddle2 = [weakSelf.canvasView.subviews lastObject];
-        }];
-        [_tutorial addActionWithText:@"Drag a ball sprite onto the middle of the canvas." forEvent:ZSTutorialBroadcastDidDropSprite activeRegion:[_spriteTable convertRect:ballRect toView:self.view] setup:nil completion:^{
-            ball = [weakSelf.canvasView.subviews lastObject];
-        }];
-        [_tutorial addActionWithText:@"Touch anywhere outside of the toolbox to close it." forEvent:ZSTutorialBroadcastDidHideToolbox activeRegion:self.view.frame setup:^{
-            weakSelf.tutorial.toolTipOverrideView = weakSelf.toolboxView;
-        } completion:^{
-            weakSelf.tutorial.toolTipOverrideView = nil;
-        }];
-        [_tutorial addActionWithText:@"Touch the lower paddle to bring up the sprite editor." forEvent:ZSTutorialBroadcastDidTapPaddle activeRegion:CGRectZero setup:^{
-            weakSelf.tutorial.overlayView.activeRegion = paddle1.frame;
-        } completion:nil];
+        [_tutorial addActionWithText:@"Drag another paddle sprite onto the upper part of the canvas."
+                            forEvent:ZSTutorialBroadcastDidDropSprite
+                     allowedGestures:@[UIPanGestureRecognizer.class]
+                        activeRegion:[_spriteTable convertRect:paddleRect toView:self.view]
+                               setup:nil
+                          completion:^{
+                              paddle2 = [weakSelf.canvasView.subviews lastObject];
+                          }];
+        [_tutorial addActionWithText:@"Drag a ball sprite onto the middle of the canvas."
+                            forEvent:ZSTutorialBroadcastDidDropSprite
+                     allowedGestures:@[UIPanGestureRecognizer.class]
+                        activeRegion:[_spriteTable convertRect:ballRect toView:self.view]
+                               setup:nil
+                          completion:^{
+                              ball = [weakSelf.canvasView.subviews lastObject];
+                          }];
+        [_tutorial addActionWithText:@"Touch anywhere outside of the toolbox to close it."
+                            forEvent:ZSTutorialBroadcastDidHideToolbox
+                     allowedGestures:@[UITapGestureRecognizer.class]
+                        activeRegion:_toolboxView.frame
+                               setup:^{
+                                   weakSelf.tutorial.overlayView.invertActiveRegion = YES;
+                               }
+                          completion:nil];
+        [_tutorial addActionWithText:@"Touch the lower paddle to bring up the sprite editor."
+                            forEvent:ZSTutorialBroadcastDidTapPaddle
+                     allowedGestures:@[UITapGestureRecognizer.class]
+                        activeRegion:CGRectZero
+                               setup:^{
+                                   weakSelf.tutorial.overlayView.activeRegion = paddle1.frame;
+                               }
+                          completion:nil];
         [_tutorial present];
     }
 }
@@ -582,8 +610,8 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
     
     [self.view bringSubviewToFront:self.rendererView];
     if (self.rendererView.hidden) {
-        self.rendererView.hidden = NO;
         self.rendererViewController.projectJSON = [self.project assembledJSON];
+        self.rendererView.hidden = NO;
         [self.rendererViewController play];
     }
     else {
@@ -657,6 +685,8 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
     _blurView.alpha = 0;
     _blurView.hidden = NO;
     _blurView.blurRadius = 5;
+    _blurView.tintColor = [UIColor clearColor];
+    _blurView.dynamic = NO;
     [UIView animateWithDuration:0.25f animations:^{
         _toolboxView.alpha = 1;
         _blurView.alpha = 1;

@@ -11,5 +11,6 @@
 @interface ZSOverlayView : UIView <UIGestureRecognizerDelegate>
 
 @property (nonatomic, assign) CGRect activeRegion;
+@property (nonatomic, assign) BOOL invertActiveRegion;
 
 @end
