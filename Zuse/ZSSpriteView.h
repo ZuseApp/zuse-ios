@@ -8,13 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ZSSpriteView : UIView
+@interface ZSSpriteView : UIView <UIGestureRecognizerDelegate>
 
 - (BOOL)setContentFromJSON:(NSDictionary*)spriteJSON;
 - (BOOL)setThumbnailFromJSON:(NSMutableDictionary*)spriteJSON;
 
 @property (strong, nonatomic) void(^singleTapped)();
-@property (strong, nonatomic) void(^doubleTapped)();
 @property (strong, nonatomic) void(^longPressed)(UILongPressGestureRecognizer *longPressedGestureRecognizer);
 @property (strong, nonatomic) void(^panBegan)(UIPanGestureRecognizer *panGestureRecognizer);
 @property (strong, nonatomic) void(^panMoved)(UIPanGestureRecognizer *panGestureRecognizer);

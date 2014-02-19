@@ -7,6 +7,7 @@
 //
 
 #import "ZSSpriteView.h"
+#import "ZSTutorial.h"
 
 @implementation ZSSpriteView
 
@@ -125,32 +126,31 @@
 }
 
 - (void)setupGestures {
-    UITapGestureRecognizer *doubleTapGeture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTapRecognized)];
-    doubleTapGeture.numberOfTapsRequired = 2;
-    [self addGestureRecognizer:doubleTapGeture];
-    
     UITapGestureRecognizer *singleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTapRecognized)];
-    [singleTapGesture requireGestureRecognizerToFail:doubleTapGeture];
     [self addGestureRecognizer:singleTapGesture];
     
     UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panRecognized:)];
     [panGesture setMinimumNumberOfTouches:1];
     [panGesture setMaximumNumberOfTouches:1];
+    panGesture.delegate = self;
     [self addGestureRecognizer:panGesture];
     
     UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressRecognized:)];
+    longPressGesture.delegate = self;
     [self addGestureRecognizer:longPressGesture];
+}
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    ZSTutorial *tutorial = [ZSTutorial sharedTutorial];
+    if ([tutorial.allowedGestures containsObject:gestureRecognizer.class]) {
+        return YES;
+    }
+    return NO;
 }
 
 - (void)singleTapRecognized {
     if (_singleTapped) {
         _singleTapped();
-    }
-}
-
-- (void)doubleTapRecognized {
-    if (_doubleTapped) {
-        _doubleTapped();
     }
 }
 
