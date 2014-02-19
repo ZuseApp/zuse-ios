@@ -142,7 +142,7 @@
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
     ZSTutorial *tutorial = [ZSTutorial sharedTutorial];
-    if ([tutorial.allowedGestures containsObject:gestureRecognizer.class]) {
+    if (!tutorial.active || [tutorial.allowedGestures containsObject:gestureRecognizer.class]) {
         return YES;
     }
     return NO;
