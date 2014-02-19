@@ -33,11 +33,11 @@
     NSArray *newObjects = _projectJSON[@"objects"];
     
     if (traits) {
-        newObjects = [self objectsByInliningTraits:_projectJSON[@"traits"]
-                                           objects:_projectJSON[@"objects"]];
+        newObjects = [self objectsByInliningTraits:traits
+                                           objects:newObjects];
     }
     
-    newObjects = [self transformedObjectsForObjects:newObjects];
+    newObjects = [self inlinedObjectsForObjects:newObjects];
     
     return @{ @"code": newObjects };
 }
@@ -86,7 +86,17 @@
     return newObjects;
 }
 
-- (NSArray *)transformedObjectsForObjects:(NSArray *)objects {
+/**
+ *
+ * Turns a Zuse iOS app-specific object, that might have a physics body/etc., into just the things
+ * the interpreter needs and turns them into 'object' statements that the interpreter natively
+ * understands.
+ *
+ *  @param objects Project JSON-specific objects
+ *
+ *  @return Array of `object` statements from the Zuse IR
+ */
+- (NSArray *)inlinedObjectsForObjects:(NSArray *)objects {
     NSArray *newObjects = [objects map:^id(NSDictionary *obj) {
         return @{
             @"object": @{
