@@ -10,6 +10,10 @@
 #import "ZSSettingsViewController.h"
 #import "ZSAdjustView.h"
 
+#import <AFNetworking/AFNetworking.h>
+#import <Social/Social.h>
+#import <Accounts/Accounts.h>
+
 @interface ZSCanvasViewController ()
 
 // Menus
@@ -289,6 +293,35 @@
         [weakSelf hideDrawersAndPerformAction:^{
             [weakSelf performSegueWithIdentifier:@"physicsGroups" sender:weakSelf];
         }];
+    };
+    
+    _menuController.shareSelected = ^{
+        NSURL *baseURL = [NSURL URLWithString:@"https://zusehub.herokuapp.com/"];
+        AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseURL];
+        
+        [manager POST:@"/projects"
+           parameters:@{ @"title": weakSelf.project.title, @"project_json": [weakSelf.project assembledJSON] }
+              success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                  NSLog(@"Success! %@", responseObject);
+           }  failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+               NSLog(@"Failed! %@", error.localizedDescription);
+               if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter]) {
+                   SLComposeViewController *controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
+                   [controller setInitialText:@"Check out my new game %@ on Zuse!"];
+//                   [controller addURL:[NSURL URLWithString:response[@"url"]]];
+                   [controller setCompletionHandler:^(SLComposeViewControllerResult result) {
+                       if (result == SLComposeViewControllerResultCancelled) {
+                           NSLog(@"Wooohoo!");
+                       }
+                       [weakSelf dismissViewControllerAnimated:YES completion:^{}];
+                   }];
+                   [weakSelf presentViewController:controller
+                                      animated:YES
+                                    completion:^{
+                                        
+                                    }];
+               }
+           }];
     };
     
     __block CGPoint offset;
