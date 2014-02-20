@@ -25,5 +25,14 @@
       "width": 64,
       "height": 32
     }
+  },
+  {
+    "name": "Yoda",
+    "path": "yoda.jpg",
+    "physics_body": "rectangle",
+    "preferred_size": {
+      "width": 225,
+      "height": 180
+    }
   }
 ]

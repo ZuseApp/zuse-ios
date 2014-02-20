@@ -1,11 +1,3 @@
-//
-//  ZSSpriteView.m
-//  Zuse
-//
-//  Created by Michael Hogenson on 9/22/13.
-//  Copyright (c) 2013 Michael Hogenson. All rights reserved.
-//
-
 #import "ZSSpriteView.h"
 #import "ZSTutorial.h"
 
@@ -155,8 +147,21 @@
 }
 
 - (void)longPressRecognized:(id)sender {
-    if (_longPressed) {
-        _longPressed(sender);
+    UILongPressGestureRecognizer *gesture = (UILongPressGestureRecognizer*)sender;
+    if (gesture.state == UIGestureRecognizerStateBegan) {
+        if (_longPressBegan) {
+            _longPressBegan(gesture);
+        }
+    }
+    else if (gesture.state == UIGestureRecognizerStateChanged) {
+        if (_longPressChanged) {
+            _longPressChanged(gesture);
+        }
+    }
+    else if (gesture.state == UIGestureRecognizerStateEnded) {
+        if (_longPressEnded) {
+            _longPressEnded(gesture);
+        }
     }
 }
 
@@ -165,11 +170,13 @@
         if (_panBegan) {
             _panBegan(panGestureRecognizer);
         }
-    } else if (panGestureRecognizer.state == UIGestureRecognizerStateChanged) {
+    }
+    else if (panGestureRecognizer.state == UIGestureRecognizerStateChanged) {
         if (_panMoved) {
             _panMoved(panGestureRecognizer);
         }
-    } else if (panGestureRecognizer.state == UIGestureRecognizerStateEnded) {
+    }
+    else if (panGestureRecognizer.state == UIGestureRecognizerStateEnded) {
         if (_panEnded) {
             _panEnded(panGestureRecognizer);
         }
