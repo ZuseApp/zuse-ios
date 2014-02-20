@@ -39,7 +39,9 @@
     
     newObjects = [self inlinedObjectsForObjects:newObjects];
     
-    return @{ @"code": newObjects };
+    NSDictionary *code = @{ @"code": newObjects };
+    
+    return code;
 }
 
 - (NSArray *)objectsByInliningTraits:(NSDictionary *)traits objects:(NSArray *)objects {
