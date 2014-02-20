@@ -11,6 +11,7 @@
 
 @interface ZSCanvasViewController : UIViewController <UIGestureRecognizerDelegate>
 
+@property (assign, nonatomic) BOOL showTutorial;
 @property (strong, nonatomic) ZSProject *project;
 @property (copy, nonatomic) void(^didFinish)();
 

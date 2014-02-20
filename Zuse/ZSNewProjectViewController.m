@@ -59,6 +59,7 @@
         
         ZSCanvasViewController *controller = (ZSCanvasViewController *)segue.destinationViewController;
         controller.project = project;
+        controller.showTutorial = YES;
         controller.didFinish = ^{
             [self.navigationController popViewControllerAnimated:YES];
         };

@@ -39,19 +39,19 @@
     [cell.spriteView setThumbnailFromJSON:json];
     
     cell.spriteView.contentMode = UIViewContentModeScaleAspectFit;
-    cell.spriteView.panBegan = ^(UIPanGestureRecognizer *panGestureRecognizer) {
-        if (_panBegan) {
-            _panBegan(panGestureRecognizer);
+    cell.spriteView.longPressBegan = ^(UILongPressGestureRecognizer *longPressGestureRecognizer) {
+        if (_longPressBegan) {
+            _longPressBegan(longPressGestureRecognizer);
         }
     };
-    cell.spriteView.panMoved = ^(UIPanGestureRecognizer *panGestureRecognizer) {
-        if (_panMoved) {
-            _panMoved(panGestureRecognizer);
+    cell.spriteView.longPressChanged = ^(UILongPressGestureRecognizer *longPressGestureRecognizer) {
+        if (_longPressChanged) {
+            _longPressChanged(longPressGestureRecognizer);
         }
     };
-    cell.spriteView.panEnded = ^(UIPanGestureRecognizer *panGestureRecognizer) {
-        if (_panEnded) {
-            _panEnded(panGestureRecognizer);
+    cell.spriteView.longPressEnded = ^(UILongPressGestureRecognizer *longPressGestureRecognizer) {
+        if (_longPressEnded) {
+            _longPressEnded(longPressGestureRecognizer);
         }
     };
     

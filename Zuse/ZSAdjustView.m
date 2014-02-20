@@ -17,35 +17,49 @@
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        self.userInteractionEnabled = YES;
-        self.layer.borderColor = [[UIColor blackColor] CGColor];
-        self.layer.borderWidth = 0.5f;
-        [self setupGestures];
+        
     }
     return self;
 }
 
-- (void)setupGestures {
-    UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panRecognized:)];
-    [panGesture setMinimumNumberOfTouches:1];
-    [panGesture setMaximumNumberOfTouches:1];
-    [self addGestureRecognizer:panGesture];
-}
-
-- (void)panRecognized:(UIPanGestureRecognizer *) panGestureRecognizer {
-    if (panGestureRecognizer.state == UIGestureRecognizerStateBegan) {
-        if (_panBegan) {
-            _panBegan(panGestureRecognizer);
-        }
-    } else if (panGestureRecognizer.state == UIGestureRecognizerStateChanged) {
-        if (_panMoved) {
-            _panMoved(panGestureRecognizer);
-        }
-    } else if (panGestureRecognizer.state == UIGestureRecognizerStateEnded) {
-        if (_panEnded) {
-            _panEnded(panGestureRecognizer);
-        }
+- (IBAction)exitButtonTapped:(id)sender {
+    if (_exitTapped) {
+        _exitTapped();
     }
 }
+
+
+//- (IBAction)showGridPanel:(id)sender {
+//    _gridPanel.hidden = NO;
+//    _positionPanel.hidden = YES;
+//}
+//
+//- (IBAction)showPositionPanel:(id)sender {
+//    _positionPanel.hidden = NO;
+//    _gridPanel.hidden = YES;
+//}
+//
+//
+//- (IBAction)gridWidthChanged:(id)sender {
+//    ZSCanvasView *view = (ZSCanvasView *)self.view;
+//    UIStepper *slider = (UIStepper*)sender;
+//    CGSize size = view.grid.dimensions;
+//    size.width = view.grid.size.width / slider.value;
+//    view.grid.dimensions = size;
+//    NSInteger value = slider.value;
+//    _gridWidth.text = [NSString stringWithFormat:@"%li", (long)value];
+//    [view setNeedsDisplay];
+//}
+//
+//- (IBAction)gridHeightChanged:(id)sender {
+//    ZSCanvasView *view = (ZSCanvasView *)self.view;
+//    UIStepper *slider = (UIStepper*)sender;
+//    CGSize size = view.grid.dimensions;
+//    size.height = view.grid.size.height / slider.value;
+//    view.grid.dimensions = size;
+//    NSInteger value = slider.value;
+//    _gridHeight.text = [NSString stringWithFormat:@"%li", (long)value];
+//    [view setNeedsDisplay];
+//}
 
 @end
