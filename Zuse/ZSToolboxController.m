@@ -1,23 +1,23 @@
 //
-//  ZSSpriteController.m
+//  ZSToolboxController.m
 //  Zuse
 //
-//  Created by Michael Hogenson on 10/12/13.
-//  Copyright (c) 2013 Michael Hogenson. All rights reserved.
+//  Created by Michael Hogenson on 2/20/14.
+//  Copyright (c) 2014 Michael Hogenson. All rights reserved.
 //
 
-#import "ZSSpriteController.h"
+#import "ZSToolboxController.h"
 #import "ZSSpriteLibrary.h"
 #import "ZSSpriteView.h"
-#import "ZSSpriteTableViewCell.h"
+#import "ZSToolboxCell.h"
 
-@interface ZSSpriteController ()
+@interface ZSToolboxController ()
 
 @property (strong, nonatomic) NSArray *spriteLibrary;
 
 @end
 
-@implementation ZSSpriteController
+@implementation ZSToolboxController
 
 -(id)init {
     self = [super init];
@@ -28,12 +28,14 @@
     return self;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section;
+{
     return [_spriteLibrary count];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    ZSSpriteTableViewCell *cell = (ZSSpriteTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"sprite"];
+- (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath;
+{
+    ZSToolboxCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"cellID" forIndexPath:indexPath];
     
     NSMutableDictionary *json = [_spriteLibrary[indexPath.row] copy];
     [cell.spriteView setThumbnailFromJSON:json];
@@ -54,6 +56,7 @@
             _longPressEnded(longPressGestureRecognizer);
         }
     };
+    [cell.spriteName setText:json[@"name"]];
     
     return cell;
 }

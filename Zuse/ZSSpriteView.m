@@ -128,6 +128,7 @@
     [self addGestureRecognizer:panGesture];
     
     UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressRecognized:)];
+    longPressGesture.minimumPressDuration = 0.3;
     longPressGesture.delegate = self;
     [self addGestureRecognizer:longPressGesture];
 }
@@ -135,6 +136,13 @@
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
     ZSTutorial *tutorial = [ZSTutorial sharedTutorial];
     if (!tutorial.active || [tutorial.allowedGestures containsObject:gestureRecognizer.class]) {
+        return YES;
+    }
+    return NO;
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    if ([otherGestureRecognizer isKindOfClass:UIPanGestureRecognizer.class]) {
         return YES;
     }
     return NO;

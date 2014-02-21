@@ -1,14 +1,14 @@
 //
-//  ZSSpriteController.h
+//  ZSToolboxController.h
 //  Zuse
 //
-//  Created by Michael Hogenson on 10/12/13.
-//  Copyright (c) 2013 Michael Hogenson. All rights reserved.
+//  Created by Michael Hogenson on 2/20/14.
+//  Copyright (c) 2014 Michael Hogenson. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
-@interface ZSSpriteController : NSObject <UITableViewDataSource, UITableViewDelegate>
+@interface ZSToolboxController : NSObject <UICollectionViewDataSource, UICollectionViewDelegate>
 
 @property (strong, nonatomic) void(^longPressBegan)(UILongPressGestureRecognizer *longPressGestureRecognizer);
 @property (strong, nonatomic) void(^longPressChanged)(UILongPressGestureRecognizer *longPressGestureRecognizer);

@@ -2,16 +2,14 @@
 #import "ZSRendererViewController.h"
 #import "ZSPhysicsGroupingViewController.h"
 #import "ZSSpriteView.h"
-#import "ZSMenuController.h"
-#import "ZSSpriteController.h"
 #import "ZSEditorViewController.h"
 #import "ZSGrid.h"
 #import "ZSCanvasView.h"
 #import "ZSSettingsViewController.h"
 #import "ZSAdjustControl.h"
 #import "ZSTutorial.h"
-#import "ZSSpriteTableViewCell.h"
 #import "FXBlurView.h"
+#import "ZSToolboxController.h"
 
 NSString * const ZSTutorialBroadcastDidDropSprite = @"ZSTutorialBroadcastDidDropSprite";
 NSString * const ZSTutorialBroadcastDidDoubleTap = @"ZSTutorialBroadcastDidDoubleTap";
@@ -27,10 +25,6 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
 
 // Canvas
 @property (weak, nonatomic) IBOutlet ZSCanvasView *canvasView;
-
-// Menus
-@property (weak, nonatomic) IBOutlet UITableView *spriteTable;
-@property (strong, nonatomic) ZSSpriteController *spriteController;
 
 // Grid Menu
 @property (weak, nonatomic) IBOutlet ZSAdjustControl *adjustMenu;
@@ -48,6 +42,8 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
 
 // Toolbox
 @property (weak, nonatomic) IBOutlet UIView *toolboxView;
+@property (weak, nonatomic) IBOutlet UICollectionView *toolboxCollectionView;
+@property (strong, nonatomic) ZSToolboxController *toolboxController;
 @property (weak, nonatomic) IBOutlet FXBlurView *blurView;
 
 // Toolbar
@@ -101,7 +97,7 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
     self.navigationController.navigationBarHidden = YES;
     
-    [_spriteTable deselectRowAtIndexPath:[_spriteTable indexPathForSelectedRow] animated:YES];
+//    [_spriteTable deselectRowAtIndexPath:[_spriteTable indexPathForSelectedRow] animated:YES];
     
     // TODO: Figure out the correct place to put this.  The editor may have modified the project
     // so save the project here as well.  This means that the project gets loaded and than saved
@@ -112,8 +108,10 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
 
 - (void)viewDidAppear:(BOOL)animated {
     if (_showTutorial) {
-        CGRect ballRect = [_spriteTable rectForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
-        CGRect paddleRect = [_spriteTable rectForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
+        CGRect ballRect = [_toolboxCollectionView layoutAttributesForItemAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]].frame;
+        ballRect.size.height -= 17;
+        CGRect paddleRect = [_toolboxCollectionView layoutAttributesForItemAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]].frame;
+        paddleRect.size.height -= 17;
         __block UIView *paddle1 = nil;
         __block UIView *paddle2 = nil;
         __block UIView *ball = nil;
@@ -128,7 +126,7 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
         [_tutorial addActionWithText:@"Drag a paddle sprite onto the lower part of the canvas."
                             forEvent:ZSTutorialBroadcastDidDropSprite
                      allowedGestures:@[UILongPressGestureRecognizer.class]
-                        activeRegion:[_spriteTable convertRect:paddleRect toView:self.view]
+                        activeRegion:[_toolboxCollectionView convertRect:paddleRect toView:self.view]
                                setup:nil
                           completion:^{
                               paddle1 = [weakSelf.canvasView.subviews lastObject];
@@ -136,7 +134,7 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
         [_tutorial addActionWithText:@"Drag another paddle sprite onto the upper part of the canvas."
                             forEvent:ZSTutorialBroadcastDidDropSprite
                      allowedGestures:@[UILongPressGestureRecognizer.class]
-                        activeRegion:[_spriteTable convertRect:paddleRect toView:self.view]
+                        activeRegion:[_toolboxCollectionView convertRect:paddleRect toView:self.view]
                                setup:nil
                           completion:^{
                               paddle2 = [weakSelf.canvasView.subviews lastObject];
@@ -144,7 +142,7 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
         [_tutorial addActionWithText:@"Drag a ball sprite onto the middle of the canvas."
                             forEvent:ZSTutorialBroadcastDidDropSprite
                      allowedGestures:@[UILongPressGestureRecognizer.class]
-                        activeRegion:[_spriteTable convertRect:ballRect toView:self.view]
+                        activeRegion:[_toolboxCollectionView convertRect:ballRect toView:self.view]
                                setup:nil
                           completion:^{
                               ball = [weakSelf.canvasView.subviews lastObject];
@@ -235,16 +233,16 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
 #pragma mark Setup Sprite Controller
 
 - (void)setupTableDelegatesAndSources {
-    _spriteController = [[ZSSpriteController alloc] init];
-    _spriteTable.delegate = _spriteController;
-    _spriteTable.dataSource = _spriteController;
+    _toolboxController = [[ZSToolboxController alloc] init];
+    _toolboxCollectionView.delegate = _toolboxController;
+    _toolboxCollectionView.dataSource = _toolboxController;
     
     WeakSelf
     
     __block CGPoint offset;
     __block CGPoint currentPoint;
     __block ZSSpriteView *draggedView;
-    _spriteController.longPressBegan = ^(UILongPressGestureRecognizer *panGestureRecognizer) {
+    _toolboxController.longPressBegan = ^(UILongPressGestureRecognizer *panGestureRecognizer) {
         ZSSpriteView *spriteView = (ZSSpriteView*)panGestureRecognizer.view;
         NSMutableDictionary *json = [spriteView.spriteJSON deepMutableCopy];
         NSString *type = json[@"type"];
@@ -291,13 +289,13 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
         [weakSelf hideToolbox];
     };
     
-    _spriteController.longPressChanged = ^(UILongPressGestureRecognizer *longPressGestureRecognizer) {
+    _toolboxController.longPressChanged = ^(UILongPressGestureRecognizer *longPressGestureRecognizer) {
         currentPoint = [longPressGestureRecognizer locationInView:weakSelf.canvasView];
         
         [weakSelf.canvasView moveSprite:draggedView x:currentPoint.x - offset.x y:currentPoint.y - offset.y];
     };
     
-    _spriteController.longPressEnded = ^(UILongPressGestureRecognizer *longPressGestureRecognizer) {
+    _toolboxController.longPressEnded = ^(UILongPressGestureRecognizer *longPressGestureRecognizer) {
         NSMutableDictionary *json = draggedView.spriteJSON;
         
         NSMutableDictionary *newJson = [json deepMutableCopy];
@@ -465,6 +463,7 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
 #pragma mark Toolbox
 
 - (void)showToolbox {
+    [self.view bringSubviewToFront:_blurView];
     [self.view bringSubviewToFront:_toolboxView];
     _toolboxView.alpha = 0;
     _toolboxView.hidden = NO;

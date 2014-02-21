@@ -1,6 +1,6 @@
 [
   {
-    "name": "Gray Ball",
+    "name": "Ball",
     "path": "sprite_ball.png",
     "physics_body": "circle",
     "preferred_size": {
@@ -9,7 +9,7 @@
     }
   },
   {
-    "name": "Fancy Paddle",
+    "name": "Paddle",
     "path": "sprite_paddle.png",
     "physics_body": "rectangle",
     "preferred_size": {

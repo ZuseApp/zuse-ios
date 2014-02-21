@@ -111,6 +111,7 @@
     __weak ZSSpriteView *weakView = view;
 
     view.singleTapped = ^() {
+        [_editMenu setMenuVisible:NO animated:YES];
         if (_spriteSingleTapped) {
             _spriteSingleTapped(weakView);
         }
@@ -123,6 +124,7 @@
     __block CGPoint offset;
     __block CGPoint currentPoint;
     view.panBegan = ^(UIPanGestureRecognizer *panGestureRecognizer) {
+        [_editMenu setMenuVisible:NO animated:YES];
         offset = [panGestureRecognizer locationInView:panGestureRecognizer.view];
     };
     

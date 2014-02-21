@@ -20,6 +20,7 @@
     NSArray *manifestJSON = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:nil];
     for (NSDictionary *manifest_sprite in manifestJSON) {
         NSDictionary *sprite = @{
+                                 @"name": manifest_sprite[@"name"],
                                  @"physics_body": manifest_sprite[@"physics_body"],
                                  @"traits": @{},
                                  @"properties": @{
@@ -36,6 +37,7 @@
     }
     
     NSDictionary *textSprite = @{
+                                 @"name": @"Text Box",
                                  @"physics_body": @"rectangle",
                                  @"traits": @{},
                                  @"properties": @{
