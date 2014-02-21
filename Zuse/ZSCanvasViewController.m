@@ -1,4 +1,4 @@
- #import "ZSCanvasViewController.h"
+#import "ZSCanvasViewController.h"
 #import "ZSRendererViewController.h"
 #import "ZSPhysicsGroupingViewController.h"
 #import "ZSSpriteView.h"
@@ -166,11 +166,6 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Hide the UIMenuController if it exists and is showing.
-//    if (_editMenu) {
-//        [_editMenu setMenuVisible:NO animated:YES];
-//    }
-    
     if ([segue.identifier isEqualToString:@"renderer"]) {
         ZSRendererViewController *rendererController = (ZSRendererViewController *)segue.destinationViewController;
         rendererController.projectJSON = [_project assembledJSON];
@@ -220,7 +215,7 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
     _canvasView.spriteRemoved = ^(ZSSpriteView *spriteView) {
         NSMutableArray *objects = [weakSelf.project rawJSON][@"objects"];
         for (NSMutableDictionary *currentSprite in objects) {
-            if (currentSprite[@"id"] == spriteView.spriteJSON[@"id"]) {
+            if ([currentSprite[@"id"] isEqualToString:spriteView.spriteJSON[@"id"]]) {
                 [objects removeObject:currentSprite];
                 break;
             }
@@ -294,16 +289,7 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
     _spriteController.longPressChanged = ^(UILongPressGestureRecognizer *longPressGestureRecognizer) {
         currentPoint = [longPressGestureRecognizer locationInView:weakSelf.canvasView];
         
-        CGRect frame = draggedView.frame;
-        frame.origin.x = currentPoint.x - offset.x;
-        frame.origin.y = currentPoint.y - offset.y;
-        
-        ZSCanvasView *view = (ZSCanvasView *)weakSelf.canvasView;
-        if (view.grid.dimensions.width > 1 && view.grid.dimensions.height > 1) {
-            frame.origin = [view.grid adjustedPointForPoint:frame.origin];
-        }
-        
-        draggedView.frame = frame;
+        [weakSelf.canvasView moveSprite:draggedView x:currentPoint.x - offset.x y:currentPoint.y - offset.y];
     };
     
     _spriteController.longPressEnded = ^(UILongPressGestureRecognizer *longPressGestureRecognizer) {

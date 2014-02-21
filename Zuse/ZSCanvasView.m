@@ -65,7 +65,7 @@
 
 #pragma mark Sprite Manipulation
 
-- (void) addSpriteFromJSON:(NSMutableDictionary*)spriteJSON {
+- (void)addSpriteFromJSON:(NSMutableDictionary*)spriteJSON {
     
     NSMutableDictionary *properties = spriteJSON[@"properties"];
     
@@ -91,6 +91,18 @@
     [self setupGesturesForSpriteView:view withProperties:properties];
     [self setupEditOptionsForSpriteView:view];
     [self addSubview:view];
+}
+
+- (void)moveSprite:(ZSSpriteView*)spriteView x:(CGFloat)x y:(CGFloat)y {
+    CGRect frame = spriteView.frame;
+    frame.origin.x = x;
+    frame.origin.y = y;
+    
+    if (_grid.dimensions.width > 1 && _grid.dimensions.height > 1) {
+        frame.origin = [_grid adjustedPointForPoint:frame.origin];
+    }
+    
+    spriteView.frame = frame;
 }
 
 - (void)setupGesturesForSpriteView:(ZSSpriteView *)view withProperties:(NSMutableDictionary *)properties {

@@ -19,6 +19,7 @@
 @property (strong, nonatomic) void(^spriteRemoved)(ZSSpriteView *spriteView);
 @property (strong, nonatomic) void(^spriteModified)(ZSSpriteView *spriteView);
 - (void)addSpriteFromJSON:(NSMutableDictionary*)spriteJSON;
+- (void)moveSprite:(ZSSpriteView*)spriteView x:(CGFloat)x y:(CGFloat)y;
 - (void)setupGesturesForSpriteView:(ZSSpriteView *)view withProperties:(NSMutableDictionary *)properties;
 - (void)setupEditOptionsForSpriteView:(ZSSpriteView *)view;
 
