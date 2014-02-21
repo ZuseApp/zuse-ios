@@ -13,7 +13,7 @@
     if (_rendererRunning) {
         return 3;
     } else {
-        return 4;
+        return 5;
     }
 }
 
@@ -39,6 +39,10 @@
     else if (indexPath.row == 3) {
         cell.imageView.image = [UIImage imageNamed:@"groups.png"];
     }
+    else if (indexPath.row == 4) {
+        cell.textLabel.text = @"Share";
+    }
+    
     cell.accessoryType = UITableViewCellAccessoryNone;
     return cell;
 }
@@ -59,8 +63,12 @@
     }
     else if (indexPath.row == 2 && _backSelected) {
         _backSelected();
-    } else if (indexPath.row == 3 && _groupsSelected) {
+    }
+    else if (indexPath.row == 3 && _groupsSelected) {
         _groupsSelected();
+    }
+    else if (indexPath.row == 4 && _shareSelected) {
+        _shareSelected();
     }
 }
 

@@ -48,7 +48,7 @@
     
     NSDictionary *JSON = [self loadTestFileAtPath:@"property_update"];
     
-    [interpreter loadObject:JSON[@"objects"][0]];
+    [interpreter runJSON:JSON];
     
     XCTAssert(_didRunUpdateProperties, @"");
 }

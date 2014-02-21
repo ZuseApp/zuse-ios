@@ -19,6 +19,10 @@ NSString * const ZSTutorialBroadcastDidShowToolbox = @"ZSTutorialBroadcastDidSho
 NSString * const ZSTutorialBroadcastDidHideToolbox = @"ZSTutorialBroadcastDidHideToolbox";
 NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPaddle";
 
+#import <AFNetworking/AFNetworking.h>
+#import <Social/Social.h>
+#import <Accounts/Accounts.h>
+
 @interface ZSCanvasViewController ()
 
 // Canvas
@@ -236,6 +240,7 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
     _spriteTable.dataSource = _spriteController;
     
     WeakSelf
+    
     __block CGPoint offset;
     __block CGPoint currentPoint;
     __block ZSSpriteView *draggedView;

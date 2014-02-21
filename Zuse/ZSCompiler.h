@@ -10,7 +10,21 @@
 
 @interface ZSCompiler : NSObject
 
+/**
+ *  Returns a new compiler for the given project JSON.
+ *
+ *  @param projectJSON The project file structure
+ *
+ *  @return ZSCompiler object
+ */
 + (instancetype) compilerWithProjectJSON:(NSDictionary *)projectJSON;
+
+/**
+ *  Returns a compiled form of the project JSON that can be passed directly
+ *  to a ZSInterpreter object (or anything implementing the Zuse IR)
+ *
+ *  @return NSDictionary representing the compiled JSON
+ */
 - (NSDictionary *)compiledJSON;
 
 @end

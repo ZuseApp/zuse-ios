@@ -17,5 +17,6 @@
 @property (strong, nonatomic) void(^settingsSelected)();
 @property (strong, nonatomic) void(^stopSelected)();
 @property (strong, nonatomic) void(^groupsSelected)();
+@property (strong, nonatomic) void(^shareSelected)();
 
 @end

@@ -83,6 +83,8 @@
 		5F0139B51856B225005D7FAE /* ZSCodeEditorPopoverTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0139B41856B225005D7FAE /* ZSCodeEditorPopoverTableViewController.m */; };
 		5F0139B81856B233005D7FAE /* ZSCodeEditorPopoverVarNameOptionsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0139B71856B233005D7FAE /* ZSCodeEditorPopoverVarNameOptionsDataSource.m */; };
 		5F0139BB1856BCA7005D7FAE /* ZSTraitEditorParametersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0139BA1856BCA7005D7FAE /* ZSTraitEditorParametersViewController.m */; };
+		5F01FBDA18B4643500E14834 /* ZSPatternMatch.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F01FBD918B4643500E14834 /* ZSPatternMatch.m */; };
+		5F01FBDC18B467B500E14834 /* ZSPatternMatchTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F01FBDB18B467B500E14834 /* ZSPatternMatchTests.m */; };
 		5F030C6C185ADD1400584DCD /* NSDictionary+Zuse.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F030C6B185ADD1400584DCD /* NSDictionary+Zuse.m */; };
 		5F030C6F185AE0D300584DCD /* NSArray+Zuse.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F030C6E185AE0D300584DCD /* NSArray+Zuse.m */; };
 		5F099D4817F1136000EB2AC7 /* InterpreterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F099D4717F1136000EB2AC7 /* InterpreterTests.m */; };
@@ -271,6 +273,9 @@
 		5F0139B71856B233005D7FAE /* ZSCodeEditorPopoverVarNameOptionsDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCodeEditorPopoverVarNameOptionsDataSource.m; sourceTree = "<group>"; };
 		5F0139B91856BCA7005D7FAE /* ZSTraitEditorParametersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSTraitEditorParametersViewController.h; sourceTree = "<group>"; };
 		5F0139BA1856BCA7005D7FAE /* ZSTraitEditorParametersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSTraitEditorParametersViewController.m; sourceTree = "<group>"; };
+		5F01FBD818B4643500E14834 /* ZSPatternMatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSPatternMatch.h; sourceTree = "<group>"; };
+		5F01FBD918B4643500E14834 /* ZSPatternMatch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSPatternMatch.m; sourceTree = "<group>"; };
+		5F01FBDB18B467B500E14834 /* ZSPatternMatchTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSPatternMatchTests.m; sourceTree = "<group>"; };
 		5F030C6A185ADD1400584DCD /* NSDictionary+Zuse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+Zuse.h"; sourceTree = "<group>"; };
 		5F030C6B185ADD1400584DCD /* NSDictionary+Zuse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Zuse.m"; sourceTree = "<group>"; };
 		5F030C6D185AE0D300584DCD /* NSArray+Zuse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Zuse.h"; sourceTree = "<group>"; };
@@ -598,6 +603,8 @@
 				5F41ACB718341C980089D136 /* ZSExecutionContext.m */,
 				5F1B5BA41837EE7800632DE6 /* ZSCompiler.h */,
 				5F1B5BA51837EE7800632DE6 /* ZSCompiler.m */,
+				5F01FBD818B4643500E14834 /* ZSPatternMatch.h */,
+				5F01FBD918B4643500E14834 /* ZSPatternMatch.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -756,6 +763,7 @@
 				5F099D4717F1136000EB2AC7 /* InterpreterTests.m */,
 				5F2EC4D7183ABF160091CEAD /* ZSCompilerTests.m */,
 				5F2EC4DB183AD7510091CEAD /* ZSInterpreterDelegateTests.m */,
+				5F01FBDB18B467B500E14834 /* ZSPatternMatchTests.m */,
 				4CF1CBD717EF882A00636E0D /* Supporting Files */,
 			);
 			path = ZuseTests;
@@ -796,6 +804,13 @@
 			name = Traits;
 			sourceTree = "<group>";
 		};
+		5F01FBDE18B467F600E14834 /* ZSPatternMatch */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = ZSPatternMatch;
+			sourceTree = "<group>";
+		};
 		5F030C69185ADCE900584DCD /* Categories */ = {
 			isa = PBXGroup;
 			children = (
@@ -829,6 +844,7 @@
 		5F2EC4D6183ABEEA0091CEAD /* JSON */ = {
 			isa = PBXGroup;
 			children = (
+				5F01FBDE18B467F600E14834 /* ZSPatternMatch */,
 				5F8138CE18945DE0009F3495 /* Compiler */,
 				5F2EC4DD183B06840091CEAD /* property_update.json */,
 				5F2EC4D2183ABEE60091CEAD /* events_scope.json */,
@@ -1198,6 +1214,7 @@
 				4C5080D9188480F500E1F57A /* ZSProjectViewController.m in Sources */,
 				5F39DFC9188A40A0008ECAC1 /* NSIndexSet+BlocksKit.m in Sources */,
 				5F1B5BA61837EE7800632DE6 /* ZSCompiler.m in Sources */,
+				5F01FBDA18B4643500E14834 /* ZSPatternMatch.m in Sources */,
 				4C717208185ACCB600AD865C /* ZSSpriteTableViewCell.m in Sources */,
 				5F0139AF18568EC2005D7FAE /* ZSTraitEditorViewController.m in Sources */,
 				5F39DFCC188A40A0008ECAC1 /* NSMutableDictionary+BlocksKit.m in Sources */,
@@ -1228,6 +1245,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				78F79EB8183A8C0300012726 /* TCCodeEditor.m in Sources */,
+				5F01FBDC18B467B500E14834 /* ZSPatternMatchTests.m in Sources */,
 				5F099D4817F1136000EB2AC7 /* InterpreterTests.m in Sources */,
 				5F2EC4DC183AD7510091CEAD /* ZSInterpreterDelegateTests.m in Sources */,
 				5F2EC4D8183ABF160091CEAD /* ZSCompilerTests.m in Sources */,
