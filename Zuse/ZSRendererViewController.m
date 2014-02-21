@@ -42,16 +42,20 @@
     // Configure the view.
     self.SKView.showsFPS = YES;
     self.SKView.showsNodeCount = YES;
-//    [self loadSpriteKit];
     
-//    [_scene.interpreter triggerEvent:@"start"];
+    // The bounds are the wrong size.  Eventually pull it out of JSON, but hard set it for now.
+    CGRect bounds = self.SKView.bounds;
+    bounds.size = CGSizeMake(320, 524);
+    self.SKView.bounds = bounds;
 }
 
 - (void)loadSpriteKit {
     
     // Create and configure the scene.
+    NSLog(@"%@", NSStringFromCGRect(self.SKView.bounds));
     _scene = [[ZSRendererScene alloc] initWithSize:self.SKView.bounds.size projectJSON:_projectJSON];
     _scene.scaleMode = SKSceneScaleModeAspectFill;
+    NSLog(@"%@", NSStringFromCGRect(self.SKView.bounds));
     
     // Present the scene.
     [self.SKView presentScene:_scene];
