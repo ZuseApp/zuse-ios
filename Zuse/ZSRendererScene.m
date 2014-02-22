@@ -111,16 +111,6 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
 -(BOOL) spriteWithinWorld:(CGPoint)point size:(CGSize)size node:(ZSComponentNode *)node
 {
     CGPoint midPointOfScene = CGPointMake(self.size.width / 2.0f, self.size.height / 2.0f);
-//    CGPoint midPointOfSprite = CGPointMake(size.width / 2.0f, size.height / 2.0f);
-    
-    //get point touched in the sprite
-//    CGPoint tempPointInSprite = [self convertPoint:point toNode:node];
-//    CGPoint absOfTempPoint = CGPointMake(fabsf(tempPointInSprite.x), fabsf(tempPointInSprite.y));
-//    CGPoint pointTouchedInSprite = CGPointMake(midPointOfSprite.x - absOfTempPoint.x, midPointOfSprite.y - absOfTempPoint.y);
-    
-    //compute the offsets for the sprite's touched location
-//    CGPoint offsetright = CGPointMake(size.width - pointTouchedInSprite.x, size.height - pointTouchedInSprite.y);
-    //    CGpoint offsetabove = CGPointMake(<#CGFloat x#>, <#CGFloat y#>)
     
     CGFloat xLeftBound =point.x - size.width / 2.0f;
     CGFloat xRightBound =point.x + size.width / 2.0f;
