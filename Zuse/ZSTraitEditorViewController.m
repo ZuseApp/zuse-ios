@@ -8,7 +8,7 @@
 
 #import "ZSTraitEditorViewController.h"
 #import "ZSTraitEditorParametersViewController.h"
-#import "ZSCodeEditorViewController.h"
+#import "ZS_CodeEditorViewController.h"
 #import "ZSSpriteTraits.h"
 
 @interface ZSTraitEditorViewController () <UITableViewDelegate, UITableViewDataSource>
@@ -118,12 +118,12 @@
         controller.parameters = _traits[traitIdentifier][@"parameters"];
     }
     else {
-        ZSCodeEditorViewController *controller = (ZSCodeEditorViewController*)segue.destinationViewController;
+        ZS_CodeEditorViewController *controller = (ZS_CodeEditorViewController*)segue.destinationViewController;
         NSMutableDictionary *spriteObject = [NSMutableDictionary dictionary];
         spriteObject[@"id"] = traitIdentifier;
         spriteObject[@"parameters"] = defaultParams;
         spriteObject[@"code"] = [_globalTraits[traitIdentifier][@"code"] mutableCopy];
-        controller.spriteObject = spriteObject;
+        controller.json = spriteObject;
     }
 }
 
