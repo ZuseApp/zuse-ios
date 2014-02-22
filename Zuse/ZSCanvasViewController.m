@@ -94,7 +94,7 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
         collectionView.dataSource = _toolboxController;
         collectionView.tag = position;
         
-        [_toolboxView addCollectionView:collectionView title:categories[position][@"category"]];
+        [_toolboxView addView:collectionView title:categories[position][@"category"]];
         position++;
     }
     [self.view addSubview:_toolboxView];
@@ -135,7 +135,7 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
 
 - (void)viewDidAppear:(BOOL)animated {
     if (_showTutorial) {
-        UICollectionView *collectionView = [_toolboxView collectionViewByIndex:0];
+        UICollectionView *collectionView = (UICollectionView*)[_toolboxView viewByIndex:0];
         CGRect ballRect = [collectionView layoutAttributesForItemAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]].frame;
         ballRect.size.height -= 17;
         CGRect paddleRect = [collectionView layoutAttributesForItemAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]].frame;

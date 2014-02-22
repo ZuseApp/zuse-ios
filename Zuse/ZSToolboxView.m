@@ -10,6 +10,7 @@
 @property (nonatomic, strong) FXBlurView *blurView;
 @property (nonatomic, strong) UIScrollView *content;
 @property (nonatomic, assign) BOOL wasAnimated;
+@property (nonatomic, assign) BOOL pagingEnabled;
 
 @end
 
@@ -19,6 +20,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+        _pagingEnabled = YES;
         self.hidden = YES;
         self.userInteractionEnabled = YES;
         [self.layer setCornerRadius:10];
@@ -41,7 +43,6 @@
         _content.backgroundColor = [UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:0.95];
         _content.pagingEnabled = YES;
         _content.showsHorizontalScrollIndicator = NO;
-        NSLog(@"%d", _content.canCancelContentTouches);
         _content.delegate = self;
         
         // Page Control
@@ -65,7 +66,18 @@
     return self;
 }
 
-- (UICollectionView*)collectionViewByIndex:(NSInteger)index {
+- (void)setPagingEnabled:(BOOL)enabled {
+    _pagingEnabled = enabled;
+    _content.pagingEnabled = _pagingEnabled;
+    if (enabled && ![self.subviews containsObject:_pageControl]) {
+        [self addSubview:_pageControl];
+    }
+    if (!enabled && [self.subviews containsObject:_pageControl]) {
+        [_pageControl removeFromSuperview];
+    }
+}
+
+- (UIView*)viewByIndex:(NSInteger)index {
     return _content.subviews[index];
 }
 
@@ -117,10 +129,10 @@
     }
 }
 
-- (void)addCollectionView:(UICollectionView*)collectionView title:(NSString*)title {
-    collectionView.backgroundColor = [UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:0.95];
+- (void)addView:(UIView*)view title:(NSString*)title {
+    view.backgroundColor = [UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:0.95];
     [_collectionTitles addObject:[title uppercaseString]];
-    [_content addSubview:collectionView];
+    [_content addSubview:view];
     if (_collectionTitles.count == 1) {
         _titleLabel.text = [title uppercaseString];
     }
@@ -129,15 +141,23 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
+    CGFloat contentHeight = self.frame.size.height - 90;
+    if (_pagingEnabled) {
+        contentHeight -= 37;
+    }
+    
     _titleLabel.frame = CGRectMake(0, 0, self.frame.size.width, 40);
-    _content.frame = CGRectMake(0, 40, self.frame.size.width, self.frame.size.height - 127);
+    _content.frame = CGRectMake(0, 40, self.frame.size.width, contentHeight);
     _content.contentSize = CGSizeMake(self.frame.size.width * _collectionTitles.count, _content.frame.size.height);
     int position = 0;
     for (UIView *view in _content.subviews) {
         view.frame = CGRectMake(position * _content.frame.size.width, 0, _content.frame.size.width, _content.frame.size.height);
         position++;
     }
-    _pageControl.frame = CGRectMake(0, self.frame.size.height - 87, self.frame.size.width, 37);
+    
+    if (_pagingEnabled) {
+        _pageControl.frame = CGRectMake(0, self.frame.size.height - 87, self.frame.size.width, 37);
+    }
     _importButton.frame = CGRectMake(0, self.frame.size.height - 50, self.frame.size.width, 50);
     
 }
