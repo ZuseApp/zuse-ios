@@ -6,6 +6,7 @@
 @property (nonatomic, strong) NSMutableDictionary *projectJSON;
 @property (nonatomic, strong) NSString *documentsPath;
 @property (nonatomic, strong) NSString *fileName;
+@property (nonatomic, strong) NSArray *canvasSize;
 
 @end
 
@@ -29,6 +30,7 @@
         // Create an empty project.
         _title = @"Untitled";
         _version = @"1.0.0";
+        _canvasSize = @[@(320), @(524)];
         _fileName = [NSString stringWithFormat:@"%@.json",[[NSUUID UUID] UUIDString]];
         _projectJSON = [NSMutableDictionary dictionary];
         [_projectJSON setObject:_title forKey:@"title"];
@@ -55,6 +57,7 @@
         _projectJSON = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:nil];
         _title = _projectJSON[@"title"];
         _version = _projectJSON[@"version"];
+        _canvasSize = _projectJSON[@"canvasSize"];
     }
     return self;
 }
@@ -83,6 +86,7 @@
         
         _title = _projectJSON[@"title"];
         _version = _projectJSON[@"version"];
+        _canvasSize = _projectJSON[@"canvasSize"];
     }
     return self;
 }
@@ -97,6 +101,10 @@
     }
     if (_version) {
         _projectJSON[@"version"] = _version;
+    }
+    
+    if (_canvasSize) {
+        _projectJSON[@"canvasSize"] = _canvasSize;
     }
     
     // Find all of the traits being referenced in the project by looking at all of the sprites.

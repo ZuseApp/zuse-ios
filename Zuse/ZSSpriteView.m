@@ -1,12 +1,5 @@
-//
-//  ZSSpriteView.m
-//  Zuse
-//
-//  Created by Michael Hogenson on 9/22/13.
-//  Copyright (c) 2013 Michael Hogenson. All rights reserved.
-//
-
 #import "ZSSpriteView.h"
+#import "ZSTutorial.h"
 
 @implementation ZSSpriteView
 
@@ -131,10 +124,28 @@
     UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panRecognized:)];
     [panGesture setMinimumNumberOfTouches:1];
     [panGesture setMaximumNumberOfTouches:1];
+    panGesture.delegate = self;
     [self addGestureRecognizer:panGesture];
     
     UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressRecognized:)];
+    longPressGesture.minimumPressDuration = 0.3;
+    longPressGesture.delegate = self;
     [self addGestureRecognizer:longPressGesture];
+}
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    ZSTutorial *tutorial = [ZSTutorial sharedTutorial];
+    if (!tutorial.active || [tutorial.allowedGestures containsObject:gestureRecognizer.class]) {
+        return YES;
+    }
+    return NO;
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    if ([gestureRecognizer isKindOfClass:UILongPressGestureRecognizer.class]) {
+        return NO;
+    }
+    return YES;
 }
 
 - (void)singleTapRecognized {
@@ -144,8 +155,21 @@
 }
 
 - (void)longPressRecognized:(id)sender {
-    if (_longPressed) {
-        _longPressed(sender);
+    UILongPressGestureRecognizer *gesture = (UILongPressGestureRecognizer*)sender;
+    if (gesture.state == UIGestureRecognizerStateBegan) {
+        if (_longPressBegan) {
+            _longPressBegan(gesture);
+        }
+    }
+    else if (gesture.state == UIGestureRecognizerStateChanged) {
+        if (_longPressChanged) {
+            _longPressChanged(gesture);
+        }
+    }
+    else if (gesture.state == UIGestureRecognizerStateEnded) {
+        if (_longPressEnded) {
+            _longPressEnded(gesture);
+        }
     }
 }
 
@@ -154,11 +178,13 @@
         if (_panBegan) {
             _panBegan(panGestureRecognizer);
         }
-    } else if (panGestureRecognizer.state == UIGestureRecognizerStateChanged) {
+    }
+    else if (panGestureRecognizer.state == UIGestureRecognizerStateChanged) {
         if (_panMoved) {
             _panMoved(panGestureRecognizer);
         }
-    } else if (panGestureRecognizer.state == UIGestureRecognizerStateEnded) {
+    }
+    else if (panGestureRecognizer.state == UIGestureRecognizerStateEnded) {
         if (_panEnded) {
             _panEnded(panGestureRecognizer);
         }

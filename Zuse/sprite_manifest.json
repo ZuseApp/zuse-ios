@@ -1,30 +1,48 @@
 [
   {
-    "name": "Gray Ball",
-    "path": "sprite_ball.png",
-    "physics_body": "circle",
-    "preferred_size": {
-      "width": 30,
-      "height": 30
-    }
+    "category": "Sprites",
+    "sprites": [
+      {
+        "name": "Ball",
+        "path": "sprite_ball.png",
+        "physics_body": "circle",
+        "preferred_size": {
+          "width": 30,
+          "height": 30
+        }
+      },
+      {
+        "name": "Paddle",
+        "path": "sprite_paddle.png",
+        "physics_body": "rectangle",
+        "preferred_size": {
+          "width": 129,
+          "height": 28
+        }
+      },
+      {
+        "name": "Red Brick",
+        "path": "sprite_brick.png",
+        "physics_body": "rectangle",
+        "preferred_size": {
+          "width": 64,
+          "height": 32
+        }
+      }
+    ]
   },
   {
-    "name": "Fancy Paddle",
-    "path": "sprite_paddle.png",
-    "physics_body": "rectangle",
-    "preferred_size": {
-      "width": 129,
-      "height": 28
-    }
-  },
-  {
-    "name": "Red Brick",
-    "path": "sprite_brick.png",
-    "physics_body": "rectangle",
-    "preferred_size": {
-      "width": 64,
-      "height": 32
-    }
+    "category": "Test Sprites",
+    "sprites": [
+      {
+        "name": "Yoda",
+        "path": "yoda.jpg",
+        "physics_body": "rectangle",
+        "preferred_size": {
+          "width": 225,
+          "height": 180
+        }
+      }
+    ]
   }
- }
 ]

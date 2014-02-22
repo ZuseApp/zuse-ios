@@ -1,17 +1,19 @@
- #import "ZSCanvasViewController.h"
+#import "ZSCanvasViewController.h"
 #import "ZSRendererViewController.h"
 #import "ZSPhysicsGroupingViewController.h"
 #import "ZSSpriteView.h"
-#import "ZSMenuController.h"
-#import "ZSSpriteController.h"
 #import "ZSEditorViewController.h"
 #import "ZSGrid.h"
 #import "ZSCanvasView.h"
 #import "ZSSettingsViewController.h"
 #import "ZSAdjustControl.h"
 #import "ZSTutorial.h"
-#import "ZSSpriteTableViewCell.h"
 #import "FXBlurView.h"
+#import "ZSToolboxController.h"
+#import "UIImagePickerController+Edit.h"
+#import "ZSToolboxView.h"
+#import "ZSToolboxCell.h"
+#import "ZSSpriteLibrary.h"
 
 NSString * const ZSTutorialBroadcastDidDropSprite = @"ZSTutorialBroadcastDidDropSprite";
 NSString * const ZSTutorialBroadcastDidDoubleTap = @"ZSTutorialBroadcastDidDoubleTap";
@@ -19,28 +21,22 @@ NSString * const ZSTutorialBroadcastDidShowToolbox = @"ZSTutorialBroadcastDidSho
 NSString * const ZSTutorialBroadcastDidHideToolbox = @"ZSTutorialBroadcastDidHideToolbox";
 NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPaddle";
 
+#import <AFNetworking/AFNetworking.h>
+#import <Social/Social.h>
+#import <Accounts/Accounts.h>
+
 @interface ZSCanvasViewController ()
 
 // Canvas
 @property (weak, nonatomic) IBOutlet ZSCanvasView *canvasView;
 
-// Menus
-@property (weak, nonatomic) IBOutlet UITableView *spriteTable;
-@property (strong, nonatomic) ZSSpriteController *spriteController;
-
 // Grid Menu
 @property (weak, nonatomic) IBOutlet ZSAdjustControl *adjustMenu;
 @property (weak, nonatomic) IBOutlet UIView *rendererView;
-@property (nonatomic, assign) BOOL showRendererAfterMenuClose;
 
 // Sprites
 @property (nonatomic, strong) NSArray *templateSprites;
 @property (nonatomic, strong) NSArray *canvasSprites;
-
-// UIMenuController
-@property (nonatomic, strong) UIMenuController *editMenu;
-@property (nonatomic, assign) CGPoint lastTouch;
-@property (nonatomic, strong) ZSSpriteView *spriteViewCopy;
 
 // Renderer
 @property (strong, nonatomic) ZSRendererViewController *rendererViewController;
@@ -49,8 +45,8 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
 @property (strong, nonatomic) ZSTutorial *tutorial;
 
 // Toolbox
-@property (weak, nonatomic) IBOutlet UIView *toolboxView;
-@property (weak, nonatomic) IBOutlet FXBlurView *blurView;
+@property (strong, nonatomic) ZSToolboxView *toolboxView;
+@property (strong, nonatomic) ZSToolboxController *toolboxController;
 
 // Toolbar
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
@@ -66,18 +62,47 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
 
 @implementation ZSCanvasViewController
 
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        _tutorial = [ZSTutorial sharedTutorial];
+        _toolboxController = [[ZSToolboxController alloc] init];
+    }
+    return self;
+}
+
 #pragma mark Override Methods
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    // Tutorial
-    _tutorial = [[ZSTutorial alloc] init];
+    // Test Toolbox
+    _toolboxView = [[ZSToolboxView alloc] initWithFrame:CGRectMake(19, 82, 282, 361)];
+    WeakSelf
+    _toolboxView.hidView = ^{
+        [weakSelf.tutorial broadcastEvent:ZSTutorialBroadcastDidHideToolbox];
+    };
+    NSMutableArray *categories = [ZSSpriteLibrary sharedLibrary].categories;
+    NSInteger position = 0;
+    for (NSMutableArray *category in categories) {
+        UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:[[UICollectionViewFlowLayout alloc] init]];
+        [collectionView registerClass:ZSToolboxCell.class forCellWithReuseIdentifier:@"cellID"];
+        collectionView.userInteractionEnabled = YES;
+        collectionView.contentInset = UIEdgeInsetsMake(4, 4, 4, 4);
+        collectionView.delegate = _toolboxController;
+        collectionView.dataSource = _toolboxController;
+        collectionView.tag = position;
+        
+        [_toolboxView addCollectionView:collectionView title:categories[position][@"category"]];
+        position++;
+    }
+    [self.view addSubview:_toolboxView];
     
     // Load the project if it exists.
     if (_project) {
         // Setup delgates, sources and gestures.
+        [self setupCanvas];
         [self setupTableDelegatesAndSources];
         [self setupGestures];
         [self setupAdjustMenu];
@@ -86,9 +111,8 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
         [self loadSpritesFromProject];
     }
 
-    // Curve the toolbox.
-    [_toolboxView.layer setCornerRadius:5];
-    [_adjustMenu.layer setCornerRadius:5];
+    // Curve the adjust menu.
+    [_adjustMenu.layer setCornerRadius:10];
     
     // Remove pause and stop from the toolbar.
     NSMutableArray *items = [_toolbar.items mutableCopy];
@@ -102,8 +126,6 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
     self.navigationController.navigationBarHidden = YES;
     
-    [_spriteTable deselectRowAtIndexPath:[_spriteTable indexPathForSelectedRow] animated:YES];
-    
     // TODO: Figure out the correct place to put this.  The editor may have modified the project
     // so save the project here as well.  This means that the project gets loaded and than saved
     // right away on creation as well.
@@ -113,41 +135,67 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
 
 - (void)viewDidAppear:(BOOL)animated {
     if (_showTutorial) {
-        CGRect ballRect = [_spriteTable rectForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
-        CGRect paddleRect = [_spriteTable rectForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
+        UICollectionView *collectionView = [_toolboxView collectionViewByIndex:0];
+        CGRect ballRect = [collectionView layoutAttributesForItemAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]].frame;
+        ballRect.size.height -= 17;
+        CGRect paddleRect = [collectionView layoutAttributesForItemAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]].frame;
+        paddleRect.size.height -= 17;
         __block UIView *paddle1 = nil;
         __block UIView *paddle2 = nil;
         __block UIView *ball = nil;
         
         WeakSelf
-        [_tutorial addActionWithText:@"Touch here to open the toolbox." forEvent:ZSTutorialBroadcastDidShowToolbox activeRegion:[_toolbar convertRect:_toolButton.frame toView:self.view] setup:nil completion:nil];
-        [_tutorial addActionWithText:@"Drag a paddle sprite onto the lower part of the canvas." forEvent:ZSTutorialBroadcastDidDropSprite activeRegion:[_spriteTable convertRect:paddleRect toView:self.view] setup:nil completion:^{
-            paddle1 = [weakSelf.canvasView.subviews lastObject];
-        }];
-        [_tutorial addActionWithText:@"Drag another paddle sprite onto the upper part of the canvas." forEvent:ZSTutorialBroadcastDidDropSprite activeRegion:[_spriteTable convertRect:paddleRect toView:self.view] setup:nil completion:^{
-            paddle2 = [weakSelf.canvasView.subviews lastObject];
-        }];
-        [_tutorial addActionWithText:@"Drag a ball sprite onto the middle of the canvas." forEvent:ZSTutorialBroadcastDidDropSprite activeRegion:[_spriteTable convertRect:ballRect toView:self.view] setup:nil completion:^{
-            ball = [weakSelf.canvasView.subviews lastObject];
-        }];
-        [_tutorial addActionWithText:@"Touch anywhere outside of the toolbox to close it." forEvent:ZSTutorialBroadcastDidHideToolbox activeRegion:self.view.frame setup:^{
-            weakSelf.tutorial.toolTipOverrideView = weakSelf.toolboxView;
-        } completion:^{
-            weakSelf.tutorial.toolTipOverrideView = nil;
-        }];
-        [_tutorial addActionWithText:@"Touch the lower paddle to bring up the sprite editor." forEvent:ZSTutorialBroadcastDidTapPaddle activeRegion:CGRectZero setup:^{
-            weakSelf.tutorial.overlayView.activeRegion = paddle1.frame;
-        } completion:nil];
+        [_tutorial addActionWithText:@"Touch the toolbox icon to open the sprite toolbox."
+                            forEvent:ZSTutorialBroadcastDidShowToolbox
+                     allowedGestures:@[UITapGestureRecognizer.class]
+                        activeRegion:[_toolbar convertRect:_toolButton.frame toView:self.view]
+                               setup:nil
+                          completion:nil];
+        [_tutorial addActionWithText:@"Drag a paddle sprite onto the lower part of the canvas."
+                            forEvent:ZSTutorialBroadcastDidDropSprite
+                     allowedGestures:@[UILongPressGestureRecognizer.class]
+                        activeRegion:[collectionView convertRect:paddleRect toView:self.view]
+                               setup:nil
+                          completion:^{
+                              paddle1 = [weakSelf.canvasView.subviews lastObject];
+                          }];
+        [_tutorial addActionWithText:@"Drag another paddle sprite onto the upper part of the canvas."
+                            forEvent:ZSTutorialBroadcastDidDropSprite
+                     allowedGestures:@[UILongPressGestureRecognizer.class]
+                        activeRegion:[collectionView convertRect:paddleRect toView:self.view]
+                               setup:nil
+                          completion:^{
+                              paddle2 = [weakSelf.canvasView.subviews lastObject];
+                          }];
+        [_tutorial addActionWithText:@"Drag a ball sprite onto the middle of the canvas."
+                            forEvent:ZSTutorialBroadcastDidDropSprite
+                     allowedGestures:@[UILongPressGestureRecognizer.class]
+                        activeRegion:[collectionView convertRect:ballRect toView:self.view]
+                               setup:nil
+                          completion:^{
+                              ball = [weakSelf.canvasView.subviews lastObject];
+                          }];
+        [_tutorial addActionWithText:@"Touch anywhere outside of the toolbox to close it."
+                            forEvent:ZSTutorialBroadcastDidHideToolbox
+                     allowedGestures:@[UITapGestureRecognizer.class]
+                        activeRegion:_toolboxView.frame
+                               setup:^{
+                                   weakSelf.tutorial.overlayView.invertActiveRegion = YES;
+                               }
+                          completion:nil];
+        [_tutorial addActionWithText:@"Touch the lower paddle to bring up the sprite editor."
+                            forEvent:ZSTutorialBroadcastDidTapPaddle
+                     allowedGestures:@[UITapGestureRecognizer.class]
+                        activeRegion:CGRectZero
+                               setup:^{
+                                   weakSelf.tutorial.overlayView.activeRegion = paddle1.frame;
+                               }
+                          completion:nil];
         [_tutorial present];
     }
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Hide the UIMenuController if it exists and is showing.
-    if (_editMenu) {
-        [_editMenu setMenuVisible:NO animated:YES];
-    }
-    
     if ([segue.identifier isEqualToString:@"renderer"]) {
         ZSRendererViewController *rendererController = (ZSRendererViewController *)segue.destinationViewController;
         rendererController.projectJSON = [_project assembledJSON];
@@ -170,153 +218,55 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
     }
 }
 
-#pragma mark Private Methods
+#pragma mark Load Sprites From Project
 
-// starting with verb indicates not returning anything
-// method name indicates passed parameters
--(void)loadSpritesFromProject {
+- (void)loadSpritesFromProject {
     NSMutableDictionary *assembledJSON = [_project assembledJSON];
     for (NSMutableDictionary *jsonObject in assembledJSON[@"objects"]) {
-        NSMutableDictionary *variables = jsonObject[@"properties"];
-        
-        CGRect frame = CGRectZero;
-        frame.origin.x = [variables[@"x"] floatValue];
-        frame.origin.y = [variables[@"y"] floatValue];
-        frame.size.width = [variables[@"width"] floatValue];
-        frame.size.height = [variables[@"height"] floatValue];
-        
-        // Coordinates in the project are stored in the center of the sprite and the canvas origin is
-        // in the bottom left corner, so adjust for that.
-        frame.origin.x -= frame.size.width / 2;
-        frame.origin.y -= frame.size.height / 2;
-        frame.origin.y = _canvasView.frame.size.height - frame.size.height - frame.origin.y;
-        
-        ZSSpriteView *view = [[ZSSpriteView alloc] initWithFrame:frame];
-        if (![view setContentFromJSON:jsonObject]) {
-            // If the sprite isn't marked with a type, ignore it.
-            NSLog(@"WARNING: Unkown sprite type.  Skipping adding it to canvas.");
-            continue;
-        }
-        
-        [self setupGesturesForSpriteView:view withProperties:variables];
-        [self setupEditOptionsForSpriteView:view];
-        [_canvasView addSubview:view];
+        [_canvasView addSpriteFromJSON:jsonObject];
     }
 }
 
-- (void)setupGesturesForSpriteView:(ZSSpriteView *)view withProperties:(NSMutableDictionary *)properties {
-    
+#pragma mark Canvas Setup
+
+- (void)setupCanvas {
     WeakSelf
-    __weak ZSSpriteView *weakView = view;
-    view.singleTapped = ^(){
+    
+    _canvasView.spriteSingleTapped = ^(ZSSpriteView *spriteView) {
         [_tutorial broadcastEvent:ZSTutorialBroadcastDidTapPaddle];
-        [self performSegueWithIdentifier:@"editor" sender:weakView];
+        [self performSegueWithIdentifier:@"editor" sender:spriteView];
     };
     
-    view.longPressed = ^(UILongPressGestureRecognizer *longPressedGestureRecognizer){
-        [weakSelf longPressRecognized:longPressedGestureRecognizer];
+    _canvasView.spriteCreated = ^(ZSSpriteView *spriteView) {
+        [[_project rawJSON][@"objects"] addObject:spriteView.spriteJSON];
+        [_project write];
     };
     
-    __block CGPoint offset;
-    __block CGPoint currentPoint;
-    view.panBegan = ^(UIPanGestureRecognizer *panGestureRecognizer) {
-        offset = [panGestureRecognizer locationInView:panGestureRecognizer.view];
-    };
-    
-    view.panMoved = ^(UIPanGestureRecognizer *panGestureRecognizer) {
-        currentPoint = [panGestureRecognizer locationInView:self.canvasView];
-        
-        UIView *touchView = panGestureRecognizer.view;
-        CGRect frame = touchView.frame;
-        
-        frame.origin.x = currentPoint.x - offset.x;
-        frame.origin.y = currentPoint.y - offset.y;
-        
-        if (_canvasView.grid.dimensions.width > 1 && _canvasView.grid.dimensions.height > 1) {
-            frame.origin = [_canvasView.grid adjustedPointForPoint:frame.origin];
+    _canvasView.spriteRemoved = ^(ZSSpriteView *spriteView) {
+        NSMutableArray *objects = [weakSelf.project rawJSON][@"objects"];
+        for (NSMutableDictionary *currentSprite in objects) {
+            if ([currentSprite[@"id"] isEqualToString:spriteView.spriteJSON[@"id"]]) {
+                [objects removeObject:currentSprite];
+                break;
+            }
         }
-        
-        touchView.frame = frame;
+        [weakSelf.project write];
     };
     
-    view.panEnded = ^(UIPanGestureRecognizer *panGestureRecognizer) {
-        CGRect frame = weakView.frame;
-        CGFloat x = frame.origin.x + (frame.size.width / 2);
-        CGFloat y = _canvasView.frame.size.height - frame.size.height - frame.origin.y;
-        y += frame.size.height / 2;
-        weakView.frame = frame;
-        
-        properties[@"x"] = @(x);
-        properties[@"y"] = @(y);
-        properties[@"width"] = @(frame.size.width);
-        properties[@"height"] = @(frame.size.height);
-        
-        // Bring menus to front.
-        [_canvasView bringSubviewToFront:_spriteTable];
-        
+    _canvasView.spriteModified = ^(ZSSpriteView *spriteView){
         [_project write];
     };
 }
 
-- (void)setupEditOptionsForSpriteView:(ZSSpriteView *)view {
-    WeakSelf
-    __weak ZSProject *weakProject = _project;
-    __weak ZSSpriteView *weakView = view;
-    view.delete = ^(ZSSpriteView *sprite) {
-        [sprite removeFromSuperview];
-        NSMutableArray *objects = [weakSelf.project rawJSON][@"objects"];
-        for (NSMutableDictionary *currentSprite in objects) {
-            if (currentSprite[@"id"] == sprite.spriteJSON[@"id"]) {
-                [objects removeObject:currentSprite];
-                break;
-            }
-        }
-        [weakProject write];
-    };
-    
-    view.copy = ^(ZSSpriteView *sprite) {
-        _spriteViewCopy = [weakSelf copySpriteView:sprite];
-    };
-    
-    view.cut = ^(ZSSpriteView *sprite) {
-        _spriteViewCopy = [weakSelf copySpriteView:sprite];
-        [sprite removeFromSuperview];
-        NSMutableArray *objects = [weakSelf.project rawJSON][@"objects"];
-        for (NSMutableDictionary *currentSprite in objects) {
-            if (currentSprite[@"id"] == sprite.spriteJSON[@"id"]) {
-                [objects removeObject:currentSprite];
-                break;
-            }
-        }
-        [weakProject write];
-    };
-    
-    view.paste = ^(ZSSpriteView *sprite) {
-        [weakSelf paste:weakView];
-    };
-}
-
-- (ZSSpriteView *)copySpriteView:(ZSSpriteView *)spriteView {
-    ZSSpriteView *copy = [[ZSSpriteView alloc] initWithFrame:spriteView.frame];
-    NSMutableDictionary *json = [spriteView.spriteJSON deepMutableCopy];
-    json[@"id"] = [[NSUUID UUID] UUIDString];
-    [copy setContentFromJSON:json];
-    [self setupGesturesForSpriteView:copy withProperties:copy.spriteJSON[@"properties"]];
-    [self setupEditOptionsForSpriteView:copy];
-    return copy;
-}
+#pragma mark Setup Sprite Controller
 
 - (void)setupTableDelegatesAndSources {
-    _spriteController = [[ZSSpriteController alloc] init];
-    _spriteTable.delegate = _spriteController;
-    _spriteTable.dataSource = _spriteController;
-    _showRendererAfterMenuClose = NO;
-    
     WeakSelf
+    
     __block CGPoint offset;
     __block CGPoint currentPoint;
     __block ZSSpriteView *draggedView;
-    _spriteController.panBegan = ^(UIPanGestureRecognizer *panGestureRecognizer) {
+    _toolboxController.longPressBegan = ^(UILongPressGestureRecognizer *panGestureRecognizer) {
         ZSSpriteView *spriteView = (ZSSpriteView*)panGestureRecognizer.view;
         NSMutableDictionary *json = [spriteView.spriteJSON deepMutableCopy];
         NSString *type = json[@"type"];
@@ -359,75 +309,45 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
                 draggedView.transform = CGAffineTransformIdentity;
             }];
         }
+        [weakSelf.toolboxView hideAnimated:YES];
         [weakSelf.tutorial hideMessage];
-        [weakSelf hideToolbox];
     };
     
-    _spriteController.panMoved = ^(UIPanGestureRecognizer *panGestureRecognizer) {
-        currentPoint = [panGestureRecognizer locationInView:weakSelf.canvasView];
+    _toolboxController.longPressChanged = ^(UILongPressGestureRecognizer *longPressGestureRecognizer) {
+        currentPoint = [longPressGestureRecognizer locationInView:weakSelf.canvasView];
         
-        CGRect frame = draggedView.frame;
-        frame.origin.x = currentPoint.x - offset.x;
-        frame.origin.y = currentPoint.y - offset.y;
-        
-        ZSCanvasView *view = (ZSCanvasView *)weakSelf.canvasView;
-        if (view.grid.dimensions.width > 1 && view.grid.dimensions.height > 1) {
-            frame.origin = [view.grid adjustedPointForPoint:frame.origin];
-        }
-        
-        draggedView.frame = frame;
+        [weakSelf.canvasView moveSprite:draggedView x:currentPoint.x - offset.x y:currentPoint.y - offset.y];
     };
     
-    _spriteController.panEnded = ^(UIPanGestureRecognizer *panGestureRecognizer) {
+    _toolboxController.longPressEnded = ^(UILongPressGestureRecognizer *longPressGestureRecognizer) {
         NSMutableDictionary *json = draggedView.spriteJSON;
         
         NSMutableDictionary *newJson = [json deepMutableCopy];
         newJson[@"id"] = [[NSUUID UUID] UUIDString];
         NSMutableDictionary *properties = newJson[@"properties"];
-        [weakSelf setupGesturesForSpriteView:draggedView withProperties:properties];
-        [weakSelf setupEditOptionsForSpriteView:draggedView];
         [[weakSelf.project rawJSON][@"objects"] addObject:newJson];
         
         CGFloat x = draggedView.frame.origin.x + (draggedView.frame.size.width / 2);
         CGFloat y = weakSelf.canvasView.frame.size.height - draggedView.frame.size.height - draggedView.frame.origin.y;
         y += draggedView.frame.size.height / 2;
         
-        CGPoint center = draggedView.center;
-        CGRect frame = draggedView.frame;
-        frame.size.width = [properties[@"width"] floatValue];
-        frame.size.height = [properties[@"height"] floatValue];
-        draggedView.frame = frame;
-        draggedView.center = center;
-        draggedView.spriteJSON = newJson;
-        
         properties[@"x"] = @(x);
         properties[@"y"] = @(y);
         
-        // Bring menus to front.
-        [weakSelf.view bringSubviewToFront:weakSelf.spriteTable];
+        draggedView.spriteJSON = newJson;
+        [weakSelf.canvasView setupGesturesForSpriteView:draggedView withProperties:properties];
+        [weakSelf.canvasView setupEditOptionsForSpriteView:draggedView];
+        
+        // Save the project.
         [weakSelf.project write];
         
         // Show the toolbox again.
-        [weakSelf showToolbox];
+        [weakSelf.toolboxView showAnimated:YES];
         [weakSelf.tutorial broadcastEvent:ZSTutorialBroadcastDidDropSprite];
     };
 }
 
 -(void)setupGestures {
-    // Canvas gesture recognizers.
-    UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressRecognized:)];
-    longPressGesture.delegate = self;
-    [_canvasView addGestureRecognizer:longPressGesture];
-    
-    UITapGestureRecognizer *singleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTapRecognized)];
-    singleTapGesture.numberOfTapsRequired = 1;
-    [_canvasView addGestureRecognizer:singleTapGesture];
-    
-    // Blurview gesture recognizers.
-    singleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTapRecognized)];
-    singleTapGesture.numberOfTapsRequired = 1;
-    [_blurView addGestureRecognizer:singleTapGesture];
-    
     // Adjust Menu
     __weak ZSAdjustControl *weakAdjust = _adjustMenu;
     __block CGPoint offset;
@@ -444,101 +364,6 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
         frame.origin.y = currentPoint.y - offset.y;
         weakAdjust.frame = frame;
     };
-}
-
-- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
-    if ([gestureRecognizer isKindOfClass:[UILongPressGestureRecognizer class]] && !_rendererView.hidden) {
-        return NO;
-    }
-    return YES;
-}
-
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
-    
-    BOOL result = NO;
-    if ([otherGestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
-        result = YES;
-    }
-    
-    return result;
-}
-
-- (void)singleTapRecognized {
-    if (!_toolboxView.hidden) {
-        [self hideToolbox];
-    }
-}
-
-- (void)longPressRecognized:(id)sender {
-    UILongPressGestureRecognizer *longPressGesture = (UILongPressGestureRecognizer *)sender;
-    
-    if (longPressGesture.state == UIGestureRecognizerStateBegan) {
-        [longPressGesture.view becomeFirstResponder];
-        _editMenu = [UIMenuController sharedMenuController];
-        UIMenuItem *menuItem = [[UIMenuItem alloc] initWithTitle:@"Adjust" action:@selector(showAdjustMenu:)];
-        UIMenuController *menuController = [UIMenuController sharedMenuController];
-        menuController.menuItems = [NSArray arrayWithObject:menuItem];
-        [_editMenu setTargetRect:CGRectMake(_lastTouch.x, _lastTouch.y, 0, 0) inView:_canvasView];
-        [_editMenu setMenuVisible:YES animated:YES];
-    }
-}
-
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    _lastTouch = [[touches anyObject] locationInView:_canvasView];
-}
-
-- (BOOL)canPerformAction:(SEL)action withSender:(id)sender {
-    // If the renderer is showing, don't capture anything.
-    if (!_rendererView.hidden) {
-        return NO;
-    }
-    
-    // Check to see if the action is being performed on top of the adjust menu.
-    CGRect frame = _adjustMenu.frame;
-    if ((_adjustMenu.hidden == NO) && _lastTouch.x >= frame.origin.x && _lastTouch.x <= frame.origin.x + frame.size.width && _lastTouch.y >= frame.origin.y && _lastTouch.y <= frame.origin.y + frame.size.height) {
-        return NO;
-    }
-    if (_spriteViewCopy && action == @selector(paste:)) {
-        return YES;
-    }
-    if (action == @selector(showAdjustMenu:) && _adjustMenu.hidden == YES) {
-        return YES;
-    }
-    return NO;
-}
-
-- (BOOL)canBecomeFirstResponder {
-    return YES;
-}
-
-- (void)paste:(id)sender {
-    if (_spriteViewCopy) {
-        CGRect frame = _spriteViewCopy.frame;
-        frame.origin = CGPointMake(_lastTouch.x - frame.size.width / 2, _lastTouch.y - frame.size.height / 2);
-        
-        if (_canvasView.grid.dimensions.width > 1 && _canvasView.grid.dimensions.height > 1) {
-            frame.origin = [_canvasView.grid adjustedPointForPoint:frame.origin];
-        }
-        
-        CGFloat x = frame.origin.x + (frame.size.width / 2);
-        CGFloat y = _canvasView.frame.size.height - frame.size.height - frame.origin.y;
-        y += frame.size.height / 2;
-        
-        _spriteViewCopy.frame = frame;
-        
-        NSMutableDictionary *properties = _spriteViewCopy.spriteJSON[@"properties"];
-        properties[@"x"] = @(x);
-        properties[@"y"] = @(y);
-        properties[@"width"] = @(frame.size.width);
-        properties[@"height"] = @(frame.size.height);
-        
-        [_canvasView addSubview:_spriteViewCopy];
-        [[_project rawJSON][@"objects"] addObject:_spriteViewCopy.spriteJSON];
-        [_project write];
-        
-        // Create a new _spriteViewCopy.
-        _spriteViewCopy = [self copySpriteView:_spriteViewCopy];
-    }
 }
 
 #pragma mark Adjustment Menu
@@ -582,8 +407,8 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
     
     [self.view bringSubviewToFront:self.rendererView];
     if (self.rendererView.hidden) {
-        self.rendererView.hidden = NO;
         self.rendererViewController.projectJSON = [self.project assembledJSON];
+        self.rendererView.hidden = NO;
         [self.rendererViewController play];
     }
     else {
@@ -631,12 +456,8 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
     if (!_adjustMenu.hidden) {
         [self hideAdjustMenu];
     }
-    if (_toolboxView.hidden) {
-        [self showToolbox];
-    }
-    else {
-        [self hideToolbox];
-    }
+    [_toolboxView showAnimated:YES];
+    [_tutorial broadcastEvent:ZSTutorialBroadcastDidShowToolbox];
 }
 
 - (IBAction)showAdjustMenu:(id)sender {
@@ -647,33 +468,5 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
         [self hideAdjustMenu];
     }
 }
-
-#pragma mark Toolbox
-
-- (void)showToolbox {
-    [self.view bringSubviewToFront:_toolboxView];
-    _toolboxView.alpha = 0;
-    _toolboxView.hidden = NO;
-    _blurView.alpha = 0;
-    _blurView.hidden = NO;
-    _blurView.blurRadius = 5;
-    [UIView animateWithDuration:0.25f animations:^{
-        _toolboxView.alpha = 1;
-        _blurView.alpha = 1;
-    }];
-    [_tutorial broadcastEvent:ZSTutorialBroadcastDidShowToolbox];
-}
-
-- (void)hideToolbox {
-    [UIView animateWithDuration:0.25f animations:^{
-        _toolboxView.alpha = 0;
-        _blurView.alpha = 0;
-    } completion:^(BOOL finished){
-        _toolboxView.hidden = YES;
-        _blurView.hidden = YES;
-    }];
-    [_tutorial broadcastEvent:ZSTutorialBroadcastDidHideToolbox];
-}
-
 
 @end

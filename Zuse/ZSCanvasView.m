@@ -1,31 +1,26 @@
-//
-//  ZSCanvasView.m
-//  Zuse
-//
-//  Created by Michael Hogenson on 1/15/14.
-//  Copyright (c) 2014 Michael Hogenson. All rights reserved.
-//
-
 #import "ZSCanvasView.h"
 
-@implementation ZSCanvasView
+@interface ZSCanvasView ()
 
-- (id)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self) {
-        
-    }
-    return self;
-}
+// UIMenuController
+@property (nonatomic, strong) UIMenuController *editMenu;
+@property (nonatomic, assign) CGPoint lastTouch;
+@property (nonatomic, strong) ZSSpriteView *spriteViewCopy;
+
+@end
+
+@implementation ZSCanvasView
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
         _grid = [[ZSGrid alloc] init];
+        [self setupGestures];
     }
     return self;
 }
+
+#pragma mark Grid
 
 - (void)drawRect:(CGRect)rect
 {
@@ -41,6 +36,218 @@
                 CGContextStrokeRect(context, [_grid frameForPosition:CGPointMake(column, row)]);
             }
         }
+    }
+}
+
+#pragma mark Gesture Recognizers
+
+-(void)setupGestures {
+    // Canvas gesture recognizers.
+    UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressRecognized:)];
+    longPressGesture.delegate = self;
+    [self addGestureRecognizer:longPressGesture];
+    
+    UITapGestureRecognizer *singleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTapRecognized)];
+    singleTapGesture.numberOfTapsRequired = 1;
+    [self addGestureRecognizer:singleTapGesture];
+}
+
+- (void)singleTapRecognized {
+    [_editMenu setMenuVisible:NO animated:YES];
+}
+
+- (void)longPressRecognized:(id)sender {
+    UILongPressGestureRecognizer *longPressGesture = (UILongPressGestureRecognizer *)sender;
+    
+    if (longPressGesture.state == UIGestureRecognizerStateBegan) {
+        [longPressGesture.view becomeFirstResponder];
+        _editMenu = [UIMenuController sharedMenuController];
+        [_editMenu setTargetRect:CGRectMake(_lastTouch.x, _lastTouch.y, 0, 0) inView:self];
+        [_editMenu setMenuVisible:YES animated:YES];
+    }
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    _lastTouch = [[touches anyObject] locationInView:self];
+}
+
+#pragma mark Sprite Manipulation
+
+- (void)addSpriteFromJSON:(NSMutableDictionary*)spriteJSON {
+    
+    NSMutableDictionary *properties = spriteJSON[@"properties"];
+    
+    CGRect frame = CGRectZero;
+    frame.origin.x = [properties[@"x"] floatValue];
+    frame.origin.y = [properties[@"y"] floatValue];
+    frame.size.width = [properties[@"width"] floatValue];
+    frame.size.height = [properties[@"height"] floatValue];
+    
+    // Coordinates in the project are stored in the center of the sprite and the canvas origin is
+    // in the bottom left corner, so adjust for that.
+    frame.origin.x -= frame.size.width / 2;
+    frame.origin.y -= frame.size.height / 2;
+    frame.origin.y = self.frame.size.height - frame.size.height - frame.origin.y;
+    
+    ZSSpriteView *view = [[ZSSpriteView alloc] initWithFrame:frame];
+    if (![view setContentFromJSON:spriteJSON]) {
+        // If the sprite isn't marked with a type, ignore it.
+        NSLog(@"WARNING: Unkown sprite type.  Skipping adding it to canvas.");
+        return;
+    }
+    
+    [self setupGesturesForSpriteView:view withProperties:properties];
+    [self setupEditOptionsForSpriteView:view];
+    [self addSubview:view];
+}
+
+- (void)moveSprite:(ZSSpriteView*)spriteView x:(CGFloat)x y:(CGFloat)y {
+    CGRect frame = spriteView.frame;
+    frame.origin.x = x;
+    frame.origin.y = y;
+    
+    if (_grid.dimensions.width > 1 && _grid.dimensions.height > 1) {
+        frame.origin = [_grid adjustedPointForPoint:frame.origin];
+    }
+    
+    spriteView.frame = frame;
+}
+
+- (void)setupGesturesForSpriteView:(ZSSpriteView *)view withProperties:(NSMutableDictionary *)properties {
+    
+    WeakSelf
+    __weak ZSSpriteView *weakView = view;
+
+    view.singleTapped = ^() {
+        [_editMenu setMenuVisible:NO animated:YES];
+        if (_spriteSingleTapped) {
+            _spriteSingleTapped(weakView);
+        }
+    };
+    
+    view.longPressBegan = ^(UILongPressGestureRecognizer *longPressedGestureRecognizer){
+        [weakSelf longPressRecognized:longPressedGestureRecognizer];
+    };
+    
+    __block CGPoint offset;
+    __block CGPoint currentPoint;
+    view.panBegan = ^(UIPanGestureRecognizer *panGestureRecognizer) {
+        [_editMenu setMenuVisible:NO animated:YES];
+        offset = [panGestureRecognizer locationInView:panGestureRecognizer.view];
+    };
+    
+    view.panMoved = ^(UIPanGestureRecognizer *panGestureRecognizer) {
+        currentPoint = [panGestureRecognizer locationInView:self];
+        
+        UIView *touchView = panGestureRecognizer.view;
+        CGRect frame = touchView.frame;
+        
+        frame.origin.x = currentPoint.x - offset.x;
+        frame.origin.y = currentPoint.y - offset.y;
+        
+        if (_grid.dimensions.width > 1 && _grid.dimensions.height > 1) {
+            frame.origin = [weakSelf.grid adjustedPointForPoint:frame.origin];
+        }
+        
+        touchView.frame = frame;
+    };
+    
+    view.panEnded = ^(UIPanGestureRecognizer *panGestureRecognizer) {
+        CGRect frame = weakView.frame;
+        CGFloat x = frame.origin.x + (frame.size.width / 2);
+        CGFloat y = self.frame.size.height - frame.size.height - frame.origin.y;
+        y += frame.size.height / 2;
+        weakView.frame = frame;
+        
+        properties[@"x"] = @(x);
+        properties[@"y"] = @(y);
+        properties[@"width"] = @(frame.size.width);
+        properties[@"height"] = @(frame.size.height);
+        
+        if (_spriteModified) {
+            _spriteModified(weakView);
+        }
+    };
+}
+
+- (void)setupEditOptionsForSpriteView:(ZSSpriteView *)view {
+    WeakSelf
+    __weak ZSSpriteView *weakView = view;
+    view.delete = ^(ZSSpriteView *sprite) {
+        [sprite removeFromSuperview];
+        if (_spriteRemoved) {
+            _spriteRemoved(sprite);
+        }
+    };
+    
+    view.copy = ^(ZSSpriteView *sprite) {
+        _spriteViewCopy = [weakSelf copySpriteView:sprite];
+    };
+    
+    view.cut = ^(ZSSpriteView *sprite) {
+        _spriteViewCopy = [weakSelf copySpriteView:sprite];
+        [sprite removeFromSuperview];
+        if (_spriteRemoved) {
+            _spriteRemoved(sprite);
+        }
+    };
+    
+    view.paste = ^(ZSSpriteView *sprite) {
+        [weakSelf paste:weakView];
+    };
+}
+
+- (ZSSpriteView *)copySpriteView:(ZSSpriteView *)spriteView {
+    ZSSpriteView *copy = [[ZSSpriteView alloc] initWithFrame:spriteView.frame];
+    NSMutableDictionary *json = [spriteView.spriteJSON deepMutableCopy];
+    json[@"id"] = [[NSUUID UUID] UUIDString];
+    [copy setContentFromJSON:json];
+    [self setupGesturesForSpriteView:copy withProperties:copy.spriteJSON[@"properties"]];
+    [self setupEditOptionsForSpriteView:copy];
+    return copy;
+}
+
+#pragma mark Edit Menu
+
+- (BOOL)canBecomeFirstResponder {
+    return YES;
+}
+
+- (BOOL)canPerformAction:(SEL)action withSender:(id)sender {
+    if (_spriteViewCopy && action == @selector(paste:)) {
+        return YES;
+    }
+    return NO;
+}
+
+- (void)paste:(id)sender {
+    if (_spriteViewCopy) {
+        CGRect frame = _spriteViewCopy.frame;
+        frame.origin = CGPointMake(_lastTouch.x - frame.size.width / 2, _lastTouch.y - frame.size.height / 2);
+
+        if (self.grid.dimensions.width > 1 && self.grid.dimensions.height > 1) {
+            frame.origin = [self.grid adjustedPointForPoint:frame.origin];
+        }
+
+        CGFloat x = frame.origin.x + (frame.size.width / 2);
+        CGFloat y = self.frame.size.height - frame.size.height - frame.origin.y;
+        y += frame.size.height / 2;
+
+        _spriteViewCopy.frame = frame;
+
+        NSMutableDictionary *properties = _spriteViewCopy.spriteJSON[@"properties"];
+        properties[@"x"] = @(x);
+        properties[@"y"] = @(y);
+        properties[@"width"] = @(frame.size.width);
+        properties[@"height"] = @(frame.size.height);
+
+        [self addSubview:_spriteViewCopy];
+        if (_spriteCreated) {
+            _spriteCreated(_spriteViewCopy);
+        }
+
+        // Create a new _spriteViewCopy.
+        _spriteViewCopy = [self copySpriteView:_spriteViewCopy];
     }
 }
 

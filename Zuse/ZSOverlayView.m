@@ -10,8 +10,21 @@
 
 @implementation ZSOverlayView
 
+- (id)init {
+    self = [super init];
+    if (self) {
+        _invertActiveRegion = NO;
+    }
+    return self;
+}
+
 - (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event {
-    return !CGRectContainsPoint(_activeRegion, point);
+    if (_invertActiveRegion) {
+        return CGRectContainsPoint(_activeRegion, point);
+    }
+    else {
+        return !CGRectContainsPoint(_activeRegion, point);
+    }
 }
 
 @end

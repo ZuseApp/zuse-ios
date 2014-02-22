@@ -1,11 +1,13 @@
 {
-  "objects": [
+  "code": [
     {
-      "id": "foo",
-      "properties": { "x": 5 },
-      "code": [
-        { "set": ["x", 10] }
-      ]
+      "object": {
+        "id": "foo",
+        "properties": { "x": 5 },
+        "code": [
+          { "set": ["x", 10] }
+        ]
+      }
     }
   ]
 }
