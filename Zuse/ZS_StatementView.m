@@ -200,7 +200,7 @@
     CGFloat y =  MAX(headerMaxY, parametersLineMaxY);
     for (UIView* subview in self.body)
     {
-        [subview setNeedsLayout];
+        [subview layoutSubviews];
         CGRect frame = subview.frame;
         frame.origin.x = self.bodyIndentation;
         frame.origin.y = y;
