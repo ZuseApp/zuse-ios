@@ -133,7 +133,7 @@
       ]
     }
   },
-  "collision_groups": {
+  "groups": {
     "paddle": [
       "ball"
     ],
@@ -153,7 +153,7 @@
         "score": 0
       },
       "physics_body": "none",
-      "collision_group": "text",
+      "group": "text",
       "type": "text",
       "code": [
         {
@@ -201,7 +201,7 @@
           }
         }
       },
-      "collision_group": "paddle",
+      "group": "paddle",
       "properties": {
         "x": 104,
         "y": 50,
@@ -224,7 +224,7 @@
           }
         }
       },
-      "collision_group": "paddle",
+      "group": "paddle",
       "properties": {
         "x": 224,
         "y": 430,
@@ -248,7 +248,7 @@
         "height": 30,
         "bouncy": true
       },
-      "collision_group": "ball",
+      "group": "ball",
       "code": [
         {
           "on_event": {
@@ -285,9 +285,14 @@
           "on_event": {
             "name": "collision",
             "parameters": [
-              "other_sprite"
+              "other_group"
             ],
             "code": [
+              {
+                "call": {
+                  "method": "bounce",
+                  "parameters": []
+              },
               {
                 "trigger_event": {
                   "name": "score",
