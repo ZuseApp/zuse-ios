@@ -149,6 +149,12 @@
 		7855BCCA1837FA97006493F9 /* ZSCodeEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7855BCC91837FA97006493F9 /* ZSCodeEditorViewController.m */; };
 		78645C53184AB12A00EE14A9 /* ZSCodeEditorTableViewCellSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 78645C52184AB12A00EE14A9 /* ZSCodeEditorTableViewCellSet.m */; };
 		788F70CF1851590700C68F83 /* ZSCodeStatementNew.m in Sources */ = {isa = PBXBuildFile; fileRef = 788F70CE1851590700C68F83 /* ZSCodeStatementNew.m */; };
+		7899786118B9255500A8FE05 /* ZS_CodeEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7899785618B9255500A8FE05 /* ZS_CodeEditorViewController.m */; };
+		7899786218B9255500A8FE05 /* ZS_StatementView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7899785818B9255500A8FE05 /* ZS_StatementView.m */; };
+		7899786318B9255500A8FE05 /* ZS_JsonUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 7899785A18B9255500A8FE05 /* ZS_JsonUtilities.m */; };
+		7899786418B9255500A8FE05 /* ZS_ExpressionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7899785C18B9255500A8FE05 /* ZS_ExpressionViewController.m */; };
+		7899786518B9255500A8FE05 /* ZS_StatementChooserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7899785E18B9255500A8FE05 /* ZS_StatementChooserViewController.m */; };
+		7899786618B9255500A8FE05 /* ZS_JsonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7899786018B9255500A8FE05 /* ZS_JsonViewController.m */; };
 		78C142041859262600C393ED /* ZSCodeEditorTableViewCellCall.m in Sources */ = {isa = PBXBuildFile; fileRef = 78C142031859262600C393ED /* ZSCodeEditorTableViewCellCall.m */; };
 		78D8A960185A3A1100834B15 /* move.png in Resources */ = {isa = PBXBuildFile; fileRef = 78D8A95F185A3A1100834B15 /* move.png */; };
 		78F79EB61839BC9E00012726 /* ZSCodeStatementOnEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 78F79EB51839BC9E00012726 /* ZSCodeStatementOnEvent.m */; };
@@ -384,6 +390,18 @@
 		78645C52184AB12A00EE14A9 /* ZSCodeEditorTableViewCellSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCodeEditorTableViewCellSet.m; sourceTree = "<group>"; };
 		788F70CD1851590700C68F83 /* ZSCodeStatementNew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCodeStatementNew.h; sourceTree = "<group>"; };
 		788F70CE1851590700C68F83 /* ZSCodeStatementNew.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCodeStatementNew.m; sourceTree = "<group>"; };
+		7899785518B9255500A8FE05 /* ZS_CodeEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZS_CodeEditorViewController.h; sourceTree = "<group>"; };
+		7899785618B9255500A8FE05 /* ZS_CodeEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZS_CodeEditorViewController.m; sourceTree = "<group>"; };
+		7899785718B9255500A8FE05 /* ZS_StatementView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZS_StatementView.h; sourceTree = "<group>"; };
+		7899785818B9255500A8FE05 /* ZS_StatementView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZS_StatementView.m; sourceTree = "<group>"; };
+		7899785918B9255500A8FE05 /* ZS_JsonUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZS_JsonUtilities.h; sourceTree = "<group>"; };
+		7899785A18B9255500A8FE05 /* ZS_JsonUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZS_JsonUtilities.m; sourceTree = "<group>"; };
+		7899785B18B9255500A8FE05 /* ZS_ExpressionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZS_ExpressionViewController.h; sourceTree = "<group>"; };
+		7899785C18B9255500A8FE05 /* ZS_ExpressionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZS_ExpressionViewController.m; sourceTree = "<group>"; };
+		7899785D18B9255500A8FE05 /* ZS_StatementChooserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZS_StatementChooserViewController.h; sourceTree = "<group>"; };
+		7899785E18B9255500A8FE05 /* ZS_StatementChooserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZS_StatementChooserViewController.m; sourceTree = "<group>"; };
+		7899785F18B9255500A8FE05 /* ZS_JsonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZS_JsonViewController.h; sourceTree = "<group>"; };
+		7899786018B9255500A8FE05 /* ZS_JsonViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZS_JsonViewController.m; sourceTree = "<group>"; };
 		78C142021859262600C393ED /* ZSCodeEditorTableViewCellCall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCodeEditorTableViewCellCall.h; sourceTree = "<group>"; };
 		78C142031859262600C393ED /* ZSCodeEditorTableViewCellCall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCodeEditorTableViewCellCall.m; sourceTree = "<group>"; };
 		78D8A95F185A3A1100834B15 /* move.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = move.png; sourceTree = "<group>"; };
@@ -506,6 +524,18 @@
 		4CE3561D188B07D9007024C0 /* Editor */ = {
 			isa = PBXGroup;
 			children = (
+				7899785518B9255500A8FE05 /* ZS_CodeEditorViewController.h */,
+				7899785618B9255500A8FE05 /* ZS_CodeEditorViewController.m */,
+				7899785718B9255500A8FE05 /* ZS_StatementView.h */,
+				7899785818B9255500A8FE05 /* ZS_StatementView.m */,
+				7899785918B9255500A8FE05 /* ZS_JsonUtilities.h */,
+				7899785A18B9255500A8FE05 /* ZS_JsonUtilities.m */,
+				7899785B18B9255500A8FE05 /* ZS_ExpressionViewController.h */,
+				7899785C18B9255500A8FE05 /* ZS_ExpressionViewController.m */,
+				7899785D18B9255500A8FE05 /* ZS_StatementChooserViewController.h */,
+				7899785E18B9255500A8FE05 /* ZS_StatementChooserViewController.m */,
+				7899785F18B9255500A8FE05 /* ZS_JsonViewController.h */,
+				7899786018B9255500A8FE05 /* ZS_JsonViewController.m */,
 				7843FA94184BFBD400DCE527 /* Images */,
 				4CE35623188B082B007024C0 /* Models */,
 				788F70D01852654500C68F83 /* PopOvers */,
@@ -1169,12 +1199,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7899786518B9255500A8FE05 /* ZS_StatementChooserViewController.m in Sources */,
 				4CE3562F188B0FF1007024C0 /* ZSAdjustView.m in Sources */,
 				5F1B5BA71838109600632DE6 /* ZSInterpreter.m in Sources */,
 				5F0139B218569EBD005D7FAE /* ZSCodeEditorPopoverExpressionOptionsDataSource.m in Sources */,
 				4CF1CBBE17EF882A00636E0D /* main.m in Sources */,
 				788F70CF1851590700C68F83 /* ZSCodeStatementNew.m in Sources */,
 				4C3DD66518B706DC0013B3A5 /* ZSToolboxController.m in Sources */,
+				7899786618B9255500A8FE05 /* ZS_JsonViewController.m in Sources */,
 				5F39DFD0188A40A0008ECAC1 /* NSObject+AssociatedObjects.m in Sources */,
 				5F8138DC189CA574009F3495 /* ZSPhysicsGroupingViewController.m in Sources */,
 				5F39DFCF188A40A0008ECAC1 /* NSMutableSet+BlocksKit.m in Sources */,
@@ -1198,6 +1230,8 @@
 				5F39DFD2188A40A0008ECAC1 /* NSObject+BlocksKit.m in Sources */,
 				4C5F732718874B51007F61B3 /* ZSCanvasView.m in Sources */,
 				5F39DFD4188A40A0008ECAC1 /* NSSet+BlocksKit.m in Sources */,
+				7899786118B9255500A8FE05 /* ZS_CodeEditorViewController.m in Sources */,
+				7899786318B9255500A8FE05 /* ZS_JsonUtilities.m in Sources */,
 				5F39DFCB188A40A0008ECAC1 /* NSMutableArray+BlocksKit.m in Sources */,
 				7843FA93184BF70C00DCE527 /* ZSCodeEditorTableViewCellNew.m in Sources */,
 				7855BCC41837F47E006493F9 /* ZSCodeSuite.m in Sources */,
@@ -1222,6 +1256,7 @@
 				5F0139AF18568EC2005D7FAE /* ZSTraitEditorViewController.m in Sources */,
 				5F39DFCC188A40A0008ECAC1 /* NSMutableDictionary+BlocksKit.m in Sources */,
 				4C0D470817FB927600F13786 /* ZSCanvasViewController.m in Sources */,
+				7899786418B9255500A8FE05 /* ZS_ExpressionViewController.m in Sources */,
 				5F0139B51856B225005D7FAE /* ZSCodeEditorPopoverTableViewController.m in Sources */,
 				2C6B5D6A183D43AB00E3D56C /* ZSSpriteTouchComponent.m in Sources */,
 				5F39DFCD188A40A0008ECAC1 /* NSMutableIndexSet+BlocksKit.m in Sources */,
@@ -1235,6 +1270,7 @@
 				5F39DFD1188A40A0008ECAC1 /* NSObject+BlockObservation.m in Sources */,
 				4C4087091852480F009117E1 /* ZSSpriteLibrary.m in Sources */,
 				2CA9D387183F3F0300401231 /* ZSRendererScene.m in Sources */,
+				7899786218B9255500A8FE05 /* ZS_StatementView.m in Sources */,
 				7855BCC11837F47E006493F9 /* ZSCodeLine.m in Sources */,
 				7843FAA3184C16B000DCE527 /* ZSCodeEditorTableViewCellOnEvent.m in Sources */,
 				5F0139B81856B233005D7FAE /* ZSCodeEditorPopoverVarNameOptionsDataSource.m in Sources */,
