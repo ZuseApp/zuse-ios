@@ -10,5 +10,6 @@ typedef NS_ENUM(NSInteger, ZS_StatementType)
 };
 
 @interface ZS_CodeEditorViewController : UIViewController
-@property (strong, nonatomic) NSMutableDictionary* spriteObject;
+//@property (strong, nonatomic) NSMutableDictionary* spriteObject;
+@property (strong, nonatomic) NSMutableDictionary* json;
 @end

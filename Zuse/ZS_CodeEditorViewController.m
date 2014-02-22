@@ -9,7 +9,7 @@
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) UILabel* selectedLabel;
 @property (weak, nonatomic) ZS_StatementView* selectedStatementView;
-@property (strong, nonatomic) NSMutableDictionary* json;
+//@property (strong, nonatomic) NSMutableDictionary* json;
 @end
 
 @implementation ZS_CodeEditorViewController
@@ -25,7 +25,7 @@
                                                object: nil];
     // Create object statement
    // NSMutableDictionary* json = [ZS_JsonUtilities jsonFromFileWithName:@"pong"];
-    self.json = self.spriteObject;//json[@"objects"][3];
+   // self.json = self.spriteObject;//json[@"objects"][3];
     [self reloadFromJson];
 }
 

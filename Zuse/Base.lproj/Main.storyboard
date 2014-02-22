@@ -364,13 +364,13 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
-                        <segue destination="a2G-8p-P96" kind="relationship" relationship="viewControllers" id="ud7-2a-3h5"/>
                         <segue destination="aKz-bP-FaN" kind="relationship" relationship="viewControllers" id="x4M-8V-ia5"/>
+                        <segue destination="a2G-8p-P96" kind="relationship" relationship="viewControllers" id="aQ5-qu-vFr"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="30x-zR-2gu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1134" y="478"/>
+            <point key="canvasLocation" x="1116" y="616"/>
         </scene>
         <!--Trait Editor View Controller - Traits-->
         <scene sceneID="PiE-tl-QPi">
@@ -450,7 +450,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="p4B-dn-j6D" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2238" y="765"/>
+            <point key="canvasLocation" x="2362" y="1077"/>
         </scene>
         <!--Physics Grouping View Controller-->
         <scene sceneID="ccr-Ai-Bcf">
@@ -632,7 +632,7 @@
             </objects>
             <point key="canvasLocation" x="704" y="1722"/>
         </scene>
-        <!--Code Editor View Controller - Item-->
+        <!--Code Editor View Controller - CODE EDITOR-->
         <scene sceneID="h11-R3-YhK">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zl4-zC-I7j" sceneMemberID="firstResponder"/>
@@ -642,11 +642,11 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="gas-yL-91X">
-                                <rect key="frame" x="0.0" y="34" width="320" height="427"/>
+                                <rect key="frame" x="0.0" y="64" width="320" height="409"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </scrollView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="byX-8G-chM">
-                                <rect key="frame" x="0.0" y="509" width="88" height="59"/>
+                                <rect key="frame" x="0.0" y="481" width="88" height="38"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="JSON">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -658,7 +658,7 @@
                         </subviews>
                         <color key="backgroundColor" name="controlHighlightColor" catalog="System" colorSpace="catalog"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" id="74r-rl-lb4"/>
+                    <tabBarItem key="tabBarItem" title="CODE EDITOR" id="74r-rl-lb4"/>
                     <navigationItem key="navigationItem" id="m9t-IO-JYF"/>
                     <connections>
                         <outlet property="scrollView" destination="gas-yL-91X" id="i4U-Cr-aHy"/>
@@ -667,7 +667,7 @@
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="1576" y="-392"/>
+            <point key="canvasLocation" x="1718" y="170"/>
         </scene>
         <!--Json View Controller-->
         <scene sceneID="a7B-hj-4Sw">
@@ -705,7 +705,7 @@
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="2120" y="-1308"/>
+            <point key="canvasLocation" x="2242" y="-528"/>
         </scene>
         <!--Statement Chooser View Controller-->
         <scene sceneID="Ol8-RP-6wY">
@@ -749,7 +749,7 @@
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="2944" y="360"/>
+            <point key="canvasLocation" x="2696" y="170"/>
         </scene>
         <!--Expression View Controller-->
         <scene sceneID="Q7K-FI-AAz">
@@ -1147,7 +1147,7 @@
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="2448" y="-416"/>
+            <point key="canvasLocation" x="2242" y="157"/>
         </scene>
     </scenes>
     <resources>

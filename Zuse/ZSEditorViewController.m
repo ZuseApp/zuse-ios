@@ -20,7 +20,7 @@
 {
     [super viewDidLoad];
     ZS_CodeEditorViewController *codeController = (ZS_CodeEditorViewController *)self.viewControllers[0];
-    codeController.spriteObject = self.spriteObject;
+    codeController.json = self.spriteObject;
     
     ZSTraitEditorViewController *traitController = (ZSTraitEditorViewController *)self.viewControllers[1];
     if (!self.spriteObject[@"traits"]) {
