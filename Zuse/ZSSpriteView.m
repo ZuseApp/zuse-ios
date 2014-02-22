@@ -142,10 +142,10 @@
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
-    if ([otherGestureRecognizer isKindOfClass:UIPanGestureRecognizer.class]) {
-        return YES;
+    if ([gestureRecognizer isKindOfClass:UILongPressGestureRecognizer.class]) {
+        return NO;
     }
-    return NO;
+    return YES;
 }
 
 - (void)singleTapRecognized {

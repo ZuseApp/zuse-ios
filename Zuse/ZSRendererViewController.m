@@ -52,10 +52,8 @@
 - (void)loadSpriteKit {
     
     // Create and configure the scene.
-    NSLog(@"%@", NSStringFromCGRect(self.SKView.bounds));
     _scene = [[ZSRendererScene alloc] initWithSize:self.SKView.bounds.size projectJSON:_projectJSON];
     _scene.scaleMode = SKSceneScaleModeAspectFill;
-    NSLog(@"%@", NSStringFromCGRect(self.SKView.bounds));
     
     // Present the scene.
     [self.SKView presentScene:_scene];

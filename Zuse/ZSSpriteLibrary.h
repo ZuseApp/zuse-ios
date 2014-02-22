@@ -10,6 +10,8 @@
 
 @interface ZSSpriteLibrary : NSObject
 
-+(NSMutableArray *) spriteLibrary;
+@property (nonatomic, strong) NSMutableArray *categories;
+
++ (ZSSpriteLibrary*)sharedLibrary;
 
 @end

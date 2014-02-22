@@ -3,7 +3,7 @@
 
 @interface ZSToolboxCell : UICollectionViewCell
 
-@property (weak, nonatomic) IBOutlet ZSSpriteView *spriteView;
-@property (weak, nonatomic) IBOutlet UILabel *spriteName;
+@property (strong, nonatomic) ZSSpriteView *spriteView;
+@property (strong, nonatomic) UILabel *spriteName;
 
 @end

@@ -1,19 +1,12 @@
-//
-//  ZSToolboxController.m
-//  Zuse
-//
-//  Created by Michael Hogenson on 2/20/14.
-//  Copyright (c) 2014 Michael Hogenson. All rights reserved.
-//
-
 #import "ZSToolboxController.h"
 #import "ZSSpriteLibrary.h"
 #import "ZSSpriteView.h"
 #import "ZSToolboxCell.h"
+#import "DZNPhotoPickerController.h"
 
 @interface ZSToolboxController ()
 
-@property (strong, nonatomic) NSArray *spriteLibrary;
+@property (strong, nonatomic) NSArray *sprites;
 
 @end
 
@@ -23,21 +16,21 @@
     self = [super init];
     if (self)
     {
-        _spriteLibrary = [ZSSpriteLibrary spriteLibrary];
+        _sprites = [ZSSpriteLibrary sharedLibrary].categories;
     }
     return self;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section;
 {
-    return [_spriteLibrary count];
+    return ((NSArray*)_sprites[_groupIndex][@"sprites"]).count;
 }
 
-- (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath;
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath;
 {
-    ZSToolboxCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"cellID" forIndexPath:indexPath];
+    ZSToolboxCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cellID" forIndexPath:indexPath];
     
-    NSMutableDictionary *json = [_spriteLibrary[indexPath.row] copy];
+    NSMutableDictionary *json = [_sprites[_groupIndex][@"sprites"][indexPath.row] copy];
     [cell.spriteView setThumbnailFromJSON:json];
     
     cell.spriteView.contentMode = UIViewContentModeScaleAspectFit;
@@ -59,6 +52,18 @@
     [cell.spriteName setText:json[@"name"]];
     
     return cell;
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    return CGSizeMake(84, 70);
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
+    return 10;
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
+    return 10;
 }
 
 @end
