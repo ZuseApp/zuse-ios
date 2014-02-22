@@ -119,10 +119,10 @@
 
 - (void)addCollectionView:(UICollectionView*)collectionView title:(NSString*)title {
     collectionView.backgroundColor = [UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:0.95];
-    [_collectionTitles addObject:title];
+    [_collectionTitles addObject:[title uppercaseString]];
     [_content addSubview:collectionView];
     if (_collectionTitles.count == 1) {
-        _titleLabel.text = title;
+        _titleLabel.text = [title uppercaseString];
     }
     _pageControl.numberOfPages = _collectionTitles.count;
 }

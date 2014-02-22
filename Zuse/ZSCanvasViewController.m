@@ -78,7 +78,7 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
     [super viewDidLoad];
     
     // Test Toolbox
-    _toolboxView = [[ZSToolboxView alloc] initWithFrame:CGRectMake(15, 84, 282, 361)];
+    _toolboxView = [[ZSToolboxView alloc] initWithFrame:CGRectMake(19, 82, 282, 361)];
     WeakSelf
     _toolboxView.hidView = ^{
         [weakSelf.tutorial broadcastEvent:ZSTutorialBroadcastDidHideToolbox];
