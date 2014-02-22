@@ -146,7 +146,7 @@
       "id": "score",
       "properties": {
         "x": 270,
-        "y": 543,
+        "y": 499,
         "width": 100,
         "height": 50,
         "text": "0",
@@ -192,7 +192,7 @@
       "type": "image",
       "physics_body": "rectangle",
       "image": {
-        "path": "paddle.png"
+        "path": "sprite_paddle.png"
       },
       "traits": {
         "Draggable": {
@@ -204,7 +204,7 @@
       "collision_group": "paddle",
       "properties": {
         "x": 104,
-        "y": 44,
+        "y": 50,
         "width": 129,
         "height": 28
       },
@@ -215,7 +215,7 @@
       "type": "image",
       "physics_body": "rectangle",
       "image": {
-        "path": "paddle.png"
+        "path": "sprite_paddle.png"
       },
       "traits": {
         "Draggable": {
@@ -227,7 +227,7 @@
       "collision_group": "paddle",
       "properties": {
         "x": 224,
-        "y": 434,
+        "y": 430,
         "width": 129,
         "height": 28
       },
@@ -238,12 +238,12 @@
       "type": "image",
       "physics_body": "circle",
       "image": {
-        "path": "grayball.png"
+        "path": "sprite_ball.png"
       },
       "traits": {},
       "properties": {
         "x": 160,
-        "y": 240,
+        "y": 256,
         "width": 30,
         "height": 30,
         "bouncy": true
