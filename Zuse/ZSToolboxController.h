@@ -10,7 +10,6 @@
 
 @interface ZSToolboxController : NSObject <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
-@property (nonatomic, assign) NSInteger groupIndex;
 @property (strong, nonatomic) void(^longPressBegan)(UILongPressGestureRecognizer *longPressGestureRecognizer);
 @property (strong, nonatomic) void(^longPressChanged)(UILongPressGestureRecognizer *longPressGestureRecognizer);
 @property (strong, nonatomic) void(^longPressEnded)(UILongPressGestureRecognizer *longPressGestureRecognizer);

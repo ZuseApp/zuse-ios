@@ -21,16 +21,15 @@
     return self;
 }
 
-- (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section;
-{
-    return ((NSArray*)_sprites[_groupIndex][@"sprites"]).count;
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return ((NSArray*)_sprites[collectionView.tag][@"sprites"]).count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath;
 {
     ZSToolboxCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cellID" forIndexPath:indexPath];
     
-    NSMutableDictionary *json = [_sprites[_groupIndex][@"sprites"][indexPath.row] copy];
+    NSMutableDictionary *json = [_sprites[collectionView.tag][@"sprites"][indexPath.row] copy];
     [cell.spriteView setThumbnailFromJSON:json];
     
     cell.spriteView.contentMode = UIViewContentModeScaleAspectFit;

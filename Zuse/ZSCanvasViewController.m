@@ -46,7 +46,7 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
 
 // Toolbox
 @property (strong, nonatomic) ZSToolboxView *toolboxView;
-@property (strong, nonatomic) NSMutableArray *toolboxControllers;
+@property (strong, nonatomic) ZSToolboxController *toolboxController;
 
 // Toolbar
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
@@ -66,7 +66,7 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
     self = [super initWithCoder:aDecoder];
     if (self) {
         _tutorial = [ZSTutorial sharedTutorial];
-        _toolboxControllers = [NSMutableArray array];
+        _toolboxController = [[ZSToolboxController alloc] init];
     }
     return self;
 }
@@ -78,7 +78,7 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
     [super viewDidLoad];
     
     // Test Toolbox
-    _toolboxView = [[ZSToolboxView alloc] initWithFrame:CGRectMake(19, 84, 282, 357)];
+    _toolboxView = [[ZSToolboxView alloc] initWithFrame:CGRectMake(15, 84, 282, 361)];
     WeakSelf
     _toolboxView.hidView = ^{
         [weakSelf.tutorial broadcastEvent:ZSTutorialBroadcastDidHideToolbox];
@@ -89,13 +89,10 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
         UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:[[UICollectionViewFlowLayout alloc] init]];
         [collectionView registerClass:ZSToolboxCell.class forCellWithReuseIdentifier:@"cellID"];
         collectionView.userInteractionEnabled = YES;
-        collectionView.contentInset = UIEdgeInsetsMake(0, 4, 0, 4);
-        
-        ZSToolboxController *controller = [[ZSToolboxController alloc] init];
-        controller.groupIndex = position;
-        [_toolboxControllers addObject:controller];
-        collectionView.delegate = controller;
-        collectionView.dataSource = controller;
+        collectionView.contentInset = UIEdgeInsetsMake(4, 4, 4, 4);
+        collectionView.delegate = _toolboxController;
+        collectionView.dataSource = _toolboxController;
+        collectionView.tag = position;
         
         [_toolboxView addCollectionView:collectionView title:categories[position][@"category"]];
         position++;
@@ -269,87 +266,85 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
     __block CGPoint offset;
     __block CGPoint currentPoint;
     __block ZSSpriteView *draggedView;
-    for (ZSToolboxController *controller in _toolboxControllers) {
-        controller.longPressBegan = ^(UILongPressGestureRecognizer *panGestureRecognizer) {
-            ZSSpriteView *spriteView = (ZSSpriteView*)panGestureRecognizer.view;
-            NSMutableDictionary *json = [spriteView.spriteJSON deepMutableCopy];
-            NSString *type = json[@"type"];
-            if ([@"text" isEqualToString:type]) {
-                json[@"properties"][@"text"] = @"Value";
-            }
-            json[@"collision_group"] = @"";
-            
-            // Width and height of frame can be calculated now.
-            CGRect originalFrame = spriteView.content.frame;
-            CGRect frame = CGRectZero;
-            frame.size.width = [json[@"properties"][@"width"] floatValue];
-            frame.size.height = [json[@"properties"][@"height"] floatValue];
-            
-            if (![@"text" isEqualToString:type]) {
-                CGFloat scale = frame.size.width / spriteView.content.frame.size.width;
-                offset = [panGestureRecognizer locationInView:spriteView.content];
-                offset = CGPointMake(offset.x * scale, offset.y * scale);
-            }
-            else {
-                offset = [panGestureRecognizer locationInView:spriteView];
-                offset = CGPointMake(offset.x, frame.size.height / 2);
-            }
-            currentPoint = [panGestureRecognizer locationInView:weakSelf.canvasView];
-            
-            originalFrame.origin.x = currentPoint.x - offset.x;
-            originalFrame.origin.y = currentPoint.y - offset.y;
-            
-            frame.origin.x = currentPoint.x - offset.x;
-            frame.origin.y = currentPoint.y - offset.y;
-            
-            draggedView = [[ZSSpriteView alloc] initWithFrame:frame];
-            [draggedView setContentFromJSON:json];
-            [weakSelf.canvasView addSubview:draggedView];
-            
-            CGFloat scale = spriteView.content.frame.size.width / frame.size.width;
-            if (scale < 1) {
-                draggedView.transform = CGAffineTransformMakeScale(scale, scale);
-                [UIView animateWithDuration:0.25f animations:^{
-                    draggedView.transform = CGAffineTransformIdentity;
-                }];
-            }
-            [weakSelf.toolboxView hideAnimated:YES];
-            [weakSelf.tutorial hideMessage];
-        };
+    _toolboxController.longPressBegan = ^(UILongPressGestureRecognizer *panGestureRecognizer) {
+        ZSSpriteView *spriteView = (ZSSpriteView*)panGestureRecognizer.view;
+        NSMutableDictionary *json = [spriteView.spriteJSON deepMutableCopy];
+        NSString *type = json[@"type"];
+        if ([@"text" isEqualToString:type]) {
+            json[@"properties"][@"text"] = @"Value";
+        }
+        json[@"collision_group"] = @"";
         
-        controller.longPressChanged = ^(UILongPressGestureRecognizer *longPressGestureRecognizer) {
-            currentPoint = [longPressGestureRecognizer locationInView:weakSelf.canvasView];
-            
-            [weakSelf.canvasView moveSprite:draggedView x:currentPoint.x - offset.x y:currentPoint.y - offset.y];
-        };
+        // Width and height of frame can be calculated now.
+        CGRect originalFrame = spriteView.content.frame;
+        CGRect frame = CGRectZero;
+        frame.size.width = [json[@"properties"][@"width"] floatValue];
+        frame.size.height = [json[@"properties"][@"height"] floatValue];
         
-        controller.longPressEnded = ^(UILongPressGestureRecognizer *longPressGestureRecognizer) {
-            NSMutableDictionary *json = draggedView.spriteJSON;
-            
-            NSMutableDictionary *newJson = [json deepMutableCopy];
-            newJson[@"id"] = [[NSUUID UUID] UUIDString];
-            NSMutableDictionary *properties = newJson[@"properties"];
-            [[weakSelf.project rawJSON][@"objects"] addObject:newJson];
-            
-            CGFloat x = draggedView.frame.origin.x + (draggedView.frame.size.width / 2);
-            CGFloat y = weakSelf.canvasView.frame.size.height - draggedView.frame.size.height - draggedView.frame.origin.y;
-            y += draggedView.frame.size.height / 2;
-            
-            properties[@"x"] = @(x);
-            properties[@"y"] = @(y);
-            
-            draggedView.spriteJSON = newJson;
-            [weakSelf.canvasView setupGesturesForSpriteView:draggedView withProperties:properties];
-            [weakSelf.canvasView setupEditOptionsForSpriteView:draggedView];
-            
-            // Save the project.
-            [weakSelf.project write];
-            
-            // Show the toolbox again.
-            [weakSelf.toolboxView showAnimated:YES];
-            [weakSelf.tutorial broadcastEvent:ZSTutorialBroadcastDidDropSprite];
-        };
-    }
+        if (![@"text" isEqualToString:type]) {
+            CGFloat scale = frame.size.width / spriteView.content.frame.size.width;
+            offset = [panGestureRecognizer locationInView:spriteView.content];
+            offset = CGPointMake(offset.x * scale, offset.y * scale);
+        }
+        else {
+            offset = [panGestureRecognizer locationInView:spriteView];
+            offset = CGPointMake(offset.x, frame.size.height / 2);
+        }
+        currentPoint = [panGestureRecognizer locationInView:weakSelf.canvasView];
+        
+        originalFrame.origin.x = currentPoint.x - offset.x;
+        originalFrame.origin.y = currentPoint.y - offset.y;
+        
+        frame.origin.x = currentPoint.x - offset.x;
+        frame.origin.y = currentPoint.y - offset.y;
+        
+        draggedView = [[ZSSpriteView alloc] initWithFrame:frame];
+        [draggedView setContentFromJSON:json];
+        [weakSelf.canvasView addSubview:draggedView];
+        
+        CGFloat scale = spriteView.content.frame.size.width / frame.size.width;
+        if (scale < 1) {
+            draggedView.transform = CGAffineTransformMakeScale(scale, scale);
+            [UIView animateWithDuration:0.25f animations:^{
+                draggedView.transform = CGAffineTransformIdentity;
+            }];
+        }
+        [weakSelf.toolboxView hideAnimated:YES];
+        [weakSelf.tutorial hideMessage];
+    };
+    
+    _toolboxController.longPressChanged = ^(UILongPressGestureRecognizer *longPressGestureRecognizer) {
+        currentPoint = [longPressGestureRecognizer locationInView:weakSelf.canvasView];
+        
+        [weakSelf.canvasView moveSprite:draggedView x:currentPoint.x - offset.x y:currentPoint.y - offset.y];
+    };
+    
+    _toolboxController.longPressEnded = ^(UILongPressGestureRecognizer *longPressGestureRecognizer) {
+        NSMutableDictionary *json = draggedView.spriteJSON;
+        
+        NSMutableDictionary *newJson = [json deepMutableCopy];
+        newJson[@"id"] = [[NSUUID UUID] UUIDString];
+        NSMutableDictionary *properties = newJson[@"properties"];
+        [[weakSelf.project rawJSON][@"objects"] addObject:newJson];
+        
+        CGFloat x = draggedView.frame.origin.x + (draggedView.frame.size.width / 2);
+        CGFloat y = weakSelf.canvasView.frame.size.height - draggedView.frame.size.height - draggedView.frame.origin.y;
+        y += draggedView.frame.size.height / 2;
+        
+        properties[@"x"] = @(x);
+        properties[@"y"] = @(y);
+        
+        draggedView.spriteJSON = newJson;
+        [weakSelf.canvasView setupGesturesForSpriteView:draggedView withProperties:properties];
+        [weakSelf.canvasView setupEditOptionsForSpriteView:draggedView];
+        
+        // Save the project.
+        [weakSelf.project write];
+        
+        // Show the toolbox again.
+        [weakSelf.toolboxView showAnimated:YES];
+        [weakSelf.tutorial broadcastEvent:ZSTutorialBroadcastDidDropSprite];
+    };
 }
 
 -(void)setupGestures {
