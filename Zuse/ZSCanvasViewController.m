@@ -94,9 +94,12 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
         collectionView.dataSource = _toolboxController;
         collectionView.tag = position;
         
-        [_toolboxView addView:collectionView title:categories[position][@"category"]];
+        [_toolboxView addContentView:collectionView title:categories[position][@"category"]];
         position++;
     }
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
+    [button setTitle:@"Import Image" forState:UIControlStateNormal];
+    [_toolboxView addButton:button];
     [self.view addSubview:_toolboxView];
     
     // Load the project if it exists.

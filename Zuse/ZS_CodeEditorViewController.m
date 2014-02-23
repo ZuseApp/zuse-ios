@@ -74,7 +74,7 @@
     collectionView.delegate = _statementChooserController;
     collectionView.dataSource = _statementChooserController;
     [_toolboxView setPagingEnabled:NO];
-    [_toolboxView addView:collectionView title:@"STATEMENT CHOOSER"];
+    [_toolboxView addContentView:collectionView title:@"STATEMENT CHOOSER"];
     [self.view addSubview:_toolboxView];
     
     // Register at notification center

@@ -6,7 +6,6 @@
 @property (nonatomic, strong) NSMutableArray *collectionTitles;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UIPageControl *pageControl;
-@property (nonatomic, strong) UIButton *importButton;
 @property (nonatomic, strong) FXBlurView *blurView;
 @property (nonatomic, strong) UIScrollView *content;
 @property (nonatomic, assign) BOOL wasAnimated;
@@ -43,29 +42,21 @@
         // Content
         _content = [[UIScrollView alloc] init];
         _content.userInteractionEnabled = YES;
-        _content.backgroundColor = [UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:0.95];
-        _content.backgroundColor = [UIColor whiteColor];
+        _content.backgroundColor = [UIColor clearColor];
         _content.pagingEnabled = YES;
         _content.showsHorizontalScrollIndicator = NO;
         _content.delegate = self;
         
         // Page Control
         _pageControl = [[UIPageControl alloc] init];
-        _pageControl.backgroundColor = [UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:0.95];
+        _pageControl.backgroundColor = [UIColor clearColor];
         _pageControl.numberOfPages = 1;
         _pageControl.currentPage = 0;
         _pageControl.enabled = NO;
         
-        // Import Button
-//        _importButton = [UIButton buttonWithType:UIButtonTypeSystem];
-//        _importButton.backgroundColor = [UIColor colorWithRed:0.12 green:0.12 blue:0.12 alpha:0.95];
-//        [_importButton setTintColor:[UIColor whiteColor]];
-//        [_importButton setTitle:@"Import Image" forState:UIControlStateNormal];
-        
         [self addSubview:_titleLabel];
         [self addSubview:_content];
         [self addSubview:_pageControl];
-        [self addSubview:_importButton];
     }
     return self;
 }
@@ -134,7 +125,7 @@
 }
 
 - (void)addContentView:(UIView*)view title:(NSString*)title {
-    view.backgroundColor = [UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:0.95];
+    view.backgroundColor = [UIColor clearColor];
     [_collectionTitles addObject:[title uppercaseString]];
     [_content addSubview:view];
     if (_collectionTitles.count == 1) {
@@ -144,6 +135,10 @@
 }
 
 - (void)addButton:(UIButton *)button {
+    // Modify the button to be consistend with the skinning.
+    button.backgroundColor = [UIColor colorWithRed:0.12 green:0.12 blue:0.12 alpha:0.95];
+    [button setTintColor:[UIColor whiteColor]];
+    
     [_buttons addObject:button];
     [self addSubview:button];
 }
@@ -154,7 +149,7 @@
     if (_pagingEnabled) {
         contentHeight -= 37;
     }
-    if (_buttons || _buttons.count == 0) {
+    if (_buttons && _buttons.count != 0) {
         contentHeight -= 50;
     }
     
@@ -168,10 +163,20 @@
     }
     
     if (_pagingEnabled) {
-        _pageControl.frame = CGRectMake(0, self.frame.size.height - 87, self.frame.size.width, 37);
+        CGFloat offset = 37;
+        if (_buttons && _buttons.count != 0) {
+            offset = 87;
+        }
+        _pageControl.frame = CGRectMake(0, self.frame.size.height - offset, self.frame.size.width, 37);
     }
-    // _importButton.frame = CGRectMake(0, self.frame.size.height - 50, self.frame.size.width, 50);
     
+    if (_buttons && _buttons.count != 0) {
+        NSInteger position = 0;
+        CGFloat width = self.frame.size.width / _buttons.count;
+        for (UIButton *button in _buttons) {
+            button.frame = CGRectMake(position * width, self.frame.size.height - 50, width, 50);
+        }
+    }
 }
 
 # pragma mark Scroll View Delegate
