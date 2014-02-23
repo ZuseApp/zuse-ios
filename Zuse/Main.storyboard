@@ -407,6 +407,7 @@
                     <connections>
                         <outlet property="tableView" destination="ibX-ss-fDW" id="06g-Op-SbW"/>
                         <segue destination="pZF-Fu-eXH" kind="push" identifier="parameters" id="qxG-LS-U1q"/>
+                        <segue destination="aKz-bP-FaN" kind="push" identifier="editor" id="BB8-BW-ttQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ODg-F2-aZ0" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1166,5 +1167,6 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="XFw-Ri-amw"/>
+        <segue reference="BB8-BW-ttQ"/>
     </inferredMetricsTieBreakers>
 </document>
