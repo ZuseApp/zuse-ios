@@ -115,6 +115,8 @@
 		5F39DFD7188A472E008ECAC1 /* ZSInterpreterExpressionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F39DFD6188A472E008ECAC1 /* ZSInterpreterExpressionTests.m */; };
 		5F41ACB818341C980089D136 /* ZSExecutionContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F41ACB718341C980089D136 /* ZSExecutionContext.m */; };
 		5F50CBD218A1529000B7C020 /* ZSSelectedGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F50CBD118A1529000B7C020 /* ZSSelectedGroupViewController.m */; };
+		5F687DD118B9A3B200D57A34 /* event_manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F687DCF18B9A3B200D57A34 /* event_manifest.json */; };
+		5F687DD218B9A3B200D57A34 /* method_manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F687DD018B9A3B200D57A34 /* method_manifest.json */; };
 		5F8138C918945D8F009F3495 /* object_transform.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F8138C818945D8F009F3495 /* object_transform.json */; };
 		5F8138CD18945DDD009F3495 /* object_transform_result.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F8138CC18945DDD009F3495 /* object_transform_result.json */; };
 		5F8138D11898C338009F3495 /* NSString+Zuse.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8138D01898C338009F3495 /* NSString+Zuse.m */; };
@@ -306,6 +308,8 @@
 		5F41ACB718341C980089D136 /* ZSExecutionContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSExecutionContext.m; sourceTree = "<group>"; };
 		5F50CBD018A1529000B7C020 /* ZSSelectedGroupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSSelectedGroupViewController.h; sourceTree = "<group>"; };
 		5F50CBD118A1529000B7C020 /* ZSSelectedGroupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSSelectedGroupViewController.m; sourceTree = "<group>"; };
+		5F687DCF18B9A3B200D57A34 /* event_manifest.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = event_manifest.json; path = JSON/event_manifest.json; sourceTree = "<group>"; };
+		5F687DD018B9A3B200D57A34 /* method_manifest.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = method_manifest.json; path = JSON/method_manifest.json; sourceTree = "<group>"; };
 		5F8138C818945D8F009F3495 /* object_transform.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = object_transform.json; path = CodeSamples/object_transform.json; sourceTree = "<group>"; };
 		5F8138CC18945DDD009F3495 /* object_transform_result.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = object_transform_result.json; path = CodeSamples/object_transform_result.json; sourceTree = "<group>"; };
 		5F8138CF1898C338009F3495 /* NSString+Zuse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Zuse.h"; sourceTree = "<group>"; };
@@ -674,6 +678,8 @@
 				4CF1CBFE17EFE13C00636E0D /* images */,
 				5FEFB898182B5360007DAFCF /* JSON */,
 				4CF1CBC917EF882A00636E0D /* Images.xcassets */,
+				5F687DCF18B9A3B200D57A34 /* event_manifest.json */,
+				5F687DD018B9A3B200D57A34 /* method_manifest.json */,
 				4CF1CBB917EF882A00636E0D /* Zuse-Info.plist */,
 				4CF1CBBA17EF882A00636E0D /* InfoPlist.strings */,
 				4CF1CBBD17EF882A00636E0D /* main.m */,
@@ -942,6 +948,7 @@
 				4C2D1ECE1891EB65002C431A /* sprite_manifest.json in Resources */,
 				4C5A31C918B3FA2400FCE1A9 /* sprite_brick.png in Resources */,
 				5FEFB89A182B5376007DAFCF /* pong.json in Resources */,
+				5F687DD118B9A3B200D57A34 /* event_manifest.json in Resources */,
 				4C97DBEF18B313D5006B551D /* bar_menu.png in Resources */,
 				4CEB19C018971F27009D89B3 /* text_icon.png in Resources */,
 				4C5A31C518B3F7AA00FCE1A9 /* sprite_paddle.png in Resources */,
@@ -967,6 +974,7 @@
 				4C9E43DB188B65B800045D86 /* grid.png in Resources */,
 				2CF6E519189D7FB900E2779C /* spark.png in Resources */,
 				4CB1E181188E314B004F5D96 /* arrow-090.png in Resources */,
+				5F687DD218B9A3B200D57A34 /* method_manifest.json in Resources */,
 				4CB1E183188E314B004F5D96 /* arrow-270.png in Resources */,
 				4CB1E184188E314B004F5D96 /* arrow.png in Resources */,
 				4C9E43E3188B698200045D86 /* cross.png in Resources */,

@@ -1,0 +1,8 @@
+{
+  "code": [
+    { "set": ["this", "that"] },
+    { "call": { "method": "foo", "parameters": [] }},
+    { "set": ["bar", "baz"] },
+    { "call": { "method": "foo", "parameters": [] }}
+  ]
+}
