@@ -11,6 +11,7 @@
 @property (nonatomic, strong) UIScrollView *content;
 @property (nonatomic, assign) BOOL wasAnimated;
 @property (nonatomic, assign) BOOL pagingEnabled;
+@property (nonatomic, strong) NSMutableArray *buttons;
 
 @end
 
@@ -21,6 +22,8 @@
     self = [super initWithFrame:frame];
     if (self) {
         _pagingEnabled = YES;
+        _buttons = [NSMutableArray array];
+        
         self.hidden = YES;
         self.userInteractionEnabled = YES;
         [self.layer setCornerRadius:10];
@@ -54,10 +57,10 @@
         _pageControl.enabled = NO;
         
         // Import Button
-        _importButton = [UIButton buttonWithType:UIButtonTypeSystem];
-        _importButton.backgroundColor = [UIColor colorWithRed:0.12 green:0.12 blue:0.12 alpha:0.95];
-        [_importButton setTintColor:[UIColor whiteColor]];
-        [_importButton setTitle:@"Import Image" forState:UIControlStateNormal];
+//        _importButton = [UIButton buttonWithType:UIButtonTypeSystem];
+//        _importButton.backgroundColor = [UIColor colorWithRed:0.12 green:0.12 blue:0.12 alpha:0.95];
+//        [_importButton setTintColor:[UIColor whiteColor]];
+//        [_importButton setTitle:@"Import Image" forState:UIControlStateNormal];
         
         [self addSubview:_titleLabel];
         [self addSubview:_content];
@@ -130,7 +133,7 @@
     }
 }
 
-- (void)addView:(UIView*)view title:(NSString*)title {
+- (void)addContentView:(UIView*)view title:(NSString*)title {
     view.backgroundColor = [UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:0.95];
     [_collectionTitles addObject:[title uppercaseString]];
     [_content addSubview:view];
@@ -140,11 +143,19 @@
     _pageControl.numberOfPages = _collectionTitles.count;
 }
 
+- (void)addButton:(UIButton *)button {
+    [_buttons addObject:button];
+    [self addSubview:button];
+}
+
 - (void)layoutSubviews {
     [super layoutSubviews];
-    CGFloat contentHeight = self.frame.size.height - 90;
+    CGFloat contentHeight = self.frame.size.height - 40;
     if (_pagingEnabled) {
         contentHeight -= 37;
+    }
+    if (_buttons || _buttons.count == 0) {
+        contentHeight -= 50;
     }
     
     _titleLabel.frame = CGRectMake(0, 0, self.frame.size.width, 40);
@@ -159,7 +170,7 @@
     if (_pagingEnabled) {
         _pageControl.frame = CGRectMake(0, self.frame.size.height - 87, self.frame.size.width, 37);
     }
-    _importButton.frame = CGRectMake(0, self.frame.size.height - 50, self.frame.size.width, 50);
+    // _importButton.frame = CGRectMake(0, self.frame.size.height - 50, self.frame.size.width, 50);
     
 }
 
