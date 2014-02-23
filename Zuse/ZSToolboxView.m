@@ -41,6 +41,7 @@
         _content = [[UIScrollView alloc] init];
         _content.userInteractionEnabled = YES;
         _content.backgroundColor = [UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:0.95];
+        _content.backgroundColor = [UIColor whiteColor];
         _content.pagingEnabled = YES;
         _content.showsHorizontalScrollIndicator = NO;
         _content.delegate = self;

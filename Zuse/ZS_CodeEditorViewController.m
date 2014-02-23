@@ -4,11 +4,16 @@
 #import "ZS_ExpressionViewController.h"
 #import "ZS_JsonViewController.h"
 #import "ZS_StatementChooserViewController.h"
+#import "ZSToolboxView.h"
+#import "ZSStatementChooserController.h"
+#import "ZSStatementCell.h"
 
 @interface ZS_CodeEditorViewController ()
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) UILabel* selectedLabel;
 @property (weak, nonatomic) ZS_StatementView* selectedStatementView;
+@property (strong, nonatomic) ZSToolboxView *toolboxView;
+@property (strong, nonatomic) ZSStatementChooserController *statementChooserController;
 //@property (strong, nonatomic) NSMutableDictionary* json;
 @end
 
@@ -17,6 +22,60 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    // ToolboxView
+    WeakSelf
+    _statementChooserController = [[ZSStatementChooserController alloc] init];
+    _statementChooserController.singleTapped = ^(NSMutableArray *returnJson, NSInteger statementIndex) {
+        NSMutableDictionary* statement = [[NSMutableDictionary alloc]init];
+        
+        if (statementIndex == 0)
+        {
+            statement[@"on_event"] = [[NSMutableDictionary alloc]init];
+            statement[@"on_event"][@"name"] = @"#event name";
+            statement[@"on_event"][@"parameters"] = [[NSMutableArray alloc]init];
+            statement[@"on_event"][@"code"] = [[NSMutableArray alloc]init];
+        }
+        else if (statementIndex == 1)
+        {
+            statement[@"trigger_event"] = [[NSMutableDictionary alloc]init];
+            statement[@"trigger_event"][@"name"] = @"#event name";
+            statement[@"trigger_event"][@"parameters"] = [[NSMutableDictionary alloc]init];
+        }
+        if (statementIndex == 2)
+        {
+            statement[@"if"] = [[NSMutableDictionary alloc]init];
+            statement[@"if"][@"test"] = @"#expression";
+            statement[@"if"][@"true"] = [[NSMutableArray alloc]init];
+        }
+        else if (statementIndex == 3)
+        {
+            statement[@"set"] = [NSMutableArray arrayWithArray: @[@"#name", @"#value"]];
+        }
+        if (statementIndex == 4)
+        {
+            statement[@"call"] = [[NSMutableDictionary alloc]init];
+            statement[@"call"][@"method"] = @"move";
+            statement[@"call"][@"parameters"] = [NSMutableArray arrayWithArray:@[@"var", @"var"]];
+        }
+        // Make changes in json and reload
+        if (statement.count)
+        {
+            [returnJson addObject:statement];
+        }
+        [weakSelf reloadFromJson];
+        [weakSelf.toolboxView hideAnimated:YES];
+    };
+    _toolboxView = [[ZSToolboxView alloc] initWithFrame:CGRectMake(19, 82, 282, 361)];
+    UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:[[UICollectionViewFlowLayout alloc] init]];
+    [collectionView registerClass:ZSStatementCell.class forCellWithReuseIdentifier:@"cellID"];
+    collectionView.userInteractionEnabled = YES;
+    collectionView.contentInset = UIEdgeInsetsMake(10, 10, 10, 10);
+    collectionView.delegate = _statementChooserController;
+    collectionView.dataSource = _statementChooserController;
+    [_toolboxView setPagingEnabled:NO];
+    [_toolboxView addView:collectionView title:@"STATEMENT CHOOSER"];
+    [self.view addSubview:_toolboxView];
     
     // Register at notification center
     [[NSNotificationCenter defaultCenter] addObserver: self
@@ -115,7 +174,9 @@
     // Add <new code statement> button
     [view addNewStatementLabelWithTouchBlock:^(UILabel* label)
     {
-        [self performSegueWithIdentifier:@"to statement chooser" sender: label];
+        // [self performSegueWithIdentifier:@"to statement chooser" sender: label];
+        _statementChooserController.returnJson = ((ZS_StatementView*)label.superview).jsonCode;
+        [_toolboxView showAnimated:YES];
     }];
     
     return view;
@@ -148,7 +209,9 @@
     // Add <new code statement> button
     [view addNewStatementLabelWithTouchBlock:^(UILabel* label)
      {
-         [self performSegueWithIdentifier:@"to statement chooser" sender: label];
+         // [self performSegueWithIdentifier:@"to statement chooser" sender: label];
+         _statementChooserController.returnJson = ((ZS_StatementView*)label.superview).jsonCode;
+         [_toolboxView showAnimated:YES];
      }];
     return view;
 }
@@ -173,7 +236,9 @@
     // Add <new code statement> button
     [view addNewStatementLabelWithTouchBlock:^(UILabel* label)
      {
-         [self performSegueWithIdentifier:@"to statement chooser" sender: label];
+         // [self performSegueWithIdentifier:@"to statement chooser" sender: label];
+         _statementChooserController.returnJson = ((ZS_StatementView*)label.superview).jsonCode;
+         [_toolboxView showAnimated:YES];
      }];
     
     return view;
@@ -309,53 +374,53 @@
         ZS_JsonViewController* c  = (ZS_JsonViewController*)segue.destinationViewController;
         c.json = self.json;
     }
-    else if ([[segue identifier] isEqualToString:@"to statement chooser"])
-    {
-        ZS_StatementChooserViewController* c  = (ZS_StatementChooserViewController*)segue.destinationViewController;
-        
-        c.didFinish = ^(NSInteger statementType)
-        {
-            NSMutableArray* jsonCode = statementView.jsonCode;
-            NSMutableDictionary* statement = [[NSMutableDictionary alloc]init];
-            
-            if (statementType == 0)
-            {
-                statement[@"on_event"] = [[NSMutableDictionary alloc]init];
-                statement[@"on_event"][@"name"] = @"#event name";
-                statement[@"on_event"][@"parameters"] = [[NSMutableArray alloc]init];
-                statement[@"on_event"][@"code"] = [[NSMutableArray alloc]init];
-            }
-            else if (statementType == 1)
-            {
-                statement[@"trigger_event"] = [[NSMutableDictionary alloc]init];
-                statement[@"trigger_event"][@"name"] = @"#event name";
-                statement[@"trigger_event"][@"parameters"] = [[NSMutableDictionary alloc]init];
-            }
-            if (statementType == 2)
-            {
-                statement[@"if"] = [[NSMutableDictionary alloc]init];
-                statement[@"if"][@"test"] = @"#expression";
-                statement[@"if"][@"true"] = [[NSMutableArray alloc]init];
-            }
-            else if (statementType == 3)
-            {
-                statement[@"set"] = [NSMutableArray arrayWithArray: @[@"#name", @"#value"]];
-            }
-            if (statementType == 4)
-            {
-                statement[@"call"] = [[NSMutableDictionary alloc]init];
-                statement[@"call"][@"method"] = @"move";
-                statement[@"call"][@"parameters"] = [NSMutableArray arrayWithArray:@[@"var", @"var"]];
-            }
-            // Make changes in json and reload
-            if (statement.count)
-            {
-                [jsonCode addObject:statement];
-            }
-            [self reloadFromJson];
-            [self dismissViewControllerAnimated:YES completion:nil];
-        };
-    }
+//    else if ([[segue identifier] isEqualToString:@"to statement chooser"])
+//    {
+//        ZS_StatementChooserViewController* c  = (ZS_StatementChooserViewController*)segue.destinationViewController;
+//        
+//        c.didFinish = ^(NSInteger statementType)
+//        {
+//            NSMutableArray* jsonCode = statementView.jsonCode;
+//            NSMutableDictionary* statement = [[NSMutableDictionary alloc]init];
+//            
+//            if (statementType == 0)
+//            {
+//                statement[@"on_event"] = [[NSMutableDictionary alloc]init];
+//                statement[@"on_event"][@"name"] = @"#event name";
+//                statement[@"on_event"][@"parameters"] = [[NSMutableArray alloc]init];
+//                statement[@"on_event"][@"code"] = [[NSMutableArray alloc]init];
+//            }
+//            else if (statementType == 1)
+//            {
+//                statement[@"trigger_event"] = [[NSMutableDictionary alloc]init];
+//                statement[@"trigger_event"][@"name"] = @"#event name";
+//                statement[@"trigger_event"][@"parameters"] = [[NSMutableDictionary alloc]init];
+//            }
+//            if (statementType == 2)
+//            {
+//                statement[@"if"] = [[NSMutableDictionary alloc]init];
+//                statement[@"if"][@"test"] = @"#expression";
+//                statement[@"if"][@"true"] = [[NSMutableArray alloc]init];
+//            }
+//            else if (statementType == 3)
+//            {
+//                statement[@"set"] = [NSMutableArray arrayWithArray: @[@"#name", @"#value"]];
+//            }
+//            if (statementType == 4)
+//            {
+//                statement[@"call"] = [[NSMutableDictionary alloc]init];
+//                statement[@"call"][@"method"] = @"move";
+//                statement[@"call"][@"parameters"] = [NSMutableArray arrayWithArray:@[@"var", @"var"]];
+//            }
+//            // Make changes in json and reload
+//            if (statement.count)
+//            {
+//                [jsonCode addObject:statement];
+//            }
+//            [self reloadFromJson];
+//            [self dismissViewControllerAnimated:YES completion:nil];
+//        };
+//    }
 }
 
 @end
