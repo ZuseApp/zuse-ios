@@ -24,6 +24,8 @@
         _buttons = [NSMutableArray array];
         
         self.hidden = YES;
+        self.layer.borderColor = [[UIColor blackColor] CGColor];
+        self.layer.borderWidth = 0.5f;
         self.userInteractionEnabled = YES;
         [self.layer setCornerRadius:10];
         self.clipsToBounds = YES;

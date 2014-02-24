@@ -6,7 +6,6 @@
 #import "ZSGrid.h"
 #import "ZSCanvasView.h"
 #import "ZSSettingsViewController.h"
-#import "ZSAdjustControl.h"
 #import "ZSTutorial.h"
 #import "FXBlurView.h"
 #import "ZSToolboxController.h"
@@ -31,7 +30,6 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
 @property (weak, nonatomic) IBOutlet ZSCanvasView *canvasView;
 
 // Grid Menu
-@property (weak, nonatomic) IBOutlet ZSAdjustControl *adjustMenu;
 @property (weak, nonatomic) IBOutlet UIView *rendererView;
 
 // Sprites
@@ -55,7 +53,6 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *stopBarButtonItem;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *groupBarButtonItem;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *toolBarButtonItem;
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *menuBarButtonItem;
 @property (weak, nonatomic) IBOutlet UIButton *toolButton;
 
 @end
@@ -107,15 +104,10 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
         // Setup delgates, sources and gestures.
         [self setupCanvas];
         [self setupTableDelegatesAndSources];
-        [self setupGestures];
-        [self setupAdjustMenu];
         
         // Load Sprites.
         [self loadSpritesFromProject];
     }
-
-    // Curve the adjust menu.
-    [_adjustMenu.layer setCornerRadius:10];
     
     // Remove pause and stop from the toolbar.
     NSMutableArray *items = [_toolbar.items mutableCopy];
@@ -350,50 +342,6 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
     };
 }
 
--(void)setupGestures {
-    // Adjust Menu
-    __weak ZSAdjustControl *weakAdjust = _adjustMenu;
-    __block CGPoint offset;
-    __block CGPoint currentPoint;
-    _adjustMenu.panBegan = ^(UIPanGestureRecognizer *panGestureRecognizer) {
-        offset = [panGestureRecognizer locationInView:weakAdjust];
-    };
-    
-    _adjustMenu.panMoved = ^(UIPanGestureRecognizer *panGestureRecognizer) {
-        currentPoint = [panGestureRecognizer locationInView:_canvasView];
-        
-        CGRect frame = weakAdjust.frame;
-        frame.origin.x = currentPoint.x - offset.x;
-        frame.origin.y = currentPoint.y - offset.y;
-        weakAdjust.frame = frame;
-    };
-}
-
-#pragma mark Adjustment Menu
-
-- (void)setupAdjustMenu {
-    _adjustMenu.closeMenu = ^{
-        [self hideAdjustMenu];
-    };
-}
-
-- (void)showAdjustMenu {
-    [self.view bringSubviewToFront:_adjustMenu];
-    _adjustMenu.alpha = 0;
-    _adjustMenu.hidden = NO;
-    [UIView animateWithDuration:0.25 animations:^{
-        _adjustMenu.alpha = 1;
-    }];
-}
-
-- (void)hideAdjustMenu {
-    [UIView animateWithDuration:0.25 animations:^{
-        _adjustMenu.alpha = 0;
-    } completion:^(BOOL finished) {
-        _adjustMenu.hidden = YES;
-    }];
-}
-
 #pragma mark Main Menu
 
 - (IBAction)playProject:(id)sender {
@@ -404,7 +352,6 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
         [items insertObject:_stopBarButtonItem atIndex:1];
         [items removeObject:_groupBarButtonItem];
         [items removeObject:_toolBarButtonItem];
-        [items removeObject:_menuBarButtonItem];
     }
     [_toolbar setItems:items animated:YES];
     
@@ -437,7 +384,6 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
     [items removeObject:_stopBarButtonItem];
     [items insertObject:_groupBarButtonItem atIndex:2];
     [items insertObject:_toolBarButtonItem atIndex:3];
-    [items insertObject:_menuBarButtonItem atIndex:4];
     [_toolbar setItems:items animated:YES];
     
     [self.rendererViewController stop];
@@ -456,20 +402,8 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
 }
 
 - (IBAction)showToolbox:(id)sender {
-    if (!_adjustMenu.hidden) {
-        [self hideAdjustMenu];
-    }
     [_toolboxView showAnimated:YES];
     [_tutorial broadcastEvent:ZSTutorialBroadcastDidShowToolbox];
-}
-
-- (IBAction)showAdjustMenu:(id)sender {
-    if (_adjustMenu.hidden) {
-        [self showAdjustMenu];
-    }
-    else {
-        [self hideAdjustMenu];
-    }
 }
 
 @end
