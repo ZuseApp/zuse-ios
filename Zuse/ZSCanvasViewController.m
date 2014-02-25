@@ -128,10 +128,12 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-    [self createStageForName:@"setup"];
-    [[[ZSEditorViewController alloc] init] createStageForName:nil];
-    [self createStageForName:@"paddle2"];
-    // [_tutorial present];
+    if (_showTutorial) {
+        [self createStageForName:@"setup"];
+        [[[ZSEditorViewController alloc] init] createStageForName:nil];
+        [self createStageForName:@"paddle2"];
+        [_tutorial present];
+    }
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
