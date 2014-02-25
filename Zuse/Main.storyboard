@@ -113,7 +113,7 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="EUf-uy-5EC"/>
                                     <barButtonItem style="plain" id="cLt-6f-qPb">
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="PIY-nr-bpi">
-                                            <rect key="frame" x="170" y="6" width="32" height="32"/>
+                                            <rect key="frame" x="116" y="6" width="32" height="32"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" title="Button" image="bar_group.png">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -125,7 +125,7 @@
                                     </barButtonItem>
                                     <barButtonItem style="plain" id="90u-qW-x19">
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="Qgm-2R-uWK">
-                                            <rect key="frame" x="212" y="0.0" width="44" height="44"/>
+                                            <rect key="frame" x="158" y="0.0" width="44" height="44"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" title="Button" image="bar_tools.png">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -133,6 +133,15 @@
                                             <connections>
                                                 <action selector="showToolbox:" destination="xaZ-al-QhV" eventType="touchUpInside" id="pni-W9-dpA"/>
                                             </connections>
+                                        </button>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" id="dNY-Z1-4pm">
+                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="uBo-Kg-2SI">
+                                            <rect key="frame" x="212" y="0.0" width="44" height="44"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal" image="gear--pencil.png">
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
                                         </button>
                                     </barButtonItem>
                                     <barButtonItem style="plain" id="ej5-Re-jwP">
@@ -613,7 +622,7 @@
             </objects>
             <point key="canvasLocation" x="704" y="1722"/>
         </scene>
-        <!--Code Editor View Controller - CODE EDITOR-->
+        <!--Code Editor View Controller - Code Editor-->
         <scene sceneID="h11-R3-YhK">
             <objects>
                 <viewController id="aKz-bP-FaN" customClass="ZS_CodeEditorViewController" sceneMemberID="viewController">
@@ -638,7 +647,7 @@
                         </subviews>
                         <color key="backgroundColor" name="controlHighlightColor" catalog="System" colorSpace="catalog"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="CODE EDITOR" id="74r-rl-lb4"/>
+                    <tabBarItem key="tabBarItem" title="Code Editor" id="74r-rl-lb4"/>
                     <navigationItem key="navigationItem" id="m9t-IO-JYF"/>
                     <connections>
                         <outlet property="scrollView" destination="gas-yL-91X" id="i4U-Cr-aHy"/>
@@ -1138,6 +1147,7 @@
         <image name="bar_play.png" width="88" height="88"/>
         <image name="bar_stop.png" width="88" height="88"/>
         <image name="bar_tools.png" width="44" height="44"/>
+        <image name="gear--pencil.png" width="16" height="16"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

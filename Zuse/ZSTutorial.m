@@ -118,7 +118,7 @@
         // Show tooltip view
         UIView *view = nil;
         view = [[UIView alloc] initWithFrame:_overlayView.activeRegion];
-        // view.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.9];
+        view.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.9];
         [_overlayView addSubview:view];
         
         _toolTipView = [[CMPopTipView alloc] initWithMessage:action[@"text"]];
