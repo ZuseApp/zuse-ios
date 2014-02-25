@@ -2,7 +2,6 @@
 #import "ZSSpriteLibrary.h"
 #import "ZSSpriteView.h"
 #import "ZSToolboxCell.h"
-#import "DZNPhotoPickerController.h"
 
 @interface ZSToolboxController ()
 
