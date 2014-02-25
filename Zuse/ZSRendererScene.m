@@ -332,8 +332,18 @@ void APARunOneShotEmitter(SKEmitterNode *emitter, CGFloat duration) {
         CGPoint point = CGPointMake([properties[@"x"] floatValue], node.position.y);
         CGPoint movePoint = CGPointMake(point.x, node.position.y);
         
+        CGFloat offsetx = size.width / 2.0f;
         if([self withinParentFrame:movePoint size:size])
         {
+            node.position = movePoint;
+        }
+        else {
+            if (movePoint.x < offsetx) {
+                movePoint.x = offsetx;
+            }
+            if (movePoint.x > self.scene.frame.size.width - offsetx) {
+                movePoint.x = self.scene.frame.size.width - offsetx;
+            }
             node.position = movePoint;
         }
         
@@ -342,8 +352,18 @@ void APARunOneShotEmitter(SKEmitterNode *emitter, CGFloat duration) {
         CGPoint point = CGPointMake(node.position.x, [properties[@"y"] floatValue]);
         CGPoint movePoint = CGPointMake(node.position.x, point.y);
         
+        CGFloat offsety = size.height / 2.0f;
         if([self withinParentFrame:movePoint size:size])
         {
+            node.position = movePoint;
+        }
+        else {
+            if (movePoint.y < offsety) {
+                movePoint.y = offsety;
+            }
+            if (movePoint.y > self.scene.frame.size.height - offsety) {
+                movePoint.y = self.scene.frame.size.height - offsety;
+            }
             node.position = movePoint;
         }
     }
