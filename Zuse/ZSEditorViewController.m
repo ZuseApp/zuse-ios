@@ -35,15 +35,23 @@ NSString * const ZSTutorialBroadcastTraitTouched = @"ZSTutorialBroadcastTraitTou
     self.navigationController.navigationBarHidden = NO;
 }
 
+- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
+    if ([item.title isEqualToString:@"Traits"]) {
+        [[ZSTutorial sharedTutorial] broadcastEvent:ZSTutorialBroadcastTraitTouched];
+    }
+}
+
 #pragma mark Tutorial
 
 - (void)createStageForName:(NSString *)name {
-    CGRect frame = CGRectMake(120, 524, 120, 49);
-    [[ZSTutorial sharedTutorial] addActionWithText:@"Click here for kicks."
-                                          forEvent:ZSTutorialBroadcastTraitTouched
-                                   allowedGestures:@[UITapGestureRecognizer.class]
-                                      activeRegion:frame
-                                             setup:nil
-                                        completion:nil];
+    if ([name isEqualToString:@"traits"]) {
+        CGRect frame = CGRectMake(160, 519, 160, 49);
+        [[ZSTutorial sharedTutorial] addActionWithText:@"Click here for kicks."
+                                              forEvent:ZSTutorialBroadcastTraitTouched
+                                       allowedGestures:@[UITapGestureRecognizer.class]
+                                          activeRegion:frame
+                                                 setup:nil
+                                            completion:nil];
+    }
 }
 @end

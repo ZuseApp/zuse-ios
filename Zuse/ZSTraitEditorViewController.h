@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ZSTutorial.h"
 
-@interface ZSTraitEditorViewController : UIViewController
+@interface ZSTraitEditorViewController : UIViewController <ZSTutorialStage>
 
 @property (strong, nonatomic) NSMutableDictionary *traits;
 

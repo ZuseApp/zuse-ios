@@ -11,6 +11,8 @@
 #import "ZS_CodeEditorViewController.h"
 #import "ZSSpriteTraits.h"
 
+NSString * const ZSTutorialBroadcastTraitToggled = @"ZSTutorialBroadcastTraitToggled";
+
 @interface ZSTraitEditorViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property (strong, nonatomic) NSDictionary *globalTraits;
@@ -116,6 +118,7 @@
     if ([segue.identifier isEqualToString:@"parameters"]) {
         ZSTraitEditorParametersViewController *controller = (ZSTraitEditorParametersViewController *)segue.destinationViewController;
         controller.parameters = _traits[traitIdentifier][@"parameters"];
+        [[ZSTutorial sharedTutorial] broadcastEvent:ZSTutorialBroadcastTraitToggled];
     }
     else {
         ZS_CodeEditorViewController *controller = (ZS_CodeEditorViewController*)segue.destinationViewController;
@@ -127,9 +130,14 @@
     }
 }
 
-//- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
-//    [self performSegueWithIdentifier:@"parameters" sender:self];
-//    
-//}
+- (void)createStageForName:(NSString *)name {
+    CGRect rect = [_tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    [[ZSTutorial sharedTutorial] addActionWithText:@"Click here to toggle stuff."
+                                          forEvent:ZSTutorialBroadcastTraitToggled
+                                   allowedGestures:@[UITapGestureRecognizer.class]
+                                      activeRegion:rect
+                                             setup:nil
+                                        completion:nil];
+}
 
 @end
