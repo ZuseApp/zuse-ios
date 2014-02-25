@@ -456,7 +456,7 @@ void APARunOneShotEmitter(SKEmitterNode *emitter, CGFloat duration) {
         self.lastUpdateTimeInterval = currentTime;
     }
     
-    [self detectSpriteCollision];
+//    [self detectSpriteCollision];
     [self boundSpriteByWorld ];
     [self updateSpritePositions:self.lastUpdateTimeInterval];
     
