@@ -381,7 +381,11 @@ void APARunOneShotEmitter(SKEmitterNode *emitter, CGFloat duration) {
 {
     for(id key in _spriteNodes)
     {
+        if(![_spriteNodes[key] isKindOfClass:[ZSComponentNode class]])
+            continue;
+        
         ZSComponentNode *node  = _spriteNodes[key];
+        
         SKSpriteNode *sprite = node.children.firstObject;
         CGSize size = sprite.size;
         CGFloat left = node.position.x - (size.width / 2.0f);
@@ -477,8 +481,8 @@ void APARunOneShotEmitter(SKEmitterNode *emitter, CGFloat duration) {
     }
     
 //    [self detectSpriteCollision];
-    [self boundSpriteByWorld ];
-    [self updateSpritePositions:self.lastUpdateTimeInterval];
+//    [self boundSpriteByWorld];
+//    [self updateSpritePositions:self.lastUpdateTimeInterval];
     
 }
 
