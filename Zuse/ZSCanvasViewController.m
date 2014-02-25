@@ -467,6 +467,54 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
         self.didFinish();
     }
 }
+- (IBAction)shareProject:(id)sender {
+    NSURL *baseURL = [NSURL URLWithString:@"https://zusehub.herokuapp.com/api/v1/"];
+    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseURL];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    NSData *projectData = [NSJSONSerialization dataWithJSONObject:self.project.assembledJSON
+     options:NSJSONWritingPrettyPrinted
+      error:nil];
+    
+    NSString *projectString = [[NSString alloc] initWithBytes:projectData.bytes
+                                                       length:projectData.length
+                                                     encoding:NSUTF8StringEncoding];
+    
+    NSDictionary *params = @{
+        @"shared_project": @{
+            @"title": self.project.title,
+            @"raw_code": projectString
+        }
+    };
+                        
+    
+    // { "url": "..." }
+    [manager POST:@"shared_projects"
+       parameters:params
+          success:^(AFHTTPRequestOperation *operation, NSDictionary *project) {
+              NSLog(@"Success! %@", project);
+              
+              if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter]) {
+                  SLComposeViewController *controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
+                  [controller setInitialText:[NSString stringWithFormat:@"Check out my game %@ on Zuse!", self.project.title]];
+                  [controller addURL:[NSURL URLWithString:project[@"url"]]];
+                  [controller setCompletionHandler:^(SLComposeViewControllerResult result) {
+                      if (result == SLComposeViewControllerResultCancelled) {
+                          NSLog(@"Wooohoo!");
+                      }
+                      [self dismissViewControllerAnimated:YES completion:^{}];
+                  }];
+                  [self presentViewController:controller
+                                     animated:YES
+                                   completion:^{
+                                       
+                                   }];
+              }
+          }  failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+              NSLog(@"Failed! %@", error.localizedDescription);
+          }];
+}
 
 - (IBAction)showToolbox:(id)sender {
     [_toolboxView showAnimated:YES];
