@@ -12,6 +12,7 @@
 #import "ZSToolboxView.h"
 #import "ZSToolboxCell.h"
 #import "ZSSpriteLibrary.h"
+#import "ZSTraitEditorViewController.h"
 
 NSString * const ZSTutorialBroadcastDidDropSprite = @"ZSTutorialBroadcastDidDropSprite";
 NSString * const ZSTutorialBroadcastDidDoubleTap = @"ZSTutorialBroadcastDidDoubleTap";
@@ -128,10 +129,13 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-    [self createStageForName:@"setup"];
-    [[[ZSEditorViewController alloc] init] createStageForName:nil];
-    [self createStageForName:@"paddle2"];
-    // [_tutorial present];
+    if (_showTutorial) {
+        [self createStageForName:@"setup"];
+        [[[ZSEditorViewController alloc] init] createStageForName:@"traits"];
+        [[[ZSTraitEditorViewController alloc] init] createStageForName:nil];
+        // [self createStageForName:@"paddle2"];
+        [_tutorial present];
+    }
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
