@@ -26,6 +26,8 @@
 @property (nonatomic) NSMutableDictionary *movingSprites;
 @property (nonatomic) NSMutableDictionary *jointNodes;
 @property (strong, nonatomic) ZSInterpreter *interpreter;
+@property (nonatomic) NSDictionary *categoryBitMasks;
+@property (nonatomic) NSDictionary *collisionBitMasks;
 
 @end
 
@@ -48,13 +50,15 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
         
         _interpreter   = [ZSInterpreter interpreter];
         _spriteNodes   = [[NSMutableDictionary alloc] init];
+        _categoryBitMasks = [[NSDictionary alloc] init];
+        _collisionBitMasks = [[NSDictionary alloc] init];
         
         _interpreter.delegate = self;
         
         [self setupInterpreterWithProjectJSON:projectJSON];
 
-        NSDictionary *categoryBitMasks = [self categoryBitMasksForCollisionGroups:projectJSON[@"groups"]];
-        NSDictionary *collisionBitMasks = [self collisionBitMasksForCollisionGroups:projectJSON[@"groups"] categoryBitMasks:categoryBitMasks];
+        _categoryBitMasks = [self categoryBitMasksForCollisionGroups:projectJSON[@"groups"]];
+        _collisionBitMasks = [self collisionBitMasksForCollisionGroups:projectJSON[@"groups"] categoryBitMasks:_categoryBitMasks];
         
         [projectJSON[@"objects"] each:^(NSDictionary *object) {
             
@@ -67,6 +71,7 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
             node.identifier = object[@"id"];
             node.name = kZSSpriteName;
             node.position = position;
+            node.collisionGroup = object[@"group"];
             
             SKNode *childNode = [self childNodeForObjectJSON:object size:size];
             [node addChild:childNode];
@@ -78,9 +83,9 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
             node.physicsBody = [self physicsBodyForType:object[@"physics_body"] size:size];
             
             if (node.physicsBody) {
-                node.physicsBody.categoryBitMask    = [categoryBitMasks[object[@"group"]] integerValue];
-                node.physicsBody.collisionBitMask   = [collisionBitMasks[object[@"group"]] integerValue];
-                node.physicsBody.contactTestBitMask = [collisionBitMasks[object[@"group"]] integerValue];
+                node.physicsBody.categoryBitMask    = [_categoryBitMasks[object[@"group"]] integerValue];
+                node.physicsBody.collisionBitMask   = [_collisionBitMasks[object[@"group"]] integerValue];
+                node.physicsBody.contactTestBitMask = [_collisionBitMasks[object[@"group"]] integerValue];
                 
                 node.physicsBody.dynamic = NO;
                 node.physicsBody.mass    = 0.02;
@@ -219,23 +224,22 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
 - (void)moveSpriteWithIdentifier:(NSString *)identifier
                        direction:(CGFloat)direction
                            speed:(CGFloat)speed {
-    SKComponentNode *node = _spriteNodes[identifier];
+    ZSComponentNode *node = _spriteNodes[identifier];
     ZSSpriteTouchComponent *component = [node getComponent:[ZSSpriteTouchComponent class]];
     component.speed = speed;
-    node.physicsBody.velocity = CGVectorMake(speed, speed);
+    node.velocity = CGVectorMake(speed, speed);
 }
 
 - (void)didSimulatePhysics {
     [self enumerateChildNodesWithName:kZSSpriteName
                            usingBlock:^(SKNode *node, BOOL *stop) {
-                               SKComponentNode *componentNode = (SKComponentNode *)node;
+                               ZSComponentNode *componentNode = (ZSComponentNode *)node;
                                ZSSpriteTouchComponent *touchNode = [componentNode getComponent:[ZSSpriteTouchComponent class]];
                                
-                               GLKVector2 velocity = GLKVector2Make(node.physicsBody.velocity.dx, node.physicsBody.velocity.dy);
+                               GLKVector2 velocity = GLKVector2Make(componentNode.velocity.dx, componentNode.velocity.dy);
                                GLKVector2 direction = GLKVector2Normalize(velocity);
                                GLKVector2 newVelocity = GLKVector2MultiplyScalar(direction, touchNode.speed);
                                node.physicsBody.velocity = CGVectorMake(newVelocity.x, newVelocity.y);
-                               node.physicsBody.angularVelocity = 0.0;
                                
                            }];
     
@@ -306,45 +310,13 @@ void APARunOneShotEmitter(SKEmitterNode *emitter, CGFloat duration) {
                                             ]]];
 }
 
--(int) spriteWithinWorld:(CGPoint)point size:(CGSize)size node:(ZSComponentNode *)node xInUpdate:(BOOL)xInUpdate
+- (BOOL)withinParentFrame:(CGPoint)point size:(CGSize)size
 {
-    CGPoint midPointOfScene = CGPointMake(self.size.width / 2.0f, self.size.height / 2.0f);
-    
-    if(xInUpdate)
-    {
-        if(point.x <= midPointOfScene.x)
-        {
-            if((point.x - (size.width / 2.0f)) > 0.0f)
-            {
-                return YES;
-            }
-        }
-        else if(point.x > midPointOfScene.x)
-        {
-            if((point.x + (size.width / 2.0f)) < self.size.width)
-            {
-                return YES;
-            }
-        }
-        return NO;
-    }
-    else
-    {
-        if(point.y <= midPointOfScene.y)
-        {
-            if((point.y - (size.height / 2.0f)) > 0.0f)
-            {
-                return YES;
-            }
-        }
-        else if(point.y > midPointOfScene.y)
-        {
-            if((point.y + (size.height / 2.0f)) < self.scene.size.height)
-            {
-                return YES;
-            }
-        }
-    }
+    CGFloat offsetx = size.width / 2.0f;
+    CGFloat offsety = size.height / 2.0f;
+    if(point.x >= offsetx && point.x <= self.scene.frame.size.width - offsetx &&
+       point.y >= offsety && point.y <= self.scene.frame.size.height - offsety)
+        return YES;
     return NO;
 }
 
@@ -358,16 +330,21 @@ void APARunOneShotEmitter(SKEmitterNode *emitter, CGFloat duration) {
     
     if (properties[@"x"]) {
         CGPoint point = CGPointMake([properties[@"x"] floatValue], node.position.y);
-        if([self spriteWithinWorld:point size:size node:node xInUpdate:YES])
+        CGPoint movePoint = CGPointMake(point.x, node.position.y);
+        
+        if([self withinParentFrame:movePoint size:size])
         {
-            node.position = CGPointMake(point.x, node.position.y);
+            node.position = movePoint;
         }
+        
     }
     if (properties[@"y"]) {
         CGPoint point = CGPointMake(node.position.x, [properties[@"y"] floatValue]);
-        if([self spriteWithinWorld:point size:size node:node xInUpdate:NO])
+        CGPoint movePoint = CGPointMake(node.position.x, point.y);
+        
+        if([self withinParentFrame:movePoint size:size])
         {
-            node.position = CGPointMake(node.position.x, point.y);
+            node.position = movePoint;
         }
     }
     if (properties[@"text"]) {
@@ -380,6 +357,95 @@ void APARunOneShotEmitter(SKEmitterNode *emitter, CGFloat duration) {
     }
 }
 
+- (void)boundSpriteByWorld
+{
+    for(id key in _spriteNodes)
+    {
+        ZSComponentNode *node  = _spriteNodes[key];
+        SKSpriteNode *sprite = node.children.firstObject;
+        CGSize size = sprite.size;
+        CGFloat left = node.position.x - (size.width / 2.0f);
+        CGFloat right = node.position.x + (size.width / 2.0f);
+        CGFloat bottom = node.position.y + (size.height / 2.0f);
+        CGFloat top = node.position.y - (size.height / 2.0f);
+        
+        if (left <= 0.0f && node.velocity.dx < 0.0f)
+            node.velocity = CGVectorMake(node.velocity.dx * -1, node.velocity.dy);
+        
+        if (right >= self.scene.size.width && node.velocity.dx > 0.0f)
+            node.velocity = CGVectorMake(node.velocity.dx * -1, node.velocity.dy);
+        
+        if (top <= 0.0f && node.velocity.dy < 0.0f)
+            node.velocity = CGVectorMake(node.velocity.dx, node.velocity.dy * -1);
+        
+        if (bottom >= self.scene.size.height && node.velocity.dy > 0.0f)
+            node.velocity = CGVectorMake(node.velocity.dx, node.velocity.dy * -1);
+    }
+}
+
+- (void)updateSpritePositions:(CGFloat)dt
+{
+    for (id key in _spriteNodes)
+    {
+        ZSComponentNode *node = _spriteNodes[key];
+        CGPoint oldPosition = node.position;
+        
+        [node updatePosition:dt];
+        
+        if ([self isSpriteOutsideWorld:node])
+            [node restorePosition:oldPosition];
+    }
+}
+
+- (BOOL)isSpriteOutsideWorld:(ZSComponentNode *)node
+{
+    CGPoint position = node.position;
+    SKSpriteNode *sprite = node.children.firstObject;
+    CGSize size = sprite.size;
+    if ((node.position.x - (size.width / 2.0f) < 0.0f) ||
+        (node.position.x + (size.width / 2.0f) > self.scene.size.width) ||
+        (node.position.y - (size.height / 2.0f) > self.scene.size.height) ||
+        (node.position.y + (size.height / 2.0f) < 0.0f))
+        return YES;
+    
+    return NO;
+}
+
+- (void)detectSpriteCollision
+{
+    NSMutableDictionary *tempSprites = [[NSMutableDictionary alloc] init];
+    
+    for (id key in _spriteNodes)
+    {
+        ZSComponentNode *node = _spriteNodes[key];
+        if (_collisionBitMasks[node.collisionGroup])
+            tempSprites[key] = _spriteNodes[key];
+    }
+    
+    for (id key in _spriteNodes)
+    {
+        ZSComponentNode *node1 = _spriteNodes[key];
+
+        if (!(_collisionBitMasks[node1.collisionGroup]))
+            continue;
+        
+        ZSComponentNode *node2 = _spriteNodes[key];
+        [tempSprites removeObjectForKey:key];
+        
+//        for (id key in tempSprites)
+//        {
+//            var cg = this.collision_groups[s.collision_group];
+//            
+//            if (cg.contains(temp_sprites[q].collision_group) && s.collidesWith(temp_sprites[q]))
+//            {
+//                s.resolveCollisionWith(temp_sprites[q]);
+//                this.interpreter.triggerEventOnObjectWithParameters("collision", s.id, { other_sprite: temp_sprites[q].id });
+//                this.interpreter.triggerEventOnObjectWithParameters("collision", temp_sprites[q].id, { other_sprite: s.id });
+//            }
+//        }
+    }
+}
+
 - (void)update:(NSTimeInterval)currentTime {
     // Handle time delta.
     // If we drop below 60fps, we still want everything to move the same distance.
@@ -389,6 +455,10 @@ void APARunOneShotEmitter(SKEmitterNode *emitter, CGFloat duration) {
         timeSinceLast = 1.0 / 60.0;
         self.lastUpdateTimeInterval = currentTime;
     }
+    
+    [self detectSpriteCollision];
+    [self boundSpriteByWorld ];
+    [self updateSpritePositions:self.lastUpdateTimeInterval];
     
 }
 

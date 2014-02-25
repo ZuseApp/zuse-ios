@@ -12,8 +12,13 @@
 @interface ZSComponentNode : SKComponentNode
 
 @property (strong, nonatomic) NSString *identifier;
-@property GLKVector2 velocity;
+@property CGVector velocity;
+@property (strong, nonatomic) NSString *collisionGroup;
 
 -(BOOL)hasVelocity;
+-(void)applyVelocity:(CGVector)velocity;
+-(BOOL)isHit:(CGFloat)x y:(CGFloat)y;
+-(void)updatePosition:(CGFloat)dt;
+-(void)restorePosition:(CGPoint)position;
 
 @end
