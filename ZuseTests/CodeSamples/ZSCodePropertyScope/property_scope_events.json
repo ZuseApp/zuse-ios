@@ -2,11 +2,11 @@
   "code": [
     { "set": ["this", "that"] },
     {
-      "if": {
-        "test": true,
-        "true": [
-          { "set": ["hi", 5] },
-          { "call": { "method": "foo", "parameters": [] }}
+      "on_event": {
+        "name": "foo",
+        "parameters": [],
+        "code": [
+
         ]
       }
     },

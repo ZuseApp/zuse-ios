@@ -8,11 +8,14 @@
 #import "ZSSettingsViewController.h"
 #import "FXBlurView.h"
 #import "ZSToolboxController.h"
-#import "UIImagePickerController+Edit.h"
 #import "ZSToolboxView.h"
 #import "ZSToolboxCell.h"
 #import "ZSSpriteLibrary.h"
 #import "ZSTraitEditorViewController.h"
+#import <FontAwesomeKit/FAKIonIcons.h>
+#import <AFNetworking/AFNetworking.h>
+#import <Social/Social.h>
+#import <Accounts/Accounts.h>
 
 NSString * const ZSTutorialBroadcastDidDropSprite = @"ZSTutorialBroadcastDidDropSprite";
 NSString * const ZSTutorialBroadcastDidDoubleTap = @"ZSTutorialBroadcastDidDoubleTap";
@@ -20,9 +23,6 @@ NSString * const ZSTutorialBroadcastDidShowToolbox = @"ZSTutorialBroadcastDidSho
 NSString * const ZSTutorialBroadcastDidHideToolbox = @"ZSTutorialBroadcastDidHideToolbox";
 NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPaddle";
 
-#import <AFNetworking/AFNetworking.h>
-#import <Social/Social.h>
-#import <Accounts/Accounts.h>
 
 @interface ZSCanvasViewController ()
 
@@ -49,11 +49,18 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
 // Toolbar
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *playBarButtonItem;
+@property (weak, nonatomic) IBOutlet UIButton *playButton;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *pauseBarButtonItem;
+@property (weak, nonatomic) IBOutlet UIButton *pauseButton;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *stopBarButtonItem;
+@property (weak, nonatomic) IBOutlet UIButton *stopButton;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *groupBarButtonItem;
+@property (weak, nonatomic) IBOutlet UIButton *groupButton;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *toolBarButtonItem;
 @property (weak, nonatomic) IBOutlet UIButton *toolButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *shareBarButtonItem;
+@property (weak, nonatomic) IBOutlet UIButton *shareButton;
+@property (weak, nonatomic) IBOutlet UIButton *backButton;
 
 @end
 
@@ -73,6 +80,40 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    FAKIonIcons *shareIcon = [FAKIonIcons shareIconWithSize:30];
+    [shareIcon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
+    [_shareButton setAttributedTitle:shareIcon.attributedString
+                            forState:UIControlStateNormal];
+    
+    FAKIonIcons *playIcon = [FAKIonIcons playIconWithSize:30];
+    [playIcon addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:1.00 green:0.89 blue:0.55 alpha:1.0]];
+    [_playButton setAttributedTitle:playIcon.attributedString
+                           forState:UIControlStateNormal];
+    
+    FAKIonIcons *pauseIcon = [FAKIonIcons pauseIconWithSize:30];
+    [pauseIcon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
+    [_pauseButton setAttributedTitle:pauseIcon.attributedString
+                           forState:UIControlStateNormal];
+    
+    FAKIonIcons *stopIcon = [FAKIonIcons stopIconWithSize:30];
+    [stopIcon addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:1.00 green:0.50 blue:0.50 alpha:1.0]];
+    [_stopButton setAttributedTitle:stopIcon.attributedString
+                           forState:UIControlStateNormal];
+    
+    FAKIonIcons *backIcon = [FAKIonIcons replyIconWithSize:30];
+    [backIcon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
+    [_backButton setAttributedTitle:backIcon.attributedString
+                           forState:UIControlStateNormal];
+    
+    FAKIonIcons *toolboxIcon = [FAKIonIcons settingsIconWithSize:25];
+    [toolboxIcon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
+    [_toolButton setAttributedTitle:toolboxIcon.attributedString
+                           forState:UIControlStateNormal];
+    
+    FAKIonIcons *groupIcon = [FAKIonIcons ios7BrowsersIconWithSize:30];
+    [groupIcon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
+    [_groupButton setAttributedTitle:groupIcon.attributedString
+                           forState:UIControlStateNormal];
     
     // Test Toolbox
     _toolboxView = [[ZSToolboxView alloc] initWithFrame:CGRectMake(19, 82, 282, 361)];
@@ -399,6 +440,7 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
     
     [_rendererViewController stop];
 }
+
 
 - (IBAction)stopProject:(id)sender {
     NSMutableArray *items = [_toolbar.items mutableCopy];
