@@ -7,6 +7,8 @@
 @property (nonatomic, strong) NSString *event;
 @property (nonatomic, strong) void (^completion)();
 @property (nonatomic, strong) CMPopTipView *toolTipView;
+@property (nonatomic, strong) NSMutableDictionary *savedObjects;
+@property (nonatomic, weak) id <ZSTutorialStage> delegate;
 
 @end
 
@@ -26,6 +28,7 @@
     if (self) {
         _window = [[UIApplication sharedApplication] keyWindow];
         _actions = [NSMutableArray array];
+        _savedObjects = [NSMutableDictionary dictionary];
         
         _overlayView = [[ZSOverlayView alloc] initWithFrame:_window.frame];
         // _overlayView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5f];
@@ -115,13 +118,28 @@
         // Show tooltip view
         UIView *view = nil;
         view = [[UIView alloc] initWithFrame:_overlayView.activeRegion];
-        // view.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.9];
+        view.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.9];
         [_overlayView addSubview:view];
         
         _toolTipView = [[CMPopTipView alloc] initWithMessage:action[@"text"]];
         _toolTipView.disableTapToDismiss = YES;
         [_toolTipView presentPointingAtView:view inView:_overlayView animated:YES];
     }
+}
+
+- (void)saveObject:(id)anObject forKey:(id <NSCopying>)aKey {
+    if ([_savedObjects objectForKey:aKey]) {
+        NSLog(@"Warning: Replacing object saved for key %@", aKey);
+    }
+    [_savedObjects setObject:anObject forKey:aKey];
+}
+
+- (id)getObjectForKey:(id <NSCopying>)aKey {
+    return _savedObjects[aKey];
+}
+
+- (void)removeObjectForKey:(id <NSCopying>)aKey {
+    [_savedObjects removeObjectForKey:aKey];
 }
 
 @end

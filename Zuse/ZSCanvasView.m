@@ -46,14 +46,6 @@
     UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressRecognized:)];
     longPressGesture.delegate = self;
     [self addGestureRecognizer:longPressGesture];
-    
-    UITapGestureRecognizer *singleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTapRecognized)];
-    singleTapGesture.numberOfTapsRequired = 1;
-    [self addGestureRecognizer:singleTapGesture];
-}
-
-- (void)singleTapRecognized {
-    [_editMenu setMenuVisible:NO animated:YES];
 }
 
 - (void)longPressRecognized:(id)sender {
@@ -69,6 +61,7 @@
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     _lastTouch = [[touches anyObject] locationInView:self];
+    [_editMenu setMenuVisible:NO animated:YES];
 }
 
 #pragma mark Sprite Manipulation

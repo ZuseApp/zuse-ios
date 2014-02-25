@@ -4,15 +4,51 @@
     "parameters": []
   },
   {
+    "name": "collision",
+    "parameters": [
+      {
+        "name": "other_group",
+        "type": "string"
+      }
+    ]
+  },
+  {
     "name": "touch_began",
-    "parameters": ["touch_x", "touch_y"]
+    "parameters": [
+      {
+        "name": "touch_x",
+        "type": "numeric"
+      }, 
+      {
+        "name": "touch_y",
+        "type": "numeric"
+      }
+    ]
   },
   {
     "name": "touch_moved",
-    "parameters": ["touch_x", "touch_y"]
+    "parameters": [
+      {
+        "name": "touch_x",
+        "type": "numeric"
+      }, 
+      {
+        "name": "touch_y",
+        "type": "numeric"
+      }
+    ]
   },
   {
     "name": "touch_ended",
-    "parameters": ["touch_x", "touch_y"]
+    "parameters": [
+      {
+        "name": "touch_x",
+        "type": "numeric"
+      }, 
+      {
+        "name": "touch_y",
+        "type": "numeric"
+      }
+    ]
   }
 ]

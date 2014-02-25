@@ -7,8 +7,10 @@
 //
 
 #import "ZSEditorViewController.h"
-#import "ZSCodeEditorViewController.h"
+#import "ZS_CodeEditorViewController.h"
 #import "ZSTraitEditorViewController.h"
+
+NSString * const ZSTutorialBroadcastTraitTouched = @"ZSTutorialBroadcastTraitTouched";
 
 @interface ZSEditorViewController ()
 
@@ -19,8 +21,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    ZSCodeEditorViewController *codeController = (ZSCodeEditorViewController *)self.viewControllers[0];
-    codeController.spriteObject = self.spriteObject;
+    ZS_CodeEditorViewController *codeController = (ZS_CodeEditorViewController *)self.viewControllers[0];
+    codeController.json = self.spriteObject;
     
     ZSTraitEditorViewController *traitController = (ZSTraitEditorViewController *)self.viewControllers[1];
     if (!self.spriteObject[@"traits"]) {
@@ -33,4 +35,15 @@
     self.navigationController.navigationBarHidden = NO;
 }
 
+#pragma mark Tutorial
+
+- (void)createStageForName:(NSString *)name {
+    CGRect frame = CGRectMake(120, 524, 120, 49);
+    [[ZSTutorial sharedTutorial] addActionWithText:@"Click here for kicks."
+                                          forEvent:ZSTutorialBroadcastTraitTouched
+                                   allowedGestures:@[UITapGestureRecognizer.class]
+                                      activeRegion:frame
+                                             setup:nil
+                                        completion:nil];
+}
 @end

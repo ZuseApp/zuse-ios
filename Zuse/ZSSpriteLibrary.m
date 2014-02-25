@@ -44,7 +44,7 @@
                                      @"image": @{
                                              @"path": manifest_sprite[@"path"],
                                              },
-                                     @"code": @{},
+                                     @"code": @[],
                                      @"type": @"image"
                                      };
             [sprites addObject:sprite];
@@ -64,7 +64,7 @@
                                                        @"width": @(200),
                                                        @"height": @(21)
                                                        },
-                                               @"code": @{},
+                                               @"code": @[],
                                                @"type": @"text"
                                                }
                                            ]
