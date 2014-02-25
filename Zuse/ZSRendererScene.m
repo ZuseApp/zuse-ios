@@ -53,8 +53,8 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
         
         [self setupInterpreterWithProjectJSON:projectJSON];
 
-        NSDictionary *categoryBitMasks = [self categoryBitMasksForCollisionGroups:projectJSON[@"collision_groups"]];
-        NSDictionary *collisionBitMasks = [self collisionBitMasksForCollisionGroups:projectJSON[@"collision_groups"] categoryBitMasks:categoryBitMasks];
+        NSDictionary *categoryBitMasks = [self categoryBitMasksForCollisionGroups:projectJSON[@"groups"]];
+        NSDictionary *collisionBitMasks = [self collisionBitMasksForCollisionGroups:projectJSON[@"groups"] categoryBitMasks:categoryBitMasks];
         
         [projectJSON[@"objects"] each:^(NSDictionary *object) {
             
@@ -75,12 +75,25 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
                 _spriteNodes[object[@"id"]] = node;
             }
             
+            node.physicsBody = [self physicsBodyForType:object[@"physics_body"] size:size];
+            
+            if (node.physicsBody) {
+                node.physicsBody.categoryBitMask    = [categoryBitMasks[object[@"group"]] integerValue];
+                node.physicsBody.collisionBitMask   = [collisionBitMasks[object[@"group"]] integerValue];
+                node.physicsBody.contactTestBitMask = [collisionBitMasks[object[@"group"]] integerValue];
+                
+                node.physicsBody.dynamic = NO;
+                node.physicsBody.mass    = 0.02;
+                node.physicsBody.affectedByGravity = NO;
+            }
+            
+            
             ZSSpriteTouchComponent *touchComponent = [ZSSpriteTouchComponent new];
             touchComponent.spriteId = object[@"id"];
             
             touchComponent.touchesBegan = ^(UITouch *touch) {
                 CGPoint point = [touch locationInNode:self];
-                    [_interpreter triggerEvent:@"touch_began"
+                [_interpreter triggerEvent:@"touch_began"
                         onObjectWithIdentifier:object[@"id"]
                                     parameters:@{ @"touch_x": @(point.x), @"touch_y": @(point.y) }];
                 
@@ -88,11 +101,9 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
             
             touchComponent.touchesMoved = ^(UITouch *touch) {
                 CGPoint point = [touch locationInNode:self];
-                
-                
-                    [_interpreter triggerEvent:@"touch_moved"
-                            onObjectWithIdentifier:object[@"id"]
-                                        parameters:@{ @"touch_x": @(point.x), @"touch_y": @(point.y) }];
+                [_interpreter triggerEvent:@"touch_moved"
+                        onObjectWithIdentifier:object[@"id"]
+                                    parameters:@{ @"touch_x": @(point.x), @"touch_y": @(point.y) }];
                 
             };
             
@@ -108,32 +119,23 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
     return self;
 }
 
--(BOOL) spriteWithinWorld:(CGPoint)point size:(CGSize)size node:(ZSComponentNode *)node
-{
-    CGPoint midPointOfScene = CGPointMake(self.size.width / 2.0f, self.size.height / 2.0f);
-    
-    CGFloat xLeftBound =point.x - size.width / 2.0f;
-    CGFloat xRightBound =point.x + size.width / 2.0f;
-    
-    NSLog(@"left side %f", xLeftBound);
-    NSLog(@"right side %f", xRightBound);
-    NSLog(@"point touched in sprite %@", NSStringFromCGPoint(point));
-    
-    if(point.x <= midPointOfScene.x)
-    {
-        if((point.x - size.width / 2.0f) > 0.0f)
-        {
-            return YES;
-        }
+
+- (void) setupWorldPhysics {
+    //Set the physics edges to the frame
+    self.physicsBody = [SKPhysicsBody bodyWithEdgeLoopFromRect:self.frame];
+    self.physicsBody.categoryBitMask = GFPhysicsCategoryWorld;
+    //set up the scene as the contact delegate
+    self.physicsWorld.contactDelegate = self;
+}
+
+- (SKPhysicsBody *)physicsBodyForType:(NSString *)type size:(CGSize)size {
+    if ([type isEqualToString:@"circle"]) {
+        return [SKPhysicsBody bodyWithCircleOfRadius:(size.width / 2)];
+    } else if ([type isEqualToString:@"rectangle"]) {
+        return [SKPhysicsBody bodyWithRectangleOfSize:size];
     }
-    else if(point.x > midPointOfScene.x)
-    {
-        if((point.x + size.width / 2.0f) < self.size.width)
-        {
-            return YES;
-        }
-    }
-        return NO;
+    
+    return nil;
 }
 
 - (void) setupInterpreterWithProjectJSON:(NSDictionary *)projectJSON {
@@ -219,7 +221,8 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
                            speed:(CGFloat)speed {
     SKComponentNode *node = _spriteNodes[identifier];
     ZSSpriteTouchComponent *component = [node getComponent:[ZSSpriteTouchComponent class]];
-    
+    component.speed = speed;
+    node.physicsBody.velocity = CGVectorMake(speed, speed);
 }
 
 - (void)didSimulatePhysics {
@@ -227,6 +230,12 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
                            usingBlock:^(SKNode *node, BOOL *stop) {
                                SKComponentNode *componentNode = (SKComponentNode *)node;
                                ZSSpriteTouchComponent *touchNode = [componentNode getComponent:[ZSSpriteTouchComponent class]];
+                               
+                               GLKVector2 velocity = GLKVector2Make(node.physicsBody.velocity.dx, node.physicsBody.velocity.dy);
+                               GLKVector2 direction = GLKVector2Normalize(velocity);
+                               GLKVector2 newVelocity = GLKVector2MultiplyScalar(direction, touchNode.speed);
+                               node.physicsBody.velocity = CGVectorMake(newVelocity.x, newVelocity.y);
+                               node.physicsBody.angularVelocity = 0.0;
                                
                            }];
     
@@ -297,27 +306,69 @@ void APARunOneShotEmitter(SKEmitterNode *emitter, CGFloat duration) {
                                             ]]];
 }
 
+-(int) spriteWithinWorld:(CGPoint)point size:(CGSize)size node:(ZSComponentNode *)node xInUpdate:(BOOL)xInUpdate
+{
+    CGPoint midPointOfScene = CGPointMake(self.size.width / 2.0f, self.size.height / 2.0f);
+    
+    if(xInUpdate)
+    {
+        if(point.x <= midPointOfScene.x)
+        {
+            if((point.x - (size.width / 2.0f)) > 0.0f)
+            {
+                return YES;
+            }
+        }
+        else if(point.x > midPointOfScene.x)
+        {
+            if((point.x + (size.width / 2.0f)) < self.size.width)
+            {
+                return YES;
+            }
+        }
+        return NO;
+    }
+    else
+    {
+        if(point.y <= midPointOfScene.y)
+        {
+            if((point.y - (size.height / 2.0f)) > 0.0f)
+            {
+                return YES;
+            }
+        }
+        else if(point.y > midPointOfScene.y)
+        {
+            if((point.y + (size.height / 2.0f)) < self.scene.size.height)
+            {
+                return YES;
+            }
+        }
+    }
+    return NO;
+}
+
 - (void)interpreter:(ZSInterpreter *)interpreter
         objectWithIdentifier:(NSString *)identifier
         didUpdateProperties:(NSDictionary *)properties {
     ZSComponentNode *node = _spriteNodes[identifier];
     
+    SKSpriteNode *sprite = node.children.firstObject;
+    CGSize size = sprite.size;
+    
     if (properties[@"x"]) {
         CGPoint point = CGPointMake([properties[@"x"] floatValue], node.position.y);
-        SKSpriteNode *sprite = node.children.firstObject;
-        CGSize size = sprite.size;
-        
-        if([self spriteWithinWorld:point size:size node:node])
+        if([self spriteWithinWorld:point size:size node:node xInUpdate:YES])
         {
-            node.position = CGPointMake([properties[@"x"] floatValue], node.position.y);
+            node.position = CGPointMake(point.x, node.position.y);
         }
-//        node.position = CGPointMake([properties[@"x"] floatValue], node.position.y);
     }
     if (properties[@"y"]) {
-        ZSComponentNode *joint = _jointNodes[identifier];
-        if (joint)
-            node = joint;
-        node.position = CGPointMake(node.position.x, [properties[@"y"] floatValue]);
+        CGPoint point = CGPointMake(node.position.x, [properties[@"y"] floatValue]);
+        if([self spriteWithinWorld:point size:size node:node xInUpdate:NO])
+        {
+            node.position = CGPointMake(node.position.x, point.y);
+        }
     }
     if (properties[@"text"]) {
         SKLabelNode *textNode = [node.children match:^BOOL(id obj) {

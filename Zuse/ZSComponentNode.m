@@ -10,4 +10,12 @@
 
 @implementation ZSComponentNode
 
+- (BOOL)hasVelocity
+{
+    return self.velocity.x != 0.0 || self.velocity.y != 0.0;
+}
+
+
 @end
+
+

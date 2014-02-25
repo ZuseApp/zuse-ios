@@ -12,5 +12,8 @@
 @interface ZSComponentNode : SKComponentNode
 
 @property (strong, nonatomic) NSString *identifier;
+@property GLKVector2 velocity;
+
+-(BOOL)hasVelocity;
 
 @end
