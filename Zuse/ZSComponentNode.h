@@ -14,11 +14,8 @@
 @property (strong, nonatomic) NSString *identifier;
 @property CGVector velocity;
 @property (strong, nonatomic) NSString *collisionGroup;
+@property CGSize size;
 
--(BOOL)hasVelocity;
--(void)applyVelocity:(CGVector)velocity;
--(BOOL)isHit:(CGFloat)x y:(CGFloat)y;
--(void)updatePosition:(CGFloat)dt;
--(void)restorePosition:(CGPoint)position;
+- (void)updatePosition:(CFTimeInterval)dt;
 
 @end
