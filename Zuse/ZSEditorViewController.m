@@ -33,4 +33,10 @@
     self.navigationController.navigationBarHidden = NO;
 }
 
+#pragma mark Tutorial
+
+- (void)createStageForName:(NSString *)name {
+    
+}
+
 @end

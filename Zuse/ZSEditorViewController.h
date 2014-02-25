@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ZSTutorial.h"
 
-@interface ZSEditorViewController : UITabBarController
+@interface ZSEditorViewController : UITabBarController <ZSTutorialStage>
 
 @property (strong, nonatomic) NSMutableDictionary *spriteObject;
 
