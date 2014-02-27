@@ -7,6 +7,7 @@
 #import "ZSToolboxView.h"
 #import "ZSStatementChooserController.h"
 #import "ZSStatementCell.h"
+#import "ZSCodePropertyScope.h"
 
 @interface ZS_CodeEditorViewController ()
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -66,6 +67,8 @@
         [weakSelf reloadFromJson];
         [weakSelf.toolboxView hideAnimated:YES];
     };
+    
+    
     _toolboxView = [[ZSToolboxView alloc] initWithFrame:CGRectMake(19, 82, 282, 361)];
     UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:[[UICollectionViewFlowLayout alloc] init]];
     [collectionView registerClass:ZSStatementCell.class forCellWithReuseIdentifier:@"cellID"];
@@ -74,7 +77,7 @@
     collectionView.delegate = _statementChooserController;
     collectionView.dataSource = _statementChooserController;
     [_toolboxView setPagingEnabled:NO];
-    [_toolboxView addView:collectionView title:@"STATEMENT CHOOSER"];
+    [_toolboxView addContentView:collectionView title:@"STATEMENT CHOOSER"];
     [self.view addSubview:_toolboxView];
     
     // Register at notification center
@@ -93,7 +96,13 @@
     // Clean scrollview
     [self.scrollView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     
-    UIView* objectStatementView = [self objectStatementViewFromJson: self.json];
+    ZS_StatementView* objectStatementView = [self objectStatementViewFromJson: self.json
+                                               beforeAddingSubstatementsBlock:^(ZS_StatementView *statementView) {
+                                                   NSSet *initialProperties = [NSSet setWithArray:[self.json[@"properties"] allKeys]];
+                                                   statementView.propertyScope = [ZSCodePropertyScope scopeWithCode:self.json[@"code"]
+                                                                                                  initialProperties:initialProperties];
+                                               }];
+    
     [self.scrollView addSubview:objectStatementView];
     
     // Adjust the content size of the scroll view
@@ -123,39 +132,56 @@
 - (void) addToView: (ZS_StatementView*) view codeStatementsFromJson: (NSArray *)json
 {
     // Add code statements
-    for (NSMutableDictionary* jsonStatement in json)
-    {
+    
+    [json enumerateObjectsUsingBlock:^(NSMutableDictionary *jsonStatement, NSUInteger idx, BOOL *stop) {
         ZS_StatementView* statementView = nil;
         
-        if ([jsonStatement.allKeys[0] isEqualToString:@"on_event"])
+        NSString *key = jsonStatement.allKeys.firstObject;
+        
+        if ([key isEqualToString:@"on_event"])
         {
-            statementView =  [self onEventStatementViewFromJson: jsonStatement];
+            statementView =  [self onEventStatementViewFromJson: jsonStatement beforeAddingSubstatementsBlock:^(ZS_StatementView *statementView) {
+                // this has to happen before any sub-statements are added!
+                NSSet *initialProperties = [NSSet setWithArray:jsonStatement[@"on_event"][@"parameters"]];
+                statementView.propertyScope = [view.propertyScope nestedScopeForCode:jsonStatement[key][@"code"]
+                                                                              atLine:idx
+                                                                   initialProperties:initialProperties];
+            }];
         }
-        else if ([jsonStatement.allKeys[0] isEqualToString:@"trigger_event"])
+        else if ([key isEqualToString:@"trigger_event"])
         {
             statementView =  [self triggerEventStatementViewFromJson: jsonStatement];
         }
-        else if ([jsonStatement.allKeys[0] isEqualToString:@"set"])
+        else if ([key isEqualToString:@"set"])
         {
             statementView =  [self setStatementViewFromJson: jsonStatement];
         }
-        else if ([jsonStatement.allKeys[0] isEqualToString:@"call"])
+        else if ([key isEqualToString:@"call"])
         {
             statementView = [self callStatementViewFromJson:jsonStatement];
         }
-        else if ([jsonStatement.allKeys[0] isEqualToString:@"if"])
+        else if ([key isEqualToString:@"if"])
         {
-            statementView =  [self ifStatementViewFromJson: jsonStatement];
+            statementView =  [self ifStatementViewFromJson: jsonStatement beforeAddingSubstatementsBlock:^(ZS_StatementView *statementView) {
+                statementView.propertyScope = [view.propertyScope nestedScopeForCode:jsonStatement[key][@"true"]
+                                                                              atLine:idx
+                                                                   initialProperties:[NSSet set]];
+            }];
         }
         else
         {
             statementView = [[ZS_StatementView alloc]init];
             [statementView addArgumentLabelWithText:@"NOT IMPLEMENTED" touchBlock:nil];
         }
+        __weak typeof(view) weakView = view;
+        statementView.propertiesInScope = ^NSSet *() {
+            return [weakView.propertyScope propertiesAtLine:idx];
+        };
         [view addSubStatementView: statementView];
-    }
+    }];
 }
 - (ZS_StatementView*) objectStatementViewFromJson:(NSMutableDictionary *)jsonObject
+                   beforeAddingSubstatementsBlock:(void (^)(ZS_StatementView *))beforeSubstatementsBlock
 {
     ZS_StatementView* view = [[ZS_StatementView alloc]initWithJson:jsonObject];
     view.jsonCode = jsonObject[@"code"];
@@ -167,6 +193,8 @@
     {
         [view addParametersLabelWithText:[ZS_JsonUtilities propertiesStringFromJson: properties]];
     }
+    
+    beforeSubstatementsBlock(view);
 
     // Code
     [self addToView: view codeStatementsFromJson: jsonObject[@"code"]];
@@ -182,6 +210,7 @@
     return view;
 }
 - (ZS_StatementView*) onEventStatementViewFromJson:(NSMutableDictionary *)json
+                    beforeAddingSubstatementsBlock:(void (^)(ZS_StatementView *))beforeSubstatementsBlock
 {
     ZS_StatementView* view = [[ZS_StatementView alloc]initWithJson:json];
     view.jsonCode = json[@"on_event"][@"code"];
@@ -203,8 +232,9 @@
         [view addParametersLabelWithText:[ZS_JsonUtilities parametersStringFromJson: parameters]];
     }
     
-    // code
-    [self addToView: view codeStatementsFromJson: json[@"on_event"][@"code"]];
+    beforeSubstatementsBlock(view);
+    
+    [self addToView: view codeStatementsFromJson:json[@"on_event"][@"code"]];
     
     // Add <new code statement> button
     [view addNewStatementLabelWithTouchBlock:^(UILabel* label)
@@ -215,7 +245,9 @@
      }];
     return view;
 }
+        
 - (ZS_StatementView*) ifStatementViewFromJson:(NSMutableDictionary *)json
+               beforeAddingSubstatementsBlock:(void (^)(ZS_StatementView *))beforeSubstatementBlock
 {
     ZS_StatementView* view = [[ZS_StatementView alloc]initWithJson:json];
     view.jsonCode = json[@"if"][@"true"];
@@ -230,8 +262,10 @@
      {
          [self performSegueWithIdentifier:@"to expression editor" sender: label];
      }];
-    // code
-    [self addToView: view codeStatementsFromJson: json[@"if"][@"true"]];
+    
+    beforeSubstatementBlock(view);
+    
+    [self addToView: view codeStatementsFromJson:json[@"if"][@"true"]];
     
     // Add <new code statement> button
     [view addNewStatementLabelWithTouchBlock:^(UILabel* label)
@@ -272,10 +306,11 @@
     [view addNameLabelWithText:@"SET"];
     
     // Variable name
+    __weak typeof(view) weakView = view;
     [view addArgumentLabelWithText: json[@"set"][0]
                         touchBlock:^(UILabel* label)
      {
-         
+         NSLog(@"%@", weakView.propertiesInScope());
      }];
     // Statement name TO
     [view addNameLabelWithText:@"TO"];

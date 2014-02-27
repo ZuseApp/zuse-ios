@@ -70,12 +70,6 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
-                            <view hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" id="CAQ-jq-lyC" customClass="ZSAdjustControl">
-                                <rect key="frame" x="20" y="312" width="259" height="167"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <color key="tintColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                            </view>
                             <toolbar autoresizesSubviews="NO" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="lke-3O-Z2W">
                                 <rect key="frame" x="0.0" y="524" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -84,7 +78,7 @@
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="thr-gj-rGv">
                                             <rect key="frame" x="16" y="6" width="32" height="32"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="Button" image="bar_play.png">
+                                            <state key="normal" title="Button">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
@@ -96,7 +90,7 @@
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="sRv-sM-Hel">
                                             <rect key="frame" x="58" y="6" width="32" height="32"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="Button" image="bar_pause.png">
+                                            <state key="normal" title="Button">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
@@ -108,7 +102,7 @@
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="R9K-fw-37E">
                                             <rect key="frame" x="100" y="6" width="32" height="32"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="Button" image="bar_stop.png">
+                                            <state key="normal" title="Button">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
@@ -119,9 +113,9 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="EUf-uy-5EC"/>
                                     <barButtonItem style="plain" id="cLt-6f-qPb">
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="PIY-nr-bpi">
-                                            <rect key="frame" x="132" y="6" width="32" height="32"/>
+                                            <rect key="frame" x="116" y="6" width="32" height="32"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="Button" image="bar_group.png">
+                                            <state key="normal" title="Button">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
@@ -131,9 +125,9 @@
                                     </barButtonItem>
                                     <barButtonItem style="plain" id="90u-qW-x19">
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="Qgm-2R-uWK">
-                                            <rect key="frame" x="174" y="0.0" width="44" height="44"/>
+                                            <rect key="frame" x="158" y="0.0" width="44" height="44"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="Button" image="bar_tools.png">
+                                            <state key="normal">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
@@ -141,23 +135,20 @@
                                             </connections>
                                         </button>
                                     </barButtonItem>
-                                    <barButtonItem style="plain" id="epk-pi-C2t">
-                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="7SI-wV-W2t">
-                                            <rect key="frame" x="228" y="6" width="28" height="32"/>
+                                    <barButtonItem style="plain" id="dNY-Z1-4pm">
+                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="uBo-Kg-2SI">
+                                            <rect key="frame" x="212" y="0.0" width="44" height="44"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="Button" image="bar_menu.png">
+                                            <state key="normal">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
-                                            <connections>
-                                                <action selector="showAdjustMenu:" destination="xaZ-al-QhV" eventType="touchUpInside" id="W0v-Jx-feQ"/>
-                                            </connections>
                                         </button>
                                     </barButtonItem>
                                     <barButtonItem style="plain" id="ej5-Re-jwP">
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="oIc-aG-frd">
                                             <rect key="frame" x="266" y="3" width="38" height="38"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="Button" image="bar_back.png">
+                                            <state key="normal" title="Button">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
@@ -174,14 +165,19 @@
                     </view>
                     <navigationItem key="navigationItem" id="L0h-EV-yiz"/>
                     <connections>
-                        <outlet property="adjustMenu" destination="CAQ-jq-lyC" id="jXT-wo-Y9I"/>
+                        <outlet property="backButton" destination="oIc-aG-frd" id="Uje-Zk-7nv"/>
                         <outlet property="canvasView" destination="xLe-TB-h8T" id="jcJ-OF-c2C"/>
                         <outlet property="groupBarButtonItem" destination="cLt-6f-qPb" id="ty2-Qx-3NA"/>
-                        <outlet property="menuBarButtonItem" destination="epk-pi-C2t" id="EAY-nb-daR"/>
+                        <outlet property="groupButton" destination="PIY-nr-bpi" id="k88-QY-Zqu"/>
                         <outlet property="pauseBarButtonItem" destination="mvx-tN-Hlz" id="9HZ-XC-qsy"/>
+                        <outlet property="pauseButton" destination="sRv-sM-Hel" id="fDg-ey-TsC"/>
                         <outlet property="playBarButtonItem" destination="fWJ-y4-MEU" id="gRs-tl-kfK"/>
+                        <outlet property="playButton" destination="thr-gj-rGv" id="AG1-HT-cQB"/>
                         <outlet property="rendererView" destination="zUs-oU-8qW" id="bD9-hp-fyI"/>
+                        <outlet property="shareBarButtonItem" destination="dNY-Z1-4pm" id="7zG-LL-ndF"/>
+                        <outlet property="shareButton" destination="uBo-Kg-2SI" id="kvX-AI-Cvd"/>
                         <outlet property="stopBarButtonItem" destination="yt0-yU-sux" id="aoC-B3-luF"/>
+                        <outlet property="stopButton" destination="R9K-fw-37E" id="gaZ-aj-fWT"/>
                         <outlet property="toolBarButtonItem" destination="90u-qW-x19" id="Sd6-v5-8TC"/>
                         <outlet property="toolButton" destination="Qgm-2R-uWK" id="NC5-Y5-weJ"/>
                         <outlet property="toolbar" destination="lke-3O-Z2W" id="LOB-tb-57j"/>
@@ -633,7 +629,7 @@
             </objects>
             <point key="canvasLocation" x="704" y="1722"/>
         </scene>
-        <!--Code Editor View Controller - CODE EDITOR-->
+        <!--Code Editor View Controller - Code Editor-->
         <scene sceneID="h11-R3-YhK">
             <objects>
                 <viewController id="aKz-bP-FaN" customClass="ZS_CodeEditorViewController" sceneMemberID="viewController">
@@ -658,7 +654,7 @@
                         </subviews>
                         <color key="backgroundColor" name="controlHighlightColor" catalog="System" colorSpace="catalog"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="CODE EDITOR" id="74r-rl-lb4"/>
+                    <tabBarItem key="tabBarItem" title="Code Editor" id="74r-rl-lb4"/>
                     <navigationItem key="navigationItem" id="m9t-IO-JYF"/>
                     <connections>
                         <outlet property="scrollView" destination="gas-yL-91X" id="i4U-Cr-aHy"/>
@@ -1151,15 +1147,6 @@
             <point key="canvasLocation" x="2242" y="157"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="bar_back.png" width="478" height="478"/>
-        <image name="bar_group.png" width="88" height="88"/>
-        <image name="bar_menu.png" width="88" height="88"/>
-        <image name="bar_pause.png" width="88" height="88"/>
-        <image name="bar_play.png" width="88" height="88"/>
-        <image name="bar_stop.png" width="88" height="88"/>
-        <image name="bar_tools.png" width="44" height="44"/>
-    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
