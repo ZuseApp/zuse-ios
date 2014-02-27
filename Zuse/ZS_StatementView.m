@@ -62,7 +62,7 @@
 @property (strong, nonatomic) NSMutableArray* header; // of UILabel
 @property (strong, nonatomic) NSMutableArray* body; // of ZS_StatementView
 @property (strong, nonatomic) UILabel* parameters;
-@property (strong, nonatomic) NSMutableArray* name; // of UILabel
+@property (strong, nonatomic) NSMutableArray* name; // these will be highlighted when this statement is touched
 @property (nonatomic, getter = isCollapsed) BOOL collapsed;
 @end
 
