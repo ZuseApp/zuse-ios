@@ -116,6 +116,10 @@
 		5F50CBD218A1529000B7C020 /* ZSSelectedGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F50CBD118A1529000B7C020 /* ZSSelectedGroupViewController.m */; };
 		5F687DD118B9A3B200D57A34 /* event_manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F687DCF18B9A3B200D57A34 /* event_manifest.json */; };
 		5F687DD218B9A3B200D57A34 /* method_manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F687DD018B9A3B200D57A34 /* method_manifest.json */; };
+		5F6AD25618BD932200299AB8 /* ZSCodePropertyScope.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6AD25518BD932200299AB8 /* ZSCodePropertyScope.m */; };
+		5F6AD25818BD948700299AB8 /* ZSCodePropertyScopeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6AD25718BD948700299AB8 /* ZSCodePropertyScopeTests.m */; };
+		5F6AD25C18BD954700299AB8 /* property_scope_flat.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F6AD25A18BD954700299AB8 /* property_scope_flat.json */; };
+		5F6AD25D18BD954700299AB8 /* property_scope_nested.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F6AD25B18BD954700299AB8 /* property_scope_nested.json */; };
 		5F8138C918945D8F009F3495 /* object_transform.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F8138C818945D8F009F3495 /* object_transform.json */; };
 		5F8138CD18945DDD009F3495 /* object_transform_result.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F8138CC18945DDD009F3495 /* object_transform_result.json */; };
 		5F8138D11898C338009F3495 /* NSString+Zuse.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8138D01898C338009F3495 /* NSString+Zuse.m */; };
@@ -308,6 +312,11 @@
 		5F50CBD118A1529000B7C020 /* ZSSelectedGroupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSSelectedGroupViewController.m; sourceTree = "<group>"; };
 		5F687DCF18B9A3B200D57A34 /* event_manifest.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = event_manifest.json; path = JSON/event_manifest.json; sourceTree = "<group>"; };
 		5F687DD018B9A3B200D57A34 /* method_manifest.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = method_manifest.json; path = JSON/method_manifest.json; sourceTree = "<group>"; };
+		5F6AD25418BD932200299AB8 /* ZSCodePropertyScope.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCodePropertyScope.h; sourceTree = "<group>"; };
+		5F6AD25518BD932200299AB8 /* ZSCodePropertyScope.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCodePropertyScope.m; sourceTree = "<group>"; };
+		5F6AD25718BD948700299AB8 /* ZSCodePropertyScopeTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCodePropertyScopeTests.m; sourceTree = "<group>"; };
+		5F6AD25A18BD954700299AB8 /* property_scope_flat.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = property_scope_flat.json; path = CodeSamples/ZSCodePropertyScope/property_scope_flat.json; sourceTree = "<group>"; };
+		5F6AD25B18BD954700299AB8 /* property_scope_nested.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = property_scope_nested.json; path = CodeSamples/ZSCodePropertyScope/property_scope_nested.json; sourceTree = "<group>"; };
 		5F8138C818945D8F009F3495 /* object_transform.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = object_transform.json; path = CodeSamples/object_transform.json; sourceTree = "<group>"; };
 		5F8138CC18945DDD009F3495 /* object_transform_result.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = object_transform_result.json; path = CodeSamples/object_transform_result.json; sourceTree = "<group>"; };
 		5F8138CF1898C338009F3495 /* NSString+Zuse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Zuse.h"; sourceTree = "<group>"; };
@@ -559,6 +568,8 @@
 				5F1B5BA51837EE7800632DE6 /* ZSCompiler.m */,
 				5F01FBD818B4643500E14834 /* ZSPatternMatch.h */,
 				5F01FBD918B4643500E14834 /* ZSPatternMatch.m */,
+				5F6AD25418BD932200299AB8 /* ZSCodePropertyScope.h */,
+				5F6AD25518BD932200299AB8 /* ZSCodePropertyScope.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -702,6 +713,7 @@
 				5F2EC4D7183ABF160091CEAD /* ZSCompilerTests.m */,
 				5F2EC4DB183AD7510091CEAD /* ZSInterpreterDelegateTests.m */,
 				5F01FBDB18B467B500E14834 /* ZSPatternMatchTests.m */,
+				5F6AD25718BD948700299AB8 /* ZSCodePropertyScopeTests.m */,
 				4CF1CBD717EF882A00636E0D /* Supporting Files */,
 			);
 			path = ZuseTests;
@@ -782,6 +794,7 @@
 		5F2EC4D6183ABEEA0091CEAD /* JSON */ = {
 			isa = PBXGroup;
 			children = (
+				5F6AD25918BD952900299AB8 /* ZSCodePropertyScope */,
 				5F01FBDE18B467F600E14834 /* ZSPatternMatch */,
 				5F8138CE18945DE0009F3495 /* Compiler */,
 				5F2EC4DD183B06840091CEAD /* property_update.json */,
@@ -844,6 +857,15 @@
 				5F50CBD118A1529000B7C020 /* ZSSelectedGroupViewController.m */,
 			);
 			name = Groups;
+			sourceTree = "<group>";
+		};
+		5F6AD25918BD952900299AB8 /* ZSCodePropertyScope */ = {
+			isa = PBXGroup;
+			children = (
+				5F6AD25A18BD954700299AB8 /* property_scope_flat.json */,
+				5F6AD25B18BD954700299AB8 /* property_scope_nested.json */,
+			);
+			name = ZSCodePropertyScope;
 			sourceTree = "<group>";
 		};
 		5F8138CE18945DE0009F3495 /* Compiler */ = {
@@ -996,6 +1018,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F6AD25C18BD954700299AB8 /* property_scope_flat.json in Resources */,
 				5F2EC4D5183ABEE60091CEAD /* scope.json in Resources */,
 				5F2EC4DA183AC7C10091CEAD /* project_traits.json in Resources */,
 				5F2EC4D0183ABECE0091CEAD /* pong_compiled.json in Resources */,
@@ -1004,6 +1027,7 @@
 				4CF1CBDB17EF882A00636E0D /* InfoPlist.strings in Resources */,
 				5F2EC4D4183ABEE60091CEAD /* events_scope.json in Resources */,
 				5F8138C918945D8F009F3495 /* object_transform.json in Resources */,
+				5F6AD25D18BD954700299AB8 /* property_scope_nested.json in Resources */,
 				5F8138CD18945DDD009F3495 /* object_transform_result.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1095,6 +1119,7 @@
 				7899786418B9255500A8FE05 /* ZS_ExpressionViewController.m in Sources */,
 				2C6B5D6A183D43AB00E3D56C /* ZSSpriteTouchComponent.m in Sources */,
 				5F39DFCD188A40A0008ECAC1 /* NSMutableIndexSet+BlocksKit.m in Sources */,
+				5F6AD25618BD932200299AB8 /* ZSCodePropertyScope.m in Sources */,
 				5F8138D41898C36B009F3495 /* NSNumber+Zuse.m in Sources */,
 				4C3DD66118B7005D0013B3A5 /* ZSToolboxCell.m in Sources */,
 				4C5A31C318B36A7800FCE1A9 /* ZSOverlayView.m in Sources */,
@@ -1116,6 +1141,7 @@
 			files = (
 				78F79EB8183A8C0300012726 /* TCCodeEditor.m in Sources */,
 				5F01FBDC18B467B500E14834 /* ZSPatternMatchTests.m in Sources */,
+				5F6AD25818BD948700299AB8 /* ZSCodePropertyScopeTests.m in Sources */,
 				5F099D4817F1136000EB2AC7 /* InterpreterTests.m in Sources */,
 				5F2EC4DC183AD7510091CEAD /* ZSInterpreterDelegateTests.m in Sources */,
 				5F2EC4D8183ABF160091CEAD /* ZSCompilerTests.m in Sources */,
