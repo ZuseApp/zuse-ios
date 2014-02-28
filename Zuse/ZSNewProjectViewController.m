@@ -9,6 +9,7 @@
 #import "ZSNewProjectViewController.h"
 #import "ZSProject.h"
 #import "ZSCanvasViewController.h"
+#import "ZSTutorial.h"
 
 @interface ZSNewProjectViewController ()
 
@@ -56,10 +57,9 @@
     if ([segue.identifier isEqualToString:@"canvas"]) {
         ZSProject *project = [[ZSProject alloc] init];
         project.title = _projectName.text;
-        
+        [ZSTutorial sharedTutorial].active = YES;
         ZSCanvasViewController *controller = (ZSCanvasViewController *)segue.destinationViewController;
         controller.project = project;
-        controller.showTutorial = YES;
         controller.didFinish = ^{
             [self.navigationController popViewControllerAnimated:YES];
         };

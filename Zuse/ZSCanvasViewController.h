@@ -8,11 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "ZSProject.h"
-#import "ZSTutorial.h"
 
-@interface ZSCanvasViewController : UIViewController <UIGestureRecognizerDelegate, ZSTutorialStage>
+@interface ZSCanvasViewController : UIViewController <UIGestureRecognizerDelegate>
 
-@property (assign, nonatomic) BOOL showTutorial;
 @property (strong, nonatomic) ZSProject *project;
 @property (copy, nonatomic) void(^didFinish)();
 

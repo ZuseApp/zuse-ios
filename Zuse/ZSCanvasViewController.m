@@ -23,6 +23,12 @@ NSString * const ZSTutorialBroadcastDidShowToolbox = @"ZSTutorialBroadcastDidSho
 NSString * const ZSTutorialBroadcastDidHideToolbox = @"ZSTutorialBroadcastDidHideToolbox";
 NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPaddle";
 
+typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
+    ZSCanvasTutorialSetupStage,
+    ZSCanvasTutorialPaddleTwoSetupStage,
+    ZSCanvasTutorialBallSetupStage,
+    ZSCanvasTutorialGroupSetupStage,
+};
 
 @interface ZSCanvasViewController ()
 
@@ -41,6 +47,7 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
 
 // Tutorial
 @property (strong, nonatomic) ZSTutorial *tutorial;
+@property (assign, nonatomic) ZSCanvasTutorialStage tutorialStage;
 
 // Toolbox
 @property (strong, nonatomic) ZSToolboxView *toolboxView;
@@ -70,6 +77,7 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
     self = [super initWithCoder:aDecoder];
     if (self) {
         _tutorial = [ZSTutorial sharedTutorial];
+        _tutorialStage = ZSCanvasTutorialSetupStage;
         _toolboxController = [[ZSToolboxController alloc] init];
     }
     return self;
@@ -170,12 +178,16 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-    if (_showTutorial) {
-        [self createStageForName:@"setup"];
-        [[[ZSEditorViewController alloc] init] createStageForName:@"traits"];
-        [[[ZSTraitEditorViewController alloc] init] createStageForName:nil];
-        // [self createStageForName:@"paddle2"];
-        [_tutorial present];
+    if (_tutorial.isActive) {
+        [self createTutorialForStage:_tutorialStage];
+        [_tutorial presentWithCompletion:^{
+            if (_tutorialStage == ZSCanvasTutorialGroupSetupStage) {
+                _tutorial.active = NO;
+            }
+            else {
+                _tutorialStage++;
+            }
+        }];
     }
 }
 
@@ -185,7 +197,6 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
         rendererController.projectJSON = [_project assembledJSON];
         _rendererViewController = rendererController;
     } else if ([segue.identifier isEqualToString:@"editor"]) {
-        _showTutorial = NO;
         ZSEditorViewController *editorController = (ZSEditorViewController *)segue.destinationViewController;
         editorController.spriteObject = ((ZSSpriteView *)sender).spriteJSON;
     } else if  ([segue.identifier isEqualToString:@"settings"]) {
@@ -204,12 +215,12 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
 
 #pragma mark Tutorial
 
-- (void)createStageForName:(NSString *)name {
+- (void)createTutorialForStage:(ZSCanvasTutorialStage)stage {
     WeakSelf
     __block UIView *paddle1 = nil;
     __block UIView *paddle2 = nil;
     __block UIView *ball = nil;
-    if ([name isEqualToString:@"setup"]) {
+    if (stage == ZSCanvasTutorialSetupStage) {
         UICollectionView *collectionView = (UICollectionView*)[_toolboxView viewByIndex:0];
         CGRect ballRect = [collectionView layoutAttributesForItemAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]].frame;
         ballRect.size.height -= 17;
@@ -266,14 +277,25 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
                                }
                           completion:nil];
     }
-    if ([name isEqualToString:@"paddle2"]) {
-        [_tutorial addActionWithText:@"Touch the lower paddle to bring up the sprite editor."
+    if (stage == ZSCanvasTutorialPaddleTwoSetupStage) {
+        [_tutorial addActionWithText:@"Touch the upper paddle to bring up the sprite editor."
                             forEvent:ZSTutorialBroadcastDidTapPaddle
                      allowedGestures:@[UITapGestureRecognizer.class]
                         activeRegion:CGRectZero
                                setup:^{
                                    paddle2 = [weakSelf.tutorial getObjectForKey:@"paddle2"];
                                    weakSelf.tutorial.overlayView.activeRegion = paddle2.frame;
+                               }
+                          completion:nil];
+    }
+    if (stage == ZSCanvasTutorialBallSetupStage) {
+        [_tutorial addActionWithText:@"Touch the ball to bring up the sprite editor."
+                            forEvent:ZSTutorialBroadcastDidTapPaddle
+                     allowedGestures:@[UITapGestureRecognizer.class]
+                        activeRegion:CGRectZero
+                               setup:^{
+                                   ball = [weakSelf.tutorial getObjectForKey:@"ball"];
+                                   weakSelf.tutorial.overlayView.activeRegion = ball.frame;
                                }
                           completion:nil];
     }
