@@ -97,7 +97,7 @@
         statementName = @"move";
     }
 
-    CGSize textSize = [statementName sizeWithAttributes:@{NSFontAttributeName: [UIFont systemFontOfSize:17]}];
+    CGSize textSize = [statementName sizeWithAttributes:@{NSFontAttributeName: [UIFont systemFontOfSize:16]}];
     return CGSizeMake(MAX(52, textSize.width + 10), textSize.height + 10);
 }
 

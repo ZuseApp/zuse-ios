@@ -12,6 +12,7 @@
 #import "ZSToolboxCell.h"
 #import "ZSSpriteLibrary.h"
 #import "ZSTraitEditorViewController.h"
+#import "ZSProjectPersistence.h"
 #import <FontAwesomeKit/FAKIonIcons.h>
 #import <AFNetworking/AFNetworking.h>
 #import <Social/Social.h>
@@ -173,7 +174,7 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
     // TODO: Figure out the correct place to put this.  The editor may have modified the project
     // so save the project here as well.  This means that the project gets loaded and than saved
     // right away on creation as well.
-    [_project write];
+    [ZSProjectPersistence writeProject:self.project];
     [self.view setNeedsDisplay];
 }
 
@@ -322,7 +323,7 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
     
     _canvasView.spriteCreated = ^(ZSSpriteView *spriteView) {
         [[_project rawJSON][@"objects"] addObject:spriteView.spriteJSON];
-        [_project write];
+        [ZSProjectPersistence writeProject:weakSelf.project];
     };
     
     _canvasView.spriteRemoved = ^(ZSSpriteView *spriteView) {
@@ -333,11 +334,11 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
                 break;
             }
         }
-        [weakSelf.project write];
+        [ZSProjectPersistence writeProject:weakSelf.project];
     };
     
     _canvasView.spriteModified = ^(ZSSpriteView *spriteView){
-        [_project write];
+        [ZSProjectPersistence writeProject:weakSelf.project];
     };
 }
 
@@ -422,7 +423,7 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
         [weakSelf.canvasView setupEditOptionsForSpriteView:draggedView];
         
         // Save the project.
-        [weakSelf.project write];
+        [ZSProjectPersistence writeProject:weakSelf.project];
         
         // Show the toolbox again.
         [weakSelf.toolboxView showAnimated:YES];
@@ -484,7 +485,7 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
 }
 
 - (IBAction)return:(id)sender {
-    [_project write];
+    [ZSProjectPersistence writeProject:self.project];
     if (self.didFinish) {
         self.didFinish();
     }
