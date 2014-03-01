@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2C6B5D6A183D43AB00E3D56C /* ZSSpriteTouchComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C6B5D69183D43AB00E3D56C /* ZSSpriteTouchComponent.m */; };
+		2CA9A32718C1D206005F4404 /* ZSZuseHubMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9A32618C1D206005F4404 /* ZSZuseHubMainViewController.m */; };
 		2CA9D387183F3F0300401231 /* ZSRendererScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9D386183F3F0300401231 /* ZSRendererScene.m */; };
 		2CF6E518189D7FB900E2779C /* BrickExplosion.sks in Resources */ = {isa = PBXBuildFile; fileRef = 2CF6E516189D7FB900E2779C /* BrickExplosion.sks */; };
 		2CF6E519189D7FB900E2779C /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CF6E517189D7FB900E2779C /* spark.png */; };
@@ -152,6 +153,8 @@
 /* Begin PBXFileReference section */
 		2C6B5D68183D43AB00E3D56C /* ZSSpriteTouchComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSSpriteTouchComponent.h; sourceTree = "<group>"; };
 		2C6B5D69183D43AB00E3D56C /* ZSSpriteTouchComponent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSSpriteTouchComponent.m; sourceTree = "<group>"; };
+		2CA9A32518C1D206005F4404 /* ZSZuseHubMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSZuseHubMainViewController.h; sourceTree = "<group>"; };
+		2CA9A32618C1D206005F4404 /* ZSZuseHubMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSZuseHubMainViewController.m; sourceTree = "<group>"; };
 		2CA9D385183F3F0300401231 /* ZSRendererScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSRendererScene.h; sourceTree = "<group>"; };
 		2CA9D386183F3F0300401231 /* ZSRendererScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSRendererScene.m; sourceTree = "<group>"; };
 		2CF6E516189D7FB900E2779C /* BrickExplosion.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = BrickExplosion.sks; sourceTree = "<group>"; };
@@ -400,6 +403,8 @@
 		2CA9A31918C1C1CD005F4404 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				2CA9A32518C1D206005F4404 /* ZSZuseHubMainViewController.h */,
+				2CA9A32618C1D206005F4404 /* ZSZuseHubMainViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -1147,6 +1152,7 @@
 				4C0930FD18B8131400BBCC2F /* ZSToolboxView.m in Sources */,
 				5F0139AF18568EC2005D7FAE /* ZSTraitEditorViewController.m in Sources */,
 				5F39DFCC188A40A0008ECAC1 /* NSMutableDictionary+BlocksKit.m in Sources */,
+				2CA9A32718C1D206005F4404 /* ZSZuseHubMainViewController.m in Sources */,
 				4C0D470817FB927600F13786 /* ZSCanvasViewController.m in Sources */,
 				7899786418B9255500A8FE05 /* ZS_ExpressionViewController.m in Sources */,
 				2C6B5D6A183D43AB00E3D56C /* ZSSpriteTouchComponent.m in Sources */,

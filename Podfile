@@ -7,3 +7,4 @@ pod "CMPopTipView"
 pod "AFNetworking"
 pod "FXBlurView"
 pod "FontAwesomeKit/IonIcons"
+pod 'MMDrawerController', '~> 0.5.3'
