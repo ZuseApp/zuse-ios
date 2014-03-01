@@ -28,6 +28,7 @@
 @property (strong, nonatomic) ZSInterpreter *interpreter;
 @property (nonatomic) NSDictionary *categoryBitMasks;
 @property (nonatomic) NSDictionary *collisionBitMasks;
+@property (nonatomic) NSDictionary *collisionGroups;
 
 @end
 
@@ -59,6 +60,7 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
 
         _categoryBitMasks = [self categoryBitMasksForCollisionGroups:projectJSON[@"groups"]];
         _collisionBitMasks = [self collisionBitMasksForCollisionGroups:projectJSON[@"groups"] categoryBitMasks:_categoryBitMasks];
+        _collisionGroups = projectJSON[@"groups"];
         
         [projectJSON[@"objects"] each:^(NSDictionary *object) {
             
@@ -73,6 +75,11 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
             node.position = position;
             node.collisionGroup = object[@"group"];
             node.size = size;
+            node.top = node.position.y - node.size.height / 2.0f;
+            node.bottom = node.position.y + node.size.height / 2.0f;
+            node.left = node.position.x - node.size.width / 2.0f;
+            node.right = node.position.x + node.size.width / 2.0f;
+            
             
             SKNode *childNode = [self childNodeForObjectJSON:object size:size];
             [node addChild:childNode];
@@ -378,7 +385,28 @@ void APARunOneShotEmitter(SKEmitterNode *emitter, CGFloat duration) {
     }
     
     [self detectSpriteCollision];
+    [self boundSpriteByWorld];
     [self updateSpritePositions:self.lastUpdateTimeInterval];
+}
+
+- (void)boundSpriteByWorld
+{
+    for (id key in _spriteNodes)
+    {
+        ZSComponentNode *node = _spriteNodes[key];
+        
+        if (node.left <= 0.0f && node.velocity.dx < 0.0f)
+            node.velocity = CGVectorMake(node.velocity.dx * -1, node.velocity.dy);
+        
+        if (node.right >= self.scene.frame.size.width && node.velocity.dx > 0.0f)
+            node.velocity = CGVectorMake(node.velocity.dx * -1, node.velocity.dy);
+        
+        if (node.top <= 0.0f && node.velocity.dy < 0.0f)
+            node.velocity = CGVectorMake(node.velocity.dx, node.velocity.dy * -1);
+        
+        if (node.bottom >= self.scene.frame.size.height && node.velocity.dy > 0.0f)
+            node.velocity = CGVectorMake(node.velocity.dx, node.velocity.dy * -1);
+    }
 }
 
 - (void)detectSpriteCollision
@@ -404,16 +432,21 @@ void APARunOneShotEmitter(SKEmitterNode *emitter, CGFloat duration) {
         
             [tempSprites removeObjectForKey:key];
         
+            NSArray *collisionGroup = _collisionGroups[node.collisionGroup];
             for (id tempKey in tempSprites)
             {
-                id collisionBitMask = _collisionBitMasks[node.collisionGroup];
-            
-//                if (cg.contains(temp_sprites[q].collision_group) && s.collidesWith(temp_sprites[q]))
-//                {
-//                    s.resolveCollisionWith(temp_sprites[q]);
-//                    this.interpreter.triggerEventOnObjectWithParameters("collision", s.id, { other_sprite: temp_sprites[q].id });
-//                    this.interpreter.triggerEventOnObjectWithParameters("collision", temp_sprites[q].id, { other_sprite: s.id });
-//                }
+                ZSComponentNode *tempNode = tempSprites[tempKey];
+                if([collisionGroup containsObject:tempNode.collisionGroup])
+                {
+                    if([node collidesWidth:tempNode])
+                    {
+                        [node resolveCollisionWith:tempNode];
+                        [_interpreter triggerEvent:@"collision"
+                            onObjectWithIdentifier:node.identifier];
+                        [_interpreter triggerEvent:@"collision"
+                            onObjectWithIdentifier:tempNode.identifier];
+                    }
+                }
             }
         }
     }

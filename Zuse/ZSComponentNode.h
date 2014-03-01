@@ -15,7 +15,11 @@
 @property CGVector velocity;
 @property (strong, nonatomic) NSString *collisionGroup;
 @property CGSize size;
+@property CGFloat top, bottom, left, right;
 
+- (BOOL)hasVelocity;
 - (void)updatePosition:(CFTimeInterval)dt;
+- (BOOL)collidesWidth:(ZSComponentNode *)otherSprite;
+- (void)resolveCollisionWith:(ZSComponentNode *)otherSprite;
 
 @end
