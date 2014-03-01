@@ -236,10 +236,10 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
                                ZSComponentNode *componentNode = (ZSComponentNode *)node;
                                ZSSpriteTouchComponent *touchNode = [componentNode getComponent:[ZSSpriteTouchComponent class]];
                                
-                               GLKVector2 velocity = GLKVector2Make(componentNode.velocity.dx, componentNode.velocity.dy);
-                               GLKVector2 direction = GLKVector2Normalize(velocity);
-                               GLKVector2 newVelocity = GLKVector2MultiplyScalar(direction, touchNode.speed);
-                               node.physicsBody.velocity = CGVectorMake(newVelocity.x, newVelocity.y);
+//                               GLKVector2 velocity = GLKVector2Make(componentNode.velocity.dx, componentNode.velocity.dy);
+//                               GLKVector2 direction = GLKVector2Normalize(velocity);
+//                               GLKVector2 newVelocity = GLKVector2MultiplyScalar(direction, touchNode.speed);
+//                               node.physicsBody.velocity = CGVectorMake(newVelocity.x, newVelocity.y);
                                
                            }];
     
@@ -386,7 +386,7 @@ void APARunOneShotEmitter(SKEmitterNode *emitter, CGFloat duration) {
     
     [self detectSpriteCollision];
     [self boundSpriteByWorld];
-    [self updateSpritePositions:self.lastUpdateTimeInterval];
+    [self updateSpritePositions:0.0001];
 }
 
 - (void)boundSpriteByWorld
