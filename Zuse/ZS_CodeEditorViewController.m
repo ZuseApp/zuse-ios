@@ -6,15 +6,19 @@
 #import "ZS_StatementChooserViewController.h"
 #import "ZSToolboxView.h"
 #import "ZSStatementChooserController.h"
+#import "ZSVariableChooserController.h"
 #import "ZSStatementCell.h"
 #import "ZSCodePropertyScope.h"
+#import <MTBlockAlertView/MTBlockAlertView.h>
 
 @interface ZS_CodeEditorViewController ()
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) UILabel* selectedLabel;
 @property (weak, nonatomic) ZS_StatementView* selectedStatementView;
-@property (strong, nonatomic) ZSToolboxView *toolboxView;
+@property (strong, nonatomic) ZSToolboxView *statementToolboxView;
+@property (strong, nonatomic) ZSToolboxView *variableToolboxView;
 @property (strong, nonatomic) ZSStatementChooserController *statementChooserController;
+@property (strong, nonatomic) ZSVariableChooserController *variableChooserController;
 //@property (strong, nonatomic) NSMutableDictionary* json;
 @end
 
@@ -26,6 +30,7 @@
     
     // ToolboxView
     WeakSelf
+    _variableChooserController = [[ZSVariableChooserController alloc] init];
     _statementChooserController = [[ZSStatementChooserController alloc] init];
     _statementChooserController.singleTapped = ^(NSMutableArray *returnJson, NSInteger statementIndex) {
         NSMutableDictionary* statement = [[NSMutableDictionary alloc]init];
@@ -65,20 +70,20 @@
             [returnJson addObject:statement];
         }
         [weakSelf reloadFromJson];
-        [weakSelf.toolboxView hideAnimated:YES];
+        [weakSelf.statementToolboxView hideAnimated:YES];
     };
     
     
-    _toolboxView = [[ZSToolboxView alloc] initWithFrame:CGRectMake(19, 82, 282, 361)];
+    _statementToolboxView = [[ZSToolboxView alloc] initWithFrame:CGRectMake(19, 82, 282, 361)];
     UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:[[UICollectionViewFlowLayout alloc] init]];
     [collectionView registerClass:ZSStatementCell.class forCellWithReuseIdentifier:@"cellID"];
     collectionView.userInteractionEnabled = YES;
     collectionView.contentInset = UIEdgeInsetsMake(10, 10, 10, 10);
     collectionView.delegate = _statementChooserController;
     collectionView.dataSource = _statementChooserController;
-    [_toolboxView setPagingEnabled:NO];
-    [_toolboxView addContentView:collectionView title:@"STATEMENT CHOOSER"];
-    [self.view addSubview:_toolboxView];
+    [_statementToolboxView setPagingEnabled:NO];
+    [_statementToolboxView addContentView:collectionView title:@"STATEMENT CHOOSER"];
+    [self.view addSubview:_statementToolboxView];
     
     // Register at notification center
     [[NSNotificationCenter defaultCenter] addObserver: self
@@ -204,7 +209,7 @@
     {
         // [self performSegueWithIdentifier:@"to statement chooser" sender: label];
         _statementChooserController.returnJson = ((ZS_StatementView*)label.superview).jsonCode;
-        [_toolboxView showAnimated:YES];
+        [_statementToolboxView showAnimated:YES];
     }];
     
     return view;
@@ -241,7 +246,7 @@
      {
          // [self performSegueWithIdentifier:@"to statement chooser" sender: label];
          _statementChooserController.returnJson = ((ZS_StatementView*)label.superview).jsonCode;
-         [_toolboxView showAnimated:YES];
+         [_statementToolboxView showAnimated:YES];
      }];
     return view;
 }
@@ -272,7 +277,7 @@
      {
          // [self performSegueWithIdentifier:@"to statement chooser" sender: label];
          _statementChooserController.returnJson = ((ZS_StatementView*)label.superview).jsonCode;
-         [_toolboxView showAnimated:YES];
+         [_statementToolboxView showAnimated:YES];
      }];
     
     return view;
@@ -306,11 +311,49 @@
     [view addNameLabelWithText:@"SET"];
     
     // Variable name
+    WeakSelf
     __weak typeof(view) weakView = view;
     [view addArgumentLabelWithText: json[@"set"][0]
                         touchBlock:^(UILabel* label)
      {
-         NSLog(@"%@", weakView.propertiesInScope());
+         _variableChooserController.variables = weakView.propertiesInScope();
+         _variableChooserController.singleTapped = ^(NSString *variable)
+         {
+            // __block NSString* blockVariable = variable;
+             if ([variable isEqualToString:@"+"])
+             {
+                 MTBlockAlertView *alertView = [[MTBlockAlertView alloc]
+                                                initWithTitle: @"title"
+                                                message: @"blablabla"
+                                                completionHanlder:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                                                    json[@"set"][0] = [alertView textFieldAtIndex:0].text;
+                                                    [weakSelf reloadFromJson];
+                                                    [weakSelf.variableToolboxView hideAnimated:YES];
+                                                }
+                                                cancelButtonTitle:@"OK"
+                                                otherButtonTitles:nil];
+                 alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+                 [alertView show];
+             }
+             else
+             {
+                 json[@"set"][0] = variable;
+                 [weakSelf reloadFromJson];
+                 [weakSelf.variableToolboxView hideAnimated:YES];
+             }
+         };
+         _variableToolboxView = [[ZSToolboxView alloc] initWithFrame:CGRectMake(19, 82, 282, 361)];
+         UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:[[UICollectionViewFlowLayout alloc] init]];
+         [collectionView registerClass:ZSStatementCell.class forCellWithReuseIdentifier:@"cellID"];
+         collectionView.userInteractionEnabled = YES;
+         collectionView.contentInset = UIEdgeInsetsMake(10, 10, 10, 10);
+         collectionView.delegate = _variableChooserController;
+         collectionView.dataSource = _variableChooserController;
+         [_variableToolboxView setPagingEnabled:NO];
+         [_variableToolboxView addContentView:collectionView title:@"VARIABLE CHOOSER"];
+         [self.view addSubview:_variableToolboxView];
+         [_variableToolboxView showAnimated:YES];
+         
      }];
     // Statement name TO
     [view addNameLabelWithText:@"TO"];

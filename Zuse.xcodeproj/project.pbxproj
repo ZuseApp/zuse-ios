@@ -129,6 +129,7 @@
 		5F8138DF18A0BA07009F3495 /* ZSCollisionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8138DE18A0BA07009F3495 /* ZSCollisionsViewController.m */; };
 		5FAFE3601891C8B300131354 /* breakout.json in Resources */ = {isa = PBXBuildFile; fileRef = 5FAFE35F1891C8B300131354 /* breakout.json */; };
 		5FEFB89A182B5376007DAFCF /* pong.json in Resources */ = {isa = PBXBuildFile; fileRef = 5FEFB899182B5376007DAFCF /* pong.json */; };
+		789433B318C2617800C8D810 /* ZSVariableChooserController.m in Sources */ = {isa = PBXBuildFile; fileRef = 789433B218C2617800C8D810 /* ZSVariableChooserController.m */; };
 		7899786118B9255500A8FE05 /* ZS_CodeEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7899785618B9255500A8FE05 /* ZS_CodeEditorViewController.m */; };
 		7899786218B9255500A8FE05 /* ZS_StatementView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7899785818B9255500A8FE05 /* ZS_StatementView.m */; };
 		7899786318B9255500A8FE05 /* ZS_JsonUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 7899785A18B9255500A8FE05 /* ZS_JsonUtilities.m */; };
@@ -331,6 +332,8 @@
 		5F8138DE18A0BA07009F3495 /* ZSCollisionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCollisionsViewController.m; sourceTree = "<group>"; };
 		5FAFE35F1891C8B300131354 /* breakout.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = breakout.json; path = JSON/breakout.json; sourceTree = "<group>"; };
 		5FEFB899182B5376007DAFCF /* pong.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = pong.json; path = JSON/pong.json; sourceTree = "<group>"; };
+		789433B118C2617800C8D810 /* ZSVariableChooserController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSVariableChooserController.h; sourceTree = "<group>"; };
+		789433B218C2617800C8D810 /* ZSVariableChooserController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSVariableChooserController.m; sourceTree = "<group>"; };
 		7899785518B9255500A8FE05 /* ZS_CodeEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZS_CodeEditorViewController.h; sourceTree = "<group>"; };
 		7899785618B9255500A8FE05 /* ZS_CodeEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZS_CodeEditorViewController.m; sourceTree = "<group>"; };
 		7899785718B9255500A8FE05 /* ZS_StatementView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZS_StatementView.h; sourceTree = "<group>"; };
@@ -485,6 +488,8 @@
 				4CDD471118B9A9A50085FAF3 /* ZSStatementCell.m */,
 				4CDD470B18B997690085FAF3 /* ZSStatementChooserController.h */,
 				4CDD470C18B997690085FAF3 /* ZSStatementChooserController.m */,
+				789433B118C2617800C8D810 /* ZSVariableChooserController.h */,
+				789433B218C2617800C8D810 /* ZSVariableChooserController.m */,
 				5F0139BC1856BCB0005D7FAE /* Traits */,
 				4CE35622188B0810007024C0 /* View Controllers */,
 			);
@@ -1103,6 +1108,7 @@
 				4C5080DF188485C900E1F57A /* ZSNewProjectViewController.m in Sources */,
 				4CE3404E180A0154009A63A2 /* ZSRendererViewController.m in Sources */,
 				4C7C748C18847A0000729888 /* ZSTemplateViewController.m in Sources */,
+				789433B318C2617800C8D810 /* ZSVariableChooserController.m in Sources */,
 				5F41ACB818341C980089D136 /* ZSExecutionContext.m in Sources */,
 				4CF1CBC217EF882A00636E0D /* TCAppDelegate.m in Sources */,
 				5F39DFC8188A40A0008ECAC1 /* NSDictionary+BlocksKit.m in Sources */,
