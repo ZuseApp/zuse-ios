@@ -373,6 +373,37 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2CA9A31618C1C15B005F4404 /* ZuseHub */ = {
+			isa = PBXGroup;
+			children = (
+				2CA9A31918C1C1CD005F4404 /* View Controllers */,
+				2CA9A31818C1C1C7005F4404 /* Views */,
+				2CA9A31718C1C176005F4404 /* Models */,
+			);
+			name = ZuseHub;
+			sourceTree = "<group>";
+		};
+		2CA9A31718C1C176005F4404 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		2CA9A31818C1C1C7005F4404 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		2CA9A31918C1C1CD005F4404 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "View Controllers";
+			sourceTree = "<group>";
+		};
 		2CF6E515189D7F8C00E2779C /* Particles */ = {
 			isa = PBXGroup;
 			children = (
@@ -670,6 +701,7 @@
 		4CF1CBB717EF882A00636E0D /* Zuse */ = {
 			isa = PBXGroup;
 			children = (
+				2CA9A31618C1C15B005F4404 /* ZuseHub */,
 				4CE3561E188B07E1007024C0 /* Canvas */,
 				5F030C69185ADCE900584DCD /* Categories */,
 				4CE3561D188B07D9007024C0 /* Editor */,
