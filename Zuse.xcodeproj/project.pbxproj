@@ -113,6 +113,10 @@
 		5F50CBD218A1529000B7C020 /* ZSSelectedGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F50CBD118A1529000B7C020 /* ZSSelectedGroupViewController.m */; };
 		5F687DD118B9A3B200D57A34 /* event_manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F687DCF18B9A3B200D57A34 /* event_manifest.json */; };
 		5F687DD218B9A3B200D57A34 /* method_manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F687DD018B9A3B200D57A34 /* method_manifest.json */; };
+		5F6AD25618BD932200299AB8 /* ZSCodePropertyScope.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6AD25518BD932200299AB8 /* ZSCodePropertyScope.m */; };
+		5F6AD25818BD948700299AB8 /* ZSCodePropertyScopeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6AD25718BD948700299AB8 /* ZSCodePropertyScopeTests.m */; };
+		5F6AD25C18BD954700299AB8 /* property_scope_flat.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F6AD25A18BD954700299AB8 /* property_scope_flat.json */; };
+		5F6AD25D18BD954700299AB8 /* property_scope_nested.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F6AD25B18BD954700299AB8 /* property_scope_nested.json */; };
 		5F8138C918945D8F009F3495 /* object_transform.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F8138C818945D8F009F3495 /* object_transform.json */; };
 		5F8138CD18945DDD009F3495 /* object_transform_result.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F8138CC18945DDD009F3495 /* object_transform_result.json */; };
 		5F8138D11898C338009F3495 /* NSString+Zuse.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8138D01898C338009F3495 /* NSString+Zuse.m */; };
@@ -126,6 +130,9 @@
 		5FBB4A8A18C2497B00B79AB6 /* breakout_example.json in Resources */ = {isa = PBXBuildFile; fileRef = 5FBB4A8818C2497B00B79AB6 /* breakout_example.json */; };
 		5FBB4A8B18C2497B00B79AB6 /* pong_example.json in Resources */ = {isa = PBXBuildFile; fileRef = 5FBB4A8918C2497B00B79AB6 /* pong_example.json */; };
 		5FBB4A8E18C24C8800B79AB6 /* UIColor+ZuseColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBB4A8D18C24C8800B79AB6 /* UIColor+ZuseColors.m */; };
+		5FAFE3601891C8B300131354 /* breakout.json in Resources */ = {isa = PBXBuildFile; fileRef = 5FAFE35F1891C8B300131354 /* breakout.json */; };
+		5FEFB89A182B5376007DAFCF /* pong.json in Resources */ = {isa = PBXBuildFile; fileRef = 5FEFB899182B5376007DAFCF /* pong.json */; };
+		789433B318C2617800C8D810 /* ZSVariableChooserController.m in Sources */ = {isa = PBXBuildFile; fileRef = 789433B218C2617800C8D810 /* ZSVariableChooserController.m */; };
 		7899786118B9255500A8FE05 /* ZS_CodeEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7899785618B9255500A8FE05 /* ZS_CodeEditorViewController.m */; };
 		7899786218B9255500A8FE05 /* ZS_StatementView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7899785818B9255500A8FE05 /* ZS_StatementView.m */; };
 		7899786318B9255500A8FE05 /* ZS_JsonUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 7899785A18B9255500A8FE05 /* ZS_JsonUtilities.m */; };
@@ -303,6 +310,11 @@
 		5F50CBD118A1529000B7C020 /* ZSSelectedGroupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSSelectedGroupViewController.m; sourceTree = "<group>"; };
 		5F687DCF18B9A3B200D57A34 /* event_manifest.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = event_manifest.json; path = JSON/event_manifest.json; sourceTree = "<group>"; };
 		5F687DD018B9A3B200D57A34 /* method_manifest.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = method_manifest.json; path = JSON/method_manifest.json; sourceTree = "<group>"; };
+		5F6AD25418BD932200299AB8 /* ZSCodePropertyScope.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCodePropertyScope.h; sourceTree = "<group>"; };
+		5F6AD25518BD932200299AB8 /* ZSCodePropertyScope.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCodePropertyScope.m; sourceTree = "<group>"; };
+		5F6AD25718BD948700299AB8 /* ZSCodePropertyScopeTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCodePropertyScopeTests.m; sourceTree = "<group>"; };
+		5F6AD25A18BD954700299AB8 /* property_scope_flat.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = property_scope_flat.json; path = CodeSamples/ZSCodePropertyScope/property_scope_flat.json; sourceTree = "<group>"; };
+		5F6AD25B18BD954700299AB8 /* property_scope_nested.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = property_scope_nested.json; path = CodeSamples/ZSCodePropertyScope/property_scope_nested.json; sourceTree = "<group>"; };
 		5F8138C818945D8F009F3495 /* object_transform.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = object_transform.json; path = CodeSamples/object_transform.json; sourceTree = "<group>"; };
 		5F8138CC18945DDD009F3495 /* object_transform_result.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = object_transform_result.json; path = CodeSamples/object_transform_result.json; sourceTree = "<group>"; };
 		5F8138CF1898C338009F3495 /* NSString+Zuse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Zuse.h"; sourceTree = "<group>"; };
@@ -325,6 +337,10 @@
 		5FBB4A8918C2497B00B79AB6 /* pong_example.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = pong_example.json; path = JSON/Examples/pong_example.json; sourceTree = "<group>"; };
 		5FBB4A8C18C24C8800B79AB6 /* UIColor+ZuseColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+ZuseColors.h"; sourceTree = "<group>"; };
 		5FBB4A8D18C24C8800B79AB6 /* UIColor+ZuseColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+ZuseColors.m"; sourceTree = "<group>"; };
+		5FAFE35F1891C8B300131354 /* breakout.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = breakout.json; path = JSON/breakout.json; sourceTree = "<group>"; };
+		5FEFB899182B5376007DAFCF /* pong.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = pong.json; path = JSON/pong.json; sourceTree = "<group>"; };
+		789433B118C2617800C8D810 /* ZSVariableChooserController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSVariableChooserController.h; sourceTree = "<group>"; };
+		789433B218C2617800C8D810 /* ZSVariableChooserController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSVariableChooserController.m; sourceTree = "<group>"; };
 		7899785518B9255500A8FE05 /* ZS_CodeEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZS_CodeEditorViewController.h; sourceTree = "<group>"; };
 		7899785618B9255500A8FE05 /* ZS_CodeEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZS_CodeEditorViewController.m; sourceTree = "<group>"; };
 		7899785718B9255500A8FE05 /* ZS_StatementView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZS_StatementView.h; sourceTree = "<group>"; };
@@ -479,6 +495,8 @@
 				4CDD471118B9A9A50085FAF3 /* ZSStatementCell.m */,
 				4CDD470B18B997690085FAF3 /* ZSStatementChooserController.h */,
 				4CDD470C18B997690085FAF3 /* ZSStatementChooserController.m */,
+				789433B118C2617800C8D810 /* ZSVariableChooserController.h */,
+				789433B218C2617800C8D810 /* ZSVariableChooserController.m */,
 				5F0139BC1856BCB0005D7FAE /* Traits */,
 				4CE35622188B0810007024C0 /* View Controllers */,
 			);
@@ -561,6 +579,8 @@
 				5F1B5BA51837EE7800632DE6 /* ZSCompiler.m */,
 				5F01FBD818B4643500E14834 /* ZSPatternMatch.h */,
 				5F01FBD918B4643500E14834 /* ZSPatternMatch.m */,
+				5F6AD25418BD932200299AB8 /* ZSCodePropertyScope.h */,
+				5F6AD25518BD932200299AB8 /* ZSCodePropertyScope.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -692,6 +712,7 @@
 				5F2EC4D7183ABF160091CEAD /* ZSCompilerTests.m */,
 				5F2EC4DB183AD7510091CEAD /* ZSInterpreterDelegateTests.m */,
 				5F01FBDB18B467B500E14834 /* ZSPatternMatchTests.m */,
+				5F6AD25718BD948700299AB8 /* ZSCodePropertyScopeTests.m */,
 				4CF1CBD717EF882A00636E0D /* Supporting Files */,
 			);
 			path = ZuseTests;
@@ -774,6 +795,7 @@
 		5F2EC4D6183ABEEA0091CEAD /* JSON */ = {
 			isa = PBXGroup;
 			children = (
+				5F6AD25918BD952900299AB8 /* ZSCodePropertyScope */,
 				5F01FBDE18B467F600E14834 /* ZSPatternMatch */,
 				5F8138CE18945DE0009F3495 /* Compiler */,
 				5F2EC4DD183B06840091CEAD /* property_update.json */,
@@ -836,6 +858,15 @@
 				5F50CBD118A1529000B7C020 /* ZSSelectedGroupViewController.m */,
 			);
 			name = Groups;
+			sourceTree = "<group>";
+		};
+		5F6AD25918BD952900299AB8 /* ZSCodePropertyScope */ = {
+			isa = PBXGroup;
+			children = (
+				5F6AD25A18BD954700299AB8 /* property_scope_flat.json */,
+				5F6AD25B18BD954700299AB8 /* property_scope_nested.json */,
+			);
+			name = ZSCodePropertyScope;
 			sourceTree = "<group>";
 		};
 		5F8138CE18945DE0009F3495 /* Compiler */ = {
@@ -1001,6 +1032,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F6AD25C18BD954700299AB8 /* property_scope_flat.json in Resources */,
 				5F2EC4D5183ABEE60091CEAD /* scope.json in Resources */,
 				5F2EC4DA183AC7C10091CEAD /* project_traits.json in Resources */,
 				5F2EC4D0183ABECE0091CEAD /* pong_compiled.json in Resources */,
@@ -1009,6 +1041,7 @@
 				4CF1CBDB17EF882A00636E0D /* InfoPlist.strings in Resources */,
 				5F2EC4D4183ABEE60091CEAD /* events_scope.json in Resources */,
 				5F8138C918945D8F009F3495 /* object_transform.json in Resources */,
+				5F6AD25D18BD954700299AB8 /* property_scope_nested.json in Resources */,
 				5F8138CD18945DDD009F3495 /* object_transform_result.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1085,6 +1118,8 @@
 				4CDD470D18B997690085FAF3 /* ZSStatementChooserController.m in Sources */,
 				5F39DFCB188A40A0008ECAC1 /* NSMutableArray+BlocksKit.m in Sources */,
 				4CE3404E180A0154009A63A2 /* ZSRendererViewController.m in Sources */,
+				4C7C748C18847A0000729888 /* ZSTemplateViewController.m in Sources */,
+				789433B318C2617800C8D810 /* ZSVariableChooserController.m in Sources */,
 				5F41ACB818341C980089D136 /* ZSExecutionContext.m in Sources */,
 				4CF1CBC217EF882A00636E0D /* TCAppDelegate.m in Sources */,
 				5F39DFC8188A40A0008ECAC1 /* NSDictionary+BlocksKit.m in Sources */,
@@ -1101,6 +1136,7 @@
 				7899786418B9255500A8FE05 /* ZS_ExpressionViewController.m in Sources */,
 				2C6B5D6A183D43AB00E3D56C /* ZSSpriteTouchComponent.m in Sources */,
 				5F39DFCD188A40A0008ECAC1 /* NSMutableIndexSet+BlocksKit.m in Sources */,
+				5F6AD25618BD932200299AB8 /* ZSCodePropertyScope.m in Sources */,
 				5F8138D41898C36B009F3495 /* NSNumber+Zuse.m in Sources */,
 				4C3DD66118B7005D0013B3A5 /* ZSToolboxCell.m in Sources */,
 				4C5A31C318B36A7800FCE1A9 /* ZSOverlayView.m in Sources */,
@@ -1122,6 +1158,7 @@
 			files = (
 				78F79EB8183A8C0300012726 /* TCCodeEditor.m in Sources */,
 				5F01FBDC18B467B500E14834 /* ZSPatternMatchTests.m in Sources */,
+				5F6AD25818BD948700299AB8 /* ZSCodePropertyScopeTests.m in Sources */,
 				5F099D4817F1136000EB2AC7 /* InterpreterTests.m in Sources */,
 				5F2EC4DC183AD7510091CEAD /* ZSInterpreterDelegateTests.m in Sources */,
 				5F2EC4D8183ABF160091CEAD /* ZSCompilerTests.m in Sources */,
