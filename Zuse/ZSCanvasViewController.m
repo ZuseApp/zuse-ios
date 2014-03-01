@@ -12,6 +12,7 @@
 #import "ZSToolboxCell.h"
 #import "ZSSpriteLibrary.h"
 #import "ZSTraitEditorViewController.h"
+#import "ZSProjectPersistence.h"
 #import <FontAwesomeKit/FAKIonIcons.h>
 #import <AFNetworking/AFNetworking.h>
 #import <Social/Social.h>
@@ -165,7 +166,7 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
     // TODO: Figure out the correct place to put this.  The editor may have modified the project
     // so save the project here as well.  This means that the project gets loaded and than saved
     // right away on creation as well.
-    [_project write];
+    [ZSProjectPersistence writeProject:self.project];
     [self.view setNeedsDisplay];
 }
 
@@ -300,7 +301,7 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
     
     _canvasView.spriteCreated = ^(ZSSpriteView *spriteView) {
         [[_project rawJSON][@"objects"] addObject:spriteView.spriteJSON];
-        [_project write];
+        [ZSProjectPersistence writeProject:weakSelf.project];
     };
     
     _canvasView.spriteRemoved = ^(ZSSpriteView *spriteView) {
@@ -311,11 +312,11 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
                 break;
             }
         }
-        [weakSelf.project write];
+        [ZSProjectPersistence writeProject:weakSelf.project];
     };
     
     _canvasView.spriteModified = ^(ZSSpriteView *spriteView){
-        [_project write];
+        [ZSProjectPersistence writeProject:weakSelf.project];
     };
 }
 
@@ -400,7 +401,7 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
         [weakSelf.canvasView setupEditOptionsForSpriteView:draggedView];
         
         // Save the project.
-        [weakSelf.project write];
+        [ZSProjectPersistence writeProject:weakSelf.project];
         
         // Show the toolbox again.
         [weakSelf.toolboxView showAnimated:YES];
@@ -462,7 +463,7 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
 }
 
 - (IBAction)return:(id)sender {
-    [_project write];
+    [ZSProjectPersistence writeProject:self.project];
     if (self.didFinish) {
         self.didFinish();
     }

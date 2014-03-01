@@ -5,7 +5,7 @@
 
 @property (nonatomic, strong) NSMutableDictionary *projectJSON;
 @property (nonatomic, strong) NSString *documentsPath;
-@property (nonatomic, strong) NSString *fileName;
+@property (nonatomic, strong) NSString *identifier;
 @property (nonatomic, strong) NSArray *canvasSize;
 
 @end
@@ -16,79 +16,60 @@
     return [[ZSProject alloc] initWithFile:name];
 }
 
-+ (ZSProject *)projectWithTemplate:(NSString *)name {
-    return [[ZSProject alloc] initWithTemplate:name];
++ (ZSProject *)projectWithJSON:(NSDictionary *)JSON {
+    return [[ZSProject alloc] initWithJSON:JSON];
 }
 
 - (id)init {
     self = [super init];
     if (self) {
-        // Set up documents directory
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        _documentsPath = [paths objectAtIndex:0];
-        
         // Create an empty project.
         _title = @"Untitled";
         _version = @"1.0.0";
         _canvasSize = @[@(320), @(524)];
-        _fileName = [NSString stringWithFormat:@"%@.json",[[NSUUID UUID] UUIDString]];
+        _identifier = [[NSUUID UUID] UUIDString];
+        
         _projectJSON = [NSMutableDictionary dictionary];
         [_projectJSON setObject:_title forKey:@"title"];
+        [_projectJSON setObject:_identifier forKey:@"id"];
+        [_projectJSON setObject:_canvasSize forKey:@"canvas_size"];
         [_projectJSON setObject:[NSMutableDictionary dictionary] forKey:@"traits"];
         [_projectJSON setObject:[NSMutableArray array] forKey:@"objects"];
-        [_projectJSON setObject:[NSMutableDictionary dictionary] forKey:@"collision_groups"];
+        [_projectJSON setObject:[NSMutableDictionary dictionary] forKey:@"groups"];
     }
     return self;
 }
 
-- (id)initWithFile:(NSString *)name {
+- (id)initWithFile:(NSString *)filePath {
     self = [super init];
     if (self) {
-        _fileName = name;
-        
-        // Set up documents directory
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        _documentsPath = [paths objectAtIndex:0];
-        
-        // Load the file.
-        NSString *filePath = [NSString stringWithFormat:@"%@/%@", _documentsPath, name];
         NSData *jsonData = [NSData dataWithContentsOfFile:filePath];
         
         _projectJSON = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:nil];
-        _title = _projectJSON[@"title"];
-        _version = _projectJSON[@"version"];
-        _canvasSize = _projectJSON[@"canvasSize"];
+        [self sharedInit];
     }
     return self;
 }
 
-- (id)initWithTemplate:(NSString *)name {
+- (id) initWithJSON:(NSDictionary *)JSON {
     self = [super init];
+    
     if (self) {
-        _fileName = name;
-        
-        // Set up documents directory even though the bundle direcoty is being read.
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        _documentsPath = [paths objectAtIndex:0];
-        
-        // Load the project from a template.
-        NSString *bundleRoot = [[NSBundle mainBundle] bundlePath];
-        NSString *filePath = [NSString stringWithFormat:@"%@/%@", bundleRoot, name];
-        NSData *jsonData = [NSData dataWithContentsOfFile:filePath];
-        
-        _projectJSON = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:nil];
-        
-        // If the project json is an array then it can't be a valid project file so return
-        // a blank project.
-        if ([_projectJSON isKindOfClass:[NSArray class]]) {
-            return nil;
-        }
-        
-        _title = _projectJSON[@"title"];
-        _version = _projectJSON[@"version"];
-        _canvasSize = _projectJSON[@"canvasSize"];
+        _projectJSON = [JSON deepMutableCopy];
+        [self sharedInit];
     }
+    
     return self;
+}
+
+- (void)sharedInit {
+    if (!_projectJSON[@"id"]) {
+        _projectJSON[@"id"] = [[NSUUID UUID] UUIDString];
+    }
+    _identifier = _projectJSON[@"id"];
+    _title      = _projectJSON[@"title"];
+    _version    = _projectJSON[@"version"];
+    _canvasSize = _projectJSON[@"canvasSize"];
 }
 
 - (NSMutableDictionary *)rawJSON {
@@ -104,7 +85,11 @@
     }
     
     if (_canvasSize) {
-        _projectJSON[@"canvasSize"] = _canvasSize;
+        _projectJSON[@"canvas_size"] = _canvasSize;
+    }
+    
+    if (_identifier) {
+        _projectJSON[@"id"] = _identifier;
     }
     
     // Find all of the traits being referenced in the project by looking at all of the sprites.
@@ -130,19 +115,6 @@
         }
     }
     return _projectJSON;
-}
-
-- (void)write {
-    NSDictionary *assembledJSON = [[self assembledJSON] deepCopy];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        NSError *error;
-        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:assembledJSON options:NSJSONWritingPrettyPrinted error:&error];
-        if (!jsonData) {
-            NSLog(@"Error serializing: %@", error);
-        } else {
-            [jsonData writeToFile:[_documentsPath stringByAppendingPathComponent:_fileName] atomically:YES];
-        }
-    });
 }
 
 @end
