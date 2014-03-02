@@ -26,6 +26,18 @@
             NSLog(@"+ [ZSProjectPersistence initialize]: Could not create directory at path: %@", [self userProjectsDirectoryPath]);
         }
     }
+    
+    if (![fileManager fileExistsAtPath:[self userImagesDirectoryPath]]) {
+        NSError *error = nil;
+        [fileManager createDirectoryAtPath:[self userImagesDirectoryPath]
+               withIntermediateDirectories:YES
+                                attributes:@{}
+                                     error:&error];
+        
+        if (error) {
+            NSLog(@"+ [ZSProjectPersistence initialize]: Could not create directory at path: %@", [self userImagesDirectoryPath]);
+        }
+    }
 }
 
 /**
@@ -119,6 +131,11 @@
     return [[self userProjectsDirectoryPath] stringByAppendingPathComponent:filename];
 }
 
++ (NSString *)pathForImageWithProject:(ZSProject *)project {
+    NSString *filename = [project.identifier stringByAppendingPathExtension:@"png"];
+    return [[self userImagesDirectoryPath] stringByAppendingPathComponent:filename];
+}
+
 /**
  *  Full path to directory holding user-created projects
  *
@@ -131,12 +148,19 @@
     return userDocumentsPath;
 }
 
++ (NSString *)userImagesDirectoryPath {
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *userDocumentsPath = [documentsDirectory stringByAppendingPathComponent:@"UserImages"];
+    return userDocumentsPath;
+}
+
 /**
  *  Writes project to disk. This method is thread-safe and can be called multiple times.
  *
  *  @param project Project to be saved.
  */
-+ (void)writeProject:(ZSProject *)project {
++ (void)writeProject:(ZSProject *)project withImage:(UIImage *)image {
     static dispatch_queue_t savingQueue;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -145,6 +169,7 @@
     
     NSDictionary *assembledJSON = [[project assembledJSON] deepCopy];
     NSString *projectPath = [self pathForProject:project];
+    NSString *imagePath = [self pathForImageWithProject:project];
     dispatch_async(savingQueue, ^{
         NSError *error;
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:assembledJSON options:NSJSONWritingPrettyPrinted error:&error];
@@ -152,6 +177,9 @@
             NSLog(@"Error serializing: %@", error);
         } else {
             [jsonData writeToFile:projectPath atomically:YES];
+            
+            NSData *imageData = UIImagePNGRepresentation(image);
+            [imageData writeToFile:imagePath atomically:YES];
         }
     });
 }

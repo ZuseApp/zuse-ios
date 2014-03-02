@@ -5,8 +5,6 @@
 #import "ZSEditorViewController.h"
 #import "ZSGrid.h"
 #import "ZSCanvasView.h"
-#import "ZSSettingsViewController.h"
-#import "FXBlurView.h"
 #import "ZSToolboxController.h"
 #import "ZSToolboxView.h"
 #import "ZSToolboxCell.h"
@@ -174,7 +172,7 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
     // TODO: Figure out the correct place to put this.  The editor may have modified the project
     // so save the project here as well.  This means that the project gets loaded and than saved
     // right away on creation as well.
-    [ZSProjectPersistence writeProject:self.project];
+    [self saveProject];
     [self.view setNeedsDisplay];
 }
 
@@ -200,9 +198,6 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
     } else if ([segue.identifier isEqualToString:@"editor"]) {
         ZSEditorViewController *editorController = (ZSEditorViewController *)segue.destinationViewController;
         editorController.spriteObject = ((ZSSpriteView *)sender).spriteJSON;
-    } else if  ([segue.identifier isEqualToString:@"settings"]) {
-        ZSSettingsViewController *settingsController = (ZSSettingsViewController *)segue.destinationViewController;
-        settingsController.grid = ((ZSCanvasView *) self.view).grid;
     } else if ([segue.identifier isEqualToString:@"physicsGroups"]) {
         ZSPhysicsGroupingViewController *groupingController = (ZSPhysicsGroupingViewController *)segue.destinationViewController;
         
@@ -302,13 +297,22 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
     }
 }
 
-#pragma mark Load Sprites From Project
+#pragma mark Project Management
 
 - (void)loadSpritesFromProject {
     NSMutableDictionary *assembledJSON = [_project assembledJSON];
     for (NSMutableDictionary *jsonObject in assembledJSON[@"objects"]) {
         [_canvasView addSpriteFromJSON:jsonObject];
     }
+}
+
+- (void)saveProject {
+    UIGraphicsBeginImageContext(_canvasView.bounds.size);
+    [_canvasView.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    [ZSProjectPersistence writeProject:self.project withImage:image];
 }
 
 #pragma mark Canvas Setup
@@ -323,7 +327,7 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
     
     _canvasView.spriteCreated = ^(ZSSpriteView *spriteView) {
         [[_project rawJSON][@"objects"] addObject:spriteView.spriteJSON];
-        [ZSProjectPersistence writeProject:weakSelf.project];
+        [self saveProject];
     };
     
     _canvasView.spriteRemoved = ^(ZSSpriteView *spriteView) {
@@ -334,11 +338,11 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
                 break;
             }
         }
-        [ZSProjectPersistence writeProject:weakSelf.project];
+        [self saveProject];
     };
     
     _canvasView.spriteModified = ^(ZSSpriteView *spriteView){
-        [ZSProjectPersistence writeProject:weakSelf.project];
+        [self saveProject];
     };
 }
 
@@ -423,7 +427,7 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
         [weakSelf.canvasView setupEditOptionsForSpriteView:draggedView];
         
         // Save the project.
-        [ZSProjectPersistence writeProject:weakSelf.project];
+        [weakSelf saveProject];
         
         // Show the toolbox again.
         [weakSelf.toolboxView showAnimated:YES];
@@ -485,7 +489,7 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
 }
 
 - (IBAction)return:(id)sender {
-    [ZSProjectPersistence writeProject:self.project];
+    [self saveProject];
     if (self.didFinish) {
         self.didFinish();
     }
