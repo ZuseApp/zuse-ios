@@ -8,6 +8,8 @@
 
 #import "ZSZuseHubSideMenuViewController.h"
 #import "MMSideDrawerTableViewCell.h"
+#import "MMSideDrawerSectionHeaderView.h"
+#import "MMNavigationController.h"
 
 @interface ZSZuseHubSideMenuViewController ()
 @property (weak, nonatomic) IBOutlet UITableViewCell *newestProjectsCell;
@@ -113,7 +115,9 @@
         [cell setSelectionStyle:UITableViewCellSelectionStyleBlue];
     }
     
-    switch (indexPath.section) {
+    //set the cell text for each section
+    switch (indexPath.section)
+    {
         case ZSZuseHubDrawerMyZuseHub:
             [cell.textLabel setText:_myZuseHubMenuStrings[indexPath.row]];
             break;
@@ -130,7 +134,9 @@
 }
 
 -(NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-    switch (section) {
+    //TODO add more sections as needed
+    switch (section)
+    {
         case ZSZuseHubDrawerMyZuseHub:
             return @"My ZuseHub";
         case ZSZuseHubDrawerBrowseProjects:
@@ -140,8 +146,29 @@
     }
 }
 
+-(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    MMSideDrawerSectionHeaderView * headerView;
+    headerView =  [[MMSideDrawerSectionHeaderView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(tableView.bounds), 56.0)];
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [headerView setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth];
+    [headerView setTitle:[tableView.dataSource tableView:tableView titleForHeaderInSection:section]];
+    return headerView;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 56.0;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 40.0;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return 0.0;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
     UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];
     if (selectedCell == self.newestProjectsCell) {
         self.didSelectNewestProjects();
@@ -152,6 +179,25 @@
     {
         self.didSelectViewMySharedProjects();
     }
+    
+    ZSZuseHubContentViewController *centerController = [[ZSZuseHubContentViewController alloc] init];
+    
+    switch (indexPath.section)
+    {
+        case ZSZuseHubDrawerMyZuseHub:
+        {
+            UINavigationController *nav = [[MMNavigationController alloc] initWithRootViewController:centerController];
+            [self.mm_drawerController setCenterViewController:nav withCloseAnimation:YES completion:nil];
+
+            break;
+        }
+        
+            
+        default:
+            break;
+    }
+    
+    
 }
 
 @end
