@@ -18,4 +18,8 @@
     return [UIColor colorWithRed:1.00 green:0.89 blue:0.55 alpha:1.0];
 }
 
++ (UIColor *)zuseGreen {
+    return [UIColor colorWithRed:0.37 green:0.68 blue:0.32 alpha:1.0];
+}
+
 @end

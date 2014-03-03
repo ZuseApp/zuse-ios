@@ -84,7 +84,12 @@
         // Add double tap recognizer
         UITapGestureRecognizer*tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(handleDoubleTapGesture:)];
         tapGesture.numberOfTapsRequired = 2;
-        [self addGestureRecognizer:tapGesture];
+        [self addGestureRecognizer: tapGesture];
+        
+        // Add long press recognizer
+        UILongPressGestureRecognizer* longPress = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(handleLongPressGesture:)];
+        [self addGestureRecognizer: longPress];
+        
     }
     return self;
 }
@@ -167,16 +172,8 @@
         self.bodyIndentation = 2;
     }
 }
-
 # pragma mark UIView methods
 
-- (void)handleDoubleTapGesture:(UITapGestureRecognizer *)sender
-{
-    if (self.body.count && sender.state == UIGestureRecognizerStateRecognized)
-    {
-        self.collapsed = !self.isCollapsed;
-    }
-}
 - (void) layoutSubviews
 {
     CGFloat x = 2;
@@ -235,6 +232,20 @@
 
 # pragma mark - Private Methods
 
+- (void)handleDoubleTapGesture:(UITapGestureRecognizer *)sender
+{
+    if (self.body.count && sender.state == UIGestureRecognizerStateRecognized)
+    {
+        self.collapsed = !self.isCollapsed;
+    }
+}
+- (void)handleLongPressGesture:(UITapGestureRecognizer *)sender
+{
+    if (sender.state == UIGestureRecognizerStateRecognized)
+    {
+        [self.delegate statementViewLongPressed: self];
+    }
+}
 - (void) setCollapsed:(BOOL)collapsed
 {
     _collapsed = collapsed;

@@ -11,10 +11,18 @@
 #import "ZSSpriteLibrary.h"
 #import "ZSTraitEditorViewController.h"
 #import "ZSProjectPersistence.h"
+#import "ZSCanvasBarButtonItem.h"
 #import <FontAwesomeKit/FAKIonIcons.h>
 #import <AFNetworking/AFNetworking.h>
 #import <Social/Social.h>
 #import <Accounts/Accounts.h>
+
+typedef NS_ENUM(NSInteger, ZSCanvasInterfaceState) {
+    ZSCanvasInterfaceStateNormal,
+    ZSCanvasInterfaceStateGroups,
+    ZSCanvasInterfaceStateRendererPlaying,
+    ZSCanvasInterfaceStateRendererPaused
+};
 
 NSString * const ZSTutorialBroadcastDidDropSprite = @"ZSTutorialBroadcastDidDropSprite";
 NSString * const ZSTutorialBroadcastDidDoubleTap = @"ZSTutorialBroadcastDidDoubleTap";
@@ -54,19 +62,6 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
 
 // Toolbar
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *playBarButtonItem;
-@property (weak, nonatomic) IBOutlet UIButton *playButton;
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *pauseBarButtonItem;
-@property (weak, nonatomic) IBOutlet UIButton *pauseButton;
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *stopBarButtonItem;
-@property (weak, nonatomic) IBOutlet UIButton *stopButton;
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *groupBarButtonItem;
-@property (weak, nonatomic) IBOutlet UIButton *groupButton;
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *toolBarButtonItem;
-@property (weak, nonatomic) IBOutlet UIButton *toolButton;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *shareBarButtonItem;
-@property (weak, nonatomic) IBOutlet UIButton *shareButton;
-@property (weak, nonatomic) IBOutlet UIButton *backButton;
 
 @end
 
@@ -87,40 +82,6 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    FAKIonIcons *shareIcon = [FAKIonIcons shareIconWithSize:30];
-    [shareIcon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
-    [_shareButton setAttributedTitle:shareIcon.attributedString
-                            forState:UIControlStateNormal];
-    
-    FAKIonIcons *playIcon = [FAKIonIcons playIconWithSize:30];
-    [playIcon addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:1.00 green:0.89 blue:0.55 alpha:1.0]];
-    [_playButton setAttributedTitle:playIcon.attributedString
-                           forState:UIControlStateNormal];
-    
-    FAKIonIcons *pauseIcon = [FAKIonIcons pauseIconWithSize:30];
-    [pauseIcon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
-    [_pauseButton setAttributedTitle:pauseIcon.attributedString
-                           forState:UIControlStateNormal];
-    
-    FAKIonIcons *stopIcon = [FAKIonIcons stopIconWithSize:30];
-    [stopIcon addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:1.00 green:0.50 blue:0.50 alpha:1.0]];
-    [_stopButton setAttributedTitle:stopIcon.attributedString
-                           forState:UIControlStateNormal];
-    
-    FAKIonIcons *backIcon = [FAKIonIcons replyIconWithSize:30];
-    [backIcon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
-    [_backButton setAttributedTitle:backIcon.attributedString
-                           forState:UIControlStateNormal];
-    
-    FAKIonIcons *toolboxIcon = [FAKIonIcons settingsIconWithSize:25];
-    [toolboxIcon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
-    [_toolButton setAttributedTitle:toolboxIcon.attributedString
-                           forState:UIControlStateNormal];
-    
-    FAKIonIcons *groupIcon = [FAKIonIcons ios7BrowsersIconWithSize:30];
-    [groupIcon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
-    [_groupButton setAttributedTitle:groupIcon.attributedString
-                           forState:UIControlStateNormal];
     
     // Test Toolbox
     _toolboxView = [[ZSToolboxView alloc] initWithFrame:CGRectMake(19, 82, 282, 361)];
@@ -157,11 +118,7 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
         [self loadSpritesFromProject];
     }
     
-    // Remove pause and stop from the toolbar.
-    NSMutableArray *items = [_toolbar.items mutableCopy];
-    [items removeObject:_pauseBarButtonItem];
-    [items removeObject:_stopBarButtonItem];
-    [_toolbar setItems:items];
+    [self transitionToInterfaceState:ZSCanvasInterfaceStateNormal];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -226,7 +183,7 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
         [_tutorial addActionWithText:@"Touch the toolbox icon to open the sprite toolbox."
                             forEvent:ZSTutorialBroadcastDidShowToolbox
                      allowedGestures:@[UITapGestureRecognizer.class]
-                        activeRegion:[_toolbar convertRect:_toolButton.frame toView:self.view]
+                        activeRegion:[_toolbar.items[3] convertRect:[_toolbar.items[3] frame] toView:self.view]
                                setup:nil
                           completion:nil];
         [_tutorial addActionWithText:@"Drag a paddle sprite onto the lower part of the canvas."
@@ -437,16 +394,8 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
 
 #pragma mark Main Menu
 
-- (IBAction)playProject:(id)sender {
-    NSMutableArray *items = [_toolbar.items mutableCopy];
-    [items insertObject:_pauseBarButtonItem atIndex:0];
-    [items removeObject:_playBarButtonItem];
-    if (![items containsObject:_stopBarButtonItem]) {
-        [items insertObject:_stopBarButtonItem atIndex:1];
-        [items removeObject:_groupBarButtonItem];
-        [items removeObject:_toolBarButtonItem];
-    }
-    [_toolbar setItems:items animated:YES];
+- (void)playProject {
+    [self transitionToInterfaceState:ZSCanvasInterfaceStateRendererPlaying];
     
     [self.view bringSubviewToFront:self.rendererView];
     if (self.rendererView.hidden) {
@@ -459,42 +408,88 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
     }
 }
 
-- (IBAction)pauseProject:(id)sender {
-    NSMutableArray *items = [_toolbar.items mutableCopy];
-    [items insertObject:_playBarButtonItem atIndex:0];
-    [items removeObject:_pauseBarButtonItem];
-    [_toolbar setItems:items animated:YES];
-    
+- (void)pauseProject {
     [_rendererViewController stop];
+    [self transitionToInterfaceState:ZSCanvasInterfaceStateRendererPaused];
 }
 
 
-- (IBAction)stopProject:(id)sender {
-    NSMutableArray *items = [_toolbar.items mutableCopy];
-    if ([items containsObject:_pauseBarButtonItem]) {
-        [items insertObject:_playBarButtonItem atIndex:0];
-        [items removeObject:_pauseBarButtonItem];
-    }
-    [items removeObject:_stopBarButtonItem];
-    [items insertObject:_groupBarButtonItem atIndex:2];
-    [items insertObject:_toolBarButtonItem atIndex:3];
-    [_toolbar setItems:items animated:YES];
-    
+- (void)stopProject {
     [self.rendererViewController stop];
     self.rendererView.hidden = YES;
+    [self transitionToInterfaceState:ZSCanvasInterfaceStateNormal];
 }
 
-- (IBAction)modifyGroups:(id)sender {
+- (void)transitionToInterfaceState:(ZSCanvasInterfaceState)state {
+    if (state == ZSCanvasInterfaceStateNormal) {
+        self.toolbar.items = [self normalToolbarItems];
+    } else if (state == ZSCanvasInterfaceStateGroups) {
+        self.toolbar.items = [self groupsToolbarItems];
+    } else if (state == ZSCanvasInterfaceStateRendererPlaying) {
+        self.toolbar.items = [self rendererPlayingToolbarItems];
+    } else if (state == ZSCanvasInterfaceStateRendererPaused) {
+        self.toolbar.items = [self rendererPausedToolbarItems];
+    }
+}
+
+- (NSArray *)normalToolbarItems {
+    return @[
+             [ZSCanvasBarButtonItem playButtonWithHandler:^{
+                 [self playProject];
+             }],
+             [ZSCanvasBarButtonItem flexibleBarButtonItem],
+             [ZSCanvasBarButtonItem groupsButtonWithHandler:^{
+                 [self modifyGroups];
+             }],
+             [ZSCanvasBarButtonItem toolboxButtonWithHandler:^{
+                 [self showToolbox];
+             }],
+             [ZSCanvasBarButtonItem shareButtonWithHandler:^{
+                 [self shareProject];
+             }],
+             [ZSCanvasBarButtonItem backButtonWithHandler:^{
+                 [self finish];
+             }]
+             ];
+}
+
+- (NSArray *)groupsToolbarItems {
+    return @[];
+}
+
+- (NSArray *)rendererPlayingToolbarItems {
+    return @[
+             [ZSCanvasBarButtonItem pauseButtonWithHandler:^{
+                 [self pauseProject];
+             }],
+             [ZSCanvasBarButtonItem stopButtonWithHandler:^{
+                 [self stopProject];
+             }]
+             ];
+}
+
+- (NSArray *)rendererPausedToolbarItems {
+    return @[
+             [ZSCanvasBarButtonItem playButtonWithHandler:^{
+                 [self playProject];
+             }],
+             [ZSCanvasBarButtonItem stopButtonWithHandler:^{
+                 [self stopProject];
+             }]
+             ];
+}
+
+- (void)modifyGroups {
     [self performSegueWithIdentifier:@"physicsGroups" sender:self];
 }
 
-- (IBAction)return:(id)sender {
+- (void)finish {
     [self saveProject];
     if (self.didFinish) {
         self.didFinish();
     }
 }
-- (IBAction)shareProject:(id)sender {
+- (void)shareProject {
     NSURL *baseURL = [NSURL URLWithString:@"https://zusehub.herokuapp.com/api/v1/"];
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseURL];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
@@ -543,7 +538,7 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
           }];
 }
 
-- (IBAction)showToolbox:(id)sender {
+- (void)showToolbox {
     [_toolboxView showAnimated:YES];
     [_tutorial broadcastEvent:ZSTutorialBroadcastDidShowToolbox];
 }
