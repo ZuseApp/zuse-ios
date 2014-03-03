@@ -5,7 +5,6 @@
 #import "ZSEditorViewController.h"
 #import "ZSGrid.h"
 #import "ZSCanvasView.h"
-#import "ZSSettingsViewController.h"
 #import "FXBlurView.h"
 #import "ZSToolboxController.h"
 #import "ZSToolboxView.h"
@@ -146,9 +145,6 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
         _showTutorial = NO;
         ZSEditorViewController *editorController = (ZSEditorViewController *)segue.destinationViewController;
         editorController.spriteObject = ((ZSSpriteView *)sender).spriteJSON;
-    } else if  ([segue.identifier isEqualToString:@"settings"]) {
-        ZSSettingsViewController *settingsController = (ZSSettingsViewController *)segue.destinationViewController;
-        settingsController.grid = ((ZSCanvasView *) self.view).grid;
     } else if ([segue.identifier isEqualToString:@"physicsGroups"]) {
         ZSPhysicsGroupingViewController *groupingController = (ZSPhysicsGroupingViewController *)segue.destinationViewController;
         

@@ -14,7 +14,6 @@
 		4C0930FD18B8131400BBCC2F /* ZSToolboxView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0930FC18B8131400BBCC2F /* ZSToolboxView.m */; };
 		4C0D470517FB800400F13786 /* guess_a_number.json in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D470417FB800400F13786 /* guess_a_number.json */; };
 		4C0D470817FB927600F13786 /* ZSCanvasViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0D470717FB927600F13786 /* ZSCanvasViewController.m */; };
-		4C1BB6F91888B36F004A3DEA /* ZSSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1BB6F81888B36F004A3DEA /* ZSSettingsViewController.m */; };
 		4C2D1ECE1891EB65002C431A /* sprite_manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 4C2D1ECD1891EB65002C431A /* sprite_manifest.json */; };
 		4C3DD66118B7005D0013B3A5 /* ZSToolboxCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C3DD66018B7005D0013B3A5 /* ZSToolboxCell.m */; };
 		4C3DD66518B706DC0013B3A5 /* ZSToolboxController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C3DD66418B706DC0013B3A5 /* ZSToolboxController.m */; };
@@ -164,8 +163,6 @@
 		4C0D470417FB800400F13786 /* guess_a_number.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = guess_a_number.json; path = JSON/guess_a_number.json; sourceTree = "<group>"; };
 		4C0D470617FB927600F13786 /* ZSCanvasViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCanvasViewController.h; sourceTree = "<group>"; };
 		4C0D470717FB927600F13786 /* ZSCanvasViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCanvasViewController.m; sourceTree = "<group>"; };
-		4C1BB6F71888B36F004A3DEA /* ZSSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSSettingsViewController.h; sourceTree = "<group>"; };
-		4C1BB6F81888B36F004A3DEA /* ZSSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSSettingsViewController.m; sourceTree = "<group>"; };
 		4C2D1ECD1891EB65002C431A /* sprite_manifest.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = sprite_manifest.json; sourceTree = "<group>"; };
 		4C3DD65F18B7005D0013B3A5 /* ZSToolboxCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSToolboxCell.h; sourceTree = "<group>"; };
 		4C3DD66018B7005D0013B3A5 /* ZSToolboxCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSToolboxCell.m; sourceTree = "<group>"; };
@@ -558,13 +555,11 @@
 		4CE35625188B0868007024C0 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				4C0D470617FB927600F13786 /* ZSCanvasViewController.h */,
-				4C0D470717FB927600F13786 /* ZSCanvasViewController.m */,
-				4C1BB6F71888B36F004A3DEA /* ZSSettingsViewController.h */,
-				4C1BB6F81888B36F004A3DEA /* ZSSettingsViewController.m */,
 				5F50CBCF18A1526900B7C020 /* Groups */,
 				5F0DBAD318C2CDEE00039C62 /* ZSCanvasBarButtonItem.h */,
 				5F0DBAD418C2CDEE00039C62 /* ZSCanvasBarButtonItem.m */,
+				4C0D470617FB927600F13786 /* ZSCanvasViewController.h */,
+				4C0D470717FB927600F13786 /* ZSCanvasViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -1097,7 +1092,6 @@
 				5F8138DC189CA574009F3495 /* ZSPhysicsGroupingViewController.m in Sources */,
 				5F39DFCF188A40A0008ECAC1 /* NSMutableSet+BlocksKit.m in Sources */,
 				5F8138D9189A1DF1009F3495 /* ZSComponentNode.m in Sources */,
-				4C1BB6F91888B36F004A3DEA /* ZSSettingsViewController.m in Sources */,
 				5F030C6F185AE0D300584DCD /* NSArray+Zuse.m in Sources */,
 				5F0139BB1856BCA7005D7FAE /* ZSTraitEditorParametersViewController.m in Sources */,
 				4CF303F11856E5DB00B57B95 /* ZSProject.m in Sources */,

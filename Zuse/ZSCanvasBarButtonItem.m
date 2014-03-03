@@ -54,7 +54,7 @@ CGFloat const DefaultSize = 30;
 + (ZSCanvasBarButtonItem *)playButtonWithHandler:(void (^)())handler {
     FAKIcon *icon = [self styledIcon:[FAKIonIcons playIconWithSize:DefaultSize]];
     [icon addAttribute:NSForegroundColorAttributeName
-                 value:[UIColor greenColor]];
+                 value:[UIColor zuseGreen]];
     return [self buttonWithIcon:icon tapHandler:handler];
 }
 

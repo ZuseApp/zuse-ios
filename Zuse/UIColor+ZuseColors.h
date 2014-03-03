@@ -12,5 +12,6 @@
 
 + (UIColor *)zuseBackgroundGrey;
 + (UIColor *)zuseYellow;
++ (UIColor *)zuseGreen;
 
 @end
