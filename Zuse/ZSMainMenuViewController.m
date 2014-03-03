@@ -82,7 +82,10 @@ typedef NS_ENUM(NSInteger, ZSMainMenuProjectFilter) {
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     ZSProjectCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ProjectCell" forIndexPath:indexPath];
     
-    cell.projectTitle = [self.selectedProjects[indexPath.row] title];
+    ZSProject *project = self.selectedProjects[indexPath.row];
+    
+    cell.projectTitle = project.title;
+    cell.screenshot = project.screenshot;
     
     return cell;
 }

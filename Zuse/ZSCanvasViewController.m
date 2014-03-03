@@ -269,7 +269,9 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     
-    [ZSProjectPersistence writeProject:self.project withImage:image];
+    self.project.screenshot = image;
+    
+    [ZSProjectPersistence writeProject:self.project];
 }
 
 #pragma mark Canvas Setup
