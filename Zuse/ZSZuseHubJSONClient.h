@@ -9,12 +9,22 @@
 #import <Foundation/Foundation.h>
 #import <AFNetworking/AFNetworking.h>
 
+@protocol ZSZuseHubJSONClientDelegate;
+
 @interface ZSZuseHubJSONClient : NSObject
+
+@property(weak) id<ZSZuseHubJSONClientDelegate> delegate;
 
 @property (strong, nonatomic) NSURL *baseURL;
 @property (strong, nonatomic) AFHTTPRequestOperationManager *manager;
+@property (strong, nonatomic) AFJSONRequestSerializer *jsonRequestSerializer;
+@property (strong, nonatomic) AFJSONResponseSerializer *jsonResponseSerializer;
 
-+ (id)sharedClient;
++ (ZSZuseHubJSONClient *)sharedClient;
 
+@end
 
+@protocol ZSZuseHubJSONClientDelegate <NSObject>
+-(void)zuseHubHTTPClient:(ZSZuseHubJSONClient *)client didUpdateWithProject:(id)project;
+-(void)zuseHubHTTPClient:(ZSZuseHubJSONClient *)client didFailWithError:(NSError *)error;
 @end

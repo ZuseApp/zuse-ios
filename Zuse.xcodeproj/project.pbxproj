@@ -10,7 +10,6 @@
 		2C6B5D6A183D43AB00E3D56C /* ZSSpriteTouchComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C6B5D69183D43AB00E3D56C /* ZSSpriteTouchComponent.m */; };
 		2CA9A32A18C26605005F4404 /* ZSZuseHubSideMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9A32918C26605005F4404 /* ZSZuseHubSideMenuViewController.m */; };
 		2CA9A32D18C26E27005F4404 /* ZSZuseHubDrawerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9A32C18C26E27005F4404 /* ZSZuseHubDrawerViewController.m */; };
-		2CA9A33018C27B6F005F4404 /* TempZuseHubViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9A32F18C27B6F005F4404 /* TempZuseHubViewController.m */; };
 		2CA9A33618C4805D005F4404 /* ZSZuseHubBrowseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9A33518C4805D005F4404 /* ZSZuseHubBrowseViewController.m */; };
 		2CA9A33918C481FE005F4404 /* ZSZuseHubJSONClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9A33818C481FE005F4404 /* ZSZuseHubJSONClient.m */; };
 		2CA9D387183F3F0300401231 /* ZSRendererScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9D386183F3F0300401231 /* ZSRendererScene.m */; };
@@ -163,8 +162,6 @@
 		2CA9A32918C26605005F4404 /* ZSZuseHubSideMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSZuseHubSideMenuViewController.m; sourceTree = "<group>"; };
 		2CA9A32B18C26E27005F4404 /* ZSZuseHubDrawerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSZuseHubDrawerViewController.h; sourceTree = "<group>"; };
 		2CA9A32C18C26E27005F4404 /* ZSZuseHubDrawerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSZuseHubDrawerViewController.m; sourceTree = "<group>"; };
-		2CA9A32E18C27B6F005F4404 /* TempZuseHubViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TempZuseHubViewController.h; sourceTree = "<group>"; };
-		2CA9A32F18C27B6F005F4404 /* TempZuseHubViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TempZuseHubViewController.m; sourceTree = "<group>"; };
 		2CA9A33418C4805D005F4404 /* ZSZuseHubBrowseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSZuseHubBrowseViewController.h; sourceTree = "<group>"; };
 		2CA9A33518C4805D005F4404 /* ZSZuseHubBrowseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSZuseHubBrowseViewController.m; sourceTree = "<group>"; };
 		2CA9A33718C481FE005F4404 /* ZSZuseHubJSONClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSZuseHubJSONClient.h; sourceTree = "<group>"; };
@@ -427,8 +424,6 @@
 				2CA9A32918C26605005F4404 /* ZSZuseHubSideMenuViewController.m */,
 				2CA9A32B18C26E27005F4404 /* ZSZuseHubDrawerViewController.h */,
 				2CA9A32C18C26E27005F4404 /* ZSZuseHubDrawerViewController.m */,
-				2CA9A32E18C27B6F005F4404 /* TempZuseHubViewController.h */,
-				2CA9A32F18C27B6F005F4404 /* TempZuseHubViewController.m */,
 				2CA9A33418C4805D005F4404 /* ZSZuseHubBrowseViewController.h */,
 				2CA9A33518C4805D005F4404 /* ZSZuseHubBrowseViewController.m */,
 			);
@@ -1149,8 +1144,6 @@
 				5F8138DC189CA574009F3495 /* ZSPhysicsGroupingViewController.m in Sources */,
 				5F39DFCF188A40A0008ECAC1 /* NSMutableSet+BlocksKit.m in Sources */,
 				5F8138D9189A1DF1009F3495 /* ZSComponentNode.m in Sources */,
-				2CA9A33018C27B6F005F4404 /* TempZuseHubViewController.m in Sources */,
-				4C1BB6F91888B36F004A3DEA /* ZSSettingsViewController.m in Sources */,
 				5F030C6F185AE0D300584DCD /* NSArray+Zuse.m in Sources */,
 				5F0139BB1856BCA7005D7FAE /* ZSTraitEditorParametersViewController.m in Sources */,
 				4CF303F11856E5DB00B57B95 /* ZSProject.m in Sources */,
@@ -1172,7 +1165,6 @@
 				7899786118B9255500A8FE05 /* ZS_CodeEditorViewController.m in Sources */,
 				7899786318B9255500A8FE05 /* ZS_JsonUtilities.m in Sources */,
 				5F39DFCB188A40A0008ECAC1 /* NSMutableArray+BlocksKit.m in Sources */,
-				4C5080DF188485C900E1F57A /* ZSNewProjectViewController.m in Sources */,
 				2CA9A33618C4805D005F4404 /* ZSZuseHubBrowseViewController.m in Sources */,
 				4CE3404E180A0154009A63A2 /* ZSRendererViewController.m in Sources */,
 				5F41ACB818341C980089D136 /* ZSExecutionContext.m in Sources */,
