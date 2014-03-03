@@ -1,25 +1,23 @@
 #import "ZS_CodeEditorViewController.h"
 #import "ZS_StatementView.h"
 #import "ZS_JsonUtilities.h"
+
 #import "ZS_ExpressionViewController.h"
 #import "ZS_JsonViewController.h"
-#import "ZS_StatementChooserViewController.h"
-#import "ZSToolboxView.h"
-#import "ZSStatementChooserController.h"
-#import "ZSVariableChooserController.h"
-#import "ZSStatementCell.h"
+
 #import "ZSCodePropertyScope.h"
-#import <MTBlockAlertView/MTBlockAlertView.h>
+#import "ZSToolboxView.h"
+#import "ZS_VariableChooserCollectionViewController.h"
+#import "ZS_StatementChooserCollectionViewController.h"
+#import "ZS_EventChooserCollectionViewController.h"
 
 @interface ZS_CodeEditorViewController ()
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) UILabel* selectedLabel;
 @property (weak, nonatomic) ZS_StatementView* selectedStatementView;
-@property (strong, nonatomic) ZSToolboxView *statementToolboxView;
-@property (strong, nonatomic) ZSToolboxView *variableToolboxView;
-@property (strong, nonatomic) ZSStatementChooserController *statementChooserController;
-@property (strong, nonatomic) ZSVariableChooserController *variableChooserController;
-//@property (strong, nonatomic) NSMutableDictionary* json;
+@property (strong, nonatomic) ZS_VariableChooserCollectionViewController* variableChooserController;
+@property (strong, nonatomic) ZS_StatementChooserCollectionViewController* statementChooserController;
+@property (strong, nonatomic) ZS_EventChooserCollectionViewController* eventChooserController;
 @end
 
 @implementation ZS_CodeEditorViewController
@@ -27,72 +25,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    // ToolboxView
-    WeakSelf
-    _variableChooserController = [[ZSVariableChooserController alloc] init];
-    _statementChooserController = [[ZSStatementChooserController alloc] init];
-    _statementChooserController.singleTapped = ^(NSMutableArray *returnJson, NSInteger statementIndex) {
-        NSMutableDictionary* statement = [[NSMutableDictionary alloc]init];
-        
-        if (statementIndex == 0)
-        {
-            statement[@"on_event"] = [[NSMutableDictionary alloc]init];
-            statement[@"on_event"][@"name"] = @"#event name";
-            statement[@"on_event"][@"parameters"] = [[NSMutableArray alloc]init];
-            statement[@"on_event"][@"code"] = [[NSMutableArray alloc]init];
-        }
-        else if (statementIndex == 1)
-        {
-            statement[@"trigger_event"] = [[NSMutableDictionary alloc]init];
-            statement[@"trigger_event"][@"name"] = @"#event name";
-            statement[@"trigger_event"][@"parameters"] = [[NSMutableDictionary alloc]init];
-        }
-        if (statementIndex == 2)
-        {
-            statement[@"if"] = [[NSMutableDictionary alloc]init];
-            statement[@"if"][@"test"] = @"#expression";
-            statement[@"if"][@"true"] = [[NSMutableArray alloc]init];
-        }
-        else if (statementIndex == 3)
-        {
-            statement[@"set"] = [NSMutableArray arrayWithArray: @[@"#name", @"#value"]];
-        }
-        if (statementIndex == 4)
-        {
-            statement[@"call"] = [[NSMutableDictionary alloc]init];
-            statement[@"call"][@"method"] = @"move";
-            statement[@"call"][@"parameters"] = [NSMutableArray arrayWithArray:@[@"var", @"var"]];
-        }
-        // Make changes in json and reload
-        if (statement.count)
-        {
-            [returnJson addObject:statement];
-        }
-        [weakSelf reloadFromJson];
-        [weakSelf.statementToolboxView hideAnimated:YES];
-    };
-    
-    
-    _statementToolboxView = [[ZSToolboxView alloc] initWithFrame:CGRectMake(19, 82, 282, 361)];
-    UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:[[UICollectionViewFlowLayout alloc] init]];
-    [collectionView registerClass:ZSStatementCell.class forCellWithReuseIdentifier:@"cellID"];
-    collectionView.userInteractionEnabled = YES;
-    collectionView.contentInset = UIEdgeInsetsMake(10, 10, 10, 10);
-    collectionView.delegate = _statementChooserController;
-    collectionView.dataSource = _statementChooserController;
-    [_statementToolboxView setPagingEnabled:NO];
-    [_statementToolboxView addContentView:collectionView title:@"STATEMENT CHOOSER"];
-    [self.view addSubview:_statementToolboxView];
-    
+
     // Register at notification center
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(notificationReceived:)
                                                  name: nil
                                                object: nil];
     // Create object statement
-   // NSMutableDictionary* json = [ZS_JsonUtilities jsonFromFileWithName:@"pong"];
-   // self.json = self.spriteObject;//json[@"objects"][3];
     [self reloadFromJson];
 }
 
@@ -101,12 +40,15 @@
     // Clean scrollview
     [self.scrollView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     
-    ZS_StatementView* objectStatementView = [self objectStatementViewFromJson: self.json
-                                               beforeAddingSubstatementsBlock:^(ZS_StatementView *statementView) {
-                                                   NSSet *initialProperties = [NSSet setWithArray:[self.json[@"properties"] allKeys]];
-                                                   statementView.propertyScope = [ZSCodePropertyScope scopeWithCode:self.json[@"code"]
-                                                                                                  initialProperties:initialProperties];
-                                               }];
+    ZS_StatementView* objectStatementView =
+    [self objectStatementViewFromJson: self.json
+       beforeAddingSubstatementsBlock: ^(ZS_StatementView *statementView)
+    {
+           NSSet *initialProperties = [NSSet setWithArray:[self.json[@"properties"] allKeys]];
+        
+           statementView.propertyScope = [ZSCodePropertyScope scopeWithCode: self.json[@"code"]
+                                                          initialProperties: initialProperties];
+    }];
     
     [self.scrollView addSubview:objectStatementView];
     
@@ -207,9 +149,19 @@
     // Add <new code statement> button
     [view addNewStatementLabelWithTouchBlock:^(UILabel* label)
     {
-        // [self performSegueWithIdentifier:@"to statement chooser" sender: label];
-        _statementChooserController.returnJson = ((ZS_StatementView*)label.superview).jsonCode;
-        [_statementToolboxView showAnimated:YES];
+        ZSToolboxView* toolboxView = [[ZSToolboxView alloc] initWithFrame:CGRectMake(19, 82, 282, 361)];
+        ZS_StatementChooserCollectionViewController* controller = [[ZS_StatementChooserCollectionViewController alloc]init];
+        
+        controller.jsonCodeBody = jsonObject[@"code"];
+        controller.codeEditorViewController = self;
+        controller.toolboxView = toolboxView;
+  
+        self.statementChooserController = controller;
+        
+        [toolboxView setPagingEnabled:NO];
+        [toolboxView addContentView: controller.collectionView title: @"STATEMENT CHOOSER"];
+        [self.view addSubview: toolboxView];
+        [toolboxView showAnimated:YES];
     }];
     
     return view;
@@ -227,7 +179,19 @@
     [view addArgumentLabelWithText: json[@"on_event"][@"name"]
                         touchBlock:^(UILabel* label)
      {
+         ZSToolboxView* toolboxView = [[ZSToolboxView alloc] initWithFrame:CGRectMake(19, 82, 282, 361)];
+         ZS_EventChooserCollectionViewController* controller = [[ZS_EventChooserCollectionViewController alloc]init];
          
+         controller.json = json;
+         controller.codeEditorViewController = self;
+         controller.toolboxView = toolboxView;
+         
+         self.eventChooserController = controller;
+         
+         [toolboxView setPagingEnabled:NO];
+         [toolboxView addContentView: controller.collectionView title: @"EVENT CHOOSER"];
+         [self.view addSubview: toolboxView];
+         [toolboxView showAnimated:YES];
      }];
 
     // parameters
@@ -244,9 +208,19 @@
     // Add <new code statement> button
     [view addNewStatementLabelWithTouchBlock:^(UILabel* label)
      {
-         // [self performSegueWithIdentifier:@"to statement chooser" sender: label];
-         _statementChooserController.returnJson = ((ZS_StatementView*)label.superview).jsonCode;
-         [_statementToolboxView showAnimated:YES];
+         ZSToolboxView* toolboxView = [[ZSToolboxView alloc] initWithFrame:CGRectMake(19, 82, 282, 361)];
+         ZS_StatementChooserCollectionViewController* controller = [[ZS_StatementChooserCollectionViewController alloc]init];
+         
+         controller.jsonCodeBody = json[@"on_event"][@"code"];
+         controller.codeEditorViewController = self;
+         controller.toolboxView = toolboxView;
+         
+         self.statementChooserController = controller;
+         
+         [toolboxView setPagingEnabled:NO];
+         [toolboxView addContentView: controller.collectionView title: @"STATEMENT CHOOSER"];
+         [self.view addSubview: toolboxView];
+         [toolboxView showAnimated:YES];
      }];
     return view;
 }
@@ -275,9 +249,19 @@
     // Add <new code statement> button
     [view addNewStatementLabelWithTouchBlock:^(UILabel* label)
      {
-         // [self performSegueWithIdentifier:@"to statement chooser" sender: label];
-         _statementChooserController.returnJson = ((ZS_StatementView*)label.superview).jsonCode;
-         [_statementToolboxView showAnimated:YES];
+         ZSToolboxView* toolboxView = [[ZSToolboxView alloc] initWithFrame:CGRectMake(19, 82, 282, 361)];
+         ZS_StatementChooserCollectionViewController* controller = [[ZS_StatementChooserCollectionViewController alloc]init];
+         
+         controller.jsonCodeBody = json[@"if"][@"true"];
+         controller.codeEditorViewController = self;
+         controller.toolboxView = toolboxView;
+         
+         self.statementChooserController = controller;
+         
+         [toolboxView setPagingEnabled:NO];
+         [toolboxView addContentView: controller.collectionView title: @"STATEMENT CHOOSER"];
+         [self.view addSubview: toolboxView];
+         [toolboxView showAnimated:YES];
      }];
     
     return view;
@@ -293,7 +277,19 @@
     [view addArgumentLabelWithText: json[@"trigger_event"][@"name"]
                         touchBlock:^(UILabel* label)
      {
+         ZSToolboxView* toolboxView = [[ZSToolboxView alloc] initWithFrame:CGRectMake(19, 82, 282, 361)];
+         ZS_EventChooserCollectionViewController* controller = [[ZS_EventChooserCollectionViewController alloc]init];
          
+         controller.json = json;
+         controller.codeEditorViewController = self;
+         controller.toolboxView = toolboxView;
+         
+         self.eventChooserController = controller;
+         
+         [toolboxView setPagingEnabled:NO];
+         [toolboxView addContentView: controller.collectionView title: @"EVENT CHOOSER"];
+         [self.view addSubview: toolboxView];
+         [toolboxView showAnimated:YES];
      }];
     // parameters
     NSArray* parameters = json[@"trigger_event"][@"parameters"];
@@ -311,49 +307,26 @@
     [view addNameLabelWithText:@"SET"];
     
     // Variable name
-    WeakSelf
     __weak typeof(view) weakView = view;
     [view addArgumentLabelWithText: json[@"set"][0]
                         touchBlock:^(UILabel* label)
      {
-         _variableChooserController.variables = weakView.propertiesInScope();
-         _variableChooserController.singleTapped = ^(NSString *variable)
-         {
-            // __block NSString* blockVariable = variable;
-             if ([variable isEqualToString:@"+"])
-             {
-                 MTBlockAlertView *alertView = [[MTBlockAlertView alloc]
-                                                initWithTitle: @"title"
-                                                message: @"blablabla"
-                                                completionHanlder:^(UIAlertView *alertView, NSInteger buttonIndex) {
-                                                    json[@"set"][0] = [alertView textFieldAtIndex:0].text;
-                                                    [weakSelf reloadFromJson];
-                                                    [weakSelf.variableToolboxView hideAnimated:YES];
-                                                }
-                                                cancelButtonTitle:@"OK"
-                                                otherButtonTitles:nil];
-                 alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
-                 [alertView show];
-             }
-             else
-             {
-                 json[@"set"][0] = variable;
-                 [weakSelf reloadFromJson];
-                 [weakSelf.variableToolboxView hideAnimated:YES];
-             }
-         };
-         _variableToolboxView = [[ZSToolboxView alloc] initWithFrame:CGRectMake(19, 82, 282, 361)];
-         UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:[[UICollectionViewFlowLayout alloc] init]];
-         [collectionView registerClass:ZSStatementCell.class forCellWithReuseIdentifier:@"cellID"];
-         collectionView.userInteractionEnabled = YES;
-         collectionView.contentInset = UIEdgeInsetsMake(10, 10, 10, 10);
-         collectionView.delegate = _variableChooserController;
-         collectionView.dataSource = _variableChooserController;
-         [_variableToolboxView setPagingEnabled:NO];
-         [_variableToolboxView addContentView:collectionView title:@"VARIABLE CHOOSER"];
-         [self.view addSubview:_variableToolboxView];
-         [_variableToolboxView showAnimated:YES];
+         ZSToolboxView* variableToolboxView = [[ZSToolboxView alloc] initWithFrame:CGRectMake(19, 82, 282, 361)];
          
+          ZS_VariableChooserCollectionViewController *variableChooserController =
+         [[ZS_VariableChooserCollectionViewController alloc]init];
+         variableChooserController.variables = weakView.propertiesInScope().allObjects;
+         variableChooserController.codeEditorViewController = self;
+         variableChooserController.toolboxView = variableToolboxView;
+         variableChooserController.json = json;
+         self.variableChooserController = variableChooserController;
+         
+         [variableToolboxView setPagingEnabled:NO];
+         [variableToolboxView addContentView: variableChooserController.collectionView
+                                       title: @"VARIABLE CHOOSER"];
+         [self.view addSubview: variableToolboxView];
+         
+         [variableToolboxView showAnimated:YES];
      }];
     // Statement name TO
     [view addNameLabelWithText:@"TO"];
@@ -406,6 +379,8 @@
     if ([[segue identifier] isEqualToString:@"to expression editor"])
     {
         ZS_ExpressionViewController* c = (ZS_ExpressionViewController*)segue.destinationViewController;
+        c.variableNames = statementView.propertiesInScope().allObjects;
+        
         if ([statementView.json.allKeys[0] isEqualToString:@"if"])
         {
             c.json = statementView.json[@"if"][@"test"];
@@ -452,53 +427,6 @@
         ZS_JsonViewController* c  = (ZS_JsonViewController*)segue.destinationViewController;
         c.json = self.json;
     }
-//    else if ([[segue identifier] isEqualToString:@"to statement chooser"])
-//    {
-//        ZS_StatementChooserViewController* c  = (ZS_StatementChooserViewController*)segue.destinationViewController;
-//        
-//        c.didFinish = ^(NSInteger statementType)
-//        {
-//            NSMutableArray* jsonCode = statementView.jsonCode;
-//            NSMutableDictionary* statement = [[NSMutableDictionary alloc]init];
-//            
-//            if (statementType == 0)
-//            {
-//                statement[@"on_event"] = [[NSMutableDictionary alloc]init];
-//                statement[@"on_event"][@"name"] = @"#event name";
-//                statement[@"on_event"][@"parameters"] = [[NSMutableArray alloc]init];
-//                statement[@"on_event"][@"code"] = [[NSMutableArray alloc]init];
-//            }
-//            else if (statementType == 1)
-//            {
-//                statement[@"trigger_event"] = [[NSMutableDictionary alloc]init];
-//                statement[@"trigger_event"][@"name"] = @"#event name";
-//                statement[@"trigger_event"][@"parameters"] = [[NSMutableDictionary alloc]init];
-//            }
-//            if (statementType == 2)
-//            {
-//                statement[@"if"] = [[NSMutableDictionary alloc]init];
-//                statement[@"if"][@"test"] = @"#expression";
-//                statement[@"if"][@"true"] = [[NSMutableArray alloc]init];
-//            }
-//            else if (statementType == 3)
-//            {
-//                statement[@"set"] = [NSMutableArray arrayWithArray: @[@"#name", @"#value"]];
-//            }
-//            if (statementType == 4)
-//            {
-//                statement[@"call"] = [[NSMutableDictionary alloc]init];
-//                statement[@"call"][@"method"] = @"move";
-//                statement[@"call"][@"parameters"] = [NSMutableArray arrayWithArray:@[@"var", @"var"]];
-//            }
-//            // Make changes in json and reload
-//            if (statement.count)
-//            {
-//                [jsonCode addObject:statement];
-//            }
-//            [self reloadFromJson];
-//            [self dismissViewControllerAnimated:YES completion:nil];
-//        };
-//    }
 }
 
 @end
