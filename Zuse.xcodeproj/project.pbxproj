@@ -12,6 +12,7 @@
 		2CA9A32D18C26E27005F4404 /* ZSZuseHubDrawerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9A32C18C26E27005F4404 /* ZSZuseHubDrawerViewController.m */; };
 		2CA9A33618C4805D005F4404 /* ZSZuseHubBrowseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9A33518C4805D005F4404 /* ZSZuseHubBrowseViewController.m */; };
 		2CA9A33918C481FE005F4404 /* ZSZuseHubJSONClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9A33818C481FE005F4404 /* ZSZuseHubJSONClient.m */; };
+		2CA9A33C18C521C8005F4404 /* ZSZuseHubContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9A33B18C521C8005F4404 /* ZSZuseHubContentViewController.m */; };
 		2CA9D387183F3F0300401231 /* ZSRendererScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9D386183F3F0300401231 /* ZSRendererScene.m */; };
 		2CF6E518189D7FB900E2779C /* BrickExplosion.sks in Resources */ = {isa = PBXBuildFile; fileRef = 2CF6E516189D7FB900E2779C /* BrickExplosion.sks */; };
 		2CF6E519189D7FB900E2779C /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CF6E517189D7FB900E2779C /* spark.png */; };
@@ -166,6 +167,8 @@
 		2CA9A33518C4805D005F4404 /* ZSZuseHubBrowseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSZuseHubBrowseViewController.m; sourceTree = "<group>"; };
 		2CA9A33718C481FE005F4404 /* ZSZuseHubJSONClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSZuseHubJSONClient.h; sourceTree = "<group>"; };
 		2CA9A33818C481FE005F4404 /* ZSZuseHubJSONClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSZuseHubJSONClient.m; sourceTree = "<group>"; };
+		2CA9A33A18C521C8005F4404 /* ZSZuseHubContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSZuseHubContentViewController.h; sourceTree = "<group>"; };
+		2CA9A33B18C521C8005F4404 /* ZSZuseHubContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSZuseHubContentViewController.m; sourceTree = "<group>"; };
 		2CA9D385183F3F0300401231 /* ZSRendererScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSRendererScene.h; sourceTree = "<group>"; };
 		2CA9D386183F3F0300401231 /* ZSRendererScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSRendererScene.m; sourceTree = "<group>"; };
 		2CF6E516189D7FB900E2779C /* BrickExplosion.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = BrickExplosion.sks; sourceTree = "<group>"; };
@@ -426,6 +429,8 @@
 				2CA9A32C18C26E27005F4404 /* ZSZuseHubDrawerViewController.m */,
 				2CA9A33418C4805D005F4404 /* ZSZuseHubBrowseViewController.h */,
 				2CA9A33518C4805D005F4404 /* ZSZuseHubBrowseViewController.m */,
+				2CA9A33A18C521C8005F4404 /* ZSZuseHubContentViewController.h */,
+				2CA9A33B18C521C8005F4404 /* ZSZuseHubContentViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -1148,6 +1153,7 @@
 				5F0139BB1856BCA7005D7FAE /* ZSTraitEditorParametersViewController.m in Sources */,
 				4CF303F11856E5DB00B57B95 /* ZSProject.m in Sources */,
 				789433B918C3BCA000C8D810 /* ZS_EventChooserCollectionViewController.m in Sources */,
+				2CA9A33C18C521C8005F4404 /* ZSZuseHubContentViewController.m in Sources */,
 				5F0139AC1856896F005D7FAE /* ZSEditorViewController.m in Sources */,
 				4CD2311918AC3CC100DC5619 /* ZSTutorial.m in Sources */,
 				5FBB4A8318BFEC7800B79AB6 /* ZSProjectPersistence.m in Sources */,
