@@ -10,9 +10,13 @@
 		2C6B5D6A183D43AB00E3D56C /* ZSSpriteTouchComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C6B5D69183D43AB00E3D56C /* ZSSpriteTouchComponent.m */; };
 		2CA9A32A18C26605005F4404 /* ZSZuseHubSideMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9A32918C26605005F4404 /* ZSZuseHubSideMenuViewController.m */; };
 		2CA9A32D18C26E27005F4404 /* ZSZuseHubDrawerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9A32C18C26E27005F4404 /* ZSZuseHubDrawerViewController.m */; };
-		2CA9A33618C4805D005F4404 /* ZSZuseHubBrowseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9A33518C4805D005F4404 /* ZSZuseHubBrowseViewController.m */; };
+		2CA9A33618C4805D005F4404 /* ZSZuseHubBrowseNewestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9A33518C4805D005F4404 /* ZSZuseHubBrowseNewestViewController.m */; };
 		2CA9A33918C481FE005F4404 /* ZSZuseHubJSONClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9A33818C481FE005F4404 /* ZSZuseHubJSONClient.m */; };
 		2CA9A33C18C521C8005F4404 /* ZSZuseHubContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9A33B18C521C8005F4404 /* ZSZuseHubContentViewController.m */; };
+		2CA9A34918C533BF005F4404 /* MMTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9A34818C533BF005F4404 /* MMTableViewCell.m */; };
+		2CA9A34C18C533D0005F4404 /* MMCenterTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9A34B18C533D0005F4404 /* MMCenterTableViewCell.m */; };
+		2CA9A35218C53833005F4404 /* MMExampleDrawerVisualStateManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9A35118C53833005F4404 /* MMExampleDrawerVisualStateManager.m */; };
+		2CA9A35518C5465B005F4404 /* MMSideDrawerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9A35418C5465B005F4404 /* MMSideDrawerTableViewCell.m */; };
 		2CA9D387183F3F0300401231 /* ZSRendererScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9D386183F3F0300401231 /* ZSRendererScene.m */; };
 		2CF6E518189D7FB900E2779C /* BrickExplosion.sks in Resources */ = {isa = PBXBuildFile; fileRef = 2CF6E516189D7FB900E2779C /* BrickExplosion.sks */; };
 		2CF6E519189D7FB900E2779C /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CF6E517189D7FB900E2779C /* spark.png */; };
@@ -163,12 +167,20 @@
 		2CA9A32918C26605005F4404 /* ZSZuseHubSideMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSZuseHubSideMenuViewController.m; sourceTree = "<group>"; };
 		2CA9A32B18C26E27005F4404 /* ZSZuseHubDrawerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSZuseHubDrawerViewController.h; sourceTree = "<group>"; };
 		2CA9A32C18C26E27005F4404 /* ZSZuseHubDrawerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSZuseHubDrawerViewController.m; sourceTree = "<group>"; };
-		2CA9A33418C4805D005F4404 /* ZSZuseHubBrowseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSZuseHubBrowseViewController.h; sourceTree = "<group>"; };
-		2CA9A33518C4805D005F4404 /* ZSZuseHubBrowseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSZuseHubBrowseViewController.m; sourceTree = "<group>"; };
+		2CA9A33418C4805D005F4404 /* ZSZuseHubBrowseNewestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSZuseHubBrowseNewestViewController.h; sourceTree = "<group>"; };
+		2CA9A33518C4805D005F4404 /* ZSZuseHubBrowseNewestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSZuseHubBrowseNewestViewController.m; sourceTree = "<group>"; };
 		2CA9A33718C481FE005F4404 /* ZSZuseHubJSONClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSZuseHubJSONClient.h; sourceTree = "<group>"; };
 		2CA9A33818C481FE005F4404 /* ZSZuseHubJSONClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSZuseHubJSONClient.m; sourceTree = "<group>"; };
 		2CA9A33A18C521C8005F4404 /* ZSZuseHubContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSZuseHubContentViewController.h; sourceTree = "<group>"; };
 		2CA9A33B18C521C8005F4404 /* ZSZuseHubContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSZuseHubContentViewController.m; sourceTree = "<group>"; };
+		2CA9A34718C533BF005F4404 /* MMTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMTableViewCell.h; sourceTree = "<group>"; };
+		2CA9A34818C533BF005F4404 /* MMTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMTableViewCell.m; sourceTree = "<group>"; };
+		2CA9A34A18C533D0005F4404 /* MMCenterTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMCenterTableViewCell.h; sourceTree = "<group>"; };
+		2CA9A34B18C533D0005F4404 /* MMCenterTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMCenterTableViewCell.m; sourceTree = "<group>"; };
+		2CA9A35018C53833005F4404 /* MMExampleDrawerVisualStateManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMExampleDrawerVisualStateManager.h; sourceTree = "<group>"; };
+		2CA9A35118C53833005F4404 /* MMExampleDrawerVisualStateManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMExampleDrawerVisualStateManager.m; sourceTree = "<group>"; };
+		2CA9A35318C5465B005F4404 /* MMSideDrawerTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMSideDrawerTableViewCell.h; sourceTree = "<group>"; };
+		2CA9A35418C5465B005F4404 /* MMSideDrawerTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMSideDrawerTableViewCell.m; sourceTree = "<group>"; };
 		2CA9D385183F3F0300401231 /* ZSRendererScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSRendererScene.h; sourceTree = "<group>"; };
 		2CA9D386183F3F0300401231 /* ZSRendererScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSRendererScene.m; sourceTree = "<group>"; };
 		2CF6E516189D7FB900E2779C /* BrickExplosion.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = BrickExplosion.sks; sourceTree = "<group>"; };
@@ -416,6 +428,14 @@
 		2CA9A31818C1C1C7005F4404 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				2CA9A35318C5465B005F4404 /* MMSideDrawerTableViewCell.h */,
+				2CA9A35418C5465B005F4404 /* MMSideDrawerTableViewCell.m */,
+				2CA9A35018C53833005F4404 /* MMExampleDrawerVisualStateManager.h */,
+				2CA9A35118C53833005F4404 /* MMExampleDrawerVisualStateManager.m */,
+				2CA9A34A18C533D0005F4404 /* MMCenterTableViewCell.h */,
+				2CA9A34B18C533D0005F4404 /* MMCenterTableViewCell.m */,
+				2CA9A34718C533BF005F4404 /* MMTableViewCell.h */,
+				2CA9A34818C533BF005F4404 /* MMTableViewCell.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -427,8 +447,8 @@
 				2CA9A32918C26605005F4404 /* ZSZuseHubSideMenuViewController.m */,
 				2CA9A32B18C26E27005F4404 /* ZSZuseHubDrawerViewController.h */,
 				2CA9A32C18C26E27005F4404 /* ZSZuseHubDrawerViewController.m */,
-				2CA9A33418C4805D005F4404 /* ZSZuseHubBrowseViewController.h */,
-				2CA9A33518C4805D005F4404 /* ZSZuseHubBrowseViewController.m */,
+				2CA9A33418C4805D005F4404 /* ZSZuseHubBrowseNewestViewController.h */,
+				2CA9A33518C4805D005F4404 /* ZSZuseHubBrowseNewestViewController.m */,
 				2CA9A33A18C521C8005F4404 /* ZSZuseHubContentViewController.h */,
 				2CA9A33B18C521C8005F4404 /* ZSZuseHubContentViewController.m */,
 			);
@@ -1148,6 +1168,7 @@
 				5FBB4A7D18BFE90A00B79AB6 /* ZSProjectCollectionViewCell.m in Sources */,
 				5F8138DC189CA574009F3495 /* ZSPhysicsGroupingViewController.m in Sources */,
 				5F39DFCF188A40A0008ECAC1 /* NSMutableSet+BlocksKit.m in Sources */,
+				2CA9A34918C533BF005F4404 /* MMTableViewCell.m in Sources */,
 				5F8138D9189A1DF1009F3495 /* ZSComponentNode.m in Sources */,
 				5F030C6F185AE0D300584DCD /* NSArray+Zuse.m in Sources */,
 				5F0139BB1856BCA7005D7FAE /* ZSTraitEditorParametersViewController.m in Sources */,
@@ -1158,6 +1179,7 @@
 				4CD2311918AC3CC100DC5619 /* ZSTutorial.m in Sources */,
 				5FBB4A8318BFEC7800B79AB6 /* ZSProjectPersistence.m in Sources */,
 				5F8138D11898C338009F3495 /* NSString+Zuse.m in Sources */,
+				2CA9A35518C5465B005F4404 /* MMSideDrawerTableViewCell.m in Sources */,
 				5F39DFC7188A40A0008ECAC1 /* NSArray+BlocksKit.m in Sources */,
 				5F39DFD5188A40A0008ECAC1 /* NSTimer+BlocksKit.m in Sources */,
 				5F50CBD218A1529000B7C020 /* ZSSelectedGroupViewController.m in Sources */,
@@ -1171,7 +1193,7 @@
 				7899786118B9255500A8FE05 /* ZS_CodeEditorViewController.m in Sources */,
 				7899786318B9255500A8FE05 /* ZS_JsonUtilities.m in Sources */,
 				5F39DFCB188A40A0008ECAC1 /* NSMutableArray+BlocksKit.m in Sources */,
-				2CA9A33618C4805D005F4404 /* ZSZuseHubBrowseViewController.m in Sources */,
+				2CA9A33618C4805D005F4404 /* ZSZuseHubBrowseNewestViewController.m in Sources */,
 				4CE3404E180A0154009A63A2 /* ZSRendererViewController.m in Sources */,
 				5F41ACB818341C980089D136 /* ZSExecutionContext.m in Sources */,
 				4CF1CBC217EF882A00636E0D /* TCAppDelegate.m in Sources */,
@@ -1187,8 +1209,10 @@
 				5F0139AF18568EC2005D7FAE /* ZSTraitEditorViewController.m in Sources */,
 				5F39DFCC188A40A0008ECAC1 /* NSMutableDictionary+BlocksKit.m in Sources */,
 				4C0D470817FB927600F13786 /* ZSCanvasViewController.m in Sources */,
+				2CA9A35218C53833005F4404 /* MMExampleDrawerVisualStateManager.m in Sources */,
 				7899786418B9255500A8FE05 /* ZS_ExpressionViewController.m in Sources */,
 				2C6B5D6A183D43AB00E3D56C /* ZSSpriteTouchComponent.m in Sources */,
+				2CA9A34C18C533D0005F4404 /* MMCenterTableViewCell.m in Sources */,
 				5F39DFCD188A40A0008ECAC1 /* NSMutableIndexSet+BlocksKit.m in Sources */,
 				5F6AD25618BD932200299AB8 /* ZSCodePropertyScope.m in Sources */,
 				5F8138D41898C36B009F3495 /* NSNumber+Zuse.m in Sources */,

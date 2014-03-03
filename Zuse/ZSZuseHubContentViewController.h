@@ -10,4 +10,6 @@
 
 @interface ZSZuseHubContentViewController : UIViewController
 
+-(void)contentSizeDidChange:(NSString*)size;
+
 @end

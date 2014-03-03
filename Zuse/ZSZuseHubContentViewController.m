@@ -21,6 +21,21 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     NSLog(@"loaded zusehub");
+    
+    [super viewDidLoad];
+    [[NSNotificationCenter defaultCenter]
+        addObserver:self
+        selector:@selector(contentSizeDidChangeNotification:)
+        name:UIContentSizeCategoryDidChangeNotification
+        object:nil];
+}
+
+-(void)contentSizeDidChangeNotification:(NSNotification*)notification{
+    [self contentSizeDidChange:notification.userInfo[UIContentSizeCategoryNewValueKey]];
+}
+
+-(void)contentSizeDidChange:(NSString *)size{
+    //Implement in subclass
 }
 
 @end

@@ -7,13 +7,14 @@
 //
 
 #import "ZSZuseHubSideMenuViewController.h"
+#import "MMSideDrawerTableViewCell.h"
 
 @interface ZSZuseHubSideMenuViewController ()
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UITableViewCell *newestProjectsCell;
 @property (weak, nonatomic) IBOutlet UITableViewCell *shareProjectCell;
 @property (weak, nonatomic) IBOutlet UITableViewCell *viewMySharedProjectsCell;
 @property (strong, nonatomic) NSArray *browseMenuStrings;
+@property (strong, nonatomic) NSArray *myZuseHubMenuStrings;
 
 @end
 
@@ -24,28 +25,121 @@
     [super viewDidLoad];
     self.tableView.delegate = self;
     
-    _browseMenuStrings = @[@"Share my projects", @"Browse newest projects", @"View my shared projects"];
+    //TODO put the other browse filter strings here
+    _browseMenuStrings = @[@"Browse newest projects"];
+    _myZuseHubMenuStrings = @[@"Share my projects", @"View my shared projects"];
+
+    _tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
+
+    [self.tableView setDelegate:self];
+    [self.tableView setDataSource:self];
+    [self.view addSubview:self.tableView];
+    [self.tableView setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
+    
+    UIColor * tableViewBackgroundColor = [UIColor colorWithRed:110.0/255.0
+                                               green:113.0/255.0
+                                                blue:115.0/255.0
+                                               alpha:1.0];
+    
+    [self.tableView setBackgroundColor:tableViewBackgroundColor];
+    
+    [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    
+    [self.view setBackgroundColor:[UIColor colorWithRed:66.0/255.0
+                                                  green:69.0/255.0
+                                                   blue:71.0/255.0
+                                                  alpha:1.0]];
+    
+    UIColor * barColor = [UIColor colorWithRed:161.0/255.0
+                                         green:164.0/255.0
+                                          blue:166.0/255.0
+                                         alpha:1.0];
+    if([self.navigationController.navigationBar respondsToSelector:@selector(setBarTintColor:)]){
+        [self.navigationController.navigationBar setBarTintColor:barColor];
+    }
+    else {
+        [self.navigationController.navigationBar setTintColor:barColor];
+    }
+    
+    
+    NSDictionary *navBarTitleDict;
+    UIColor * titleColor = [UIColor colorWithRed:55.0/255.0
+                                           green:70.0/255.0
+                                            blue:77.0/255.0
+                                           alpha:1.0];
+    navBarTitleDict = @{NSForegroundColorAttributeName:titleColor};
+    [self.navigationController.navigationBar setTitleTextAttributes:navBarTitleDict];
+    
+    self.drawerWidth = 160;
+    
+    [self.view setBackgroundColor:[UIColor clearColor]];
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.browseMenuStrings.count;
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, self.tableView.numberOfSections-1)] withRowAnimation:UITableViewRowAnimationNone];
+}
+
+-(void)contentSizeDidChange:(NSString *)size{
+    [self.tableView reloadData];
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return ZSZuseHubDrawerSectionCount;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    // Return the number of rows in the section.
+    switch (section) {
+        case ZSZuseHubDrawerMyZuseHub:
+            return _myZuseHubMenuStrings.count;
+        case ZSZuseHubDrawerBrowseProjects:
+            return _browseMenuStrings.count;
+        default:
+            return 0;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
-    // Check if a reusable cell object was dequeued
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    if (cell == nil)
+    {
+        cell = [[MMSideDrawerTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        [cell setSelectionStyle:UITableViewCellSelectionStyleBlue];
     }
     
-    // Populate the cell with the appropriate name based on the indexPath
-    cell.textLabel.text = [_browseMenuStrings objectAtIndex:indexPath.row];
+    switch (indexPath.section) {
+        case ZSZuseHubDrawerMyZuseHub:
+            [cell.textLabel setText:_myZuseHubMenuStrings[indexPath.row]];
+            break;
+        case ZSZuseHubDrawerBrowseProjects:
+            [cell.textLabel setText:_browseMenuStrings[indexPath.row]];
+            break;
+        default:
+            break;
+    }
+    //place an arrow to show it can be selected
+    [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     
     return cell;
 }
+
+-(NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
+    switch (section) {
+        case ZSZuseHubDrawerMyZuseHub:
+            return @"My ZuseHub";
+        case ZSZuseHubDrawerBrowseProjects:
+            return @"Browse Projects";
+        default:
+            return nil;
+    }
+}
+
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];

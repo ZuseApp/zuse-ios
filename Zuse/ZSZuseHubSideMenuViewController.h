@@ -7,11 +7,22 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UIViewController+MMDrawerController.h"
+#import "ZSZuseHubContentViewController.h"
 
-@interface ZSZuseHubSideMenuViewController : UITableViewController
+typedef NS_ENUM(NSInteger, ZSZuseHubDrawerSection){
+    ZSZuseHubDrawerMyZuseHub,
+    ZSZuseHubDrawerBrowseProjects,
+    ZSZuseHubDrawerSectionCount,
+};
+
+@interface ZSZuseHubSideMenuViewController : ZSZuseHubContentViewController <UITableViewDataSource,UITableViewDelegate>
 
 @property (copy, nonatomic) void (^didSelectShareProject)();
 @property (copy, nonatomic) void (^didSelectNewestProjects)();
 @property (copy, nonatomic) void (^didSelectViewMySharedProjects)();
+
+@property (nonatomic, strong) UITableView * tableView;
+@property NSInteger drawerWidth;
 
 @end
