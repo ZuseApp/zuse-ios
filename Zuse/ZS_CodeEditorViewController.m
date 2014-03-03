@@ -1,5 +1,4 @@
 #import "ZS_CodeEditorViewController.h"
-#import "ZS_StatementView.h"
 #import "ZS_JsonUtilities.h"
 
 #import "ZS_ExpressionViewController.h"
@@ -170,6 +169,7 @@
                     beforeAddingSubstatementsBlock:(void (^)(ZS_StatementView *))beforeSubstatementsBlock
 {
     ZS_StatementView* view = [[ZS_StatementView alloc]initWithJson:json];
+    view.delegate = self;
     view.jsonCode = json[@"on_event"][@"code"];
     
     // statement name
@@ -229,6 +229,7 @@
                beforeAddingSubstatementsBlock:(void (^)(ZS_StatementView *))beforeSubstatementBlock
 {
     ZS_StatementView* view = [[ZS_StatementView alloc]initWithJson:json];
+    view.delegate = self;
     view.jsonCode = json[@"if"][@"true"];
     
     // statement name
@@ -269,6 +270,7 @@
 - (ZS_StatementView*) triggerEventStatementViewFromJson:(NSMutableDictionary *)json
 {
     ZS_StatementView* view = [[ZS_StatementView alloc]initWithJson:json];
+    view.delegate = self;
     
     // statement name
     [view addNameLabelWithText:@"TRIGGER EVENT"];
@@ -302,6 +304,7 @@
 - (ZS_StatementView*) setStatementViewFromJson:(NSMutableDictionary *)json
 {
     ZS_StatementView* view = [[ZS_StatementView alloc]initWithJson:json];
+    view.delegate = self;
     
     // Statement name SET
     [view addNameLabelWithText:@"SET"];
@@ -343,6 +346,7 @@
 - (ZS_StatementView*) callStatementViewFromJson:(NSMutableDictionary *)json
 {
     ZS_StatementView* view = [[ZS_StatementView alloc]initWithJson:json];
+    view.delegate = self;
     
     // Method name
     [view addNameLabelWithText:json[@"call"][@"method"]];
@@ -428,5 +432,25 @@
         c.json = self.json;
     }
 }
+#pragma mark ZS_StatementViewDelegate
 
+- (void) statementViewLongPressed:(ZS_StatementView*) view
+{
+    NSMutableArray* parentCodeBlock = ((ZS_StatementView*)view.superview).jsonCode;
+//    NSLog(@"code block:");
+//    for (id item in parentCodeBlock)
+//    {
+//         NSLog(@"%p", item);
+//    }
+//    [parentCodeBlock removeObject: view.json];
+    
+    for (NSInteger i = 0; i < parentCodeBlock.count; i++)
+    {
+        if (parentCodeBlock[i] == view.json)
+        {
+            [parentCodeBlock removeObjectAtIndex:i];
+        }
+    }
+    [self reloadFromJson];
+}
 @end
