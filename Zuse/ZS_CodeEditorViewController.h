@@ -1,15 +1,7 @@
 #import <UIKit/UIKit.h>
+#import "ZS_StatementView.h"
 
-typedef NS_ENUM(NSInteger, ZS_StatementType)
-{
-    ZS_StatementTypeOnEvent,
-    ZS_StatementTypeIf,
-    ZS_StatementTypeSet,
-    ZS_StatementTypeCall,
-    ZS_StatementTypeTriggerEvent
-};
-
-@interface ZS_CodeEditorViewController : UIViewController
-//@property (strong, nonatomic) NSMutableDictionary* spriteObject;
+@interface ZS_CodeEditorViewController : UIViewController <ZS_StatementViewDelegate>
 @property (strong, nonatomic) NSMutableDictionary* json;
+- (void) reloadFromJson;
 @end

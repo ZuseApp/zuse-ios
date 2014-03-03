@@ -6,4 +6,6 @@
 + (NSString*) propertiesStringFromJson: (NSDictionary*) json;
 + (NSString*) parametersStringFromJson: (NSArray*) json;
 + (NSString*) expressionStringFromJson: (NSObject*) json;
++ (NSArray*) emptyStatements;
++ (NSArray*) emptyEvents;
 @end
