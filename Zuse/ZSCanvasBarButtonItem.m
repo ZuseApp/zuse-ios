@@ -15,6 +15,7 @@ CGFloat const DefaultSize = 30;
 @interface ZSCanvasBarButtonItem ()
 
 @property (copy, nonatomic) void(^handler)();
+@property (strong, nonatomic) UIButton *button;
 
 @end
 
@@ -29,6 +30,7 @@ CGFloat const DefaultSize = 30;
     [button setAttributedTitle:icon.attributedString forState:UIControlStateNormal];
     
     ZSCanvasBarButtonItem *buttonItem = [[self alloc] initWithCustomView:button];
+    buttonItem.button = button;
     
     [button addTarget:buttonItem
                action:@selector(buttonTapped)

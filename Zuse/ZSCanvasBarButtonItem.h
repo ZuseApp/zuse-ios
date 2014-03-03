@@ -12,6 +12,8 @@
 
 @interface ZSCanvasBarButtonItem : UIBarButtonItem
 
+@property (strong, nonatomic, readonly) UIButton *button;
+
 + (ZSCanvasBarButtonItem *)buttonWithIcon:(FAKIcon *)icon
                                tapHandler:(void(^)())handler;
 
