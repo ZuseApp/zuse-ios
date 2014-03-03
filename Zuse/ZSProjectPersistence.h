@@ -14,10 +14,11 @@
 
 + (NSArray *)exampleProjectPaths;
 + (NSArray *)userProjectPaths;
++ (NSArray *)userImagePaths;
 
 + (NSArray *)exampleProjects;
 + (NSArray *)userProjects;
 
-+ (void)writeProject:(ZSProject *)project;
++ (void)writeProject:(ZSProject *)project withImage:(UIImage*)image;
 
 @end
