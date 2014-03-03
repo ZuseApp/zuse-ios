@@ -12,6 +12,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UITableViewCell *newestProjectsCell;
 @property (weak, nonatomic) IBOutlet UITableViewCell *shareProjectCell;
+@property (weak, nonatomic) IBOutlet UITableViewCell *viewMySharedProjectsCell;
 @property (strong, nonatomic) NSArray *browseMenuStrings;
 
 @end
@@ -23,7 +24,7 @@
     [super viewDidLoad];
     self.tableView.delegate = self;
     
-    _browseMenuStrings = @[@"Share my projects", @"Browse projects", @"View my shared projects"];
+    _browseMenuStrings = @[@"Share my projects", @"Browse newest projects", @"View my shared projects"];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -52,6 +53,10 @@
         self.didSelectNewestProjects();
     } else if (selectedCell == self.shareProjectCell) {
         self.didSelectShareProject();
+    }
+    else if(selectedCell == self.viewMySharedProjectsCell)
+    {
+        self.didSelectViewMySharedProjects();
     }
 }
 

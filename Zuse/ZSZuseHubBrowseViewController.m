@@ -10,6 +10,8 @@
 
 @interface ZSZuseHubBrowseViewController ()
 
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+
 @end
 
 @implementation ZSZuseHubBrowseViewController
@@ -19,5 +21,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
 }
+
+
 
 @end

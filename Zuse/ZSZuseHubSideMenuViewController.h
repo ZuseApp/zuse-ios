@@ -12,5 +12,6 @@
 
 @property (copy, nonatomic) void (^didSelectShareProject)();
 @property (copy, nonatomic) void (^didSelectNewestProjects)();
+@property (copy, nonatomic) void (^didSelectViewMySharedProjects)();
 
 @end

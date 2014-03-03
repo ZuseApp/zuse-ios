@@ -12,6 +12,7 @@
 		2CA9A32D18C26E27005F4404 /* ZSZuseHubDrawerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9A32C18C26E27005F4404 /* ZSZuseHubDrawerViewController.m */; };
 		2CA9A33018C27B6F005F4404 /* TempZuseHubViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9A32F18C27B6F005F4404 /* TempZuseHubViewController.m */; };
 		2CA9A33618C4805D005F4404 /* ZSZuseHubBrowseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9A33518C4805D005F4404 /* ZSZuseHubBrowseViewController.m */; };
+		2CA9A33918C481FE005F4404 /* ZSZuseHubJSONClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9A33818C481FE005F4404 /* ZSZuseHubJSONClient.m */; };
 		2CA9D387183F3F0300401231 /* ZSRendererScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9D386183F3F0300401231 /* ZSRendererScene.m */; };
 		2CF6E518189D7FB900E2779C /* BrickExplosion.sks in Resources */ = {isa = PBXBuildFile; fileRef = 2CF6E516189D7FB900E2779C /* BrickExplosion.sks */; };
 		2CF6E519189D7FB900E2779C /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CF6E517189D7FB900E2779C /* spark.png */; };
@@ -164,6 +165,8 @@
 		2CA9A32F18C27B6F005F4404 /* TempZuseHubViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TempZuseHubViewController.m; sourceTree = "<group>"; };
 		2CA9A33418C4805D005F4404 /* ZSZuseHubBrowseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSZuseHubBrowseViewController.h; sourceTree = "<group>"; };
 		2CA9A33518C4805D005F4404 /* ZSZuseHubBrowseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSZuseHubBrowseViewController.m; sourceTree = "<group>"; };
+		2CA9A33718C481FE005F4404 /* ZSZuseHubJSONClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSZuseHubJSONClient.h; sourceTree = "<group>"; };
+		2CA9A33818C481FE005F4404 /* ZSZuseHubJSONClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSZuseHubJSONClient.m; sourceTree = "<group>"; };
 		2CA9D385183F3F0300401231 /* ZSRendererScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSRendererScene.h; sourceTree = "<group>"; };
 		2CA9D386183F3F0300401231 /* ZSRendererScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSRendererScene.m; sourceTree = "<group>"; };
 		2CF6E516189D7FB900E2779C /* BrickExplosion.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = BrickExplosion.sks; sourceTree = "<group>"; };
@@ -398,6 +401,8 @@
 		2CA9A31718C1C176005F4404 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				2CA9A33718C481FE005F4404 /* ZSZuseHubJSONClient.h */,
+				2CA9A33818C481FE005F4404 /* ZSZuseHubJSONClient.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -1183,6 +1188,7 @@
 				4C4087091852480F009117E1 /* ZSSpriteLibrary.m in Sources */,
 				2CA9D387183F3F0300401231 /* ZSRendererScene.m in Sources */,
 				2CA9A32A18C26605005F4404 /* ZSZuseHubSideMenuViewController.m in Sources */,
+				2CA9A33918C481FE005F4404 /* ZSZuseHubJSONClient.m in Sources */,
 				2CA9A32D18C26E27005F4404 /* ZSZuseHubDrawerViewController.m in Sources */,
 				7899786218B9255500A8FE05 /* ZS_StatementView.m in Sources */,
 				5F39DFD3188A40A0008ECAC1 /* NSOrderedSet+BlocksKit.m in Sources */,
