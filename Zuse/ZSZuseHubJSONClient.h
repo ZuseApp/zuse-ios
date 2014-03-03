@@ -14,7 +14,7 @@
 @property (strong, nonatomic) NSURL *baseURL;
 @property (strong, nonatomic) AFHTTPRequestOperationManager *manager;
 
-+ (ZSZuseHubJSONClient *)sharedClient;
++ (id)sharedClient;
 
 
 @end
