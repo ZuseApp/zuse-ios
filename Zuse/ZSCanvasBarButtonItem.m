@@ -88,6 +88,36 @@ CGFloat const DefaultSize = 30;
     return [self buttonWithIcon:icon tapHandler:handler];
 }
 
++ (ZSCanvasBarButtonItem *)doneButtonWithHandler:(void (^)())handler {
+    ZSCanvasBarButtonItem *item = [[ZSCanvasBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:nil
+                                                                                      action:nil];
+    item.target = item;
+    item.action = @selector(buttonTapped);
+    item.tintColor = [UIColor zuseYellow];
+    item.handler = [handler copy];
+    return item;
+}
+
++ (ZSCanvasBarButtonItem *)collisionsButtonWithHandler:(void (^)())handler {
+    FAKIcon *icon = [self styledIcon:[FAKIonIcons flashIconWithSize:DefaultSize]];
+    return [self buttonWithIcon:icon tapHandler:handler];
+}
+
++ (ZSCanvasBarButtonItem *)selectGroupButtonWithHandler:(void (^)())handler {
+    ZSCanvasBarButtonItem *item = [[ZSCanvasBarButtonItem alloc] initWithTitle:@"foo"
+                                                                         style:UIBarButtonItemStyleBordered target:nil action:nil];
+    item.target = item;
+    item.action = @selector(buttonTapped);
+    item.tintColor = [UIColor zuseYellow];
+    item.handler = [handler copy];
+    return item;
+}
+
++ (ZSCanvasBarButtonItem *)addButtonWithHandler:(void (^)())handler {
+    FAKIcon *icon = [self styledIcon:[FAKIonIcons ios7PlusIconWithSize:DefaultSize]];
+    return [self buttonWithIcon:icon tapHandler:handler];
+}
+
 - (void)buttonTapped {
     if (self.handler) {
         self.handler();

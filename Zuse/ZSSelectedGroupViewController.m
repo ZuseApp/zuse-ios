@@ -10,7 +10,7 @@
 
 @interface ZSSelectedGroupViewController () <UITableViewDelegate, UITableViewDataSource>
 
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) UITableView *tableView;
 
 @end
 
@@ -20,8 +20,13 @@
 {
     [super viewDidLoad];
     
-    _tableView.delegate = self;
-    _tableView.dataSource = self;
+    self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds];
+    [self.tableView registerClass:UITableViewCell.class forCellReuseIdentifier:@"Cell"];
+    
+    [self.view addSubview:self.tableView];
+    
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

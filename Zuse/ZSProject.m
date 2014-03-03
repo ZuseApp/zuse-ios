@@ -1,4 +1,5 @@
 #import "ZSProject.h"
+#import "ZSProjectJSONKeys.h"
 #import "ZSSpriteTraits.h"
 
 @interface ZSProject ()
@@ -35,7 +36,7 @@
         [_projectJSON setObject:_canvasSize forKey:@"canvas_size"];
         [_projectJSON setObject:[NSMutableDictionary dictionary] forKey:@"traits"];
         [_projectJSON setObject:[NSMutableArray array] forKey:@"objects"];
-        [_projectJSON setObject:[NSMutableDictionary dictionary] forKey:@"groups"];
+        [_projectJSON setObject:[NSMutableDictionary dictionary] forKey:ZSProjectJSONKeyGroups];
     }
     return self;
 }
@@ -69,7 +70,7 @@
     _identifier = _projectJSON[@"id"];
     _title      = _projectJSON[@"title"];
     _version    = _projectJSON[@"version"];
-    _canvasSize = _projectJSON[@"canvasSize"];
+    _canvasSize = _projectJSON[@"canvas_size"];
 }
 
 - (NSMutableDictionary *)rawJSON {

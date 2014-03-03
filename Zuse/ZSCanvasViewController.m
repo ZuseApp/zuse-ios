@@ -1,6 +1,6 @@
 #import "ZSCanvasViewController.h"
 #import "ZSRendererViewController.h"
-#import "ZSPhysicsGroupingViewController.h"
+#import "ZSGroupsViewController.h"
 #import "ZSSpriteView.h"
 #import "ZSEditorViewController.h"
 #import "ZSGrid.h"
@@ -12,6 +12,7 @@
 #import "ZSTraitEditorViewController.h"
 #import "ZSProjectPersistence.h"
 #import "ZSCanvasBarButtonItem.h"
+#import "ZSProjectJSONKeys.h"
 #import <FontAwesomeKit/FAKIonIcons.h>
 #import <AFNetworking/AFNetworking.h>
 #import <Social/Social.h>
@@ -60,8 +61,12 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
 @property (strong, nonatomic) ZSToolboxView *toolboxView;
 @property (strong, nonatomic) ZSToolboxController *toolboxController;
 
+// Grouping
+@property (strong, nonatomic) ZSGroupsViewController *groupsController;
+
 // Toolbar
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
+@property (assign, nonatomic) ZSCanvasInterfaceState interfaceState;
 
 @end
 
@@ -73,6 +78,7 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
         _tutorial = [ZSTutorial sharedTutorial];
         _tutorialStage = ZSCanvasTutorialSetupStage;
         _toolboxController = [[ZSToolboxController alloc] init];
+        self.interfaceState = ZSCanvasInterfaceStateNormal;
     }
     return self;
 }
@@ -156,10 +162,10 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
         ZSEditorViewController *editorController = (ZSEditorViewController *)segue.destinationViewController;
         editorController.spriteObject = ((ZSSpriteView *)sender).spriteJSON;
     } else if ([segue.identifier isEqualToString:@"physicsGroups"]) {
-        ZSPhysicsGroupingViewController *groupingController = (ZSPhysicsGroupingViewController *)segue.destinationViewController;
+        ZSGroupsViewController *groupingController = (ZSGroupsViewController *)segue.destinationViewController;
         
         groupingController.sprites = _project.assembledJSON[@"objects"];
-        groupingController.collisionGroups = _project.assembledJSON[@"collision_groups"];
+        groupingController.groups = _project.assembledJSON[ZSProjectJSONKeyGroups];
         groupingController.didFinish = ^{
             [self dismissViewControllerAnimated:NO completion:^{ }];
         };
@@ -318,7 +324,7 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
         if ([@"text" isEqualToString:type]) {
             json[@"properties"][@"text"] = @"Value";
         }
-        json[@"collision_group"] = @"";
+        json[ZSProjectJSONKeyGroup] = @"";
         
         // Width and height of frame can be calculated now.
         CGRect originalFrame = spriteView.content.frame;
@@ -421,15 +427,20 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
 }
 
 - (void)transitionToInterfaceState:(ZSCanvasInterfaceState)state {
+    NSArray *items = nil;
     if (state == ZSCanvasInterfaceStateNormal) {
-        self.toolbar.items = [self normalToolbarItems];
+        items = [self normalToolbarItems];
     } else if (state == ZSCanvasInterfaceStateGroups) {
-        self.toolbar.items = [self groupsToolbarItems];
+        items = [self groupsToolbarItems];
     } else if (state == ZSCanvasInterfaceStateRendererPlaying) {
-        self.toolbar.items = [self rendererPlayingToolbarItems];
+        items = [self rendererPlayingToolbarItems];
     } else if (state == ZSCanvasInterfaceStateRendererPaused) {
-        self.toolbar.items = [self rendererPausedToolbarItems];
+        items = [self rendererPausedToolbarItems];
     }
+    
+    self.interfaceState = state;
+    
+    [self.toolbar setItems:items animated:YES];
 }
 
 - (NSArray *)normalToolbarItems {
@@ -454,7 +465,7 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
 }
 
 - (NSArray *)groupsToolbarItems {
-    return @[];
+    return self.groupsController.canvasToolbarItems;
 }
 
 - (NSArray *)rendererPlayingToolbarItems {
@@ -480,7 +491,39 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
 }
 
 - (void)modifyGroups {
-    [self performSegueWithIdentifier:@"physicsGroups" sender:self];
+    self.groupsController = [[ZSGroupsViewController alloc] init];
+    self.groupsController.sprites = _project.assembledJSON[@"objects"];
+    self.groupsController.groups = _project.assembledJSON[ZSProjectJSONKeyGroups];
+    
+    WeakSelf
+    self.groupsController.viewControllerNeedsPresented = ^(UIViewController *controller) {
+        [weakSelf presentViewController:controller
+                           animated:YES
+                         completion:^{ }];
+    };
+    
+    self.groupsController.viewControllerNeedsDismissal = ^(UIViewController *controller) {
+        [weakSelf dismissViewControllerAnimated:YES
+                                     completion:^{}];
+    };
+    
+    self.groupsController.didFinish = ^{
+        [self transitionToInterfaceState:ZSCanvasInterfaceStateNormal];
+        [UIView animateWithDuration:0.2
+                         animations:^{
+                             weakSelf.groupsController.view.alpha = 0.0;
+                         } completion:^(BOOL finished) {
+                             [weakSelf.groupsController.view removeFromSuperview];
+                             [weakSelf.groupsController removeFromParentViewController];
+                             weakSelf.groupsController = nil;
+                         }];
+    };
+    
+    [self transitionToInterfaceState:ZSCanvasInterfaceStateGroups];
+    
+    self.groupsController.view.frame = self.canvasView.bounds;
+    self.groupsController.view.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:self.groupsController.view];
 }
 
 - (void)finish {

@@ -1,5 +1,5 @@
 //
-//  ZSPhysicsGroupingViewController.m
+//  ZSGroupsViewController.m
 //  Zuse
 //
 //  Created by Parker Wightman on 1/31/14.
@@ -10,19 +10,18 @@
 #import <MTBlockAlertView/MTBlockAlertView.h>
 
 // Local Imports
-#import "ZSPhysicsGroupingViewController.h"
+#import "ZSProjectJSONKeys.h"
+#import "ZSGroupsViewController.h"
 #import "ZSCollisionsViewController.h"
 #import "ZSSelectedGroupViewController.h"
 #import "ZSSpriteView.h"
 #import "BlocksKit.h"
+#import "ZSCanvasBarButtonItem.h"
 
-@interface ZSPhysicsGroupingViewController ()
+@interface ZSGroupsViewController ()
 
 // IBOutlets
-@property (weak, nonatomic) IBOutlet UIToolbar *topToolbar;
-@property (weak, nonatomic) IBOutlet UIToolbar *bottomToolbar;
-@property (weak, nonatomic) IBOutlet UIView *containerSpriteView;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *selectedGroupItem;
+@property (weak, nonatomic) UIBarButtonItem *selectedGroupItem;
 
 // Properties
 @property (strong, nonatomic) NSArray *spriteViews;
@@ -30,57 +29,65 @@
 
 @end
 
-@implementation ZSPhysicsGroupingViewController
+@implementation ZSGroupsViewController
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    [self setUnzoomedPositions];
-    
-    [self setSelectedGroup:_collisionGroups.allKeys.lastObject];
-    
-    _spriteViews = [_sprites map:^id(NSDictionary *spriteJSON) {
-        ZSSpriteView *spriteView = [[ZSSpriteView alloc] initWithFrame:CGRectZero];
-        spriteView.frame = [self rectForSprite:spriteJSON];
-        UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(spriteViewTapped:)];
-        [spriteView addGestureRecognizer:recognizer];
-        [spriteView setContentFromJSON:spriteJSON];
-        [self.containerSpriteView addSubview:spriteView];
-        return spriteView;
-    }];
-    
+    [self setSelectedGroup:_groups.allKeys.lastObject];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    if (!_spriteViews) {
+        _spriteViews = [_sprites map:^id(NSDictionary *spriteJSON) {
+            ZSSpriteView *spriteView = [[ZSSpriteView alloc] initWithFrame:CGRectZero];
+            spriteView.frame = [self rectForSprite:spriteJSON];
+            UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(spriteViewTapped:)];
+            [spriteView addGestureRecognizer:recognizer];
+            [spriteView setContentFromJSON:spriteJSON];
+            [self.view addSubview:spriteView];
+            return spriteView;
+        }];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [UIView animateWithDuration:0.3
                      animations:^{
-                         [self setZoomedPositions];
                          [self updateSelectedSprites];
                      } completion:^(BOOL finished) {
-                         if (_collisionGroups.count == 0) {
-                             [[self alertViewForNewGroupWithMessage:@"Enter a name for your first collision group"] show];
+                         if (_groups.count == 0) {
+                             [[self alertViewForNewGroupWithMessage:@"Enter a name for your first group"] show];
                          }
                      }];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"collisions"]) {
-        ZSCollisionsViewController *controller = (ZSCollisionsViewController *)segue.destinationViewController;
-        controller.collisionGroups = _collisionGroups;
-        controller.selectedGroup   = _selectedGroup;
-        controller.didFinish       = ^{
-            [self dismissViewControllerAnimated:YES completion:^{ }];
-        };
     }
     else if ([segue.identifier isEqualToString:@"selectedGroup"]) {
-        ZSSelectedGroupViewController *controller = (ZSSelectedGroupViewController *)segue.destinationViewController;
-        controller.groupNames = _collisionGroups.allKeys;
-        controller.didFinish = ^(NSString *newGroup) {
-            [self setSelectedGroup:newGroup];
-            [self dismissViewControllerAnimated:YES completion:^{ }];
-        };
     }
+}
+
+- (NSArray *)canvasToolbarItems {
+    self.selectedGroupItem = [ZSCanvasBarButtonItem selectGroupButtonWithHandler:^{
+        [self selectGroupButtonTapped];
+    }];
+    return @[
+             [ZSCanvasBarButtonItem addButtonWithHandler:^{
+                 [self addButtonTapped];
+             }],
+             [ZSCanvasBarButtonItem collisionsButtonWithHandler:^{
+                 [self collisionsButtonTapped];
+             }],
+             [ZSCanvasBarButtonItem flexibleBarButtonItem],
+             self.selectedGroupItem,
+             [ZSCanvasBarButtonItem flexibleBarButtonItem],
+             [ZSCanvasBarButtonItem doneButtonWithHandler:^{
+                 [self doneButtonTapped];
+             }]
+             ];
 }
 
 - (void)spriteViewTapped:(UITapGestureRecognizer *)recognizer {
@@ -95,19 +102,19 @@
         return [sprite[@"id"] isEqualToString:identifier];
     }];
     
-    if ([sprite[@"collision_group"] isEqualToString:_selectedGroup]) {
-        sprite[@"collision_group"] = @"";
+    if ([sprite[ZSProjectJSONKeyGroup] isEqualToString:_selectedGroup]) {
+        sprite[ZSProjectJSONKeyGroup] = @"";
     } else {
-        sprite[@"collision_group"] = _selectedGroup;
+        sprite[ZSProjectJSONKeyGroup] = _selectedGroup;
     }
 }
 
 - (BOOL)createNewGroupWithName:(NSString *)name {
-    if (name.length != 0 && !_collisionGroups[name]) {
-        _collisionGroups[name] = [NSMutableArray array];
+    if (name.length != 0 && !_groups[name]) {
+        _groups[name] = [NSMutableArray array];
         return YES;
     }
-    NSLog(@"Collision groups: %@", _collisionGroups);
+    NSLog(@"Groups: %@", _groups);
     
     return NO;
 }
@@ -126,7 +133,7 @@
             return [sprite[@"id"] isEqualToString:identifier];
         }];
         
-        if ([sprite[@"collision_group"] isEqualToString:_selectedGroup]) {
+        if ([sprite[ZSProjectJSONKeyGroup] isEqualToString:_selectedGroup]) {
             spriteView.alpha = 1.0;
         } else {
             spriteView.alpha = 0.2;
@@ -153,45 +160,18 @@
     return frame;
 }
 
-- (void)setUnzoomedPositions {
-    _containerSpriteView.transform = CGAffineTransformIdentity;
-    
-    CGRect frame = _topToolbar.frame;
-    frame.origin.y = -frame.size.height;
-    _topToolbar.frame = frame;
-    
-    frame = _bottomToolbar.frame;
-    frame.origin.y = self.view.frame.size.height;
-    _bottomToolbar.frame = frame;
-    
-}
-
-- (void)setZoomedPositions {
-    CGFloat scale = (self.view.bounds.size.height - _topToolbar.bounds.size.height * 2) / self.view.bounds.size.height;
-    _containerSpriteView.transform = CGAffineTransformMakeScale(scale, scale);
-    
-    CGRect frame = _topToolbar.frame;
-    frame.origin.y = 0;
-    _topToolbar.frame = frame;
-    
-    frame = _bottomToolbar.frame;
-    frame.origin.y = self.view.frame.size.height - frame.size.height;
-    _bottomToolbar.frame = frame;
-}
-
-- (IBAction)doneButtonTapped:(id)sender {
+- (void)doneButtonTapped {
+    _didFinish();
     [UIView animateWithDuration:0.3
                      animations:^{
-                         [self setUnzoomedPositions];
                          [_spriteViews each:^(ZSSpriteView *spriteView) {
                              spriteView.alpha = 1.0;
                          }];
                      } completion:^(BOOL finished) {
-                         _didFinish();
                      }];
 }
-- (IBAction)addButtonTapped:(id)sender {
-    [[self alertViewForNewGroupWithMessage:@"Enter a name for your new collision group"] show];
+- (void)addButtonTapped {
+    [[self alertViewForNewGroupWithMessage:@"Enter a name for your new group"] show];
 }
 
 - (MTBlockAlertView *)alertViewForNewGroupWithMessage:(NSString *)message {
@@ -211,7 +191,32 @@
     return alertView;
 }
 
-- (IBAction)selectedGroupButtonTapped:(id)sender {
+- (void)selectGroupButtonTapped {
+    ZSSelectedGroupViewController *controller = [[ZSSelectedGroupViewController alloc] init];
+    controller.groupNames = _groups.allKeys;
+    
+    WeakSelf
+    __weak typeof(controller) weakController = controller;
+    controller.didFinish = ^(NSString *newGroup) {
+        [weakSelf setSelectedGroup:newGroup];
+        self.viewControllerNeedsDismissal(weakController);
+    };
+    
+    self.viewControllerNeedsPresented(controller);
+}
+
+- (void)collisionsButtonTapped {
+    ZSCollisionsViewController *controller = [[ZSCollisionsViewController alloc] init];
+    controller.collisionGroups = _groups;
+    controller.selectedGroup   = _selectedGroup;
+    
+    WeakSelf
+    __weak typeof(controller) weakController = controller;
+    controller.didFinish = ^{
+        weakSelf.viewControllerNeedsDismissal(weakController);
+    };
+    
+    self.viewControllerNeedsPresented(controller);
 }
 
 @end

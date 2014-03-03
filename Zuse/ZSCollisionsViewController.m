@@ -6,11 +6,12 @@
 //  Copyright (c) 2014 Michael Hogenson. All rights reserved.
 //
 
+#import "ZSProjectJSONKeys.h"
 #import "ZSCollisionsViewController.h"
 
 @interface ZSCollisionsViewController () <UITableViewDelegate, UITableViewDataSource>
 
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) UITableView *tableView;
 @property (strong, nonatomic) NSArray *collisionGroupNames;
 
 @end
@@ -20,10 +21,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds];
+    [self.tableView registerClass:UITableViewCell.class forCellReuseIdentifier:@"Cell"];
+    
     _tableView.delegate   = self;
     _tableView.dataSource = self;
     
     _collisionGroupNames = _collisionGroups.allKeys;
+    
+    [self.view addSubview:self.tableView];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

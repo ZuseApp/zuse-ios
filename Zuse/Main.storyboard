@@ -271,10 +271,10 @@
             </objects>
             <point key="canvasLocation" x="2656" y="922"/>
         </scene>
-        <!--Physics Grouping View Controller-->
+        <!--Groups View Controller-->
         <scene sceneID="ccr-Ai-Bcf">
             <objects>
-                <viewController id="Jcf-4U-FpJ" customClass="ZSPhysicsGroupingViewController" sceneMemberID="viewController">
+                <viewController id="Jcf-4U-FpJ" customClass="ZSGroupsViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="eT7-Jl-VCL">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
