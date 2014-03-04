@@ -180,10 +180,12 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
         CGRect paddleRect = [collectionView layoutAttributesForItemAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]].frame;
         paddleRect.size.height -= 17;
         
+        CGRect settingsButtonRect = ((ZSCanvasBarButtonItem *)_toolbar.items[3]).button.frame;
+        
         [_tutorial addActionWithText:@"Touch the toolbox icon to open the sprite toolbox."
                             forEvent:ZSTutorialBroadcastDidShowToolbox
                      allowedGestures:@[UITapGestureRecognizer.class]
-                        activeRegion:[_toolbar.items[3] convertRect:[_toolbar.items[3] frame] toView:self.view]
+                        activeRegion:[_toolbar convertRect:settingsButtonRect toView:self.view]
                                setup:nil
                           completion:nil];
         [_tutorial addActionWithText:@"Drag a paddle sprite onto the lower part of the canvas."
