@@ -177,6 +177,9 @@ typedef NS_ENUM(NSInteger, ZSMainMenuProjectFilter) {
 }
 
 - (IBAction)tutorialTapped:(id)sender {
+    self.projectFilter = ZSMainMenuProjectFilterMyProjects;
+    [self reloadDataSources];
+    
     [ZSTutorial sharedTutorial].active = YES;
     self.selectedProject = [[ZSProject alloc] init];
     self.selectedProject.title = @"Tutorial";
