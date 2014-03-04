@@ -12,6 +12,8 @@
 
 @interface ZSCanvasBarButtonItem : UIBarButtonItem
 
+@property (strong, nonatomic, readonly) UIButton *button;
+
 + (ZSCanvasBarButtonItem *)buttonWithIcon:(FAKIcon *)icon
                                tapHandler:(void(^)())handler;
 
@@ -27,5 +29,11 @@
 // Renderer
 + (ZSCanvasBarButtonItem *)pauseButtonWithHandler:(void (^)())handler;
 + (ZSCanvasBarButtonItem *)stopButtonWithHandler:(void (^)())handler;
+
+// Groups
++ (ZSCanvasBarButtonItem *)doneButtonWithHandler:(void (^)())handler;
++ (ZSCanvasBarButtonItem *)collisionsButtonWithHandler:(void (^)())handler;
++ (ZSCanvasBarButtonItem *)selectGroupButtonWithHandler:(void (^)())handler;
++ (ZSCanvasBarButtonItem *)addButtonWithHandler:(void (^)())handler;
 
 @end

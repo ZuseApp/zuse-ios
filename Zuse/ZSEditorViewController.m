@@ -12,11 +12,30 @@
 
 NSString * const ZSTutorialBroadcastTraitTouched = @"ZSTutorialBroadcastTraitTouched";
 
+typedef NS_ENUM(NSInteger, ZSEditorTutorialStage) {
+    ZSEditorPaddleOneSetup,
+    ZSEditorPaddleTwoSetup,
+    ZSEditorBallStage // Just a place holder for ZSTraitEditorParametersViewcontroller
+};
+
 @interface ZSEditorViewController ()
+
+// Tutorial
+@property (strong, nonatomic) ZSTutorial *tutorial;
+@property (assign, nonatomic) ZSEditorTutorialStage tutorialStage;
 
 @end
 
 @implementation ZSEditorViewController
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        _tutorial = [ZSTutorial sharedTutorial];
+        _tutorialStage = ZSEditorPaddleOneSetup;
+    }
+    return self;
+}
 
 - (void)viewDidLoad
 {
@@ -35,6 +54,15 @@ NSString * const ZSTutorialBroadcastTraitTouched = @"ZSTutorialBroadcastTraitTou
     self.navigationController.navigationBarHidden = NO;
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    if (_tutorial.isActive) {
+        [self createTutorialForStage:_tutorialStage];
+        [_tutorial presentWithCompletion:^{
+            _tutorialStage++;
+        }];
+    }
+}
+
 - (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
     if ([item.title isEqualToString:@"Traits"]) {
         [[ZSTutorial sharedTutorial] broadcastEvent:ZSTutorialBroadcastTraitTouched];
@@ -43,10 +71,10 @@ NSString * const ZSTutorialBroadcastTraitTouched = @"ZSTutorialBroadcastTraitTou
 
 #pragma mark Tutorial
 
-- (void)createStageForName:(NSString *)name {
-    if ([name isEqualToString:@"traits"]) {
+- (void)createTutorialForStage:(ZSEditorTutorialStage)stage {
+    if (stage == ZSEditorPaddleOneSetup || stage == ZSEditorPaddleTwoSetup) {
         CGRect frame = CGRectMake(160, 519, 160, 49);
-        [[ZSTutorial sharedTutorial] addActionWithText:@"Click here for kicks."
+        [[ZSTutorial sharedTutorial] addActionWithText:@"Click here to toggle traits for the sprite."
                                               forEvent:ZSTutorialBroadcastTraitTouched
                                        allowedGestures:@[UITapGestureRecognizer.class]
                                           activeRegion:frame

@@ -105,17 +105,21 @@
                                     <action selector="zuseHubTapped:" destination="mP0-dE-Fkn" eventType="touchUpInside" id="eNk-aD-CYl"/>
                                 </connections>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" id="Hg8-ke-vkC">
+                                <rect key="frame" x="104" y="33" width="112" height="51"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <connections>
                         <outlet property="projectCollectionView" destination="ww8-it-zVa" id="KwL-Yb-uH3"/>
-                        <segue destination="qGw-AV-wKF" kind="modal" identifier="project" modalTransitionStyle="flipHorizontal" id="6lt-7T-WTC"/>
+                        <segue destination="qGw-AV-wKF" kind="modal" identifier="project" customClass="ZSCanvasSegue" animates="NO" id="6lt-7T-WTC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jby-aW-aVJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-322" y="157"/>
+            <point key="canvasLocation" x="-144" y="157"/>
         </scene>
         <!--Canvas View Controller-->
         <scene sceneID="LCo-ov-pl2">
@@ -136,15 +140,6 @@
                             <view clipsSubviews="YES" contentMode="scaleToFill" id="xLe-TB-h8T" customClass="ZSCanvasView">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="524"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(Game Board)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="zas-av-GpJ">
-                                        <rect key="frame" x="107" y="251" width="107" height="21"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                        <color key="textColor" white="0.75" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
                             <toolbar autoresizesSubviews="NO" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="lke-3O-Z2W">
@@ -271,10 +266,10 @@
             </objects>
             <point key="canvasLocation" x="2656" y="922"/>
         </scene>
-        <!--Physics Grouping View Controller-->
+        <!--Groups View Controller-->
         <scene sceneID="ccr-Ai-Bcf">
             <objects>
-                <viewController id="Jcf-4U-FpJ" customClass="ZSPhysicsGroupingViewController" sceneMemberID="viewController">
+                <viewController id="Jcf-4U-FpJ" customClass="ZSGroupsViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="eT7-Jl-VCL">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1021,7 +1016,7 @@
         <!--Navigation Controller-->
         <scene sceneID="s4Y-8Z-Yab">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="qGw-AV-wKF" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="CanvasNav" automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="qGw-AV-wKF" sceneMemberID="viewController">
                     <toolbarItems/>
                     <nil key="simulatedTopBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="7ny-fC-1xr">
@@ -1035,10 +1030,11 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Id3-Jl-C6x" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="197" y="157"/>
+            <point key="canvasLocation" x="303" y="157"/>
         </scene>
     </scenes>
     <resources>
+        <image name="logo" width="112" height="51"/>
         <image name="yoda.jpg" width="1124" height="900"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

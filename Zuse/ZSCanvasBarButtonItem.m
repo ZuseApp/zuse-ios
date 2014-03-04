@@ -15,6 +15,7 @@ CGFloat const DefaultSize = 30;
 @interface ZSCanvasBarButtonItem ()
 
 @property (copy, nonatomic) void(^handler)();
+@property (strong, nonatomic) UIButton *button;
 
 @end
 
@@ -29,6 +30,7 @@ CGFloat const DefaultSize = 30;
     [button setAttributedTitle:icon.attributedString forState:UIControlStateNormal];
     
     ZSCanvasBarButtonItem *buttonItem = [[self alloc] initWithCustomView:button];
+    buttonItem.button = button;
     
     [button addTarget:buttonItem
                action:@selector(buttonTapped)
@@ -85,6 +87,36 @@ CGFloat const DefaultSize = 30;
 
 + (ZSCanvasBarButtonItem *)pauseButtonWithHandler:(void (^)())handler {
     FAKIcon *icon = [self styledIcon:[FAKIonIcons pauseIconWithSize:DefaultSize]];
+    return [self buttonWithIcon:icon tapHandler:handler];
+}
+
++ (ZSCanvasBarButtonItem *)doneButtonWithHandler:(void (^)())handler {
+    ZSCanvasBarButtonItem *item = [[ZSCanvasBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:nil
+                                                                                      action:nil];
+    item.target = item;
+    item.action = @selector(buttonTapped);
+    item.tintColor = [UIColor zuseYellow];
+    item.handler = [handler copy];
+    return item;
+}
+
++ (ZSCanvasBarButtonItem *)collisionsButtonWithHandler:(void (^)())handler {
+    FAKIcon *icon = [self styledIcon:[FAKIonIcons flashIconWithSize:DefaultSize]];
+    return [self buttonWithIcon:icon tapHandler:handler];
+}
+
++ (ZSCanvasBarButtonItem *)selectGroupButtonWithHandler:(void (^)())handler {
+    ZSCanvasBarButtonItem *item = [[ZSCanvasBarButtonItem alloc] initWithTitle:@"foo"
+                                                                         style:UIBarButtonItemStyleBordered target:nil action:nil];
+    item.target = item;
+    item.action = @selector(buttonTapped);
+    item.tintColor = [UIColor zuseYellow];
+    item.handler = [handler copy];
+    return item;
+}
+
++ (ZSCanvasBarButtonItem *)addButtonWithHandler:(void (^)())handler {
+    FAKIcon *icon = [self styledIcon:[FAKIonIcons ios7PlusIconWithSize:DefaultSize]];
     return [self buttonWithIcon:icon tapHandler:handler];
 }
 

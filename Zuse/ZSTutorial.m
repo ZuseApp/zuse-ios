@@ -8,7 +8,7 @@
 @property (nonatomic, strong) void (^completion)();
 @property (nonatomic, strong) CMPopTipView *toolTipView;
 @property (nonatomic, strong) NSMutableDictionary *savedObjects;
-@property (nonatomic, weak) id <ZSTutorialStage> delegate;
+@property (nonatomic, strong) void (^stageCompletion)();
 
 @end
 
@@ -80,7 +80,8 @@
     }
 }
 
-- (void)present {
+- (void)presentWithCompletion:(void(^)())completion {
+    _stageCompletion = completion;
     _active = YES;
     [_window addSubview:_overlayView];
     [self processNextAction];
@@ -91,7 +92,9 @@
         _overlayView.invertActiveRegion = NO;
         if (_actions.count == 0) {
             [_overlayView removeFromSuperview];
-            _active = NO;
+            if (_stageCompletion) {
+                _stageCompletion();
+            }
         }
         else {
             [self refresh];
@@ -118,7 +121,9 @@
         // Show tooltip view
         UIView *view = nil;
         view = [[UIView alloc] initWithFrame:_overlayView.activeRegion];
-        // view.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.9];
+//        view.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.9];
+//        view.layer.borderColor = [[UIColor blackColor] CGColor];
+//        view.layer.borderWidth = 0.5f;
         [_overlayView addSubview:view];
         
         _toolTipView = [[CMPopTipView alloc] initWithMessage:action[@"text"]];
