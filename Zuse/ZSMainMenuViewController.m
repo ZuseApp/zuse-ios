@@ -128,6 +128,7 @@ typedef NS_ENUM(NSInteger, ZSMainMenuProjectFilter) {
 
 - (IBAction)zuseHubTapped:(id)sender {
     ZSZuseHubViewController *controller = [[ZSZuseHubViewController alloc] init];
+    controller.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     [self presentViewController:controller animated:YES completion:^{}];
     controller.didFinish = ^{
         [self dismissViewControllerAnimated:YES completion:^{ }];

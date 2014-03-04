@@ -26,6 +26,8 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
+    self.navigationItem.title = @"ZuseHub";
+    
     self.titleTextField.enabled = NO;
     self.titleTextField.text = self.project.title;
     
