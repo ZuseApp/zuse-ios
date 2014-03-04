@@ -83,7 +83,9 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
 {
     [super viewDidLoad];
     
+    self.toolbar.translucent = NO;
     self.toolbar.barTintColor = [UIColor zuseBackgroundGrey];
+    self.toolbar.clipsToBounds = YES;
     
     // Test Toolbox
     _toolboxView = [[ZSToolboxView alloc] initWithFrame:CGRectMake(19, 82, 282, 361)];
