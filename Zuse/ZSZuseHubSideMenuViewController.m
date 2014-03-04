@@ -10,6 +10,9 @@
 #import "MMSideDrawerTableViewCell.h"
 #import "MMSideDrawerSectionHeaderView.h"
 #import "MMNavigationController.h"
+#import "ZSZuseHubBrowseNewestViewController.h"
+#import "ZSZuseHubShareProjectsViewController.h"
+#import "ZSZuseHubViewMySharedProjectsViewController.h"
 
 @interface ZSZuseHubSideMenuViewController ()
 @property (weak, nonatomic) IBOutlet UITableViewCell *newestProjectsCell;
@@ -75,6 +78,19 @@
     self.drawerWidth = 160;
     
     [self.view setBackgroundColor:[UIColor clearColor]];
+    
+    //set up open drawer gestures
+    self.mm_drawerController.openDrawerGestureModeMask ^= MMOpenDrawerGestureModePanningNavigationBar;
+    self.mm_drawerController.openDrawerGestureModeMask ^=  MMOpenDrawerGestureModePanningCenterView;
+    //set up close drawer gestures
+    self.mm_drawerController.closeDrawerGestureModeMask ^= MMCloseDrawerGestureModePanningNavigationBar;
+    self.mm_drawerController.closeDrawerGestureModeMask ^= MMCloseDrawerGestureModePanningCenterView;
+    self.mm_drawerController.closeDrawerGestureModeMask ^= MMCloseDrawerGestureModeTapNavigationBar;
+    self.mm_drawerController.closeDrawerGestureModeMask ^= MMCloseDrawerGestureModeTapCenterView;
+    self.mm_drawerController.closeDrawerGestureModeMask ^= MMCloseDrawerGestureModePanningDrawerView;
+    //prevent users from interacting w/ center view when the drawer is open
+    self.mm_drawerController.centerHiddenInteractionMode = MMDrawerOpenCenterInteractionModeNavigationBarOnly;
+
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -180,24 +196,36 @@
         self.didSelectViewMySharedProjects();
     }
     
-    ZSZuseHubContentViewController *centerController = [[ZSZuseHubContentViewController alloc] init];
+    ZSZuseHubContentViewController *centerController;
     
+    //TODO add more cases for the different options in each section
     switch (indexPath.section)
     {
         case ZSZuseHubDrawerMyZuseHub:
         {
-            UINavigationController *nav = [[MMNavigationController alloc] initWithRootViewController:centerController];
-            [self.mm_drawerController setCenterViewController:nav withCloseAnimation:YES completion:nil];
-
+            if(indexPath.row == 0)
+            {
+                centerController = [[ZSZuseHubShareProjectsViewController alloc] init];
+            }
+            else
+            {
+                centerController = [[ZSZuseHubViewMySharedProjectsViewController alloc] init];
+            }
             break;
         }
-        
-            
+        case ZSZuseHubDrawerBrowseProjects:
+        {
+            if(indexPath.row == 0)
+            {
+                centerController = [[ZSZuseHubBrowseNewestViewController alloc] init];
+            }
+            break;
+        }
         default:
             break;
     }
-    
-    
+    UINavigationController *nav = [[MMNavigationController alloc] initWithRootViewController:centerController];
+    [self.mm_drawerController setCenterViewController:nav withCloseAnimation:YES completion:nil];
 }
 
 @end

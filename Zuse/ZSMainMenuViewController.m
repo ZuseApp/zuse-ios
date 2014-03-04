@@ -9,7 +9,7 @@
 #import "ZSMainMenuViewController.h"
 #import "ZSProjectCollectionViewCell.h"
 #import "ZSProjectPersistence.h"
-#import "ZSZuseHubContentViewController.h"
+#import "ZSZuseHubBrowseNewestViewController.h"
 #import "ZSCanvasViewController.h"
 #import <MTBlockAlertView/MTBlockAlertView.h>
 #import "ZSTutorial.h"
@@ -95,7 +95,7 @@ typedef NS_ENUM(NSInteger, ZSMainMenuProjectFilter) {
 }
 
 - (IBAction)zuseHubTapped:(id)sender {
-    ZSZuseHubContentViewController *controller = [[ZSZuseHubContentViewController alloc] init];
+    ZSZuseHubBrowseNewestViewController *controller = [[ZSZuseHubBrowseNewestViewController alloc] init];
     [self presentViewController:controller animated:YES completion:^{}];
 }
 

@@ -13,6 +13,8 @@
 #import "MMDrawerVisualState.h"
 #import "MMExampleDrawerVisualStateManager.h"
 #import "UIViewController+MMDrawerController.h"
+#import "MMNavigationController.h"
+#import "ZSZuseHubSideMenuViewController.h"
 
 @interface ZSZuseHubBrowseNewestViewController ()
 
@@ -153,7 +155,7 @@
     }
     else
     {
-        UIViewController * vc = [[MMExampleLeftSideDrawerViewController alloc] init];
+        UIViewController * vc = [[ZSZuseHubSideMenuViewController alloc] init];
         UINavigationController * navC = [[MMNavigationController alloc] initWithRootViewController:vc];
         [self.mm_drawerController setLeftDrawerViewController:navC];
         [self setupLeftMenuButton];
