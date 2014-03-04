@@ -12,6 +12,11 @@
 @property (weak, nonatomic) IBOutlet UITextField *titleTextField;
 @property (weak, nonatomic) IBOutlet UITextView *descriptionTextField;
 
+@property (strong, nonatomic) NSString *title;
+@property (strong, nonatomic) NSString *description;
+@property (strong, nonatomic) NSString *projectJson;
+@property (strong, nonatomic) NSString *compiledCode;
+
 @end
 
 @implementation ZSZuseHubShareViewController
@@ -26,19 +31,30 @@
                                                    blue:208.0/255.0
                                                   alpha:1.0]];
 }
+- (IBAction)outerViewTapped:(id)sender {
+    [self.titleTextField resignFirstResponder];
+    [self.descriptionTextField resignFirstResponder];
+}
 - (IBAction)cancelTapped:(id)sender {
-    self.didFinish();
+    self.didFinish(NO);
 }
 - (IBAction)shareTapped:(id)sender {
-    if(self.titleTextField.text)
+
+    
+    if(self.titleTextField.text.length != 0 && self.descriptionTextField.text.length != 0)
     {
-        self.title = self.titleTextField.text;
+    
+    // JSON request
+        [self.jsonClientManager createSharedProject:self.titleTextField.text description:self.descriptionTextField.text projectJson:self.project
+         completion:^(NSError *error) {
+             if(error.localizedDescription.length == 0)
+                 NSLog(@"failed");
+         }];
+     
+        self.didFinish(YES);
     }
-    if(self.descriptionTextField.text)
-    {
-        self.description = self.descriptionTextField.text;
-    }
-    self.didSelectShare();
+    
+    
 }
 
 @end

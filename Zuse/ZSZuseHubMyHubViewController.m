@@ -16,9 +16,12 @@
 #import "MMNavigationController.h"
 #import "ZSZuseHubSideMenuViewController.h"
 #import "ZSZuseHubShareViewController.h"
+#import "ZSProjectPersistence.h"
+#import "ZSProject.h"
+#import "ZSZuseHubViewSharedProjectsViewController.h"
 
 @interface ZSZuseHubMyHubViewController ()
-
+@property (strong, nonatomic) NSArray *userProjects;
 @end
 
 @implementation ZSZuseHubMyHubViewController
@@ -26,6 +29,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.userProjects = [ZSProjectPersistence userProjects];
+    
     _tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
     [self.tableView setDelegate:self];
     [self.tableView setDataSource:self];
@@ -94,7 +100,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     //TODO make this get the size from the client data pulled from the server
-    return 10;
+    return self.userProjects.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -110,6 +116,7 @@
         [cell setSelectionStyle:UITableViewCellSelectionStyleGray];
     }
     
+    
     UIColor * selectedColor = [UIColor
                                colorWithRed:1.0/255.0
                                green:15.0/255.0
@@ -119,11 +126,14 @@
     if(self.contentType == ZSZuseHubMyHubTypeShareProject)
     {
         //TODO set cellText to be what was grabbed from the client
-        cellText = @"share my projects";
+        
+        ZSProject *project = self.userProjects[indexPath.row];
+        cellText = project.title;
     }
     else if(self.contentType == ZSZuseHubMyHubTypeViewMySharedProjects)
     {
-        cellText = @"view my shared projects";
+        ZSProject *project = self.userProjects[indexPath.row];
+        cellText = project.title;
     }
     //TODO grab info from json client for project titles
     [cell.textLabel setText:cellText];
@@ -155,23 +165,24 @@
     
     if(self.contentType == ZSZuseHubMyHubTypeShareProject)
     {
-        ZSZuseHubShareViewController *controller = [[ZSZuseHubShareViewController alloc] init];
+        ZSZuseHubShareViewController *controller = [[UIStoryboard storyboardWithName:@"Main"
+                                                                              bundle:[NSBundle mainBundle]]
+                                                    instantiateViewControllerWithIdentifier:@"ZuseHubShare"];
+        controller.project = self.userProjects[indexPath.row];
         [self presentViewController:controller animated:YES completion:^{}];
-        controller.didFinish = ^{
+        controller.didFinish = ^(BOOL didShare){
+            
             [self dismissViewControllerAnimated:YES completion:^{ }];
-        };
-        controller.didSelectShare = ^{
-            //TODO make a call to share the project on zusehub
-//            [self.jsonClientManager createSharedProject:title description:description uuid:self.jsonClientManager.uuid projectJson:projectJson compiledCode:compiledCode];
+            
         };
     }
     else if(self.contentType == ZSZuseHubMyHubTypeViewMySharedProjects)
     {
-        ZSZuseHubShareViewController *controller = [[ZSZuseHubShareViewController alloc] init];
+        ZSZuseHubViewSharedProjectsViewController *controller = [[ZSZuseHubViewSharedProjectsViewController alloc] init];
         [self presentViewController:controller animated:YES completion:^{}];
-        controller.didFinish = ^{
-            [self dismissViewControllerAnimated:YES completion:^{ }];
-        };
+//        controller.didFinish = ^(BOOL didShare){
+//            [self dismissViewControllerAnimated:YES completion:^{ }];
+//        };
     }
     else
         NSLog( @"TODO put different browse types");

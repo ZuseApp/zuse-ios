@@ -12,6 +12,7 @@
 #import "ZSZuseHubMyHubViewController.h"
 #import "MMNavigationController.h"
 #import "MMExampleDrawerVisualStateManager.h"
+#import "ZSZuseHubViewSharedProjectsViewController.h"
 
 @interface ZSZuseHubViewController ()
 @property (strong, nonatomic) UIWindow *window;
@@ -95,7 +96,7 @@
     };
     
     self.leftSideDrawerViewController.didSelectViewMySharedProjects = ^{
-        weakSelf.centerViewController = [[ZSZuseHubMyHubViewController alloc] init];
+        weakSelf.centerViewController = [[ZSZuseHubViewSharedProjectsViewController alloc] init];
         weakSelf.centerViewController.contentType = ZSZuseHubMyHubTypeViewMySharedProjects;
         weakSelf.navigationController = [[MMNavigationController alloc] initWithRootViewController:weakSelf.centerViewController];
         [weakSelf.leftSideDrawerViewController.mm_drawerController setCenterViewController:weakSelf.navigationController withCloseAnimation:YES completion:nil];

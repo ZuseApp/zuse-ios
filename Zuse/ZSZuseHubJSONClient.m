@@ -7,6 +7,7 @@
 //
 
 #import "ZSZuseHubJSONClient.h"
+#import "ZSCompiler.h"
 
 @implementation ZSZuseHubJSONClient
 
@@ -22,36 +23,40 @@
         _zuseHubSharedManager.manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:url];
         _zuseHubSharedManager.manager.requestSerializer = [AFJSONRequestSerializer serializer];
         _zuseHubSharedManager.manager.responseSerializer = [AFJSONResponseSerializer serializer];
-//        if(![_zuseHubSharedManager authenticateUser])
-//            [_zuseHubSharedManager registerUser];
-//        else
-//            [_zuseHubSharedManager authenticateUser];
-//        [_zuseHubSharedManager setAuthHeader];
+        [_zuseHubSharedManager authenticateUser:^(NSDictionary *response) {
+            if(!response)
+                [_zuseHubSharedManager registerUser:^(NSDictionary *response) {
+                    _zuseHubSharedManager.token = response[@"token"];
+                    [_zuseHubSharedManager setAuthHeader];
+                }];
+            else
+                [_zuseHubSharedManager authenticateUser:^(NSDictionary *response) {
+                    _zuseHubSharedManager.token = response[@"token"];
+                    [_zuseHubSharedManager setAuthHeader];
+                }];
+                }];
+        
     });
     
     return _zuseHubSharedManager;
 }
 
-- (NSArray *)getNewestProjects
+- (void)getNewestProjects:(void(^)(NSArray *projects))completion
 {
-    NSDictionary *params = @{@"?category=": @"newest"};
-    __block NSArray *result = nil;
-    [self.manager GET:@"projects.json"
-           parameters:params
-              success:^(AFHTTPRequestOperation *operation, NSArray *project)
+    [self.manager GET:@"projects.json?category=newest"
+           parameters:nil
+              success:^(AFHTTPRequestOperation *operation, NSArray *projects)
               {
-                  result = project;
+                  completion(projects);
               }
               failure:^(AFHTTPRequestOperation *operation, NSError *error)
               {
                   NSLog(@"Failed to get newest projects! %@", error.localizedDescription);
               }
      ];
-    
-    return result;
 }
 
-- (BOOL)registerUser
+- (void)registerUser:(void (^)(NSDictionary *))completion
 {
     //TODO make the user info generic
     NSDictionary *params = @{
@@ -59,7 +64,7 @@
                                      @"username": @"sarahdemo",
                                      @"email": @"rollingstar.15@gmail.com",
                                      @"password": @"12345",
-                                     @"confirm_password": @"12345"
+                                     @"password_confirmation": @"12345"
                                      }
                              };
     
@@ -67,21 +72,19 @@
             parameters:params
             success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject)
             {
-                self.token = responseObject[@"token"];
                 //TODO get teh uuid from the user's actual info
                 self.uuid = @"sarahdemo";
+                
+                completion(responseObject);
             }
             failure:^(AFHTTPRequestOperation *operation, NSError *error)
             {
                 NSLog(@"Failed to register user! %@", error.localizedDescription);
+                completion(nil);
             }];
-    
-    if(self.token)
-        return YES;
-    return NO;
 }
 
-- (BOOL)authenticateUser
+- (void)authenticateUser:(void (^)(NSDictionary *))completion
 {
     //TODO make the user info generic
     NSDictionary *params = @{
@@ -98,60 +101,61 @@
                 self.token = responseObject[@"token"];
                 //TODO get teh uuid from the user's actual info
                 self.uuid = @"sarahdemo";
+                completion(responseObject);
             }
             failure:^(AFHTTPRequestOperation *operation, NSError *error)
             {
                 NSLog(@"Failed to authenticate user! %@", error.localizedDescription);
+                completion(nil);
             }
      ];
-    
-    if(self.token)
-        return YES;
-    return NO;
 }
 
 - (void)setAuthHeader
 {
-    [self.manager.requestSerializer setAuthorizationHeaderFieldWithToken:self.token];
+//    NSString *params = [@"Token: " stringByAppendingString:self.token];
+    [self.manager.requestSerializer setValue:[@"Token: " stringByAppendingString:self.token]
+                          forHTTPHeaderField:@"Authorization"];
 }
 
-- (NSArray *)getUsersSharedProjects
+- (void)getUsersSharedProjects:(void (^)(NSArray *))completion
 {
-    __block NSArray *result = nil;
     [self.manager GET:@"user/projects.json"
            parameters:nil
               success:^(AFHTTPRequestOperation *operation, NSArray *projects)
      {
-         result = projects;
+         completion(projects);
      }
               failure:^(AFHTTPRequestOperation *operation, NSError *error)
      {
          NSLog(@"Failed to get user's shared projects! %@", error.localizedDescription);
+         completion(nil);
      }
      ];
-
-    
-    return result;
 }
 
-- (BOOL)createSharedProject:(NSString *)title description:(NSString *)description uuid:(NSString *)uuid projectJson:(NSString *)projectJson compiledCode:(NSString *)compiledCode
+- (void)createSharedProject:(NSString *)title
+                description:(NSString *)description
+                projectJson:(ZSProject *)project
+                 completion:(void (^)(NSError *))completion
 
 {
     __block BOOL result = YES;
     
-    NSData *projectData = [NSJSONSerialization dataWithJSONObject:projectJson
-                                                          options:NSJSONWritingPrettyPrinted
+    NSData *projectData = [NSJSONSerialization dataWithJSONObject:project.assembledJSON
+                                                          options:0
                                                             error:nil];
     NSString *projectString = [[NSString alloc] initWithBytes:projectData.bytes
                                                        length:projectData.length
                                                      encoding:NSUTF8StringEncoding];
-    
-    NSData *compiledData = [NSJSONSerialization dataWithJSONObject:compiledCode
-                                                          options:NSJSONWritingPrettyPrinted
+    ZSCompiler *compiler = [ZSCompiler compilerWithProjectJSON:project.assembledJSON];
+    NSData *compiledData = [NSJSONSerialization dataWithJSONObject:compiler.compiledJSON
+                                                          options:0
                                                             error:nil];
     NSString *compiledString = [[NSString alloc] initWithBytes:compiledData.bytes
                                                        length:compiledData.length
                                                      encoding:NSUTF8StringEncoding];
+    NSString *uuid = project.identifier;
     
     NSDictionary *params = @{
         @"project" : @{
@@ -162,19 +166,20 @@
             @"compiled_code" : compiledString
         }
         };
-    [self.manager POST:@"projects.json"
+    [self.manager POST:@"user/projects.json"
            parameters:params
               success:^(AFHTTPRequestOperation *operation, id project)
      {
-         result = YES;
+         completion(nil);
      }
               failure:^(AFHTTPRequestOperation *operation, NSError *error)
      {
+         completion(error);
          NSLog(@"Failed to create a shared project! %@", error.localizedDescription);
+         NSLog(@"error string for sharing project failure %@", error.localizedFailureReason);
          result = NO;
      }
      ];
-    return result;
 }
 
 @end

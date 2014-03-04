@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <AFNetworking/AFNetworking.h>
+#import "ZSProject.h"
 
 @protocol ZSZuseHubJSONClientDelegate;
 
@@ -23,12 +24,12 @@
 @property (strong, nonatomic) NSString *uuid;
 
 + (ZSZuseHubJSONClient *)sharedClient;
-- (NSArray *)getNewestProjects;
-- (BOOL)registerUser;
-- (BOOL)authenticateUser;
+- (void )getNewestProjects:(void(^)(NSArray *projects))completion;
+- (void)registerUser:(void(^)(NSDictionary *response))completion;
+- (void)authenticateUser:(void(^)(NSDictionary *response))completion;;
 - (void)setAuthHeader;
-- (NSArray *)getUsersSharedProjects;
-- (BOOL)createSharedProject:(NSString *)title description:(NSString *)description uuid:(NSString *)uuid projectJson:(NSString *)projectJson compiledCode:(NSString *)compiledCode;
+- (void)getUsersSharedProjects:(void(^)(NSArray *projects))completion;
+- (void)createSharedProject:(NSString *)title description:(NSString *)description projectJson:(ZSProject *)projectJson completion:(void(^)(NSError *))completion;
 
 @end
 

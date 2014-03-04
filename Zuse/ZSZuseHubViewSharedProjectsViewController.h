@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "ZSZuseHubContentViewController.h"
 
-@interface ZSZuseHubViewSharedProjectsViewController : ZSZuseHubContentViewController
+@interface ZSZuseHubViewSharedProjectsViewController : ZSZuseHubContentViewController <UITableViewDataSource,UITableViewDelegate>
+
+@property (nonatomic,strong) UITableView * tableView;
 
 @end

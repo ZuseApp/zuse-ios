@@ -396,7 +396,7 @@
         <!--Zuse Hub Share Project View Controller-->
         <scene sceneID="RBu-GS-eMt">
             <objects>
-                <viewController id="Mza-6w-nah" userLabel="Zuse Hub Share Project View Controller" customClass="ZSZuseHubShareViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ZuseHubShare" id="Mza-6w-nah" userLabel="Zuse Hub Share Project View Controller" customClass="ZSZuseHubShareViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8zi-Wm-INN">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -455,17 +455,25 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="fbe-6Y-Lgu" appends="YES" id="Q9y-6C-Tek"/>
+                        </connections>
                     </view>
+                    <navigationItem key="navigationItem" id="uuV-2c-HLg"/>
                     <connections>
-                        <outlet property="cancelButton" destination="2XP-3U-zer" id="WJS-2I-0Mc"/>
                         <outlet property="descriptionTextField" destination="86H-1i-AHG" id="PKq-hU-4u3"/>
-                        <outlet property="shareButton" destination="xWs-rz-p0K" id="cz3-VS-pDq"/>
                         <outlet property="titleTextField" destination="Qb4-ks-oOC" id="skF-a3-oXR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JHC-we-Jmo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="fbe-6Y-Lgu">
+                    <connections>
+                        <action selector="outerViewTapped:" destination="Mza-6w-nah" id="aY3-pd-rBy"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="-15" y="1123"/>
+            <point key="canvasLocation" x="-421" y="1148"/>
         </scene>
         <!--Renderer View Controller-->
         <scene sceneID="1be-MY-ef4">

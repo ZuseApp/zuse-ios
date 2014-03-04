@@ -28,7 +28,9 @@
 {
     [super viewDidLoad];
     
-    self.jsonProjects = [self.jsonClientManager getNewestProjects];
+    [self.jsonClientManager getNewestProjects:^(NSArray *projects) {
+        self.jsonProjects = projects;
+    }];
     
     _tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
     [self.tableView setDelegate:self];
@@ -126,7 +128,10 @@
         if(self.jsonProjects.count == 0)
             cellText = @"No projects on the server yet";
         else
-            cellText = self.jsonProjects[indexPath.row];
+        {
+            NSDictionary *project = self.jsonProjects[indexPath.row];
+            cellText = project[@"title"];
+        }
     }
     //TODO grab info from json client for project titles
     [cell.textLabel setText:cellText];
