@@ -7,10 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ZSZuseHubJSONClient.h"
 
 @interface ZSZuseHubContentViewController : UIViewController
 
 @property NSInteger contentType;
+@property (strong, nonatomic) ZSZuseHubJSONClient *manager;
 
 - (void)contentSizeDidChange:(NSString*)size;
 

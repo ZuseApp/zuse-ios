@@ -22,7 +22,8 @@
 	// Do any additional setup after loading the view.
     NSLog(@"loaded zusehub");
     
-    [super viewDidLoad];
+    self.manager = [ZSZuseHubJSONClient sharedClient];
+    
     [[NSNotificationCenter defaultCenter]
         addObserver:self
         selector:@selector(contentSizeDidChangeNotification:)

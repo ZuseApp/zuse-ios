@@ -147,38 +147,11 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     //set up the left drawer animation
-    [[MMExampleDrawerVisualStateManager sharedManager] setLeftDrawerAnimationType:indexPath.row];
+    [[MMExampleDrawerVisualStateManager sharedManager] setLeftDrawerAnimationType:MMDrawerAnimationTypeParallax];
     [tableView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationNone];
     [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    //set up the left view state
-    UIViewController * sideDrawerViewController = self.mm_drawerController.leftDrawerViewController;
-    
-    if(sideDrawerViewController)
-    {
-        [self.mm_drawerController
-         closeDrawerAnimated:YES
-         completion:^(BOOL finished)
-         {
-             [self.mm_drawerController setLeftDrawerViewController:nil];
-             [self.navigationItem setLeftBarButtonItems:nil animated:YES];
-             [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-             [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
-             [tableView deselectRowAtIndexPath:indexPath animated:YES];
-             
-         }];
-    }
-    else
-    {
-        UIViewController * vc = [[ZSZuseHubSideMenuViewController alloc] init];
-        UINavigationController * navC = [[MMNavigationController alloc] initWithRootViewController:vc];
-        [self.mm_drawerController setLeftDrawerViewController:navC];
-        [self setupLeftMenuButton];
-        [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-        [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
-        [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    }
     
 }
 
