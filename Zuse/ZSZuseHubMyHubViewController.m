@@ -152,7 +152,11 @@
     [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    
+    ZSZ
+    controller.didFinish = ^{
+        [self dismissViewControllerAnimated:YES completion:^{ }];
+    };
+
 }
 
 #pragma mark - Button Handlers

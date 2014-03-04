@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ZSZuseHubContentViewController.h"
 
-@interface ZSZuseHubShareViewController : UIViewController
+@interface ZSZuseHubShareViewController : ZSZuseHubContentViewController <UITableViewDataSource,UITableViewDelegate>
+
+@property (copy, nonatomic) void(^didFinish)();
 
 @end

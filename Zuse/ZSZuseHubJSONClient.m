@@ -97,7 +97,7 @@
             }
             failure:^(AFHTTPRequestOperation *operation, NSError *error)
             {
-                NSLog(@"Failed to register user! %@", error.localizedDescription);
+                NSLog(@"Failed to authenticate user! %@", error.localizedDescription);
             }
      ];
     
@@ -109,6 +109,68 @@
 - (void)setAuthHeader
 {
     [self.manager.requestSerializer setAuthorizationHeaderFieldWithToken:self.token];
+}
+
+- (NSArray *)getUsersSharedProjects
+{
+    __block NSArray *result = nil;
+    [self.manager GET:@"user/projects.json"
+           parameters:nil
+              success:^(AFHTTPRequestOperation *operation, NSArray *projects)
+     {
+         result = projects;
+     }
+              failure:^(AFHTTPRequestOperation *operation, NSError *error)
+     {
+         NSLog(@"Failed to get user's shared projects! %@", error.localizedDescription);
+     }
+     ];
+
+    
+    return result;
+}
+
+- (BOOL)createSharedProject:(NSString *)title description:(NSString *)description uuid:(NSString *)uuid projectJson:(NSString *)projectJson compiledCode:(NSString *)compiledCode
+
+{
+    __block BOOL result = YES;
+    
+    NSData *projectData = [NSJSONSerialization dataWithJSONObject:projectJson
+                                                          options:NSJSONWritingPrettyPrinted
+                                                            error:nil];
+    NSString *projectString = [[NSString alloc] initWithBytes:projectData.bytes
+                                                       length:projectData.length
+                                                     encoding:NSUTF8StringEncoding];
+    
+    NSData *compiledData = [NSJSONSerialization dataWithJSONObject:compiledCode
+                                                          options:NSJSONWritingPrettyPrinted
+                                                            error:nil];
+    NSString *compiledString = [[NSString alloc] initWithBytes:compiledData.bytes
+                                                       length:compiledData.length
+                                                     encoding:NSUTF8StringEncoding];
+    
+    NSDictionary *params = @{
+        @"project" : @{
+            @"title" : title,
+            @"description" : description,
+            @"uuid" : uuid,
+            @"project_json" : projectString,
+            @"compiled_code" : compiledString
+        }
+        };
+    [self.manager POST:@"projects.json"
+           parameters:params
+              success:^(AFHTTPRequestOperation *operation, id project)
+     {
+         result = YES;
+     }
+              failure:^(AFHTTPRequestOperation *operation, NSError *error)
+     {
+         NSLog(@"Failed to create a shared project! %@", error.localizedDescription);
+         result = NO;
+     }
+     ];
+    return result;
 }
 
 @end

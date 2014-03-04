@@ -26,6 +26,8 @@
 - (BOOL)registerUser;
 - (BOOL)authenticateUser;
 - (void)setAuthHeader;
+- (NSArray *)getUsersSharedProjects;
+- (BOOL)createSharedProject;
 
 @end
 
