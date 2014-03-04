@@ -105,18 +105,21 @@
                                     <action selector="zuseHubTapped:" destination="mP0-dE-Fkn" eventType="touchUpInside" id="eNk-aD-CYl"/>
                                 </connections>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" id="Hg8-ke-vkC">
+                                <rect key="frame" x="104" y="33" width="112" height="51"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <connections>
                         <outlet property="projectCollectionView" destination="ww8-it-zVa" id="KwL-Yb-uH3"/>
                         <segue destination="qGw-AV-wKF" kind="modal" identifier="project" customClass="ZSCanvasSegue" animates="NO" id="6lt-7T-WTC"/>
-                        <segue destination="xaZ-al-QhV" kind="custom" identifier="project2" customClass="ZSCanvasSegue" id="x6G-O7-yTE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jby-aW-aVJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-122" y="251"/>
+            <point key="canvasLocation" x="-144" y="157"/>
         </scene>
         <!--Canvas View Controller-->
         <scene sceneID="LCo-ov-pl2">
@@ -949,6 +952,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="logo" width="112" height="51"/>
         <image name="yoda.jpg" width="1124" height="900"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
@@ -957,7 +961,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="UX7-mm-e13"/>
         <segue reference="BB8-BW-ttQ"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -39,6 +39,7 @@ typedef NS_ENUM(NSInteger, ZSMainMenuProjectFilter) {
     
     self.projectCollectionView.delegate = self;
     self.projectCollectionView.dataSource = self;
+    self.view.tintColor = [UIColor zuseYellow];
     
     self.view.backgroundColor = [UIColor zuseBackgroundGrey];
     
