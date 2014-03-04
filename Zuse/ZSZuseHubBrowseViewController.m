@@ -28,9 +28,7 @@
 {
     [super viewDidLoad];
     
-    [self.jsonClientManager getNewestProjects:^(NSArray *projects) {
-        self.jsonProjects = projects;
-    }];
+    self.jsonProjects = @[];
     
     _tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
     [self.tableView setDelegate:self];
@@ -62,6 +60,10 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    [self.jsonClientManager getNewestProjects:^(NSArray *projects) {
+        self.jsonProjects = projects;
+        [self.tableView reloadData];
+    }];
     NSLog(@"Center will appear");
 }
 

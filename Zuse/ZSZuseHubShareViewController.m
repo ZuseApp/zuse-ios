@@ -26,6 +26,9 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
+    self.titleTextField.enabled = NO;
+    self.titleTextField.text = self.project.title;
+    
     [self.view setBackgroundColor:[UIColor colorWithRed:208.0/255.0
                                                   green:208.0/255.0
                                                    blue:208.0/255.0
@@ -48,7 +51,7 @@
         [self.jsonClientManager createSharedProject:self.titleTextField.text description:self.descriptionTextField.text projectJson:self.project
          completion:^(NSError *error) {
              if(error.localizedDescription.length == 0)
-                 NSLog(@"failed");
+                 NSLog(@"share succeeded");
          }];
      
         self.didFinish(YES);

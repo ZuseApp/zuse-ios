@@ -23,18 +23,19 @@
         _zuseHubSharedManager.manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:url];
         _zuseHubSharedManager.manager.requestSerializer = [AFJSONRequestSerializer serializer];
         _zuseHubSharedManager.manager.responseSerializer = [AFJSONResponseSerializer serializer];
-        [_zuseHubSharedManager authenticateUser:^(NSDictionary *response) {
-            if(!response)
-                [_zuseHubSharedManager registerUser:^(NSDictionary *response) {
-                    _zuseHubSharedManager.token = response[@"token"];
-                    [_zuseHubSharedManager setAuthHeader];
-                }];
-            else
-                [_zuseHubSharedManager authenticateUser:^(NSDictionary *response) {
-                    _zuseHubSharedManager.token = response[@"token"];
-                    [_zuseHubSharedManager setAuthHeader];
-                }];
-                }];
+        [_zuseHubSharedManager setAuthHeader];
+//        [_zuseHubSharedManager authenticateUser:^(NSDictionary *response) {
+//            if(!response)
+//                [_zuseHubSharedManager registerUser:^(NSDictionary *response) {
+//                    _zuseHubSharedManager.token = response[@"token"];
+//                    [_zuseHubSharedManager setAuthHeader];
+//                }];
+//            else
+//                [_zuseHubSharedManager authenticateUser:^(NSDictionary *response) {
+//                    _zuseHubSharedManager.token = response[@"token"];
+//                    [_zuseHubSharedManager setAuthHeader];
+//                }];
+//                }];
         
     });
     
@@ -114,8 +115,10 @@
 - (void)setAuthHeader
 {
 //    NSString *params = [@"Token: " stringByAppendingString:self.token];
-    [self.manager.requestSerializer setValue:[@"Token: " stringByAppendingString:self.token]
-                          forHTTPHeaderField:@"Authorization"];
+//    [self.manager.requestSerializer setValue:[@"Token: " stringByAppendingString:self.token]
+//                          forHTTPHeaderField:@"Authorization"];
+    
+    [self.manager.requestSerializer setValue:[@"Token: " stringByAppendingString:@"F-ezKpgzkT0nsdRkhpVUVIXh35FTrgcJawAmy8mT"] forHTTPHeaderField:@"Authorization"];
 }
 
 - (void)getUsersSharedProjects:(void (^)(NSArray *))completion
@@ -133,6 +136,7 @@
      }
      ];
 }
+
 
 - (void)createSharedProject:(NSString *)title
                 description:(NSString *)description

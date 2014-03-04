@@ -27,9 +27,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.jsonProjects = @[];
     
     [self.jsonClientManager getUsersSharedProjects:^(NSArray *projects) {
         self.jsonProjects = projects;
+        [self.tableView reloadData];
     }];
     
     _tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
