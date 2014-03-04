@@ -593,7 +593,7 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
     NSDictionary *params = @{
         @"shared_project": @{
             @"title": self.project.title,
-            @"raw_code": projectString
+            @"project_json": projectString
         }
     };
                         
