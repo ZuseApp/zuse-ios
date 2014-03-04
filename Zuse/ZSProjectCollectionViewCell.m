@@ -19,7 +19,8 @@
 - (void)layoutSubviews {
     self.nameLabel.text = self.projectTitle;
     self.nameLabel.textColor = [UIColor whiteColor];
-//    self.screenshotView.image = self.screenshot;
+    self.screenshotView.image = self.screenshot;
+    self.screenshotView.contentMode = UIViewContentModeScaleAspectFit;
 }
 
 @end

@@ -12,6 +12,7 @@
 @interface ZSCanvasViewController : UIViewController <UIGestureRecognizerDelegate>
 
 @property (strong, nonatomic) ZSProject *project;
+@property (assign, nonatomic) CGRect initialCanvasRect;
 @property (copy, nonatomic) void(^didFinish)();
 
 @end

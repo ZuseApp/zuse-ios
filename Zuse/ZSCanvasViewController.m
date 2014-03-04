@@ -89,6 +89,10 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
 {
     [super viewDidLoad];
     
+    self.toolbar.translucent = NO;
+    self.toolbar.barTintColor = [UIColor zuseBackgroundGrey];
+    self.toolbar.clipsToBounds = YES;
+    
     // Test Toolbox
     _toolboxView = [[ZSToolboxView alloc] initWithFrame:CGRectMake(19, 82, 282, 361)];
     WeakSelf
@@ -125,6 +129,9 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
     }
     
     [self transitionToInterfaceState:ZSCanvasInterfaceStateNormal];
+    
+    // Animate in the canvas view and all that jazz
+    [self animateCanvasViewIn];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -143,7 +150,7 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
     if (_tutorial.isActive) {
         [self createTutorialForStage:_tutorialStage];
         [_tutorial presentWithCompletion:^{
-            if (_tutorialStage == ZSCanvasTutorialGroupSetupStage) {
+            if (_tutorialStage == ZSCanvasTutorialSetupStage) {
                 _tutorial.active = NO;
             }
             else {
@@ -172,6 +179,48 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
     }
 }
 
+#pragma mark Transition Animations
+
+- (void)animateCanvasViewIn {
+    CGRect toolbarFrame = self.toolbar.frame;
+    CGRect originalToolbarFrame = toolbarFrame;
+    toolbarFrame.origin.y = self.view.bounds.size.height;
+    self.toolbar.frame = toolbarFrame;
+    
+    CGRect normalFrame = self.canvasView.frame;
+    self.view.backgroundColor = [UIColor clearColor];
+    CGFloat scale = self.initialCanvasRect.size.width / self.view.bounds.size.width;
+    self.canvasView.transform = CGAffineTransformMakeScale(scale, scale);
+    CGRect frame = self.canvasView.frame;
+    frame.origin.x = self.initialCanvasRect.origin.x;
+    frame.origin.y = self.initialCanvasRect.origin.y;
+    self.canvasView.frame = frame;
+    
+    [UIView animateWithDuration:0.4
+                     animations:^{
+                         self.canvasView.transform = CGAffineTransformIdentity;
+                         self.canvasView.frame = normalFrame;
+                         self.toolbar.frame = originalToolbarFrame;
+                     }];
+}
+
+- (void)animateCanvasViewOut {
+    CGFloat scale = self.initialCanvasRect.size.width / self.canvasView.bounds.size.width;
+    CGRect toolbarRect = self.toolbar.frame;
+    toolbarRect.origin.y = self.view.bounds.size.height;
+    [UIView animateWithDuration:0.4
+                     animations:^{
+                         self.canvasView.transform = CGAffineTransformMakeScale(scale, scale);
+                         self.canvasView.frame = self.initialCanvasRect;
+                         self.toolbar.frame = toolbarRect;
+                         
+                     } completion:^(BOOL finished) {
+                         if (self.didFinish) {
+                             self.didFinish();
+                         }
+                     }];
+}
+
 #pragma mark Tutorial
 
 - (void)createTutorialForStage:(ZSCanvasTutorialStage)stage {
@@ -186,10 +235,12 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
         CGRect paddleRect = [collectionView layoutAttributesForItemAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]].frame;
         paddleRect.size.height -= 17;
         
+        CGRect settingsButtonRect = ((ZSCanvasBarButtonItem *)_toolbar.items[3]).button.frame;
+        
         [_tutorial addActionWithText:@"Touch the toolbox icon to open the sprite toolbox."
                             forEvent:ZSTutorialBroadcastDidShowToolbox
                      allowedGestures:@[UITapGestureRecognizer.class]
-                        activeRegion:[_toolbar.items[3] convertRect:[_toolbar.items[3] frame] toView:self.view]
+                        activeRegion:[_toolbar convertRect:settingsButtonRect toView:self.view]
                                setup:nil
                           completion:nil];
         [_tutorial addActionWithText:@"Drag a paddle sprite onto the lower part of the canvas."
@@ -227,14 +278,14 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
                                    weakSelf.tutorial.overlayView.invertActiveRegion = YES;
                                }
                           completion:nil];
-        [_tutorial addActionWithText:@"Touch the lower paddle to bring up the sprite editor."
-                            forEvent:ZSTutorialBroadcastDidTapPaddle
-                     allowedGestures:@[UITapGestureRecognizer.class]
-                        activeRegion:CGRectZero
-                               setup:^{
-                                   weakSelf.tutorial.overlayView.activeRegion = paddle1.frame;
-                               }
-                          completion:nil];
+//        [_tutorial addActionWithText:@"Touch the lower paddle to bring up the sprite editor."
+//                            forEvent:ZSTutorialBroadcastDidTapPaddle
+//                     allowedGestures:@[UITapGestureRecognizer.class]
+//                        activeRegion:CGRectZero
+//                               setup:^{
+//                                   weakSelf.tutorial.overlayView.activeRegion = paddle1.frame;
+//                               }
+//                          completion:nil];
     }
     if (stage == ZSCanvasTutorialPaddleTwoSetupStage) {
         [_tutorial addActionWithText:@"Touch the upper paddle to bring up the sprite editor."
@@ -275,7 +326,9 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     
-    [ZSProjectPersistence writeProject:self.project withImage:image];
+    self.project.screenshot = image;
+    
+    [ZSProjectPersistence writeProject:self.project];
 }
 
 #pragma mark Canvas Setup
@@ -528,10 +581,9 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
 
 - (void)finish {
     [self saveProject];
-    if (self.didFinish) {
-        self.didFinish();
-    }
+    [self animateCanvasViewOut];
 }
+
 - (void)shareProject {
     NSURL *baseURL = [NSURL URLWithString:@"https://zusehub.herokuapp.com/api/v1/"];
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseURL];

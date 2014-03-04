@@ -94,6 +94,9 @@
 		5F2EC4DE183B06840091CEAD /* property_update.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F2EC4DD183B06840091CEAD /* property_update.json */; };
 		5F2EC4E3183DC2550091CEAD /* scope_set_object_var.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F2EC4E2183DC2550091CEAD /* scope_set_object_var.json */; };
 		5F39172118C4F9FA00109747 /* ZSProjectJSONKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F39172018C4F9FA00109747 /* ZSProjectJSONKeys.m */; };
+		5F39172718C53ED100109747 /* ZSCanvasSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F39172618C53ED100109747 /* ZSCanvasSegue.m */; };
+		5F39172D18C55C1A00109747 /* UIImageView+Zuse.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F39172C18C55C1A00109747 /* UIImageView+Zuse.m */; };
+		5F39172F18C587D800109747 /* blank_project.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F39172E18C587D800109747 /* blank_project.png */; };
 		5F39DFC7188A40A0008ECAC1 /* NSArray+BlocksKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F39DFAA188A40A0008ECAC1 /* NSArray+BlocksKit.m */; };
 		5F39DFC8188A40A0008ECAC1 /* NSDictionary+BlocksKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F39DFAC188A40A0008ECAC1 /* NSDictionary+BlocksKit.m */; };
 		5F39DFC9188A40A0008ECAC1 /* NSIndexSet+BlocksKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F39DFAE188A40A0008ECAC1 /* NSIndexSet+BlocksKit.m */; };
@@ -132,7 +135,6 @@
 		5FBB4A8A18C2497B00B79AB6 /* breakout_example.json in Resources */ = {isa = PBXBuildFile; fileRef = 5FBB4A8818C2497B00B79AB6 /* breakout_example.json */; };
 		5FBB4A8B18C2497B00B79AB6 /* pong_example.json in Resources */ = {isa = PBXBuildFile; fileRef = 5FBB4A8918C2497B00B79AB6 /* pong_example.json */; };
 		5FBB4A8E18C24C8800B79AB6 /* UIColor+ZuseColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBB4A8D18C24C8800B79AB6 /* UIColor+ZuseColors.m */; };
-		789433B318C2617800C8D810 /* ZSVariableChooserController.m in Sources */ = {isa = PBXBuildFile; fileRef = 789433B218C2617800C8D810 /* ZSVariableChooserController.m */; };
 		789433B618C307A700C8D810 /* ZS_StatementChooserCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 789433B518C307A700C8D810 /* ZS_StatementChooserCollectionViewController.m */; };
 		789433B918C3BCA000C8D810 /* ZS_EventChooserCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 789433B818C3BCA000C8D810 /* ZS_EventChooserCollectionViewController.m */; };
 		789433BC18C3D1E800C8D810 /* ZS_ExpressionVariableChooserCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 789433BB18C3D1E800C8D810 /* ZS_ExpressionVariableChooserCollectionViewController.m */; };
@@ -272,6 +274,11 @@
 		5F2EC4E2183DC2550091CEAD /* scope_set_object_var.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = scope_set_object_var.json; sourceTree = "<group>"; };
 		5F39171F18C4F9C800109747 /* ZSProjectJSONKeys.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZSProjectJSONKeys.h; sourceTree = "<group>"; };
 		5F39172018C4F9FA00109747 /* ZSProjectJSONKeys.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSProjectJSONKeys.m; sourceTree = "<group>"; };
+		5F39172518C53ED100109747 /* ZSCanvasSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCanvasSegue.h; sourceTree = "<group>"; };
+		5F39172618C53ED100109747 /* ZSCanvasSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCanvasSegue.m; sourceTree = "<group>"; };
+		5F39172B18C55C1A00109747 /* UIImageView+Zuse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+Zuse.h"; sourceTree = "<group>"; };
+		5F39172C18C55C1A00109747 /* UIImageView+Zuse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+Zuse.m"; sourceTree = "<group>"; };
+		5F39172E18C587D800109747 /* blank_project.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blank_project.png; sourceTree = "<group>"; };
 		5F39DFA6188A40A0008ECAC1 /* BKGlobals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BKGlobals.h; path = Zuse/Vendor/BlocksKit/BKGlobals.h; sourceTree = "<group>"; };
 		5F39DFA7188A40A0008ECAC1 /* BKMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BKMacros.h; path = Zuse/Vendor/BlocksKit/BKMacros.h; sourceTree = "<group>"; };
 		5F39DFA8188A40A0008ECAC1 /* BlocksKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BlocksKit.h; path = Zuse/Vendor/BlocksKit/BlocksKit.h; sourceTree = "<group>"; };
@@ -341,8 +348,6 @@
 		5FBB4A8918C2497B00B79AB6 /* pong_example.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = pong_example.json; path = JSON/Examples/pong_example.json; sourceTree = "<group>"; };
 		5FBB4A8C18C24C8800B79AB6 /* UIColor+ZuseColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+ZuseColors.h"; sourceTree = "<group>"; };
 		5FBB4A8D18C24C8800B79AB6 /* UIColor+ZuseColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+ZuseColors.m"; sourceTree = "<group>"; };
-		789433B118C2617800C8D810 /* ZSVariableChooserController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSVariableChooserController.h; sourceTree = "<group>"; };
-		789433B218C2617800C8D810 /* ZSVariableChooserController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSVariableChooserController.m; sourceTree = "<group>"; };
 		789433B418C307A700C8D810 /* ZS_StatementChooserCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZS_StatementChooserCollectionViewController.h; sourceTree = "<group>"; };
 		789433B518C307A700C8D810 /* ZS_StatementChooserCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZS_StatementChooserCollectionViewController.m; sourceTree = "<group>"; };
 		789433B718C3BCA000C8D810 /* ZS_EventChooserCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZS_EventChooserCollectionViewController.h; sourceTree = "<group>"; };
@@ -434,6 +439,7 @@
 			children = (
 				4C3E87D018C3C31400C04749 /* breakout_example.png */,
 				4C3E87D118C3C31400C04749 /* pong_example.png */,
+				5F39172E18C587D800109747 /* blank_project.png */,
 				5FBB4A8818C2497B00B79AB6 /* breakout_example.json */,
 				5FBB4A8918C2497B00B79AB6 /* pong_example.json */,
 				4C0D470417FB800400F13786 /* guess_a_number.json */,
@@ -519,6 +525,8 @@
 				4CE3562B188B0943007024C0 /* Views */,
 				5F39171F18C4F9C800109747 /* ZSProjectJSONKeys.h */,
 				5F39172018C4F9FA00109747 /* ZSProjectJSONKeys.m */,
+				5F39172518C53ED100109747 /* ZSCanvasSegue.h */,
+				5F39172618C53ED100109747 /* ZSCanvasSegue.m */,
 			);
 			name = Canvas;
 			sourceTree = "<group>";
@@ -570,8 +578,6 @@
 			isa = PBXGroup;
 			children = (
 				5F50CBCF18A1526900B7C020 /* Groups */,
-				5F0DBAD318C2CDEE00039C62 /* ZSCanvasBarButtonItem.h */,
-				5F0DBAD418C2CDEE00039C62 /* ZSCanvasBarButtonItem.m */,
 				4C0D470617FB927600F13786 /* ZSCanvasViewController.h */,
 				4C0D470717FB927600F13786 /* ZSCanvasViewController.m */,
 			);
@@ -604,6 +610,8 @@
 				4C4087081852480F009117E1 /* ZSSpriteLibrary.m */,
 				4CF303EF1856E5DB00B57B95 /* ZSProject.h */,
 				4CF303F01856E5DB00B57B95 /* ZSProject.m */,
+				5FBB4A8118BFEC7800B79AB6 /* ZSProjectPersistence.h */,
+				5FBB4A8218BFEC7800B79AB6 /* ZSProjectPersistence.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -633,6 +641,8 @@
 		4CE3562B188B0943007024C0 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				5F0DBAD318C2CDEE00039C62 /* ZSCanvasBarButtonItem.h */,
+				5F0DBAD418C2CDEE00039C62 /* ZSCanvasBarButtonItem.m */,
 				4C3DD66218B705DE0013B3A5 /* Toolbox */,
 				4C5F732518874B51007F61B3 /* ZSCanvasView.h */,
 				4C5F732618874B51007F61B3 /* ZSCanvasView.m */,
@@ -783,6 +793,8 @@
 				5F8138D31898C36B009F3495 /* NSNumber+Zuse.m */,
 				5FBB4A8C18C24C8800B79AB6 /* UIColor+ZuseColors.h */,
 				5FBB4A8D18C24C8800B79AB6 /* UIColor+ZuseColors.m */,
+				5F39172B18C55C1A00109747 /* UIImageView+Zuse.h */,
+				5F39172C18C55C1A00109747 /* UIImageView+Zuse.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -815,6 +827,31 @@
 				5F2EC4E2183DC2550091CEAD /* scope_set_object_var.json */,
 			);
 			name = JSON;
+			sourceTree = "<group>";
+		};
+		5F39172218C5246E00109747 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				5FBB4A7E18BFEA4300B79AB6 /* ZSMainMenuViewController.h */,
+				5FBB4A7F18BFEA4300B79AB6 /* ZSMainMenuViewController.m */,
+			);
+			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		5F39172318C5247500109747 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				5FBB4A7B18BFE90A00B79AB6 /* ZSProjectCollectionViewCell.h */,
+				5FBB4A7C18BFE90A00B79AB6 /* ZSProjectCollectionViewCell.m */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		5F39172418C5247800109747 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Models;
 			sourceTree = "<group>";
 		};
 		5F39DFA5188A4090008ECAC1 /* BlocksKit */ = {
@@ -892,12 +929,9 @@
 		5FBB4A7A18BFE8DA00B79AB6 /* Main Menu */ = {
 			isa = PBXGroup;
 			children = (
-				5FBB4A7B18BFE90A00B79AB6 /* ZSProjectCollectionViewCell.h */,
-				5FBB4A7C18BFE90A00B79AB6 /* ZSProjectCollectionViewCell.m */,
-				5FBB4A7E18BFEA4300B79AB6 /* ZSMainMenuViewController.h */,
-				5FBB4A7F18BFEA4300B79AB6 /* ZSMainMenuViewController.m */,
-				5FBB4A8118BFEC7800B79AB6 /* ZSProjectPersistence.h */,
-				5FBB4A8218BFEC7800B79AB6 /* ZSProjectPersistence.m */,
+				5F39172418C5247800109747 /* Models */,
+				5F39172318C5247500109747 /* Views */,
+				5F39172218C5246E00109747 /* View Controllers */,
 			);
 			name = "Main Menu";
 			sourceTree = "<group>";
@@ -1010,6 +1044,7 @@
 				4C9E43DF188B66D300045D86 /* arrow-circle-double-135.png in Resources */,
 				4CF1D43218995EC000B5568F /* refresh.png in Resources */,
 				4C721A59188EFAF000D3FDEF /* pause.png in Resources */,
+				5F39172F18C587D800109747 /* blank_project.png in Resources */,
 				4C721A55188EF97600D3FDEF /* stop.png in Resources */,
 				4C721A51188EF31900D3FDEF /* settings.png in Resources */,
 				4C721A53188EF36B00D3FDEF /* back_arrow.png in Resources */,
@@ -1126,12 +1161,12 @@
 				5F39DFD2188A40A0008ECAC1 /* NSObject+BlocksKit.m in Sources */,
 				4C5F732718874B51007F61B3 /* ZSCanvasView.m in Sources */,
 				5F39DFD4188A40A0008ECAC1 /* NSSet+BlocksKit.m in Sources */,
+				5F39172D18C55C1A00109747 /* UIImageView+Zuse.m in Sources */,
 				5F0DBAD518C2CDEE00039C62 /* ZSCanvasBarButtonItem.m in Sources */,
 				7899786118B9255500A8FE05 /* ZS_CodeEditorViewController.m in Sources */,
 				7899786318B9255500A8FE05 /* ZS_JsonUtilities.m in Sources */,
 				5F39DFCB188A40A0008ECAC1 /* NSMutableArray+BlocksKit.m in Sources */,
 				4CE3404E180A0154009A63A2 /* ZSRendererViewController.m in Sources */,
-				789433B318C2617800C8D810 /* ZSVariableChooserController.m in Sources */,
 				5F41ACB818341C980089D136 /* ZSExecutionContext.m in Sources */,
 				4CF1CBC217EF882A00636E0D /* TCAppDelegate.m in Sources */,
 				5F39DFC8188A40A0008ECAC1 /* NSDictionary+BlocksKit.m in Sources */,
@@ -1154,6 +1189,7 @@
 				4C3DD66118B7005D0013B3A5 /* ZSToolboxCell.m in Sources */,
 				4C5A31C318B36A7800FCE1A9 /* ZSOverlayView.m in Sources */,
 				5F8138DF18A0BA07009F3495 /* ZSCollisionsViewController.m in Sources */,
+				5F39172718C53ED100109747 /* ZSCanvasSegue.m in Sources */,
 				4C5F732318873A59007F61B3 /* ZSGrid.m in Sources */,
 				5F39DFD1188A40A0008ECAC1 /* NSObject+BlockObservation.m in Sources */,
 				4C4087091852480F009117E1 /* ZSSpriteLibrary.m in Sources */,

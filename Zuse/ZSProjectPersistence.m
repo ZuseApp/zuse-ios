@@ -10,6 +10,9 @@
 #import "BlocksKit.h"
 #import "ZSProject.h"
 
+NSString const * ZSProjectPersistenceScreenshotsFolder = @"UserScreenshots";
+NSString const * ZSProjectPersistenceProjectsFolder = @"UserProjects";
+
 @implementation ZSProjectPersistence
 
 + (void)initialize {
@@ -27,17 +30,19 @@
         }
     }
     
-    if (![fileManager fileExistsAtPath:[self userImagesDirectoryPath]]) {
+    if (![fileManager fileExistsAtPath:[self userScreenshotsDirectoryPath]]) {
         NSError *error = nil;
-        [fileManager createDirectoryAtPath:[self userImagesDirectoryPath]
+        [fileManager createDirectoryAtPath:[self userScreenshotsDirectoryPath]
                withIntermediateDirectories:YES
                                 attributes:@{}
                                      error:&error];
         
         if (error) {
-            NSLog(@"+ [ZSProjectPersistence initialize]: Could not create directory at path: %@", [self userImagesDirectoryPath]);
+            NSLog(@"+ [ZSProjectPersistence initialize]: Could not create directory at path: %@", [self userScreenshotsDirectoryPath]);
         }
     }
+    
+    NSLog(@"%@", [self userProjectsDirectoryPath]);
 }
 
 /**
@@ -48,8 +53,22 @@
  */
 + (NSArray *)exampleProjectPaths {
     NSArray *paths = [[NSBundle mainBundle] pathsForResourcesOfType:@"json" inDirectory:@""];
+    paths = [paths sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        return [obj1 compare: obj2];
+    }];
     paths = [paths select:^BOOL(NSString *path) {
-        return [path hasSuffix:@"example.json"];
+        return [path hasSuffix:@"_example.json"];
+    }];
+    return paths;
+}
+
++ (NSArray *)exampleScreenshotPaths {
+    NSArray *paths = [[NSBundle mainBundle] pathsForResourcesOfType:@"png" inDirectory:@""];
+    paths = [paths sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        return [obj1 compare: obj2];
+    }];
+    paths = [paths select:^BOOL(NSString *path) {
+        return [path hasSuffix:@"_example.png"];
     }];
     return paths;
 }
@@ -85,6 +104,16 @@
         return [directoryPath stringByAppendingPathComponent:filename];
     }];
     
+    directoryContents = [directoryContents sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        NSDictionary *firstProperties = [fileManager attributesOfItemAtPath:obj1 error:nil];
+        NSDictionary *secondProperties = [fileManager attributesOfItemAtPath:obj2 error:nil];
+        
+        NSDate *date1 = firstProperties[NSFileModificationDate];
+        NSDate *date2 = secondProperties[NSFileModificationDate];
+        
+        return [date2 compare:date1];
+    }];
+    
     return directoryContents;
 }
 
@@ -94,7 +123,16 @@
  *  @return Array of ZSProject objects
  */
 + (NSArray *)exampleProjects {
-    return [self projectsForPaths:[self exampleProjectPaths]];
+    NSArray *projectPaths = [self exampleProjectPaths];
+    NSArray *screenshotPaths = [self exampleScreenshotPaths];
+    NSMutableArray *projects = [NSMutableArray array];
+    
+    [projectPaths enumerateObjectsUsingBlock:^(NSString *path, NSUInteger idx, BOOL *stop) {
+        ZSProject *project = [ZSProject projectWithFile:path];
+        project.screenshot = [UIImage imageWithContentsOfFile:screenshotPaths[idx]];
+        [projects addObject:project];
+    }];
+    return projects;
 }
 
 /**
@@ -103,7 +141,11 @@
  *  @return Array of ZSProject objects
  */
 + (NSArray *)userProjects {
-    return [self projectsForPaths:[self userProjectPaths]];
+    return [[self userProjectPaths] map:^id(NSString *filePath) {
+        ZSProject *project = [ZSProject projectWithFile:filePath];
+        project.screenshot = [self screenshotForProject:project];
+        return project;
+    }];
 }
 
 /**
@@ -131,9 +173,14 @@
     return [[self userProjectsDirectoryPath] stringByAppendingPathComponent:filename];
 }
 
-+ (NSString *)pathForImageWithProject:(ZSProject *)project {
++ (NSString *)pathForScreenshotWithProject:(ZSProject *)project {
     NSString *filename = [project.identifier stringByAppendingPathExtension:@"png"];
-    return [[self userImagesDirectoryPath] stringByAppendingPathComponent:filename];
+    return [[self userScreenshotsDirectoryPath] stringByAppendingPathComponent:filename];
+}
+
++ (UIImage *)screenshotForProject:(ZSProject *)project {
+    UIImage *image = [UIImage imageWithContentsOfFile:[self pathForScreenshotWithProject:project]];
+    return image;
 }
 
 /**
@@ -144,14 +191,14 @@
 + (NSString *)userProjectsDirectoryPath {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *userDocumentsPath = [documentsDirectory stringByAppendingPathComponent:@"UserProjects"];
+    NSString *userDocumentsPath = [documentsDirectory stringByAppendingPathComponent:[ZSProjectPersistenceProjectsFolder copy]];
     return userDocumentsPath;
 }
 
-+ (NSString *)userImagesDirectoryPath {
++ (NSString *)userScreenshotsDirectoryPath {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *userDocumentsPath = [documentsDirectory stringByAppendingPathComponent:@"UserImages"];
+    NSString *userDocumentsPath = [documentsDirectory stringByAppendingPathComponent:[ZSProjectPersistenceScreenshotsFolder copy]];
     return userDocumentsPath;
 }
 
@@ -160,7 +207,7 @@
  *
  *  @param project Project to be saved.
  */
-+ (void)writeProject:(ZSProject *)project withImage:(UIImage *)image {
++ (void)writeProject:(ZSProject *)project {
     static dispatch_queue_t savingQueue;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -169,7 +216,7 @@
     
     NSDictionary *assembledJSON = [[project assembledJSON] deepCopy];
     NSString *projectPath = [self pathForProject:project];
-    NSString *imagePath = [self pathForImageWithProject:project];
+    NSString *screenshotPath = [self pathForScreenshotWithProject:project];
     dispatch_async(savingQueue, ^{
         NSError *error;
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:assembledJSON options:NSJSONWritingPrettyPrinted error:&error];
@@ -178,8 +225,8 @@
         } else {
             [jsonData writeToFile:projectPath atomically:YES];
             
-            NSData *imageData = UIImagePNGRepresentation(image);
-            [imageData writeToFile:imagePath atomically:YES];
+            NSData *screenshotData = UIImagePNGRepresentation(project.screenshot);
+            [screenshotData writeToFile:screenshotPath atomically:YES];
         }
     });
 }

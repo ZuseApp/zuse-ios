@@ -4,6 +4,7 @@
 
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) NSString *version;
+@property (nonatomic, strong) UIImage *screenshot;
 @property (nonatomic, strong, readonly) NSString *identifier;
 
 + (ZSProject *)projectWithFile:(NSString *)name;
