@@ -30,6 +30,8 @@
     
     self.jsonProjects = @[];
     
+    self.navigationItem.title = @"ZuseHub";
+    
     _tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
     [self.tableView setDelegate:self];
     [self.tableView setDataSource:self];
