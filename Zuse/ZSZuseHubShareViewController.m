@@ -9,6 +9,8 @@
 #import "ZSZuseHubShareViewController.h"
 
 @interface ZSZuseHubShareViewController ()
+@property (weak, nonatomic) IBOutlet UITextField *titleTextField;
+@property (weak, nonatomic) IBOutlet UITextView *descriptionTextField;
 
 @end
 
@@ -23,7 +25,20 @@
                                                   green:208.0/255.0
                                                    blue:208.0/255.0
                                                   alpha:1.0]];
-
+}
+- (IBAction)cancelTapped:(id)sender {
+    self.didFinish();
+}
+- (IBAction)shareTapped:(id)sender {
+    if(self.titleTextField.text)
+    {
+        self.title = self.titleTextField.text;
+    }
+    if(self.descriptionTextField.text)
+    {
+        self.description = self.descriptionTextField.text;
+    }
+    self.didSelectShare();
 }
 
 @end

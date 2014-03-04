@@ -9,8 +9,15 @@
 #import <UIKit/UIKit.h>
 #import "ZSZuseHubContentViewController.h"
 
-@interface ZSZuseHubShareViewController : ZSZuseHubContentViewController <UITableViewDataSource,UITableViewDelegate>
+@interface ZSZuseHubShareViewController : ZSZuseHubContentViewController
+
+@property (strong, nonatomic) NSString *title;
+@property (strong, nonatomic) NSString *description;
+@property (strong, nonatomic) NSString *projectJson;
+@property (strong, nonatomic) NSString *compiledCode;
 
 @property (copy, nonatomic) void(^didFinish)();
+@property (copy, nonatomic) void(^didSelectShare)();
+
 
 @end

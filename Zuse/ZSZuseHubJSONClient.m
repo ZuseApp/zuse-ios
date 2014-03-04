@@ -68,6 +68,8 @@
             success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject)
             {
                 self.token = responseObject[@"token"];
+                //TODO get teh uuid from the user's actual info
+                self.uuid = @"sarahdemo";
             }
             failure:^(AFHTTPRequestOperation *operation, NSError *error)
             {
@@ -94,6 +96,8 @@
             success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject)
             {
                 self.token = responseObject[@"token"];
+                //TODO get teh uuid from the user's actual info
+                self.uuid = @"sarahdemo";
             }
             failure:^(AFHTTPRequestOperation *operation, NSError *error)
             {

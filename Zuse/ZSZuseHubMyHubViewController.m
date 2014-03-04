@@ -15,6 +15,7 @@
 #import "UIViewController+MMDrawerController.h"
 #import "MMNavigationController.h"
 #import "ZSZuseHubSideMenuViewController.h"
+#import "ZSZuseHubShareViewController.h"
 
 @interface ZSZuseHubMyHubViewController ()
 
@@ -152,10 +153,29 @@
     [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    ZSZ
-    controller.didFinish = ^{
-        [self dismissViewControllerAnimated:YES completion:^{ }];
-    };
+    if(self.contentType == ZSZuseHubMyHubTypeShareProject)
+    {
+        ZSZuseHubShareViewController *controller = [[ZSZuseHubShareViewController alloc] init];
+        [self presentViewController:controller animated:YES completion:^{}];
+        controller.didFinish = ^{
+            [self dismissViewControllerAnimated:YES completion:^{ }];
+        };
+        controller.didSelectShare = ^{
+            //TODO make a call to share the project on zusehub
+//            [self.jsonClientManager createSharedProject:title description:description uuid:self.jsonClientManager.uuid projectJson:projectJson compiledCode:compiledCode];
+        };
+    }
+    else if(self.contentType == ZSZuseHubMyHubTypeViewMySharedProjects)
+    {
+        ZSZuseHubShareViewController *controller = [[ZSZuseHubShareViewController alloc] init];
+        [self presentViewController:controller animated:YES completion:^{}];
+        controller.didFinish = ^{
+            [self dismissViewControllerAnimated:YES completion:^{ }];
+        };
+    }
+    else
+        NSLog( @"TODO put different browse types");
+    
 
 }
 
