@@ -28,6 +28,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self setTitle:@"ZuseHub Menu"];
+    
     self.tableView.delegate = self;
     
     //TODO put the other browse filter strings here
@@ -75,27 +77,43 @@
     navBarTitleDict = @{NSForegroundColorAttributeName:titleColor};
     [self.navigationController.navigationBar setTitleTextAttributes:navBarTitleDict];
     
-    self.drawerWidth = 160;
-    
     [self.view setBackgroundColor:[UIColor clearColor]];
     
     //set up open drawer gestures
-    self.mm_drawerController.openDrawerGestureModeMask ^= MMOpenDrawerGestureModePanningNavigationBar;
-    self.mm_drawerController.openDrawerGestureModeMask ^=  MMOpenDrawerGestureModePanningCenterView;
-    //set up close drawer gestures
-    self.mm_drawerController.closeDrawerGestureModeMask ^= MMCloseDrawerGestureModePanningNavigationBar;
-    self.mm_drawerController.closeDrawerGestureModeMask ^= MMCloseDrawerGestureModePanningCenterView;
-    self.mm_drawerController.closeDrawerGestureModeMask ^= MMCloseDrawerGestureModeTapNavigationBar;
-    self.mm_drawerController.closeDrawerGestureModeMask ^= MMCloseDrawerGestureModeTapCenterView;
-    self.mm_drawerController.closeDrawerGestureModeMask ^= MMCloseDrawerGestureModePanningDrawerView;
+//    self.mm_drawerController.openDrawerGestureModeMask ^= MMOpenDrawerGestureModePanningNavigationBar;
+//    self.mm_drawerController.openDrawerGestureModeMask ^=  MMOpenDrawerGestureModePanningCenterView;
+//    //set up close drawer gestures
+//    self.mm_drawerController.closeDrawerGestureModeMask ^= MMCloseDrawerGestureModePanningNavigationBar;
+//    self.mm_drawerController.closeDrawerGestureModeMask ^= MMCloseDrawerGestureModePanningCenterView;
+//    self.mm_drawerController.closeDrawerGestureModeMask ^= MMCloseDrawerGestureModeTapNavigationBar;
+//    self.mm_drawerController.closeDrawerGestureModeMask ^= MMCloseDrawerGestureModeTapCenterView;
+//    self.mm_drawerController.closeDrawerGestureModeMask ^= MMCloseDrawerGestureModePanningDrawerView;
     //prevent users from interacting w/ center view when the drawer is open
     self.mm_drawerController.centerHiddenInteractionMode = MMDrawerOpenCenterInteractionModeNavigationBarOnly;
+    //set the width of the drawer
+    [self.mm_drawerController setMaximumLeftDrawerWidth:160.0];
 
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.tableView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, self.tableView.numberOfSections-1)] withRowAnimation:UITableViewRowAnimationNone];
+    NSLog(@"Left will appear");
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    NSLog(@"Left did appear");
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    NSLog(@"Left will disappear");
+}
+
+-(void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    NSLog(@"Left did disappear");
 }
 
 -(void)contentSizeDidChange:(NSString *)size{
@@ -185,16 +203,16 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];
-    if (selectedCell == self.newestProjectsCell) {
-        self.didSelectNewestProjects();
-    } else if (selectedCell == self.shareProjectCell) {
-        self.didSelectShareProject();
-    }
-    else if(selectedCell == self.viewMySharedProjectsCell)
-    {
-        self.didSelectViewMySharedProjects();
-    }
+//    UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];
+//    if (selectedCell == self.newestProjectsCell) {
+//        self.didSelectNewestProjects();
+//    } else if (selectedCell == self.shareProjectCell) {
+//        self.didSelectShareProject();
+//    }
+//    else if(selectedCell == self.viewMySharedProjectsCell)
+//    {
+//        self.didSelectViewMySharedProjects();
+//    }
     
     ZSZuseHubContentViewController *centerController;
     
@@ -226,6 +244,18 @@
     }
     UINavigationController *nav = [[MMNavigationController alloc] initWithRootViewController:centerController];
     [self.mm_drawerController setCenterViewController:nav withCloseAnimation:YES completion:nil];
+    
+    [self.mm_drawerController
+     setMaximumLeftDrawerWidth:160.0f
+     animated:YES
+     completion:^(BOOL finished) {
+         [tableView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationNone];
+         [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+         [tableView deselectRowAtIndexPath:indexPath animated:YES];
+     }];
+
 }
+
+
 
 @end

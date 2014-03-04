@@ -8,7 +8,7 @@
 
 #import "MMDrawerController.h"
 
-@interface ZSZuseHubDrawerViewController : UIViewController
+@interface ZSZuseHubViewController : UIViewController
 
 
 @end

@@ -23,6 +23,5 @@ typedef NS_ENUM(NSInteger, ZSZuseHubDrawerSection){
 @property (copy, nonatomic) void (^didSelectViewMySharedProjects)();
 
 @property (nonatomic, strong) UITableView * tableView;
-@property NSInteger drawerWidth;
 
 @end
