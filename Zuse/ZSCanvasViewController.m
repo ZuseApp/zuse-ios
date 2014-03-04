@@ -168,14 +168,6 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
     } else if ([segue.identifier isEqualToString:@"editor"]) {
         ZSEditorViewController *editorController = (ZSEditorViewController *)segue.destinationViewController;
         editorController.spriteObject = ((ZSSpriteView *)sender).spriteJSON;
-    } else if ([segue.identifier isEqualToString:@"physicsGroups"]) {
-        ZSGroupsViewController *groupingController = (ZSGroupsViewController *)segue.destinationViewController;
-        
-        groupingController.sprites = _project.assembledJSON[@"objects"];
-        groupingController.groups = _project.assembledJSON[ZSProjectJSONKeyGroups];
-        groupingController.didFinish = ^{
-            [self dismissViewControllerAnimated:NO completion:^{ }];
-        };
     }
 }
 

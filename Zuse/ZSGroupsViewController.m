@@ -8,6 +8,7 @@
 
 // CocoaPods
 #import <MTBlockAlertView/MTBlockAlertView.h>
+#import <WYPopoverController/WYPopoverController.h>
 
 // Local Imports
 #import "ZSProjectJSONKeys.h"
@@ -18,14 +19,17 @@
 #import "BlocksKit.h"
 #import "ZSCanvasBarButtonItem.h"
 
-@interface ZSGroupsViewController ()
+@interface ZSGroupsViewController () <WYPopoverControllerDelegate>
 
 // IBOutlets
-@property (weak, nonatomic) UIBarButtonItem *selectedGroupItem;
+@property (strong, nonatomic) UIBarButtonItem *selectedGroupItem;
+@property (strong, nonatomic) UIBarButtonItem *collisionsGroupItem;
 
 // Properties
 @property (strong, nonatomic) NSArray *spriteViews;
 @property (strong, nonatomic) NSString *selectedGroup;
+@property (strong, nonatomic) WYPopoverController *popover;
+
 
 @end
 
@@ -74,13 +78,14 @@
     self.selectedGroupItem = [ZSCanvasBarButtonItem selectGroupButtonWithHandler:^{
         [self selectGroupButtonTapped];
     }];
+    self.collisionsGroupItem = [ZSCanvasBarButtonItem collisionsButtonWithHandler:^{
+        [self collisionsButtonTapped];
+    }];
     return @[
              [ZSCanvasBarButtonItem addButtonWithHandler:^{
                  [self addButtonTapped];
              }],
-             [ZSCanvasBarButtonItem collisionsButtonWithHandler:^{
-                 [self collisionsButtonTapped];
-             }],
+             self.collisionsGroupItem,
              [ZSCanvasBarButtonItem flexibleBarButtonItem],
              self.selectedGroupItem,
              [ZSCanvasBarButtonItem flexibleBarButtonItem],
@@ -195,15 +200,32 @@
     ZSSelectedGroupViewController *controller = [[ZSSelectedGroupViewController alloc] init];
     controller.groupNames = _groups.allKeys;
     
+    self.popover = nil;
+    
     WeakSelf
-    __weak typeof(controller) weakController = controller;
     controller.didFinish = ^(NSString *newGroup) {
         [weakSelf setSelectedGroup:newGroup];
-        self.viewControllerNeedsDismissal(weakController);
+        [weakSelf.popover dismissPopoverAnimated:YES];
     };
     
-    self.viewControllerNeedsPresented(controller);
+    self.popover = [[WYPopoverController alloc] initWithContentViewController:controller];
+    self.popover.delegate = self;
+    [self.popover presentPopoverFromBarButtonItem:self.selectedGroupItem
+                         permittedArrowDirections:WYPopoverArrowDirectionAny
+                                         animated:YES
+                                          options:WYPopoverAnimationOptionFadeWithScale];
+    
 }
+
+- (BOOL)popoverControllerShouldDismissPopover:(WYPopoverController *)popoverController {
+    return YES;
+}
+
+- (void)popoverControllerDidDismissPopover:(WYPopoverController *)popoverController {
+    self.popover.delegate = nil;
+    self.popover = nil;
+}
+
 
 - (void)collisionsButtonTapped {
     ZSCollisionsViewController *controller = [[ZSCollisionsViewController alloc] init];
@@ -211,12 +233,16 @@
     controller.selectedGroup   = _selectedGroup;
     
     WeakSelf
-    __weak typeof(controller) weakController = controller;
     controller.didFinish = ^{
-        weakSelf.viewControllerNeedsDismissal(weakController);
+        [weakSelf.popover dismissPopoverAnimated:YES];
     };
     
-    self.viewControllerNeedsPresented(controller);
+    self.popover = [[WYPopoverController alloc] initWithContentViewController:controller];
+    self.popover.delegate = self;
+    [self.popover presentPopoverFromBarButtonItem:self.collisionsGroupItem
+                         permittedArrowDirections:WYPopoverArrowDirectionAny
+                                         animated:YES
+                                          options:WYPopoverAnimationOptionFadeWithScale];
 }
 
 @end

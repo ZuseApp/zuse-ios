@@ -22,6 +22,7 @@
 {
     [super viewDidLoad];
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds];
+    self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     [self.tableView registerClass:UITableViewCell.class forCellReuseIdentifier:@"Cell"];
     
     _tableView.delegate   = self;
