@@ -97,6 +97,9 @@ typedef NS_ENUM(NSInteger, ZSMainMenuProjectFilter) {
 - (IBAction)zuseHubTapped:(id)sender {
     ZSZuseHubViewController *controller = [[ZSZuseHubViewController alloc] init];
     [self presentViewController:controller animated:YES completion:^{}];
+    controller.didFinish = ^{
+        [self dismissViewControllerAnimated:YES completion:^{ }];
+    };
 }
 
 - (IBAction)newProjectTapped:(id)sender {

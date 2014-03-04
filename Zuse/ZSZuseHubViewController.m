@@ -24,7 +24,7 @@
 {
     [super viewDidLoad];
     
-    UIViewController * leftSideDrawerViewController = [[ZSZuseHubSideMenuViewController alloc] init];
+    ZSZuseHubSideMenuViewController * leftSideDrawerViewController = [[ZSZuseHubSideMenuViewController alloc] init];
     //the initial center view will be 10 newest projects until the user changes it
     UIViewController * centerViewController = [[ZSZuseHubBrowseNewestViewController alloc] init];
     UINavigationController * navigationController = [[MMNavigationController alloc] initWithRootViewController:centerViewController];
@@ -49,6 +49,9 @@
      }];
     
     
+    leftSideDrawerViewController.didSelectBack = ^{
+        self.didFinish();
+    };
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     UIColor * tintColor = [UIColor colorWithRed:29.0/255.0

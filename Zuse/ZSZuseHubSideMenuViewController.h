@@ -21,6 +21,7 @@ typedef NS_ENUM(NSInteger, ZSZuseHubDrawerSection){
 @property (copy, nonatomic) void (^didSelectShareProject)();
 @property (copy, nonatomic) void (^didSelectNewestProjects)();
 @property (copy, nonatomic) void (^didSelectViewMySharedProjects)();
+@property (copy, nonatomic) void (^didSelectBack)();
 
 @property (nonatomic, strong) UITableView * tableView;
 
