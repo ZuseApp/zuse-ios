@@ -144,7 +144,7 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
     if (_tutorial.isActive) {
         [self createTutorialForStage:_tutorialStage];
         [_tutorial presentWithCompletion:^{
-            if (_tutorialStage == ZSCanvasTutorialGroupSetupStage) {
+            if (_tutorialStage == ZSCanvasTutorialSetupStage) {
                 _tutorial.active = NO;
             }
             else {
@@ -272,14 +272,14 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
                                    weakSelf.tutorial.overlayView.invertActiveRegion = YES;
                                }
                           completion:nil];
-        [_tutorial addActionWithText:@"Touch the lower paddle to bring up the sprite editor."
-                            forEvent:ZSTutorialBroadcastDidTapPaddle
-                     allowedGestures:@[UITapGestureRecognizer.class]
-                        activeRegion:CGRectZero
-                               setup:^{
-                                   weakSelf.tutorial.overlayView.activeRegion = paddle1.frame;
-                               }
-                          completion:nil];
+//        [_tutorial addActionWithText:@"Touch the lower paddle to bring up the sprite editor."
+//                            forEvent:ZSTutorialBroadcastDidTapPaddle
+//                     allowedGestures:@[UITapGestureRecognizer.class]
+//                        activeRegion:CGRectZero
+//                               setup:^{
+//                                   weakSelf.tutorial.overlayView.activeRegion = paddle1.frame;
+//                               }
+//                          completion:nil];
     }
     if (stage == ZSCanvasTutorialPaddleTwoSetupStage) {
         [_tutorial addActionWithText:@"Touch the upper paddle to bring up the sprite editor."
