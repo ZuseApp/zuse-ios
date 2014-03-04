@@ -6,12 +6,14 @@
 //  Copyright (c) 2014 Michael Hogenson. All rights reserved.
 //
 
+#import <MTBlockAlertView/MTBlockAlertView.h>
+
 #import "ZSMainMenuViewController.h"
 #import "ZSProjectCollectionViewCell.h"
 #import "ZSProjectPersistence.h"
 #import "ZSCanvasViewController.h"
-#import <MTBlockAlertView/MTBlockAlertView.h>
 #import "ZSTutorial.h"
+#import "UIImageView+Zuse.h"
 
 typedef NS_ENUM(NSInteger, ZSMainMenuProjectFilter) {
     ZSMainMenuProjectFilterMyProjects,
@@ -58,17 +60,41 @@ typedef NS_ENUM(NSInteger, ZSMainMenuProjectFilter) {
     [self.projectCollectionView reloadData];
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"project"]) {
-        UINavigationController *navController = (UINavigationController *)segue.destinationViewController;
-        
-        ZSCanvasViewController *controller = (ZSCanvasViewController *)navController.viewControllers.firstObject;
-        controller.project = self.selectedProject;
-        controller.didFinish = ^{
-            [self dismissViewControllerAnimated:YES
-                                     completion:^{ }];
-        };
-    }
+- (void)segueToProject:(ZSProject *)project {
+    UINavigationController *navController = [self.storyboard instantiateViewControllerWithIdentifier:@"CanvasNav"];
+    navController.view.backgroundColor = [UIColor clearColor];
+    
+    
+    ZSCanvasViewController *controller = (ZSCanvasViewController *)navController.viewControllers.firstObject;
+    //        ZSCanvasViewController *controller = (ZSCanvasViewController *)segue.destinationViewController;
+    
+    controller.project = self.selectedProject;
+    
+    NSIndexPath *indexPath = [self.projectCollectionView indexPathsForSelectedItems].firstObject;
+    ZSProjectCollectionViewCell *cell = (ZSProjectCollectionViewCell *)[self.projectCollectionView cellForItemAtIndexPath:indexPath];
+    
+    CGRect rect = cell.screenshotView.imageFrame;
+    
+    rect = [cell.screenshotView convertRect:rect toView:self.view];
+    
+    controller.initialCanvasRect = rect;
+//    navController.modalPresentationStyle = UIModalPresentationNone;
+    self.modalPresentationStyle = UIModalPresentationCurrentContext;
+    
+    WeakSelf
+//    __weak typeof(navController) weakNavController = navController;
+    //        __weak typeof(controller) weakNavController = controller;
+    controller.didFinish = ^{
+        [self dismissViewControllerAnimated:NO completion:^{ }];
+        //            [weakNavController.view removeFromSuperview];
+        //            [weakSelf.view.subviews.lastObject removeFromSuperview];
+        [weakSelf reloadDataSources];
+        [weakSelf scrollToBeginningWithCompletion:^(BOOL finished){ }];
+    };
+    
+    [self presentViewController:navController
+                       animated:NO
+                     completion:^{}];
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
@@ -85,15 +111,17 @@ typedef NS_ENUM(NSInteger, ZSMainMenuProjectFilter) {
     ZSProject *project = self.selectedProjects[indexPath.row];
     
     cell.projectTitle = project.title;
-    cell.screenshot = project.screenshot;
+    cell.screenshot = project.screenshot ?: [UIImage imageNamed:@"blank_project.png"];
+    
+    [cell setNeedsLayout];
     
     return cell;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    NSInteger index = [[[self.projectCollectionView indexPathsForSelectedItems] firstObject] row];
+    NSInteger index = [self.projectCollectionView.indexPathsForSelectedItems.firstObject row];
     self.selectedProject = _selectedProjects[index];
-    [self performSegueWithIdentifier:@"project" sender:self];
+    [self segueToProject:self.selectedProject];
 }
 
 - (IBAction)zuseHubTapped:(id)sender {
@@ -101,6 +129,8 @@ typedef NS_ENUM(NSInteger, ZSMainMenuProjectFilter) {
 }
 
 - (IBAction)newProjectTapped:(id)sender {
+    self.projectFilter = ZSMainMenuProjectFilterMyProjects;
+    [self reloadDataSources];
     
     MTBlockAlertView *alertView = [[MTBlockAlertView alloc]
                                    initWithTitle:@"New Project"
@@ -110,7 +140,11 @@ typedef NS_ENUM(NSInteger, ZSMainMenuProjectFilter) {
                                        NSString *title = [alertView textFieldAtIndex:0].text;
                                        self.selectedProject = [[ZSProject alloc] init];
                                        self.selectedProject.title = title;
-                                       [self performSegueWithIdentifier:@"project" sender:self];
+                                       self.selectedProject.screenshot = [UIImage imageNamed:@"blank_project.png"];
+                                       
+                                       [ZSProjectPersistence writeProject:self.selectedProject];
+                                       
+                                       [self insertAndSegueToNewProject:self.selectedProject];
                                    }
                                }
                                cancelButtonTitle:@"OK"
@@ -119,11 +153,36 @@ typedef NS_ENUM(NSInteger, ZSMainMenuProjectFilter) {
     [alertView show];
 }
 
+- (void)insertAndSegueToNewProject:(ZSProject *)project {
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+    
+    [self scrollToBeginningWithCompletion:^(BOOL finished){
+        [self.projectCollectionView performBatchUpdates:^{
+            [self reloadDataSources];
+            [self.projectCollectionView insertItemsAtIndexPaths:@[ indexPath ]];
+        } completion:^(BOOL finished) {
+            [self.projectCollectionView selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionNone];
+            [self segueToProject:self.selectedProject];
+        }];
+    }];
+}
+
+- (void)scrollToBeginningWithCompletion:(void(^)(BOOL))completion {
+    [UIView animateWithDuration:0.3
+                     animations:^{
+                         CGRect bounds = self.projectCollectionView.bounds;
+                         bounds.origin.x = 0;
+                         self.projectCollectionView.bounds = bounds;
+                     } completion:completion];
+}
+
 - (IBAction)tutorialTapped:(id)sender {
     [ZSTutorial sharedTutorial].active = YES;
     self.selectedProject = [[ZSProject alloc] init];
     self.selectedProject.title = @"Tutorial";
-    [self performSegueWithIdentifier:@"project" sender:self];
+    self.selectedProject.screenshot = [UIImage imageNamed:@"blank_project.png"];
+    [ZSProjectPersistence writeProject:self.selectedProject];
+    [self insertAndSegueToNewProject:self.selectedProject];
 }
 
 - (IBAction)myProjectsTapped:(id)sender {

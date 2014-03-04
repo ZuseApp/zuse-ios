@@ -93,6 +93,9 @@
 		5F2EC4DC183AD7510091CEAD /* ZSInterpreterDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F2EC4DB183AD7510091CEAD /* ZSInterpreterDelegateTests.m */; };
 		5F2EC4DE183B06840091CEAD /* property_update.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F2EC4DD183B06840091CEAD /* property_update.json */; };
 		5F2EC4E3183DC2550091CEAD /* scope_set_object_var.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F2EC4E2183DC2550091CEAD /* scope_set_object_var.json */; };
+		5F39172718C53ED100109747 /* ZSCanvasSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F39172618C53ED100109747 /* ZSCanvasSegue.m */; };
+		5F39172D18C55C1A00109747 /* UIImageView+Zuse.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F39172C18C55C1A00109747 /* UIImageView+Zuse.m */; };
+		5F39172F18C587D800109747 /* blank_project.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F39172E18C587D800109747 /* blank_project.png */; };
 		5F39DFC7188A40A0008ECAC1 /* NSArray+BlocksKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F39DFAA188A40A0008ECAC1 /* NSArray+BlocksKit.m */; };
 		5F39DFC8188A40A0008ECAC1 /* NSDictionary+BlocksKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F39DFAC188A40A0008ECAC1 /* NSDictionary+BlocksKit.m */; };
 		5F39DFC9188A40A0008ECAC1 /* NSIndexSet+BlocksKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F39DFAE188A40A0008ECAC1 /* NSIndexSet+BlocksKit.m */; };
@@ -268,6 +271,11 @@
 		5F2EC4DB183AD7510091CEAD /* ZSInterpreterDelegateTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSInterpreterDelegateTests.m; sourceTree = "<group>"; };
 		5F2EC4DD183B06840091CEAD /* property_update.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = property_update.json; path = CodeSamples/property_update.json; sourceTree = "<group>"; };
 		5F2EC4E2183DC2550091CEAD /* scope_set_object_var.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = scope_set_object_var.json; sourceTree = "<group>"; };
+		5F39172518C53ED100109747 /* ZSCanvasSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCanvasSegue.h; sourceTree = "<group>"; };
+		5F39172618C53ED100109747 /* ZSCanvasSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCanvasSegue.m; sourceTree = "<group>"; };
+		5F39172B18C55C1A00109747 /* UIImageView+Zuse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+Zuse.h"; sourceTree = "<group>"; };
+		5F39172C18C55C1A00109747 /* UIImageView+Zuse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+Zuse.m"; sourceTree = "<group>"; };
+		5F39172E18C587D800109747 /* blank_project.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blank_project.png; sourceTree = "<group>"; };
 		5F39DFA6188A40A0008ECAC1 /* BKGlobals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BKGlobals.h; path = Zuse/Vendor/BlocksKit/BKGlobals.h; sourceTree = "<group>"; };
 		5F39DFA7188A40A0008ECAC1 /* BKMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BKMacros.h; path = Zuse/Vendor/BlocksKit/BKMacros.h; sourceTree = "<group>"; };
 		5F39DFA8188A40A0008ECAC1 /* BlocksKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BlocksKit.h; path = Zuse/Vendor/BlocksKit/BlocksKit.h; sourceTree = "<group>"; };
@@ -428,6 +436,7 @@
 			children = (
 				4C3E87D018C3C31400C04749 /* breakout_example.png */,
 				4C3E87D118C3C31400C04749 /* pong_example.png */,
+				5F39172E18C587D800109747 /* blank_project.png */,
 				5FBB4A8818C2497B00B79AB6 /* breakout_example.json */,
 				5FBB4A8918C2497B00B79AB6 /* pong_example.json */,
 				4C0D470417FB800400F13786 /* guess_a_number.json */,
@@ -511,6 +520,8 @@
 				4CE35624188B0863007024C0 /* Models */,
 				4CE35625188B0868007024C0 /* View Controllers */,
 				4CE3562B188B0943007024C0 /* Views */,
+				5F39172518C53ED100109747 /* ZSCanvasSegue.h */,
+				5F39172618C53ED100109747 /* ZSCanvasSegue.m */,
 			);
 			name = Canvas;
 			sourceTree = "<group>";
@@ -562,8 +573,6 @@
 			isa = PBXGroup;
 			children = (
 				5F50CBCF18A1526900B7C020 /* Groups */,
-				5F0DBAD318C2CDEE00039C62 /* ZSCanvasBarButtonItem.h */,
-				5F0DBAD418C2CDEE00039C62 /* ZSCanvasBarButtonItem.m */,
 				4C0D470617FB927600F13786 /* ZSCanvasViewController.h */,
 				4C0D470717FB927600F13786 /* ZSCanvasViewController.m */,
 			);
@@ -627,6 +636,8 @@
 		4CE3562B188B0943007024C0 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				5F0DBAD318C2CDEE00039C62 /* ZSCanvasBarButtonItem.h */,
+				5F0DBAD418C2CDEE00039C62 /* ZSCanvasBarButtonItem.m */,
 				4C3DD66218B705DE0013B3A5 /* Toolbox */,
 				4C5F732518874B51007F61B3 /* ZSCanvasView.h */,
 				4C5F732618874B51007F61B3 /* ZSCanvasView.m */,
@@ -777,6 +788,8 @@
 				5F8138D31898C36B009F3495 /* NSNumber+Zuse.m */,
 				5FBB4A8C18C24C8800B79AB6 /* UIColor+ZuseColors.h */,
 				5FBB4A8D18C24C8800B79AB6 /* UIColor+ZuseColors.m */,
+				5F39172B18C55C1A00109747 /* UIImageView+Zuse.h */,
+				5F39172C18C55C1A00109747 /* UIImageView+Zuse.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -1026,6 +1039,7 @@
 				4C9E43DF188B66D300045D86 /* arrow-circle-double-135.png in Resources */,
 				4CF1D43218995EC000B5568F /* refresh.png in Resources */,
 				4C721A59188EFAF000D3FDEF /* pause.png in Resources */,
+				5F39172F18C587D800109747 /* blank_project.png in Resources */,
 				4C721A55188EF97600D3FDEF /* stop.png in Resources */,
 				4C721A51188EF31900D3FDEF /* settings.png in Resources */,
 				4C721A53188EF36B00D3FDEF /* back_arrow.png in Resources */,
@@ -1141,6 +1155,7 @@
 				5F39DFD2188A40A0008ECAC1 /* NSObject+BlocksKit.m in Sources */,
 				4C5F732718874B51007F61B3 /* ZSCanvasView.m in Sources */,
 				5F39DFD4188A40A0008ECAC1 /* NSSet+BlocksKit.m in Sources */,
+				5F39172D18C55C1A00109747 /* UIImageView+Zuse.m in Sources */,
 				5F0DBAD518C2CDEE00039C62 /* ZSCanvasBarButtonItem.m in Sources */,
 				7899786118B9255500A8FE05 /* ZS_CodeEditorViewController.m in Sources */,
 				7899786318B9255500A8FE05 /* ZS_JsonUtilities.m in Sources */,
@@ -1168,6 +1183,7 @@
 				4C3DD66118B7005D0013B3A5 /* ZSToolboxCell.m in Sources */,
 				4C5A31C318B36A7800FCE1A9 /* ZSOverlayView.m in Sources */,
 				5F8138DF18A0BA07009F3495 /* ZSCollisionsViewController.m in Sources */,
+				5F39172718C53ED100109747 /* ZSCanvasSegue.m in Sources */,
 				4C5F732318873A59007F61B3 /* ZSGrid.m in Sources */,
 				5F39DFD1188A40A0008ECAC1 /* NSObject+BlockObservation.m in Sources */,
 				4C4087091852480F009117E1 /* ZSSpriteLibrary.m in Sources */,

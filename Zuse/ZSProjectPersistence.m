@@ -104,6 +104,16 @@ NSString const * ZSProjectPersistenceProjectsFolder = @"UserProjects";
         return [directoryPath stringByAppendingPathComponent:filename];
     }];
     
+    directoryContents = [directoryContents sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        NSDictionary *firstProperties = [fileManager attributesOfItemAtPath:obj1 error:nil];
+        NSDictionary *secondProperties = [fileManager attributesOfItemAtPath:obj2 error:nil];
+        
+        NSDate *date1 = firstProperties[NSFileModificationDate];
+        NSDate *date2 = secondProperties[NSFileModificationDate];
+        
+        return [date2 compare:date1];
+    }];
+    
     return directoryContents;
 }
 

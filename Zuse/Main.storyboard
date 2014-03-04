@@ -110,12 +110,13 @@
                     </view>
                     <connections>
                         <outlet property="projectCollectionView" destination="ww8-it-zVa" id="KwL-Yb-uH3"/>
-                        <segue destination="qGw-AV-wKF" kind="modal" identifier="project" modalTransitionStyle="flipHorizontal" id="6lt-7T-WTC"/>
+                        <segue destination="qGw-AV-wKF" kind="modal" identifier="project" customClass="ZSCanvasSegue" animates="NO" id="6lt-7T-WTC"/>
+                        <segue destination="xaZ-al-QhV" kind="custom" identifier="project2" customClass="ZSCanvasSegue" id="x6G-O7-yTE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jby-aW-aVJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-322" y="157"/>
+            <point key="canvasLocation" x="-122" y="251"/>
         </scene>
         <!--Canvas View Controller-->
         <scene sceneID="LCo-ov-pl2">
@@ -930,7 +931,7 @@
         <!--Navigation Controller-->
         <scene sceneID="s4Y-8Z-Yab">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="qGw-AV-wKF" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="CanvasNav" automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="qGw-AV-wKF" sceneMemberID="viewController">
                     <toolbarItems/>
                     <nil key="simulatedTopBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="7ny-fC-1xr">
@@ -944,7 +945,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Id3-Jl-C6x" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="197" y="157"/>
+            <point key="canvasLocation" x="303" y="157"/>
         </scene>
     </scenes>
     <resources>
@@ -956,6 +957,7 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="UX7-mm-e13"/>
         <segue reference="BB8-BW-ttQ"/>
     </inferredMetricsTieBreakers>
 </document>

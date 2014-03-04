@@ -83,6 +83,8 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
 {
     [super viewDidLoad];
     
+    self.toolbar.barTintColor = [UIColor zuseBackgroundGrey];
+    
     // Test Toolbox
     _toolboxView = [[ZSToolboxView alloc] initWithFrame:CGRectMake(19, 82, 282, 361)];
     WeakSelf
@@ -119,6 +121,9 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
     }
     
     [self transitionToInterfaceState:ZSCanvasInterfaceStateNormal];
+    
+    // Animate in the canvas view and all that jazz
+    [self animateCanvasViewIn];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -164,6 +169,48 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
             [self dismissViewControllerAnimated:NO completion:^{ }];
         };
     }
+}
+
+#pragma mark Transition Animations
+
+- (void)animateCanvasViewIn {
+    CGRect toolbarFrame = self.toolbar.frame;
+    CGRect originalToolbarFrame = toolbarFrame;
+    toolbarFrame.origin.y = self.view.bounds.size.height;
+    self.toolbar.frame = toolbarFrame;
+    
+    CGRect normalFrame = self.canvasView.frame;
+    self.view.backgroundColor = [UIColor clearColor];
+    CGFloat scale = self.initialCanvasRect.size.width / self.view.bounds.size.width;
+    self.canvasView.transform = CGAffineTransformMakeScale(scale, scale);
+    CGRect frame = self.canvasView.frame;
+    frame.origin.x = self.initialCanvasRect.origin.x;
+    frame.origin.y = self.initialCanvasRect.origin.y;
+    self.canvasView.frame = frame;
+    
+    [UIView animateWithDuration:0.4
+                     animations:^{
+                         self.canvasView.transform = CGAffineTransformIdentity;
+                         self.canvasView.frame = normalFrame;
+                         self.toolbar.frame = originalToolbarFrame;
+                     }];
+}
+
+- (void)animateCanvasViewOut {
+    CGFloat scale = self.initialCanvasRect.size.width / self.canvasView.bounds.size.width;
+    CGRect toolbarRect = self.toolbar.frame;
+    toolbarRect.origin.y = self.view.bounds.size.height;
+    [UIView animateWithDuration:0.4
+                     animations:^{
+                         self.canvasView.transform = CGAffineTransformMakeScale(scale, scale);
+                         self.canvasView.frame = self.initialCanvasRect;
+                         self.toolbar.frame = toolbarRect;
+                         
+                     } completion:^(BOOL finished) {
+                         if (self.didFinish) {
+                             self.didFinish();
+                         }
+                     }];
 }
 
 #pragma mark Tutorial
@@ -489,10 +536,9 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
 
 - (void)finish {
     [self saveProject];
-    if (self.didFinish) {
-        self.didFinish();
-    }
+    [self animateCanvasViewOut];
 }
+
 - (void)shareProject {
     NSURL *baseURL = [NSURL URLWithString:@"https://zusehub.herokuapp.com/api/v1/"];
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseURL];

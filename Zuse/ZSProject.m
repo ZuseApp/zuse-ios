@@ -117,4 +117,8 @@
     return _projectJSON;
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<ZSProject title=%@ id=%@>", self.title, self.identifier];
+}
+
 @end

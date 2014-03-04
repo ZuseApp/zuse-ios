@@ -12,5 +12,6 @@
 
 @property (strong, nonatomic) UIImage *screenshot;
 @property (strong, nonatomic) NSString *projectTitle;
+@property (weak, nonatomic, readonly) UIImageView *screenshotView;
 
 @end
