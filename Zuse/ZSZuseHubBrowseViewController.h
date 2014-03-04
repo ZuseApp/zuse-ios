@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "ZSZuseHubContentViewController.h"
+#import "ZSZuseHubEnums.h"
 
-@interface ZSZuseHubBrowseNewestViewController : ZSZuseHubContentViewController <UITableViewDataSource,UITableViewDelegate>
+@interface ZSZuseHubBrowseViewController : ZSZuseHubContentViewController <UITableViewDataSource,UITableViewDelegate>
 
 @property (nonatomic,strong) UITableView * tableView;
 

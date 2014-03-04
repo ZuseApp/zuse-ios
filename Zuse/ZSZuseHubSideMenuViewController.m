@@ -10,16 +10,14 @@
 #import "MMSideDrawerTableViewCell.h"
 #import "MMSideDrawerSectionHeaderView.h"
 #import "MMNavigationController.h"
-#import "ZSZuseHubBrowseNewestViewController.h"
-#import "ZSZuseHubShareProjectsViewController.h"
-#import "ZSZuseHubViewMySharedProjectsViewController.h"
+#import "ZSZuseHubBrowseViewController.h"
+#import "ZSZuseHubMyHubViewController.h"
+#import "ZSCanvasBarButtonItem.h"
 
 @interface ZSZuseHubSideMenuViewController ()
-@property (weak, nonatomic) IBOutlet UITableViewCell *newestProjectsCell;
-@property (weak, nonatomic) IBOutlet UITableViewCell *shareProjectCell;
-@property (weak, nonatomic) IBOutlet UITableViewCell *viewMySharedProjectsCell;
 @property (strong, nonatomic) NSArray *browseMenuStrings;
 @property (strong, nonatomic) NSArray *myZuseHubMenuStrings;
+@property (strong, nonatomic) NSArray *mainMenuStrings;
 
 @end
 
@@ -33,8 +31,9 @@
     self.tableView.delegate = self;
     
     //TODO put the other browse filter strings here
-    _browseMenuStrings = @[@"Browse newest projects"];
-    _myZuseHubMenuStrings = @[@"Share my projects", @"View my shared projects"];
+    _browseMenuStrings = @[@"Newest"];
+    _myZuseHubMenuStrings = @[@"Share", @"My Projects"];
+    _mainMenuStrings = @[@"Main Menu"];
 
     _tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
 
@@ -61,10 +60,12 @@
                                          green:164.0/255.0
                                           blue:166.0/255.0
                                          alpha:1.0];
-    if([self.navigationController.navigationBar respondsToSelector:@selector(setBarTintColor:)]){
+    if([self.navigationController.navigationBar respondsToSelector:@selector(setBarTintColor:)])
+    {
         [self.navigationController.navigationBar setBarTintColor:barColor];
     }
-    else {
+    else
+    {
         [self.navigationController.navigationBar setTintColor:barColor];
     }
     
@@ -79,15 +80,6 @@
     
     [self.view setBackgroundColor:[UIColor clearColor]];
     
-    //set up open drawer gestures
-//    self.mm_drawerController.openDrawerGestureModeMask ^= MMOpenDrawerGestureModePanningNavigationBar;
-//    self.mm_drawerController.openDrawerGestureModeMask ^=  MMOpenDrawerGestureModePanningCenterView;
-//    //set up close drawer gestures
-//    self.mm_drawerController.closeDrawerGestureModeMask ^= MMCloseDrawerGestureModePanningNavigationBar;
-//    self.mm_drawerController.closeDrawerGestureModeMask ^= MMCloseDrawerGestureModePanningCenterView;
-//    self.mm_drawerController.closeDrawerGestureModeMask ^= MMCloseDrawerGestureModeTapNavigationBar;
-//    self.mm_drawerController.closeDrawerGestureModeMask ^= MMCloseDrawerGestureModeTapCenterView;
-//    self.mm_drawerController.closeDrawerGestureModeMask ^= MMCloseDrawerGestureModePanningDrawerView;
     //prevent users from interacting w/ center view when the drawer is open
     self.mm_drawerController.centerHiddenInteractionMode = MMDrawerOpenCenterInteractionModeNavigationBarOnly;
     //set the width of the drawer
@@ -133,6 +125,8 @@
             return _myZuseHubMenuStrings.count;
         case ZSZuseHubDrawerBrowseProjects:
             return _browseMenuStrings.count;
+        case ZSZuseHubDrawerBackToMainMenu:
+            return _mainMenuStrings.count;
         default:
             return 0;
     }
@@ -157,6 +151,9 @@
             break;
         case ZSZuseHubDrawerBrowseProjects:
             [cell.textLabel setText:_browseMenuStrings[indexPath.row]];
+            break;
+        case ZSZuseHubDrawerBackToMainMenu:
+            [cell.textLabel setText:_mainMenuStrings[indexPath.row]];
             break;
         default:
             break;
@@ -203,59 +200,28 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];
-//    if (selectedCell == self.newestProjectsCell) {
-//        self.didSelectNewestProjects();
-//    } else if (selectedCell == self.shareProjectCell) {
-//        self.didSelectShareProject();
-//    }
-//    else if(selectedCell == self.viewMySharedProjectsCell)
-//    {
-//        self.didSelectViewMySharedProjects();
-//    }
-    
-    
-    
-    ZSZuseHubContentViewController *centerController;
-    
-    //TODO add more cases for the different options in each section
-    switch (indexPath.section)
+    if (indexPath.section == ZSZuseHubDrawerMyZuseHub)
     {
-        case ZSZuseHubDrawerMyZuseHub:
-        {
-            if(indexPath.row == 0)
-            {
-                centerController = [[ZSZuseHubShareProjectsViewController alloc] init];
-            }
-            else
-            {
-                centerController = [[ZSZuseHubViewMySharedProjectsViewController alloc] init];
-            }
-            break;
-        }
-        case ZSZuseHubDrawerBrowseProjects:
-        {
-            if(indexPath.row == 0)
-            {
-                centerController = [[ZSZuseHubBrowseNewestViewController alloc] init];
-            }
-            break;
-        }
-        default:
-            break;
+        if(indexPath.row == ZSZuseHubMyHubTypeShareProject)
+            self.didSelectShareProject();
+        if(indexPath.row == ZSZuseHubMyHubTypeViewMySharedProjects)
+            self.didSelectViewMySharedProjects();
+        else
+            NSLog(@"Error in selecting user zusehub options");
+    } else if (indexPath.section == ZSZuseHubDrawerBrowseProjects)
+    {
+        if(indexPath.row == ZSZuseHubBrowseTypeNewest)
+            self.didSelectNewestProjects();
+        else
+            NSLog(@"Error in selecting user zusehub options");
     }
-    UINavigationController *nav = [[MMNavigationController alloc] initWithRootViewController:centerController];
-    [self.mm_drawerController setCenterViewController:nav withCloseAnimation:YES completion:nil];
-    
-    [self.mm_drawerController
-     setMaximumLeftDrawerWidth:160.0f
-     animated:YES
-     completion:^(BOOL finished) {
-         [tableView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationNone];
-         [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
-         [tableView deselectRowAtIndexPath:indexPath animated:YES];
-     }];
-
+    else if (indexPath.section == ZSZuseHubDrawerBackToMainMenu) {
+        self.didSelectBack();
+    }
+    else
+    {
+        NSLog(@"Error in selecting section in side drawer menu");
+    }
 }
 
 

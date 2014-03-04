@@ -9,12 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "UIViewController+MMDrawerController.h"
 #import "ZSZuseHubContentViewController.h"
+#import "ZSZuseHubEnums.h"
 
-typedef NS_ENUM(NSInteger, ZSZuseHubDrawerSection){
-    ZSZuseHubDrawerMyZuseHub,
-    ZSZuseHubDrawerBrowseProjects,
-    ZSZuseHubDrawerSectionCount,
-};
+
 
 @interface ZSZuseHubSideMenuViewController : ZSZuseHubContentViewController <UITableViewDataSource,UITableViewDelegate>
 

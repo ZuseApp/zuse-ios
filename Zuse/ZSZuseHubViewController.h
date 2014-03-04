@@ -7,6 +7,7 @@
 //
 
 #import "MMDrawerController.h"
+#import "ZSZuseHubEnums.h"
 
 @interface ZSZuseHubViewController : UIViewController
 

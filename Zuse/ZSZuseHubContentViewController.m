@@ -30,11 +30,11 @@
         object:nil];
 }
 
--(void)contentSizeDidChangeNotification:(NSNotification*)notification{
+- (void)contentSizeDidChangeNotification:(NSNotification*)notification{
     [self contentSizeDidChange:notification.userInfo[UIContentSizeCategoryNewValueKey]];
 }
 
--(void)contentSizeDidChange:(NSString *)size{
+- (void)contentSizeDidChange:(NSString *)size{
     //Implement in subclass
 }
 

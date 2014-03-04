@@ -8,14 +8,19 @@
 
 #import "ZSZuseHubViewController.h"
 #import "ZSZuseHubSideMenuViewController.h"
-#import "ZSZuseHubBrowseNewestViewController.h"
+#import "ZSZuseHubBrowseViewController.h"
+#import "ZSZuseHubMyHubViewController.h"
 #import "MMNavigationController.h"
 #import "MMExampleDrawerVisualStateManager.h"
 
 @interface ZSZuseHubViewController ()
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) UIView *view;
-@property (nonatomic,strong) MMDrawerController * drawerController;
+@property (nonatomic,strong) MMDrawerController *drawerController;
+@property (strong, nonatomic) __block ZSZuseHubSideMenuViewController *leftSideDrawerViewController;
+@property (strong, nonatomic) __block ZSZuseHubContentViewController *centerViewController;
+@property (strong, nonatomic) __block UINavigationController *navigationController;
+@property (strong, nonatomic) __block UINavigationController *leftSideNavController;
 @end
 
 @implementation ZSZuseHubViewController
@@ -24,15 +29,17 @@
 {
     [super viewDidLoad];
     
-    ZSZuseHubSideMenuViewController * leftSideDrawerViewController = [[ZSZuseHubSideMenuViewController alloc] init];
+    self.leftSideDrawerViewController = [[ZSZuseHubSideMenuViewController alloc] init];
     //the initial center view will be 10 newest projects until the user changes it
-    UIViewController * centerViewController = [[ZSZuseHubBrowseNewestViewController alloc] init];
-    UINavigationController * navigationController = [[MMNavigationController alloc] initWithRootViewController:centerViewController];
+    self.centerViewController = [[ZSZuseHubBrowseViewController alloc] init];
+    self.centerViewController.contentType = ZSZuseHubBrowseTypeNewest;
     
-    UINavigationController * leftSideNavController = [[MMNavigationController alloc] initWithRootViewController:leftSideDrawerViewController];
+    self.navigationController = [[MMNavigationController alloc] initWithRootViewController:self.centerViewController];
+    self.leftSideNavController = [[MMNavigationController alloc] initWithRootViewController:self.leftSideDrawerViewController];
+    
     self.drawerController = [[MMDrawerController alloc]
-                             initWithCenterViewController:navigationController
-                             leftDrawerViewController:leftSideNavController];
+                             initWithCenterViewController:self.navigationController
+                             leftDrawerViewController:self.leftSideNavController];
     [self.drawerController setShowsShadow:NO];
     
     [self.drawerController setOpenDrawerGestureModeMask:MMOpenDrawerGestureModeAll];
@@ -48,10 +55,7 @@
          }
      }];
     
-    
-    leftSideDrawerViewController.didSelectBack = ^{
-        self.didFinish();
-    };
+    [self setUpLeftDrawerBlocks];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     UIColor * tintColor = [UIColor colorWithRed:29.0/255.0
@@ -62,17 +66,44 @@
     [self.window setRootViewController:self.drawerController];
     
     [self.view addSubview:self.drawerController.view];
+    
 	// Do any additional setup after loading the view.
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-
-//    [self.drawerController openDrawerSide:MMDrawerSideLeft
-//                animated:YES
-//              completion:^(BOOL finished) {
-//                  
-//              }];
+- (void)setUpLeftDrawerBlocks
+{
+    WeakSelf
+    //set up the blocks
+    self.leftSideDrawerViewController.didSelectBack = ^{
+        [weakSelf.leftSideDrawerViewController.mm_drawerController setCenterViewController:weakSelf.navigationController withCloseAnimation:YES completion:nil];
+        weakSelf.didFinish();
+    };
     
+    self.leftSideDrawerViewController.didSelectNewestProjects = ^{
+        //now set up the center views here
+        weakSelf.centerViewController = [[ZSZuseHubBrowseViewController alloc] init];
+        weakSelf.centerViewController.contentType = ZSZuseHubBrowseTypeNewest;
+        weakSelf.navigationController = [[MMNavigationController alloc] initWithRootViewController:weakSelf.centerViewController];
+        [weakSelf.leftSideDrawerViewController.mm_drawerController setCenterViewController:weakSelf.navigationController withCloseAnimation:YES completion:nil];
+    };
+    
+    self.leftSideDrawerViewController.didSelectShareProject = ^{
+        weakSelf.centerViewController = [[ZSZuseHubMyHubViewController alloc] init];
+        weakSelf.centerViewController.contentType = ZSZuseHubMyHubTypeShareProject;
+        weakSelf.navigationController = [[MMNavigationController alloc] initWithRootViewController:weakSelf.centerViewController];
+        [weakSelf.leftSideDrawerViewController.mm_drawerController setCenterViewController:weakSelf.navigationController withCloseAnimation:YES completion:nil];
+    };
+    
+    self.leftSideDrawerViewController.didSelectViewMySharedProjects = ^{
+        weakSelf.centerViewController = [[ZSZuseHubMyHubViewController alloc] init];
+        weakSelf.centerViewController.contentType = ZSZuseHubMyHubTypeViewMySharedProjects;
+        weakSelf.navigationController = [[MMNavigationController alloc] initWithRootViewController:weakSelf.centerViewController];
+        [weakSelf.leftSideDrawerViewController.mm_drawerController setCenterViewController:weakSelf.navigationController withCloseAnimation:YES completion:nil];
+    };
+
+}
+
+- (void)viewDidAppear:(BOOL)animated {
     NSLog(@"drawer appeared");
 }
 

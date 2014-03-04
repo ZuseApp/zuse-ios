@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Michael Hogenson. All rights reserved.
 //
 
-#import "ZSZuseHubBrowseNewestViewController.h"
+#import "ZSZuseHubBrowseViewController.h"
 #import "MMDrawerBarButtonItem.h"
 #import "MMCenterTableViewCell.h"
 #import "MMDrawerController.h"
@@ -16,11 +16,11 @@
 #import "MMNavigationController.h"
 #import "ZSZuseHubSideMenuViewController.h"
 
-@interface ZSZuseHubBrowseNewestViewController ()
+@interface ZSZuseHubBrowseViewController ()
 
 @end
 
-@implementation ZSZuseHubBrowseNewestViewController
+@implementation ZSZuseHubBrowseViewController
 
 - (void)viewDidLoad
 {
@@ -93,7 +93,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    //TODO 
+    //TODO make this get the size from the client data pulled from the server
     return 10;
 }
 
@@ -101,6 +101,7 @@
 {
     
     static NSString *CellIdentifier = @"Cell";
+    NSString *cellText = @"Error, did not grab text";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
@@ -115,8 +116,13 @@
                                blue:25.0/255.0
                                alpha:1.0];
     
+    if(self.contentType == ZSZuseHubBrowseTypeNewest)
+    {
+        //TODO set cellText to be what was grabbed from the client
+        cellText = @"show newest projects";
+    }
     //TODO grab info from json client for project titles
-    [cell.textLabel setText:@"title of the project here"];
+    [cell.textLabel setText:cellText];
     [cell.textLabel setTextColor:selectedColor];
 
     return cell;
@@ -124,7 +130,10 @@
 
 -(NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    return @"10 Newest Projects";
+    if(self.contentType == ZSZuseHubBrowseTypeNewest)
+        return @"10 Newest Projects";
+    else
+        return @"TODO put different browse types";
 }
 #pragma mark - Table view delegate
 
