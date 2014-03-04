@@ -19,8 +19,13 @@
 @property (strong, nonatomic) AFHTTPRequestOperationManager *manager;
 @property (strong, nonatomic) AFJSONRequestSerializer *jsonRequestSerializer;
 @property (strong, nonatomic) AFJSONResponseSerializer *jsonResponseSerializer;
+@property (strong, nonatomic) NSString *token;
 
 + (ZSZuseHubJSONClient *)sharedClient;
+- (NSArray *)getNewestProjects;
+- (BOOL)registerUser;
+- (BOOL)authenticateUser;
+- (void)setAuthHeader;
 
 @end
 

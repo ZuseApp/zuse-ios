@@ -12,7 +12,7 @@
 @interface ZSZuseHubContentViewController : UIViewController
 
 @property NSInteger contentType;
-@property (strong, nonatomic) ZSZuseHubJSONClient *manager;
+@property (strong, nonatomic) ZSZuseHubJSONClient *jsonClientManager;
 
 - (void)contentSizeDidChange:(NSString*)size;
 

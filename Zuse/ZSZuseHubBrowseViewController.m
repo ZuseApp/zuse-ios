@@ -18,6 +18,8 @@
 
 @interface ZSZuseHubBrowseViewController ()
 
+@property (strong, nonatomic) NSArray *jsonProjects;
+
 @end
 
 @implementation ZSZuseHubBrowseViewController
@@ -25,6 +27,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.jsonProjects = [self.jsonClientManager getNewestProjects];
     
     _tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
     [self.tableView setDelegate:self];
@@ -94,7 +98,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     //TODO make this get the size from the client data pulled from the server
-    return 10;
+    return self.jsonProjects.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -119,7 +123,10 @@
     if(self.contentType == ZSZuseHubBrowseTypeNewest)
     {
         //TODO set cellText to be what was grabbed from the client
-        cellText = @"show newest projects";
+        if(self.jsonProjects.count == 0)
+            cellText = @"No projects on the server yet";
+        else
+            cellText = self.jsonProjects[indexPath.row];
     }
     //TODO grab info from json client for project titles
     [cell.textLabel setText:cellText];

@@ -22,7 +22,7 @@
 	// Do any additional setup after loading the view.
     NSLog(@"loaded zusehub");
     
-    self.manager = [ZSZuseHubJSONClient sharedClient];
+    self.jsonClientManager = [ZSZuseHubJSONClient sharedClient];
     
     [[NSNotificationCenter defaultCenter]
         addObserver:self
