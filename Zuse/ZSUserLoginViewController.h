@@ -1,0 +1,18 @@
+//
+//  ZSUserLoginViewController.h
+//  Zuse
+//
+//  Created by Sarah Hong on 3/10/14.
+//  Copyright (c) 2014 Michael Hogenson. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+@interface ZSUserLoginViewController : UIViewController
+
+@property (weak, nonatomic) IBOutlet UITextField *usernameTextField;
+@property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
+
+@property (copy, nonatomic) void(^didFinish)();
+
+@end

@@ -38,11 +38,15 @@ NSString const * ZSTokenPersistenceProjectsFolder = @"UserAuthToken";
     return userDocumentsPath;
 }
 
-- (NSDictionary *)getLoginInfo{
-        NSData *loginData = [NSData dataWithContentsOfFile:[ZSAuthTokenPersistence pathForLogin]];
-        
++ (NSDictionary *)getLoginInfo{
+    NSData *loginData = [NSData dataWithContentsOfFile:[ZSAuthTokenPersistence pathForLogin]];
+    
+    if(loginData)
+    {
         NSDictionary *loginInfo = [NSJSONSerialization JSONObjectWithData:loginData options:NSJSONReadingMutableContainers error:nil];
-    return loginInfo;
+        return loginInfo;
+    }
+    return nil;
 }
 
 + (NSString *)pathForLogin {

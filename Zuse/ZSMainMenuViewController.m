@@ -11,10 +11,10 @@
 #import "ZSMainMenuViewController.h"
 #import "ZSProjectCollectionViewCell.h"
 #import "ZSProjectPersistence.h"
-#import "ZSZuseHubViewController.h"
 #import "ZSCanvasViewController.h"
 #import "ZSTutorial.h"
 #import "UIImageView+Zuse.h"
+#import "ZSZuseHubInitViewController.h"
 
 typedef NS_ENUM(NSInteger, ZSMainMenuProjectFilter) {
     ZSMainMenuProjectFilterMyProjects,
@@ -127,7 +127,7 @@ typedef NS_ENUM(NSInteger, ZSMainMenuProjectFilter) {
 }
 
 - (IBAction)zuseHubTapped:(id)sender {
-    ZSZuseHubViewController *controller = [[ZSZuseHubViewController alloc] init];
+    ZSZuseHubInitViewController *controller = [[ZSZuseHubInitViewController alloc] init];
     [self presentViewController:controller animated:YES completion:^{}];
     controller.didFinish = ^{
         [self dismissViewControllerAnimated:YES completion:^{ }];

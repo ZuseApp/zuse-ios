@@ -14,6 +14,7 @@
 #import "MMExampleDrawerVisualStateManager.h"
 #import "ZSZuseHubViewSharedProjectsViewController.h"
 
+
 @interface ZSZuseHubViewController ()
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) UIView *view;
@@ -29,6 +30,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    UIColor * tintColor = [UIColor colorWithRed:29.0/255.0
+                                          green:173.0/255.0
+                                           blue:234.0/255.0
+                                          alpha:1.0];
+    [self.window setTintColor:tintColor];
     
     self.leftSideDrawerViewController = [[ZSZuseHubSideMenuViewController alloc] init];
     //the initial center view will be 10 newest projects until the user changes it
@@ -55,20 +62,13 @@
              block(drawerController, drawerSide, percentVisible);
          }
      }];
-    
-    [self setUpLeftDrawerBlocks];
-    
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    UIColor * tintColor = [UIColor colorWithRed:29.0/255.0
-                                          green:173.0/255.0
-                                           blue:234.0/255.0
-                                          alpha:1.0];
-    [self.window setTintColor:tintColor];
     [self.window setRootViewController:self.drawerController];
     
     [self.view addSubview:self.drawerController.view];
+
     
-	// Do any additional setup after loading the view.
+    [self setUpLeftDrawerBlocks];
+    
 }
 
 - (void)setUpLeftDrawerBlocks

@@ -23,7 +23,7 @@
         _zuseHubSharedManager.manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:url];
         _zuseHubSharedManager.manager.requestSerializer = [AFJSONRequestSerializer serializer];
         _zuseHubSharedManager.manager.responseSerializer = [AFJSONResponseSerializer serializer];
-        [_zuseHubSharedManager setAuthHeader];
+//        [_zuseHubSharedManager setAuthHeader];
 //        [_zuseHubSharedManager authenticateUser:^(NSDictionary *response) {
 //            if(!response)
 //                [_zuseHubSharedManager registerUser:^(NSDictionary *response) {
@@ -42,6 +42,9 @@
     return _zuseHubSharedManager;
 }
 
+/**
+ * Gets the 10 newest projects shared on ZuseHub
+ */
 - (void)getNewestProjects:(void(^)(NSArray *projects))completion
 {
     [self.manager GET:@"projects.json?category=newest"
@@ -57,15 +60,18 @@
      ];
 }
 
-- (void)registerUser:(void (^)(NSDictionary *))completion
+/**
+ * Registers a user with ZuseHub
+ */
+- (void)registerUser:(void (^)(NSDictionary *))completion loginInfo:(NSDictionary *)loginInfo
 {
     //TODO make the user info generic
     NSDictionary *params = @{
                              @"user": @{
-                                     @"username": @"sarahdemo",
-                                     @"email": @"rollingstar.15@gmail.com",
-                                     @"password": @"12345",
-                                     @"password_confirmation": @"12345"
+                                     @"username": loginInfo[@"username"],
+                                     @"email": loginInfo[@"email"],
+                                     @"password": loginInfo[@"password"],
+                                     @"password_confirmation": loginInfo[@"password"]
                                      }
                              };
     
@@ -73,9 +79,6 @@
             parameters:params
             success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject)
             {
-                //TODO get teh uuid from the user's actual info
-                self.uuid = @"sarahdemo";
-                
                 completion(responseObject);
             }
             failure:^(AFHTTPRequestOperation *operation, NSError *error)
@@ -85,13 +88,16 @@
             }];
 }
 
-- (void)authenticateUser:(void (^)(NSDictionary *))completion
+/**
+ * Gets the user's token if the user has already logged in.
+ */
+- (void)authenticateUser:(void (^)(NSDictionary *))completion loginInfo:(NSDictionary *)loginInfo
 {
     //TODO make the user info generic
     NSDictionary *params = @{
                              @"user" : @{
-                                     @"username" : @"sarahdemo",
-                                     @"password" : @"12345"
+                                     @"username" : loginInfo[@"username"],
+                                     @"password" : loginInfo[@"password"]
                                        }
                              };
     
@@ -100,8 +106,6 @@
             success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject)
             {
                 self.token = responseObject[@"token"];
-                //TODO get teh uuid from the user's actual info
-                self.uuid = @"sarahdemo";
                 completion(responseObject);
             }
             failure:^(AFHTTPRequestOperation *operation, NSError *error)
@@ -112,15 +116,21 @@
      ];
 }
 
-- (void)setAuthHeader
+/**
+ * Sets the token as the header for future requests
+ */
+- (void)setAuthHeader:(NSDictionary *)loginInfo
 {
 //    NSString *params = [@"Token: " stringByAppendingString:self.token];
 //    [self.manager.requestSerializer setValue:[@"Token: " stringByAppendingString:self.token]
 //                          forHTTPHeaderField:@"Authorization"];
     
-    [self.manager.requestSerializer setValue:[@"Token: " stringByAppendingString:@"F-ezKpgzkT0nsdRkhpVUVIXh35FTrgcJawAmy8mT"] forHTTPHeaderField:@"Authorization"];
+    [self.manager.requestSerializer setValue:[@"Token: " stringByAppendingString:loginInfo[@"token"]] forHTTPHeaderField:@"Authorization"];
 }
 
+/**
+ * Returns the shared projects the user has put on ZuseHub
+ */
 - (void)getUsersSharedProjects:(void (^)(NSArray *))completion
 {
     [self.manager GET:@"user/projects.json"
@@ -137,7 +147,9 @@
      ];
 }
 
-
+/**
+ * Shares a project for the first time.
+ */
 - (void)createSharedProject:(NSString *)title
                 description:(NSString *)description
                 projectJson:(ZSProject *)project

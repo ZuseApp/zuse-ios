@@ -11,6 +11,6 @@
 @interface ZSAuthTokenPersistence : NSObject
 
 + (void)writeLoginInfo:(NSDictionary *)loginInfo;
-- (NSDictionary *)getLoginInfo;
++ (NSDictionary *)getLoginInfo;
 
 @end
