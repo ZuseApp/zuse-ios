@@ -13,14 +13,20 @@
 
 @interface ZSZuseHubInitViewController ()
 
+@property (strong, nonatomic) UINavigationController *loginNavController;
+
 @end
 
 @implementation ZSZuseHubInitViewController
+
+
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    self.title = @"Init ZuseHub";
+    
     
 }
 
@@ -30,11 +36,20 @@
     NSDictionary *loginInfo = [ZSAuthTokenPersistence getLoginInfo];
     if(!loginInfo)
     {
-        ZSUserLoginViewController *controller = [[UIStoryboard storyboardWithName:@"Main"
-                                                                           bundle:[NSBundle mainBundle]]
-                                                 instantiateViewControllerWithIdentifier:@"ZuseHubLogin"];
+        UINavigationController *navController = [[UIStoryboard storyboardWithName:@"Main"
+                                                   bundle:[NSBundle mainBundle]]instantiateViewControllerWithIdentifier:@"LoginNav"];
+        ZSUserLoginViewController *controller = (ZSUserLoginViewController *)navController.viewControllers.firstObject;
+//        ZSUserLoginViewController *controller = [[UIStoryboard storyboardWithName:@"Main"
+//                                                                           bundle:[NSBundle mainBundle]]
+//                                                 instantiateViewControllerWithIdentifier:@"ZuseHubLogin"];
         
-        [self presentViewController:controller animated:YES completion:^{}];
+//        self.loginNavController = [[UINavigationController alloc] initWithRootViewController:controller];
+//        self.view = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+//        self.view.window.rootViewController = self.loginNavController;
+        
+//        [self presentViewController:self.loginNavController animated:YES completion:^{}];
+        [self presentViewController:navController animated:YES completion:^{}];
+
         controller.didFinish = ^{
             [self dismissViewControllerAnimated:YES completion:^{ }];
             self.didFinish();

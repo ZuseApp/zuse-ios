@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="mP0-dE-Fkn">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="mP0-dE-Fkn">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <scenes>
         <!--Main Menu View Controller-->
@@ -468,9 +468,24 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="-116" y="1109"/>
+            <point key="canvasLocation" x="-485" y="1105"/>
         </scene>
-        <!--User Login View Controller-->
+        <!--Navigation Controller-->
+        <scene sceneID="hXk-Z1-S6a">
+            <objects>
+                <navigationController storyboardIdentifier="LoginNav" definesPresentationContext="YES" id="C5M-El-VZh" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="dYx-M4-5wa">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="PEW-vL-UqI" kind="relationship" relationship="rootViewController" id="vFG-s7-eqc"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sEb-KK-HVT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-95" y="1647"/>
+        </scene>
+        <!--User Login View Controller - Login to ZuseHub-->
         <scene sceneID="5Th-pW-4Yc">
             <objects>
                 <viewController storyboardIdentifier="ZuseHubLogin" id="PEW-vL-UqI" customClass="ZSUserLoginViewController" sceneMemberID="viewController">
@@ -521,30 +536,9 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="registerTapped:" destination="PEW-vL-UqI" eventType="touchUpInside" id="gg4-Um-sUy"/>
+                                    <segue destination="CoB-37-Kfg" kind="push" id="0o6-3k-uNd"/>
                                 </connections>
                             </button>
-                            <navigationBar contentMode="scaleToFill" id="IWC-uA-Ho6">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <items>
-                                    <navigationItem title="Login to ZuseHub" id="5pI-3O-VcV">
-                                        <barButtonItem key="leftBarButtonItem" style="plain" id="nha-fa-ICh">
-                                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="7HE-eW-ETq">
-                                                <rect key="frame" x="16" y="5" width="71" height="33"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                <state key="normal" title="Back">
-                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="backTapped:" destination="PEW-vL-UqI" eventType="touchUpInside" id="tmL-Cx-K46"/>
-                                                </connections>
-                                            </button>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
@@ -552,7 +546,9 @@
                             <outletCollection property="gestureRecognizers" destination="5Sq-zC-azr" appends="YES" id="Rgq-Bf-kXa"/>
                         </connections>
                     </view>
-                    <navigationItem key="navigationItem" id="nu0-c9-dSp"/>
+                    <navigationItem key="navigationItem" title="Login to ZuseHub" id="nu0-c9-dSp">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="4be-WR-4nR"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="passwordTextField" destination="GB5-hF-E7R" id="1xi-6B-24u"/>
                         <outlet property="usernameTextField" destination="FKZ-kb-Flu" id="3Zl-lx-SKJ"/>
@@ -565,9 +561,9 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="779" y="1189"/>
+            <point key="canvasLocation" x="303" y="1647"/>
         </scene>
-        <!--User Register View Controller-->
+        <!--User Register View Controller - Register with ZuseHub-->
         <scene sceneID="HOb-IL-H2b">
             <objects>
                 <viewController id="CoB-37-Kfg" customClass="ZSUserRegisterViewController" sceneMemberID="viewController">
@@ -618,13 +614,6 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
-                            <navigationBar contentMode="scaleToFill" id="3UC-3I-KCw">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <items>
-                                    <navigationItem title="Register with ZuseHub" id="aci-LV-Luc"/>
-                                </items>
-                            </navigationBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
@@ -632,7 +621,9 @@
                             <outletCollection property="gestureRecognizers" destination="Cvl-Th-cxZ" appends="YES" id="sRc-Qm-pDf"/>
                         </connections>
                     </view>
-                    <navigationItem key="navigationItem" id="2cT-NT-8SQ"/>
+                    <navigationItem key="navigationItem" title="Register with ZuseHub" id="cjN-Ix-mMb">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="nQ3-3w-ds2"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="emailTextField" destination="x0J-Fp-WUl" id="kKX-BJ-8m5"/>
                         <outlet property="passwordTextField" destination="bwA-OQ-bsN" id="Jm9-Cz-L3W"/>
@@ -646,7 +637,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="723" y="1838"/>
+            <point key="canvasLocation" x="682" y="1647"/>
         </scene>
         <!--Renderer View Controller-->
         <scene sceneID="1be-MY-ef4">

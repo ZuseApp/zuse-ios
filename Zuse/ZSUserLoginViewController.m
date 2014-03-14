@@ -9,31 +9,25 @@
 #import "ZSUserLoginViewController.h"
 #import "ZSUserRegisterViewController.h"
 
+@interface ZSUserLoginViewController()
+
+
+
+@end
+
 @implementation ZSUserLoginViewController
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.title = @"Login to ZuseHub";
     
-}
-- (IBAction)backTapped:(id)sender {
-    self.didFinish();
+    
+    
 }
 
 - (IBAction)loginTapped:(id)sender {
-    
-}
-
-- (IBAction)registerTapped:(id)sender {
-    ZSUserRegisterViewController *controller = [[UIStoryboard storyboardWithName:@"Main"
-                                                                       bundle:[NSBundle mainBundle]]
-                                             instantiateViewControllerWithIdentifier:@"ZuseHubRegister"];
-    
-    [self presentViewController:controller animated:YES completion:^{}];
-    controller.didFinish = ^{
-        [self dismissViewControllerAnimated:YES completion:^{ }];
-        
-    };
+    NSLog(@"login tapped");
 }
 
 - (IBAction)outerViewTapped:(id)sender {
