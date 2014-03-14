@@ -43,6 +43,7 @@
     self.centerViewController.contentType = ZSZuseHubBrowseTypeNewest;
     
     self.navigationController = [[MMNavigationController alloc] initWithRootViewController:self.centerViewController];
+    
     self.leftSideNavController = [[MMNavigationController alloc] initWithRootViewController:self.leftSideDrawerViewController];
     
     self.drawerController = [[MMDrawerController alloc]

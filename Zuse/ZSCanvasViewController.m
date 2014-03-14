@@ -120,6 +120,11 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
     
     // Load the project if it exists.
     if (_project) {
+        if (_project.screenshot) {
+            NSData *data = UIImagePNGRepresentation(self.project.screenshot);
+            NSString *base64 = [data base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithCarriageReturn];
+            NSLog(@"%@", base64);
+        }
         // Setup delgates, sources and gestures.
         [self setupCanvas];
         [self setupTableDelegatesAndSources];
@@ -578,6 +583,7 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
 
 - (void)shareProject {
     NSURL *baseURL = [NSURL URLWithString:@"https://zusehub.herokuapp.com/api/v1/"];
+//    NSURL *baseURL = [NSURL URLWithString:@"http://128.110.74.238:3000/api/v1/"];
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseURL];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];

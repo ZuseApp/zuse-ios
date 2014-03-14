@@ -173,10 +173,13 @@
                                                      encoding:NSUTF8StringEncoding];
     NSString *uuid = project.identifier;
     
+    NSString *base64Screenshot = [UIImagePNGRepresentation(project.screenshot) base64EncodedStringWithOptions:0];
+    
     NSDictionary *params = @{
         @"project" : @{
             @"title" : title,
             @"description" : description,
+            @"screenshot" : base64Screenshot,
             @"uuid" : uuid,
             @"project_json" : projectString,
             @"compiled_code" : compiledString

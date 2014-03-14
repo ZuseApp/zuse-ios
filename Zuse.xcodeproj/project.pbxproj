@@ -11,7 +11,6 @@
 		2CA36EC918CE55C700CAB651 /* ZSAuthTokenPersistence.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA36EC818CE55C700CAB651 /* ZSAuthTokenPersistence.m */; };
 		2CA36ECC18CE5A6D00CAB651 /* ZSUserLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA36ECB18CE5A6D00CAB651 /* ZSUserLoginViewController.m */; };
 		2CA36ECF18CFCA7D00CAB651 /* ZSUserRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA36ECE18CFCA7D00CAB651 /* ZSUserRegisterViewController.m */; };
-		2CA36ED018D0FF5200CAB651 /* ZSGroupsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8138DB189CA574009F3495 /* ZSGroupsViewController.m */; };
 		2CA36ED318D1027800CAB651 /* ZSZuseHubInitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA36ED218D1027800CAB651 /* ZSZuseHubInitViewController.m */; };
 		2CA9A32A18C26605005F4404 /* ZSZuseHubSideMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9A32918C26605005F4404 /* ZSZuseHubSideMenuViewController.m */; };
 		2CA9A32D18C26E27005F4404 /* ZSZuseHubViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9A32C18C26E27005F4404 /* ZSZuseHubViewController.m */; };
@@ -117,6 +116,7 @@
 		5F39172718C53ED100109747 /* ZSCanvasSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F39172618C53ED100109747 /* ZSCanvasSegue.m */; };
 		5F39172D18C55C1A00109747 /* UIImageView+Zuse.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F39172C18C55C1A00109747 /* UIImageView+Zuse.m */; };
 		5F39172F18C587D800109747 /* blank_project.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F39172E18C587D800109747 /* blank_project.png */; };
+		5F39173018C6634E00109747 /* ZSGroupsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8138DB189CA574009F3495 /* ZSGroupsViewController.m */; };
 		5F39DFC7188A40A0008ECAC1 /* NSArray+BlocksKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F39DFAA188A40A0008ECAC1 /* NSArray+BlocksKit.m */; };
 		5F39DFC8188A40A0008ECAC1 /* NSDictionary+BlocksKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F39DFAC188A40A0008ECAC1 /* NSDictionary+BlocksKit.m */; };
 		5F39DFC9188A40A0008ECAC1 /* NSIndexSet+BlocksKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F39DFAE188A40A0008ECAC1 /* NSIndexSet+BlocksKit.m */; };
@@ -1292,7 +1292,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2CA36ED018D0FF5200CAB651 /* ZSGroupsViewController.m in Sources */,
+				5F39173018C6634E00109747 /* ZSGroupsViewController.m in Sources */,
 				5F1B5BA71838109600632DE6 /* ZSInterpreter.m in Sources */,
 				4CF1CBBE17EF882A00636E0D /* main.m in Sources */,
 				4C3DD66518B706DC0013B3A5 /* ZSToolboxController.m in Sources */,

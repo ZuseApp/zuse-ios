@@ -29,6 +29,8 @@
     [super viewDidLoad];
     self.jsonProjects = @[];
     
+    self.navigationItem.title = @"ZuseHub";
+    
     [self.jsonClientManager getUsersSharedProjects:^(NSArray *projects) {
         self.jsonProjects = projects;
         [self.tableView reloadData];
