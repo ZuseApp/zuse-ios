@@ -132,7 +132,7 @@ typedef NS_ENUM(NSInteger, ZSMainMenuProjectFilter) {
     
     [self presentViewController:controller animated:YES completion:^{}];
     controller.didFinish = ^{
-        [self dismissViewControllerAnimated:YES completion:^{ }];
+//        [self dismissViewControllerAnimated:YES completion:^{ }];
     };
 }
 

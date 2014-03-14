@@ -33,11 +33,9 @@
 
 -(void)close:(id)sender
 {
-    // to dismiss use dismissViewControllerAnimated:(BOOL)flag completion:(void (^)(void))completion
-    // dismissModalViewControllerAnimated: is deprecated
-    
-//    [self dismissViewControllerAnimated:YES completion:^{ NSLog(@"controller dismissed"); }];
-    self.didFinish();
+//    [self dismissViewControllerAnimated:YES completion:^{ NSLog(@"login dismissed"); }];
+    [self.presentingViewController.presentingViewController dismissViewControllerAnimated:YES completion:^{}];
+//    self.didFinish();
 }
 
 - (IBAction)loginTapped:(id)sender {
