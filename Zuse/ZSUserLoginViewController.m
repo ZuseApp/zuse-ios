@@ -21,9 +21,23 @@
 {
     [super viewDidLoad];
     self.title = @"Login to ZuseHub";
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] init];
+    backButton.title = @"Back";
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back"
+                                                                             style:UIBarButtonItemStylePlain
+                                                                            target:self
+                                                                            action:@selector(close:)];
     
     
+}
+
+-(void)close:(id)sender
+{
+    // to dismiss use dismissViewControllerAnimated:(BOOL)flag completion:(void (^)(void))completion
+    // dismissModalViewControllerAnimated: is deprecated
     
+//    [self dismissViewControllerAnimated:YES completion:^{ NSLog(@"controller dismissed"); }];
+    self.didFinish();
 }
 
 - (IBAction)loginTapped:(id)sender {
