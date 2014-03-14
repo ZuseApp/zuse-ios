@@ -50,10 +50,6 @@
 //        [self presentViewController:self.loginNavController animated:YES completion:^{}];
         [self presentViewController:navController animated:YES completion:^{}];
 
-        controller.didFinish = ^{
-            [self dismissViewControllerAnimated:YES completion:^{ }];
-            self.didFinish();
-        };
     }
     else{
         ZSZuseHubViewController *controller = [[ZSZuseHubViewController alloc] init];

@@ -33,9 +33,7 @@
 
 -(void)close:(id)sender
 {
-//    [self dismissViewControllerAnimated:YES completion:^{ NSLog(@"login dismissed"); }];
     [self.presentingViewController.presentingViewController dismissViewControllerAnimated:YES completion:^{}];
-//    self.didFinish();
 }
 
 - (IBAction)loginTapped:(id)sender {

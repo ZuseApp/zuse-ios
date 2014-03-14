@@ -10,6 +10,4 @@
 
 @interface ZSZuseHubInitViewController : UIViewController
 
-@property (copy, nonatomic) void(^didFinish)();
-
 @end
