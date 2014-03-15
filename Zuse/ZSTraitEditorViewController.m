@@ -11,15 +11,34 @@
 #import "ZS_CodeEditorViewController.h"
 #import "ZSSpriteTraits.h"
 
+NSString * const ZSTutorialBroadcastTraitToggled = @"ZSTutorialBroadcastTraitToggled";
+NSString * const ZSTutorialBroadcastBackPressedTraitEditor = @"ZSTutorialBroadcastBackPressed";
+ 
+typedef NS_ENUM(NSInteger, ZSEditorTutorialStage) {
+    ZSTraitEditorToggleTraitOne,
+    ZSTraitEditorToggleTraitTwo
+};
+
 @interface ZSTraitEditorViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property (strong, nonatomic) NSDictionary *globalTraits;
 @property (strong, nonatomic) NSArray      *globalTraitNames;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) ZSTutorial *tutorial;
+@property (assign, nonatomic) ZSEditorTutorialStage tutorialStage;
 
 @end
 
 @implementation ZSTraitEditorViewController
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        _tutorial = [ZSTutorial sharedTutorial];
+        _tutorialStage = ZSTraitEditorToggleTraitOne;
+    }
+    return self;
+}
 
 - (void)viewDidLoad
 {
@@ -28,7 +47,15 @@
     
     _globalTraits     = [ZSSpriteTraits defaultTraits];
     _globalTraitNames = [_globalTraits allKeys];
-    
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    if (_tutorial.isActive) {
+        [self createTutorialForStage:_tutorialStage];
+        [_tutorial presentWithCompletion:^{
+            _tutorialStage++;
+        }];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -68,6 +95,7 @@
         [optionsButton addTarget:self action:@selector(options:) forControlEvents:UIControlEventTouchUpInside];
         optionsButton.tag = indexPath.row;
         [cell.contentView addSubview:optionsButton];
+        [_tutorial broadcastEvent:ZSTutorialBroadcastTraitToggled];
     } else {
         cell.contentView.backgroundColor = [UIColor whiteColor];
         cell.accessoryType = UITableViewCellAccessoryNone;
@@ -116,6 +144,7 @@
     if ([segue.identifier isEqualToString:@"parameters"]) {
         ZSTraitEditorParametersViewController *controller = (ZSTraitEditorParametersViewController *)segue.destinationViewController;
         controller.parameters = _traits[traitIdentifier][@"parameters"];
+        [[ZSTutorial sharedTutorial] broadcastEvent:ZSTutorialBroadcastTraitToggled];
     }
     else {
         ZS_CodeEditorViewController *controller = (ZS_CodeEditorViewController*)segue.destinationViewController;
@@ -127,9 +156,27 @@
     }
 }
 
-//- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
-//    [self performSegueWithIdentifier:@"parameters" sender:self];
-//    
-//}
+#pragma mark Tutorial
+
+- (void)createTutorialForStage:(ZSEditorTutorialStage)stage {
+    if (stage == ZSTraitEditorToggleTraitOne || stage == ZSTraitEditorToggleTraitTwo) {
+        CGRect frame = [_tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+        frame.size.width = 254; // Remove edit button from touchable area.
+        [[ZSTutorial sharedTutorial] addActionWithText:@"Click here to toggle trait."
+                                              forEvent:ZSTutorialBroadcastTraitToggled
+                                       allowedGestures:@[UITapGestureRecognizer.class]
+                                          activeRegion:[_tableView convertRect:frame toView:self.view]
+                                                 setup:nil
+                                            completion:nil];
+        frame = self.navigationController.navigationBar.frame;
+        frame.size.width = 80;
+        [[ZSTutorial sharedTutorial] addActionWithText:@"Press the back button to go back to the canvas."
+                                              forEvent:ZSTutorialBroadcastBackPressedTraitEditor
+                                       allowedGestures:@[UITapGestureRecognizer.class]
+                                          activeRegion:frame
+                                                 setup:nil
+                                            completion:nil];
+    }
+}
 
 @end

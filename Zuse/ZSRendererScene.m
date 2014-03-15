@@ -274,7 +274,9 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
     ZSSpriteTouchComponent *component = [node getComponent:[ZSSpriteTouchComponent class]];
     node.physicsBody.dynamic = YES;
     component.speed = speed;
-    node.physicsBody.velocity = CGVectorMake(speed, speed);
+    
+    direction = ((direction) / 180.0 * M_PI);
+    node.physicsBody.velocity = CGVectorMake(speed * cosf(direction), speed * sinf(direction));
 }
 
 - (void)didSimulatePhysics {

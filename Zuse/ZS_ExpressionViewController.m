@@ -1,5 +1,7 @@
 #import "ZS_ExpressionViewController.h"
+#import "ZS_ExpressionVariableChooserCollectionViewController.h"
 #import "ZS_JsonUtilities.h"
+#import "ZSToolboxView.h"
 
 typedef NS_ENUM(NSInteger, ZS_Operator)
 {
@@ -51,6 +53,7 @@ NSString* ZS_OperatorToString(ZS_Operator operator)
 - (NSArray*) allNodes;
 - (void) setOperator: (ZS_Operator) operator;
 - (void) setNumber: (NSNumber*) number;
+- (void) setVariableName: (NSString*) name;
 - (BOOL) isLeaf;
 @end
 
@@ -81,7 +84,7 @@ NSString* ZS_OperatorToString(ZS_Operator operator)
 
 - (void) setJson: (NSObject *)json
 {
-    _json = json;
+    _json = json.copy;
     
     if ([json isKindOfClass: [NSDictionary class]])
     {
@@ -149,6 +152,15 @@ NSString* ZS_OperatorToString(ZS_Operator operator)
     if (self.isLeaf)
     {
         self.json = number;
+    }
+}
+- (void) setVariableName: (NSString*) name
+{
+    if (self.isLeaf)
+    {
+        NSMutableDictionary* getStatement = [[NSMutableDictionary alloc]init];
+        getStatement[@"get"] = name;
+        self.json = getStatement;
     }
 }
 - (NSArray*) allViews
@@ -255,6 +267,7 @@ NSString* ZS_OperatorToString(ZS_Operator operator)
 @property (strong, nonatomic) ZS_ExpressionLabel* headNode;
 @property (weak, nonatomic) ZS_ExpressionLabel* selectedNode;
 @property (strong, nonatomic) NSString* numberBuffer;
+@property (strong, nonatomic) ZS_ExpressionVariableChooserCollectionViewController* variableChooserController;
 @end
 
 @implementation ZS_ExpressionViewController
@@ -396,5 +409,29 @@ NSString* ZS_OperatorToString(ZS_Operator operator)
     NSArray* nodes = self.headNode.allNodes;
     NSInteger i = [nodes indexOfObject:self.selectedNode];
     self.selectedNode =  (i == nodes.count-1) ? nodes[0] : nodes[i+1];
+}
+- (IBAction)varButtonTapped
+{
+    ZSToolboxView* variableToolboxView = [[ZSToolboxView alloc] initWithFrame:CGRectMake(19, 82, 282, 361)];
+    
+    ZS_ExpressionVariableChooserCollectionViewController *variableChooserController =
+    [[ZS_ExpressionVariableChooserCollectionViewController alloc]init];
+    
+    variableChooserController.variables = self.variableNames;
+    variableChooserController.toolboxView = variableToolboxView;
+    variableChooserController.didFinish = ^(NSString* variableName)
+    {
+        [self.selectedNode setVariableName: variableName];
+        self.numberBuffer = @"";
+        [self reloadExpressionViewSubviews];
+    };
+    self.variableChooserController = variableChooserController;
+    
+    [variableToolboxView setPagingEnabled:NO];
+    [variableToolboxView addContentView: variableChooserController.collectionView
+                                  title: @"VARIABLE CHOOSER"];
+    [self.view addSubview: variableToolboxView];
+    
+    [variableToolboxView showAnimated:YES];
 }
 @end

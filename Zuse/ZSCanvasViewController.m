@@ -1,17 +1,29 @@
 #import "ZSCanvasViewController.h"
 #import "ZSRendererViewController.h"
-#import "ZSPhysicsGroupingViewController.h"
+#import "ZSGroupsViewController.h"
 #import "ZSSpriteView.h"
 #import "ZSEditorViewController.h"
 #import "ZSGrid.h"
 #import "ZSCanvasView.h"
-#import "ZSSettingsViewController.h"
-#import "FXBlurView.h"
 #import "ZSToolboxController.h"
-#import "UIImagePickerController+Edit.h"
 #import "ZSToolboxView.h"
 #import "ZSToolboxCell.h"
 #import "ZSSpriteLibrary.h"
+#import "ZSTraitEditorViewController.h"
+#import "ZSProjectPersistence.h"
+#import "ZSCanvasBarButtonItem.h"
+#import "ZSProjectJSONKeys.h"
+#import <FontAwesomeKit/FAKIonIcons.h>
+#import <AFNetworking/AFNetworking.h>
+#import <Social/Social.h>
+#import <Accounts/Accounts.h>
+
+typedef NS_ENUM(NSInteger, ZSCanvasInterfaceState) {
+    ZSCanvasInterfaceStateNormal,
+    ZSCanvasInterfaceStateGroups,
+    ZSCanvasInterfaceStateRendererPlaying,
+    ZSCanvasInterfaceStateRendererPaused
+};
 
 NSString * const ZSTutorialBroadcastDidDropSprite = @"ZSTutorialBroadcastDidDropSprite";
 NSString * const ZSTutorialBroadcastDidDoubleTap = @"ZSTutorialBroadcastDidDoubleTap";
@@ -19,9 +31,12 @@ NSString * const ZSTutorialBroadcastDidShowToolbox = @"ZSTutorialBroadcastDidSho
 NSString * const ZSTutorialBroadcastDidHideToolbox = @"ZSTutorialBroadcastDidHideToolbox";
 NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPaddle";
 
-#import <AFNetworking/AFNetworking.h>
-#import <Social/Social.h>
-#import <Accounts/Accounts.h>
+typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
+    ZSCanvasTutorialSetupStage,
+    ZSCanvasTutorialPaddleTwoSetupStage,
+    ZSCanvasTutorialBallSetupStage,
+    ZSCanvasTutorialGroupSetupStage,
+};
 
 @interface ZSCanvasViewController ()
 
@@ -40,19 +55,18 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
 
 // Tutorial
 @property (strong, nonatomic) ZSTutorial *tutorial;
+@property (assign, nonatomic) ZSCanvasTutorialStage tutorialStage;
 
 // Toolbox
 @property (strong, nonatomic) ZSToolboxView *toolboxView;
 @property (strong, nonatomic) ZSToolboxController *toolboxController;
 
+// Grouping
+@property (strong, nonatomic) ZSGroupsViewController *groupsController;
+
 // Toolbar
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *playBarButtonItem;
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *pauseBarButtonItem;
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *stopBarButtonItem;
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *groupBarButtonItem;
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *toolBarButtonItem;
-@property (weak, nonatomic) IBOutlet UIButton *toolButton;
+@property (assign, nonatomic) ZSCanvasInterfaceState interfaceState;
 
 @end
 
@@ -62,7 +76,9 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
     self = [super initWithCoder:aDecoder];
     if (self) {
         _tutorial = [ZSTutorial sharedTutorial];
+        _tutorialStage = ZSCanvasTutorialSetupStage;
         _toolboxController = [[ZSToolboxController alloc] init];
+        self.interfaceState = ZSCanvasInterfaceStateNormal;
     }
     return self;
 }
@@ -72,6 +88,10 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.toolbar.translucent = NO;
+    self.toolbar.barTintColor = [UIColor zuseBackgroundGrey];
+    self.toolbar.clipsToBounds = YES;
     
     // Test Toolbox
     _toolboxView = [[ZSToolboxView alloc] initWithFrame:CGRectMake(19, 82, 282, 361)];
@@ -100,6 +120,11 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
     
     // Load the project if it exists.
     if (_project) {
+        if (_project.screenshot) {
+            NSData *data = UIImagePNGRepresentation(self.project.screenshot);
+            NSString *base64 = [data base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithCarriageReturn];
+            NSLog(@"%@", base64);
+        }
         // Setup delgates, sources and gestures.
         [self setupCanvas];
         [self setupTableDelegatesAndSources];
@@ -108,11 +133,10 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
         [self loadSpritesFromProject];
     }
     
-    // Remove pause and stop from the toolbar.
-    NSMutableArray *items = [_toolbar.items mutableCopy];
-    [items removeObject:_pauseBarButtonItem];
-    [items removeObject:_stopBarButtonItem];
-    [_toolbar setItems:items];
+    [self transitionToInterfaceState:ZSCanvasInterfaceStateNormal];
+    
+    // Animate in the canvas view and all that jazz
+    [self animateCanvasViewIn];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -123,15 +147,22 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
     // TODO: Figure out the correct place to put this.  The editor may have modified the project
     // so save the project here as well.  This means that the project gets loaded and than saved
     // right away on creation as well.
-    [_project write];
+    [self saveProject];
     [self.view setNeedsDisplay];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-    [self createStageForName:@"setup"];
-    [[[ZSEditorViewController alloc] init] createStageForName:nil];
-    [self createStageForName:@"paddle2"];
-    // [_tutorial present];
+    if (_tutorial.isActive) {
+        [self createTutorialForStage:_tutorialStage];
+        [_tutorial presentWithCompletion:^{
+            if (_tutorialStage == ZSCanvasTutorialSetupStage) {
+                _tutorial.active = NO;
+            }
+            else {
+                _tutorialStage++;
+            }
+        }];
+    }
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -140,41 +171,73 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
         rendererController.projectJSON = [_project assembledJSON];
         _rendererViewController = rendererController;
     } else if ([segue.identifier isEqualToString:@"editor"]) {
-        _showTutorial = NO;
         ZSEditorViewController *editorController = (ZSEditorViewController *)segue.destinationViewController;
         editorController.spriteObject = ((ZSSpriteView *)sender).spriteJSON;
-    } else if  ([segue.identifier isEqualToString:@"settings"]) {
-        ZSSettingsViewController *settingsController = (ZSSettingsViewController *)segue.destinationViewController;
-        settingsController.grid = ((ZSCanvasView *) self.view).grid;
-    } else if ([segue.identifier isEqualToString:@"physicsGroups"]) {
-        ZSPhysicsGroupingViewController *groupingController = (ZSPhysicsGroupingViewController *)segue.destinationViewController;
-        
-        groupingController.sprites = _project.assembledJSON[@"objects"];
-        groupingController.collisionGroups = _project.assembledJSON[@"collision_groups"];
-        groupingController.didFinish = ^{
-            [self dismissViewControllerAnimated:NO completion:^{ }];
-        };
     }
+}
+
+#pragma mark Transition Animations
+
+- (void)animateCanvasViewIn {
+    CGRect toolbarFrame = self.toolbar.frame;
+    CGRect originalToolbarFrame = toolbarFrame;
+    toolbarFrame.origin.y = self.view.bounds.size.height;
+    self.toolbar.frame = toolbarFrame;
+    
+    CGRect normalFrame = self.canvasView.frame;
+    self.view.backgroundColor = [UIColor clearColor];
+    CGFloat scale = self.initialCanvasRect.size.width / self.view.bounds.size.width;
+    self.canvasView.transform = CGAffineTransformMakeScale(scale, scale);
+    CGRect frame = self.canvasView.frame;
+    frame.origin.x = self.initialCanvasRect.origin.x;
+    frame.origin.y = self.initialCanvasRect.origin.y;
+    self.canvasView.frame = frame;
+    
+    [UIView animateWithDuration:0.4
+                     animations:^{
+                         self.canvasView.transform = CGAffineTransformIdentity;
+                         self.canvasView.frame = normalFrame;
+                         self.toolbar.frame = originalToolbarFrame;
+                     }];
+}
+
+- (void)animateCanvasViewOut {
+    CGFloat scale = self.initialCanvasRect.size.width / self.canvasView.bounds.size.width;
+    CGRect toolbarRect = self.toolbar.frame;
+    toolbarRect.origin.y = self.view.bounds.size.height;
+    [UIView animateWithDuration:0.4
+                     animations:^{
+                         self.canvasView.transform = CGAffineTransformMakeScale(scale, scale);
+                         self.canvasView.frame = self.initialCanvasRect;
+                         self.toolbar.frame = toolbarRect;
+                         
+                     } completion:^(BOOL finished) {
+                         if (self.didFinish) {
+                             self.didFinish();
+                         }
+                     }];
 }
 
 #pragma mark Tutorial
 
-- (void)createStageForName:(NSString *)name {
+- (void)createTutorialForStage:(ZSCanvasTutorialStage)stage {
     WeakSelf
     __block UIView *paddle1 = nil;
     __block UIView *paddle2 = nil;
     __block UIView *ball = nil;
-    if ([name isEqualToString:@"setup"]) {
+    if (stage == ZSCanvasTutorialSetupStage) {
         UICollectionView *collectionView = (UICollectionView*)[_toolboxView viewByIndex:0];
         CGRect ballRect = [collectionView layoutAttributesForItemAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]].frame;
         ballRect.size.height -= 17;
         CGRect paddleRect = [collectionView layoutAttributesForItemAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]].frame;
         paddleRect.size.height -= 17;
         
+        CGRect settingsButtonRect = ((ZSCanvasBarButtonItem *)_toolbar.items[3]).button.frame;
+        
         [_tutorial addActionWithText:@"Touch the toolbox icon to open the sprite toolbox."
                             forEvent:ZSTutorialBroadcastDidShowToolbox
                      allowedGestures:@[UITapGestureRecognizer.class]
-                        activeRegion:[_toolbar convertRect:_toolButton.frame toView:self.view]
+                        activeRegion:[_toolbar convertRect:settingsButtonRect toView:self.view]
                                setup:nil
                           completion:nil];
         [_tutorial addActionWithText:@"Drag a paddle sprite onto the lower part of the canvas."
@@ -212,17 +275,17 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
                                    weakSelf.tutorial.overlayView.invertActiveRegion = YES;
                                }
                           completion:nil];
-        [_tutorial addActionWithText:@"Touch the lower paddle to bring up the sprite editor."
-                            forEvent:ZSTutorialBroadcastDidTapPaddle
-                     allowedGestures:@[UITapGestureRecognizer.class]
-                        activeRegion:CGRectZero
-                               setup:^{
-                                   weakSelf.tutorial.overlayView.activeRegion = paddle1.frame;
-                               }
-                          completion:nil];
+//        [_tutorial addActionWithText:@"Touch the lower paddle to bring up the sprite editor."
+//                            forEvent:ZSTutorialBroadcastDidTapPaddle
+//                     allowedGestures:@[UITapGestureRecognizer.class]
+//                        activeRegion:CGRectZero
+//                               setup:^{
+//                                   weakSelf.tutorial.overlayView.activeRegion = paddle1.frame;
+//                               }
+//                          completion:nil];
     }
-    if ([name isEqualToString:@"paddle2"]) {
-        [_tutorial addActionWithText:@"Touch the lower paddle to bring up the sprite editor."
+    if (stage == ZSCanvasTutorialPaddleTwoSetupStage) {
+        [_tutorial addActionWithText:@"Touch the upper paddle to bring up the sprite editor."
                             forEvent:ZSTutorialBroadcastDidTapPaddle
                      allowedGestures:@[UITapGestureRecognizer.class]
                         activeRegion:CGRectZero
@@ -232,15 +295,37 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
                                }
                           completion:nil];
     }
+    if (stage == ZSCanvasTutorialBallSetupStage) {
+        [_tutorial addActionWithText:@"Touch the ball to bring up the sprite editor."
+                            forEvent:ZSTutorialBroadcastDidTapPaddle
+                     allowedGestures:@[UITapGestureRecognizer.class]
+                        activeRegion:CGRectZero
+                               setup:^{
+                                   ball = [weakSelf.tutorial getObjectForKey:@"ball"];
+                                   weakSelf.tutorial.overlayView.activeRegion = ball.frame;
+                               }
+                          completion:nil];
+    }
 }
 
-#pragma mark Load Sprites From Project
+#pragma mark Project Management
 
 - (void)loadSpritesFromProject {
     NSMutableDictionary *assembledJSON = [_project assembledJSON];
     for (NSMutableDictionary *jsonObject in assembledJSON[@"objects"]) {
         [_canvasView addSpriteFromJSON:jsonObject];
     }
+}
+
+- (void)saveProject {
+    UIGraphicsBeginImageContext(_canvasView.bounds.size);
+    [_canvasView.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    self.project.screenshot = image;
+    
+    [ZSProjectPersistence writeProject:self.project];
 }
 
 #pragma mark Canvas Setup
@@ -255,7 +340,7 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
     
     _canvasView.spriteCreated = ^(ZSSpriteView *spriteView) {
         [[_project rawJSON][@"objects"] addObject:spriteView.spriteJSON];
-        [_project write];
+        [self saveProject];
     };
     
     _canvasView.spriteRemoved = ^(ZSSpriteView *spriteView) {
@@ -266,11 +351,11 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
                 break;
             }
         }
-        [weakSelf.project write];
+        [self saveProject];
     };
     
     _canvasView.spriteModified = ^(ZSSpriteView *spriteView){
-        [_project write];
+        [self saveProject];
     };
 }
 
@@ -289,7 +374,7 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
         if ([@"text" isEqualToString:type]) {
             json[@"properties"][@"text"] = @"Value";
         }
-        json[@"collision_group"] = @"";
+        json[ZSProjectJSONKeyGroup] = @"";
         
         // Width and height of frame can be calculated now.
         CGRect originalFrame = spriteView.content.frame;
@@ -355,7 +440,7 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
         [weakSelf.canvasView setupEditOptionsForSpriteView:draggedView];
         
         // Save the project.
-        [weakSelf.project write];
+        [weakSelf saveProject];
         
         // Show the toolbox again.
         [weakSelf.toolboxView showAnimated:YES];
@@ -365,16 +450,8 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
 
 #pragma mark Main Menu
 
-- (IBAction)playProject:(id)sender {
-    NSMutableArray *items = [_toolbar.items mutableCopy];
-    [items insertObject:_pauseBarButtonItem atIndex:0];
-    [items removeObject:_playBarButtonItem];
-    if (![items containsObject:_stopBarButtonItem]) {
-        [items insertObject:_stopBarButtonItem atIndex:1];
-        [items removeObject:_groupBarButtonItem];
-        [items removeObject:_toolBarButtonItem];
-    }
-    [_toolbar setItems:items animated:YES];
+- (void)playProject {
+    [self transitionToInterfaceState:ZSCanvasInterfaceStateRendererPlaying];
     
     [self.view bringSubviewToFront:self.rendererView];
     if (self.rendererView.hidden) {
@@ -387,42 +464,174 @@ NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPa
     }
 }
 
-- (IBAction)pauseProject:(id)sender {
-    NSMutableArray *items = [_toolbar.items mutableCopy];
-    [items insertObject:_playBarButtonItem atIndex:0];
-    [items removeObject:_pauseBarButtonItem];
-    [_toolbar setItems:items animated:YES];
-    
+- (void)pauseProject {
     [_rendererViewController stop];
+    [self transitionToInterfaceState:ZSCanvasInterfaceStateRendererPaused];
 }
 
-- (IBAction)stopProject:(id)sender {
-    NSMutableArray *items = [_toolbar.items mutableCopy];
-    if ([items containsObject:_pauseBarButtonItem]) {
-        [items insertObject:_playBarButtonItem atIndex:0];
-        [items removeObject:_pauseBarButtonItem];
-    }
-    [items removeObject:_stopBarButtonItem];
-    [items insertObject:_groupBarButtonItem atIndex:2];
-    [items insertObject:_toolBarButtonItem atIndex:3];
-    [_toolbar setItems:items animated:YES];
-    
+
+- (void)stopProject {
     [self.rendererViewController stop];
     self.rendererView.hidden = YES;
+    [self transitionToInterfaceState:ZSCanvasInterfaceStateNormal];
 }
 
-- (IBAction)modifyGroups:(id)sender {
-    [self performSegueWithIdentifier:@"physicsGroups" sender:self];
-}
-
-- (IBAction)return:(id)sender {
-    [_project write];
-    if (self.didFinish) {
-        self.didFinish();
+- (void)transitionToInterfaceState:(ZSCanvasInterfaceState)state {
+    NSArray *items = nil;
+    if (state == ZSCanvasInterfaceStateNormal) {
+        items = [self normalToolbarItems];
+    } else if (state == ZSCanvasInterfaceStateGroups) {
+        items = [self groupsToolbarItems];
+    } else if (state == ZSCanvasInterfaceStateRendererPlaying) {
+        items = [self rendererPlayingToolbarItems];
+    } else if (state == ZSCanvasInterfaceStateRendererPaused) {
+        items = [self rendererPausedToolbarItems];
     }
+    
+    self.interfaceState = state;
+    
+    [self.toolbar setItems:items animated:YES];
 }
 
-- (IBAction)showToolbox:(id)sender {
+- (NSArray *)normalToolbarItems {
+    return @[
+             [ZSCanvasBarButtonItem playButtonWithHandler:^{
+                 [self playProject];
+             }],
+             [ZSCanvasBarButtonItem flexibleBarButtonItem],
+             [ZSCanvasBarButtonItem groupsButtonWithHandler:^{
+                 [self modifyGroups];
+             }],
+             [ZSCanvasBarButtonItem toolboxButtonWithHandler:^{
+                 [self showToolbox];
+             }],
+             [ZSCanvasBarButtonItem shareButtonWithHandler:^{
+                 [self shareProject];
+             }],
+             [ZSCanvasBarButtonItem backButtonWithHandler:^{
+                 [self finish];
+             }]
+             ];
+}
+
+- (NSArray *)groupsToolbarItems {
+    return self.groupsController.canvasToolbarItems;
+}
+
+- (NSArray *)rendererPlayingToolbarItems {
+    return @[
+             [ZSCanvasBarButtonItem pauseButtonWithHandler:^{
+                 [self pauseProject];
+             }],
+             [ZSCanvasBarButtonItem stopButtonWithHandler:^{
+                 [self stopProject];
+             }]
+             ];
+}
+
+- (NSArray *)rendererPausedToolbarItems {
+    return @[
+             [ZSCanvasBarButtonItem playButtonWithHandler:^{
+                 [self playProject];
+             }],
+             [ZSCanvasBarButtonItem stopButtonWithHandler:^{
+                 [self stopProject];
+             }]
+             ];
+}
+
+- (void)modifyGroups {
+    self.groupsController = [[ZSGroupsViewController alloc] init];
+    self.groupsController.sprites = _project.assembledJSON[@"objects"];
+    self.groupsController.groups = _project.assembledJSON[ZSProjectJSONKeyGroups];
+    
+    WeakSelf
+    self.groupsController.viewControllerNeedsPresented = ^(UIViewController *controller) {
+        [weakSelf presentViewController:controller
+                           animated:YES
+                         completion:^{ }];
+    };
+    
+    self.groupsController.viewControllerNeedsDismissal = ^(UIViewController *controller) {
+        [weakSelf dismissViewControllerAnimated:YES
+                                     completion:^{}];
+    };
+    
+    self.groupsController.didFinish = ^{
+        [self transitionToInterfaceState:ZSCanvasInterfaceStateNormal];
+        [UIView animateWithDuration:0.2
+                         animations:^{
+                             weakSelf.groupsController.view.alpha = 0.0;
+                         } completion:^(BOOL finished) {
+                             [weakSelf.groupsController.view removeFromSuperview];
+                             [weakSelf.groupsController removeFromParentViewController];
+                             weakSelf.groupsController = nil;
+                         }];
+    };
+    
+    [self transitionToInterfaceState:ZSCanvasInterfaceStateGroups];
+    
+    self.groupsController.view.frame = self.canvasView.bounds;
+    self.groupsController.view.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:self.groupsController.view];
+}
+
+- (void)finish {
+    [self saveProject];
+    [self animateCanvasViewOut];
+}
+
+- (void)shareProject {
+    NSURL *baseURL = [NSURL URLWithString:@"https://zusehub.herokuapp.com/api/v1/"];
+//    NSURL *baseURL = [NSURL URLWithString:@"http://128.110.74.238:3000/api/v1/"];
+    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseURL];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    NSData *projectData = [NSJSONSerialization dataWithJSONObject:self.project.assembledJSON
+     options:NSJSONWritingPrettyPrinted
+      error:nil];
+    
+    NSString *projectString = [[NSString alloc] initWithBytes:projectData.bytes
+                                                       length:projectData.length
+                                                     encoding:NSUTF8StringEncoding];
+    
+    NSDictionary *params = @{
+        @"shared_project": @{
+            @"title": self.project.title,
+            @"project_json": projectString
+        }
+    };
+                        
+    
+    // { "url": "..." }
+    [manager POST:@"shared_projects"
+       parameters:params
+          success:^(AFHTTPRequestOperation *operation, NSDictionary *project) {
+              NSLog(@"Success! %@", project);
+              
+              if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter]) {
+                  SLComposeViewController *controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
+                  [controller setInitialText:[NSString stringWithFormat:@"Check out my game %@ on Zuse!", self.project.title]];
+                  [controller addURL:[NSURL URLWithString:project[@"url"]]];
+                  [controller setCompletionHandler:^(SLComposeViewControllerResult result) {
+                      if (result == SLComposeViewControllerResultCancelled) {
+                          NSLog(@"Wooohoo!");
+                      }
+                      [self dismissViewControllerAnimated:YES completion:^{}];
+                  }];
+                  [self presentViewController:controller
+                                     animated:YES
+                                   completion:^{
+                                       
+                                   }];
+              }
+          }  failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+              NSLog(@"Failed! %@", error.localizedDescription);
+          }];
+}
+
+- (void)showToolbox {
     [_toolboxView showAnimated:YES];
     [_tutorial broadcastEvent:ZSTutorialBroadcastDidShowToolbox];
 }
