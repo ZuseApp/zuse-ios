@@ -5,6 +5,7 @@
 #import "ZSEditorViewController.h"
 #import "ZSGrid.h"
 #import "ZSCanvasView.h"
+#import "ZSGeneratorView.h"
 #import "ZSToolboxController.h"
 #import "ZSToolboxView.h"
 #import "ZSToolboxCell.h"
@@ -45,6 +46,10 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
 
 // Grid Menu
 @property (weak, nonatomic) IBOutlet UIView *rendererView;
+
+// Generator
+@property (weak, nonatomic) IBOutlet ZSGeneratorView *generatorView;
+
 
 // Sprites
 @property (nonatomic, strong) NSArray *templateSprites;
@@ -100,18 +105,16 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
         [weakSelf.tutorial broadcastEvent:ZSTutorialBroadcastDidHideToolbox];
     };
     NSMutableArray *categories = [ZSSpriteLibrary sharedLibrary].categories;
-    NSInteger position = 0;
-    for (NSMutableArray *category in categories) {
+    for (int i = 0; i < categories.count; i++) {
         UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:[[UICollectionViewFlowLayout alloc] init]];
         [collectionView registerClass:ZSToolboxCell.class forCellWithReuseIdentifier:@"cellID"];
         collectionView.userInteractionEnabled = YES;
         collectionView.contentInset = UIEdgeInsetsMake(4, 4, 4, 4);
         collectionView.delegate = _toolboxController;
         collectionView.dataSource = _toolboxController;
-        collectionView.tag = position;
+        collectionView.tag = i;
         
-        [_toolboxView addContentView:collectionView title:categories[position][@"category"]];
-        position++;
+        [_toolboxView addContentView:collectionView title:categories[i][@"category"]];
     }
     UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
     [button setTitle:@"Import Image" forState:UIControlStateNormal];
@@ -499,6 +502,9 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
                  [self playProject];
              }],
              [ZSCanvasBarButtonItem flexibleBarButtonItem],
+             [ZSCanvasBarButtonItem generatorsButtonWithHandler:^{
+                 
+             }],
              [ZSCanvasBarButtonItem groupsButtonWithHandler:^{
                  [self modifyGroups];
              }],
@@ -540,6 +546,10 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
              ];
 }
 
+- (void)toggleGeneratorView {
+    [self.view bringSubviewToFront:_generatorView];
+}
+
 - (void)modifyGroups {
     self.groupsController = [[ZSGroupsViewController alloc] init];
     self.groupsController.sprites = _project.assembledJSON[@"objects"];
@@ -558,7 +568,7 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
     };
     
     self.groupsController.didFinish = ^{
-        [self transitionToInterfaceState:ZSCanvasInterfaceStateNormal];
+        [weakSelf transitionToInterfaceState:ZSCanvasInterfaceStateNormal];
         [UIView animateWithDuration:0.2
                          animations:^{
                              weakSelf.groupsController.view.alpha = 0.0;

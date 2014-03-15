@@ -21,6 +21,7 @@
 
 // Canvas
 + (ZSCanvasBarButtonItem *)playButtonWithHandler:(void (^)())handler;
++ (ZSCanvasBarButtonItem *)generatorsButtonWithHandler:(void (^)())handler;
 + (ZSCanvasBarButtonItem *)groupsButtonWithHandler:(void (^)())handler;
 + (ZSCanvasBarButtonItem *)toolboxButtonWithHandler:(void (^)())handler;
 + (ZSCanvasBarButtonItem *)shareButtonWithHandler:(void (^)())handler;
