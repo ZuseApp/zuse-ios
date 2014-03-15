@@ -1,0 +1,61 @@
+Traits:
+
+  Baddy:
+    direction = 0
+    every 1 seconds {
+      direction += 180
+      move(direction, 50)
+    }
+
+    every random_number(1, 3) seconds {
+      generate("baddy bullet", center_x, center_y)
+    }
+
+    on_event "collide" {
+      if other_group == "hero bullet" {
+        remove()
+      }
+    }
+
+
+Baddy:
+
+  Traits: Baddy
+
+Hero:
+
+  Traits:
+    Draggable:
+      vertical: false
+      horizontal: true
+
+  Code:
+    on_event "collide" {
+      if other_group == "baddy bullet" {
+        remove()
+        trigger_event("gameover")
+      }
+    }
+
+    every 0.2 seconds {
+      generate("hero bullet", center_x, center_y)
+    }
+
+
+Hero bullet:
+
+  Code:
+    move(90, 100)
+
+    on_event "collide" {
+      remove()
+    }
+
+Baddy bullet:
+
+  Code:
+    move(-90, 100)
+
+    on_event "collide" {
+      remove()
+    }
