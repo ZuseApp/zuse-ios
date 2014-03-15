@@ -114,7 +114,7 @@
                     </view>
                     <connections>
                         <outlet property="projectCollectionView" destination="ww8-it-zVa" id="KwL-Yb-uH3"/>
-                        <segue destination="qGw-AV-wKF" kind="modal" identifier="project" customClass="ZSCanvasSegue" animates="NO" id="6lt-7T-WTC"/>
+                        <segue destination="qGw-AV-wKF" kind="custom" identifier="project" customClass="ZSCanvasSegue" id="6lt-7T-WTC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jby-aW-aVJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
