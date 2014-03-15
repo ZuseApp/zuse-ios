@@ -129,6 +129,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" id="oIu-2b-IPq" customClass="ZSGeneratorView">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="524"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
                             <containerView hidden="YES" contentMode="scaleToFill" id="zUs-oU-8qW">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="524"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -155,6 +160,7 @@
                     <navigationItem key="navigationItem" id="L0h-EV-yiz"/>
                     <connections>
                         <outlet property="canvasView" destination="xLe-TB-h8T" id="jcJ-OF-c2C"/>
+                        <outlet property="generatorView" destination="oIu-2b-IPq" id="FNd-mY-F4c"/>
                         <outlet property="rendererView" destination="zUs-oU-8qW" id="bD9-hp-fyI"/>
                         <outlet property="toolbar" destination="lke-3O-Z2W" id="LOB-tb-57j"/>
                         <segue destination="Zkj-rO-exu" kind="push" identifier="editor" id="f8x-t6-B0l"/>
