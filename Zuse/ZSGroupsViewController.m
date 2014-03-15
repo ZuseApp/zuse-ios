@@ -181,7 +181,7 @@
 
 - (MTBlockAlertView *)alertViewForNewGroupWithMessage:(NSString *)message {
     MTBlockAlertView *alertView = [[MTBlockAlertView alloc]
-                                   initWithTitle:@"New Collision Group"
+                                   initWithTitle:@"New Group"
                                          message:message
                                completionHanlder:^(UIAlertView *alertView, NSInteger buttonIndex) {
                                        NSString *name = [alertView textFieldAtIndex:0].text;
