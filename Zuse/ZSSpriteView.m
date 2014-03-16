@@ -118,14 +118,15 @@
 }
 
 - (void)setupGestures {
-    UITapGestureRecognizer *singleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTapRecognized)];
-    [self addGestureRecognizer:singleTapGesture];
-    
     UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panRecognized:)];
     [panGesture setMinimumNumberOfTouches:1];
     [panGesture setMaximumNumberOfTouches:1];
     panGesture.delegate = self;
     [self addGestureRecognizer:panGesture];
+    
+    UITapGestureRecognizer *singleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTapRecognized)];
+    [singleTapGesture requireGestureRecognizerToFail:panGesture];
+    [self addGestureRecognizer:singleTapGesture];
     
     UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressRecognized:)];
     longPressGesture.minimumPressDuration = 0.3;
