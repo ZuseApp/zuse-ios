@@ -46,7 +46,7 @@
     cell.spriteView.longPressBegan = ^(UILongPressGestureRecognizer *longPressGestureRecognizer) {
         [longPressGestureRecognizer.view becomeFirstResponder];
         _editMenu = [UIMenuController sharedMenuController];
-        [_editMenu setTargetRect:longPressGestureRecognizer.view.frame inView:self];
+        [_editMenu setTargetRect:weakCell.frame inView:self];
         [_editMenu setMenuVisible:YES animated:YES];
         weakSelf.selectedSprite = weakCell.spriteView;
     };

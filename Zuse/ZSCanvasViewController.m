@@ -43,6 +43,7 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
 
 // Canvas
 @property (weak, nonatomic) IBOutlet ZSCanvasView *canvasView;
+@property (weak, nonatomic) IBOutlet UILabel *canvasLabel;
 
 // Grid Menu
 @property (weak, nonatomic) IBOutlet UIView *rendererView;
@@ -96,6 +97,9 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
         [self setupGenerators];
         [self setupToolbar];
         [self setupToolbox];
+        
+        // Set a curved radius on the canvas label.
+        self.canvasLabel.layer.cornerRadius = 10;
         
         // Load Sprites and generators.
         [self loadSpritesAndGeneratorsFromProject];
@@ -507,7 +511,7 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
              }],
              [ZSCanvasBarButtonItem flexibleBarButtonItem],
              [ZSCanvasBarButtonItem generatorsButtonWithHandler:^{
-                 [self showGeneratorView];
+                 [self toggleGeneratorView];
              }],
              [ZSCanvasBarButtonItem groupsButtonWithHandler:^{
                  [self modifyGroups];
@@ -554,6 +558,9 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
     [self transitionToInterfaceState:ZSCanvasInterfaceStateRendererPlaying];
     
     [self.view bringSubviewToFront:self.rendererView];
+    if (!self.generatorView.hidden) {
+        self.generatorView.hidden = YES;
+    }
     if (self.rendererView.hidden) {
         self.rendererViewController.projectJSON = [self.project assembledJSON];
         self.rendererView.hidden = NO;
@@ -576,14 +583,44 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
     [self transitionToInterfaceState:ZSCanvasInterfaceStateNormal];
 }
 
-- (void)showGeneratorView {
-    if (_generatorView.hidden) {
-        _generatorView.hidden = NO;
-        [self.view bringSubviewToFront:_generatorView];
+- (void)toggleGeneratorView {
+    // Setup
+    BOOL generatorHidden = self.generatorView.hidden;
+    if (generatorHidden) {
+        self.generatorView.alpha = 0;
+        self.generatorView.hidden = NO;
+        [self.view bringSubviewToFront:self.generatorView];
+        [self.canvasLabel setText:@"Generators"];
     }
     else {
-        _generatorView.hidden = YES;
+        self.canvasView.alpha = 0;
+        self.canvasView.hidden = NO;
+        [self.view bringSubviewToFront:self.canvasView];
+        [self.canvasLabel setText:@"Canvas"];
     }
+    [self.view bringSubviewToFront:self.canvasLabel];
+    self.canvasLabel.alpha = 0;
+    self.canvasLabel.hidden = NO;
+    
+    // Animation
+    [UIView animateWithDuration:0.25 animations:^{
+        self.canvasLabel.alpha = 100;
+        if (generatorHidden) {
+            self.generatorView.alpha = 100;
+        }
+        else {
+            self.canvasView.alpha = 100;
+        }
+    } completion:^(BOOL finished){
+        if (!generatorHidden) {
+            self.generatorView.hidden = YES;
+        }
+        [UIView animateWithDuration:0.25 animations:^{
+            self.canvasLabel.alpha = 0;
+        } completion:^(BOOL finished) {
+            self.canvasLabel.hidden = YES;
+        }];
+    }];
 }
 
 - (void)modifyGroups {
