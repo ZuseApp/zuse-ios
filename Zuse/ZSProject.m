@@ -36,6 +36,7 @@
         [_projectJSON setObject:_canvasSize forKey:@"canvas_size"];
         [_projectJSON setObject:[NSMutableDictionary dictionary] forKey:@"traits"];
         [_projectJSON setObject:[NSMutableArray array] forKey:@"objects"];
+        [_projectJSON setObject:[NSMutableArray array] forKey:@"generators"];
         [_projectJSON setObject:[NSMutableDictionary dictionary] forKey:ZSProjectJSONKeyGroups];
     }
     return self;

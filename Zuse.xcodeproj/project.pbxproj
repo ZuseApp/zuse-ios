@@ -67,7 +67,6 @@
 		4CB1E184188E314B004F5D96 /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CB1E180188E314B004F5D96 /* arrow.png */; };
 		4CB4A6BE18B97A6B0054C875 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4CB4A6BD18B97A6B0054C875 /* Main.storyboard */; };
 		4CC2969018D2A918009428CD /* ZSGeneratorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CC2968F18D2A918009428CD /* ZSGeneratorView.m */; };
-		4CC2969418D2AB3F009428CD /* ZSGeneratorController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CC2969318D2AB3F009428CD /* ZSGeneratorController.m */; };
 		4CCE4F841845A541006C7DA0 /* paddle.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CCE4F831845A541006C7DA0 /* paddle.png */; };
 		4CD2311918AC3CC100DC5619 /* ZSTutorial.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CD2311818AC3CC100DC5619 /* ZSTutorial.m */; };
 		4CE340421809F76E009A63A2 /* grayball.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CE340411809F76E009A63A2 /* grayball.png */; };
@@ -262,8 +261,6 @@
 		4CB4A6BD18B97A6B0054C875 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		4CC2968E18D2A918009428CD /* ZSGeneratorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSGeneratorView.h; sourceTree = "<group>"; };
 		4CC2968F18D2A918009428CD /* ZSGeneratorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSGeneratorView.m; sourceTree = "<group>"; };
-		4CC2969218D2AB3F009428CD /* ZSGeneratorController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSGeneratorController.h; sourceTree = "<group>"; };
-		4CC2969318D2AB3F009428CD /* ZSGeneratorController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSGeneratorController.m; sourceTree = "<group>"; };
 		4CCE4F831845A541006C7DA0 /* paddle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = paddle.png; sourceTree = "<group>"; };
 		4CD2311718AC3CC100DC5619 /* ZSTutorial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSTutorial.h; sourceTree = "<group>"; };
 		4CD2311818AC3CC100DC5619 /* ZSTutorial.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSTutorial.m; sourceTree = "<group>"; };
@@ -617,8 +614,6 @@
 		4CC2969118D2A91F009428CD /* Generator */ = {
 			isa = PBXGroup;
 			children = (
-				4CC2969218D2AB3F009428CD /* ZSGeneratorController.h */,
-				4CC2969318D2AB3F009428CD /* ZSGeneratorController.m */,
 				4CC2968E18D2A918009428CD /* ZSGeneratorView.h */,
 				4CC2968F18D2A918009428CD /* ZSGeneratorView.m */,
 			);
@@ -796,16 +791,32 @@
 		4CE3562B188B0943007024C0 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				4CED779118D554A1007CD973 /* Canvas */,
 				4CC2969118D2A91F009428CD /* Generator */,
+				4CED779218D554AC007CD973 /* Sprite */,
 				4C3DD66218B705DE0013B3A5 /* Toolbox */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		4CED779118D554A1007CD973 /* Canvas */ = {
+			isa = PBXGroup;
+			children = (
 				5F0DBAD318C2CDEE00039C62 /* ZSCanvasBarButtonItem.h */,
 				5F0DBAD418C2CDEE00039C62 /* ZSCanvasBarButtonItem.m */,
 				4C5F732518874B51007F61B3 /* ZSCanvasView.h */,
 				4C5F732618874B51007F61B3 /* ZSCanvasView.m */,
+			);
+			name = Canvas;
+			sourceTree = "<group>";
+		};
+		4CED779218D554AC007CD973 /* Sprite */ = {
+			isa = PBXGroup;
+			children = (
 				4CF1CC0C17EFF64500636E0D /* ZSSpriteView.h */,
 				4CF1CC0D17EFF64500636E0D /* ZSSpriteView.m */,
 			);
-			name = Views;
+			name = Sprite;
 			sourceTree = "<group>";
 		};
 		4CF1CBA517EF882A00636E0D = {
@@ -1312,7 +1323,6 @@
 				5F0139AC1856896F005D7FAE /* ZSEditorViewController.m in Sources */,
 				4CD2311918AC3CC100DC5619 /* ZSTutorial.m in Sources */,
 				5FBB4A8318BFEC7800B79AB6 /* ZSProjectPersistence.m in Sources */,
-				4CC2969418D2AB3F009428CD /* ZSGeneratorController.m in Sources */,
 				5F8138D11898C338009F3495 /* NSString+Zuse.m in Sources */,
 				2CA9A36B18C5CB0D005F4404 /* ZSZuseHubShareViewController.m in Sources */,
 				2CA9A35518C5465B005F4404 /* MMSideDrawerTableViewCell.m in Sources */,
