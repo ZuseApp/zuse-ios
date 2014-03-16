@@ -796,16 +796,32 @@
 		4CE3562B188B0943007024C0 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				4CED779118D554A1007CD973 /* Canvas */,
 				4CC2969118D2A91F009428CD /* Generator */,
+				4CED779218D554AC007CD973 /* Sprite */,
 				4C3DD66218B705DE0013B3A5 /* Toolbox */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		4CED779118D554A1007CD973 /* Canvas */ = {
+			isa = PBXGroup;
+			children = (
 				5F0DBAD318C2CDEE00039C62 /* ZSCanvasBarButtonItem.h */,
 				5F0DBAD418C2CDEE00039C62 /* ZSCanvasBarButtonItem.m */,
 				4C5F732518874B51007F61B3 /* ZSCanvasView.h */,
 				4C5F732618874B51007F61B3 /* ZSCanvasView.m */,
+			);
+			name = Canvas;
+			sourceTree = "<group>";
+		};
+		4CED779218D554AC007CD973 /* Sprite */ = {
+			isa = PBXGroup;
+			children = (
 				4CF1CC0C17EFF64500636E0D /* ZSSpriteView.h */,
 				4CF1CC0D17EFF64500636E0D /* ZSSpriteView.m */,
 			);
-			name = Views;
+			name = Sprite;
 			sourceTree = "<group>";
 		};
 		4CF1CBA517EF882A00636E0D = {
