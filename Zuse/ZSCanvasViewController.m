@@ -170,6 +170,9 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
 }
 
 - (void)animateCanvasViewOut {
+    if (!self.generatorView.hidden) {
+        self.generatorView.hidden = YES;
+    }
     CGFloat scale = self.initialCanvasRect.size.width / self.canvasView.bounds.size.width;
     CGRect toolbarRect = self.toolbar.frame;
     toolbarRect.origin.y = self.view.bounds.size.height;
@@ -317,12 +320,6 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
     
     _canvasView.spriteRemoved = ^(ZSSpriteView *spriteView) {
         NSMutableArray *objects = [weakSelf.project rawJSON][@"objects"];
-//        for (NSMutableDictionary *currentSprite in objects) {
-//            if ([currentSprite[@"id"] isEqualToString:spriteView.spriteJSON[@"id"]]) {
-//                [objects removeObject:currentSprite];
-//                break;
-//            }
-//        }
         [objects removeObject:spriteView.spriteJSON];
         [self saveProject];
     };
@@ -343,12 +340,6 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
     
     _generatorView.generatorRemoved = ^(ZSSpriteView *spriteView) {
         NSMutableArray *generators = [weakSelf.project rawJSON][@"generators"];
-//        for (NSMutableDictionary *currentGenerator in generators) {
-//            if ([currentGenerator[@"id"] isEqualToString:spriteView.spriteJSON[@"id"]]) {
-//                [generators removeObject:currentGenerator];
-//                break;
-//            }
-//        }
         [generators removeObject:spriteView.spriteJSON];
         [self saveProject];
         [_generatorView reloadData];
