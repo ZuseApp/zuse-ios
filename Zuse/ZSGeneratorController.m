@@ -20,7 +20,8 @@
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return ((NSArray*)_sprites[collectionView.tag][@"sprites"]).count;
+    // return ((NSArray*)_sprites[collectionView.tag][@"sprites"]).count;
+    return 0;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath;

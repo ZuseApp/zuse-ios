@@ -1,5 +1,5 @@
 #import <UIKit/UIKit.h>
 
-@interface ZSGeneratorView : UIView
+@interface ZSGeneratorView : UICollectionView
 
 @end

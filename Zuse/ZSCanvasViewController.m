@@ -94,43 +94,13 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
 {
     [super viewDidLoad];
     
-    self.toolbar.translucent = NO;
-    self.toolbar.barTintColor = [UIColor zuseBackgroundGrey];
-    self.toolbar.clipsToBounds = YES;
-    
-    // Test Toolbox
-    _toolboxView = [[ZSToolboxView alloc] initWithFrame:CGRectMake(19, 82, 282, 361)];
-    WeakSelf
-    _toolboxView.hidView = ^{
-        [weakSelf.tutorial broadcastEvent:ZSTutorialBroadcastDidHideToolbox];
-    };
-    NSMutableArray *categories = [ZSSpriteLibrary sharedLibrary].categories;
-    for (int i = 0; i < categories.count; i++) {
-        UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:[[UICollectionViewFlowLayout alloc] init]];
-        [collectionView registerClass:ZSToolboxCell.class forCellWithReuseIdentifier:@"cellID"];
-        collectionView.userInteractionEnabled = YES;
-        collectionView.contentInset = UIEdgeInsetsMake(4, 4, 4, 4);
-        collectionView.delegate = _toolboxController;
-        collectionView.dataSource = _toolboxController;
-        collectionView.tag = i;
-        
-        [_toolboxView addContentView:collectionView title:categories[i][@"category"]];
-    }
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
-    [button setTitle:@"Import Image" forState:UIControlStateNormal];
-    [_toolboxView addButton:button];
-    [self.view addSubview:_toolboxView];
-    
     // Load the project if it exists.
     if (_project) {
-        if (_project.screenshot) {
-            NSData *data = UIImagePNGRepresentation(self.project.screenshot);
-            NSString *base64 = [data base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithCarriageReturn];
-            NSLog(@"%@", base64);
-        }
-        // Setup delgates, sources and gestures.
+        // Setup pieces of the canvas.
         [self setupCanvas];
-        [self setupTableDelegatesAndSources];
+        [self setupGenerators];
+        [self setupToolbar];
+        [self setupToolbox];
         
         // Load Sprites.
         [self loadSpritesFromProject];
@@ -362,9 +332,41 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
     };
 }
 
-#pragma mark Setup Sprite Controller
+#pragma mark Setup Generators
 
-- (void)setupTableDelegatesAndSources {
+- (void)setupGenerators {
+    
+}
+
+#pragma mark Toolbox
+
+- (void)setupToolbox {
+    [self setupToolboxController];
+    
+    _toolboxView = [[ZSToolboxView alloc] initWithFrame:CGRectMake(19, 82, 282, 361)];
+    WeakSelf
+    _toolboxView.hidView = ^{
+        [weakSelf.tutorial broadcastEvent:ZSTutorialBroadcastDidHideToolbox];
+    };
+    NSMutableArray *categories = [ZSSpriteLibrary sharedLibrary].categories;
+    for (int i = 0; i < categories.count; i++) {
+        UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:[[UICollectionViewFlowLayout alloc] init]];
+        [collectionView registerClass:ZSToolboxCell.class forCellWithReuseIdentifier:@"cellID"];
+        collectionView.userInteractionEnabled = YES;
+        collectionView.contentInset = UIEdgeInsetsMake(4, 4, 4, 4);
+        collectionView.delegate = _toolboxController;
+        collectionView.dataSource = _toolboxController;
+        collectionView.tag = i;
+        
+        [_toolboxView addContentView:collectionView title:categories[i][@"category"]];
+    }
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
+    [button setTitle:@"Import Image" forState:UIControlStateNormal];
+    [_toolboxView addButton:button];
+    [self.view addSubview:_toolboxView];
+}
+
+- (void)setupToolboxController {
     WeakSelf
     
     __block CGPoint offset;
@@ -451,32 +453,13 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
     };
 }
 
-#pragma mark Main Menu
+#pragma mark Toolbar
 
-- (void)playProject {
-    [self transitionToInterfaceState:ZSCanvasInterfaceStateRendererPlaying];
-    
-    [self.view bringSubviewToFront:self.rendererView];
-    if (self.rendererView.hidden) {
-        self.rendererViewController.projectJSON = [self.project assembledJSON];
-        self.rendererView.hidden = NO;
-        [self.rendererViewController play];
-    }
-    else {
-        [self.rendererViewController resume];
-    }
-}
+- (void)setupToolbar {
+    self.toolbar.translucent = NO;
+    self.toolbar.barTintColor = [UIColor zuseBackgroundGrey];
+    self.toolbar.clipsToBounds = YES;
 
-- (void)pauseProject {
-    [_rendererViewController stop];
-    [self transitionToInterfaceState:ZSCanvasInterfaceStateRendererPaused];
-}
-
-
-- (void)stopProject {
-    [self.rendererViewController stop];
-    self.rendererView.hidden = YES;
-    [self transitionToInterfaceState:ZSCanvasInterfaceStateNormal];
 }
 
 - (void)transitionToInterfaceState:(ZSCanvasInterfaceState)state {
@@ -503,7 +486,7 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
              }],
              [ZSCanvasBarButtonItem flexibleBarButtonItem],
              [ZSCanvasBarButtonItem generatorsButtonWithHandler:^{
-                 
+                 [self showGeneratorView];
              }],
              [ZSCanvasBarButtonItem groupsButtonWithHandler:^{
                  [self modifyGroups];
@@ -546,7 +529,34 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
              ];
 }
 
-- (void)toggleGeneratorView {
+- (void)playProject {
+    [self transitionToInterfaceState:ZSCanvasInterfaceStateRendererPlaying];
+    
+    [self.view bringSubviewToFront:self.rendererView];
+    if (self.rendererView.hidden) {
+        self.rendererViewController.projectJSON = [self.project assembledJSON];
+        self.rendererView.hidden = NO;
+        [self.rendererViewController play];
+    }
+    else {
+        [self.rendererViewController resume];
+    }
+}
+
+- (void)pauseProject {
+    [_rendererViewController stop];
+    [self transitionToInterfaceState:ZSCanvasInterfaceStateRendererPaused];
+}
+
+
+- (void)stopProject {
+    [self.rendererViewController stop];
+    self.rendererView.hidden = YES;
+    [self transitionToInterfaceState:ZSCanvasInterfaceStateNormal];
+}
+
+- (void)showGeneratorView {
+    _generatorView.hidden = NO;
     [self.view bringSubviewToFront:_generatorView];
 }
 
