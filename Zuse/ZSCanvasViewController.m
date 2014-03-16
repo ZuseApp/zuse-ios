@@ -50,11 +50,6 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
 // Generator
 @property (weak, nonatomic) IBOutlet ZSGeneratorView *generatorView;
 
-
-// Sprites
-@property (nonatomic, strong) NSArray *templateSprites;
-@property (nonatomic, strong) NSArray *canvasSprites;
-
 // Renderer
 @property (strong, nonatomic) ZSRendererViewController *rendererViewController;
 
@@ -102,8 +97,8 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
         [self setupToolbar];
         [self setupToolbox];
         
-        // Load Sprites.
-        [self loadSpritesFromProject];
+        // Load Sprites and generators.
+        [self loadSpritesAndGeneratorsFromProject];
     }
     
     [self transitionToInterfaceState:ZSCanvasInterfaceStateNormal];
@@ -283,10 +278,14 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
 
 #pragma mark Project Management
 
-- (void)loadSpritesFromProject {
+- (void)loadSpritesAndGeneratorsFromProject {
     NSMutableDictionary *assembledJSON = [_project assembledJSON];
     for (NSMutableDictionary *jsonObject in assembledJSON[@"objects"]) {
-        [_canvasView addSpriteFromJSON:jsonObject];
+        [self.canvasView addSpriteFromJSON:jsonObject];
+    }
+    
+    for (NSMutableDictionary *jsonObject in assembledJSON[@"generators"]) {
+        [self.generatorView addGeneratorFromJSON:jsonObject];
     }
 }
 
@@ -318,12 +317,13 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
     
     _canvasView.spriteRemoved = ^(ZSSpriteView *spriteView) {
         NSMutableArray *objects = [weakSelf.project rawJSON][@"objects"];
-        for (NSMutableDictionary *currentSprite in objects) {
-            if ([currentSprite[@"id"] isEqualToString:spriteView.spriteJSON[@"id"]]) {
-                [objects removeObject:currentSprite];
-                break;
-            }
-        }
+//        for (NSMutableDictionary *currentSprite in objects) {
+//            if ([currentSprite[@"id"] isEqualToString:spriteView.spriteJSON[@"id"]]) {
+//                [objects removeObject:currentSprite];
+//                break;
+//            }
+//        }
+        [objects removeObject:spriteView.spriteJSON];
         [self saveProject];
     };
     
@@ -335,7 +335,24 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
 #pragma mark Setup Generators
 
 - (void)setupGenerators {
+    WeakSelf
     
+    _generatorView.singleTapped = ^(ZSSpriteView *spriteView) {
+        [self performSegueWithIdentifier:@"editor" sender:spriteView];
+    };
+    
+    _generatorView.generatorRemoved = ^(ZSSpriteView *spriteView) {
+        NSMutableArray *generators = [weakSelf.project rawJSON][@"generators"];
+//        for (NSMutableDictionary *currentGenerator in generators) {
+//            if ([currentGenerator[@"id"] isEqualToString:spriteView.spriteJSON[@"id"]]) {
+//                [generators removeObject:currentGenerator];
+//                break;
+//            }
+//        }
+        [generators removeObject:spriteView.spriteJSON];
+        [self saveProject];
+        [_generatorView reloadData];
+    };
 }
 
 #pragma mark Toolbox
@@ -387,69 +404,82 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
         frame.size.width = [json[@"properties"][@"width"] floatValue];
         frame.size.height = [json[@"properties"][@"height"] floatValue];
         
-        if (![@"text" isEqualToString:type]) {
-            CGFloat scale = frame.size.width / spriteView.content.frame.size.width;
-            offset = [panGestureRecognizer locationInView:spriteView.content];
-            offset = CGPointMake(offset.x * scale, offset.y * scale);
+        // If the generator view is hidden start sprite dragging, otherwise simply add it to the
+        // generator view.
+        if (weakSelf.generatorView.hidden) {
+            if (![@"text" isEqualToString:type]) {
+                CGFloat scale = frame.size.width / spriteView.content.frame.size.width;
+                offset = [panGestureRecognizer locationInView:spriteView.content];
+                offset = CGPointMake(offset.x * scale, offset.y * scale);
+            }
+            else {
+                offset = [panGestureRecognizer locationInView:spriteView];
+                offset = CGPointMake(offset.x, frame.size.height / 2);
+            }
+            currentPoint = [panGestureRecognizer locationInView:weakSelf.canvasView];
+            
+            originalFrame.origin.x = currentPoint.x - offset.x;
+            originalFrame.origin.y = currentPoint.y - offset.y;
+            
+            frame.origin.x = currentPoint.x - offset.x;
+            frame.origin.y = currentPoint.y - offset.y;
+            
+            draggedView = [[ZSSpriteView alloc] initWithFrame:frame];
+            [draggedView setContentFromJSON:json];
+            [weakSelf.canvasView addSubview:draggedView];
+            
+            CGFloat scale = spriteView.content.frame.size.width / frame.size.width;
+            if (scale < 1) {
+                draggedView.transform = CGAffineTransformMakeScale(scale, scale);
+                [UIView animateWithDuration:0.25f animations:^{
+                    draggedView.transform = CGAffineTransformIdentity;
+                }];
+            }
         }
         else {
-            offset = [panGestureRecognizer locationInView:spriteView];
-            offset = CGPointMake(offset.x, frame.size.height / 2);
-        }
-        currentPoint = [panGestureRecognizer locationInView:weakSelf.canvasView];
-        
-        originalFrame.origin.x = currentPoint.x - offset.x;
-        originalFrame.origin.y = currentPoint.y - offset.y;
-        
-        frame.origin.x = currentPoint.x - offset.x;
-        frame.origin.y = currentPoint.y - offset.y;
-        
-        draggedView = [[ZSSpriteView alloc] initWithFrame:frame];
-        [draggedView setContentFromJSON:json];
-        [weakSelf.canvasView addSubview:draggedView];
-        
-        CGFloat scale = spriteView.content.frame.size.width / frame.size.width;
-        if (scale < 1) {
-            draggedView.transform = CGAffineTransformMakeScale(scale, scale);
-            [UIView animateWithDuration:0.25f animations:^{
-                draggedView.transform = CGAffineTransformIdentity;
-            }];
+            NSMutableDictionary *newJson = [json deepMutableCopy];
+            newJson[@"id"] = [[NSUUID UUID] UUIDString];
+            [[weakSelf.project rawJSON][@"generators"] addObject:newJson];
+            
+            [weakSelf.generatorView addGeneratorFromJSON:newJson];
+            [weakSelf.generatorView reloadData];
+            [weakSelf saveProject];
         }
         [weakSelf.toolboxView hideAnimated:YES];
         [weakSelf.tutorial hideMessage];
     };
     
     _toolboxController.longPressChanged = ^(UILongPressGestureRecognizer *longPressGestureRecognizer) {
-        currentPoint = [longPressGestureRecognizer locationInView:weakSelf.canvasView];
-        
-        [weakSelf.canvasView moveSprite:draggedView x:currentPoint.x - offset.x y:currentPoint.y - offset.y];
+        if (weakSelf.generatorView.hidden) {
+            currentPoint = [longPressGestureRecognizer locationInView:weakSelf.canvasView];
+            [weakSelf.canvasView moveSprite:draggedView x:currentPoint.x - offset.x y:currentPoint.y - offset.y];
+        }
     };
     
     _toolboxController.longPressEnded = ^(UILongPressGestureRecognizer *longPressGestureRecognizer) {
-        NSMutableDictionary *json = draggedView.spriteJSON;
-        
-        NSMutableDictionary *newJson = [json deepMutableCopy];
-        newJson[@"id"] = [[NSUUID UUID] UUIDString];
-        NSMutableDictionary *properties = newJson[@"properties"];
-        [[weakSelf.project rawJSON][@"objects"] addObject:newJson];
-        
-        CGFloat x = draggedView.frame.origin.x + (draggedView.frame.size.width / 2);
-        CGFloat y = weakSelf.canvasView.frame.size.height - draggedView.frame.size.height - draggedView.frame.origin.y;
-        y += draggedView.frame.size.height / 2;
-        
-        properties[@"x"] = @(x);
-        properties[@"y"] = @(y);
-        
-        draggedView.spriteJSON = newJson;
-        [weakSelf.canvasView setupGesturesForSpriteView:draggedView withProperties:properties];
-        [weakSelf.canvasView setupEditOptionsForSpriteView:draggedView];
-        
-        // Save the project.
-        [weakSelf saveProject];
-        
-        // Show the toolbox again.
-        [weakSelf.toolboxView showAnimated:YES];
-        [weakSelf.tutorial broadcastEvent:ZSTutorialBroadcastDidDropSprite];
+        if (weakSelf.generatorView.hidden) {
+            NSMutableDictionary *json = draggedView.spriteJSON;
+            
+            NSMutableDictionary *newJson = [json deepMutableCopy];
+            newJson[@"id"] = [[NSUUID UUID] UUIDString];
+            NSMutableDictionary *properties = newJson[@"properties"];
+            [[weakSelf.project rawJSON][@"objects"] addObject:newJson];
+            
+            CGFloat x = draggedView.frame.origin.x + (draggedView.frame.size.width / 2);
+            CGFloat y = weakSelf.canvasView.frame.size.height - draggedView.frame.size.height - draggedView.frame.origin.y;
+            y += draggedView.frame.size.height / 2;
+            
+            properties[@"x"] = @(x);
+            properties[@"y"] = @(y);
+            
+            draggedView.spriteJSON = newJson;
+            [weakSelf.canvasView setupGesturesForSpriteView:draggedView withProperties:properties];
+            [weakSelf.canvasView setupEditOptionsForSpriteView:draggedView];
+            
+            // Save the project.
+            [weakSelf saveProject];
+            [weakSelf.tutorial broadcastEvent:ZSTutorialBroadcastDidDropSprite];
+        }
     };
 }
 
@@ -556,8 +586,13 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
 }
 
 - (void)showGeneratorView {
-    _generatorView.hidden = NO;
-    [self.view bringSubviewToFront:_generatorView];
+    if (_generatorView.hidden) {
+        _generatorView.hidden = NO;
+        [self.view bringSubviewToFront:_generatorView];
+    }
+    else {
+        _generatorView.hidden = YES;
+    }
 }
 
 - (void)modifyGroups {

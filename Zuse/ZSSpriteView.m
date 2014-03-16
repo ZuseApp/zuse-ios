@@ -195,6 +195,29 @@
     return YES;
 }
 
+- (BOOL)canPerformAction:(SEL)action withSender:(id)sender {
+    // Check to see if the action is implemented.  If it is return YES, otherwise, NO.
+    if (action == @selector(copy:)) {
+        if (_copy) {
+            return YES;
+        }
+        return NO;
+    }
+    if (action == @selector(cut:)) {
+        if (_cut) {
+            return YES;
+        }
+        return NO;
+    }
+    if (action == @selector(delete:)) {
+        if (_delete) {
+            return YES;
+        }
+        return NO;
+    }
+    return NO;
+}
+
 - (void)copy:(id)sender {
     if (_copy) {
         _copy(self);

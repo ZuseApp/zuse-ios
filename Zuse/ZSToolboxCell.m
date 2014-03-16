@@ -2,7 +2,6 @@
 
 @implementation ZSToolboxCell
 
-// - (id)initWithFrame:(NSCoder *)aDecoder {
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {

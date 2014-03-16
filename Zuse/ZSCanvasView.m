@@ -67,7 +67,6 @@
 #pragma mark Sprite Manipulation
 
 - (void)addSpriteFromJSON:(NSMutableDictionary*)spriteJSON {
-    
     NSMutableDictionary *properties = spriteJSON[@"properties"];
     
     CGRect frame = CGRectZero;
@@ -104,6 +103,16 @@
     }
     
     spriteView.frame = frame;
+}
+
+- (ZSSpriteView *)copySpriteView:(ZSSpriteView *)spriteView {
+    ZSSpriteView *copy = [[ZSSpriteView alloc] initWithFrame:spriteView.frame];
+    NSMutableDictionary *json = [spriteView.spriteJSON deepMutableCopy];
+    json[@"id"] = [[NSUUID UUID] UUIDString];
+    [copy setContentFromJSON:json];
+    [self setupGesturesForSpriteView:copy withProperties:copy.spriteJSON[@"properties"]];
+    [self setupEditOptionsForSpriteView:copy];
+    return copy;
 }
 
 - (void)setupGesturesForSpriteView:(ZSSpriteView *)view withProperties:(NSMutableDictionary *)properties {
@@ -188,16 +197,6 @@
     view.paste = ^(ZSSpriteView *sprite) {
         [weakSelf paste:weakView];
     };
-}
-
-- (ZSSpriteView *)copySpriteView:(ZSSpriteView *)spriteView {
-    ZSSpriteView *copy = [[ZSSpriteView alloc] initWithFrame:spriteView.frame];
-    NSMutableDictionary *json = [spriteView.spriteJSON deepMutableCopy];
-    json[@"id"] = [[NSUUID UUID] UUIDString];
-    [copy setContentFromJSON:json];
-    [self setupGesturesForSpriteView:copy withProperties:copy.spriteJSON[@"properties"]];
-    [self setupEditOptionsForSpriteView:copy];
-    return copy;
 }
 
 #pragma mark Edit Menu

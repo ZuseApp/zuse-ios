@@ -129,11 +129,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view hidden="YES" contentMode="scaleToFill" id="oIu-2b-IPq" customClass="ZSGeneratorView">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="524"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                            </view>
                             <containerView hidden="YES" contentMode="scaleToFill" id="zUs-oU-8qW">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="524"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -142,6 +137,18 @@
                                     <segue destination="h8z-ng-B06" kind="embed" identifier="renderer" id="DN3-pE-V9v"/>
                                 </connections>
                             </containerView>
+                            <collectionView hidden="YES" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="HLz-Ls-x1z" customClass="ZSGeneratorView">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="524"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="V36-wz-RH1">
+                                    <size key="itemSize" width="90" height="70"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                            </collectionView>
                             <view clipsSubviews="YES" contentMode="scaleToFill" id="xLe-TB-h8T" customClass="ZSCanvasView">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="524"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -160,7 +167,7 @@
                     <navigationItem key="navigationItem" id="L0h-EV-yiz"/>
                     <connections>
                         <outlet property="canvasView" destination="xLe-TB-h8T" id="jcJ-OF-c2C"/>
-                        <outlet property="generatorView" destination="oIu-2b-IPq" id="FNd-mY-F4c"/>
+                        <outlet property="generatorView" destination="HLz-Ls-x1z" id="IWt-y4-d8G"/>
                         <outlet property="rendererView" destination="zUs-oU-8qW" id="bD9-hp-fyI"/>
                         <outlet property="toolbar" destination="lke-3O-Z2W" id="LOB-tb-57j"/>
                         <segue destination="Zkj-rO-exu" kind="push" identifier="editor" id="f8x-t6-B0l"/>
