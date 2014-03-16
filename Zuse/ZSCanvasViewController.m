@@ -18,6 +18,7 @@
 #import <AFNetworking/AFNetworking.h>
 #import <Social/Social.h>
 #import <Accounts/Accounts.h>
+#import <MTBlockAlertView/MTBlockAlertView.h>
 
 typedef NS_ENUM(NSInteger, ZSCanvasInterfaceState) {
     ZSCanvasInterfaceStateNormal,
@@ -432,13 +433,25 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
             }
         }
         else {
-            NSMutableDictionary *newJson = [json deepMutableCopy];
-            newJson[@"id"] = [[NSUUID UUID] UUIDString];
-            [[weakSelf.project rawJSON][@"generators"] addObject:newJson];
-            
-            [weakSelf.generatorView addGeneratorFromJSON:newJson];
-            [weakSelf.generatorView reloadData];
-            [weakSelf saveProject];
+            __block NSString *name;
+            MTBlockAlertView *alertView = [[MTBlockAlertView alloc]
+                                           initWithTitle:@"Generator"
+                                           message:@"Enter a name for the generator."
+                                           completionHanlder:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                                               name = [alertView textFieldAtIndex:0].text;
+                                               NSMutableDictionary *newJson = [json deepMutableCopy];
+                                               newJson[@"id"] = [[NSUUID UUID] UUIDString];
+                                               newJson[@"name"] = name;
+                                               [[weakSelf.project rawJSON][@"generators"] addObject:newJson];
+                                               
+                                               [weakSelf.generatorView addGeneratorFromJSON:newJson];
+                                               [weakSelf.generatorView reloadData];
+                                               [weakSelf saveProject];
+                                           }
+                                           cancelButtonTitle:@"OK"
+                                           otherButtonTitles:nil];
+            alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+            [alertView show];
         }
         [weakSelf.toolboxView hideAnimated:YES];
         [weakSelf.tutorial hideMessage];
