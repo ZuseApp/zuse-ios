@@ -10,10 +10,12 @@
 #import "ZSAuthTokenPersistence.h"
 #import "ZSUserLoginViewController.h"
 #import "ZSZuseHubViewController.h"
+#import "ZSZuseHubJSONClient.h"
 
 @interface ZSZuseHubInitViewController ()
 
 @property (strong, nonatomic) UINavigationController *loginNavController;
+@property (strong, nonatomic) ZSZuseHubJSONClient *jsonClientManager;
 
 @end
 
@@ -24,40 +26,40 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
-    self.title = @"Init ZuseHub";
-    
-    
+    self.jsonClientManager = [ZSZuseHubJSONClient sharedClient];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    NSDictionary *loginInfo = [ZSAuthTokenPersistence getLoginInfo];
-    if(!loginInfo)
+    NSString *token = [ZSAuthTokenPersistence getTokenInfo];
+    if(!token)
     {
         UINavigationController *navController = [[UIStoryboard storyboardWithName:@"Main"
                                                    bundle:[NSBundle mainBundle]]instantiateViewControllerWithIdentifier:@"LoginNav"];
-        ZSUserLoginViewController *controller = (ZSUserLoginViewController *)navController.viewControllers.firstObject;
-//        ZSUserLoginViewController *controller = [[UIStoryboard storyboardWithName:@"Main"
-//                                                                           bundle:[NSBundle mainBundle]]
-//                                                 instantiateViewControllerWithIdentifier:@"ZuseHubLogin"];
         
-//        self.loginNavController = [[UINavigationController alloc] initWithRootViewController:controller];
-//        self.view = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-//        self.view.window.rootViewController = self.loginNavController;
-        
-//        [self presentViewController:self.loginNavController animated:YES completion:^{}];
+        navController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
         [self presentViewController:navController animated:YES completion:^{}];
 
     }
-    else{
+    else
+    {
+        [self.jsonClientManager setAuthHeader:token];
         ZSZuseHubViewController *controller = [[ZSZuseHubViewController alloc] init];
+        controller.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
         [self presentViewController:controller animated:YES completion:^{}];
         controller.didFinish = ^{
-            [self dismissViewControllerAnimated:YES completion:^{ }];
+            [self close];
         };
     }
+}
+
+/**
+ * Closes the navigation controller so that it can return to the main menu.
+ */
+- (void)close
+{
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:^{}];
 }
 
 @end

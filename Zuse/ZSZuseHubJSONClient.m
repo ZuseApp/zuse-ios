@@ -23,19 +23,7 @@
         _zuseHubSharedManager.manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:url];
         _zuseHubSharedManager.manager.requestSerializer = [AFJSONRequestSerializer serializer];
         _zuseHubSharedManager.manager.responseSerializer = [AFJSONResponseSerializer serializer];
-//        [_zuseHubSharedManager setAuthHeader];
-//        [_zuseHubSharedManager authenticateUser:^(NSDictionary *response) {
-//            if(!response)
-//                [_zuseHubSharedManager registerUser:^(NSDictionary *response) {
-//                    _zuseHubSharedManager.token = response[@"token"];
-//                    [_zuseHubSharedManager setAuthHeader];
-//                }];
-//            else
-//                [_zuseHubSharedManager authenticateUser:^(NSDictionary *response) {
-//                    _zuseHubSharedManager.token = response[@"token"];
-//                    [_zuseHubSharedManager setAuthHeader];
-//                }];
-//                }];
+
         
     });
     
@@ -91,7 +79,7 @@
 /**
  * Gets the user's token if the user has already logged in.
  */
-- (void)authenticateUser:(void (^)(NSDictionary *))completion loginInfo:(NSDictionary *)loginInfo
+- (void)authenticateUser:(NSDictionary *)loginInfo completion:(void(^)(NSDictionary *response))completion
 {
     //TODO make the user info generic
     NSDictionary *params = @{
@@ -105,7 +93,6 @@
             parameters:params
             success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject)
             {
-                self.token = responseObject[@"token"];
                 completion(responseObject);
             }
             failure:^(AFHTTPRequestOperation *operation, NSError *error)
@@ -119,13 +106,13 @@
 /**
  * Sets the token as the header for future requests
  */
-- (void)setAuthHeader:(NSDictionary *)loginInfo
+- (void)setAuthHeader:(NSString *)token
 {
 //    NSString *params = [@"Token: " stringByAppendingString:self.token];
 //    [self.manager.requestSerializer setValue:[@"Token: " stringByAppendingString:self.token]
 //                          forHTTPHeaderField:@"Authorization"];
     
-    [self.manager.requestSerializer setValue:[@"Token: " stringByAppendingString:loginInfo[@"token"]] forHTTPHeaderField:@"Authorization"];
+    [self.manager.requestSerializer setValue:[@"Token: " stringByAppendingString:token] forHTTPHeaderField:@"Authorization"];
 }
 
 /**

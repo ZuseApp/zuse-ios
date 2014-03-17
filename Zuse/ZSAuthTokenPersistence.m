@@ -12,7 +12,8 @@ NSString const * ZSTokenPersistenceProjectsFolder = @"UserAuthToken";
 
 @implementation ZSAuthTokenPersistence
 
-+ (void)initialize {
++ (void)initialize
+{
     NSFileManager *fileManager = [NSFileManager defaultManager];
     
     if (![fileManager fileExistsAtPath:[self userLoginDirectoryPath]]) {
@@ -31,45 +32,47 @@ NSString const * ZSTokenPersistenceProjectsFolder = @"UserAuthToken";
 }
 
 
-+ (NSString *)userLoginDirectoryPath {
++ (NSString *)userLoginDirectoryPath
+{
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *userDocumentsPath = [documentsDirectory stringByAppendingPathComponent:[ZSTokenPersistenceProjectsFolder copy]];
     return userDocumentsPath;
 }
 
-+ (NSDictionary *)getLoginInfo{
-    NSData *loginData = [NSData dataWithContentsOfFile:[ZSAuthTokenPersistence pathForLogin]];
++ (NSString *)getTokenInfo
+{
+    NSData *tokenData = [NSData dataWithContentsOfFile:[ZSAuthTokenPersistence pathForToken]];
     
-    if(loginData)
+    if(tokenData)
     {
-        NSDictionary *loginInfo = [NSJSONSerialization JSONObjectWithData:loginData options:NSJSONReadingMutableContainers error:nil];
-        return loginInfo;
+        NSString *tokenInfo = [[NSString alloc] initWithData:tokenData encoding:NSUTF8StringEncoding];
+        return tokenInfo;
     }
     return nil;
 }
 
-+ (NSString *)pathForLogin {
-    NSString *filename = [@"loginInfo" stringByAppendingPathExtension:@"txt"];
++ (NSString *)pathForToken
+{
+    NSString *filename = [@"tokenInfo" stringByAppendingPathExtension:@"txt"];
     return [[self userLoginDirectoryPath] stringByAppendingPathComponent:filename];
 }
 
-+ (void)writeLoginInfo:(NSDictionary *)loginInfo {
++ (void)writeTokenInfo:(NSString *)token
+{
     static dispatch_queue_t savingQueue;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        savingQueue = dispatch_queue_create("com.zuse.zs_project_persistence.saving", DISPATCH_QUEUE_SERIAL);
+        savingQueue = dispatch_queue_create("com.zuse.zs_token_persistence.saving", DISPATCH_QUEUE_SERIAL);
     });
 
-    NSDictionary *loginInfoCopy = [loginInfo deepCopy];
-    NSString *loginPath = [self pathForLogin];
+    NSString *tokenPath = [self pathForToken];
     dispatch_async(savingQueue, ^{
         NSError *error;
-        NSData *loginData = [NSJSONSerialization dataWithJSONObject:loginInfoCopy options:NSJSONWritingPrettyPrinted error:&error];
-        if (!loginData) {
-            NSLog(@"Error serializing: %@", error);
-        } else {
-            [loginData writeToFile:loginPath atomically:YES];
+        BOOL succeed = [token writeToFile:tokenPath atomically:YES encoding:NSUTF8StringEncoding error:&error];
+        if(!succeed)
+        {
+            NSLog(@"Error writing token to file");
         }
     });
 

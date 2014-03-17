@@ -44,8 +44,6 @@
     self.didFinish(NO);
 }
 - (IBAction)shareTapped:(id)sender {
-
-    
     if(self.titleTextField.text.length != 0 && self.descriptionTextField.text.length != 0)
     {
     

@@ -21,13 +21,12 @@
 @property (strong, nonatomic) AFJSONRequestSerializer *jsonRequestSerializer;
 @property (strong, nonatomic) AFJSONResponseSerializer *jsonResponseSerializer;
 @property (strong, nonatomic) NSString *token;
-@property (strong, nonatomic) NSString *uuid;
 
 + (ZSZuseHubJSONClient *)sharedClient;
 - (void )getNewestProjects:(void(^)(NSArray *projects))completion;
 - (void)registerUser:(void(^)(NSDictionary *response))completion;
-- (void)authenticateUser:(void(^)(NSDictionary *response))completion;;
-- (void)setAuthHeader;
+- (void)authenticateUser:(NSDictionary *)loginInfo completion:(void(^)(NSDictionary *response))completion;
+- (void)setAuthHeader:(NSString *)token;
 - (void)getUsersSharedProjects:(void(^)(NSArray *projects))completion;
 - (void)createSharedProject:(NSString *)title description:(NSString *)description projectJson:(ZSProject *)projectJson completion:(void(^)(NSError *))completion;
 

@@ -46,7 +46,7 @@
     
     [self setupLeftMenuButton];
     
-    UIColor * barColor = [UIColor
+    UIColor *barColor = [UIColor
                           colorWithRed:247.0/255.0
                           green:249.0/255.0
                           blue:250.0/255.0
