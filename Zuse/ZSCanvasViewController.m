@@ -23,6 +23,7 @@
 typedef NS_ENUM(NSInteger, ZSCanvasInterfaceState) {
     ZSCanvasInterfaceStateNormal,
     ZSCanvasInterfaceStateGroups,
+    ZSCanvasInterfaceStateGenerators,
     ZSCanvasInterfaceStateRendererPlaying,
     ZSCanvasInterfaceStateRendererPaused
 };
@@ -514,6 +515,8 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
         items = [self rendererPlayingToolbarItems];
     } else if (state == ZSCanvasInterfaceStateRendererPaused) {
         items = [self rendererPausedToolbarItems];
+    } else if (state == ZSCanvasInterfaceStateGenerators) {
+        items = [self generatorsToolbarItems];
     }
     
     self.interfaceState = state;
@@ -571,6 +574,27 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
              ];
 }
 
+- (NSArray *)generatorsToolbarItems {
+    return @[
+             [ZSCanvasBarButtonItem playButtonWithHandler:^{
+                 [self playProject];
+             }],
+             [ZSCanvasBarButtonItem flexibleBarButtonItem],
+             [ZSCanvasBarButtonItem generatorsButtonWithHandler:^{
+                 [self toggleGeneratorView];
+             }],
+             [ZSCanvasBarButtonItem groupsButtonWithHandler:^{
+                 [self modifyGroups];
+             }],
+             [ZSCanvasBarButtonItem shareButtonWithHandler:^{
+                 [self shareProject];
+             }],
+             [ZSCanvasBarButtonItem backButtonWithHandler:^{
+                 [self finish];
+             }]
+             ];
+}
+
 - (void)playProject {
     [self transitionToInterfaceState:ZSCanvasInterfaceStateRendererPlaying];
     
@@ -608,12 +632,14 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
         self.generatorView.hidden = NO;
         [self.view bringSubviewToFront:self.generatorView];
         [self.canvasLabel setText:@"Generators"];
+        [self transitionToInterfaceState:ZSCanvasInterfaceStateGenerators];
     }
     else {
         self.canvasView.alpha = 0;
         self.canvasView.hidden = NO;
         [self.view bringSubviewToFront:self.canvasView];
         [self.canvasLabel setText:@"Canvas"];
+        [self transitionToInterfaceState:ZSCanvasInterfaceStateNormal];
     }
     [self.view bringSubviewToFront:self.canvasLabel];
     self.canvasLabel.alpha = 0;
@@ -658,7 +684,12 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
     };
     
     self.groupsController.didFinish = ^{
-        [weakSelf transitionToInterfaceState:ZSCanvasInterfaceStateNormal];
+        if (weakSelf.generatorView.hidden) {
+            [weakSelf transitionToInterfaceState:ZSCanvasInterfaceStateNormal];
+        }
+        else {
+            [weakSelf transitionToInterfaceState:ZSCanvasInterfaceStateGenerators];
+        }
         [UIView animateWithDuration:0.2
                          animations:^{
                              weakSelf.groupsController.view.alpha = 0.0;
