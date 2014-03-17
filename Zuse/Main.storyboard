@@ -539,6 +539,13 @@
                                     <segue destination="CoB-37-Kfg" kind="push" id="0o6-3k-uNd"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Lho-HJ-9mV">
+                                <rect key="frame" x="32" y="69" width="256" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="0.50196081399917603" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
@@ -550,6 +557,7 @@
                         <barButtonItem key="backBarButtonItem" title="Back" id="4be-WR-4nR"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="errorMsgLabel" destination="Lho-HJ-9mV" id="2iH-2D-NZD"/>
                         <outlet property="passwordTextField" destination="GB5-hF-E7R" id="1xi-6B-24u"/>
                         <outlet property="usernameTextField" destination="FKZ-kb-Flu" id="3Zl-lx-SKJ"/>
                     </connections>
@@ -617,6 +625,13 @@
                                     <action selector="registerTapped:" destination="CoB-37-Kfg" eventType="touchUpInside" id="57u-XE-elW"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="1pQ-HD-bT9">
+                                <rect key="frame" x="30" y="64" width="260" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="0.50196081399917603" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
@@ -629,6 +644,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="emailTextField" destination="x0J-Fp-WUl" id="kKX-BJ-8m5"/>
+                        <outlet property="errorMsgLabel" destination="1pQ-HD-bT9" id="Fjf-q0-hRg"/>
                         <outlet property="passwordTextField" destination="bwA-OQ-bsN" id="Jm9-Cz-L3W"/>
                         <outlet property="usernameTextField" destination="ewW-LC-xpo" id="5SR-He-2AR"/>
                     </connections>

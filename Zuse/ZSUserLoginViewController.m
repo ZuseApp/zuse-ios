@@ -63,9 +63,10 @@
                 controller.didFinish = ^{
                     [self close];
                 };
+                self.errorMsgLabel.text = @"";
             }
             else{
-                //TODO put error msg here for the user
+                self.errorMsgLabel.text = @"Username or password invalid";
             }
         } ];
     }
