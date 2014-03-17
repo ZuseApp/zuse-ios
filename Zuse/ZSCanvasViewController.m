@@ -349,6 +349,10 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
         [self saveProject];
         [_generatorView reloadData];
     };
+    
+    _generatorView.addGeneratorRequested = ^ {
+        [self showToolbox];
+    };
 }
 
 #pragma mark Toolbox

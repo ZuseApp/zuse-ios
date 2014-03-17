@@ -5,6 +5,7 @@
 
 @property (strong, nonatomic) void(^singleTapped)(ZSSpriteView *spriteView);
 @property (strong, nonatomic) void(^generatorRemoved)(ZSSpriteView *spriteView);
+@property (strong, nonatomic) void(^addGeneratorRequested)();
 - (void)addGeneratorFromJSON:(NSMutableDictionary*)generatorJSON;
 
 @end
