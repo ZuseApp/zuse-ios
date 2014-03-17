@@ -39,7 +39,7 @@
     
     newObjects = [self inlinedObjectsForObjects:newObjects];
     
-    NSDictionary *code = @{ @"code": newObjects };
+    NSDictionary *code = @{ @"suite": newObjects };
     
     return code;
 }
@@ -72,7 +72,7 @@
                     
                     NSArray *newSuite = [paramsExpressions arrayByAddingObjectsFromArray:globalTrait[@"code"]];
                     
-                    NSDictionary *newStatement = @{ @"scope": newSuite };
+                    NSDictionary *newStatement = @{ @"suite": newSuite };
                     [newObject[@"code"] addObject:newStatement];
                 } else {
                     NSLog(@"Trait not found: %@", identifier);
