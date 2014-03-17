@@ -132,6 +132,10 @@
 		5F39DFD7188A472E008ECAC1 /* ZSInterpreterExpressionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F39DFD6188A472E008ECAC1 /* ZSInterpreterExpressionTests.m */; };
 		5F41ACB818341C980089D136 /* ZSExecutionContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F41ACB718341C980089D136 /* ZSExecutionContext.m */; };
 		5F50CBD218A1529000B7C020 /* ZSSelectedGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F50CBD118A1529000B7C020 /* ZSSelectedGroupViewController.m */; };
+		5F57B13D18D4F89A007DB634 /* ZSCodeTraverser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F57B13C18D4F89A007DB634 /* ZSCodeTraverser.m */; };
+		5F57B13F18D4FA70007DB634 /* ZSCodeTraverserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F57B13E18D4FA70007DB634 /* ZSCodeTraverserTests.m */; };
+		5F57B14218D538AE007DB634 /* ZSCodeTransforms.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F57B14118D538AE007DB634 /* ZSCodeTransforms.m */; };
+		5F57B14418D538CA007DB634 /* ZSCodeTransformsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F57B14318D538CA007DB634 /* ZSCodeTransformsTests.m */; };
 		5F687DD118B9A3B200D57A34 /* event_manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F687DCF18B9A3B200D57A34 /* event_manifest.json */; };
 		5F687DD218B9A3B200D57A34 /* method_manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F687DD018B9A3B200D57A34 /* method_manifest.json */; };
 		5F6AD25618BD932200299AB8 /* ZSCodePropertyScope.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6AD25518BD932200299AB8 /* ZSCodePropertyScope.m */; };
@@ -365,6 +369,12 @@
 		5F41ACB718341C980089D136 /* ZSExecutionContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSExecutionContext.m; sourceTree = "<group>"; };
 		5F50CBD018A1529000B7C020 /* ZSSelectedGroupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSSelectedGroupViewController.h; sourceTree = "<group>"; };
 		5F50CBD118A1529000B7C020 /* ZSSelectedGroupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSSelectedGroupViewController.m; sourceTree = "<group>"; };
+		5F57B13B18D4F89A007DB634 /* ZSCodeTraverser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCodeTraverser.h; sourceTree = "<group>"; };
+		5F57B13C18D4F89A007DB634 /* ZSCodeTraverser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCodeTraverser.m; sourceTree = "<group>"; };
+		5F57B13E18D4FA70007DB634 /* ZSCodeTraverserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCodeTraverserTests.m; sourceTree = "<group>"; };
+		5F57B14018D538AE007DB634 /* ZSCodeTransforms.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCodeTransforms.h; sourceTree = "<group>"; };
+		5F57B14118D538AE007DB634 /* ZSCodeTransforms.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCodeTransforms.m; sourceTree = "<group>"; };
+		5F57B14318D538CA007DB634 /* ZSCodeTransformsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCodeTransformsTests.m; sourceTree = "<group>"; };
 		5F687DCF18B9A3B200D57A34 /* event_manifest.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = event_manifest.json; path = JSON/event_manifest.json; sourceTree = "<group>"; };
 		5F687DD018B9A3B200D57A34 /* method_manifest.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = method_manifest.json; path = JSON/method_manifest.json; sourceTree = "<group>"; };
 		5F6AD25418BD932200299AB8 /* ZSCodePropertyScope.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCodePropertyScope.h; sourceTree = "<group>"; };
@@ -747,6 +757,10 @@
 				5F01FBD918B4643500E14834 /* ZSPatternMatch.m */,
 				5F6AD25418BD932200299AB8 /* ZSCodePropertyScope.h */,
 				5F6AD25518BD932200299AB8 /* ZSCodePropertyScope.m */,
+				5F57B13B18D4F89A007DB634 /* ZSCodeTraverser.h */,
+				5F57B13C18D4F89A007DB634 /* ZSCodeTraverser.m */,
+				5F57B14018D538AE007DB634 /* ZSCodeTransforms.h */,
+				5F57B14118D538AE007DB634 /* ZSCodeTransforms.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -901,6 +915,8 @@
 				5F2EC4DB183AD7510091CEAD /* ZSInterpreterDelegateTests.m */,
 				5F01FBDB18B467B500E14834 /* ZSPatternMatchTests.m */,
 				5F6AD25718BD948700299AB8 /* ZSCodePropertyScopeTests.m */,
+				5F57B13E18D4FA70007DB634 /* ZSCodeTraverserTests.m */,
+				5F57B14318D538CA007DB634 /* ZSCodeTransformsTests.m */,
 				4CF1CBD717EF882A00636E0D /* Supporting Files */,
 			);
 			path = ZuseTests;
@@ -1332,6 +1348,7 @@
 				5F39DFCA188A40A0008ECAC1 /* NSInvocation+BlocksKit.m in Sources */,
 				789433B618C307A700C8D810 /* ZS_StatementChooserCollectionViewController.m in Sources */,
 				789433BC18C3D1E800C8D810 /* ZS_ExpressionVariableChooserCollectionViewController.m in Sources */,
+				5F57B14218D538AE007DB634 /* ZSCodeTransforms.m in Sources */,
 				5F39DFD2188A40A0008ECAC1 /* NSObject+BlocksKit.m in Sources */,
 				4C5F732718874B51007F61B3 /* ZSCanvasView.m in Sources */,
 				5F39DFD4188A40A0008ECAC1 /* NSSet+BlocksKit.m in Sources */,
@@ -1373,6 +1390,7 @@
 				5F39172718C53ED100109747 /* ZSCanvasSegue.m in Sources */,
 				4C5F732318873A59007F61B3 /* ZSGrid.m in Sources */,
 				5F39DFD1188A40A0008ECAC1 /* NSObject+BlockObservation.m in Sources */,
+				5F57B13D18D4F89A007DB634 /* ZSCodeTraverser.m in Sources */,
 				4C4087091852480F009117E1 /* ZSSpriteLibrary.m in Sources */,
 				2CA9D387183F3F0300401231 /* ZSRendererScene.m in Sources */,
 				2CA9A32A18C26605005F4404 /* ZSZuseHubSideMenuViewController.m in Sources */,
@@ -1389,8 +1407,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F57B14418D538CA007DB634 /* ZSCodeTransformsTests.m in Sources */,
 				78F79EB8183A8C0300012726 /* TCCodeEditor.m in Sources */,
 				5F01FBDC18B467B500E14834 /* ZSPatternMatchTests.m in Sources */,
+				5F57B13F18D4FA70007DB634 /* ZSCodeTraverserTests.m in Sources */,
 				5F6AD25818BD948700299AB8 /* ZSCodePropertyScopeTests.m in Sources */,
 				5F099D4817F1136000EB2AC7 /* InterpreterTests.m in Sources */,
 				5F2EC4DC183AD7510091CEAD /* ZSInterpreterDelegateTests.m in Sources */,
