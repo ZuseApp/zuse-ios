@@ -20,11 +20,12 @@
 #import <Accounts/Accounts.h>
 #import <MTBlockAlertView/MTBlockAlertView.h>
 
-typedef NS_ENUM(NSInteger, ZSCanvasInterfaceState) {
-    ZSCanvasInterfaceStateNormal,
-    ZSCanvasInterfaceStateGroups,
-    ZSCanvasInterfaceStateRendererPlaying,
-    ZSCanvasInterfaceStateRendererPaused
+typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
+    ZSToolbarInterfaceStateNormal,
+    ZSToolbarInterfaceStateGroups,
+    ZSToolbarInterfaceStateGenerators,
+    ZSToolbarInterfaceStateRendererPlaying,
+    ZSToolbarInterfaceStateRendererPaused
 };
 
 NSString * const ZSTutorialBroadcastDidDropSprite = @"ZSTutorialBroadcastDidDropSprite";
@@ -68,7 +69,7 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
 
 // Toolbar
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
-@property (assign, nonatomic) ZSCanvasInterfaceState interfaceState;
+@property (assign, nonatomic) ZSToolbarInterfaceState interfaceState;
 
 @end
 
@@ -80,7 +81,7 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
         _tutorial = [ZSTutorial sharedTutorial];
         _tutorialStage = ZSCanvasTutorialSetupStage;
         _toolboxController = [[ZSToolboxController alloc] init];
-        self.interfaceState = ZSCanvasInterfaceStateNormal;
+        self.interfaceState = ZSToolbarInterfaceStateNormal;
     }
     return self;
 }
@@ -106,7 +107,7 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
         [self loadSpritesAndGeneratorsFromProject];
     }
     
-    [self transitionToInterfaceState:ZSCanvasInterfaceStateNormal];
+    [self transitionToInterfaceState:ZSToolbarInterfaceStateNormal];
     
     // Animate in the canvas view and all that jazz
     [self animateCanvasViewIn];
@@ -349,6 +350,10 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
         [self saveProject];
         [_generatorView reloadData];
     };
+    
+    _generatorView.addGeneratorRequested = ^ {
+        [self showToolbox];
+    };
 }
 
 #pragma mark Toolbox
@@ -500,16 +505,18 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
 
 }
 
-- (void)transitionToInterfaceState:(ZSCanvasInterfaceState)state {
+- (void)transitionToInterfaceState:(ZSToolbarInterfaceState)state {
     NSArray *items = nil;
-    if (state == ZSCanvasInterfaceStateNormal) {
+    if (state == ZSToolbarInterfaceStateNormal) {
         items = [self normalToolbarItems];
-    } else if (state == ZSCanvasInterfaceStateGroups) {
+    } else if (state == ZSToolbarInterfaceStateGroups) {
         items = [self groupsToolbarItems];
-    } else if (state == ZSCanvasInterfaceStateRendererPlaying) {
+    } else if (state == ZSToolbarInterfaceStateRendererPlaying) {
         items = [self rendererPlayingToolbarItems];
-    } else if (state == ZSCanvasInterfaceStateRendererPaused) {
+    } else if (state == ZSToolbarInterfaceStateRendererPaused) {
         items = [self rendererPausedToolbarItems];
+    } else if (state == ZSToolbarInterfaceStateGenerators) {
+        items = [self generatorsToolbarItems];
     }
     
     self.interfaceState = state;
@@ -567,8 +574,29 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
              ];
 }
 
+- (NSArray *)generatorsToolbarItems {
+    return @[
+             [ZSCanvasBarButtonItem playButtonWithHandler:^{
+                 [self playProject];
+             }],
+             [ZSCanvasBarButtonItem flexibleBarButtonItem],
+             [ZSCanvasBarButtonItem generatorsButtonWithHandler:^{
+                 [self toggleGeneratorView];
+             }],
+             [ZSCanvasBarButtonItem groupsButtonWithHandler:^{
+                 [self modifyGroups];
+             }],
+             [ZSCanvasBarButtonItem shareButtonWithHandler:^{
+                 [self shareProject];
+             }],
+             [ZSCanvasBarButtonItem backButtonWithHandler:^{
+                 [self finish];
+             }]
+             ];
+}
+
 - (void)playProject {
-    [self transitionToInterfaceState:ZSCanvasInterfaceStateRendererPlaying];
+    [self transitionToInterfaceState:ZSToolbarInterfaceStateRendererPlaying];
     
     [self.view bringSubviewToFront:self.rendererView];
     if (!self.generatorView.hidden) {
@@ -586,14 +614,14 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
 
 - (void)pauseProject {
     [_rendererViewController stop];
-    [self transitionToInterfaceState:ZSCanvasInterfaceStateRendererPaused];
+    [self transitionToInterfaceState:ZSToolbarInterfaceStateRendererPaused];
 }
 
 
 - (void)stopProject {
     [self.rendererViewController stop];
     self.rendererView.hidden = YES;
-    [self transitionToInterfaceState:ZSCanvasInterfaceStateNormal];
+    [self transitionToInterfaceState:ZSToolbarInterfaceStateNormal];
 }
 
 - (void)toggleGeneratorView {
@@ -604,12 +632,14 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
         self.generatorView.hidden = NO;
         [self.view bringSubviewToFront:self.generatorView];
         [self.canvasLabel setText:@"Generators"];
+        [self transitionToInterfaceState:ZSToolbarInterfaceStateGenerators];
     }
     else {
         self.canvasView.alpha = 0;
         self.canvasView.hidden = NO;
         [self.view bringSubviewToFront:self.canvasView];
         [self.canvasLabel setText:@"Canvas"];
+        [self transitionToInterfaceState:ZSToolbarInterfaceStateNormal];
     }
     [self.view bringSubviewToFront:self.canvasLabel];
     self.canvasLabel.alpha = 0;
@@ -654,7 +684,12 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
     };
     
     self.groupsController.didFinish = ^{
-        [weakSelf transitionToInterfaceState:ZSCanvasInterfaceStateNormal];
+        if (weakSelf.generatorView.hidden) {
+            [weakSelf transitionToInterfaceState:ZSToolbarInterfaceStateNormal];
+        }
+        else {
+            [weakSelf transitionToInterfaceState:ZSToolbarInterfaceStateGenerators];
+        }
         [UIView animateWithDuration:0.2
                          animations:^{
                              weakSelf.groupsController.view.alpha = 0.0;
@@ -665,7 +700,7 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
                          }];
     };
     
-    [self transitionToInterfaceState:ZSCanvasInterfaceStateGroups];
+    [self transitionToInterfaceState:ZSToolbarInterfaceStateGroups];
     
     self.groupsController.view.frame = self.canvasView.bounds;
     self.groupsController.view.backgroundColor = [UIColor whiteColor];

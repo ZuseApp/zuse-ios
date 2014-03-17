@@ -29,6 +29,7 @@
 		4C0930FD18B8131400BBCC2F /* ZSToolboxView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0930FC18B8131400BBCC2F /* ZSToolboxView.m */; };
 		4C0D470517FB800400F13786 /* guess_a_number.json in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D470417FB800400F13786 /* guess_a_number.json */; };
 		4C0D470817FB927600F13786 /* ZSCanvasViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0D470717FB927600F13786 /* ZSCanvasViewController.m */; };
+		4C26880318D7734200276A76 /* ZSAddItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C26880218D7734200276A76 /* ZSAddItemCell.m */; };
 		4C2D1ECE1891EB65002C431A /* sprite_manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 4C2D1ECD1891EB65002C431A /* sprite_manifest.json */; };
 		4C3DD66118B7005D0013B3A5 /* ZSToolboxCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C3DD66018B7005D0013B3A5 /* ZSToolboxCell.m */; };
 		4C3DD66518B706DC0013B3A5 /* ZSToolboxController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C3DD66418B706DC0013B3A5 /* ZSToolboxController.m */; };
@@ -219,6 +220,8 @@
 		4C0D470417FB800400F13786 /* guess_a_number.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = guess_a_number.json; path = JSON/guess_a_number.json; sourceTree = "<group>"; };
 		4C0D470617FB927600F13786 /* ZSCanvasViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCanvasViewController.h; sourceTree = "<group>"; };
 		4C0D470717FB927600F13786 /* ZSCanvasViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCanvasViewController.m; sourceTree = "<group>"; };
+		4C26880118D7734200276A76 /* ZSAddItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSAddItemCell.h; sourceTree = "<group>"; };
+		4C26880218D7734200276A76 /* ZSAddItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSAddItemCell.m; sourceTree = "<group>"; };
 		4C2D1ECD1891EB65002C431A /* sprite_manifest.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = sprite_manifest.json; sourceTree = "<group>"; };
 		4C3DD65F18B7005D0013B3A5 /* ZSToolboxCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSToolboxCell.h; sourceTree = "<group>"; };
 		4C3DD66018B7005D0013B3A5 /* ZSToolboxCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSToolboxCell.m; sourceTree = "<group>"; };
@@ -554,6 +557,17 @@
 			name = Particles;
 			sourceTree = "<group>";
 		};
+		4C2687FF18D772F500276A76 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				4C26880118D7734200276A76 /* ZSAddItemCell.h */,
+				4C26880218D7734200276A76 /* ZSAddItemCell.m */,
+				4C3DD65F18B7005D0013B3A5 /* ZSToolboxCell.h */,
+				4C3DD66018B7005D0013B3A5 /* ZSToolboxCell.m */,
+			);
+			name = Cells;
+			sourceTree = "<group>";
+		};
 		4C2D1ECC1891EA32002C431A /* ui-images */ = {
 			isa = PBXGroup;
 			children = (
@@ -613,8 +627,6 @@
 		4C3DD66218B705DE0013B3A5 /* Toolbox */ = {
 			isa = PBXGroup;
 			children = (
-				4C3DD65F18B7005D0013B3A5 /* ZSToolboxCell.h */,
-				4C3DD66018B7005D0013B3A5 /* ZSToolboxCell.m */,
 				4C3DD66318B706DC0013B3A5 /* ZSToolboxController.h */,
 				4C3DD66418B706DC0013B3A5 /* ZSToolboxController.m */,
 			);
@@ -806,6 +818,7 @@
 			isa = PBXGroup;
 			children = (
 				4CED779118D554A1007CD973 /* Canvas */,
+				4C2687FF18D772F500276A76 /* Cells */,
 				4CC2969118D2A91F009428CD /* Generator */,
 				4CED779218D554AC007CD973 /* Sprite */,
 				4C3DD66218B705DE0013B3A5 /* Toolbox */,
@@ -1367,6 +1380,7 @@
 				5FB05F2018C44B6600356531 /* ZS_VariableChooserCollectionViewController.m in Sources */,
 				5F39DFC9188A40A0008ECAC1 /* NSIndexSet+BlocksKit.m in Sources */,
 				2CA9A35B18C54D00005F4404 /* MMNavigationController.m in Sources */,
+				4C26880318D7734200276A76 /* ZSAddItemCell.m in Sources */,
 				5FBB4A8E18C24C8800B79AB6 /* UIColor+ZuseColors.m in Sources */,
 				5F1B5BA61837EE7800632DE6 /* ZSCompiler.m in Sources */,
 				5F01FBDA18B4643500E14834 /* ZSPatternMatch.m in Sources */,

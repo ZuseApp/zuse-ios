@@ -1,6 +1,7 @@
 #import "ZSGeneratorView.h"
 #import "ZSSpriteLibrary.h"
 #import "ZSToolboxCell.h"
+#import "ZSAddItemCell.h"
 
 @interface ZSGeneratorView ()
 
@@ -20,40 +21,54 @@
         self.dataSource = self;
         self.contentInset = UIEdgeInsetsMake(4, 4, 4, 4);
         [self registerClass:ZSToolboxCell.class forCellWithReuseIdentifier:@"cellID"];
+        [self registerClass:ZSAddItemCell.class forCellWithReuseIdentifier:@"addItemID"];
     }
     return self;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.generators.count;
+    return self.generators.count + 1;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath;
 {
-    ZSToolboxCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cellID" forIndexPath:indexPath];
+    NSInteger row = indexPath.row;
     
-    NSMutableDictionary *json = [self.generators[indexPath.row] mutableCopy];
-    [cell.spriteView setThumbnailFromJSON:json];
-    cell.spriteView.contentMode = UIViewContentModeScaleAspectFit;
-    
-    WeakSelf
-    __weak ZSToolboxCell *weakCell = cell;
-    cell.spriteView.singleTapped = ^ {
-        if (_singleTapped) {
-            _singleTapped(weakCell.spriteView);
-        }
-    };
-    cell.spriteView.longPressBegan = ^(UILongPressGestureRecognizer *longPressGestureRecognizer) {
-        [longPressGestureRecognizer.view becomeFirstResponder];
-        _editMenu = [UIMenuController sharedMenuController];
-        [_editMenu setTargetRect:weakCell.frame inView:self];
-        [_editMenu setMenuVisible:YES animated:YES];
-        weakSelf.selectedSprite = weakCell.spriteView;
-    };
-    [cell.spriteName setText:json[@"name"]];
-    cell.spriteName.textColor = [UIColor blackColor];
-    
-    return cell;
+    if (row == 0) {
+        ZSAddItemCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"addItemID" forIndexPath:indexPath];
+        cell.singleTapped = ^{
+            if (self.addGeneratorRequested) {
+                self.addGeneratorRequested();
+            }
+        };
+        return cell;
+    }
+    else {
+        ZSToolboxCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cellID" forIndexPath:indexPath];
+        
+        NSMutableDictionary *json = [self.generators[row - 1] mutableCopy];
+        [cell.spriteView setThumbnailFromJSON:json];
+        cell.spriteView.contentMode = UIViewContentModeScaleAspectFit;
+        
+        WeakSelf
+        __weak ZSToolboxCell *weakCell = cell;
+        cell.spriteView.singleTapped = ^ {
+            if (_singleTapped) {
+                _singleTapped(weakCell.spriteView);
+            }
+        };
+        cell.spriteView.longPressBegan = ^(UILongPressGestureRecognizer *longPressGestureRecognizer) {
+            [longPressGestureRecognizer.view becomeFirstResponder];
+            _editMenu = [UIMenuController sharedMenuController];
+            [_editMenu setTargetRect:weakCell.frame inView:self];
+            [_editMenu setMenuVisible:YES animated:YES];
+            weakSelf.selectedSprite = weakCell.spriteView;
+        };
+        [cell.spriteName setText:json[@"name"]];
+        cell.spriteName.textColor = [UIColor blackColor];
+        
+        return cell;
+    }
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -71,7 +86,7 @@
 #pragma mark Generator Manipulation
 
 - (void)addGeneratorFromJSON:(NSMutableDictionary*)generatorJSON {
-    [self.generators addObject:generatorJSON];
+    [self.generators insertObject:generatorJSON atIndex:0];
 }
 
 - (void)setupGesturesForGeneratorView:(ZSSpriteView *)view withProperties:(NSMutableDictionary *)properties {
