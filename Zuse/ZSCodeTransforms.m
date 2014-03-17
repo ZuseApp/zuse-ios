@@ -11,7 +11,7 @@
 ZSCodeTransformBlock ZSCodeTransformEveryBlock = ^NSDictionary *(NSDictionary *codeItem) {
     NSString *eventID = [NSUUID.UUID UUIDString];
     return @{
-        @"code": @[
+        @"suite": @[
             @{
                 @"on_event": @{
                     @"name": eventID,

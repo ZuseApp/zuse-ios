@@ -91,9 +91,9 @@
     XCTAssertEqualObjects(expected, actual, @"");
 }
 
-- (void)testCodeBlocksForCode {
-    NSArray *codeBlocks = [ZSCodeTraverser codeBlocksForCode:@{
-        @"code": @[
+- (void)testCodeBlocksForSuite {
+    NSArray *codeBlocks = [ZSCodeTraverser codeBlocksForSuite:@{
+        @"suite": @[
             @{ @"get": @"foo" }
         ]
     }];
@@ -102,46 +102,17 @@
     XCTAssertEqual(1, ([codeBlocks[0] count]), @"");
 }
 
-- (void)testSetCodeBlocksForCode {
+- (void)testSetCodeBlocksForSuite {
     NSDictionary *code = @{
-        @"code": @[
+        @"suite": @[
             @{ @"get": @"foo" }
         ]
     };
     
-    NSDictionary *actual = [ZSCodeTraverser codeItemBySettingCodeBlocks:@[@[@{ @"get": @"bar" }]] forCode:code];
+    NSDictionary *actual = [ZSCodeTraverser codeItemBySettingCodeBlocks:@[@[@{ @"get": @"bar" }]] forSuite:code];
     
     NSDictionary *expected = @{
-        @"code": @[
-            @{ @"get": @"bar" }
-        ]
-    };
-    
-    XCTAssertEqualObjects(expected, actual, @"");
-}
-
-- (void)testCodeBlocksForScope {
-    NSArray *codeBlocks = [ZSCodeTraverser codeBlocksForScope:@{
-        @"scope": @[
-            @{ @"get": @"foo" }
-        ]
-    }];
-    
-    XCTAssertEqual(1, codeBlocks.count, @"");
-    XCTAssertEqual(1, ([codeBlocks[0] count]), @"");
-}
-
-- (void)testSetCodeBlocksForScope {
-    NSDictionary *code = @{
-        @"scope": @[
-            @{ @"get": @"foo" }
-        ]
-    };
-    
-    NSDictionary *actual = [ZSCodeTraverser codeItemBySettingCodeBlocks:@[@[@{ @"get": @"bar" }]] forScope:code];
-    
-    NSDictionary *expected = @{
-        @"scope": @[
+        @"suite": @[
             @{ @"get": @"bar" }
         ]
     };
@@ -200,7 +171,7 @@
 - (void)testTraverseCodeReplacementBlockNested
 {
     NSDictionary *code = @{
-        @"code": @[
+        @"suite": @[
             @{
                 @"if": @{
                     @"test": @YES,
@@ -210,7 +181,7 @@
                                 @"code": @[
                                     @{ @"set": @[@"foo", @2] },
                                     @{
-                                        @"scope": @[
+                                        @"suite": @[
                                             @{ @"get": @"foo" }
                                         ]
                                     },
@@ -228,7 +199,7 @@
     
     __block NSInteger timesCalled = 0;
     
-    NSMutableArray *statements = [@[@"code", @"if", @"object", @"set", @"scope", @"get", @"get"] mutableCopy];
+    NSMutableArray *statements = [@[@"suite", @"if", @"object", @"set", @"suite", @"get", @"get"] mutableCopy];
     
     [ZSCodeTraverser codeItemByTraversingCodeItem:code
                  replacingItemsWithBlock:^NSDictionary *(NSDictionary *codeItem) {
@@ -282,7 +253,7 @@
 
 - (void)testTraversingCodeItemWithKeyUsingBlock {
     NSDictionary *code = @{
-        @"code": @[
+        @"suite": @[
             @{ @"get": @"foo" },
             @{ @"set": @[@"this", @1] }
         ]
@@ -295,7 +266,7 @@
                                                                 }];
     
     NSDictionary *expected = @{
-        @"code": @[
+        @"suite": @[
             @{ @"get": @"foo" },
             @{ @"get": @"bar" },
         ]

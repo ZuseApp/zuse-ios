@@ -27,15 +27,15 @@
     
     NSDictionary *actual = ZSCodeTransformEveryBlock(code);
     
-    XCTAssertEqualObjects(actual.allKeys.firstObject, @"code", @"");
+    XCTAssertEqualObjects(actual.allKeys.firstObject, @"suite", @"");
     
-    NSDictionary *event = actual[@"code"][0][@"on_event"];
+    NSDictionary *event = actual[@"suite"][0][@"on_event"];
     XCTAssertNotNil(event, @"");
     XCTAssertNotNil((event[@"name"]), @"");
     XCTAssertEqualObjects((@[]), event[@"parameters"], @"");
     XCTAssertEqualObjects((@[@{ @"get": @"foo" }]), event[@"code"], @"");
     
-    NSDictionary *methodCall = actual[@"code"][1][@"call"];
+    NSDictionary *methodCall = actual[@"suite"][1][@"call"];
     XCTAssertEqualObjects(@"every_seconds", methodCall[@"method"], @"");
     XCTAssertEqualObjects((@[ @1, event[@"name"] ]), methodCall[@"parameters"], @"");
 }

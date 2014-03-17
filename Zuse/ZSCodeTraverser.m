@@ -11,10 +11,6 @@
 
 @implementation ZSCodeTraverser
 
-+ (NSArray *)codeBlocksForCode:(NSDictionary *)codeItem {
-    return @[codeItem[@"code"]];
-}
-
 + (NSArray *)codeBlocksForIf:(NSDictionary *)codeItem {
     return @[codeItem[@"if"][@"true"], codeItem[@"if"][@"false"]];
 }
@@ -23,8 +19,8 @@
     return @[codeItem[@"on_event"][@"code"]];
 }
 
-+ (NSArray *)codeBlocksForScope:(NSDictionary *)codeItem {
-    return @[codeItem[@"scope"]];
++ (NSArray *)codeBlocksForSuite:(NSDictionary *)codeItem {
+    return @[codeItem[@"suite"]];
 }
 
 + (NSArray *)codeBlocksForObject:(NSDictionary *)codeItem {
@@ -39,16 +35,9 @@
 }
 
 + (NSDictionary *)codeItemBySettingCodeBlocks:(NSArray *)codeBlocks
-                                      forCode:(NSDictionary *)codeItem {
+                                      forSuite:(NSDictionary *)codeItem {
     NSMutableDictionary *newItem = [codeItem deepMutableCopy];
-    newItem[@"code"] = codeBlocks[0];
-    return newItem;
-}
-
-+ (NSDictionary *)codeItemBySettingCodeBlocks:(NSArray *)codeBlocks
-                                     forScope:(NSDictionary *)codeItem {
-    NSMutableDictionary *newItem = [codeItem deepMutableCopy];
-    newItem[@"scope"] = codeBlocks[0];
+    newItem[@"suite"] = codeBlocks[0];
     return newItem;
 }
 
@@ -74,12 +63,10 @@
 
     if ([key isEqualToString:@"if"]) {
         newCodeItem = [self codeItemBySettingCodeBlocks:codeBlocks forIf:codeItem];
-    } else if ([key isEqualToString:@"code"]) {
-        newCodeItem = [self codeItemBySettingCodeBlocks:codeBlocks forCode:codeItem];
     } else if ([key isEqualToString:@"on_event"]) {
         newCodeItem = [self codeItemBySettingCodeBlocks:codeBlocks forOnEvent:codeItem];
-    } else if ([key isEqualToString:@"scope"]) {
-        newCodeItem = [self codeItemBySettingCodeBlocks:codeBlocks forScope:codeItem];
+    } else if ([key isEqualToString:@"suite"]) {
+        newCodeItem = [self codeItemBySettingCodeBlocks:codeBlocks forSuite:codeItem];
     } else if ([key isEqualToString:@"object"]) {
         newCodeItem = [self codeItemBySettingCodeBlocks:codeBlocks forObject:codeItem];
     } else {
@@ -92,12 +79,10 @@
     NSString *key = codeItem.allKeys.firstObject;
     if ([key isEqualToString:@"if"]) {
         return [self codeBlocksForIf:codeItem];
-    } else if ([key isEqualToString:@"code"]) {
-        return [self codeBlocksForCode:codeItem];
+    } else if ([key isEqualToString:@"suite"]) {
+        return [self codeBlocksForSuite:codeItem];
     } else if ([key isEqualToString:@"on_event"]) {
         return [self codeBlocksForOnEvent:codeItem];
-    } else if ([key isEqualToString:@"scope"]) {
-        return [self codeBlocksForScope:codeItem];
     } else if ([key isEqualToString:@"object"]) {
         return [self codeBlocksForObject:codeItem];
     } else {

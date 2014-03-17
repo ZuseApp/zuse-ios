@@ -67,33 +67,21 @@
 + (NSArray *)codeBlocksForIf:(NSDictionary *)codeItem;
 
 /**
- *  Find all code blocks associated with `code` key in Zuse domain language.
+ *  Find all code blocks associated with `suite` key in Zuse domain language.
  *
- *  @param codeItem `code` code item from Zuse domain language
- *
- *  @return Array of code blocks
- */
-+ (NSArray *)codeBlocksForCode:(NSDictionary *)codeItem;
-
-/**
- *  Find all code blocks associated with `scope` key in Zuse domain language.
- *
- *  @param codeItem `scope` code item from Zuse domain language
+ *  @param codeItem `suite` code item from Zuse domain language
  *
  *  @return Array of code blocks
  */
-+ (NSArray *)codeBlocksForScope:(NSDictionary *)codeItem;
++ (NSArray *)codeBlocksForSuite:(NSDictionary *)codeItem;
 
-// This are the inverse of the above 5 method, setting the code
+// These are the inverse of the above 4 methods, setting the code
 // blocks instead of extracting them
 + (NSDictionary *)codeItemBySettingCodeBlocks:(NSArray *)codeBlocks
                                    forOnEvent:(NSDictionary *)codeItem;
 
 + (NSDictionary *)codeItemBySettingCodeBlocks:(NSArray *)codeBlocks
-                                      forCode:(NSDictionary *)codeItem;
-
-+ (NSDictionary *)codeItemBySettingCodeBlocks:(NSArray *)codeBlocks
-                                     forScope:(NSDictionary *)codeItem;
+                                      forSuite:(NSDictionary *)codeItem;
 
 + (NSDictionary *)codeItemBySettingCodeBlocks:(NSArray *)codeBlocks
                                         forIf:(NSDictionary *)codeItem;
