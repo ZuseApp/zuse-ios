@@ -447,6 +447,8 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
                                                NSMutableDictionary *newJson = [json deepMutableCopy];
                                                newJson[@"id"] = [[NSUUID UUID] UUIDString];
                                                newJson[@"name"] = name;
+                                               newJson[@"properties"][@"x"] = @(0);
+                                               newJson[@"properties"][@"y"] = @(0);
                                                [[weakSelf.project rawJSON][@"generators"] addObject:newJson];
                                                
                                                [weakSelf.generatorView addGeneratorFromJSON:newJson];
