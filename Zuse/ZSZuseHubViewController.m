@@ -13,7 +13,7 @@
 #import "MMNavigationController.h"
 #import "MMExampleDrawerVisualStateManager.h"
 #import "ZSZuseHubViewSharedProjectsViewController.h"
-
+#import "ZSAuthTokenPersistence.h";
 
 @interface ZSZuseHubViewController ()
 @property (strong, nonatomic) UIWindow *window;
@@ -81,6 +81,12 @@
         weakSelf.didFinish();
     };
     
+    self.leftSideDrawerViewController.didSelectLogout = ^{
+        [weakSelf.leftSideDrawerViewController.mm_drawerController setCenterViewController:weakSelf.navigationController withCloseAnimation:YES completion:nil];
+        [ZSAuthTokenPersistence deleteToken];
+        weakSelf.didFinish();
+    };
+    
     self.leftSideDrawerViewController.didSelectNewestProjects = ^{
         //now set up the center views here
         weakSelf.centerViewController = [[ZSZuseHubBrowseViewController alloc] init];
@@ -104,10 +110,5 @@
     };
 
 }
-
-- (void)viewDidAppear:(BOOL)animated {
-    NSLog(@"drawer appeared");
-}
-
 
 @end

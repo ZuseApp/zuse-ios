@@ -13,7 +13,7 @@
 typedef NS_ENUM(NSInteger, ZSZuseHubDrawerSection){
     ZSZuseHubDrawerMyZuseHub,
     ZSZuseHubDrawerBrowseProjects,
-    ZSZuseHubDrawerBackToMainMenu,
+    ZSZuseHubDrawerSettings,
     ZSZuseHubDrawerSectionCount,
 };
 
@@ -27,6 +27,12 @@ typedef NS_ENUM(NSInteger, ZSZuseHubMyHubType)
 {
     ZSZuseHubMyHubTypeShareProject,
     ZSZuseHubMyHubTypeViewMySharedProjects,
+};
+
+typedef NS_ENUM(NSInteger, ZSZuseHubSettingsType)
+{
+    ZSZuseHubSettingsBackToMainMenu,
+    ZSZuseHubSettingsLogout,
 };
 
 @end

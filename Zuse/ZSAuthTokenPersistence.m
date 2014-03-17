@@ -2,6 +2,8 @@
 //  ZSAuthTokenPersistence.m
 //  Zuse
 //
+//  Used to store the user's ZuseHub token to the device.
+//
 //  Created by Sarah Hong on 3/10/14.
 //  Copyright (c) 2014 Michael Hogenson. All rights reserved.
 //
@@ -31,7 +33,10 @@ NSString const * ZSTokenPersistenceProjectsFolder = @"UserAuthToken";
     NSLog(@"%@", [self userLoginDirectoryPath]);
 }
 
-
+/**
+ * Gets the user's directory path.
+ * @return - directory the user's token will be stored as a string
+ */
 + (NSString *)userLoginDirectoryPath
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -40,6 +45,10 @@ NSString const * ZSTokenPersistenceProjectsFolder = @"UserAuthToken";
     return userDocumentsPath;
 }
 
+/**
+ * Gets the token from file.
+ * @return - the token as a string
+ */
 + (NSString *)getTokenInfo
 {
     NSData *tokenData = [NSData dataWithContentsOfFile:[ZSAuthTokenPersistence pathForToken]];
@@ -52,12 +61,19 @@ NSString const * ZSTokenPersistenceProjectsFolder = @"UserAuthToken";
     return nil;
 }
 
+/**
+ * Gets the path for the user's token file.
+ * @return - string of the user's token file path
+ */
 + (NSString *)pathForToken
 {
     NSString *filename = [@"tokenInfo" stringByAppendingPathExtension:@"txt"];
     return [[self userLoginDirectoryPath] stringByAppendingPathComponent:filename];
 }
 
+/**
+ * Writes the user's token to a file.
+ */
 + (void)writeTokenInfo:(NSString *)token
 {
     static dispatch_queue_t savingQueue;
@@ -72,9 +88,24 @@ NSString const * ZSTokenPersistenceProjectsFolder = @"UserAuthToken";
         BOOL succeed = [token writeToFile:tokenPath atomically:YES encoding:NSUTF8StringEncoding error:&error];
         if(!succeed)
         {
-            NSLog(@"Error writing token to file");
+            NSLog(@"Error writing token to file: %@", error);
         }
     });
+
+}
+
+/**
+ * Deletes the file that contains the user's token.
+ */
++ (void)deleteToken
+{
+    NSFileManager *filemgr;
+    
+    filemgr = [NSFileManager defaultManager];
+    NSError *error;
+    BOOL success = [filemgr removeItemAtPath:[self pathForToken] error:&error];
+    if (!success)
+        NSLog (@"Error, failed to delete token file: %@", error);
 
 }
 

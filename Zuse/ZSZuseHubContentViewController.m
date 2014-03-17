@@ -19,8 +19,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
-    NSLog(@"loaded zusehub");
     
     self.jsonClientManager = [ZSZuseHubJSONClient sharedClient];
     

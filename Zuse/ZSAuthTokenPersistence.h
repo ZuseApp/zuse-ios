@@ -12,5 +12,6 @@
 
 + (void)writeTokenInfo:(NSString *)token;
 + (NSString *)getTokenInfo;
++ (void)deleteToken;
 
 @end

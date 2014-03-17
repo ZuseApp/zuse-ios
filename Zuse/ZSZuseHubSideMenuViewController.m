@@ -17,7 +17,7 @@
 @interface ZSZuseHubSideMenuViewController ()
 @property (strong, nonatomic) NSArray *browseMenuStrings;
 @property (strong, nonatomic) NSArray *myZuseHubMenuStrings;
-@property (strong, nonatomic) NSArray *mainMenuStrings;
+@property (strong, nonatomic) NSArray *settingsStrings;
 
 @end
 
@@ -33,7 +33,7 @@
     //TODO put the other browse filter strings here
     _browseMenuStrings = @[@"Newest"];
     _myZuseHubMenuStrings = @[@"Share", @"My Projects"];
-    _mainMenuStrings = @[@"Main Menu"];
+    _settingsStrings = @[@"Main Menu", @"Sign Out"];
 
     _tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
 
@@ -90,22 +90,18 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.tableView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, self.tableView.numberOfSections-1)] withRowAnimation:UITableViewRowAnimationNone];
-    NSLog(@"Left will appear");
 }
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    NSLog(@"Left did appear");
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-    NSLog(@"Left will disappear");
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
-    NSLog(@"Left did disappear");
 }
 
 -(void)contentSizeDidChange:(NSString *)size{
@@ -125,8 +121,8 @@
             return _myZuseHubMenuStrings.count;
         case ZSZuseHubDrawerBrowseProjects:
             return _browseMenuStrings.count;
-        case ZSZuseHubDrawerBackToMainMenu:
-            return _mainMenuStrings.count;
+        case ZSZuseHubDrawerSettings:
+            return _settingsStrings.count;
         default:
             return 0;
     }
@@ -152,8 +148,8 @@
         case ZSZuseHubDrawerBrowseProjects:
             [cell.textLabel setText:_browseMenuStrings[indexPath.row]];
             break;
-        case ZSZuseHubDrawerBackToMainMenu:
-            [cell.textLabel setText:_mainMenuStrings[indexPath.row]];
+        case ZSZuseHubDrawerSettings:
+            [cell.textLabel setText:_settingsStrings[indexPath.row]];
             break;
         default:
             break;
@@ -172,6 +168,8 @@
             return @"My ZuseHub";
         case ZSZuseHubDrawerBrowseProjects:
             return @"Browse Projects";
+        case ZSZuseHubDrawerSettings:
+            return @"Settings";
         default:
             return nil;
     }
@@ -215,8 +213,13 @@
         else
             NSLog(@"Error in selecting user zusehub options");
     }
-    else if (indexPath.section == ZSZuseHubDrawerBackToMainMenu) {
-        self.didSelectBack();
+    else if (indexPath.section == ZSZuseHubDrawerSettings) {
+        if(indexPath.row == ZSZuseHubSettingsBackToMainMenu)
+            self.didSelectBack();
+        else if(indexPath.row == ZSZuseHubSettingsLogout)
+            self.didSelectLogout();
+        else
+            NSLog(@"Error in selecting main menu options");
     }
     else
     {
