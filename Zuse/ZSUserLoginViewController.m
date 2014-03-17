@@ -52,15 +52,21 @@
         [self.jsonClientManager authenticateUser:loginInfo
                                       completion:^(NSDictionary *response)
         {
-            self.jsonClientManager.token = response[@"token"];
-            [self.jsonClientManager setAuthHeader:self.jsonClientManager.token];
-            [ZSAuthTokenPersistence writeTokenInfo:self.jsonClientManager.token];
-            ZSZuseHubViewController *controller = [[ZSZuseHubViewController alloc] init];
-            controller.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-            [self presentViewController:controller animated:YES completion:^{}];
-            controller.didFinish = ^{
-                [self close];
-            };
+            if(response)
+            {
+                self.jsonClientManager.token = response[@"token"];
+                [self.jsonClientManager setAuthHeader:self.jsonClientManager.token];
+                [ZSAuthTokenPersistence writeTokenInfo:self.jsonClientManager.token];
+                ZSZuseHubViewController *controller = [[ZSZuseHubViewController alloc] init];
+                controller.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+                [self presentViewController:controller animated:YES completion:^{}];
+                controller.didFinish = ^{
+                    [self close];
+                };
+            }
+            else{
+                //TODO put error msg here for the user
+            }
         } ];
     }
 }

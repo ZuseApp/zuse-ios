@@ -44,6 +44,7 @@
               failure:^(AFHTTPRequestOperation *operation, NSError *error)
               {
                   NSLog(@"Failed to get newest projects! %@", error.localizedDescription);
+                  completion(nil);
               }
      ];
 }
@@ -51,15 +52,15 @@
 /**
  * Registers a user with ZuseHub
  */
-- (void)registerUser:(void (^)(NSDictionary *))completion loginInfo:(NSDictionary *)loginInfo
+- (void)registerUser:(NSDictionary *)loginInfo completion:(void (^)(NSDictionary *))completion
 {
     //TODO make the user info generic
     NSDictionary *params = @{
                              @"user": @{
-                                     @"username": loginInfo[@"username"],
-                                     @"email": loginInfo[@"email"],
-                                     @"password": loginInfo[@"password"],
-                                     @"password_confirmation": loginInfo[@"password"]
+                                     @"username" : loginInfo[@"username"],
+                                     @"email" : loginInfo[@"email"],
+                                     @"password" : loginInfo[@"password"],
+                                     @"password_confirmation" : loginInfo[@"password"]
                                      }
                              };
     

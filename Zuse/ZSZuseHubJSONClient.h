@@ -24,7 +24,7 @@
 
 + (ZSZuseHubJSONClient *)sharedClient;
 - (void )getNewestProjects:(void(^)(NSArray *projects))completion;
-- (void)registerUser:(void(^)(NSDictionary *response))completion;
+- (void)registerUser:(NSDictionary *)loginInfo completion:(void (^)(NSDictionary *))completion;
 - (void)authenticateUser:(NSDictionary *)loginInfo completion:(void(^)(NSDictionary *response))completion;
 - (void)setAuthHeader:(NSString *)token;
 - (void)getUsersSharedProjects:(void(^)(NSArray *projects))completion;
