@@ -13,5 +13,6 @@
 @property (weak, nonatomic) IBOutlet UITextField *usernameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
 @property (weak, nonatomic) IBOutlet UILabel *errorMsgLabel;
+@property (copy, nonatomic) void (^didFinish)(BOOL isLoggedIn);
 
 @end

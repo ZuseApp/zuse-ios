@@ -41,6 +41,7 @@
                                                            bundle:[NSBundle mainBundle]]
                                  instantiateViewControllerWithIdentifier:@"BrowseProjectsView"];
     self.centerViewController.contentType = ZSZuseHubBrowseTypeNewest;
+    ((ZSZuseHubBrowseViewController *)self.centerViewController).didDownloadProject = self.didDownloadProject;
     
     self.navigationController = [[MMNavigationController alloc] initWithRootViewController:self.centerViewController];
     
@@ -94,6 +95,7 @@
         weakSelf.centerViewController = [[UIStoryboard storyboardWithName:@"Main"
                                                                    bundle:[NSBundle mainBundle]]
                                          instantiateViewControllerWithIdentifier:@"BrowseProjectsView"];
+        ((ZSZuseHubBrowseViewController *)weakSelf.centerViewController).didDownloadProject = weakSelf.didDownloadProject;
         weakSelf.centerViewController.contentType = ZSZuseHubBrowseTypeNewest;
         weakSelf.navigationController = [[MMNavigationController alloc] initWithRootViewController:weakSelf.centerViewController];
         [weakSelf.leftSideDrawerViewController.mm_drawerController setCenterViewController:weakSelf.navigationController withCloseAnimation:YES completion:nil];
@@ -104,6 +106,7 @@
         weakSelf.centerViewController = [[UIStoryboard storyboardWithName:@"Main"
                                                                    bundle:[NSBundle mainBundle]]
                                          instantiateViewControllerWithIdentifier:@"BrowseProjectsView"];
+        ((ZSZuseHubBrowseViewController *)weakSelf.centerViewController).didDownloadProject = weakSelf.didDownloadProject;
         weakSelf.centerViewController.contentType = ZSZuseHubBrowseTypePopular;
         weakSelf.navigationController = [[MMNavigationController alloc] initWithRootViewController:weakSelf.centerViewController];
         [weakSelf.leftSideDrawerViewController.mm_drawerController setCenterViewController:weakSelf.navigationController withCloseAnimation:YES completion:nil];

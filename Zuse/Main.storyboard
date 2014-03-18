@@ -678,7 +678,6 @@
         <!--Zuse Hub Browse View Controller-->
         <scene sceneID="8HD-10-4dQ">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="fVM-XC-bqx" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="BrowseProjectsView" id="zfq-d5-kyT" customClass="ZSZuseHubBrowseViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="TMy-AN-2UU">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
@@ -731,6 +730,7 @@
                         <outlet property="collectionView" destination="Cnc-cL-6F5" id="IMT-V9-WHN"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fVM-XC-bqx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-557" y="1644"/>
         </scene>
@@ -806,7 +806,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sEb-KK-HVT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-95" y="1647"/>
+            <point key="canvasLocation" x="-109" y="1647"/>
         </scene>
         <!--User Login View Controller - Login to ZuseHub-->
         <scene sceneID="5Th-pW-4Yc">

@@ -9,8 +9,11 @@
 #import "MMDrawerController.h"
 #import "ZSZuseHubEnums.h"
 
+@class ZSProject;
+
 @interface ZSZuseHubViewController : UIViewController
 
 @property (copy, nonatomic) void(^didFinish)();
+@property (copy, nonatomic) void(^didDownloadProject)(ZSProject *project);
 
 @end

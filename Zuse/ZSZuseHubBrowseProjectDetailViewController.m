@@ -56,10 +56,20 @@
 }
 
 - (IBAction)downloadTapped:(id)sender {
-    [self.jsonClientManager downloadProject:self.project[@"uuid"] completion:^(NSDictionary *project) {
-        if(project)
+    [self.jsonClientManager downloadProject:self.project[@"uuid"] completion:^(NSDictionary *projectJSON) {
+        if(projectJSON)
         {
-            //TODO store this project on the user's device so that it can be played.
+            NSString *JSONString = projectJSON[@"project_json"];
+            NSError *error = nil;
+            NSDictionary *projectJSONParsed = [NSJSONSerialization JSONObjectWithData:[JSONString dataUsingEncoding:NSUTF8StringEncoding]
+                                                                              options:0
+                                                                                error:&error];
+            
+            assert(!error);
+            
+            ZSProject *project = [ZSProject projectWithJSON:projectJSONParsed];
+            self.didDownloadProject(project);
+//            self.didFinish();
         }
         else{
             //TODO put msg for user to indicate that download failed

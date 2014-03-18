@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+@class ZSProject;
+
 @interface ZSZuseHubInitViewController : UIViewController
+
+@property (copy, nonatomic) void (^didFinish)();
+@property (copy, nonatomic) void (^needsOpenProject)(ZSProject *project);
 
 @end

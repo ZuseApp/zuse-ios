@@ -15,6 +15,7 @@
 
 @property (strong, nonatomic) UINavigationController *loginNavController;
 @property (strong, nonatomic) ZSZuseHubJSONClient *jsonClientManager;
+@property (strong, nonatomic) ZSZuseHubViewController *hubController;
 
 @end
 
@@ -36,22 +37,37 @@
     if(!token)
     {
         UINavigationController *navController = [[UIStoryboard storyboardWithName:@"Main"
-                                                   bundle:[NSBundle mainBundle]]instantiateViewControllerWithIdentifier:@"LoginNav"];
+                                                                           bundle:[NSBundle mainBundle]]
+                                                 instantiateViewControllerWithIdentifier:@"LoginNav"];
         
+        ZSUserLoginViewController *loginController = (ZSUserLoginViewController *)navController.viewControllers[0];
+        loginController.didFinish = ^(BOOL isLoggedIn) {
+            if (isLoggedIn) {
+                [self presentHubController];
+            } else {
+                [self close];
+            }
+        };
         navController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
         [self presentViewController:navController animated:YES completion:^{}];
-
     }
     else
     {
         [self.jsonClientManager setAuthHeader:token];
-        ZSZuseHubViewController *controller = [[ZSZuseHubViewController alloc] init];
-        controller.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-        [self presentViewController:controller animated:YES completion:^{}];
-        controller.didFinish = ^{
-            [self close];
-        };
+        [self presentHubController];
     }
+}
+
+- (void)presentHubController {
+    self.hubController = [[ZSZuseHubViewController alloc] init];
+    WeakSelf
+    self.hubController.didDownloadProject = self.needsOpenProject;
+    self.hubController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    [self presentViewController:self.hubController animated:YES completion:^{}];
+    self.hubController.didFinish = ^{
+        [weakSelf close];
+    };
+    
 }
 
 /**
@@ -59,7 +75,7 @@
  */
 - (void)close
 {
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:^{}];
+    self.didFinish();
 }
 
 @end

@@ -13,6 +13,7 @@
 
 @property NSInteger contentType;
 @property (strong, nonatomic) ZSZuseHubJSONClient *jsonClientManager;
+//@property (copy, nonatomic) void(^didDownloadProject)(ZSProject *project);
 
 - (void)contentSizeDidChange:(NSString*)size;
 

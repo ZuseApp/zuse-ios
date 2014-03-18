@@ -11,5 +11,6 @@
 #import "ZSZuseHubEnums.h"
 
 @interface ZSZuseHubBrowseViewController : ZSZuseHubContentViewController <UICollectionViewDataSource, UICollectionViewDelegate>
+@property (copy, nonatomic) void(^didDownloadProject)(ZSProject *project);
 
 @end

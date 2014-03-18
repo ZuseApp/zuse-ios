@@ -14,5 +14,6 @@
 @property (strong, nonatomic) NSDictionary *project;
 
 @property (copy, nonatomic) void(^didFinish)();
+@property (copy, nonatomic) void(^didDownloadProject)(ZSProject *project);
 
 @end

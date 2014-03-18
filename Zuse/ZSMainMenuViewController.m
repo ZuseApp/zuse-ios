@@ -29,6 +29,7 @@ typedef NS_ENUM(NSInteger, ZSMainMenuProjectFilter) {
 @property (weak, nonatomic) NSArray *selectedProjects;
 @property (strong, nonatomic) ZSProject *selectedProject;
 @property (assign, nonatomic) ZSMainMenuProjectFilter projectFilter;
+@property (strong, nonatomic) ZSZuseHubInitViewController *zuseHubController;
 
 @end
 
@@ -128,7 +129,22 @@ typedef NS_ENUM(NSInteger, ZSMainMenuProjectFilter) {
 
 - (IBAction)zuseHubTapped:(id)sender {    
     ZSZuseHubInitViewController *controller = [[ZSZuseHubInitViewController alloc] init];
+    controller.didFinish = ^{
+        [self dismissViewControllerAnimated:YES completion:^{
+            self.zuseHubController = nil;
+        }];
+    };
+    controller.needsOpenProject = ^(ZSProject *project) {
+        [ZSProjectPersistence writeProject:project];
+        self.selectedProject = project;
+        [self dismissViewControllerAnimated:YES
+                                 completion:^{
+                                     self.zuseHubController = nil;
+                                     [self insertAndSegueToNewProject:project];
+                                 }];
+    };
     controller.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    self.zuseHubController = controller;
     [self presentViewController:controller animated:YES completion:^{}];
 }
 

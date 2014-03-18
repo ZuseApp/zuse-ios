@@ -27,6 +27,7 @@
 @property int nextPage;
 @property int itemsPerPage;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+@property (strong, nonatomic) ZSZuseHubBrowseProjectDetailViewController *detailController;
 
 @end
 
@@ -171,16 +172,16 @@
     [[MMExampleDrawerVisualStateManager sharedManager] setLeftDrawerAnimationType:MMDrawerAnimationTypeParallax];
     
     //display the details of the selected project.
-    ZSZuseHubBrowseProjectDetailViewController *controller = [[UIStoryboard storyboardWithName:@"Main"
+    self.detailController = [[UIStoryboard storyboardWithName:@"Main"
                                                                           bundle:[NSBundle mainBundle]]
                                                 instantiateViewControllerWithIdentifier:@"BrowseProjectDetail"];
+    self.detailController.didDownloadProject = self.didDownloadProject;
     NSInteger index = [self.collectionView.indexPathsForSelectedItems.firstObject row];
-    controller.project = self.jsonProjectsFirst[index];
-    [self presentViewController:controller animated:YES completion:^{}];
-    controller.didFinish = ^(){
-
-        [self dismissViewControllerAnimated:YES completion:^{ }];
-        
+    self.detailController.project = self.jsonProjectsFirst[index];
+    [self presentViewController:self.detailController animated:YES completion:^{}];
+    WeakSelf
+    self.detailController.didFinish = ^(){
+        [weakSelf.detailController dismissViewControllerAnimated:YES completion:^{ }];
     };
 }
 

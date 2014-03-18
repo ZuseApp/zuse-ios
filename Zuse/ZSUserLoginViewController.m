@@ -14,6 +14,7 @@
 @interface ZSUserLoginViewController()
 
 @property (strong, nonatomic) ZSZuseHubJSONClient *jsonClientManager;
+@property (assign, nonatomic) BOOL didLogIn;
 
 @end
 
@@ -22,7 +23,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    self.didLogIn = NO;
     self.jsonClientManager = [ZSZuseHubJSONClient sharedClient];
     
     self.title = @"Login to ZuseHub";
@@ -39,7 +40,7 @@
  */
 - (void)close
 {
-    [self.presentingViewController.presentingViewController dismissViewControllerAnimated:YES completion:^{}];
+    self.didFinish(self.didLogIn);
 }
 
 - (IBAction)loginTapped:(id)sender {
@@ -58,17 +59,14 @@
                 
                 NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
                 [defaults setObject:self.jsonClientManager.token forKey:@"token"];
-    
-                ZSZuseHubViewController *controller = [[ZSZuseHubViewController alloc] init];
-                controller.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-                [self presentViewController:controller animated:YES completion:^{}];
-                controller.didFinish = ^{
-                    [self close];
-                };
+                
+                self.didLogIn = YES;
                 self.errorMsgLabel.text = @"";
+                [self close];
             }
-            else{
+            else {
                 self.errorMsgLabel.text = @"Username or password invalid";
+                [self close];
             }
         } ];
     }
