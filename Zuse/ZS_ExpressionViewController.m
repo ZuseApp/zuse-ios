@@ -261,7 +261,7 @@ NSString* ZS_OperatorToString(ZS_Operator operator)
 - (void) setHighlighted: (BOOL)isHighlighted
 {
     super.highlighted = isHighlighted;
-    self.backgroundColor = isHighlighted ? [UIColor orangeColor]:[UIColor clearColor];
+    self.layer.backgroundColor = isHighlighted ? [UIColor orangeColor].CGColor:[UIColor clearColor].CGColor;
 }
 @end
 

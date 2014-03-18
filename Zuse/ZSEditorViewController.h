@@ -12,5 +12,6 @@
 @interface ZSEditorViewController : UITabBarController
 
 @property (strong, nonatomic) NSMutableDictionary *spriteObject;
+@property (strong, nonatomic) NSMutableDictionary *projectTraits;
 
 @end

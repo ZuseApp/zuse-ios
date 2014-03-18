@@ -3,7 +3,7 @@
   "version" : "1.0.0",
   "traits" : {
     "Disappearable" : {
-      "parameters" : [],
+      "parameters" : {},
       "code" : [
         { "set": ["hits left", 1] },
         {
@@ -210,7 +210,7 @@
       "physics_body" : "rectangle",
       "traits" : {
         "Disappearable": {
-          "parameters": []
+        "parameters": {}
         }
       }
     },
@@ -233,7 +233,7 @@
       },
       "traits" : {
         "Disappearable": {
-          "parameters": []
+          "parameters": {}
         }
       }
     },
@@ -256,7 +256,7 @@
       "collision_group": "brick",
       "traits" : {
         "Disappearable": {
-          "parameters": []
+          "parameters": {}
         }
       }
     },
@@ -279,7 +279,7 @@
       },
       "traits" : {
         "Disappearable": {
-          "parameters": []
+          "parameters": {}
         }
       }
     },
@@ -302,7 +302,7 @@
       "physics_body" : "rectangle",
       "traits" : {
         "Disappearable": {
-          "parameters": []
+          "parameters": {}
         }
       }
     },
@@ -325,7 +325,7 @@
       },
       "traits" : {
         "Disappearable": {
-          "parameters": []
+          "parameters": {}
         }
       }
     },
@@ -348,7 +348,7 @@
       "collision_group": "brick",
       "traits" : {
         "Disappearable": {
-          "parameters": []
+          "parameters": {}
         }
       }
     },
@@ -371,7 +371,7 @@
       },
       "traits" : {
         "Disappearable": {
-          "parameters": []
+          "parameters": {}
         }
       }
     },
@@ -394,7 +394,7 @@
       "physics_body" : "rectangle",
       "traits" : {
         "Disappearable": {
-          "parameters": []
+          "parameters": {}
         }
       }
     },
@@ -417,7 +417,7 @@
       },
       "traits" : {
         "Disappearable": {
-          "parameters": []
+          "parameters": {}
         }
       }
     },
@@ -440,7 +440,7 @@
       "physics_body" : "rectangle",
       "traits" : {
         "Disappearable": {
-          "parameters": []
+          "parameters": {}
         }
       }
     },
@@ -463,7 +463,7 @@
       },
       "traits" : {
         "Disappearable": {
-          "parameters": []
+          "parameters": {}
         }
       }
     },
@@ -486,7 +486,7 @@
       "physics_body" : "rectangle",
       "traits" : {
         "Disappearable": {
-          "parameters": []
+          "parameters": {}
         }
       }
     },
@@ -509,7 +509,7 @@
       },
       "traits" : {
         "Disappearable": {
-          "parameters": []
+          "parameters": {}
         }
       }
     },
@@ -532,7 +532,7 @@
       "physics_body" : "rectangle",
       "traits" : {
         "Disappearable": {
-          "parameters": []
+          "parameters": {}
         }
       }
     },
@@ -555,7 +555,7 @@
       },
       "traits" : {
         "Disappearable": {
-          "parameters": []
+          "parameters": {}
         }
       }
     },
@@ -578,7 +578,7 @@
       "physics_body" : "rectangle",
       "traits" : {
         "Disappearable": {
-          "parameters": []
+          "parameters": {}
         }
       }
     },
@@ -601,7 +601,7 @@
       },
       "traits" : {
         "Disappearable": {
-          "parameters": []
+          "parameters": {}
         }
       }
     },

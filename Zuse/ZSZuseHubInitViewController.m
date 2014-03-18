@@ -33,7 +33,8 @@
 {
     [super viewDidAppear:animated];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *token = [defaults objectForKey:@"token"];
+//    NSString *token = [defaults objectForKey:@"token"];
+    NSString *token = @"WCJQjMenNnJrhqtVBXKlhvXB9JxcCqzeN6mpWS7Z";
     if(!token)
     {
         
@@ -60,7 +61,9 @@
 - (void)presentHubController {
     self.hubController = [[ZSZuseHubViewController alloc] init];
     WeakSelf
-    self.hubController.didDownloadProject = self.needsOpenProject;
+    self.hubController.didDownloadProject = ^(ZSProject *project) {
+        weakSelf.needsOpenProject(project);
+    };
     self.hubController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     [self presentViewController:self.hubController animated:YES completion:^{}];
     self.hubController.didFinish = ^{

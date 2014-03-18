@@ -175,11 +175,13 @@
     self.detailController = [[UIStoryboard storyboardWithName:@"Main"
                                                                           bundle:[NSBundle mainBundle]]
                                                 instantiateViewControllerWithIdentifier:@"BrowseProjectDetail"];
-    self.detailController.didDownloadProject = self.didDownloadProject;
     NSInteger index = [self.collectionView.indexPathsForSelectedItems.firstObject row];
     self.detailController.project = self.jsonProjectsFirst[index];
     [self presentViewController:self.detailController animated:YES completion:^{}];
     WeakSelf
+    self.detailController.didDownloadProject = ^(ZSProject *project){
+        weakSelf.didDownloadProject(project);
+    };
     self.detailController.didFinish = ^(){
         [weakSelf.detailController dismissViewControllerAnimated:YES completion:^{ }];
     };

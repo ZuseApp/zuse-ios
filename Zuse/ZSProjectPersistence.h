@@ -20,4 +20,6 @@
 
 + (void)writeProject:(ZSProject *)project;
 
++ (BOOL)isProjectPersisted:(ZSProject *)project;
+
 @end
