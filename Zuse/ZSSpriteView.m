@@ -1,6 +1,12 @@
 #import "ZSSpriteView.h"
 #import "ZSTutorial.h"
 
+@interface ZSSpriteView ()
+
+@property (nonatomic, strong) NSMutableArray *lockedGestures;
+
+@end
+
 @implementation ZSSpriteView
 
 -(id)initWithCoder:(NSCoder *)aDecoder
@@ -22,6 +28,7 @@
 }
 
 - (void)sharedInit {
+    self.lockedGestures = [NSMutableArray array];
     self.userInteractionEnabled = YES;
     [self setupGestures];
 }
@@ -139,6 +146,10 @@
 }
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    if ([self.lockedGestures containsObject:gestureRecognizer.class]) {
+        return NO;
+    }
+    
     ZSTutorial *tutorial = [ZSTutorial sharedTutorial];
     if (!tutorial.active || [tutorial.allowedGestures containsObject:gestureRecognizer.class]) {
         return YES;
@@ -196,48 +207,60 @@
     }
 }
 
-- (BOOL)canBecomeFirstResponder {
-    return YES;
+//- (BOOL)canBecomeFirstResponder {
+//    return YES;
+//}
+//
+//- (BOOL)canPerformAction:(SEL)action withSender:(id)sender {
+//    // Check to see if the action is implemented.  If it is return YES, otherwise, NO.
+//    if (action == @selector(copy:)) {
+//        if (_copy) {
+//            return YES;
+//        }
+//        return NO;
+//    }
+//    if (action == @selector(cut:)) {
+//        if (_cut) {
+//            return YES;
+//        }
+//        return NO;
+//    }
+//    if (action == @selector(delete:)) {
+//        if (_delete) {
+//            return YES;
+//        }
+//        return NO;
+//    }
+//    return NO;
+//}
+//
+//- (void)copy:(id)sender {
+//    if (_copy) {
+//        _copy(self);
+//    }
+//}
+//
+//- (void)cut:(id)sender {
+//    if (_cut) {
+//        _cut(self);
+//    }
+//}
+//
+//- (void)delete:(id)sender {
+//    if (_delete) {
+//        _delete(self);
+//    }
+//}
+
+- (void)lockGestures:(NSArray*)gestures {
+    for (UIGestureRecognizer *gesture in gestures) {
+        [self.lockedGestures addObject:gesture];
+    }
 }
 
-- (BOOL)canPerformAction:(SEL)action withSender:(id)sender {
-    // Check to see if the action is implemented.  If it is return YES, otherwise, NO.
-    if (action == @selector(copy:)) {
-        if (_copy) {
-            return YES;
-        }
-        return NO;
-    }
-    if (action == @selector(cut:)) {
-        if (_cut) {
-            return YES;
-        }
-        return NO;
-    }
-    if (action == @selector(delete:)) {
-        if (_delete) {
-            return YES;
-        }
-        return NO;
-    }
-    return NO;
-}
-
-- (void)copy:(id)sender {
-    if (_copy) {
-        _copy(self);
-    }
-}
-
-- (void)cut:(id)sender {
-    if (_cut) {
-        _cut(self);
-    }
-}
-
-- (void)delete:(id)sender {
-    if (_delete) {
-        _delete(self);
+- (void)unlockGestures:(NSArray*)gestures {
+    for (UIGestureRecognizer *gesture in gestures) {
+        [self.lockedGestures removeObject:gesture];
     }
 }
 

@@ -49,19 +49,19 @@
     longPressGesture.delegate = self;
     [self addGestureRecognizer:longPressGesture];
     
-//    UIPinchGestureRecognizer *pinchRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchDetected:)];
-//    [self addGestureRecognizer:pinchRecognizer];
-//    pinchRecognizer.delegate = self;
-//    
-//    UIRotationGestureRecognizer *rotationRecognizer = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(rotationDetected:)];
-//    [self addGestureRecognizer:rotationRecognizer];
-//    rotationRecognizer.delegate = self;
+    UIPinchGestureRecognizer *pinchRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchDetected:)];
+    [self addGestureRecognizer:pinchRecognizer];
+    pinchRecognizer.delegate = self;
+    
+    UIRotationGestureRecognizer *rotationRecognizer = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(rotationDetected:)];
+    [self addGestureRecognizer:rotationRecognizer];
+    rotationRecognizer.delegate = self;
 }
 
-//- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
-//{
-//    return YES;
-//}
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+    return YES;
+}
 
 - (void)longPressRecognized:(id)sender {
     UILongPressGestureRecognizer *longPressGesture = (UILongPressGestureRecognizer *)sender;
@@ -74,19 +74,19 @@
     }
 }
 
-//- (void)pinchDetected:(id)sender {
-//    UIPinchGestureRecognizer *pinchRecognizer = (UIPinchGestureRecognizer*)sender;
-//    CGFloat scale = pinchRecognizer.scale;
-//    self.selectedSprite.transform = CGAffineTransformScale(self.selectedSprite.transform, scale, scale);
-//    pinchRecognizer.scale = 1.0;
-//}
-//
-//- (void)rotationDetected:(id)sender {
-//    UIRotationGestureRecognizer *rotationRecognizer = (UIRotationGestureRecognizer*)sender;
-//    CGFloat angle = rotationRecognizer.rotation;
-//    self.selectedSprite.transform = CGAffineTransformRotate(self.selectedSprite.transform, angle);
-//    rotationRecognizer.rotation = 0.0;
-//}
+- (void)pinchDetected:(id)sender {
+    UIPinchGestureRecognizer *pinchRecognizer = (UIPinchGestureRecognizer*)sender;
+    CGFloat scale = pinchRecognizer.scale;
+    self.selectedSprite.transform = CGAffineTransformScale(self.selectedSprite.transform, scale, scale);
+    pinchRecognizer.scale = 1.0;
+}
+
+- (void)rotationDetected:(id)sender {
+    UIRotationGestureRecognizer *rotationRecognizer = (UIRotationGestureRecognizer*)sender;
+    CGFloat angle = rotationRecognizer.rotation;
+    self.selectedSprite.transform = CGAffineTransformRotate(self.selectedSprite.transform, angle);
+    rotationRecognizer.rotation = 0.0;
+}
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     _lastTouch = [[touches anyObject] locationInView:self];
@@ -150,16 +150,24 @@
     __weak ZSSpriteView *weakView = view;
 
     view.singleTapped = ^() {
-        self.selectedSprite = weakView;
         [_editMenu setMenuVisible:NO animated:YES];
-        if (_spriteSingleTapped) {
-            _spriteSingleTapped(weakView);
+        if (weakSelf.selectedSprite) {
+            weakSelf.selectedSprite = weakView;
+            [weakSelf lockUnselectedSprites];
+            if (weakSelf.spriteSelected) {
+                weakSelf.spriteSelected(weakView);
+            }
+        }
+        else {
+            if (_spriteSingleTapped) {
+                _spriteSingleTapped(weakView);
+            }
         }
     };
     
     view.longPressBegan = ^(UILongPressGestureRecognizer *longPressedGestureRecognizer){
-        // [weakSelf longPressRecognized:longPressedGestureRecognizer];
         weakSelf.selectedSprite = weakView;
+        [weakSelf lockUnselectedSprites];
         if (weakSelf.spriteSelected) {
             weakSelf.spriteSelected(weakView);
         }
@@ -278,6 +286,11 @@
 }
 
 #pragma mark Edit Functionality
+
+- (void)selectSprite:(ZSSpriteView *)sprite {
+    self.selectedSprite = sprite;
+}
+
 - (void)cutSelectedSprite {
     if (self.selectedSprite) {
         _spriteViewCopy = [self copySpriteView:self.selectedSprite];
@@ -313,6 +326,27 @@
 - (void)unselectSelectedSprite {
     self.editModeOn = NO;
     self.selectedSprite = nil;
+    [self unlockSprites];
+}
+
+- (void)lockUnselectedSprites {
+    for (ZSSpriteView *view in self.subviews) {
+        if (![view.spriteJSON[@"id"] isEqualToString:self.selectedSprite.spriteJSON[@"id"]]) {
+            [view lockGestures:@[UIPanGestureRecognizer.class, UILongPressGestureRecognizer.class]];
+            view.alpha = 0.2;
+        }
+        else {
+            [view unlockGestures:@[UIPanGestureRecognizer.class, UILongPressGestureRecognizer.class]];
+            view.alpha = 1;
+        }
+    }
+}
+
+- (void)unlockSprites {
+    for (ZSSpriteView *view in self.subviews) {
+        [view unlockGestures:@[UIPanGestureRecognizer.class, UILongPressGestureRecognizer.class]];
+        view.alpha = 1;
+    }
 }
 
 @end

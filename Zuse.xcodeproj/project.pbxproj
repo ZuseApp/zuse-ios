@@ -568,6 +568,15 @@
 			name = Cells;
 			sourceTree = "<group>";
 		};
+		4C26880418D7D62F00276A76 /* Canvas */ = {
+			isa = PBXGroup;
+			children = (
+				4C0D470617FB927600F13786 /* ZSCanvasViewController.h */,
+				4C0D470717FB927600F13786 /* ZSCanvasViewController.m */,
+			);
+			name = Canvas;
+			sourceTree = "<group>";
+		};
 		4C2D1ECC1891EA32002C431A /* ui-images */ = {
 			isa = PBXGroup;
 			children = (
@@ -749,9 +758,8 @@
 		4CE35625188B0868007024C0 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				4C26880418D7D62F00276A76 /* Canvas */,
 				5F50CBCF18A1526900B7C020 /* Groups */,
-				4C0D470617FB927600F13786 /* ZSCanvasViewController.h */,
-				4C0D470717FB927600F13786 /* ZSCanvasViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";

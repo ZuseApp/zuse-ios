@@ -5,6 +5,8 @@
 - (BOOL)setContentFromJSON:(NSDictionary*)spriteJSON;
 - (BOOL)setThumbnailFromJSON:(NSMutableDictionary*)spriteJSON;
 - (void)reloadContent;
+- (void)lockGestures:(NSArray*)gestures;
+- (void)unlockGestures:(NSArray*)gestures;
 
 @property (strong, nonatomic) void(^singleTapped)();
 @property (strong, nonatomic) void(^panBegan)(UIPanGestureRecognizer *panGestureRecognizer);

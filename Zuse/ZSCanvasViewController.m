@@ -630,15 +630,19 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
              [ZSCanvasBarButtonItem cutButtonWithHandler:^{
                  [weakSelf.canvasView cutSelectedSprite];
                  [weakSelf saveProject];
+                 [weakSelf.canvasView unselectSelectedSprite];
                  [weakSelf transitionToInterfaceState:ZSToolbarInterfaceStateNormal];
              }],
              [ZSCanvasBarButtonItem copyButtonWithHandler:^{
                  [weakSelf.canvasView copySelectedSprite];
                  [weakSelf saveProject];
+                 [weakSelf.canvasView unselectSelectedSprite];
+                 [weakSelf transitionToInterfaceState:ZSToolbarInterfaceStateNormal];
              }],
              [ZSCanvasBarButtonItem deleteButtonWithHandler:^{
                  [weakSelf.canvasView deleteSelectedSprite];
                  [weakSelf saveProject];
+                 [weakSelf.canvasView unselectSelectedSprite];
                  [weakSelf transitionToInterfaceState:ZSToolbarInterfaceStateNormal];
              }],
              [ZSCanvasBarButtonItem finishButtonWithHandler:^{
@@ -655,15 +659,19 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
              [ZSCanvasBarButtonItem cutButtonWithHandler:^{
                  [weakSelf.canvasView cutSelectedSprite];
                  [weakSelf saveProject];
+                 [weakSelf.canvasView unselectSelectedSprite];
                  [weakSelf transitionToInterfaceState:ZSToolbarInterfaceStateNormal];
              }],
              [ZSCanvasBarButtonItem copyButtonWithHandler:^{
                  [weakSelf.canvasView copySelectedSprite];
                  [weakSelf saveProject];
+                 [weakSelf.canvasView unselectSelectedSprite];
+                 [weakSelf transitionToInterfaceState:ZSToolbarInterfaceStateNormal];
              }],
              [ZSCanvasBarButtonItem deleteButtonWithHandler:^{
                  [weakSelf.canvasView deleteSelectedSprite];
                  [weakSelf saveProject];
+                 [weakSelf.canvasView unselectSelectedSprite];
                  [weakSelf transitionToInterfaceState:ZSToolbarInterfaceStateNormal];
              }],
              [ZSCanvasBarButtonItem editTextButtonWithHandler:^{
@@ -682,6 +690,7 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
              }],
              [ZSCanvasBarButtonItem finishButtonWithHandler:^{
                  [weakSelf.canvasView unselectSelectedSprite];
+                 [weakSelf.canvasView unselectSelectedSprite];
                  [weakSelf transitionToInterfaceState:ZSToolbarInterfaceStateNormal];
              }]
              ];
@@ -691,9 +700,6 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
     [self transitionToInterfaceState:ZSToolbarInterfaceStateRendererPlaying];
     
     [self.view bringSubviewToFront:self.rendererView];
-    if (!self.generatorView.hidden) {
-        self.generatorView.hidden = YES;
-    }
     if (self.rendererView.hidden) {
         self.rendererViewController.projectJSON = [self.project assembledJSON];
         self.rendererView.hidden = NO;
@@ -797,6 +803,10 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
     self.groupsController.view.frame = self.canvasView.bounds;
     self.groupsController.view.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.groupsController.view];
+}
+
+- (void)editSprite {
+    
 }
 
 - (void)finish {
