@@ -99,6 +99,7 @@
         
         // Add long press recognizer
         UILongPressGestureRecognizer* longPress = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(handleLongPressGesture:)];
+        longPress.minimumPressDuration = 0.2;
         [self addGestureRecognizer: longPress];
         
     }
@@ -256,7 +257,7 @@
 }
 - (void)handleLongPressGesture:(UITapGestureRecognizer *)sender
 {
-    if (sender.state == UIGestureRecognizerStateRecognized)
+    if (sender.state == UIGestureRecognizerStateBegan)
     {
         [self.delegate statementViewLongPressed: self];
     }
