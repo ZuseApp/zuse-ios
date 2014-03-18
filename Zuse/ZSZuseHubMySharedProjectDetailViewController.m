@@ -21,6 +21,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self.view setBackgroundColor:[UIColor colorWithRed:208.0/255.0
+                                                  green:208.0/255.0
+                                                   blue:208.0/255.0
+                                                  alpha:1.0]];
     // Do any additional setup after loading the view.
     self.titleBar.title = self.project[@"title"];
     self.descriptionLabel.text = self.project[@"description"];

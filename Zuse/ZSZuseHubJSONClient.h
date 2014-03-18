@@ -25,8 +25,8 @@
 + (ZSZuseHubJSONClient *)sharedClient;
 
 //general
-- (void )getNewestProjects:(void(^)(NSArray *projects))completion;
-- (void )getPopularProjects:(void(^)(NSArray *projects))completion;
+- (void )getNewestProjects:(int)page itemsPerPage:(int)itemsPerPage completion:(void(^)(NSArray *projects))completion;
+- (void )getPopularProjects:(int)page itemsPerPage:(int)itemsPerPage completion:(void(^)(NSArray *projects))completion;
 - (void )downloadProject:(NSString *)uuid completion:(void(^)(NSDictionary *project))completion;
 
 //authentication registration

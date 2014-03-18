@@ -35,9 +35,12 @@
 /**
  * Gets the 10 newest projects shared on ZuseHub
  */
-- (void)getNewestProjects:(void(^)(NSArray *projects))completion
+- (void)getNewestProjects:(int)page itemsPerPage:(int)itemsPerPage completion:(void (^)(NSArray *))completion
 {
-    [self.manager GET:@"projects.json?category=newest"
+    NSString *pageUrl = [@"&page=" stringByAppendingString:[NSString stringWithFormat: @"%d", page]];
+    NSString *itemsUrl = [@"&per_page=" stringByAppendingString:[NSString stringWithFormat: @"%d", itemsPerPage]];
+    NSString *url = [[@"projects.json?category=newest" stringByAppendingString:pageUrl] stringByAppendingString:itemsUrl];
+    [self.manager GET:url
            parameters:nil
               success:^(AFHTTPRequestOperation *operation, NSArray *projects)
               {
@@ -54,9 +57,13 @@
 /**
  * Gets the 10 popular projects shared on ZuseHub
  */
-- (void)getPopularProjects:(void(^)(NSArray *projects))completion
+- (void)getPopularProjects:(int)page itemsPerPage:(int)itemsPerPage completion:(void (^)(NSArray *))completion
 {
-    [self.manager GET:@"projects.json?category=popular"
+    NSString *pageUrl = [@"&page=" stringByAppendingString:[NSString stringWithFormat: @"%d", page]];
+    NSString *itemsUrl = [@"&per_page=" stringByAppendingString:[NSString stringWithFormat: @"%d", itemsPerPage]];
+    NSString *url = [[@"projects.json?category=popular" stringByAppendingString:pageUrl] stringByAppendingString:itemsUrl];
+
+    [self.manager GET:url
            parameters:nil
               success:^(AFHTTPRequestOperation *operation, NSArray *projects)
      {

@@ -38,7 +38,9 @@
     
     self.leftSideDrawerViewController = [[ZSZuseHubSideMenuViewController alloc] init];
     //the initial center view will be 10 newest projects until the user changes it
-    self.centerViewController = [[ZSZuseHubBrowseViewController alloc] init];
+    self.centerViewController = [[UIStoryboard storyboardWithName:@"Main"
+                                                           bundle:[NSBundle mainBundle]]
+                                 instantiateViewControllerWithIdentifier:@"BrowseProjectsView"];
     self.centerViewController.contentType = ZSZuseHubBrowseTypeNewest;
     
     self.navigationController = [[MMNavigationController alloc] initWithRootViewController:self.centerViewController];
