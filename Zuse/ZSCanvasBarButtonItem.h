@@ -27,6 +27,7 @@
 + (ZSCanvasBarButtonItem *)toolboxButtonWithHandler:(void (^)())handler;
 + (ZSCanvasBarButtonItem *)shareButtonWithHandler:(void (^)())handler;
 + (ZSCanvasBarButtonItem *)backButtonWithHandler:(void (^)())handler;
++ (ZSCanvasBarButtonItem *)gridButtonWithHandler:(void (^)())handler;
 
 // Renderer
 + (ZSCanvasBarButtonItem *)pauseButtonWithHandler:(void (^)())handler;

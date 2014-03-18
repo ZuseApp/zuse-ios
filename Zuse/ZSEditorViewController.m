@@ -48,6 +48,7 @@ typedef NS_ENUM(NSInteger, ZSEditorTutorialStage) {
         self.spriteObject[@"traits"] = [NSMutableDictionary dictionary];
     }
     traitController.traits = self.spriteObject[@"traits"];
+    traitController.traitImplementations = self.projectTraits;
 }
 
 -(void)viewWillAppear:(BOOL)animated {

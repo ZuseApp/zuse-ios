@@ -3,14 +3,12 @@
 #import "ZSGroupsViewController.h"
 #import "ZSSpriteView.h"
 #import "ZSEditorViewController.h"
-#import "ZSGrid.h"
 #import "ZSCanvasView.h"
 #import "ZSGeneratorView.h"
 #import "ZSToolboxController.h"
 #import "ZSToolboxView.h"
 #import "ZSToolboxCell.h"
 #import "ZSSpriteLibrary.h"
-#import "ZSTraitEditorViewController.h"
 #import "ZSProjectPersistence.h"
 #import "ZSCanvasBarButtonItem.h"
 #import "ZSProjectJSONKeys.h"
@@ -50,13 +48,11 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
 @property (weak, nonatomic) IBOutlet ZSCanvasView *canvasView;
 @property (weak, nonatomic) IBOutlet UILabel *canvasLabel;
 
-// Grid Menu
-@property (weak, nonatomic) IBOutlet UIView *rendererView;
-
 // Generator
 @property (weak, nonatomic) IBOutlet ZSGeneratorView *generatorView;
 
 // Renderer
+@property (weak, nonatomic) IBOutlet UIView *rendererView;
 @property (strong, nonatomic) ZSRendererViewController *rendererViewController;
 
 // Tutorial
@@ -74,6 +70,10 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
 @property (assign, nonatomic) ZSToolbarInterfaceState interfaceState;
 
+// Grid
+@property (assign, nonatomic) BOOL gridSliderShowing;
+@property (weak, nonatomic) IBOutlet UIView *gridSlider;
+
 @end
 
 @implementation ZSCanvasViewController
@@ -84,6 +84,7 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
         _tutorial = [ZSTutorial sharedTutorial];
         _tutorialStage = ZSCanvasTutorialSetupStage;
         _toolboxController = [[ZSToolboxController alloc] init];
+        _gridSliderShowing = NO;
         self.interfaceState = ZSToolbarInterfaceStateNormal;
     }
     return self;
@@ -150,6 +151,7 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
     } else if ([segue.identifier isEqualToString:@"editor"]) {
         ZSEditorViewController *editorController = (ZSEditorViewController *)segue.destinationViewController;
         editorController.spriteObject = ((ZSSpriteView *)sender).spriteJSON;
+        editorController.projectTraits = [self.project assembledJSON][@"traits"];
     }
 }
 
@@ -185,6 +187,7 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
     CGFloat scale = self.initialCanvasRect.size.width / self.canvasView.bounds.size.width;
     CGRect toolbarRect = self.toolbar.frame;
     toolbarRect.origin.y = self.view.bounds.size.height;
+    
     [UIView animateWithDuration:0.4
                      animations:^{
                          self.canvasView.transform = CGAffineTransformMakeScale(scale, scale);
@@ -192,6 +195,8 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
                          self.toolbar.frame = toolbarRect;
                          
                      } completion:^(BOOL finished) {
+                         self.rendererView = nil;
+                         self.rendererViewController = nil;
                          if (self.didFinish) {
                              self.didFinish();
                          }
@@ -217,13 +222,13 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
         [_tutorial addActionWithText:@"Touch the toolbox icon to open the sprite toolbox."
                             forEvent:ZSTutorialBroadcastDidShowToolbox
                      allowedGestures:@[UITapGestureRecognizer.class]
-                        activeRegion:[_toolbar convertRect:settingsButtonRect toView:self.view]
+                        activeRegion:[_toolbar convertRect:settingsButtonRect toView:weakSelf.view]
                                setup:nil
                           completion:nil];
         [_tutorial addActionWithText:@"Drag a paddle sprite onto the lower part of the canvas."
                             forEvent:ZSTutorialBroadcastDidDropSprite
                      allowedGestures:@[UILongPressGestureRecognizer.class]
-                        activeRegion:[collectionView convertRect:paddleRect toView:self.view]
+                        activeRegion:[collectionView convertRect:paddleRect toView:weakSelf.view]
                                setup:nil
                           completion:^{
                               paddle1 = [weakSelf.canvasView.subviews lastObject];
@@ -232,7 +237,7 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
         [_tutorial addActionWithText:@"Drag another paddle sprite onto the upper part of the canvas."
                             forEvent:ZSTutorialBroadcastDidDropSprite
                      allowedGestures:@[UILongPressGestureRecognizer.class]
-                        activeRegion:[collectionView convertRect:paddleRect toView:self.view]
+                        activeRegion:[collectionView convertRect:paddleRect toView:weakSelf.view]
                                setup:nil
                           completion:^{
                               paddle2 = [weakSelf.canvasView.subviews lastObject];
@@ -241,7 +246,7 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
         [_tutorial addActionWithText:@"Drag a ball sprite onto the middle of the canvas."
                             forEvent:ZSTutorialBroadcastDidDropSprite
                      allowedGestures:@[UILongPressGestureRecognizer.class]
-                        activeRegion:[collectionView convertRect:ballRect toView:self.view]
+                        activeRegion:[collectionView convertRect:ballRect toView:weakSelf.view]
                                setup:nil
                           completion:^{
                               ball = [weakSelf.canvasView.subviews lastObject];
@@ -319,31 +324,31 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
     
     _canvasView.spriteSingleTapped = ^(ZSSpriteView *spriteView) {
         [_tutorial broadcastEvent:ZSTutorialBroadcastDidTapPaddle];
-        [self performSegueWithIdentifier:@"editor" sender:spriteView];
+        [weakSelf performSegueWithIdentifier:@"editor" sender:spriteView];
     };
     
     _canvasView.spriteCreated = ^(ZSSpriteView *spriteView) {
         [[_project rawJSON][@"objects"] addObject:spriteView.spriteJSON];
-        [self saveProject];
+        [weakSelf saveProject];
     };
     
     _canvasView.spriteRemoved = ^(ZSSpriteView *spriteView) {
         NSMutableArray *objects = [weakSelf.project rawJSON][@"objects"];
         [objects removeObject:spriteView.spriteJSON];
-        [self saveProject];
+        [weakSelf saveProject];
     };
     
     _canvasView.spriteModified = ^(ZSSpriteView *spriteView) {
-        [self saveProject];
+        [weakSelf saveProject];
     };
     
     _canvasView.spriteSelected = ^(ZSSpriteView *spriteView) {
         NSString *type = spriteView.spriteJSON[@"type"];
         if ([type isEqualToString:@"image"]) {
-            [self transitionToInterfaceState:ZSToolbarInterfaceStateEditNormalSprite];
+            [weakSelf transitionToInterfaceState:ZSToolbarInterfaceStateEditNormalSprite];
         }
         else if ([type isEqualToString:@"text"]) {
-            [self transitionToInterfaceState:ZSToolbarInterfaceStateEditTextSprite];
+            [weakSelf transitionToInterfaceState:ZSToolbarInterfaceStateEditTextSprite];
         }
     };
 }
@@ -360,12 +365,12 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
     _generatorView.generatorRemoved = ^(ZSSpriteView *spriteView) {
         NSMutableArray *generators = [weakSelf.project rawJSON][@"generators"];
         [generators removeObject:spriteView.spriteJSON];
-        [self saveProject];
+        [weakSelf saveProject];
         [_generatorView reloadData];
     };
     
     _generatorView.addGeneratorRequested = ^ {
-        [self showToolbox];
+        [weakSelf showToolbox];
     };
 }
 
@@ -543,25 +548,29 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
 }
 
 - (NSArray *)normalToolbarItems {
+    WeakSelf
     return @[
              [ZSCanvasBarButtonItem playButtonWithHandler:^{
-                 [self playProject];
+                 [weakSelf playProject];
              }],
              [ZSCanvasBarButtonItem flexibleBarButtonItem],
              [ZSCanvasBarButtonItem groupsButtonWithHandler:^{
-                 [self modifyGroups];
+                 [weakSelf modifyGroups];
              }],
              [ZSCanvasBarButtonItem generatorsButtonWithHandler:^{
-                 [self toggleGeneratorView];
+                 [weakSelf toggleGeneratorView];
+             }],
+             [ZSCanvasBarButtonItem gridButtonWithHandler:^{
+                 [weakSelf toggleSliderView];
              }],
              [ZSCanvasBarButtonItem toolboxButtonWithHandler:^{
-                 [self showToolbox];
+                 [weakSelf showToolbox];
              }],
              [ZSCanvasBarButtonItem shareButtonWithHandler:^{
-                 [self shareProject];
+                 [weakSelf shareProject];
              }],
              [ZSCanvasBarButtonItem backButtonWithHandler:^{
-                 [self finish];
+                 [weakSelf finish];
              }]
              ];
 }
@@ -571,44 +580,47 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
 }
 
 - (NSArray *)rendererPlayingToolbarItems {
+    WeakSelf
     return @[
              [ZSCanvasBarButtonItem pauseButtonWithHandler:^{
-                 [self pauseProject];
+                 [weakSelf pauseProject];
              }],
              [ZSCanvasBarButtonItem stopButtonWithHandler:^{
-                 [self stopProject];
+                 [weakSelf stopProject];
              }]
              ];
 }
 
 - (NSArray *)rendererPausedToolbarItems {
+    WeakSelf
     return @[
              [ZSCanvasBarButtonItem playButtonWithHandler:^{
-                 [self playProject];
+                 [weakSelf playProject];
              }],
              [ZSCanvasBarButtonItem stopButtonWithHandler:^{
-                 [self stopProject];
+                 [weakSelf stopProject];
              }]
              ];
 }
 
 - (NSArray *)generatorsToolbarItems {
+    WeakSelf
     return @[
              [ZSCanvasBarButtonItem playButtonWithHandler:^{
-                 [self playProject];
+                 [weakSelf playProject];
              }],
              [ZSCanvasBarButtonItem flexibleBarButtonItem],
              [ZSCanvasBarButtonItem groupsButtonWithHandler:^{
-                 [self modifyGroups];
+                 [weakSelf modifyGroups];
              }],
              [ZSCanvasBarButtonItem generatorsButtonWithHandler:^{
-                 [self toggleGeneratorView];
+                 [weakSelf toggleGeneratorView];
              }],
              [ZSCanvasBarButtonItem shareButtonWithHandler:^{
-                 [self shareProject];
+                 [weakSelf shareProject];
              }],
              [ZSCanvasBarButtonItem backButtonWithHandler:^{
-                 [self finish];
+                 [weakSelf finish];
              }]
              ];
 }
@@ -619,7 +631,7 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
              [ZSCanvasBarButtonItem flexibleBarButtonItem],
              [ZSCanvasBarButtonItem finishButtonWithHandler:^{
                  weakSelf.canvasView.editModeOn = NO;
-                 [self transitionToInterfaceState:ZSToolbarInterfaceStateNormal];
+                 [weakSelf transitionToInterfaceState:ZSToolbarInterfaceStateNormal];
              }]
              ];
 }
@@ -759,6 +771,22 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
         } completion:^(BOOL finished) {
             self.canvasLabel.hidden = YES;
         }];
+    }];
+}
+
+- (void)toggleSliderView {
+    CGRect frame = self.gridSlider.frame;
+    if (self.gridSliderShowing) {
+        self.gridSliderShowing = NO;
+        frame.origin.y += frame.size.height;
+    }
+    else {
+        [self.canvasView bringSubviewToFront:self.gridSlider];
+        self.gridSliderShowing = YES;
+        frame.origin.y -= frame.size.height;
+    }
+    [UIView animateWithDuration:0.25 animations:^{
+        self.gridSlider.frame = frame;
     }];
 }
 

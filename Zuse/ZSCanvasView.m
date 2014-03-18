@@ -41,6 +41,12 @@
     }
 }
 
+- (IBAction)valueChanged:(id)sender {
+    NSInteger value = (NSInteger)((UISlider*)sender).value + 0.5;
+    _grid.dimensions = CGSizeMake(value, 524 / (320 / value));
+    [self setNeedsDisplay];
+}
+
 #pragma mark Gesture Recognizers
 
 -(void)setupGestures {

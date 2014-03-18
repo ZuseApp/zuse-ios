@@ -12,5 +12,6 @@
 @interface ZSTraitEditorViewController : UIViewController
 
 @property (strong, nonatomic) NSMutableDictionary *traits;
+@property (strong, nonatomic) NSMutableDictionary *traitImplementations;
 
 @end

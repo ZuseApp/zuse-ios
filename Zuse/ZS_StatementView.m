@@ -1,8 +1,9 @@
 #import "ZS_StatementView.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface ZS_TouchLabel : UILabel
 - (instancetype) initWithText: (NSString*)text font: (UIFont*)font;
-@property (copy, nonatomic) void (^touched)();
+@property (copy, nonatomic) void (^hasBeenTouched)();
 @end
 
 @implementation ZS_TouchLabel
@@ -13,10 +14,18 @@
     {
         self.font = font;
         self.text = text;
+        [self sizeToFit];
+        
+        // add padding
+        CGRect frame = self.frame;
+        frame.size.width += self.font.pointSize;
+        self.frame = frame;
+        
+        self.layer.cornerRadius = self.font.pointSize * 0.5;
+        
         self.textColor = [UIColor colorWithRed:0.8 green:0.4 blue:0.2 alpha:1];
         self.highlightedTextColor = [UIColor whiteColor];
         self.textAlignment = NSTextAlignmentCenter;
-        self.layer.cornerRadius = self.font.pointSize * 0.5;
         self.userInteractionEnabled = YES;
     }
     return self;
@@ -24,31 +33,33 @@
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     self.highlighted = YES;
+    
     [[NSNotificationCenter defaultCenter] postNotificationName: @"code editor label touched"
                                                         object: self];
-    if (self.touched)
+    if (self.hasBeenTouched)
     {
-        self.touched(self);
+        self.hasBeenTouched(self);
     }
 }
-- (void) setText:(NSString *)text
-{
-    [super setText: text];
-    [self sizeToFit];
-}
-- (void) sizeToFit
-{
-    [super sizeToFit];
-    
-    // add padding
-    CGRect frame = self.frame;
-    frame.size.width += self.font.pointSize;
-    self.frame = frame;
-}
+//- (void) setText:(NSString *)text
+//{
+//    [super setText: text];
+//    [self sizeToFit];
+//}
+//- (void) sizeToFit
+//{
+//    [super sizeToFit];
+//    
+//    // add padding
+//    CGRect frame = self.frame;
+//    frame.size.width += self.font.pointSize;
+//    self.frame = frame;
+//    
+//}
 - (void) setHighlighted:(BOOL)isHighlighted
 {
     super.highlighted = isHighlighted;
-    self.backgroundColor = isHighlighted ? [UIColor orangeColor] : [UIColor clearColor];
+    self.layer.backgroundColor = isHighlighted ? [UIColor orangeColor].CGColor : [UIColor clearColor].CGColor;
 }
 @end
 
@@ -114,7 +125,7 @@
 - (void)addArgumentLabelWithText:(NSString*)text touchBlock:(void (^)(UILabel*))touchBlock
 {
     ZS_TouchLabel* label = [[ZS_TouchLabel alloc]initWithText:text font:self.font];
-    label.touched = touchBlock;
+    label.hasBeenTouched = touchBlock;
     
     // Add to statement view
     [self.header addObject:label];
@@ -144,7 +155,7 @@
     ZS_TouchLabel* label = [[ZS_TouchLabel alloc]initWithText: @"add new statement"
                                                                font: self.font];
     label.textColor = [UIColor lightGrayColor];
-    label.touched = touchBlock;
+    label.hasBeenTouched = touchBlock;
     [self.body addObject:label];
     [self addSubview:label];    
 }

@@ -89,7 +89,7 @@ typedef NS_ENUM(NSInteger, ZSMainMenuProjectFilter) {
 //    __weak typeof(navController) weakNavController = navController;
     //        __weak typeof(controller) weakNavController = controller;
     controller.didFinish = ^{
-        [self dismissViewControllerAnimated:NO completion:^{ }];
+        [weakSelf dismissViewControllerAnimated:NO completion:^{ }];
         //            [weakNavController.view removeFromSuperview];
         //            [weakSelf.view.subviews.lastObject removeFromSuperview];
         [weakSelf reloadDataSources];
