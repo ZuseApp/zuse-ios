@@ -124,16 +124,16 @@
 
 + (NSArray*) emptyStatements
 {
-    static NSArray *statements = nil;
+    NSArray *statements = nil;
     
-    if (!statements) {
+//    if (!statements) {
         statements = @[
             [[ZSZuseDSL onEventJSON] deepMutableCopy],
             [[ZSZuseDSL triggerEventJSON] deepMutableCopy],
             [[ZSZuseDSL ifJSON] deepMutableCopy],
             [[ZSZuseDSL setJSON] deepMutableCopy]
         ];
-    }
+//    }
     
     return statements;
 }
