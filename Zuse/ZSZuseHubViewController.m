@@ -95,7 +95,9 @@
         weakSelf.centerViewController = [[UIStoryboard storyboardWithName:@"Main"
                                                                    bundle:[NSBundle mainBundle]]
                                          instantiateViewControllerWithIdentifier:@"BrowseProjectsView"];
-        ((ZSZuseHubBrowseViewController *)weakSelf.centerViewController).didDownloadProject = weakSelf.didDownloadProject;
+        ((ZSZuseHubBrowseViewController *)weakSelf.centerViewController).didDownloadProject = ^(ZSProject *project) {
+           weakSelf.didDownloadProject(project);
+        };
         weakSelf.centerViewController.contentType = ZSZuseHubBrowseTypeNewest;
         weakSelf.navigationController = [[MMNavigationController alloc] initWithRootViewController:weakSelf.centerViewController];
         [weakSelf.leftSideDrawerViewController.mm_drawerController setCenterViewController:weakSelf.navigationController withCloseAnimation:YES completion:nil];
@@ -106,7 +108,9 @@
         weakSelf.centerViewController = [[UIStoryboard storyboardWithName:@"Main"
                                                                    bundle:[NSBundle mainBundle]]
                                          instantiateViewControllerWithIdentifier:@"BrowseProjectsView"];
-        ((ZSZuseHubBrowseViewController *)weakSelf.centerViewController).didDownloadProject = weakSelf.didDownloadProject;
+        ((ZSZuseHubBrowseViewController *)weakSelf.centerViewController).didDownloadProject = ^(ZSProject *project) {
+            weakSelf.didDownloadProject(project);
+        };
         weakSelf.centerViewController.contentType = ZSZuseHubBrowseTypePopular;
         weakSelf.navigationController = [[MMNavigationController alloc] initWithRootViewController:weakSelf.centerViewController];
         [weakSelf.leftSideDrawerViewController.mm_drawerController setCenterViewController:weakSelf.navigationController withCloseAnimation:YES completion:nil];

@@ -14,6 +14,7 @@
 #import "ZSProjectPersistence.h"
 #import "ZSCanvasBarButtonItem.h"
 #import "ZSProjectJSONKeys.h"
+#import "ZSCompiler.h"
 #import <FontAwesomeKit/FAKIonIcons.h>
 #import <AFNetworking/AFNetworking.h>
 #import <Social/Social.h>
@@ -815,17 +816,25 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     
     NSData *projectData = [NSJSONSerialization dataWithJSONObject:self.project.assembledJSON
-     options:NSJSONWritingPrettyPrinted
-      error:nil];
+                                                          options:NSJSONWritingPrettyPrinted
+                                                            error:nil];
+    
+    NSData *compiledData = [NSJSONSerialization dataWithJSONObject:[ZSCompiler compilerWithProjectJSON:self.project.assembledJSON].compiledJSON
+                                                          options:NSJSONWritingPrettyPrinted
+                                                            error:nil];
     
     NSString *projectString = [[NSString alloc] initWithBytes:projectData.bytes
                                                        length:projectData.length
                                                      encoding:NSUTF8StringEncoding];
     
+    NSString *compiledString = [[NSString alloc] initWithBytes:compiledData.bytes
+                                                        length:compiledData.length
+                                                      encoding:NSUTF8StringEncoding];
+    
     NSDictionary *params = @{
         @"shared_project": @{
-            @"title": self.project.title,
-            @"project_json": projectString
+            @"project_json": projectString,
+            @"compiled_code": compiledString
         }
     };
                         

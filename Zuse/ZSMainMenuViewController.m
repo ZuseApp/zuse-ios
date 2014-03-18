@@ -46,10 +46,11 @@ typedef NS_ENUM(NSInteger, ZSMainMenuProjectFilter) {
     self.view.backgroundColor = [UIColor zuseBackgroundGrey];
     
     self.projectFilter = ZSMainMenuProjectFilterExamples;
+    [self reloadDataSources];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    [self reloadDataSources];
+//    [self reloadDataSources];
 }
 
 - (void)reloadDataSources {
@@ -128,24 +129,29 @@ typedef NS_ENUM(NSInteger, ZSMainMenuProjectFilter) {
 }
 
 - (IBAction)zuseHubTapped:(id)sender {    
-    ZSZuseHubInitViewController *controller = [[ZSZuseHubInitViewController alloc] init];
-    controller.didFinish = ^{
-        [self dismissViewControllerAnimated:YES completion:^{
-            self.zuseHubController = nil;
+    self.zuseHubController = [[ZSZuseHubInitViewController alloc] init];
+    WeakSelf
+    self.zuseHubController.didFinish = ^{
+        [weakSelf.zuseHubController dismissViewControllerAnimated:YES completion:^{
         }];
     };
-    controller.needsOpenProject = ^(ZSProject *project) {
+    self.zuseHubController.needsOpenProject = ^(ZSProject *project) {
+        weakSelf.projectFilter = ZSMainMenuProjectFilterMyProjects;
+        [weakSelf reloadDataSources];
+        BOOL wasPersisted = [ZSProjectPersistence isProjectPersisted:project];
         [ZSProjectPersistence writeProject:project];
-        self.selectedProject = project;
-        [self dismissViewControllerAnimated:YES
+        weakSelf.selectedProject = project;
+        [weakSelf dismissViewControllerAnimated:YES
                                  completion:^{
-                                     self.zuseHubController = nil;
-                                     [self insertAndSegueToNewProject:project];
+                                     if (wasPersisted) {
+                                         [weakSelf segueToProject:project];
+                                     } else {
+                                         [weakSelf insertAndSegueToNewProject:project];
+                                     }
                                  }];
     };
-    controller.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-    self.zuseHubController = controller;
-    [self presentViewController:controller animated:YES completion:^{}];
+    self.zuseHubController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    [self presentViewController:self.zuseHubController animated:YES completion:^{}];
 }
 
 - (IBAction)newProjectTapped:(id)sender {
