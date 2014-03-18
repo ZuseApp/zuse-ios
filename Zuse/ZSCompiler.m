@@ -8,6 +8,8 @@
 
 #import "ZSCompiler.h"
 #import "BlocksKit.h"
+#import "ZSCodeTraverser.h"
+#import "ZSCodeTransforms.h"
 
 @interface ZSCompiler ()
 
@@ -40,6 +42,10 @@
     newObjects = [self inlinedObjectsForObjects:newObjects];
     
     NSDictionary *code = @{ @"suite": newObjects };
+    
+    code = [ZSCodeTraverser codeItemByTransformingCodeItem:code
+                                                   withKey:@"every"
+                                                    usingBlock:ZSCodeTransformEveryBlock];
     
     return code;
 }

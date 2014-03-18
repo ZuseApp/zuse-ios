@@ -12,7 +12,8 @@
 @implementation ZSCodeTraverser
 
 + (NSArray *)codeBlocksForIf:(NSDictionary *)codeItem {
-    return @[codeItem[@"if"][@"true"], codeItem[@"if"][@"false"]];
+    // TODO: Create transform that adds in false branches to all if statements
+    return @[codeItem[@"if"][@"true"], (codeItem[@"if"][@"false"] ?: @[])];
 }
 
 + (NSArray *)codeBlocksForOnEvent:(NSDictionary *)codeItem {
