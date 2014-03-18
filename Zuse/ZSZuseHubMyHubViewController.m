@@ -18,9 +18,11 @@
 #import "ZSZuseHubShareViewController.h"
 #import "ZSProjectPersistence.h"
 #import "ZSProject.h"
-#import "ZSZuseHubViewSharedProjectsViewController.h"
+#import "ZSZuseHubMySharedProjectDetailViewController.h"
+#import "ZSProjectCollectionViewCell.h"
 
 @interface ZSZuseHubMyHubViewController ()
+@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (strong, nonatomic) NSArray *userProjects;
 @end
 
@@ -30,15 +32,14 @@
 {
     [super viewDidLoad];
     
-    self.userProjects = [ZSProjectPersistence userProjects];
+    self.userProjects = @[];
     
     self.navigationItem.title = @"ZuseHub";
     
-    _tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
-    [self.tableView setDelegate:self];
-    [self.tableView setDataSource:self];
-    [self.view addSubview:self.tableView];
-    [self.tableView setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
+    self.collectionView.delegate = self;
+    self.collectionView.dataSource = self;
+    self.view.tintColor = [UIColor zuseYellow];
+    self.view.backgroundColor = [UIColor zuseBackgroundGrey];
     
     UITapGestureRecognizer * doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTap:)];
     [doubleTap setNumberOfTapsRequired:2];
@@ -53,17 +54,24 @@
                           alpha:1.0];
     [self.navigationController.navigationBar setBarTintColor:barColor];
     
-    
-    UIView *backView = [[UIView alloc] init];
-    [backView setBackgroundColor:[UIColor colorWithRed:208.0/255.0
-                                                 green:208.0/255.0
-                                                  blue:208.0/255.0
-                                                 alpha:1.0]];
-    [self.tableView setBackgroundView:backView];
+    if(self.contentType == ZSZuseHubMyHubTypeShareProject)
+        self.title = @"Share Projects";
+    else if(self.contentType == ZSZuseHubMyHubTypeViewMySharedProjects)
+        self.title = @"My Shared Projects";
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    
+    if(self.contentType == ZSZuseHubMyHubTypeShareProject)
+    {
+        self.userProjects = [ZSProjectPersistence userProjects];
+        [self.collectionView reloadData];
+    }
+    else if(self.contentType == ZSZuseHubMyHubTypeViewMySharedProjects)
+    {
+        [self setupData];
+    }
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -83,89 +91,72 @@
     [self.navigationItem setLeftBarButtonItem:leftDrawerButton animated:YES];
 }
 
--(void)contentSizeDidChange:(NSString *)size{
-    [self.tableView reloadData];
-}
-
 #pragma mark - Table view data source
 
 //TODO create sections to organize different browsing categories
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
     return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    //TODO make this get the size from the client data pulled from the server
     return self.userProjects.count;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    ZSProjectCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"CollectionCell" forIndexPath:indexPath];
     
-    static NSString *CellIdentifier = @"Cell";
-    NSString *cellText = @"Error, did not grab text";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[MMCenterTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-        [cell setSelectionStyle:UITableViewCellSelectionStyleGray];
-    }
-    
-    
-    UIColor * selectedColor = [UIColor
-                               colorWithRed:1.0/255.0
-                               green:15.0/255.0
-                               blue:25.0/255.0
-                               alpha:1.0];
+    NSString *title;
+    UIImage *image;
     
     if(self.contentType == ZSZuseHubMyHubTypeShareProject)
     {
-        //TODO set cellText to be what was grabbed from the client
-        
         ZSProject *project = self.userProjects[indexPath.row];
-        cellText = project.title;
+        title = project.title;
+        image = project.screenshot;
     }
     else if(self.contentType == ZSZuseHubMyHubTypeViewMySharedProjects)
     {
-        ZSProject *project = self.userProjects[indexPath.row];
-        cellText = project.title;
+        NSDictionary *project = self.userProjects[indexPath.row];
+        title = project[@"title"];
+        if(project[@"screenshot"] != NULL)
+        {
+            NSData *data = [[NSData alloc] initWithBase64EncodedString:project[@"screenshot"] options:0];
+            if(data)
+            {
+                image = [UIImage imageWithData:data];
+            }
+        }
     }
-    //TODO grab info from json client for project titles
-    [cell.textLabel setText:cellText];
-    [cell.textLabel setTextColor:selectedColor];
+    
+    cell.projectTitle = title;
+    if(image)
+        cell.screenshot = image;
+    else
+        cell.screenshot = [UIImage imageNamed:@"blank_project.png"];
+    
+    [cell setNeedsLayout];
     
     return cell;
 }
 
--(NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-    if(self.contentType == ZSZuseHubMyHubTypeShareProject)
-        return @"Share Projects";
-    else if(self.contentType == ZSZuseHubMyHubTypeViewMySharedProjects)
-    {
-        return @"My Shared Projects";
-    }
-    else
-        return @"TODO put different browse types";
-}
-#pragma mark - Table view delegate
+#pragma mark - Collection view delegate
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     //set up the left drawer animation
     [[MMExampleDrawerVisualStateManager sharedManager] setLeftDrawerAnimationType:MMDrawerAnimationTypeParallax];
-    [tableView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationNone];
-    [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    NSInteger index = [self.collectionView.indexPathsForSelectedItems.firstObject row];
     
     if(self.contentType == ZSZuseHubMyHubTypeShareProject)
     {
         ZSZuseHubShareViewController *controller = [[UIStoryboard storyboardWithName:@"Main"
                                                                               bundle:[NSBundle mainBundle]]
                                                     instantiateViewControllerWithIdentifier:@"ZuseHubShare"];
-        controller.project = self.userProjects[indexPath.row];
+        controller.project = self.userProjects[index];
         [self presentViewController:controller animated:YES completion:^{}];
         controller.didFinish = ^(BOOL didShare){
             
@@ -175,16 +166,37 @@
     }
     else if(self.contentType == ZSZuseHubMyHubTypeViewMySharedProjects)
     {
-        ZSZuseHubViewSharedProjectsViewController *controller = [[ZSZuseHubViewSharedProjectsViewController alloc] init];
+        ZSZuseHubMySharedProjectDetailViewController *controller = [[UIStoryboard storyboardWithName:@"Main"
+                                                                                              bundle:[NSBundle mainBundle]]
+                                                                    instantiateViewControllerWithIdentifier:@"MySharedProjectDetail"];
+        controller.project = self.userProjects[index];
         [self presentViewController:controller animated:YES completion:^{}];
-//        controller.didFinish = ^(BOOL didShare){
-//            [self dismissViewControllerAnimated:YES completion:^{ }];
-//        };
+        controller.didFinish = ^(){
+            [self dismissViewControllerAnimated:YES completion:^{ }];
+            [self setupData];
+        };
     }
     else
         NSLog( @"TODO put different browse types");
     
 
+}
+
+/**
+ * Set up the data source with the projects this user has shared
+ */
+- (void)setupData
+{
+    [self.jsonClientManager getUsersSharedProjects:^(NSArray *projects) {
+        if(projects)
+        {
+            self.userProjects = projects;
+            [self.collectionView reloadData];
+         }
+         else{
+             //TODO print msg for user
+         }
+    }];
 }
 
 #pragma mark - Button Handlers

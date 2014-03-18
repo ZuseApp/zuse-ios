@@ -30,17 +30,17 @@
     self.descriptionLabel.text = self.project[@"description"];
     long downloads = [self.project[@"downloads"] longLongValue];
     self.timesDownloadedLabel.text = [[NSNumber numberWithLong:downloads] stringValue];
+    UIImage *image;
     if(self.project[@"screenshot"] != NULL)
     {
         NSData *data = [[NSData alloc] initWithBase64EncodedString:self.project[@"screenshot"] options:0];
         if(data)
         {
-            UIImage *image = [UIImage imageWithData:data];
-            self.screenshotImageView.image = image;
+            image = [UIImage imageWithData:data];
         }
-        else
-            self.screenshotImageView.image = [UIImage imageNamed:@"blank_project.png"];
     }
+    if(image)
+        self.screenshotImageView.image = image;
     else
         self.screenshotImageView.image = [UIImage imageNamed:@"blank_project.png"];
 }

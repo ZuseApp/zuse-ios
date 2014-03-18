@@ -25,7 +25,6 @@
 		2CA9A35E18C54E03005F4404 /* ZSZuseHubMyHubViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9A35D18C54E03005F4404 /* ZSZuseHubMyHubViewController.m */; };
 		2CA9A36618C5985C005F4404 /* ZSZuseHubEnums.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9A36518C5985C005F4404 /* ZSZuseHubEnums.m */; };
 		2CA9A36B18C5CB0D005F4404 /* ZSZuseHubShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9A36A18C5CB0D005F4404 /* ZSZuseHubShareViewController.m */; };
-		2CA9A36E18C5E45A005F4404 /* ZSZuseHubViewSharedProjectsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9A36D18C5E45A005F4404 /* ZSZuseHubViewSharedProjectsViewController.m */; };
 		2CA9D387183F3F0300401231 /* ZSRendererScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9D386183F3F0300401231 /* ZSRendererScene.m */; };
 		2CF6713718D7A329005CF5F5 /* ZSZuseHubBrowseProjectDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF6713618D7A329005CF5F5 /* ZSZuseHubBrowseProjectDetailViewController.m */; };
 		2CF6713B18D7D041005CF5F5 /* ZSZuseHubMySharedProjectDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF6713A18D7D041005CF5F5 /* ZSZuseHubMySharedProjectDetailViewController.m */; };
@@ -220,8 +219,6 @@
 		2CA9A36518C5985C005F4404 /* ZSZuseHubEnums.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSZuseHubEnums.m; sourceTree = "<group>"; };
 		2CA9A36918C5CB0D005F4404 /* ZSZuseHubShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSZuseHubShareViewController.h; sourceTree = "<group>"; };
 		2CA9A36A18C5CB0D005F4404 /* ZSZuseHubShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSZuseHubShareViewController.m; sourceTree = "<group>"; };
-		2CA9A36C18C5E45A005F4404 /* ZSZuseHubViewSharedProjectsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSZuseHubViewSharedProjectsViewController.h; sourceTree = "<group>"; };
-		2CA9A36D18C5E45A005F4404 /* ZSZuseHubViewSharedProjectsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSZuseHubViewSharedProjectsViewController.m; sourceTree = "<group>"; };
 		2CA9D385183F3F0300401231 /* ZSRendererScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSRendererScene.h; sourceTree = "<group>"; };
 		2CA9D386183F3F0300401231 /* ZSRendererScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSRendererScene.m; sourceTree = "<group>"; };
 		2CF6713518D7A329005CF5F5 /* ZSZuseHubBrowseProjectDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSZuseHubBrowseProjectDetailViewController.h; sourceTree = "<group>"; };
@@ -548,8 +545,6 @@
 				2CA9A35D18C54E03005F4404 /* ZSZuseHubMyHubViewController.m */,
 				2CA9A36918C5CB0D005F4404 /* ZSZuseHubShareViewController.h */,
 				2CA9A36A18C5CB0D005F4404 /* ZSZuseHubShareViewController.m */,
-				2CA9A36C18C5E45A005F4404 /* ZSZuseHubViewSharedProjectsViewController.h */,
-				2CA9A36D18C5E45A005F4404 /* ZSZuseHubViewSharedProjectsViewController.m */,
 				2CF6713918D7D041005CF5F5 /* ZSZuseHubMySharedProjectDetailViewController.h */,
 				2CF6713A18D7D041005CF5F5 /* ZSZuseHubMySharedProjectDetailViewController.m */,
 			);
@@ -1434,7 +1429,6 @@
 				4C0D470817FB927600F13786 /* ZSCanvasViewController.m in Sources */,
 				2CA9A35218C53833005F4404 /* MMExampleDrawerVisualStateManager.m in Sources */,
 				2CA36ECF18CFCA7D00CAB651 /* ZSUserRegisterViewController.m in Sources */,
-				2CA9A36E18C5E45A005F4404 /* ZSZuseHubViewSharedProjectsViewController.m in Sources */,
 				7899786418B9255500A8FE05 /* ZS_ExpressionViewController.m in Sources */,
 				2C6B5D6A183D43AB00E3D56C /* ZSSpriteTouchComponent.m in Sources */,
 				2CF6713718D7A329005CF5F5 /* ZSZuseHubBrowseProjectDetailViewController.m in Sources */,
