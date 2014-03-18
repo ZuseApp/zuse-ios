@@ -172,9 +172,7 @@
         self.bodyIndentation = 2;
     }
 }
-# pragma mark UIView methods
-
-- (void) layoutSubviews
+- (void) layoutStatementSubviews
 {
     CGFloat x = 2;
     
@@ -186,6 +184,7 @@
         subview.frame = frame;
         x = CGRectGetMaxX(frame);
     }
+    
     // Layout parameters
     CGFloat headerMaxY = CGRectGetMaxY(((UIView*)self.header.firstObject).frame);
     CGRect frame = self.parameters.frame;
@@ -197,7 +196,11 @@
     CGFloat y =  MAX(headerMaxY, parametersLineMaxY);
     for (UIView* subview in self.body)
     {
-        [subview layoutSubviews];
+        if ([subview isKindOfClass:[ZS_StatementView class]])
+        {
+            ZS_StatementView* statementView = (ZS_StatementView*)subview;
+            [statementView layoutStatementSubviews];
+        }
         CGRect frame = subview.frame;
         frame.origin.x = self.bodyIndentation;
         frame.origin.y = y;
@@ -212,25 +215,26 @@
     }
     frame.origin = self.frame.origin;
     self.frame = frame;
-    
-    if ([self.superview isKindOfClass: [UIScrollView class]])
-    {
-        ((UIScrollView*)self.superview).contentSize = self.frame.size;
-    }
 }
+# pragma mark UIView methods
+
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     if (!self.topLevelStatement && !self.isHighlighted)
     {
         self.highlighted = YES;
-        
+
         // Notify Code Editor Controller
         [[NSNotificationCenter defaultCenter] postNotificationName: @"statement view selected"
                                                             object: self];
     }
 }
+-(BOOL) canBecomeFirstResponder
+{
+    return YES;
+}
 
-# pragma mark - Private Methods
+# pragma mark - Gesture handlers
 
 - (void)handleDoubleTapGesture:(UITapGestureRecognizer *)sender
 {
@@ -246,6 +250,8 @@
         [self.delegate statementViewLongPressed: self];
     }
 }
+# pragma mark - Private methods
+
 - (void) setCollapsed:(BOOL)collapsed
 {
     _collapsed = collapsed;
@@ -271,7 +277,11 @@
         firstHeaderLabel.text = [firstHeaderLabel.text substringFromIndex:@"▾ ".length];
         [firstHeaderLabel sizeToFit];
     }
-    [self setNeedsLayout];
+    [self.topLevelStatementView layoutStatementSubviews];
+}
+- (ZS_StatementView*) topLevelStatementView
+{
+    return self.isTopLevelStatement ? self : ((ZS_StatementView*)self.superview).topLevelStatementView;
 }
 - (UILabel*) parameters
 {

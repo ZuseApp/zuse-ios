@@ -74,7 +74,6 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     [self.jsonCodeBody addObject: self.statements[indexPath.row]];
-    NSLog(@"%p", self.statements[indexPath.row]);
     [self.codeEditorViewController reloadFromJson];
     [self.toolboxView hideAnimated:YES];
 }
