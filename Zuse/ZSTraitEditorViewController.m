@@ -22,7 +22,9 @@ typedef NS_ENUM(NSInteger, ZSEditorTutorialStage) {
 @interface ZSTraitEditorViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property (strong, nonatomic) NSDictionary *globalTraits;
-@property (strong, nonatomic) NSArray      *globalTraitNames;
+// @property (strong, nonatomic) NSArray      *globalTraitNames;
+@property (strong, nonatomic) NSMutableDictionary *allTraits;
+@property (strong, nonatomic) NSArray *allTraitNames;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) ZSTutorial *tutorial;
 @property (assign, nonatomic) ZSEditorTutorialStage tutorialStage;
@@ -46,7 +48,13 @@ typedef NS_ENUM(NSInteger, ZSEditorTutorialStage) {
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"Cell"];
     
     _globalTraits     = [ZSSpriteTraits defaultTraits];
-    _globalTraitNames = [_globalTraits allKeys];
+    // _globalTraitNames = [_globalTraits allKeys];
+    
+    self.allTraits = [_globalTraits deepMutableCopy];
+    for (id key in self.traitImplementations) {
+        [self.allTraits setObject:self.traitImplementations[key] forKey:key];
+    }
+    self.allTraitNames = [self.allTraits allKeys];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -68,7 +76,7 @@ typedef NS_ENUM(NSInteger, ZSEditorTutorialStage) {
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return _globalTraitNames.count;
+    return self.allTraitNames.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -76,7 +84,7 @@ typedef NS_ENUM(NSInteger, ZSEditorTutorialStage) {
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
-    NSString *traitIdentifier = _globalTraitNames[indexPath.row];
+    NSString *traitIdentifier = self.allTraitNames[indexPath.row];
     cell.textLabel.text = traitIdentifier;
     cell.textLabel.backgroundColor = [UIColor clearColor];
     cell.detailTextLabel.backgroundColor = [UIColor clearColor];
@@ -87,57 +95,59 @@ typedef NS_ENUM(NSInteger, ZSEditorTutorialStage) {
                                                            green:0
                                                             blue:0
                                                            alpha:0.3];
-        // cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
         
-        UIButton *optionsButton = [UIButton buttonWithType:UIButtonTypeSystem];
-        optionsButton.frame = CGRectMake(190, 7, 56, 30);
-        [optionsButton setTitle:@"Options" forState:UIControlStateNormal];
-        [optionsButton addTarget:self action:@selector(options:) forControlEvents:UIControlEventTouchUpInside];
-        optionsButton.tag = indexPath.row;
-        [cell.contentView addSubview:optionsButton];
+        if (((NSDictionary*)_allTraits[traitIdentifier][@"parameters"]).count != 0) {
+            UIButton *optionsButton = [UIButton buttonWithType:UIButtonTypeSystem];
+            optionsButton.frame = CGRectMake(190, 7, 56, 30);
+            [optionsButton setTitle:@"Options" forState:UIControlStateNormal];
+            [optionsButton addTarget:self action:@selector(options:) forControlEvents:UIControlEventTouchUpInside];
+            optionsButton.tag = indexPath.row;
+            [cell.contentView addSubview:optionsButton];
+        }
         [_tutorial broadcastEvent:ZSTutorialBroadcastTraitToggled];
     } else {
         cell.contentView.backgroundColor = [UIColor whiteColor];
         cell.accessoryType = UITableViewCellAccessoryNone;
     }
     
+    NSString *buttonTitle = indexPath.row < self.globalTraits.count ? @"View" : @"Edit";
     UIButton *editButton = [UIButton buttonWithType:UIButtonTypeSystem];
     editButton.frame = CGRectMake(254, 7, 46, 30);
-    [editButton setTitle:@"Edit" forState:UIControlStateNormal];
+    editButton.tag = indexPath.row;
+    [editButton setTitle:buttonTitle forState:UIControlStateNormal];
     [editButton addTarget:self action:@selector(edit:) forControlEvents:UIControlEventTouchUpInside];
-    // editButton.tag = indexPath.row;
+
     [cell.contentView addSubview:editButton];
     
     return cell;
 }
 
 - (void)edit:(id)sender {
-    [self performSegueWithIdentifier:@"editor" sender:self];
+    [self performSegueWithIdentifier:@"editor" sender:sender];
 }
 
 - (void)options:(id)sender {
-    [self performSegueWithIdentifier:@"parameters" sender:self];
+    [self performSegueWithIdentifier:@"parameters" sender:sender];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
-    NSString *traitIdentifier = _globalTraitNames[indexPath.row];
+    NSString *traitIdentifier = self.allTraitNames[indexPath.row];
     if (_traits[traitIdentifier]) {
         [_traits removeObjectForKey:traitIdentifier];
     } else {
         _traits[traitIdentifier] = [@{
-                @"parameters": [_globalTraits[traitIdentifier][@"parameters"] mutableCopy]
+                @"parameters": [_allTraits[traitIdentifier][@"parameters"] mutableCopy]
         } mutableCopy];
     }
     [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-    NSString *traitIdentifier = _globalTraitNames[indexPath.row];
+    NSString *traitIdentifier = self.allTraitNames[((UIButton*)sender).tag];
     
     // Merge any current trait parameters with the default, preferring the current
-    NSMutableDictionary *defaultParams = [_globalTraits[traitIdentifier][@"parameters"] mutableCopy];
+    NSMutableDictionary *defaultParams = [_allTraits[traitIdentifier][@"parameters"] mutableCopy];
     [defaultParams addEntriesFromDictionary:_traits[traitIdentifier][@"parameters"]];
     _traits[traitIdentifier][@"parameters"] = defaultParams;
     
@@ -151,7 +161,7 @@ typedef NS_ENUM(NSInteger, ZSEditorTutorialStage) {
         NSMutableDictionary *spriteObject = [NSMutableDictionary dictionary];
         spriteObject[@"id"] = traitIdentifier;
         spriteObject[@"parameters"] = defaultParams;
-        spriteObject[@"code"] = [_globalTraits[traitIdentifier][@"code"] mutableCopy];
+        spriteObject[@"code"] = [_allTraits[traitIdentifier][@"code"] mutableCopy];
         controller.json = spriteObject;
     }
 }

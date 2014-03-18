@@ -118,6 +118,11 @@ CGFloat const DefaultSize = 30;
     return [self buttonWithIcon:icon tapHandler:handler];
 }
 
++ (ZSCanvasBarButtonItem *)gridButtonWithHandler:(void (^)())handler {
+    FAKIcon *icon = [self styledIcon:[FAKIonIcons gridIconWithSize:DefaultSize]];
+    return [self buttonWithIcon:icon tapHandler:handler];
+}
+
 + (ZSCanvasBarButtonItem *)doneButtonWithHandler:(void (^)())handler {
     ZSCanvasBarButtonItem *item = [[ZSCanvasBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:nil
                                                                                       action:nil];
