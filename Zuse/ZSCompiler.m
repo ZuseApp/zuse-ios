@@ -8,6 +8,8 @@
 
 #import "ZSCompiler.h"
 #import "BlocksKit.h"
+#import "ZSCodeTraverser.h"
+#import "ZSCodeTransforms.h"
 
 @interface ZSCompiler ()
 
@@ -39,7 +41,11 @@
     
     newObjects = [self inlinedObjectsForObjects:newObjects];
     
-    NSDictionary *code = @{ @"code": newObjects };
+    NSDictionary *code = @{ @"suite": newObjects };
+    
+    code = [ZSCodeTraverser codeItemByTransformingCodeItem:code
+                                                   withKey:@"every"
+                                                    usingBlock:ZSCodeTransformEveryBlock];
     
     return code;
 }
@@ -72,7 +78,7 @@
                     
                     NSArray *newSuite = [paramsExpressions arrayByAddingObjectsFromArray:globalTrait[@"code"]];
                     
-                    NSDictionary *newStatement = @{ @"scope": newSuite };
+                    NSDictionary *newStatement = @{ @"suite": newSuite };
                     [newObject[@"code"] addObject:newStatement];
                 } else {
                     NSLog(@"Trait not found: %@", identifier);

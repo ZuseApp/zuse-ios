@@ -20,11 +20,14 @@
 #import <Accounts/Accounts.h>
 #import <MTBlockAlertView/MTBlockAlertView.h>
 
-typedef NS_ENUM(NSInteger, ZSCanvasInterfaceState) {
-    ZSCanvasInterfaceStateNormal,
-    ZSCanvasInterfaceStateGroups,
-    ZSCanvasInterfaceStateRendererPlaying,
-    ZSCanvasInterfaceStateRendererPaused
+typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
+    ZSToolbarInterfaceStateNormal,
+    ZSToolbarInterfaceStateGroups,
+    ZSToolbarInterfaceStateGenerators,
+    ZSToolbarInterfaceStateRendererPlaying,
+    ZSToolbarInterfaceStateRendererPaused,
+    ZSToolbarInterfaceStateEditNormalSprite,
+    ZSToolbarInterfaceStateEditTextSprite
 };
 
 NSString * const ZSTutorialBroadcastDidDropSprite = @"ZSTutorialBroadcastDidDropSprite";
@@ -68,7 +71,7 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
 
 // Toolbar
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
-@property (assign, nonatomic) ZSCanvasInterfaceState interfaceState;
+@property (assign, nonatomic) ZSToolbarInterfaceState interfaceState;
 
 @end
 
@@ -80,7 +83,7 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
         _tutorial = [ZSTutorial sharedTutorial];
         _tutorialStage = ZSCanvasTutorialSetupStage;
         _toolboxController = [[ZSToolboxController alloc] init];
-        self.interfaceState = ZSCanvasInterfaceStateNormal;
+        self.interfaceState = ZSToolbarInterfaceStateNormal;
     }
     return self;
 }
@@ -106,7 +109,7 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
         [self loadSpritesAndGeneratorsFromProject];
     }
     
-    [self transitionToInterfaceState:ZSCanvasInterfaceStateNormal];
+    [self transitionToInterfaceState:ZSToolbarInterfaceStateNormal];
     
     // Animate in the canvas view and all that jazz
     [self animateCanvasViewIn];
@@ -329,8 +332,18 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
         [self saveProject];
     };
     
-    _canvasView.spriteModified = ^(ZSSpriteView *spriteView){
+    _canvasView.spriteModified = ^(ZSSpriteView *spriteView) {
         [self saveProject];
+    };
+    
+    _canvasView.spriteSelected = ^(ZSSpriteView *spriteView) {
+        NSString *type = spriteView.spriteJSON[@"type"];
+        if ([type isEqualToString:@"image"]) {
+            [self transitionToInterfaceState:ZSToolbarInterfaceStateEditNormalSprite];
+        }
+        else if ([type isEqualToString:@"text"]) {
+            [self transitionToInterfaceState:ZSToolbarInterfaceStateEditTextSprite];
+        }
     };
 }
 
@@ -348,6 +361,10 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
         [generators removeObject:spriteView.spriteJSON];
         [self saveProject];
         [_generatorView reloadData];
+    };
+    
+    _generatorView.addGeneratorRequested = ^ {
+        [self showToolbox];
     };
 }
 
@@ -373,9 +390,9 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
         
         [_toolboxView addContentView:collectionView title:categories[i][@"category"]];
     }
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
-    [button setTitle:@"Import Image" forState:UIControlStateNormal];
-    [_toolboxView addButton:button];
+    // UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
+    // [button setTitle:@"Import Image" forState:UIControlStateNormal];
+    // [_toolboxView addButton:button];
     [self.view addSubview:_toolboxView];
 }
 
@@ -433,15 +450,16 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
             }
         }
         else {
-            __block NSString *name;
             MTBlockAlertView *alertView = [[MTBlockAlertView alloc]
                                            initWithTitle:@"Generator"
                                            message:@"Enter a name for the generator."
                                            completionHanlder:^(UIAlertView *alertView, NSInteger buttonIndex) {
-                                               name = [alertView textFieldAtIndex:0].text;
+                                               NSString *name = [alertView textFieldAtIndex:0].text;
                                                NSMutableDictionary *newJson = [json deepMutableCopy];
                                                newJson[@"id"] = [[NSUUID UUID] UUIDString];
                                                newJson[@"name"] = name;
+                                               newJson[@"properties"][@"x"] = @(0);
+                                               newJson[@"properties"][@"y"] = @(0);
                                                [[weakSelf.project rawJSON][@"generators"] addObject:newJson];
                                                
                                                [weakSelf.generatorView addGeneratorFromJSON:newJson];
@@ -500,16 +518,22 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
 
 }
 
-- (void)transitionToInterfaceState:(ZSCanvasInterfaceState)state {
+- (void)transitionToInterfaceState:(ZSToolbarInterfaceState)state {
     NSArray *items = nil;
-    if (state == ZSCanvasInterfaceStateNormal) {
+    if (state == ZSToolbarInterfaceStateNormal) {
         items = [self normalToolbarItems];
-    } else if (state == ZSCanvasInterfaceStateGroups) {
+    } else if (state == ZSToolbarInterfaceStateGroups) {
         items = [self groupsToolbarItems];
-    } else if (state == ZSCanvasInterfaceStateRendererPlaying) {
+    } else if (state == ZSToolbarInterfaceStateRendererPlaying) {
         items = [self rendererPlayingToolbarItems];
-    } else if (state == ZSCanvasInterfaceStateRendererPaused) {
+    } else if (state == ZSToolbarInterfaceStateRendererPaused) {
         items = [self rendererPausedToolbarItems];
+    } else if (state == ZSToolbarInterfaceStateGenerators) {
+        items = [self generatorsToolbarItems];
+    } else if (state == ZSToolbarInterfaceStateEditNormalSprite) {
+        items = [self editNormalSprite];
+    } else if (state == ZSToolbarInterfaceStateEditTextSprite) {
+        items = [self editTextSprite];
     }
     
     self.interfaceState = state;
@@ -523,11 +547,11 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
                  [self playProject];
              }],
              [ZSCanvasBarButtonItem flexibleBarButtonItem],
-             [ZSCanvasBarButtonItem generatorsButtonWithHandler:^{
-                 [self toggleGeneratorView];
-             }],
              [ZSCanvasBarButtonItem groupsButtonWithHandler:^{
                  [self modifyGroups];
+             }],
+             [ZSCanvasBarButtonItem generatorsButtonWithHandler:^{
+                 [self toggleGeneratorView];
              }],
              [ZSCanvasBarButtonItem toolboxButtonWithHandler:^{
                  [self showToolbox];
@@ -567,13 +591,112 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
              ];
 }
 
+- (NSArray *)generatorsToolbarItems {
+    return @[
+             [ZSCanvasBarButtonItem playButtonWithHandler:^{
+                 [self playProject];
+             }],
+             [ZSCanvasBarButtonItem flexibleBarButtonItem],
+             [ZSCanvasBarButtonItem groupsButtonWithHandler:^{
+                 [self modifyGroups];
+             }],
+             [ZSCanvasBarButtonItem generatorsButtonWithHandler:^{
+                 [self toggleGeneratorView];
+             }],
+             [ZSCanvasBarButtonItem shareButtonWithHandler:^{
+                 [self shareProject];
+             }],
+             [ZSCanvasBarButtonItem backButtonWithHandler:^{
+                 [self finish];
+             }]
+             ];
+}
+
+- (NSArray *)editSpritesEmpty {
+    WeakSelf
+    return @[
+             [ZSCanvasBarButtonItem flexibleBarButtonItem],
+             [ZSCanvasBarButtonItem finishButtonWithHandler:^{
+                 weakSelf.canvasView.editModeOn = NO;
+                 [self transitionToInterfaceState:ZSToolbarInterfaceStateNormal];
+             }]
+             ];
+}
+
+- (NSArray *)editNormalSprite {
+    WeakSelf
+    void (^doneBlock)() = ^{
+        [weakSelf saveProject];
+        [weakSelf.canvasView unselectSelectedSprite];
+        [weakSelf transitionToInterfaceState:ZSToolbarInterfaceStateNormal];
+    };
+    return @[
+             [ZSCanvasBarButtonItem flexibleBarButtonItem],
+             [ZSCanvasBarButtonItem cutButtonWithHandler:^{
+                 [weakSelf.canvasView cutSelectedSprite];
+                 doneBlock();
+             }],
+             [ZSCanvasBarButtonItem copyButtonWithHandler:^{
+                 [weakSelf.canvasView copySelectedSprite];
+                 doneBlock();
+             }],
+             [ZSCanvasBarButtonItem deleteButtonWithHandler:^{
+                 [weakSelf.canvasView deleteSelectedSprite];
+                 doneBlock();
+             }],
+             [ZSCanvasBarButtonItem finishButtonWithHandler:^{
+                 [weakSelf.canvasView unselectSelectedSprite];
+                 [weakSelf transitionToInterfaceState:ZSToolbarInterfaceStateNormal];
+             }]
+             ];
+}
+
+- (NSArray *)editTextSprite {
+    WeakSelf
+    void (^doneBlock)() = ^{
+        [weakSelf saveProject];
+        [weakSelf.canvasView unselectSelectedSprite];
+        [weakSelf transitionToInterfaceState:ZSToolbarInterfaceStateNormal];
+    };
+    return @[
+             [ZSCanvasBarButtonItem flexibleBarButtonItem],
+             [ZSCanvasBarButtonItem cutButtonWithHandler:^{
+                 [weakSelf.canvasView cutSelectedSprite];
+                 doneBlock();
+             }],
+             [ZSCanvasBarButtonItem copyButtonWithHandler:^{
+                 [weakSelf.canvasView copySelectedSprite];
+                 doneBlock();
+             }],
+             [ZSCanvasBarButtonItem deleteButtonWithHandler:^{
+                 [weakSelf.canvasView deleteSelectedSprite];
+                 doneBlock();
+             }],
+             [ZSCanvasBarButtonItem editTextButtonWithHandler:^{
+                 MTBlockAlertView *alertView = [[MTBlockAlertView alloc]
+                                                initWithTitle:@"Sprite Text"
+                                                message:@"Enter the sprite text."
+                                                completionHanlder:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                                                    NSString *text = [alertView textFieldAtIndex:0].text;
+                                                    [weakSelf.canvasView setTextForSelectedSpriteWithText:text];
+                                                    [weakSelf saveProject];
+                                                }
+                                                cancelButtonTitle:@"OK"
+                                                otherButtonTitles:nil];
+                 alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+                 [alertView show];
+             }],
+             [ZSCanvasBarButtonItem finishButtonWithHandler:^{
+                 [weakSelf.canvasView unselectSelectedSprite];
+                 [weakSelf transitionToInterfaceState:ZSToolbarInterfaceStateNormal];
+             }]
+             ];
+}
+
 - (void)playProject {
-    [self transitionToInterfaceState:ZSCanvasInterfaceStateRendererPlaying];
+    [self transitionToInterfaceState:ZSToolbarInterfaceStateRendererPlaying];
     
     [self.view bringSubviewToFront:self.rendererView];
-    if (!self.generatorView.hidden) {
-        self.generatorView.hidden = YES;
-    }
     if (self.rendererView.hidden) {
         self.rendererViewController.projectJSON = [self.project assembledJSON];
         self.rendererView.hidden = NO;
@@ -586,14 +709,14 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
 
 - (void)pauseProject {
     [_rendererViewController stop];
-    [self transitionToInterfaceState:ZSCanvasInterfaceStateRendererPaused];
+    [self transitionToInterfaceState:ZSToolbarInterfaceStateRendererPaused];
 }
 
 
 - (void)stopProject {
     [self.rendererViewController stop];
     self.rendererView.hidden = YES;
-    [self transitionToInterfaceState:ZSCanvasInterfaceStateNormal];
+    [self transitionToInterfaceState:ZSToolbarInterfaceStateNormal];
 }
 
 - (void)toggleGeneratorView {
@@ -604,12 +727,14 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
         self.generatorView.hidden = NO;
         [self.view bringSubviewToFront:self.generatorView];
         [self.canvasLabel setText:@"Generators"];
+        [self transitionToInterfaceState:ZSToolbarInterfaceStateGenerators];
     }
     else {
         self.canvasView.alpha = 0;
         self.canvasView.hidden = NO;
         [self.view bringSubviewToFront:self.canvasView];
         [self.canvasLabel setText:@"Canvas"];
+        [self transitionToInterfaceState:ZSToolbarInterfaceStateNormal];
     }
     [self.view bringSubviewToFront:self.canvasLabel];
     self.canvasLabel.alpha = 0;
@@ -654,7 +779,12 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
     };
     
     self.groupsController.didFinish = ^{
-        [weakSelf transitionToInterfaceState:ZSCanvasInterfaceStateNormal];
+        if (weakSelf.generatorView.hidden) {
+            [weakSelf transitionToInterfaceState:ZSToolbarInterfaceStateNormal];
+        }
+        else {
+            [weakSelf transitionToInterfaceState:ZSToolbarInterfaceStateGenerators];
+        }
         [UIView animateWithDuration:0.2
                          animations:^{
                              weakSelf.groupsController.view.alpha = 0.0;
@@ -665,7 +795,7 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
                          }];
     };
     
-    [self transitionToInterfaceState:ZSCanvasInterfaceStateGroups];
+    [self transitionToInterfaceState:ZSToolbarInterfaceStateGroups];
     
     self.groupsController.view.frame = self.canvasView.bounds;
     self.groupsController.view.backgroundColor = [UIColor whiteColor];

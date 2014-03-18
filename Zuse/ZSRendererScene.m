@@ -317,6 +317,23 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
             return nil;
         }
     }];
+    
+    [interpreter loadMethod:@{
+        @"method": @"every_seconds",
+        @"block": ^id(NSString *identifier, NSArray *args) {
+            // TODO: Implement
+            return nil;
+        }
+    }];
+    
+    // TODO: Move into own class
+    [interpreter loadMethod:@{
+        @"method": @"random_number",
+        @"block": ^id(NSString *identifier, NSArray *args) {
+            // TODO: Implement
+            return @1;
+        }
+    }];
 }
 
 - (void)removeSpriteWithIdentifier:(NSString *)identifier {

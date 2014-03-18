@@ -1,5 +1,8 @@
+#import <MTBlockAlertView/MTBlockAlertView.h>
+
 #import "ZS_CodeEditorViewController.h"
 #import "ZS_JsonUtilities.h"
+#import "ZSZuseDSL.h"
 
 #import "ZS_ExpressionViewController.h"
 #import "ZS_JsonViewController.h"
@@ -364,14 +367,35 @@
     [view addNameLabelWithText:@"("];
     
     // Method parameters
-    NSArray* parameters = json[@"call"][@"parameters"];
+    
+    // The manifest parameters hold extra metadata about what each parameter accepts
+    NSArray *manifestParameters = [ZS_JsonUtilities manifestForMethodIdentifier:json[@"call"][@"method"]][@"parameters"];
+    NSMutableArray *parameters = json[@"call"][@"parameters"];
     for (NSInteger i = 0; i < parameters.count; i++)
     {
+        NSDictionary *manifestParameter = manifestParameters[i];
         [view addArgumentLabelWithText: [ZS_JsonUtilities expressionStringFromJson: parameters[i]]
                             touchBlock:^(UILabel* label)
          {
              label.tag = i;
-             [self performSegueWithIdentifier:@"to expression editor" sender: label];
+             if ([manifestParameter[@"types"][0] isEqualToString:@"string"]) {
+                 UIAlertView *alertView = [[MTBlockAlertView alloc] initWithTitle:@"String Value"
+                                                                          message:@"Enter a string"
+                                                                completionHanlder:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                                                                    NSString *text = [alertView textFieldAtIndex:0].text;
+                                                                    if (text && text.length > 0) {
+                                                                        parameters[i] = text;
+                                                                        label.text = text;
+                                                                    }
+                                                                }
+                                                                cancelButtonTitle:@"Cancel"
+                                                                otherButtonTitles:@"OK", nil];
+                 
+                alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+                [alertView show];
+             } else {
+                 [self performSegueWithIdentifier:@"to expression editor" sender: label];
+             }
          }];
 
         // Comma
