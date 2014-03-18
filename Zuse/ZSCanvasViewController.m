@@ -625,25 +625,24 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
 
 - (NSArray *)editNormalSprite {
     WeakSelf
+    void (^doneBlock)() = ^{
+        [weakSelf saveProject];
+        [weakSelf.canvasView unselectSelectedSprite];
+        [weakSelf transitionToInterfaceState:ZSToolbarInterfaceStateNormal];
+    };
     return @[
              [ZSCanvasBarButtonItem flexibleBarButtonItem],
              [ZSCanvasBarButtonItem cutButtonWithHandler:^{
                  [weakSelf.canvasView cutSelectedSprite];
-                 [weakSelf saveProject];
-                 [weakSelf.canvasView unselectSelectedSprite];
-                 [weakSelf transitionToInterfaceState:ZSToolbarInterfaceStateNormal];
+                 doneBlock();
              }],
              [ZSCanvasBarButtonItem copyButtonWithHandler:^{
                  [weakSelf.canvasView copySelectedSprite];
-                 [weakSelf saveProject];
-                 [weakSelf.canvasView unselectSelectedSprite];
-                 [weakSelf transitionToInterfaceState:ZSToolbarInterfaceStateNormal];
+                 doneBlock();
              }],
              [ZSCanvasBarButtonItem deleteButtonWithHandler:^{
                  [weakSelf.canvasView deleteSelectedSprite];
-                 [weakSelf saveProject];
-                 [weakSelf.canvasView unselectSelectedSprite];
-                 [weakSelf transitionToInterfaceState:ZSToolbarInterfaceStateNormal];
+                 doneBlock();
              }],
              [ZSCanvasBarButtonItem finishButtonWithHandler:^{
                  [weakSelf.canvasView unselectSelectedSprite];
@@ -654,25 +653,24 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
 
 - (NSArray *)editTextSprite {
     WeakSelf
+    void (^doneBlock)() = ^{
+        [weakSelf saveProject];
+        [weakSelf.canvasView unselectSelectedSprite];
+        [weakSelf transitionToInterfaceState:ZSToolbarInterfaceStateNormal];
+    };
     return @[
              [ZSCanvasBarButtonItem flexibleBarButtonItem],
              [ZSCanvasBarButtonItem cutButtonWithHandler:^{
                  [weakSelf.canvasView cutSelectedSprite];
-                 [weakSelf saveProject];
-                 [weakSelf.canvasView unselectSelectedSprite];
-                 [weakSelf transitionToInterfaceState:ZSToolbarInterfaceStateNormal];
+                 doneBlock();
              }],
              [ZSCanvasBarButtonItem copyButtonWithHandler:^{
                  [weakSelf.canvasView copySelectedSprite];
-                 [weakSelf saveProject];
-                 [weakSelf.canvasView unselectSelectedSprite];
-                 [weakSelf transitionToInterfaceState:ZSToolbarInterfaceStateNormal];
+                 doneBlock();
              }],
              [ZSCanvasBarButtonItem deleteButtonWithHandler:^{
                  [weakSelf.canvasView deleteSelectedSprite];
-                 [weakSelf saveProject];
-                 [weakSelf.canvasView unselectSelectedSprite];
-                 [weakSelf transitionToInterfaceState:ZSToolbarInterfaceStateNormal];
+                 doneBlock();
              }],
              [ZSCanvasBarButtonItem editTextButtonWithHandler:^{
                  MTBlockAlertView *alertView = [[MTBlockAlertView alloc]
@@ -802,10 +800,6 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
     self.groupsController.view.frame = self.canvasView.bounds;
     self.groupsController.view.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.groupsController.view];
-}
-
-- (void)editSprite {
-    
 }
 
 - (void)finish {
