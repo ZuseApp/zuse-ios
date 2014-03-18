@@ -13,8 +13,10 @@
 @interface ZSCanvasView : UIView <UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) ZSGrid *grid;
+@property (nonatomic, assign) BOOL editModeOn;
 
 @property (strong, nonatomic) void(^spriteSingleTapped)(ZSSpriteView *spriteView);
+@property (strong, nonatomic) void(^spriteSelected)(ZSSpriteView *spriteView);
 @property (strong, nonatomic) void(^spriteCreated)(ZSSpriteView *spriteView);
 @property (strong, nonatomic) void(^spriteRemoved)(ZSSpriteView *spriteView);
 @property (strong, nonatomic) void(^spriteModified)(ZSSpriteView *spriteView);
@@ -22,5 +24,12 @@
 - (void)moveSprite:(ZSSpriteView*)spriteView x:(CGFloat)x y:(CGFloat)y;
 - (void)setupGesturesForSpriteView:(ZSSpriteView *)view withProperties:(NSMutableDictionary *)properties;
 - (void)setupEditOptionsForSpriteView:(ZSSpriteView *)view;
+
+// Edit methods
+- (void)cutSelectedSprite;
+- (void)copySelectedSprite;
+- (void)deleteSelectedSprite;
+- (void)setTextForSelectedSpriteWithText:(NSString*)text;
+- (void)unselectSelectedSprite;
 
 @end

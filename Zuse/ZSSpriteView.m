@@ -117,6 +117,10 @@
     }
 }
 
+- (void)reloadContent {
+    [self setContentFromJSON:self.spriteJSON];
+}
+
 - (void)setupGestures {
     UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panRecognized:)];
     [panGesture setMinimumNumberOfTouches:1];

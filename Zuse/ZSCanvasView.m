@@ -6,6 +6,7 @@
 @property (nonatomic, strong) UIMenuController *editMenu;
 @property (nonatomic, assign) CGPoint lastTouch;
 @property (nonatomic, strong) ZSSpriteView *spriteViewCopy;
+@property (nonatomic, strong) ZSSpriteView *selectedSprite;
 
 @end
 
@@ -15,6 +16,7 @@
     self = [super initWithCoder:aDecoder];
     if (self) {
         _grid = [[ZSGrid alloc] init];
+        self.editModeOn = NO;
         [self setupGestures];
     }
     return self;
@@ -46,7 +48,20 @@
     UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressRecognized:)];
     longPressGesture.delegate = self;
     [self addGestureRecognizer:longPressGesture];
+    
+//    UIPinchGestureRecognizer *pinchRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchDetected:)];
+//    [self addGestureRecognizer:pinchRecognizer];
+//    pinchRecognizer.delegate = self;
+//    
+//    UIRotationGestureRecognizer *rotationRecognizer = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(rotationDetected:)];
+//    [self addGestureRecognizer:rotationRecognizer];
+//    rotationRecognizer.delegate = self;
 }
+
+//- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+//{
+//    return YES;
+//}
 
 - (void)longPressRecognized:(id)sender {
     UILongPressGestureRecognizer *longPressGesture = (UILongPressGestureRecognizer *)sender;
@@ -58,6 +73,20 @@
         [_editMenu setMenuVisible:YES animated:YES];
     }
 }
+
+//- (void)pinchDetected:(id)sender {
+//    UIPinchGestureRecognizer *pinchRecognizer = (UIPinchGestureRecognizer*)sender;
+//    CGFloat scale = pinchRecognizer.scale;
+//    self.selectedSprite.transform = CGAffineTransformScale(self.selectedSprite.transform, scale, scale);
+//    pinchRecognizer.scale = 1.0;
+//}
+//
+//- (void)rotationDetected:(id)sender {
+//    UIRotationGestureRecognizer *rotationRecognizer = (UIRotationGestureRecognizer*)sender;
+//    CGFloat angle = rotationRecognizer.rotation;
+//    self.selectedSprite.transform = CGAffineTransformRotate(self.selectedSprite.transform, angle);
+//    rotationRecognizer.rotation = 0.0;
+//}
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     _lastTouch = [[touches anyObject] locationInView:self];
@@ -121,6 +150,7 @@
     __weak ZSSpriteView *weakView = view;
 
     view.singleTapped = ^() {
+        self.selectedSprite = weakView;
         [_editMenu setMenuVisible:NO animated:YES];
         if (_spriteSingleTapped) {
             _spriteSingleTapped(weakView);
@@ -128,7 +158,11 @@
     };
     
     view.longPressBegan = ^(UILongPressGestureRecognizer *longPressedGestureRecognizer){
-        [weakSelf longPressRecognized:longPressedGestureRecognizer];
+        // [weakSelf longPressRecognized:longPressedGestureRecognizer];
+        weakSelf.selectedSprite = weakView;
+        if (weakSelf.spriteSelected) {
+            weakSelf.spriteSelected(weakView);
+        }
     };
     
     __block CGPoint offset;
@@ -241,6 +275,44 @@
         // Create a new _spriteViewCopy.
         _spriteViewCopy = [self copySpriteView:_spriteViewCopy];
     }
+}
+
+#pragma mark Edit Functionality
+- (void)cutSelectedSprite {
+    if (self.selectedSprite) {
+        _spriteViewCopy = [self copySpriteView:self.selectedSprite];
+        [self.selectedSprite removeFromSuperview];
+        if (self.spriteRemoved) {
+            self.spriteRemoved(self.selectedSprite);
+        }
+    }
+}
+
+- (void)copySelectedSprite {
+    if (self.selectedSprite) {
+        _spriteViewCopy = [self copySpriteView:self.selectedSprite];
+    }
+}
+
+- (void)deleteSelectedSprite {
+    if (self.selectedSprite) {
+        [self.selectedSprite removeFromSuperview];
+        if (_spriteRemoved) {
+            _spriteRemoved(self.selectedSprite);
+        }
+    }
+}
+
+- (void)setTextForSelectedSpriteWithText:(NSString*)text {
+    if (self.selectedSprite) {
+        self.selectedSprite.spriteJSON[@"properties"][@"text"] = text;
+        [self.selectedSprite reloadContent];
+    }
+}
+
+- (void)unselectSelectedSprite {
+    self.editModeOn = NO;
+    self.selectedSprite = nil;
 }
 
 @end

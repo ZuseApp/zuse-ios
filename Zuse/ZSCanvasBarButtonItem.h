@@ -20,6 +20,7 @@
 + (UIBarButtonItem *)flexibleBarButtonItem;
 
 // Canvas
++ (ZSCanvasBarButtonItem *)editButtonWithHandler:(void (^)())handler;
 + (ZSCanvasBarButtonItem *)playButtonWithHandler:(void (^)())handler;
 + (ZSCanvasBarButtonItem *)generatorsButtonWithHandler:(void (^)())handler;
 + (ZSCanvasBarButtonItem *)groupsButtonWithHandler:(void (^)())handler;
@@ -36,5 +37,12 @@
 + (ZSCanvasBarButtonItem *)collisionsButtonWithHandler:(void (^)())handler;
 + (ZSCanvasBarButtonItem *)selectGroupButtonWithHandler:(void (^)())handler;
 + (ZSCanvasBarButtonItem *)addButtonWithHandler:(void (^)())handler;
+
+// Edit
++ (ZSCanvasBarButtonItem *)finishButtonWithHandler:(void (^)())handler;
++ (ZSCanvasBarButtonItem *)cutButtonWithHandler:(void (^)())handler;
++ (ZSCanvasBarButtonItem *)copyButtonWithHandler:(void (^)())handler;
++ (ZSCanvasBarButtonItem *)deleteButtonWithHandler:(void (^)())handler;
++ (ZSCanvasBarButtonItem *)editTextButtonWithHandler:(void (^)())handler;
 
 @end

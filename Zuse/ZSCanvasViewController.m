@@ -25,7 +25,9 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
     ZSToolbarInterfaceStateGroups,
     ZSToolbarInterfaceStateGenerators,
     ZSToolbarInterfaceStateRendererPlaying,
-    ZSToolbarInterfaceStateRendererPaused
+    ZSToolbarInterfaceStateRendererPaused,
+    ZSToolbarInterfaceStateEditNormalSprite,
+    ZSToolbarInterfaceStateEditTextSprite
 };
 
 NSString * const ZSTutorialBroadcastDidDropSprite = @"ZSTutorialBroadcastDidDropSprite";
@@ -330,8 +332,18 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
         [self saveProject];
     };
     
-    _canvasView.spriteModified = ^(ZSSpriteView *spriteView){
+    _canvasView.spriteModified = ^(ZSSpriteView *spriteView) {
         [self saveProject];
+    };
+    
+    _canvasView.spriteSelected = ^(ZSSpriteView *spriteView) {
+        NSString *type = spriteView.spriteJSON[@"type"];
+        if ([type isEqualToString:@"image"]) {
+            [self transitionToInterfaceState:ZSToolbarInterfaceStateEditNormalSprite];
+        }
+        else if ([type isEqualToString:@"text"]) {
+            [self transitionToInterfaceState:ZSToolbarInterfaceStateEditTextSprite];
+        }
     };
 }
 
@@ -378,9 +390,9 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
         
         [_toolboxView addContentView:collectionView title:categories[i][@"category"]];
     }
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
-    [button setTitle:@"Import Image" forState:UIControlStateNormal];
-    [_toolboxView addButton:button];
+    // UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
+    // [button setTitle:@"Import Image" forState:UIControlStateNormal];
+    // [_toolboxView addButton:button];
     [self.view addSubview:_toolboxView];
 }
 
@@ -438,12 +450,11 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
             }
         }
         else {
-            __block NSString *name;
             MTBlockAlertView *alertView = [[MTBlockAlertView alloc]
                                            initWithTitle:@"Generator"
                                            message:@"Enter a name for the generator."
                                            completionHanlder:^(UIAlertView *alertView, NSInteger buttonIndex) {
-                                               name = [alertView textFieldAtIndex:0].text;
+                                               NSString *name = [alertView textFieldAtIndex:0].text;
                                                NSMutableDictionary *newJson = [json deepMutableCopy];
                                                newJson[@"id"] = [[NSUUID UUID] UUIDString];
                                                newJson[@"name"] = name;
@@ -519,6 +530,10 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
         items = [self rendererPausedToolbarItems];
     } else if (state == ZSToolbarInterfaceStateGenerators) {
         items = [self generatorsToolbarItems];
+    } else if (state == ZSToolbarInterfaceStateEditNormalSprite) {
+        items = [self editNormalSprite];
+    } else if (state == ZSToolbarInterfaceStateEditTextSprite) {
+        items = [self editTextSprite];
     }
     
     self.interfaceState = state;
@@ -532,11 +547,11 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
                  [self playProject];
              }],
              [ZSCanvasBarButtonItem flexibleBarButtonItem],
-             [ZSCanvasBarButtonItem generatorsButtonWithHandler:^{
-                 [self toggleGeneratorView];
-             }],
              [ZSCanvasBarButtonItem groupsButtonWithHandler:^{
                  [self modifyGroups];
+             }],
+             [ZSCanvasBarButtonItem generatorsButtonWithHandler:^{
+                 [self toggleGeneratorView];
              }],
              [ZSCanvasBarButtonItem toolboxButtonWithHandler:^{
                  [self showToolbox];
@@ -582,17 +597,92 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
                  [self playProject];
              }],
              [ZSCanvasBarButtonItem flexibleBarButtonItem],
-             [ZSCanvasBarButtonItem generatorsButtonWithHandler:^{
-                 [self toggleGeneratorView];
-             }],
              [ZSCanvasBarButtonItem groupsButtonWithHandler:^{
                  [self modifyGroups];
+             }],
+             [ZSCanvasBarButtonItem generatorsButtonWithHandler:^{
+                 [self toggleGeneratorView];
              }],
              [ZSCanvasBarButtonItem shareButtonWithHandler:^{
                  [self shareProject];
              }],
              [ZSCanvasBarButtonItem backButtonWithHandler:^{
                  [self finish];
+             }]
+             ];
+}
+
+- (NSArray *)editSpritesEmpty {
+    WeakSelf
+    return @[
+             [ZSCanvasBarButtonItem flexibleBarButtonItem],
+             [ZSCanvasBarButtonItem finishButtonWithHandler:^{
+                 weakSelf.canvasView.editModeOn = NO;
+                 [self transitionToInterfaceState:ZSToolbarInterfaceStateNormal];
+             }]
+             ];
+}
+
+- (NSArray *)editNormalSprite {
+    WeakSelf
+    return @[
+             [ZSCanvasBarButtonItem flexibleBarButtonItem],
+             [ZSCanvasBarButtonItem cutButtonWithHandler:^{
+                 [weakSelf.canvasView cutSelectedSprite];
+                 [weakSelf saveProject];
+                 [weakSelf transitionToInterfaceState:ZSToolbarInterfaceStateNormal];
+             }],
+             [ZSCanvasBarButtonItem copyButtonWithHandler:^{
+                 [weakSelf.canvasView copySelectedSprite];
+                 [weakSelf saveProject];
+             }],
+             [ZSCanvasBarButtonItem deleteButtonWithHandler:^{
+                 [weakSelf.canvasView deleteSelectedSprite];
+                 [weakSelf saveProject];
+                 [weakSelf transitionToInterfaceState:ZSToolbarInterfaceStateNormal];
+             }],
+             [ZSCanvasBarButtonItem finishButtonWithHandler:^{
+                 [weakSelf.canvasView unselectSelectedSprite];
+                 [weakSelf transitionToInterfaceState:ZSToolbarInterfaceStateNormal];
+             }]
+             ];
+}
+
+- (NSArray *)editTextSprite {
+    WeakSelf
+    return @[
+             [ZSCanvasBarButtonItem flexibleBarButtonItem],
+             [ZSCanvasBarButtonItem cutButtonWithHandler:^{
+                 [weakSelf.canvasView cutSelectedSprite];
+                 [weakSelf saveProject];
+                 [weakSelf transitionToInterfaceState:ZSToolbarInterfaceStateNormal];
+             }],
+             [ZSCanvasBarButtonItem copyButtonWithHandler:^{
+                 [weakSelf.canvasView copySelectedSprite];
+                 [weakSelf saveProject];
+             }],
+             [ZSCanvasBarButtonItem deleteButtonWithHandler:^{
+                 [weakSelf.canvasView deleteSelectedSprite];
+                 [weakSelf saveProject];
+                 [weakSelf transitionToInterfaceState:ZSToolbarInterfaceStateNormal];
+             }],
+             [ZSCanvasBarButtonItem editTextButtonWithHandler:^{
+                 MTBlockAlertView *alertView = [[MTBlockAlertView alloc]
+                                                initWithTitle:@"Sprite Text"
+                                                message:@"Enter the sprite text."
+                                                completionHanlder:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                                                    NSString *text = [alertView textFieldAtIndex:0].text;
+                                                    [weakSelf.canvasView setTextForSelectedSpriteWithText:text];
+                                                    [weakSelf saveProject];
+                                                }
+                                                cancelButtonTitle:@"OK"
+                                                otherButtonTitles:nil];
+                 alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+                 [alertView show];
+             }],
+             [ZSCanvasBarButtonItem finishButtonWithHandler:^{
+                 [weakSelf.canvasView unselectSelectedSprite];
+                 [weakSelf transitionToInterfaceState:ZSToolbarInterfaceStateNormal];
              }]
              ];
 }
