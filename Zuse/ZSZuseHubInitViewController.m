@@ -33,7 +33,8 @@
 {
     [super viewDidAppear:animated];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *token = [defaults objectForKey:@"token"];
+//    NSString *token = [defaults objectForKey:@"token"];
+    NSString *token = @"WCJQjMenNnJrhqtVBXKlhvXB9JxcCqzeN6mpWS7Z";
     if(!token)
     {
         UINavigationController *navController = [[UIStoryboard storyboardWithName:@"Main"
