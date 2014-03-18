@@ -153,6 +153,24 @@
                             <view clipsSubviews="YES" contentMode="scaleToFill" id="xLe-TB-h8T" customClass="ZSCanvasView">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="524"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" id="qgb-Ku-RJH">
+                                        <rect key="frame" x="0.0" y="524" width="320" height="42"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        <subviews>
+                                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="1" maxValue="30" id="PVm-R8-3b6">
+                                                <rect key="frame" x="18" y="6" width="284" height="31"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                <color key="minimumTrackTintColor" red="0.9882352941176471" green="0.88627450980392153" blue="0.5490196078431373" alpha="1" colorSpace="calibratedRGB"/>
+                                                <connections>
+                                                    <action selector="valueChanged:" destination="xLe-TB-h8T" eventType="valueChanged" id="ob7-6v-XM4"/>
+                                                </connections>
+                                            </slider>
+                                        </subviews>
+                                        <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                    </view>
+                                </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <toolbar autoresizesSubviews="NO" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="lke-3O-Z2W">
@@ -178,6 +196,7 @@
                         <outlet property="canvasLabel" destination="Q19-gf-szg" id="hL1-c2-WA1"/>
                         <outlet property="canvasView" destination="xLe-TB-h8T" id="jcJ-OF-c2C"/>
                         <outlet property="generatorView" destination="HLz-Ls-x1z" id="IWt-y4-d8G"/>
+                        <outlet property="gridSlider" destination="qgb-Ku-RJH" id="6da-lV-e4z"/>
                         <outlet property="rendererView" destination="zUs-oU-8qW" id="bD9-hp-fyI"/>
                         <outlet property="toolbar" destination="lke-3O-Z2W" id="LOB-tb-57j"/>
                         <segue destination="Zkj-rO-exu" kind="push" identifier="editor" id="f8x-t6-B0l"/>
