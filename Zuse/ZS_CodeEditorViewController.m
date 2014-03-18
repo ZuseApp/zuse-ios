@@ -385,7 +385,7 @@
                                                                     NSString *text = [alertView textFieldAtIndex:0].text;
                                                                     if (text && text.length > 0) {
                                                                         parameters[i] = text;
-                                                                        label.text = text;
+                                                                        [self reloadFromJson];
                                                                     }
                                                                 }
                                                                 cancelButtonTitle:@"Cancel"
@@ -422,7 +422,7 @@
         {
             // pass a mutable copy of json to the expression editor controller
             NSObject* json = statementView.json[@"if"][@"test"];
-            c.json = [json isKindOfClass:[NSMutableDictionary class]] ? ((NSMutableDictionary*)json).mutableCopy : json;
+            c.json = [json isKindOfClass:[NSMutableDictionary class]] ? ((NSMutableDictionary*)json).deepMutableCopy : json;
             
             // code block executed upon exiting expression editor
             c.didFinish = ^(NSObject* json)
@@ -439,7 +439,7 @@
         {
             // pass a mutable copy of json to the expression editor controller
             NSObject* json = statementView.json[@"set"][1];
-            c.json = [json isKindOfClass:[NSMutableDictionary class]] ? ((NSMutableDictionary*)json).mutableCopy : json;
+            c.json = [json isKindOfClass:[NSMutableDictionary class]] ? ((NSMutableDictionary*)json).deepMutableCopy : json;
             
             // code block executed upon exiting expression editor
             c.didFinish = ^(NSObject* json)
@@ -457,7 +457,7 @@
             // pass a mutable copy of json to the expression editor controller
             NSInteger parameterNumber = label.tag;
             NSObject* json = statementView.json[@"call"][@"parameters"][parameterNumber];
-            c.json = [json isKindOfClass:[NSMutableDictionary class]] ? ((NSMutableDictionary*)json).mutableCopy : json;
+            c.json = [json isKindOfClass:[NSMutableDictionary class]] ? ((NSMutableDictionary*)json).deepMutableCopy : json;
             
             // code block executed upon exiting expression editor
             c.didFinish = ^(NSObject* json)
@@ -511,7 +511,7 @@
 
 - (void) menuItemCopy
 {
-    self.statementCopyBuffer = self.selectedStatementView.json.mutableCopy;
+    self.statementCopyBuffer = self.selectedStatementView.json.deepMutableCopy;
 }
 - (void)menuItemDelete
 {
@@ -535,7 +535,7 @@
     {
         if (parentCodeBlock[i] == self.selectedStatementView.json)
         {
-            [parentCodeBlock insertObject:self.statementCopyBuffer.mutableCopy atIndex:i];
+            [parentCodeBlock insertObject:self.statementCopyBuffer.deepMutableCopy atIndex:i];
             break;
         }
     }
@@ -552,11 +552,11 @@
             // if it's the last statement in the code block
             if (i == parentCodeBlock.count - 1)
             {
-                [parentCodeBlock addObject:self.statementCopyBuffer.mutableCopy];
+                [parentCodeBlock addObject:self.statementCopyBuffer.deepMutableCopy];
             }
             else
             {
-                [parentCodeBlock insertObject:self.statementCopyBuffer.mutableCopy atIndex:i+1];
+                [parentCodeBlock insertObject:self.statementCopyBuffer.deepMutableCopy atIndex:i+1];
             }
             break;
         }

@@ -36,7 +36,7 @@
 {
     if (!_statements)
     {
-        _statements = [[ZS_JsonUtilities emptyStatements] arrayByAddingObjectsFromArray:[ZS_JsonUtilities emptyMethods]];;
+        _statements = [[ZS_JsonUtilities emptyStatements] arrayByAddingObjectsFromArray:[ZS_JsonUtilities emptyMethods]];
     }
     return _statements;
 }

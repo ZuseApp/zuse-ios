@@ -18,10 +18,10 @@ PODS:
   - AFNetworking/UIKit (2.1.0):
     - AFNetworking/NSURLConnection
   - CMPopTipView (2.1.0)
-  - FontAwesomeKit/Core (2.1.4)
-  - FontAwesomeKit/FontAwesome (2.1.4):
+  - FontAwesomeKit/Core (2.1.5)
+  - FontAwesomeKit/FontAwesome (2.1.5):
     - FontAwesomeKit/Core
-  - FontAwesomeKit/IonIcons (2.1.4):
+  - FontAwesomeKit/IonIcons (2.1.5):
     - FontAwesomeKit/Core
   - FXBlurView (1.5.3)
   - MMDrawerController (0.5.3):
@@ -54,7 +54,7 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   AFNetworking: c7d7901a83f631414c7eda1737261f696101a5cd
   CMPopTipView: de01c6c169c24726356c46ae339ce3498ae9a41d
-  FontAwesomeKit: 082a427b37f26cd535b7f295cb686f8ab0da707e
+  FontAwesomeKit: 7d935e100337d503bdaefde2ea16be740b81ed13
   FXBlurView: 8d662dd5b4ba15a1a0e97235501326fbdfb2b755
   MMDrawerController: 4445e1927e8947b7e2382136c9b7109840efbfb9
   MTBlockAlertView: 05cf381a078c0005bcbad973cf63d9740ca67323
