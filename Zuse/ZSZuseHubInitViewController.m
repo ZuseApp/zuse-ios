@@ -36,11 +36,10 @@
     NSString *token = [defaults objectForKey:@"token"];
     if(!token)
     {
-        UINavigationController *navController = [[UIStoryboard storyboardWithName:@"Main"
-                                                                           bundle:[NSBundle mainBundle]]
-                                                 instantiateViewControllerWithIdentifier:@"LoginNav"];
         
-        ZSUserLoginViewController *loginController = (ZSUserLoginViewController *)navController.viewControllers[0];
+        ZSUserLoginViewController *loginController = [[UIStoryboard storyboardWithName:@"Main"
+                                                                                bundle:[NSBundle mainBundle]]
+                                                      instantiateViewControllerWithIdentifier:@"ZuseHubLogin"];
         loginController.didFinish = ^(BOOL isLoggedIn) {
             if (isLoggedIn) {
                 [self presentHubController];
@@ -48,8 +47,8 @@
                 [self close];
             }
         };
-        navController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-        [self presentViewController:navController animated:YES completion:^{}];
+        loginController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+        [self presentViewController:loginController animated:YES completion:^{}];
     }
     else
     {

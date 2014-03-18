@@ -10,6 +10,7 @@
 #import "ZSUserRegisterViewController.h"
 #import "ZSZuseHubJSONClient.h"
 #import "ZSZuseHubViewController.h"
+#import "ZSUserRegisterViewController.h"
 
 @interface ZSUserLoginViewController()
 
@@ -27,12 +28,10 @@
     self.jsonClientManager = [ZSZuseHubJSONClient sharedClient];
     
     self.title = @"Login to ZuseHub";
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] init];
-    backButton.title = @"Back";
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back"
-                                                                             style:UIBarButtonItemStylePlain
-                                                                            target:self
-                                                                            action:@selector(close)];
+}
+- (IBAction)backTapped:(id)sender {
+    self.didFinish(self.didLogIn);
+//    [self dismissViewControllerAnimated:YES completion:^{}];
 }
 
 /**
@@ -41,6 +40,18 @@
 - (void)close
 {
     self.didFinish(self.didLogIn);
+}
+- (IBAction)registerTapped:(id)sender {
+    ZSUserRegisterViewController *registerController = [[UIStoryboard storyboardWithName:@"Main"
+                                                                                  bundle:[NSBundle mainBundle]]
+                                                        instantiateViewControllerWithIdentifier:@"RegisterView"];
+    
+    registerController.didFinish = ^(BOOL isLoggedIn) {
+        self.didFinish(isLoggedIn);
+    };
+    registerController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    [self presentViewController:registerController animated:YES completion:^{}];
+    
 }
 
 - (IBAction)loginTapped:(id)sender {
@@ -59,6 +70,7 @@
                 
                 NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
                 [defaults setObject:self.jsonClientManager.token forKey:@"token"];
+                [defaults synchronize];
                 
                 self.didLogIn = YES;
                 self.errorMsgLabel.text = @"";

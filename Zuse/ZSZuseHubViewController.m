@@ -41,7 +41,6 @@
                                                            bundle:[NSBundle mainBundle]]
                                  instantiateViewControllerWithIdentifier:@"BrowseProjectsView"];
     self.centerViewController.contentType = ZSZuseHubBrowseTypeNewest;
-    ((ZSZuseHubBrowseViewController *)self.centerViewController).didDownloadProject = self.didDownloadProject;
     
     self.navigationController = [[MMNavigationController alloc] initWithRootViewController:self.centerViewController];
     

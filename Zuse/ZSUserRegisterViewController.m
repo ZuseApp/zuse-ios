@@ -13,6 +13,8 @@
 @interface ZSUserRegisterViewController()
 
 @property (strong, nonatomic) ZSZuseHubJSONClient *jsonClientManager;
+@property (assign, nonatomic) BOOL didLogIn;
+@property (strong, nonatomic) ZSZuseHubViewController *hubController;
 
 @end
 
@@ -21,8 +23,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.didLogIn = NO;
     self.jsonClientManager = [ZSZuseHubJSONClient sharedClient];
     
+}
+- (IBAction)backTapped:(id)sender {
+    self.didFinish(self.didLogIn);
 }
 - (IBAction)registerTapped:(id)sender {
     if(self.usernameTextField.text.length != 0 &&
@@ -41,16 +47,14 @@
                 [self.jsonClientManager setAuthHeader:self.jsonClientManager.token];
                 NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
                 [defaults setObject:self.jsonClientManager.token forKey:@"token"];
-                ZSZuseHubViewController *controller = [[ZSZuseHubViewController alloc] init];
-                controller.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-                [self presentViewController:controller animated:YES completion:^{}];
-                controller.didFinish = ^{
-                    [self close];
-                };
+                [defaults synchronize];
+                self.didLogIn = YES;
                 self.errorMsgLabel.text = @"";
+                [self close];
             }
             else{
                 self.errorMsgLabel.text = @"Username taken or email invalid";
+                [self close];
             }
         }];
     }
@@ -61,7 +65,7 @@
  */
 - (void)close
 {
-    [self.presentingViewController.presentingViewController dismissViewControllerAnimated:YES completion:^{}];
+    self.didFinish(self.didLogIn);
 }
 
 - (IBAction)outerViewTapped:(id)sender {
