@@ -202,7 +202,7 @@
     XCTAssertEqualObjects(@YES, result, @"");
 }
 
-- (void)testScope {
+- (void)testSuite {
     __block BOOL didRun1 = NO;
     NSDictionary *method = @{
         @"method":  @"check1",
@@ -231,7 +231,7 @@
     
     [_interpreter loadMethod:method];
     
-    NSDictionary *json = [self loadTestFileAtPath:@"scope"];
+    NSDictionary *json = [self loadTestFileAtPath:@"suite"];
     ZSCompiler *compiler = [ZSCompiler compilerWithProjectJSON:json];
     
     [_interpreter runJSON:compiler.compiledJSON];

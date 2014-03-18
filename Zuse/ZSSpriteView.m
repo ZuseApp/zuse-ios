@@ -118,14 +118,15 @@
 }
 
 - (void)setupGestures {
-    UITapGestureRecognizer *singleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTapRecognized)];
-    [self addGestureRecognizer:singleTapGesture];
-    
     UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panRecognized:)];
     [panGesture setMinimumNumberOfTouches:1];
     [panGesture setMaximumNumberOfTouches:1];
     panGesture.delegate = self;
     [self addGestureRecognizer:panGesture];
+    
+    UITapGestureRecognizer *singleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTapRecognized)];
+    [singleTapGesture requireGestureRecognizerToFail:panGesture];
+    [self addGestureRecognizer:singleTapGesture];
     
     UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressRecognized:)];
     longPressGesture.minimumPressDuration = 0.3;
@@ -193,6 +194,29 @@
 
 - (BOOL)canBecomeFirstResponder {
     return YES;
+}
+
+- (BOOL)canPerformAction:(SEL)action withSender:(id)sender {
+    // Check to see if the action is implemented.  If it is return YES, otherwise, NO.
+    if (action == @selector(copy:)) {
+        if (_copy) {
+            return YES;
+        }
+        return NO;
+    }
+    if (action == @selector(cut:)) {
+        if (_cut) {
+            return YES;
+        }
+        return NO;
+    }
+    if (action == @selector(delete:)) {
+        if (_delete) {
+            return YES;
+        }
+        return NO;
+    }
+    return NO;
 }
 
 - (void)copy:(id)sender {

@@ -6,7 +6,7 @@
       "code": [
         { "set": ["var1", "foo"] },
         {
-          "scope": [
+          "suite": [
             { "set": ["var1", "bar"] },
             {
               "call": {

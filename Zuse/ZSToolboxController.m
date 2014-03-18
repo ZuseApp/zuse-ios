@@ -28,7 +28,7 @@
 {
     ZSToolboxCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cellID" forIndexPath:indexPath];
     
-    NSMutableDictionary *json = [_sprites[collectionView.tag][@"sprites"][indexPath.row] copy];
+    NSMutableDictionary *json = [_sprites[collectionView.tag][@"sprites"][indexPath.row] mutableCopy];
     [cell.spriteView setThumbnailFromJSON:json];
     
     cell.spriteView.contentMode = UIViewContentModeScaleAspectFit;

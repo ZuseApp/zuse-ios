@@ -82,8 +82,8 @@
     NSString *key = [code allKeys][0];
     id data = code[key];
     
-    if ([key isEqualToString:@"program"] || [key isEqualToString:@"code"]) {
-        return [self runSuite:data context:context];
+    if ([key isEqualToString:@"suite"]) {
+        return [self runSuite:data context:[context contextWithNewEnvironment]];
     }
     
     else if ([key isEqualToString:@"set"]) {
@@ -111,10 +111,6 @@
         } else {
             return [self runSuite:data[@"false"] context:context];
         }
-    }
-    
-    else if ([key isEqualToString:@"scope"]) {
-        return [self runSuite:data context:[context contextWithNewEnvironment]];
     }
     
     else if ([key isEqualToString:@"on_event"]) {

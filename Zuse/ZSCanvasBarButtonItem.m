@@ -1,11 +1,3 @@
-//
-//  ZSCanvasBarButtonItem.m
-//  Zuse
-//
-//  Created by Parker Wightman on 3/1/14.
-//  Copyright (c) 2014 Michael Hogenson. All rights reserved.
-//
-
 #import "ZSCanvasBarButtonItem.h"
 #import <FontAwesomeKit/FAKIcon.h>
 #import <FontAwesomeKit/FAKIonIcons.h>
@@ -57,6 +49,11 @@ CGFloat const DefaultSize = 30;
     FAKIcon *icon = [self styledIcon:[FAKIonIcons playIconWithSize:DefaultSize]];
     [icon addAttribute:NSForegroundColorAttributeName
                  value:[UIColor zuseGreen]];
+    return [self buttonWithIcon:icon tapHandler:handler];
+}
+
++ (ZSCanvasBarButtonItem *)generatorsButtonWithHandler:(void (^)())handler {
+    FAKIcon *icon = [self styledIcon:[FAKIonIcons nuclearIconWithSize:DefaultSize]];
     return [self buttonWithIcon:icon tapHandler:handler];
 }
 

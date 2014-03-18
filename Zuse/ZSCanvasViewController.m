@@ -5,6 +5,7 @@
 #import "ZSEditorViewController.h"
 #import "ZSGrid.h"
 #import "ZSCanvasView.h"
+#import "ZSGeneratorView.h"
 #import "ZSToolboxController.h"
 #import "ZSToolboxView.h"
 #import "ZSToolboxCell.h"
@@ -17,12 +18,14 @@
 #import <AFNetworking/AFNetworking.h>
 #import <Social/Social.h>
 #import <Accounts/Accounts.h>
+#import <MTBlockAlertView/MTBlockAlertView.h>
 
-typedef NS_ENUM(NSInteger, ZSCanvasInterfaceState) {
-    ZSCanvasInterfaceStateNormal,
-    ZSCanvasInterfaceStateGroups,
-    ZSCanvasInterfaceStateRendererPlaying,
-    ZSCanvasInterfaceStateRendererPaused
+typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
+    ZSToolbarInterfaceStateNormal,
+    ZSToolbarInterfaceStateGroups,
+    ZSToolbarInterfaceStateGenerators,
+    ZSToolbarInterfaceStateRendererPlaying,
+    ZSToolbarInterfaceStateRendererPaused
 };
 
 NSString * const ZSTutorialBroadcastDidDropSprite = @"ZSTutorialBroadcastDidDropSprite";
@@ -42,13 +45,13 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
 
 // Canvas
 @property (weak, nonatomic) IBOutlet ZSCanvasView *canvasView;
+@property (weak, nonatomic) IBOutlet UILabel *canvasLabel;
 
 // Grid Menu
 @property (weak, nonatomic) IBOutlet UIView *rendererView;
 
-// Sprites
-@property (nonatomic, strong) NSArray *templateSprites;
-@property (nonatomic, strong) NSArray *canvasSprites;
+// Generator
+@property (weak, nonatomic) IBOutlet ZSGeneratorView *generatorView;
 
 // Renderer
 @property (strong, nonatomic) ZSRendererViewController *rendererViewController;
@@ -66,7 +69,7 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
 
 // Toolbar
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
-@property (assign, nonatomic) ZSCanvasInterfaceState interfaceState;
+@property (assign, nonatomic) ZSToolbarInterfaceState interfaceState;
 
 @end
 
@@ -78,7 +81,7 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
         _tutorial = [ZSTutorial sharedTutorial];
         _tutorialStage = ZSCanvasTutorialSetupStage;
         _toolboxController = [[ZSToolboxController alloc] init];
-        self.interfaceState = ZSCanvasInterfaceStateNormal;
+        self.interfaceState = ZSToolbarInterfaceStateNormal;
     }
     return self;
 }
@@ -89,51 +92,22 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
 {
     [super viewDidLoad];
     
-    self.toolbar.translucent = NO;
-    self.toolbar.barTintColor = [UIColor zuseBackgroundGrey];
-    self.toolbar.clipsToBounds = YES;
-    
-    // Test Toolbox
-    _toolboxView = [[ZSToolboxView alloc] initWithFrame:CGRectMake(19, 82, 282, 361)];
-    WeakSelf
-    _toolboxView.hidView = ^{
-        [weakSelf.tutorial broadcastEvent:ZSTutorialBroadcastDidHideToolbox];
-    };
-    NSMutableArray *categories = [ZSSpriteLibrary sharedLibrary].categories;
-    NSInteger position = 0;
-    for (NSMutableArray *category in categories) {
-        UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:[[UICollectionViewFlowLayout alloc] init]];
-        [collectionView registerClass:ZSToolboxCell.class forCellWithReuseIdentifier:@"cellID"];
-        collectionView.userInteractionEnabled = YES;
-        collectionView.contentInset = UIEdgeInsetsMake(4, 4, 4, 4);
-        collectionView.delegate = _toolboxController;
-        collectionView.dataSource = _toolboxController;
-        collectionView.tag = position;
-        
-        [_toolboxView addContentView:collectionView title:categories[position][@"category"]];
-        position++;
-    }
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
-    [button setTitle:@"Import Image" forState:UIControlStateNormal];
-    [_toolboxView addButton:button];
-    [self.view addSubview:_toolboxView];
-    
     // Load the project if it exists.
     if (_project) {
-        if (_project.screenshot) {
-            NSData *data = UIImagePNGRepresentation(self.project.screenshot);
-            NSString *base64 = [data base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithCarriageReturn];
-            NSLog(@"%@", base64);
-        }
-        // Setup delgates, sources and gestures.
+        // Setup pieces of the canvas.
         [self setupCanvas];
-        [self setupTableDelegatesAndSources];
+        [self setupGenerators];
+        [self setupToolbar];
+        [self setupToolbox];
         
-        // Load Sprites.
-        [self loadSpritesFromProject];
+        // Set a curved radius on the canvas label.
+        self.canvasLabel.layer.cornerRadius = 10;
+        
+        // Load Sprites and generators.
+        [self loadSpritesAndGeneratorsFromProject];
     }
     
-    [self transitionToInterfaceState:ZSCanvasInterfaceStateNormal];
+    [self transitionToInterfaceState:ZSToolbarInterfaceStateNormal];
     
     // Animate in the canvas view and all that jazz
     [self animateCanvasViewIn];
@@ -202,6 +176,9 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
 }
 
 - (void)animateCanvasViewOut {
+    if (!self.generatorView.hidden) {
+        self.generatorView.hidden = YES;
+    }
     CGFloat scale = self.initialCanvasRect.size.width / self.canvasView.bounds.size.width;
     CGRect toolbarRect = self.toolbar.frame;
     toolbarRect.origin.y = self.view.bounds.size.height;
@@ -310,10 +287,14 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
 
 #pragma mark Project Management
 
-- (void)loadSpritesFromProject {
+- (void)loadSpritesAndGeneratorsFromProject {
     NSMutableDictionary *assembledJSON = [_project assembledJSON];
     for (NSMutableDictionary *jsonObject in assembledJSON[@"objects"]) {
-        [_canvasView addSpriteFromJSON:jsonObject];
+        [self.canvasView addSpriteFromJSON:jsonObject];
+    }
+    
+    for (NSMutableDictionary *jsonObject in assembledJSON[@"generators"]) {
+        [self.generatorView addGeneratorFromJSON:jsonObject];
     }
 }
 
@@ -345,12 +326,7 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
     
     _canvasView.spriteRemoved = ^(ZSSpriteView *spriteView) {
         NSMutableArray *objects = [weakSelf.project rawJSON][@"objects"];
-        for (NSMutableDictionary *currentSprite in objects) {
-            if ([currentSprite[@"id"] isEqualToString:spriteView.spriteJSON[@"id"]]) {
-                [objects removeObject:currentSprite];
-                break;
-            }
-        }
+        [objects removeObject:spriteView.spriteJSON];
         [self saveProject];
     };
     
@@ -359,9 +335,56 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
     };
 }
 
-#pragma mark Setup Sprite Controller
+#pragma mark Setup Generators
 
-- (void)setupTableDelegatesAndSources {
+- (void)setupGenerators {
+    WeakSelf
+    
+    _generatorView.singleTapped = ^(ZSSpriteView *spriteView) {
+        [self performSegueWithIdentifier:@"editor" sender:spriteView];
+    };
+    
+    _generatorView.generatorRemoved = ^(ZSSpriteView *spriteView) {
+        NSMutableArray *generators = [weakSelf.project rawJSON][@"generators"];
+        [generators removeObject:spriteView.spriteJSON];
+        [self saveProject];
+        [_generatorView reloadData];
+    };
+    
+    _generatorView.addGeneratorRequested = ^ {
+        [self showToolbox];
+    };
+}
+
+#pragma mark Toolbox
+
+- (void)setupToolbox {
+    [self setupToolboxController];
+    
+    _toolboxView = [[ZSToolboxView alloc] initWithFrame:CGRectMake(19, 82, 282, 361)];
+    WeakSelf
+    _toolboxView.hidView = ^{
+        [weakSelf.tutorial broadcastEvent:ZSTutorialBroadcastDidHideToolbox];
+    };
+    NSMutableArray *categories = [ZSSpriteLibrary sharedLibrary].categories;
+    for (int i = 0; i < categories.count; i++) {
+        UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:[[UICollectionViewFlowLayout alloc] init]];
+        [collectionView registerClass:ZSToolboxCell.class forCellWithReuseIdentifier:@"cellID"];
+        collectionView.userInteractionEnabled = YES;
+        collectionView.contentInset = UIEdgeInsetsMake(4, 4, 4, 4);
+        collectionView.delegate = _toolboxController;
+        collectionView.dataSource = _toolboxController;
+        collectionView.tag = i;
+        
+        [_toolboxView addContentView:collectionView title:categories[i][@"category"]];
+    }
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
+    [button setTitle:@"Import Image" forState:UIControlStateNormal];
+    [_toolboxView addButton:button];
+    [self.view addSubview:_toolboxView];
+}
+
+- (void)setupToolboxController {
     WeakSelf
     
     __block CGPoint offset;
@@ -382,110 +405,120 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
         frame.size.width = [json[@"properties"][@"width"] floatValue];
         frame.size.height = [json[@"properties"][@"height"] floatValue];
         
-        if (![@"text" isEqualToString:type]) {
-            CGFloat scale = frame.size.width / spriteView.content.frame.size.width;
-            offset = [panGestureRecognizer locationInView:spriteView.content];
-            offset = CGPointMake(offset.x * scale, offset.y * scale);
+        // If the generator view is hidden start sprite dragging, otherwise simply add it to the
+        // generator view.
+        if (weakSelf.generatorView.hidden) {
+            if (![@"text" isEqualToString:type]) {
+                CGFloat scale = frame.size.width / spriteView.content.frame.size.width;
+                offset = [panGestureRecognizer locationInView:spriteView.content];
+                offset = CGPointMake(offset.x * scale, offset.y * scale);
+            }
+            else {
+                offset = [panGestureRecognizer locationInView:spriteView];
+                offset = CGPointMake(offset.x, frame.size.height / 2);
+            }
+            currentPoint = [panGestureRecognizer locationInView:weakSelf.canvasView];
+            
+            originalFrame.origin.x = currentPoint.x - offset.x;
+            originalFrame.origin.y = currentPoint.y - offset.y;
+            
+            frame.origin.x = currentPoint.x - offset.x;
+            frame.origin.y = currentPoint.y - offset.y;
+            
+            draggedView = [[ZSSpriteView alloc] initWithFrame:frame];
+            [draggedView setContentFromJSON:json];
+            [weakSelf.canvasView addSubview:draggedView];
+            
+            CGFloat scale = spriteView.content.frame.size.width / frame.size.width;
+            if (scale < 1) {
+                draggedView.transform = CGAffineTransformMakeScale(scale, scale);
+                [UIView animateWithDuration:0.25f animations:^{
+                    draggedView.transform = CGAffineTransformIdentity;
+                }];
+            }
         }
         else {
-            offset = [panGestureRecognizer locationInView:spriteView];
-            offset = CGPointMake(offset.x, frame.size.height / 2);
-        }
-        currentPoint = [panGestureRecognizer locationInView:weakSelf.canvasView];
-        
-        originalFrame.origin.x = currentPoint.x - offset.x;
-        originalFrame.origin.y = currentPoint.y - offset.y;
-        
-        frame.origin.x = currentPoint.x - offset.x;
-        frame.origin.y = currentPoint.y - offset.y;
-        
-        draggedView = [[ZSSpriteView alloc] initWithFrame:frame];
-        [draggedView setContentFromJSON:json];
-        [weakSelf.canvasView addSubview:draggedView];
-        
-        CGFloat scale = spriteView.content.frame.size.width / frame.size.width;
-        if (scale < 1) {
-            draggedView.transform = CGAffineTransformMakeScale(scale, scale);
-            [UIView animateWithDuration:0.25f animations:^{
-                draggedView.transform = CGAffineTransformIdentity;
-            }];
+            __block NSString *name;
+            MTBlockAlertView *alertView = [[MTBlockAlertView alloc]
+                                           initWithTitle:@"Generator"
+                                           message:@"Enter a name for the generator."
+                                           completionHanlder:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                                               name = [alertView textFieldAtIndex:0].text;
+                                               NSMutableDictionary *newJson = [json deepMutableCopy];
+                                               newJson[@"id"] = [[NSUUID UUID] UUIDString];
+                                               newJson[@"name"] = name;
+                                               newJson[@"properties"][@"x"] = @(0);
+                                               newJson[@"properties"][@"y"] = @(0);
+                                               [[weakSelf.project rawJSON][@"generators"] addObject:newJson];
+                                               
+                                               [weakSelf.generatorView addGeneratorFromJSON:newJson];
+                                               [weakSelf.generatorView reloadData];
+                                               [weakSelf saveProject];
+                                           }
+                                           cancelButtonTitle:@"OK"
+                                           otherButtonTitles:nil];
+            alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+            [alertView show];
         }
         [weakSelf.toolboxView hideAnimated:YES];
         [weakSelf.tutorial hideMessage];
     };
     
     _toolboxController.longPressChanged = ^(UILongPressGestureRecognizer *longPressGestureRecognizer) {
-        currentPoint = [longPressGestureRecognizer locationInView:weakSelf.canvasView];
-        
-        [weakSelf.canvasView moveSprite:draggedView x:currentPoint.x - offset.x y:currentPoint.y - offset.y];
+        if (weakSelf.generatorView.hidden) {
+            currentPoint = [longPressGestureRecognizer locationInView:weakSelf.canvasView];
+            [weakSelf.canvasView moveSprite:draggedView x:currentPoint.x - offset.x y:currentPoint.y - offset.y];
+        }
     };
     
     _toolboxController.longPressEnded = ^(UILongPressGestureRecognizer *longPressGestureRecognizer) {
-        NSMutableDictionary *json = draggedView.spriteJSON;
-        
-        NSMutableDictionary *newJson = [json deepMutableCopy];
-        newJson[@"id"] = [[NSUUID UUID] UUIDString];
-        NSMutableDictionary *properties = newJson[@"properties"];
-        [[weakSelf.project rawJSON][@"objects"] addObject:newJson];
-        
-        CGFloat x = draggedView.frame.origin.x + (draggedView.frame.size.width / 2);
-        CGFloat y = weakSelf.canvasView.frame.size.height - draggedView.frame.size.height - draggedView.frame.origin.y;
-        y += draggedView.frame.size.height / 2;
-        
-        properties[@"x"] = @(x);
-        properties[@"y"] = @(y);
-        
-        draggedView.spriteJSON = newJson;
-        [weakSelf.canvasView setupGesturesForSpriteView:draggedView withProperties:properties];
-        [weakSelf.canvasView setupEditOptionsForSpriteView:draggedView];
-        
-        // Save the project.
-        [weakSelf saveProject];
-        
-        // Show the toolbox again.
-        [weakSelf.toolboxView showAnimated:YES];
-        [weakSelf.tutorial broadcastEvent:ZSTutorialBroadcastDidDropSprite];
+        if (weakSelf.generatorView.hidden) {
+            NSMutableDictionary *json = draggedView.spriteJSON;
+            
+            NSMutableDictionary *newJson = [json deepMutableCopy];
+            newJson[@"id"] = [[NSUUID UUID] UUIDString];
+            NSMutableDictionary *properties = newJson[@"properties"];
+            [[weakSelf.project rawJSON][@"objects"] addObject:newJson];
+            
+            CGFloat x = draggedView.frame.origin.x + (draggedView.frame.size.width / 2);
+            CGFloat y = weakSelf.canvasView.frame.size.height - draggedView.frame.size.height - draggedView.frame.origin.y;
+            y += draggedView.frame.size.height / 2;
+            
+            properties[@"x"] = @(x);
+            properties[@"y"] = @(y);
+            
+            draggedView.spriteJSON = newJson;
+            [weakSelf.canvasView setupGesturesForSpriteView:draggedView withProperties:properties];
+            [weakSelf.canvasView setupEditOptionsForSpriteView:draggedView];
+            
+            // Save the project.
+            [weakSelf saveProject];
+            [weakSelf.tutorial broadcastEvent:ZSTutorialBroadcastDidDropSprite];
+        }
     };
 }
 
-#pragma mark Main Menu
+#pragma mark Toolbar
 
-- (void)playProject {
-    [self transitionToInterfaceState:ZSCanvasInterfaceStateRendererPlaying];
-    
-    [self.view bringSubviewToFront:self.rendererView];
-    if (self.rendererView.hidden) {
-        self.rendererViewController.projectJSON = [self.project assembledJSON];
-        self.rendererView.hidden = NO;
-        [self.rendererViewController play];
-    }
-    else {
-        [self.rendererViewController resume];
-    }
+- (void)setupToolbar {
+    self.toolbar.translucent = NO;
+    self.toolbar.barTintColor = [UIColor zuseBackgroundGrey];
+    self.toolbar.clipsToBounds = YES;
+
 }
 
-- (void)pauseProject {
-    [_rendererViewController stop];
-    [self transitionToInterfaceState:ZSCanvasInterfaceStateRendererPaused];
-}
-
-
-- (void)stopProject {
-    [self.rendererViewController stop];
-    self.rendererView.hidden = YES;
-    [self transitionToInterfaceState:ZSCanvasInterfaceStateNormal];
-}
-
-- (void)transitionToInterfaceState:(ZSCanvasInterfaceState)state {
+- (void)transitionToInterfaceState:(ZSToolbarInterfaceState)state {
     NSArray *items = nil;
-    if (state == ZSCanvasInterfaceStateNormal) {
+    if (state == ZSToolbarInterfaceStateNormal) {
         items = [self normalToolbarItems];
-    } else if (state == ZSCanvasInterfaceStateGroups) {
+    } else if (state == ZSToolbarInterfaceStateGroups) {
         items = [self groupsToolbarItems];
-    } else if (state == ZSCanvasInterfaceStateRendererPlaying) {
+    } else if (state == ZSToolbarInterfaceStateRendererPlaying) {
         items = [self rendererPlayingToolbarItems];
-    } else if (state == ZSCanvasInterfaceStateRendererPaused) {
+    } else if (state == ZSToolbarInterfaceStateRendererPaused) {
         items = [self rendererPausedToolbarItems];
+    } else if (state == ZSToolbarInterfaceStateGenerators) {
+        items = [self generatorsToolbarItems];
     }
     
     self.interfaceState = state;
@@ -499,6 +532,9 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
                  [self playProject];
              }],
              [ZSCanvasBarButtonItem flexibleBarButtonItem],
+             [ZSCanvasBarButtonItem generatorsButtonWithHandler:^{
+                 [self toggleGeneratorView];
+             }],
              [ZSCanvasBarButtonItem groupsButtonWithHandler:^{
                  [self modifyGroups];
              }],
@@ -540,6 +576,98 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
              ];
 }
 
+- (NSArray *)generatorsToolbarItems {
+    return @[
+             [ZSCanvasBarButtonItem playButtonWithHandler:^{
+                 [self playProject];
+             }],
+             [ZSCanvasBarButtonItem flexibleBarButtonItem],
+             [ZSCanvasBarButtonItem generatorsButtonWithHandler:^{
+                 [self toggleGeneratorView];
+             }],
+             [ZSCanvasBarButtonItem groupsButtonWithHandler:^{
+                 [self modifyGroups];
+             }],
+             [ZSCanvasBarButtonItem shareButtonWithHandler:^{
+                 [self shareProject];
+             }],
+             [ZSCanvasBarButtonItem backButtonWithHandler:^{
+                 [self finish];
+             }]
+             ];
+}
+
+- (void)playProject {
+    [self transitionToInterfaceState:ZSToolbarInterfaceStateRendererPlaying];
+    
+    [self.view bringSubviewToFront:self.rendererView];
+    if (!self.generatorView.hidden) {
+        self.generatorView.hidden = YES;
+    }
+    if (self.rendererView.hidden) {
+        self.rendererViewController.projectJSON = [self.project assembledJSON];
+        self.rendererView.hidden = NO;
+        [self.rendererViewController play];
+    }
+    else {
+        [self.rendererViewController resume];
+    }
+}
+
+- (void)pauseProject {
+    [_rendererViewController stop];
+    [self transitionToInterfaceState:ZSToolbarInterfaceStateRendererPaused];
+}
+
+
+- (void)stopProject {
+    [self.rendererViewController stop];
+    self.rendererView.hidden = YES;
+    [self transitionToInterfaceState:ZSToolbarInterfaceStateNormal];
+}
+
+- (void)toggleGeneratorView {
+    // Setup
+    BOOL generatorHidden = self.generatorView.hidden;
+    if (generatorHidden) {
+        self.generatorView.alpha = 0;
+        self.generatorView.hidden = NO;
+        [self.view bringSubviewToFront:self.generatorView];
+        [self.canvasLabel setText:@"Generators"];
+        [self transitionToInterfaceState:ZSToolbarInterfaceStateGenerators];
+    }
+    else {
+        self.canvasView.alpha = 0;
+        self.canvasView.hidden = NO;
+        [self.view bringSubviewToFront:self.canvasView];
+        [self.canvasLabel setText:@"Canvas"];
+        [self transitionToInterfaceState:ZSToolbarInterfaceStateNormal];
+    }
+    [self.view bringSubviewToFront:self.canvasLabel];
+    self.canvasLabel.alpha = 0;
+    self.canvasLabel.hidden = NO;
+    
+    // Animation
+    [UIView animateWithDuration:0.25 animations:^{
+        self.canvasLabel.alpha = 100;
+        if (generatorHidden) {
+            self.generatorView.alpha = 100;
+        }
+        else {
+            self.canvasView.alpha = 100;
+        }
+    } completion:^(BOOL finished){
+        if (!generatorHidden) {
+            self.generatorView.hidden = YES;
+        }
+        [UIView animateWithDuration:0.25 animations:^{
+            self.canvasLabel.alpha = 0;
+        } completion:^(BOOL finished) {
+            self.canvasLabel.hidden = YES;
+        }];
+    }];
+}
+
 - (void)modifyGroups {
     self.groupsController = [[ZSGroupsViewController alloc] init];
     self.groupsController.sprites = _project.assembledJSON[@"objects"];
@@ -558,7 +686,12 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
     };
     
     self.groupsController.didFinish = ^{
-        [self transitionToInterfaceState:ZSCanvasInterfaceStateNormal];
+        if (weakSelf.generatorView.hidden) {
+            [weakSelf transitionToInterfaceState:ZSToolbarInterfaceStateNormal];
+        }
+        else {
+            [weakSelf transitionToInterfaceState:ZSToolbarInterfaceStateGenerators];
+        }
         [UIView animateWithDuration:0.2
                          animations:^{
                              weakSelf.groupsController.view.alpha = 0.0;
@@ -569,7 +702,7 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
                          }];
     };
     
-    [self transitionToInterfaceState:ZSCanvasInterfaceStateGroups];
+    [self transitionToInterfaceState:ZSToolbarInterfaceStateGroups];
     
     self.groupsController.view.frame = self.canvasView.bounds;
     self.groupsController.view.backgroundColor = [UIColor whiteColor];

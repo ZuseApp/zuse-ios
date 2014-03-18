@@ -141,6 +141,7 @@
       "paddle"
     ]
   },
+  "generators" : [ ],
   "objects": [
     {
       "id": "score",

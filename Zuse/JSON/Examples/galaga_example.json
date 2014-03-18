@@ -1,0 +1,230 @@
+{
+  "canvas_size": [
+    320,
+    524
+  ],
+  "traits": {
+    "Baddy": {
+      "parameters": {},
+      "code": [
+        { "set": ["direction", 0] },
+        {
+          "every": {
+            "seconds": 1,
+            "code": [
+              { "set": ["direction", { "+": [{ "get": "direction" }, 180] }] },
+              {
+                "call": {
+                  "method": "move",
+                  "parameters": [{ "get": "direction" }, 50]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "every": {
+            "seconds": { "call": { "method": "random_number", "parameters": [1, 3] } },
+            "code": [
+              {
+                "call": {
+                  "method": "generate",
+                  "parameters": ["baddy bullet", { "get": "x" }, { "get": "y" }]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "on_event": {
+            "name": "collide",
+            "parameters": ["other_group"],
+            "code": [
+              {
+                "if": {
+                  "test": { "==": [{ "get": "other_group" }, "hero bullet"] },
+                  "true": [
+                    { "call": { "method": "remove", "parameters": [] } }
+                  ],
+                  "false": []
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "title": "Galaga",
+  "id": "E8C31CAA-C5AC-4335-BE51-5920715A0295",
+  "collision_groups": {
+    "hero": [],
+    "baddy": []
+  },
+  "version": "1.0.0",
+  "objects": [
+    {
+      "properties": {
+        "y": 35.10715,
+        "width": 129,
+        "x": 144.4464,
+        "height": 28
+      },
+      "type": "image",
+      "id": "23F4A837-BBAB-49F6-8742-4648422D5777",
+      "name": "Paddle",
+      "physics_body": "rectangle",
+      "code": [
+        {
+          "on_event": {
+            "name": "collide",
+            "parameters": ["other_group"],
+            "code": [
+              {
+                "if": {
+                  "test": { "==": [{ "get": "other_group" }, "hero bullet"] },
+                  "true": [
+                    { "call": { "method": "remove", "parameters": [] } },
+                    {
+                      "trigger_event": {
+                        "name": "gameover",
+                        "parameters": []
+                      }
+                    }
+                  ],
+                  "false": []
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "traits": {
+        "Draggable": {
+          "parameters": {
+            "vertical": false,
+            "horizontal": true
+          }
+        }
+      },
+      "image": {
+        "path": "sprite_paddle.png"
+      },
+      "collision_group": "hero"
+    }
+  ],
+  "generators": [
+    {
+      "properties": {
+        "y": 422,
+        "width": 64,
+        "x": 85.5,
+        "height": 32
+      },
+      "type": "image",
+      "id": "E7FC3888-7729-441D-A910-CB6682A756F1",
+      "name": "Red Brick",
+      "physics_body": "rectangle",
+      "code": [],
+      "traits": {
+        "Baddy": {
+          "parameters": { }
+        }
+      },
+      "image": {
+        "path": "sprite_brick.png"
+      },
+      "collision_group": "baddy"
+    },
+    {
+      "properties": {
+        "y": 421.5,
+        "width": 64,
+        "x": 201,
+        "height": 32
+      },
+      "type": "image",
+      "id": "A12B4FF5-BE17-4BCC-9A78-F2E8CC36A202",
+      "name": "Red Brick",
+      "physics_body": "rectangle",
+      "code": [],
+      "traits": {
+        "Baddy": {
+          "parameters": { }
+        }
+      },
+      "image": {
+        "path": "sprite_brick.png"
+      },
+      "collision_group": "baddy"
+    },
+    {
+      "properties": {
+        "y": 0,
+        "width": 64,
+        "x": 0,
+        "height": 32
+      },
+      "type": "image",
+      "id": "E7FC3888-7729-441D-A910-CB6682A756F2",
+      "name": "baddy bullet",
+      "physics_body": "circle",
+      "code": [
+        {
+          "call": {
+            "method": "move",
+            "parameters": [90, 100]
+          }
+        },
+        {
+          "on_event": {
+            "name": "collide",
+            "parameters": ["other_group"],
+            "code": [
+              { "call": { "method": "remove", "parameters": [] } }
+            ]
+          }
+        }
+      ],
+      "traits": {},
+      "image": {
+        "path": "ball.png"
+      },
+      "collision_group": "baddy bullet"
+    },
+    {
+      "properties": {
+        "y": 0,
+        "width": 64,
+        "x": 0,
+        "height": 32
+      },
+      "type": "image",
+      "id": "E7FC3888-7729-441D-A910-CB6682A756F3",
+      "name": "hero bullet",
+      "physics_body": "circle",
+      "code": [
+        {
+          "call": {
+            "method": "move",
+            "parameters": [90, 100]
+          }
+        },
+        {
+          "on_event": {
+            "name": "collide",
+            "parameters": ["other_group"],
+            "code": [
+              { "call": { "method": "remove", "parameters": [] } }
+            ]
+          }
+        }
+      ],
+      "traits": {},
+      "image": {
+        "path": "ball.png"
+      },
+      "collision_group": "hero bullet"
+    }
+  ]
+}
