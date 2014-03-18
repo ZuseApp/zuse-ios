@@ -8,4 +8,6 @@
 + (NSString*) expressionStringFromJson: (NSObject*) json;
 + (NSArray*) emptyStatements;
 + (NSArray*) emptyEvents;
++ (NSArray*) emptyMethods;
++ (NSDictionary *)manifestForMethodIdentifier:(NSString *)identifier;
 @end
