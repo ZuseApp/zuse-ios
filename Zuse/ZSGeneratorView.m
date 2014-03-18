@@ -58,7 +58,7 @@
             }
         };
         cell.spriteView.longPressBegan = ^(UILongPressGestureRecognizer *longPressGestureRecognizer) {
-            [longPressGestureRecognizer.view becomeFirstResponder];
+            [weakSelf becomeFirstResponder];
             _editMenu = [UIMenuController sharedMenuController];
             [_editMenu setTargetRect:weakCell.frame inView:self];
             [_editMenu setMenuVisible:YES animated:YES];
@@ -101,6 +101,13 @@
 
 - (BOOL)canBecomeFirstResponder {
     return YES;
+}
+
+- (BOOL)canPerformAction:(SEL)action withSender:(id)sender {
+    if (action == @selector(delete:)) {
+        return YES;
+    }
+    return NO;
 }
 
 - (void)delete:(id)sender {

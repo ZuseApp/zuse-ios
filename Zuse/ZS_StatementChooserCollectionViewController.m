@@ -36,7 +36,7 @@
 {
     if (!_statements)
     {
-        _statements = [ZS_JsonUtilities emptyStatements];
+        _statements = [[ZS_JsonUtilities emptyStatements] arrayByAddingObjectsFromArray:[ZS_JsonUtilities emptyMethods]];
     }
     return _statements;
 }
@@ -74,7 +74,6 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     [self.jsonCodeBody addObject: self.statements[indexPath.row]];
-    NSLog(@"%p", self.statements[indexPath.row]);
     [self.codeEditorViewController reloadFromJson];
     [self.toolboxView hideAnimated:YES];
 }

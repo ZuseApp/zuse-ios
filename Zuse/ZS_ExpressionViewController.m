@@ -2,6 +2,7 @@
 #import "ZS_ExpressionVariableChooserCollectionViewController.h"
 #import "ZS_JsonUtilities.h"
 #import "ZSToolboxView.h"
+#import <MTBlockAlertView/MTBlockAlertView.h>
 
 typedef NS_ENUM(NSInteger, ZS_Operator)
 {
@@ -84,7 +85,7 @@ NSString* ZS_OperatorToString(ZS_Operator operator)
 
 - (void) setJson: (NSObject *)json
 {
-    _json = json.copy;
+    _json = json;
     
     if ([json isKindOfClass: [NSDictionary class]])
     {
@@ -138,12 +139,16 @@ NSString* ZS_OperatorToString(ZS_Operator operator)
     }
     else
     {
+        // get value
         NSMutableDictionary* json = (NSMutableDictionary*)self.json;
         NSString* oldKey = json.allKeys[0];
-        NSString* newKey = ZS_OperatorToString(operator);
         NSObject* value = json[oldKey];
-        [json removeAllObjects];
-        json[newKey] = value;
+        
+        // replace json with a dictionary with the new key / value
+        NSString* newKey = ZS_OperatorToString(operator);
+        self.json = [NSMutableDictionary dictionaryWithDictionary:@{newKey : value}];
+        
+        // set text of the label
         self.text = [ZS_JsonUtilities convertToFansySymbolFromJsonOperator: newKey];
     }
 }
@@ -158,9 +163,7 @@ NSString* ZS_OperatorToString(ZS_Operator operator)
 {
     if (self.isLeaf)
     {
-        NSMutableDictionary* getStatement = [[NSMutableDictionary alloc]init];
-        getStatement[@"get"] = name;
-        self.json = getStatement;
+        self.json = [NSMutableDictionary dictionaryWithDictionary:@{@"get": name}];
     }
 }
 - (NSArray*) allViews
@@ -433,5 +436,22 @@ NSString* ZS_OperatorToString(ZS_Operator operator)
     [self.view addSubview: variableToolboxView];
     
     [variableToolboxView showAnimated:YES];
+}
+- (IBAction)strButtonTapped
+{
+    MTBlockAlertView *alertView =
+    [[MTBlockAlertView alloc] initWithTitle: @"Create A String"
+                                    message: @"Please, enter a string"
+                          completionHanlder: ^(UIAlertView *alertView, NSInteger buttonIndex)
+     {
+         if (self.didFinish)
+         {
+             NSString* str = [alertView textFieldAtIndex:0].text;
+             self.didFinish([str isEqual:@""] ? nil : str);
+         }
+     }
+                          cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alertView show];
 }
 @end

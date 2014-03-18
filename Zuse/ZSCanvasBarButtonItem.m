@@ -1,6 +1,7 @@
 #import "ZSCanvasBarButtonItem.h"
 #import <FontAwesomeKit/FAKIcon.h>
 #import <FontAwesomeKit/FAKIonIcons.h>
+#import <FontAwesomeKit/FAKFontAwesome.h>
 
 CGFloat const DefaultSize = 30;
 
@@ -57,6 +58,11 @@ CGFloat const DefaultSize = 30;
     return [self buttonWithIcon:icon tapHandler:handler];
 }
 
++ (ZSCanvasBarButtonItem *)editButtonWithHandler:(void (^)())handler {
+    FAKIcon *icon = [self styledIcon:[FAKIonIcons editIconWithSize:DefaultSize]];
+    return [self buttonWithIcon:icon tapHandler:handler];
+}
+
 + (ZSCanvasBarButtonItem *)groupsButtonWithHandler:(void (^)())handler {
     FAKIcon *icon = [self styledIcon:[FAKIonIcons ios7BrowsersIconWithSize:DefaultSize]];
     return [self buttonWithIcon:icon tapHandler:handler];
@@ -84,6 +90,31 @@ CGFloat const DefaultSize = 30;
 
 + (ZSCanvasBarButtonItem *)pauseButtonWithHandler:(void (^)())handler {
     FAKIcon *icon = [self styledIcon:[FAKIonIcons pauseIconWithSize:DefaultSize]];
+    return [self buttonWithIcon:icon tapHandler:handler];
+}
+
++ (ZSCanvasBarButtonItem *)finishButtonWithHandler:(void (^)())handler {
+    FAKIcon *icon = [self styledIcon:[FAKIonIcons checkmarkIconWithSize:DefaultSize]];
+    return [self buttonWithIcon:icon tapHandler:handler];
+}
+
++ (ZSCanvasBarButtonItem *)cutButtonWithHandler:(void (^)())handler {
+    FAKIcon *icon = [self styledIcon:[FAKFontAwesome scissorsIconWithSize:DefaultSize]];
+    return [self buttonWithIcon:icon tapHandler:handler];
+}
+
++ (ZSCanvasBarButtonItem *)copyButtonWithHandler:(void (^)())handler {
+    FAKIcon *icon = [self styledIcon:[FAKIonIcons ios7CopyOutlineIconWithSize:DefaultSize]];
+    return [self buttonWithIcon:icon tapHandler:handler];
+}
+
++ (ZSCanvasBarButtonItem *)deleteButtonWithHandler:(void (^)())handler {
+    FAKIcon *icon = [self styledIcon:[FAKIonIcons ios7TrashOutlineIconWithSize:DefaultSize]];
+    return [self buttonWithIcon:icon tapHandler:handler];
+}
+
++ (ZSCanvasBarButtonItem *)editTextButtonWithHandler:(void (^)())handler {
+    FAKIcon *icon = [self styledIcon:[FAKFontAwesome fontIconWithSize:DefaultSize]];
     return [self buttonWithIcon:icon tapHandler:handler];
 }
 

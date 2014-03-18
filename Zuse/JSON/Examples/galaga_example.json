@@ -1,9 +1,9 @@
 {
-  "canvas_size": [
-    320,
-    524
-  ],
-  "traits": {
+  "canvas_size": [
+    320,
+    524
+  ],
+  "traits": {
     "Baddy": {
       "parameters": {},
       "code": [
@@ -55,26 +55,26 @@
       ]
     }
   },
-  "title": "Galaga",
-  "id": "E8C31CAA-C5AC-4335-BE51-5920715A0295",
-  "collision_groups": {
-    "hero": [],
-    "baddy": []
-  },
-  "version": "1.0.0",
-  "objects": [
-    {
-      "properties": {
-        "y": 35.10715,
-        "width": 129,
-        "x": 144.4464,
-        "height": 28
-      },
-      "type": "image",
-      "id": "23F4A837-BBAB-49F6-8742-4648422D5777",
-      "name": "Paddle",
-      "physics_body": "rectangle",
-      "code": [
+  "title": "Galaga",
+  "id": "E8C31CAA-C5AC-4335-BE51-5920715A0295",
+  "collision_groups": {
+    "hero": [],
+    "baddy": []
+  },
+  "version": "1.0.0",
+  "objects": [
+    {
+      "properties": {
+        "y": 35.10715,
+        "width": 129,
+        "x": 144.4464,
+        "height": 28
+      },
+      "type": "image",
+      "id": "23F4A837-BBAB-49F6-8742-4648422D5777",
+      "name": "Paddle",
+      "physics_body": "rectangle",
+      "code": [
         {
           "on_event": {
             "name": "collide",
@@ -99,7 +99,7 @@
           }
         }
       ],
-      "traits": {
+      "traits": {
         "Draggable": {
           "parameters": {
             "vertical": false,
@@ -107,69 +107,69 @@
           }
         }
       },
-      "image": {
-        "path": "sprite_paddle.png"
-      },
-      "collision_group": "hero"
-    }
+      "image": {
+        "path": "sprite_paddle.png"
+      },
+      "collision_group": "hero"
+    },
+    {
+      "properties": {
+        "y": 422,
+        "width": 64,
+        "x": 85.5,
+        "height": 32
+      },
+      "type": "image",
+      "id": "E7FC3888-7729-441D-A910-CB6682A756F1",
+      "name": "Red Brick",
+      "physics_body": "rectangle",
+      "code": [],
+      "traits": {
+        "Baddy": {
+          "parameters": { }
+        }
+      },
+      "image": {
+        "path": "sprite_brick.png"
+      },
+      "collision_group": "baddy"
+    },
+    {
+      "properties": {
+        "y": 421.5,
+        "width": 64,
+        "x": 201,
+        "height": 32
+      },
+      "type": "image",
+      "id": "A12B4FF5-BE17-4BCC-9A78-F2E8CC36A202",
+      "name": "Red Brick",
+      "physics_body": "rectangle",
+      "code": [],
+      "traits": {
+        "Baddy": {
+          "parameters": { }
+        }
+      },
+      "image": {
+        "path": "sprite_brick.png"
+      },
+      "collision_group": "baddy"
+    }
   ],
   "generators": [
-    {
-      "properties": {
-        "y": 422,
-        "width": 64,
-        "x": 85.5,
-        "height": 32
-      },
-      "type": "image",
-      "id": "E7FC3888-7729-441D-A910-CB6682A756F1",
-      "name": "Red Brick",
-      "physics_body": "rectangle",
-      "code": [],
-      "traits": {
-        "Baddy": {
-          "parameters": { }
-        }
+    {
+      "properties": {
+        "y": 0,
+        "width": 30,
+        "x": 0,
+        "height": 30
       },
-      "image": {
-        "path": "sprite_brick.png"
-      },
-      "collision_group": "baddy"
-    },
-    {
-      "properties": {
-        "y": 421.5,
-        "width": 64,
-        "x": 201,
-        "height": 32
-      },
-      "type": "image",
-      "id": "A12B4FF5-BE17-4BCC-9A78-F2E8CC36A202",
-      "name": "Red Brick",
-      "physics_body": "rectangle",
-      "code": [],
-      "traits": {
-        "Baddy": {
-          "parameters": { }
-        }
-      },
-      "image": {
-        "path": "sprite_brick.png"
-      },
-      "collision_group": "baddy"
-    },
-    {
-      "properties": {
-        "y": 0,
-        "width": 64,
-        "x": 0,
-        "height": 32
-      },
-      "type": "image",
-      "id": "E7FC3888-7729-441D-A910-CB6682A756F2",
-      "name": "baddy bullet",
-      "physics_body": "circle",
-      "code": [
+      "type": "image",
+      "id": "E7FC3888-7729-441D-A910-CB6682A756F2",
+      "name": "baddy bullet",
+      "physics_body": "circle",
+      "code": [
         {
           "call": {
             "method": "move",
@@ -186,24 +186,24 @@
           }
         }
       ],
-      "traits": {},
-      "image": {
-        "path": "ball.png"
-      },
-      "collision_group": "baddy bullet"
-    },
-    {
-      "properties": {
-        "y": 0,
-        "width": 64,
-        "x": 0,
-        "height": 32
-      },
-      "type": "image",
-      "id": "E7FC3888-7729-441D-A910-CB6682A756F3",
-      "name": "hero bullet",
-      "physics_body": "circle",
-      "code": [
+      "traits": {},
+      "image": {
+        "path": "sprite_ball.png"
+      },
+      "collision_group": "baddy bullet"
+    },
+    {
+      "properties": {
+        "y": 0,
+        "width": 30,
+        "x": 0,
+        "height": 30
+      },
+      "type": "image",
+      "id": "E7FC3888-7729-441D-A910-CB6682A756F3",
+      "name": "hero bullet",
+      "physics_body": "circle",
+      "code": [
         {
           "call": {
             "method": "move",
@@ -220,11 +220,11 @@
           }
         }
       ],
-      "traits": {},
-      "image": {
-        "path": "ball.png"
-      },
-      "collision_group": "hero bullet"
-    }
-  ]
+      "traits": {},
+      "image": {
+        "path": "sprite_ball.png"
+      },
+      "collision_group": "hero bullet"
+    }
+  ]
 }

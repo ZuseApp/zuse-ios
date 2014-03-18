@@ -1,4 +1,6 @@
 #import "ZS_JsonUtilities.h"
+#import "ZSZuseDSL.h"
+#import "BlocksKit.h"
 
 @implementation ZS_JsonUtilities
 
@@ -119,60 +121,61 @@
     }
     return nil;
 }
+
 + (NSArray*) emptyStatements
 {
-    NSMutableArray* statements = [[NSMutableArray alloc]init];
-    NSMutableDictionary* statement;
+    NSArray *statements = nil;
     
-    // On event
-    statement = [[NSMutableDictionary alloc]init];
-    statement[@"on_event"] = [[NSMutableDictionary alloc]init];
-    statement[@"on_event"][@"name"] = @"#event name";
-    statement[@"on_event"][@"parameters"] = [[NSMutableArray alloc]init];
-    statement[@"on_event"][@"code"] = [[NSMutableArray alloc]init];
-    [statements addObject:statement];
+//    if (!statements) {
+        statements = @[
+            [[ZSZuseDSL onEventJSON] deepMutableCopy],
+            [[ZSZuseDSL triggerEventJSON] deepMutableCopy],
+            [[ZSZuseDSL ifJSON] deepMutableCopy],
+            [[ZSZuseDSL setJSON] deepMutableCopy]
+        ];
+//    }
     
-    // Trigger event
-    statement = [[NSMutableDictionary alloc]init];
-    statement[@"trigger_event"] = [[NSMutableDictionary alloc]init];
-    statement[@"trigger_event"][@"name"] = @"#event name";
-    statement[@"trigger_event"][@"parameters"] = [[NSMutableDictionary alloc]init];
-    [statements addObject:statement];
-    
-    // If
-    statement = [[NSMutableDictionary alloc]init];
-    statement[@"if"] = [[NSMutableDictionary alloc]init];
-    statement[@"if"][@"test"] = @"#expression";
-    statement[@"if"][@"true"] = [[NSMutableArray alloc]init];
-    [statements addObject:statement];
-    
-    // Set
-    statement = [[NSMutableDictionary alloc]init];
-    statement[@"set"] = [NSMutableArray arrayWithArray: @[@"#name", @"#value"]];
-    [statements addObject:statement];
-    
-    // Call move
-    statement = [[NSMutableDictionary alloc]init];
-    statement[@"call"] = [[NSMutableDictionary alloc]init];
-    statement[@"call"][@"method"] = @"move";
-    statement[@"call"][@"parameters"] = [NSMutableArray arrayWithArray:@[@"#var", @"#var"]];
-    [statements addObject:statement];
-
-    // Call remove
-    statement = [[NSMutableDictionary alloc]init];
-    statement[@"call"] = [[NSMutableDictionary alloc]init];
-    statement[@"call"][@"method"] = @"remove";
-    statement[@"call"][@"parameters"] = [NSMutableArray arrayWithArray:@[]];
-    [statements addObject:statement];
-    
-    // Call square root
-    statement = [[NSMutableDictionary alloc]init];
-    statement[@"call"] = [[NSMutableDictionary alloc]init];
-    statement[@"call"][@"method"] = @"square root";
-    statement[@"call"][@"parameters"] = [NSMutableArray arrayWithArray:@[]];
-    [statements addObject:statement];
-
     return statements;
+}
+
++ (NSArray *)methodManfiest {
+    static NSArray *methodManifest = nil;
+    
+    if (!methodManifest) {
+        NSString *path = [[NSBundle mainBundle] pathForResource:@"method_manifest" ofType:@"json"];
+        NSData *data = [NSData dataWithContentsOfFile:path];
+        
+        NSError *error = nil;
+        methodManifest = [NSJSONSerialization JSONObjectWithData:data
+                                                                   options:0
+                                                                     error:&error];
+        assert(!error);
+    }
+    
+    return methodManifest;
+}
+
+// TODO: This could be sped up by creating a dictionary from the array,
+// but I don't foresee it being called enough to slow anything down.
+//   - Parker
++ (NSDictionary *)manifestForMethodIdentifier:(NSString *)identifier {
+    return [[self methodManfiest] match:^BOOL(NSDictionary *manifestItem) {
+        return [manifestItem[@"name"] isEqualToString:identifier];
+    }];
+}
+
++ (NSArray *)emptyMethods {
+
+    static NSArray *methods = nil;
+    
+    if (!methods) {
+        NSArray *manifestMethods = [self methodManfiest];
+        methods = [manifestMethods map:^id(NSDictionary *manifestJSON) {
+            return [ZSZuseDSL callFromManifestJSON:manifestJSON];
+        }];
+    }
+    
+    return methods;
 }
 
 + (NSArray*) emptyEvents

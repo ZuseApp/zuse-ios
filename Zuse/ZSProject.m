@@ -46,8 +46,8 @@
     self = [super init];
     if (self) {
         NSData *jsonData = [NSData dataWithContentsOfFile:filePath];
-        
-        _projectJSON = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:nil];
+        NSError *error = nil;
+        _projectJSON = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
         [self sharedInit];
     }
     return self;

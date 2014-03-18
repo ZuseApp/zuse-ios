@@ -1,5 +1,8 @@
+#import <MTBlockAlertView/MTBlockAlertView.h>
+
 #import "ZS_CodeEditorViewController.h"
 #import "ZS_JsonUtilities.h"
+#import "ZSZuseDSL.h"
 
 #import "ZS_ExpressionViewController.h"
 #import "ZS_JsonViewController.h"
@@ -17,6 +20,7 @@
 @property (strong, nonatomic) ZS_VariableChooserCollectionViewController* variableChooserController;
 @property (strong, nonatomic) ZS_StatementChooserCollectionViewController* statementChooserController;
 @property (strong, nonatomic) ZS_EventChooserCollectionViewController* eventChooserController;
+@property (strong, nonatomic) NSMutableDictionary* statementCopyBuffer; // for menu
 @end
 
 @implementation ZS_CodeEditorViewController
@@ -36,9 +40,6 @@
 
 - (void) reloadFromJson
 {
-    // Clean scrollview
-    [self.scrollView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    
     ZS_StatementView* objectStatementView =
     [self objectStatementViewFromJson: self.json
        beforeAddingSubstatementsBlock: ^(ZS_StatementView *statementView)
@@ -48,11 +49,15 @@
            statementView.propertyScope = [ZSCodePropertyScope scopeWithCode: self.json[@"code"]
                                                           initialProperties: initialProperties];
     }];
-    
-    [self.scrollView addSubview:objectStatementView];
+ 
+    // Clean scroll view
+    [self.scrollView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     
     // Adjust the content size of the scroll view
-    self.scrollView.contentSize = objectStatementView.frame.size;
+    self.scrollView.contentSize = objectStatementView.bounds.size;
+    
+    // Add object view to scrollView
+    [self.scrollView addSubview:objectStatementView];
 }
 
 - (void) notificationReceived: (NSNotification*) notification
@@ -72,7 +77,6 @@
         self.selectedLabel = notification.object;
     }
 }
-
 # pragma mark - json to Statement Views
 
 - (void) addToView: (ZS_StatementView*) view codeStatementsFromJson: (NSArray *)json
@@ -130,6 +134,11 @@
                    beforeAddingSubstatementsBlock:(void (^)(ZS_StatementView *))beforeSubstatementsBlock
 {
     ZS_StatementView* view = [[ZS_StatementView alloc]initWithJson:jsonObject];
+    
+    // DEBUG
+    //view.backgroundColor = [UIColor yellowColor];
+    // END DEBUG
+    
     view.jsonCode = jsonObject[@"code"];
     view.topLevelStatement = YES;
 
@@ -162,6 +171,9 @@
         [self.view addSubview: toolboxView];
         [toolboxView showAnimated:YES];
     }];
+    
+    // Layout subviews;
+    [view layoutStatementSubviews];
     
     return view;
 }
@@ -355,14 +367,35 @@
     [view addNameLabelWithText:@"("];
     
     // Method parameters
-    NSArray* parameters = json[@"call"][@"parameters"];
+    
+    // The manifest parameters hold extra metadata about what each parameter accepts
+    NSArray *manifestParameters = [ZS_JsonUtilities manifestForMethodIdentifier:json[@"call"][@"method"]][@"parameters"];
+    NSMutableArray *parameters = json[@"call"][@"parameters"];
     for (NSInteger i = 0; i < parameters.count; i++)
     {
+        NSDictionary *manifestParameter = manifestParameters[i];
         [view addArgumentLabelWithText: [ZS_JsonUtilities expressionStringFromJson: parameters[i]]
                             touchBlock:^(UILabel* label)
          {
              label.tag = i;
-             [self performSegueWithIdentifier:@"to expression editor" sender: label];
+             if ([manifestParameter[@"types"][0] isEqualToString:@"string"]) {
+                 UIAlertView *alertView = [[MTBlockAlertView alloc] initWithTitle:@"String Value"
+                                                                          message:@"Enter a string"
+                                                                completionHanlder:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                                                                    NSString *text = [alertView textFieldAtIndex:0].text;
+                                                                    if (text && text.length > 0) {
+                                                                        parameters[i] = text;
+                                                                        [self reloadFromJson];
+                                                                    }
+                                                                }
+                                                                cancelButtonTitle:@"Cancel"
+                                                                otherButtonTitles:@"OK", nil];
+                 
+                alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+                [alertView show];
+             } else {
+                 [self performSegueWithIdentifier:@"to expression editor" sender: label];
+             }
          }];
 
         // Comma
@@ -387,40 +420,52 @@
         
         if ([statementView.json.allKeys[0] isEqualToString:@"if"])
         {
-            c.json = statementView.json[@"if"][@"test"];
+            // pass a mutable copy of json to the expression editor controller
+            NSObject* json = statementView.json[@"if"][@"test"];
+            c.json = [json isKindOfClass:[NSMutableDictionary class]] ? ((NSMutableDictionary*)json).deepMutableCopy : json;
+            
+            // code block executed upon exiting expression editor
             c.didFinish = ^(NSObject* json)
             {
                 if (json)
                 {
                     statementView.json[@"if"][@"test"] = json;
-                    label.text = [ZS_JsonUtilities expressionStringFromJson: json];
+                    [self reloadFromJson];
                 }
                 [self dismissViewControllerAnimated: YES completion: nil];
             };
         }
         else if([statementView.json.allKeys[0] isEqualToString:@"set"])
         {
-            c.json = statementView.json[@"set"][1];
+            // pass a mutable copy of json to the expression editor controller
+            NSObject* json = statementView.json[@"set"][1];
+            c.json = [json isKindOfClass:[NSMutableDictionary class]] ? ((NSMutableDictionary*)json).deepMutableCopy : json;
+            
+            // code block executed upon exiting expression editor
             c.didFinish = ^(NSObject* json)
             {
                 if (json)
                 {
                     statementView.json[@"set"][1] = json;
-                    label.text = [ZS_JsonUtilities expressionStringFromJson: json];
+                    [self reloadFromJson];
                 }
                 [self dismissViewControllerAnimated: YES completion: nil];
             };
         }
         else if([statementView.json.allKeys[0] isEqualToString:@"call"])
         {
+            // pass a mutable copy of json to the expression editor controller
             NSInteger parameterNumber = label.tag;
-            c.json = statementView.json[@"call"][@"parameters"][parameterNumber];
+            NSObject* json = statementView.json[@"call"][@"parameters"][parameterNumber];
+            c.json = [json isKindOfClass:[NSMutableDictionary class]] ? ((NSMutableDictionary*)json).deepMutableCopy : json;
+            
+            // code block executed upon exiting expression editor
             c.didFinish = ^(NSObject* json)
             {
                 if (json)
                 {
                     statementView.json[@"call"][@"parameters"][parameterNumber] = json;
-                    label.text = [ZS_JsonUtilities expressionStringFromJson: json];
+                    [self reloadFromJson];
                 }
                 [self dismissViewControllerAnimated: YES completion: nil];
             };
@@ -436,21 +481,87 @@
 
 - (void) statementViewLongPressed:(ZS_StatementView*) view
 {
-    NSMutableArray* parentCodeBlock = ((ZS_StatementView*)view.superview).jsonCode;
-//    NSLog(@"code block:");
-//    for (id item in parentCodeBlock)
-//    {
-//         NSLog(@"%p", item);
-//    }
-//    [parentCodeBlock removeObject: view.json];
+    // Create menu items
+    UIMenuItem* menuItemCopy = [[UIMenuItem alloc]initWithTitle: @"copy"
+                                                         action: @selector(menuItemCopy)];
+    UIMenuItem* menuItemDelete = [[UIMenuItem alloc]initWithTitle: @"del"
+                                                           action: @selector(menuItemDelete)];
+    // Add menu items to array
+    NSMutableArray* menuItems = [NSMutableArray arrayWithArray:@[menuItemCopy, menuItemDelete]];
+    
+    // If copy buffer is not empty, then add two more menu items
+    if (self.statementCopyBuffer)
+    {
+        UIMenuItem* menuItemInsertAbove = [[UIMenuItem alloc]initWithTitle: @"insert ↑"
+                                                                    action: @selector(menuItemInsertAbove)];
+        UIMenuItem* menuItemInsertBelow = [[UIMenuItem alloc]initWithTitle: @"insert ↓"
+                                                                    action: @selector(menuItemInsertBelow)];
+        [menuItems addObject: menuItemInsertAbove];
+        [menuItems addObject: menuItemInsertBelow];
+    }
+    
+    // Create menu controller
+    [view becomeFirstResponder];
+    UIMenuController* menu = [UIMenuController sharedMenuController];
+    [menu setMenuItems: menuItems];
+    [menu setTargetRect: CGRectZero inView:view];
+    [menu setMenuVisible:YES animated:YES];
+}
+#pragma mark Menu Methods
+
+- (void) menuItemCopy
+{
+    self.statementCopyBuffer = self.selectedStatementView.json.deepMutableCopy;
+}
+- (void)menuItemDelete
+{
+    NSMutableArray* parentCodeBlock = ((ZS_StatementView*)self.selectedStatementView.superview).jsonCode;
     
     for (NSInteger i = 0; i < parentCodeBlock.count; i++)
     {
-        if (parentCodeBlock[i] == view.json)
+        if (parentCodeBlock[i] == self.selectedStatementView.json)
         {
             [parentCodeBlock removeObjectAtIndex:i];
+            break;
         }
     }
     [self reloadFromJson];
 }
+- (void)menuItemInsertAbove
+{
+    NSMutableArray* parentCodeBlock = ((ZS_StatementView*)self.selectedStatementView.superview).jsonCode;
+    
+    for (NSInteger i = 0; i < parentCodeBlock.count; i++)
+    {
+        if (parentCodeBlock[i] == self.selectedStatementView.json)
+        {
+            [parentCodeBlock insertObject:self.statementCopyBuffer.deepMutableCopy atIndex:i];
+            break;
+        }
+    }
+    [self reloadFromJson];
+}
+- (void)menuItemInsertBelow
+{
+    NSMutableArray* parentCodeBlock = ((ZS_StatementView*)self.selectedStatementView.superview).jsonCode;
+    
+    for (NSInteger i = 0; i < parentCodeBlock.count; i++)
+    {
+        if (parentCodeBlock[i] == self.selectedStatementView.json)
+        {
+            // if it's the last statement in the code block
+            if (i == parentCodeBlock.count - 1)
+            {
+                [parentCodeBlock addObject:self.statementCopyBuffer.deepMutableCopy];
+            }
+            else
+            {
+                [parentCodeBlock insertObject:self.statementCopyBuffer.deepMutableCopy atIndex:i+1];
+            }
+            break;
+        }
+    }
+    [self reloadFromJson];
+}
+
 @end
