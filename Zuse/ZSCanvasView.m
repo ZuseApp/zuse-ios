@@ -6,6 +6,7 @@
 @property (nonatomic, strong) UIMenuController *editMenu;
 @property (nonatomic, assign) CGPoint lastTouch;
 @property (nonatomic, strong) ZSSpriteView *spriteViewCopy;
+@property (nonatomic, strong) ZSSpriteView *selectedSprite;
 
 @end
 
@@ -15,6 +16,7 @@
     self = [super initWithCoder:aDecoder];
     if (self) {
         _grid = [[ZSGrid alloc] init];
+        self.editModeOn = NO;
         [self setupGestures];
     }
     return self;
@@ -46,6 +48,19 @@
     UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressRecognized:)];
     longPressGesture.delegate = self;
     [self addGestureRecognizer:longPressGesture];
+    
+    UIPinchGestureRecognizer *pinchRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchDetected:)];
+    [self addGestureRecognizer:pinchRecognizer];
+    pinchRecognizer.delegate = self;
+    
+    UIRotationGestureRecognizer *rotationRecognizer = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(rotationDetected:)];
+    [self addGestureRecognizer:rotationRecognizer];
+    rotationRecognizer.delegate = self;
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+    return YES;
 }
 
 - (void)longPressRecognized:(id)sender {
@@ -57,6 +72,20 @@
         [_editMenu setTargetRect:CGRectMake(_lastTouch.x, _lastTouch.y, 0, 0) inView:self];
         [_editMenu setMenuVisible:YES animated:YES];
     }
+}
+
+- (void)pinchDetected:(id)sender {
+    UIPinchGestureRecognizer *pinchRecognizer = (UIPinchGestureRecognizer*)sender;
+    CGFloat scale = pinchRecognizer.scale;
+    self.selectedSprite.transform = CGAffineTransformScale(self.selectedSprite.transform, scale, scale);
+    pinchRecognizer.scale = 1.0;
+}
+
+- (void)rotationDetected:(id)sender {
+    UIRotationGestureRecognizer *rotationRecognizer = (UIRotationGestureRecognizer*)sender;
+    CGFloat angle = rotationRecognizer.rotation;
+    self.selectedSprite.transform = CGAffineTransformRotate(self.selectedSprite.transform, angle);
+    rotationRecognizer.rotation = 0.0;
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -122,13 +151,26 @@
 
     view.singleTapped = ^() {
         [_editMenu setMenuVisible:NO animated:YES];
-        if (_spriteSingleTapped) {
-            _spriteSingleTapped(weakView);
+        if (weakSelf.selectedSprite) {
+            weakSelf.selectedSprite = weakView;
+            [weakSelf lockUnselectedSprites];
+            if (weakSelf.spriteSelected) {
+                weakSelf.spriteSelected(weakView);
+            }
+        }
+        else {
+            if (_spriteSingleTapped) {
+                _spriteSingleTapped(weakView);
+            }
         }
     };
     
     view.longPressBegan = ^(UILongPressGestureRecognizer *longPressedGestureRecognizer){
-        [weakSelf longPressRecognized:longPressedGestureRecognizer];
+        weakSelf.selectedSprite = weakView;
+        [weakSelf lockUnselectedSprites];
+        if (weakSelf.spriteSelected) {
+            weakSelf.spriteSelected(weakView);
+        }
     };
     
     __block CGPoint offset;
@@ -240,6 +282,70 @@
 
         // Create a new _spriteViewCopy.
         _spriteViewCopy = [self copySpriteView:_spriteViewCopy];
+    }
+}
+
+#pragma mark Edit Functionality
+
+- (void)selectSprite:(ZSSpriteView *)sprite {
+    self.selectedSprite = sprite;
+}
+
+- (void)cutSelectedSprite {
+    if (self.selectedSprite) {
+        _spriteViewCopy = [self copySpriteView:self.selectedSprite];
+        [self.selectedSprite removeFromSuperview];
+        if (self.spriteRemoved) {
+            self.spriteRemoved(self.selectedSprite);
+        }
+    }
+}
+
+- (void)copySelectedSprite {
+    if (self.selectedSprite) {
+        _spriteViewCopy = [self copySpriteView:self.selectedSprite];
+    }
+}
+
+- (void)deleteSelectedSprite {
+    if (self.selectedSprite) {
+        [self.selectedSprite removeFromSuperview];
+        if (_spriteRemoved) {
+            _spriteRemoved(self.selectedSprite);
+        }
+    }
+}
+
+- (void)setTextForSelectedSpriteWithText:(NSString*)text {
+    if (self.selectedSprite) {
+        self.selectedSprite.spriteJSON[@"properties"][@"text"] = text;
+        [self.selectedSprite reloadContent];
+    }
+}
+
+- (void)unselectSelectedSprite {
+    self.editModeOn = NO;
+    self.selectedSprite = nil;
+    [self unlockSprites];
+}
+
+- (void)lockUnselectedSprites {
+    for (ZSSpriteView *view in self.subviews) {
+        if (![view.spriteJSON[@"id"] isEqualToString:self.selectedSprite.spriteJSON[@"id"]]) {
+            [view lockGestures:@[UIPanGestureRecognizer.class, UILongPressGestureRecognizer.class]];
+            view.alpha = 0.2;
+        }
+        else {
+            [view unlockGestures:@[UIPanGestureRecognizer.class, UILongPressGestureRecognizer.class]];
+            view.alpha = 1;
+        }
+    }
+}
+
+- (void)unlockSprites {
+    for (ZSSpriteView *view in self.subviews) {
+        [view unlockGestures:@[UIPanGestureRecognizer.class, UILongPressGestureRecognizer.class]];
+        view.alpha = 1;
     }
 }
 
