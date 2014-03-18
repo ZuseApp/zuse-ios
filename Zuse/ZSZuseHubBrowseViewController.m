@@ -21,7 +21,11 @@
 
 @interface ZSZuseHubBrowseViewController ()
 
-@property (strong, nonatomic) NSArray *jsonProjects;
+@property (strong, nonatomic) NSArray *jsonProjectsFirst;
+@property (strong, nonatomic) NSArray *jsonProjectsSecond;
+@property int currentPage;
+@property int nextPage;
+@property int itemsPerPage;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
 @end
@@ -32,7 +36,12 @@
 {
     [super viewDidLoad];
     
-    self.jsonProjects = @[];
+    self.currentPage = 1;
+    self.nextPage = 2;
+    self.itemsPerPage = 10;
+    
+    self.jsonProjectsFirst = @[];
+//    self.jsonProjectsSecond = @[];
     
     self.navigationItem.title = @"ZuseHub";
     
@@ -62,14 +71,16 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    self.jsonProjects = nil;
+    self.jsonProjectsFirst = nil;
+    self.jsonProjectsSecond = nil;
     //set up the data source
     if(self.contentType == ZSZuseHubBrowseTypeNewest)
     {
-        [self.jsonClientManager getNewestProjects:1 itemsPerPage:10 completion:^(NSArray *projects) {
+//        [self getNewestData:1 array:self.jsonProjectsFirst];
+        [self.jsonClientManager getNewestProjects:1 itemsPerPage:self.itemsPerPage completion:^(NSArray *projects) {
             if(projects)
             {
-                self.jsonProjects = projects;
+                self.jsonProjectsFirst = projects;
                 [self.collectionView reloadData];
             }
             else
@@ -77,13 +88,14 @@
                 //TODO print something here for the user
             }
         }];
+
     }
     else if(self.contentType == ZSZuseHubBrowseTypePopular)
     {
         [self.jsonClientManager getPopularProjects:1 itemsPerPage:10 completion:^(NSArray *projects) {
             if(projects)
             {
-                self.jsonProjects = projects;
+                self.jsonProjectsFirst = projects;
                 [self.collectionView reloadData];
             }
             else{
@@ -122,14 +134,14 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return self.jsonProjects.count;
+    return self.jsonProjectsFirst.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     ZSProjectCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"CollectionCell" forIndexPath:indexPath];
     
-    NSDictionary *project = self.jsonProjects[indexPath.row];
+    NSDictionary *project = self.jsonProjectsFirst[indexPath.row];
     
     cell.projectTitle = project[@"title"];
     UIImage *image = nil;
@@ -163,7 +175,7 @@
                                                                           bundle:[NSBundle mainBundle]]
                                                 instantiateViewControllerWithIdentifier:@"BrowseProjectDetail"];
     NSInteger index = [self.collectionView.indexPathsForSelectedItems.firstObject row];
-    controller.project = self.jsonProjects[index];
+    controller.project = self.jsonProjectsFirst[index];
     [self presentViewController:controller animated:YES completion:^{}];
     controller.didFinish = ^(){
 
@@ -179,6 +191,22 @@
 
 -(void)doubleTap:(UITapGestureRecognizer*)gesture{
     [self.mm_drawerController bouncePreviewForDrawerSide:MMDrawerSideLeft completion:nil];
+}
+
+- (void)getNewestData:(int)page array:(NSArray *)array
+{
+    __block NSArray *tempArray = array;
+    [self.jsonClientManager getNewestProjects:page itemsPerPage:self.itemsPerPage completion:^(NSArray *projects) {
+        if(projects)
+        {
+            tempArray = projects;
+            [self.collectionView reloadData];
+        }
+        else
+        {
+            //TODO print something here for the user
+        }
+    }];
 }
 
 @end
