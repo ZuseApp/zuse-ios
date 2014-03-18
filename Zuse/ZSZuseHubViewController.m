@@ -92,7 +92,9 @@
     
     self.leftSideDrawerViewController.didSelectNewestProjects = ^{
         //now set up the center views here
-        weakSelf.centerViewController = [[ZSZuseHubBrowseViewController alloc] init];
+        weakSelf.centerViewController = [[UIStoryboard storyboardWithName:@"Main"
+                                                                   bundle:[NSBundle mainBundle]]
+                                         instantiateViewControllerWithIdentifier:@"BrowseProjectsView"];
         weakSelf.centerViewController.contentType = ZSZuseHubBrowseTypeNewest;
         weakSelf.navigationController = [[MMNavigationController alloc] initWithRootViewController:weakSelf.centerViewController];
         [weakSelf.leftSideDrawerViewController.mm_drawerController setCenterViewController:weakSelf.navigationController withCloseAnimation:YES completion:nil];
@@ -100,7 +102,9 @@
     
     self.leftSideDrawerViewController.didSelectPopularProjects = ^{
         //now set up the center views here
-        weakSelf.centerViewController = [[ZSZuseHubBrowseViewController alloc] init];
+        weakSelf.centerViewController = [[UIStoryboard storyboardWithName:@"Main"
+                                                                   bundle:[NSBundle mainBundle]]
+                                         instantiateViewControllerWithIdentifier:@"BrowseProjectsView"];
         weakSelf.centerViewController.contentType = ZSZuseHubBrowseTypePopular;
         weakSelf.navigationController = [[MMNavigationController alloc] initWithRootViewController:weakSelf.centerViewController];
         [weakSelf.leftSideDrawerViewController.mm_drawerController setCenterViewController:weakSelf.navigationController withCloseAnimation:YES completion:nil];
