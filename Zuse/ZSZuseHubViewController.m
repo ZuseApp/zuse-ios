@@ -13,7 +13,6 @@
 #import "MMNavigationController.h"
 #import "MMExampleDrawerVisualStateManager.h"
 #import "ZSZuseHubViewSharedProjectsViewController.h"
-#import "ZSAuthTokenPersistence.h";
 
 @interface ZSZuseHubViewController ()
 @property (strong, nonatomic) UIWindow *window;
@@ -83,7 +82,9 @@
     
     self.leftSideDrawerViewController.didSelectLogout = ^{
         [weakSelf.leftSideDrawerViewController.mm_drawerController setCenterViewController:weakSelf.navigationController withCloseAnimation:YES completion:nil];
-        [ZSAuthTokenPersistence deleteToken];
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        [defaults removeObjectForKey:@"token"];
+        [defaults synchronize];
         weakSelf.didFinish();
     };
     

@@ -7,7 +7,6 @@
 //
 
 #import "ZSZuseHubInitViewController.h"
-#import "ZSAuthTokenPersistence.h"
 #import "ZSUserLoginViewController.h"
 #import "ZSZuseHubViewController.h"
 #import "ZSZuseHubJSONClient.h"
@@ -32,7 +31,8 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    NSString *token = [ZSAuthTokenPersistence getTokenInfo];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *token = [defaults objectForKey:@"token"];
     if(!token)
     {
         UINavigationController *navController = [[UIStoryboard storyboardWithName:@"Main"

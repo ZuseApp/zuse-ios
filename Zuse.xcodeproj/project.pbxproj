@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		2C6B5D6A183D43AB00E3D56C /* ZSSpriteTouchComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C6B5D69183D43AB00E3D56C /* ZSSpriteTouchComponent.m */; };
-		2CA36EC918CE55C700CAB651 /* ZSAuthTokenPersistence.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA36EC818CE55C700CAB651 /* ZSAuthTokenPersistence.m */; };
 		2CA36ECC18CE5A6D00CAB651 /* ZSUserLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA36ECB18CE5A6D00CAB651 /* ZSUserLoginViewController.m */; };
 		2CA36ECF18CFCA7D00CAB651 /* ZSUserRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA36ECE18CFCA7D00CAB651 /* ZSUserRegisterViewController.m */; };
 		2CA36ED318D1027800CAB651 /* ZSZuseHubInitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA36ED218D1027800CAB651 /* ZSZuseHubInitViewController.m */; };
@@ -180,8 +179,6 @@
 /* Begin PBXFileReference section */
 		2C6B5D68183D43AB00E3D56C /* ZSSpriteTouchComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSSpriteTouchComponent.h; sourceTree = "<group>"; };
 		2C6B5D69183D43AB00E3D56C /* ZSSpriteTouchComponent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSSpriteTouchComponent.m; sourceTree = "<group>"; };
-		2CA36EC718CE55C700CAB651 /* ZSAuthTokenPersistence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSAuthTokenPersistence.h; sourceTree = "<group>"; };
-		2CA36EC818CE55C700CAB651 /* ZSAuthTokenPersistence.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSAuthTokenPersistence.m; sourceTree = "<group>"; };
 		2CA36ECA18CE5A6D00CAB651 /* ZSUserLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSUserLoginViewController.h; sourceTree = "<group>"; };
 		2CA36ECB18CE5A6D00CAB651 /* ZSUserLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSUserLoginViewController.m; sourceTree = "<group>"; };
 		2CA36ECD18CFCA7D00CAB651 /* ZSUserRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSUserRegisterViewController.h; sourceTree = "<group>"; };
@@ -471,8 +468,6 @@
 				2CA9A36518C5985C005F4404 /* ZSZuseHubEnums.m */,
 				2CA9A33718C481FE005F4404 /* ZSZuseHubJSONClient.h */,
 				2CA9A33818C481FE005F4404 /* ZSZuseHubJSONClient.m */,
-				2CA36EC718CE55C700CAB651 /* ZSAuthTokenPersistence.h */,
-				2CA36EC818CE55C700CAB651 /* ZSAuthTokenPersistence.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -499,6 +494,7 @@
 		2CA9A31918C1C1CD005F4404 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				2CF6713818D7CB6C005CF5F5 /* Registration and Login Controllers */,
 				2CF6713418D7753D005CF5F5 /* Init Controllers */,
 				2CA9A36318C56D76005F4404 /* Drawer Controller */,
 				2CA9A36218C56D4C005F4404 /* Center Controllers */,
@@ -555,14 +551,21 @@
 			children = (
 				2CA36ED118D1027800CAB651 /* ZSZuseHubInitViewController.h */,
 				2CA36ED218D1027800CAB651 /* ZSZuseHubInitViewController.m */,
-				2CA36ECA18CE5A6D00CAB651 /* ZSUserLoginViewController.h */,
-				2CA36ECB18CE5A6D00CAB651 /* ZSUserLoginViewController.m */,
-				2CA36ECD18CFCA7D00CAB651 /* ZSUserRegisterViewController.h */,
-				2CA36ECE18CFCA7D00CAB651 /* ZSUserRegisterViewController.m */,
 				2CA9A32B18C26E27005F4404 /* ZSZuseHubViewController.h */,
 				2CA9A32C18C26E27005F4404 /* ZSZuseHubViewController.m */,
 			);
 			name = "Init Controllers";
+			sourceTree = "<group>";
+		};
+		2CF6713818D7CB6C005CF5F5 /* Registration and Login Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				2CA36ECA18CE5A6D00CAB651 /* ZSUserLoginViewController.h */,
+				2CA36ECB18CE5A6D00CAB651 /* ZSUserLoginViewController.m */,
+				2CA36ECD18CFCA7D00CAB651 /* ZSUserRegisterViewController.h */,
+				2CA36ECE18CFCA7D00CAB651 /* ZSUserRegisterViewController.m */,
+			);
+			name = "Registration and Login Controllers";
 			sourceTree = "<group>";
 		};
 		2CF6E515189D7F8C00E2779C /* Particles */ = {
@@ -1354,7 +1357,6 @@
 				4C62B0BF1856626C007CC9CD /* ZSSpriteTraits.m in Sources */,
 				4CF1CC0E17EFF64500636E0D /* ZSSpriteView.m in Sources */,
 				5FB05F2018C44B6600356531 /* ZS_VariableChooserCollectionViewController.m in Sources */,
-				2CA36EC918CE55C700CAB651 /* ZSAuthTokenPersistence.m in Sources */,
 				5F39DFC9188A40A0008ECAC1 /* NSIndexSet+BlocksKit.m in Sources */,
 				2CA9A35B18C54D00005F4404 /* MMNavigationController.m in Sources */,
 				5FBB4A8E18C24C8800B79AB6 /* UIColor+ZuseColors.m in Sources */,

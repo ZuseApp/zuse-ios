@@ -7,7 +7,6 @@
 //
 
 #import "ZSUserRegisterViewController.h"
-#import "ZSAuthTokenPersistence.h"
 #import "ZSZuseHubJSONClient.h"
 #import "ZSZuseHubViewController.h"
 
@@ -40,7 +39,8 @@
             {
                 self.jsonClientManager.token = response[@"token"];
                 [self.jsonClientManager setAuthHeader:self.jsonClientManager.token];
-                [ZSAuthTokenPersistence writeTokenInfo:self.jsonClientManager.token];
+                NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                [defaults setObject:self.jsonClientManager.token forKey:@"token"];
                 ZSZuseHubViewController *controller = [[ZSZuseHubViewController alloc] init];
                 controller.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
                 [self presentViewController:controller animated:YES completion:^{}];
