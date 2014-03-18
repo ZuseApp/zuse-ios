@@ -690,7 +690,6 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
              }],
              [ZSCanvasBarButtonItem finishButtonWithHandler:^{
                  [weakSelf.canvasView unselectSelectedSprite];
-                 [weakSelf.canvasView unselectSelectedSprite];
                  [weakSelf transitionToInterfaceState:ZSToolbarInterfaceStateNormal];
              }]
              ];
