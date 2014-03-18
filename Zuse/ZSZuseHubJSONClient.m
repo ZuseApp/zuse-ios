@@ -30,6 +30,8 @@
     return _zuseHubSharedManager;
 }
 
+//GENERAL
+
 /**
  * Gets the 10 newest projects shared on ZuseHub
  */
@@ -48,6 +50,43 @@
               }
      ];
 }
+
+/**
+ * Gets the 10 popular projects shared on ZuseHub
+ */
+- (void)getPopularProjects:(void(^)(NSArray *projects))completion
+{
+    [self.manager GET:@"projects.json?category=popular"
+           parameters:nil
+              success:^(AFHTTPRequestOperation *operation, NSArray *projects)
+     {
+         completion(projects);
+     }
+              failure:^(AFHTTPRequestOperation *operation, NSError *error)
+     {
+         NSLog(@"Failed to get popular projects! %@", error.localizedDescription);
+         completion(nil);
+     }
+     ];
+}
+
+/**
+ * Download the specified project
+ */
+- (void)downloadProject:(NSString *)uuid completion:(void (^)(NSDictionary *))completion
+{
+    NSString *url = [[@"projects.json/" stringByAppendingString:uuid] stringByAppendingString:@"/download"];
+    [self.manager GET:url
+           parameters:nil
+              success:^(AFHTTPRequestOperation *operation, NSDictionary *project) {
+                  completion(project);
+              } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                  NSLog(@"Failed to download project! %@", error.localizedDescription);
+                  completion(nil);
+              }];
+}
+
+//AUTHENTICATION/REGISTRATION
 
 /**
  * Registers a user with ZuseHub
@@ -116,6 +155,8 @@
     [self.manager.requestSerializer setValue:[@"Token: " stringByAppendingString:token] forHTTPHeaderField:@"Authorization"];
 }
 
+//USER SPECIFIC
+
 /**
  * Returns the shared projects the user has put on ZuseHub
  */
@@ -170,7 +211,8 @@
             @"screenshot" : base64Screenshot,
             @"uuid" : uuid,
             @"project_json" : projectString,
-            @"compiled_code" : compiledString
+            @"compiled_code" : compiledString,
+            @"screenshot" : base64Screenshot
         }
         };
     [self.manager POST:@"user/projects.json"

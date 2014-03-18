@@ -20,6 +20,7 @@ typedef NS_ENUM(NSInteger, ZSZuseHubDrawerSection){
 typedef NS_ENUM(NSInteger, ZSZuseHubBrowseType)
 {
     ZSZuseHubBrowseTypeNewest,
+    ZSZuseHubBrowseTypePopular,
     ZSZuseHubBrowseTypeCount,
 };
 

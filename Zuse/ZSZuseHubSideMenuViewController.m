@@ -31,7 +31,7 @@
     self.tableView.delegate = self;
     
     //TODO put the other browse filter strings here
-    _browseMenuStrings = @[@"Newest"];
+    _browseMenuStrings = @[@"Newest", @"Most Popular"];
     _myZuseHubMenuStrings = @[@"Share", @"My Projects"];
     _settingsStrings = @[@"Main Menu", @"Sign Out"];
 
@@ -210,8 +210,10 @@
     {
         if(indexPath.row == ZSZuseHubBrowseTypeNewest)
             self.didSelectNewestProjects();
+        else if(indexPath.row == ZSZuseHubBrowseTypePopular)
+            self.didSelectPopularProjects();
         else
-            NSLog(@"Error in selecting user zusehub options");
+            NSLog(@"Error in selecting browse zusehub options");
     }
     else if (indexPath.section == ZSZuseHubDrawerSettings) {
         if(indexPath.row == ZSZuseHubSettingsBackToMainMenu)

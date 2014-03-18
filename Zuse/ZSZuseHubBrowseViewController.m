@@ -15,6 +15,8 @@
 #import "UIViewController+MMDrawerController.h"
 #import "MMNavigationController.h"
 #import "ZSZuseHubSideMenuViewController.h"
+#import "ZSZuseHubBrowseProjectDetailViewController.h"
+#import "ZSZuseHubShareViewController.h"
 
 @interface ZSZuseHubBrowseViewController ()
 
@@ -62,10 +64,37 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self.jsonClientManager getNewestProjects:^(NSArray *projects) {
-        self.jsonProjects = projects;
-        [self.tableView reloadData];
-    }];
+    self.jsonProjects = nil;
+    //set up the data source
+    if(self.contentType == ZSZuseHubBrowseTypeNewest)
+    {
+        [self.jsonClientManager getNewestProjects:^(NSArray *projects) {
+            if(projects)
+            {
+                self.jsonProjects = projects;
+                [self.tableView reloadData];
+            }
+            else
+            {
+                //TODO print something here for the user
+            }
+        }];
+    }
+    else if(self.contentType == ZSZuseHubBrowseTypePopular)
+    {
+        [self.jsonClientManager getPopularProjects:^(NSArray *projects) {
+            if(projects)
+            {
+                self.jsonProjects = projects;
+                [self.tableView reloadData];
+            }
+            else{
+                //TODO print something here for the user
+            }
+        }];
+    }
+    
+    
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -107,11 +136,10 @@
 {
     
     static NSString *CellIdentifier = @"Cell";
-    NSString *cellText = @"Error, did not grab text";
+    NSString *cellText;
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        
         cell = [[MMCenterTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         [cell setSelectionStyle:UITableViewCellSelectionStyleGray];
     }
@@ -122,17 +150,17 @@
                                blue:25.0/255.0
                                alpha:1.0];
     
-    if(self.contentType == ZSZuseHubBrowseTypeNewest)
+    //TODO set cellText to be what was grabbed from the client
+    if(self.jsonProjects.count == 0)
     {
-        //TODO set cellText to be what was grabbed from the client
-        if(self.jsonProjects.count == 0)
-            cellText = @"No projects on the server yet";
-        else
-        {
-            NSDictionary *project = self.jsonProjects[indexPath.row];
-            cellText = project[@"title"];
-        }
+        cellText = @"No projects to display";
     }
+    else
+    {
+        NSDictionary *project = self.jsonProjects[indexPath.row];
+        cellText = project[@"title"];
+    }
+
     //TODO grab info from json client for project titles
     [cell.textLabel setText:cellText];
     [cell.textLabel setTextColor:selectedColor];
@@ -144,20 +172,32 @@
 {
     if(self.contentType == ZSZuseHubBrowseTypeNewest)
         return @"10 Newest Projects";
+    else if(self.contentType == ZSZuseHubBrowseTypePopular)
+        return @"10 Most Popular Projects";
     else
-        return @"TODO put different browse types";
+        return @"Select browse category";
 }
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     //set up the left drawer animation
-    [[MMExampleDrawerVisualStateManager sharedManager] setLeftDrawerAnimationType:indexPath.row];
+    [[MMExampleDrawerVisualStateManager sharedManager] setLeftDrawerAnimationType:MMDrawerAnimationTypeParallax];
     [tableView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationNone];
     [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    //display the details of the selected project.
+    ZSZuseHubBrowseProjectDetailViewController *controller = [[UIStoryboard storyboardWithName:@"Main"
+                                                                          bundle:[NSBundle mainBundle]]
+                                                instantiateViewControllerWithIdentifier:@"BrowseProjectDetail"];
+    controller.project = self.jsonProjects[indexPath.row];
+    [self presentViewController:controller animated:YES completion:^{}];
+    controller.didFinish = ^(){
 
-
+        [self dismissViewControllerAnimated:YES completion:^{ }];
+        
+    };
 }
 
 #pragma mark - Button Handlers

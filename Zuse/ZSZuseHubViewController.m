@@ -95,6 +95,14 @@
         [weakSelf.leftSideDrawerViewController.mm_drawerController setCenterViewController:weakSelf.navigationController withCloseAnimation:YES completion:nil];
     };
     
+    self.leftSideDrawerViewController.didSelectPopularProjects = ^{
+        //now set up the center views here
+        weakSelf.centerViewController = [[ZSZuseHubBrowseViewController alloc] init];
+        weakSelf.centerViewController.contentType = ZSZuseHubBrowseTypePopular;
+        weakSelf.navigationController = [[MMNavigationController alloc] initWithRootViewController:weakSelf.centerViewController];
+        [weakSelf.leftSideDrawerViewController.mm_drawerController setCenterViewController:weakSelf.navigationController withCloseAnimation:YES completion:nil];
+    };
+    
     self.leftSideDrawerViewController.didSelectShareProject = ^{
         weakSelf.centerViewController = [[ZSZuseHubMyHubViewController alloc] init];
         weakSelf.centerViewController.contentType = ZSZuseHubMyHubTypeShareProject;
