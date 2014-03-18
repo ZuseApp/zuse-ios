@@ -15,6 +15,7 @@
 #import "UIViewController+MMDrawerController.h"
 #import "MMNavigationController.h"
 #import "ZSZuseHubSideMenuViewController.h"
+#import "ZSZuseHubMySharedProjectDetailViewController.h"
 
 @interface ZSZuseHubViewSharedProjectsViewController ()
 
@@ -31,10 +32,7 @@
     
     self.navigationItem.title = @"ZuseHub";
     
-    [self.jsonClientManager getUsersSharedProjects:^(NSArray *projects) {
-        self.jsonProjects = projects;
-        [self.tableView reloadData];
-    }];
+    [self setupData];
     
     _tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
     [self.tableView setDelegate:self];
@@ -152,12 +150,31 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     //set up the left drawer animation
-    [[MMExampleDrawerVisualStateManager sharedManager] setLeftDrawerAnimationType:indexPath.row];
+    [[MMExampleDrawerVisualStateManager sharedManager] setLeftDrawerAnimationType:MMDrawerAnimationTypeParallax];
     [tableView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationNone];
     [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    
+    ZSZuseHubMySharedProjectDetailViewController *controller = [[UIStoryboard storyboardWithName:@"Main"
+                                                                          bundle:[NSBundle mainBundle]]
+                                                instantiateViewControllerWithIdentifier:@"MySharedProjectDetail"];
+    controller.project = self.jsonProjects[indexPath.row];
+    [self presentViewController:controller animated:YES completion:^{}];
+    controller.didFinish = ^(){
+        [self dismissViewControllerAnimated:YES completion:^{ }];
+        [self setupData];
+    };
+}
+
+/**
+ * Gets the user's shared projects and reloads the data for the table
+ */
+- (void)setupData
+{
+    [self.jsonClientManager getUsersSharedProjects:^(NSArray *projects) {
+        self.jsonProjects = projects;
+        [self.tableView reloadData];
+    }];
 }
 
 #pragma mark - Button Handlers

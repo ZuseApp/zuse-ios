@@ -37,6 +37,7 @@
 //user specific
 - (void)getUsersSharedProjects:(void(^)(NSArray *projects))completion;
 - (void)createSharedProject:(NSString *)title description:(NSString *)description projectJson:(ZSProject *)projectJson completion:(void(^)(NSError *))completion;
+- (void)deleteSharedProject:(NSString *)uuid completion:(void(^)(BOOL success))completion;
 
 @end
 

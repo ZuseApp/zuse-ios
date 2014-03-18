@@ -75,7 +75,7 @@
  */
 - (void)downloadProject:(NSString *)uuid completion:(void (^)(NSDictionary *))completion
 {
-    NSString *url = [[@"projects.json/" stringByAppendingString:uuid] stringByAppendingString:@"/download"];
+    NSString *url = [[@"projects/" stringByAppendingString:uuid] stringByAppendingString:@"/download.json"];
     [self.manager GET:url
            parameters:nil
               success:^(AFHTTPRequestOperation *operation, NSDictionary *project) {
@@ -185,8 +185,6 @@
                  completion:(void (^)(NSError *))completion
 
 {
-    __block BOOL result = YES;
-    
     NSData *projectData = [NSJSONSerialization dataWithJSONObject:project.assembledJSON
                                                           options:0
                                                             error:nil];
@@ -226,9 +224,22 @@
          completion(error);
          NSLog(@"Failed to create a shared project! %@", error.localizedDescription);
          NSLog(@"error string for sharing project failure %@", error.localizedFailureReason);
-         result = NO;
      }
      ];
+}
+
+/**
+ * Deletes the project the user shared from ZuseHub
+ */
+- (void)deleteSharedProject:(NSString *)uuid completion:(void (^)(BOOL))completion
+{
+    NSString *url = [[@"user/projects/" stringByAppendingString:uuid] stringByAppendingString:@".json"];
+    [self.manager DELETE:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        completion(YES);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Failed to delete shared project! %@", error.localizedDescription);
+        completion(NO);
+    }];
 }
 
 @end

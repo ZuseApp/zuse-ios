@@ -1,37 +1,28 @@
 //
-//  ZSZuseHubBrowseProjectDetailViewController.m
+//  ZSZuseHubMySharedProjectDetailViewController.m
 //  Zuse
 //
 //  Created by Sarah Hong on 3/17/14.
 //  Copyright (c) 2014 Michael Hogenson. All rights reserved.
 //
 
-#import "ZSZuseHubBrowseProjectDetailViewController.h"
+#import "ZSZuseHubMySharedProjectDetailViewController.h"
 
-@interface ZSZuseHubBrowseProjectDetailViewController ()
-@property (weak, nonatomic) IBOutlet UILabel *usernameLabel;
-@property (weak, nonatomic) IBOutlet UIImageView *screenshotImageView;
+@interface ZSZuseHubMySharedProjectDetailViewController ()
+@property (weak, nonatomic) IBOutlet UINavigationItem *titleBar;
 @property (weak, nonatomic) IBOutlet UILabel *descriptionLabel;
-@property (weak, nonatomic) IBOutlet UINavigationItem *titleNavBar;
-@property (weak, nonatomic) IBOutlet UINavigationBar *navBar;
 @property (weak, nonatomic) IBOutlet UILabel *timesDownloadedLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *screenshotImageView;
 
 @end
 
-@implementation ZSZuseHubBrowseProjectDetailViewController
+@implementation ZSZuseHubMySharedProjectDetailViewController
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
-    [self.view setBackgroundColor:[UIColor colorWithRed:208.0/255.0
-                                                  green:208.0/255.0
-                                                   blue:208.0/255.0
-                                                  alpha:1.0]];
-
-    self.titleNavBar.title = self.project[@"title"];
-    self.usernameLabel.text = self.project[@"username"];
+    self.titleBar.title = self.project[@"title"];
     self.descriptionLabel.text = self.project[@"description"];
     long downloads = [self.project[@"downloads"] longLongValue];
     self.timesDownloadedLabel.text = [[NSNumber numberWithLong:downloads] stringValue];
@@ -48,24 +39,23 @@
     }
     else
         self.screenshotImageView.image = [UIImage imageNamed:@"blank_project.png"];
-    
 }
 
 - (IBAction)backTapped:(id)sender {
     self.didFinish();
 }
 
-- (IBAction)downloadTapped:(id)sender {
-    [self.jsonClientManager downloadProject:self.project[@"uuid"] completion:^(NSDictionary *project) {
-        if(project)
+- (IBAction)deleteTapped:(id)sender {
+    [self.jsonClientManager deleteSharedProject:self.project[@"uuid"] completion:^(BOOL success) {
+        if(success)
         {
-            //TODO store this project on the user's device so that it can be played.
+            //TODO display msg so user knows delete succeeded
         }
         else{
-            //TODO put msg for user to indicate that download failed
+            //TODO display msg so user knows delete failed
         }
     }];
-    
+    self.didFinish();
 }
 
 @end
