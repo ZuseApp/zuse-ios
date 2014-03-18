@@ -161,9 +161,9 @@
     {
       "properties": {
         "y": 0,
-        "width": 64,
+        "width": 30,
         "x": 0,
-        "height": 32
+        "height": 30
       },
       "type": "image",
       "id": "E7FC3888-7729-441D-A910-CB6682A756F2",
@@ -195,9 +195,9 @@
     {
       "properties": {
         "y": 0,
-        "width": 64,
+        "width": 30,
         "x": 0,
-        "height": 32
+        "height": 30
       },
       "type": "image",
       "id": "E7FC3888-7729-441D-A910-CB6682A756F3",
