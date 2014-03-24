@@ -808,6 +808,7 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
 - (void)showSliderWithHandler:(void (^)())handler {
     if (!self.gridSliderShowing) {
         [self.view bringSubviewToFront:self.gridSlider];
+        [self.view bringSubviewToFront:self.toolbar];
         CGRect frame = self.gridSlider.frame;
         self.gridSliderShowing = YES;
         frame.origin.y -= frame.size.height;

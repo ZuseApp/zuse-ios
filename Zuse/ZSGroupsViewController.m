@@ -89,7 +89,7 @@
              [ZSCanvasBarButtonItem flexibleBarButtonItem],
              self.selectedGroupItem,
              [ZSCanvasBarButtonItem flexibleBarButtonItem],
-             [ZSCanvasBarButtonItem doneButtonWithHandler:^{
+             [ZSCanvasBarButtonItem finishButtonWithHandler:^{
                  [self doneButtonTapped];
              }]
              ];
