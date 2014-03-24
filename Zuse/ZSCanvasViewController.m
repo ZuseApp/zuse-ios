@@ -328,8 +328,9 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
     
     _canvasView.spriteSingleTapped = ^(ZSSpriteView *spriteView) {
         [_tutorial broadcastEvent:ZSTutorialBroadcastDidTapPaddle];
-        [self hideSliderWithHandler:nil];
-        [weakSelf performSegueWithIdentifier:@"editor" sender:spriteView];
+        [self hideSliderWithHandler:^{
+            [weakSelf performSegueWithIdentifier:@"editor" sender:spriteView];
+        }];
     };
     
     _canvasView.spriteCreated = ^(ZSSpriteView *spriteView) {
