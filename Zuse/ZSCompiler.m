@@ -40,10 +40,10 @@
                                            objects:newObjects];
     }
     
-    newObjects = [self inlinedObjectsForObjects:newObjects];
+    newObjects = [self ZuseIRObjectsFromDSLObjects:newObjects];
     
     NSDictionary *code = @{ @"suite": newObjects };
-    
+
     code = [ZSCodeNormalizer normalizedCodeItem:code];
     code = [ZSCodeTraverser map:code onKeys:@[@"every"] block:ZSCodeTransformEveryBlock];
     
@@ -104,7 +104,7 @@
  *
  *  @return Array of `object` statements from the Zuse IR
  */
-- (NSArray *)inlinedObjectsForObjects:(NSArray *)objects {
+- (NSArray *)ZuseIRObjectsFromDSLObjects:(NSArray *)objects {
     NSArray *newObjects = [objects map:^id(NSDictionary *obj) {
         return @{
             @"object": @{

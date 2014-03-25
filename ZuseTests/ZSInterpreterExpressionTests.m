@@ -43,6 +43,12 @@
     XCTAssertEqualObjects(result, @3, @"");
 }
 
+- (void)testAdditionCoercion {
+    NSDictionary *program = @{ @"+": @[ @1, @"hi" ] };
+    NSNumber *result = [_interpreter runJSON:program];
+    XCTAssertEqualObjects(result, @1, @"");
+}
+
 - (void)testSubtraction {
     NSDictionary *program = @{ @"-": @[ @1, @2 ] };
     NSNumber *result = [_interpreter runJSON:program];
@@ -59,6 +65,12 @@
     NSDictionary *program = @{ @"/": @[ @10, @2 ] };
     NSNumber *result = [_interpreter runJSON:program];
     XCTAssertEqualObjects(result, @5, @"");
+}
+
+- (void)testDivisionByZeroCoercesToOne {
+    NSDictionary *program = @{ @"/": @[ @10, @0 ] };
+    NSNumber *result = [_interpreter runJSON:program];
+    XCTAssertEqualObjects(result, @10, @"");
 }
 
 - (void)testDivisionFloatingPoint {
@@ -171,10 +183,10 @@
 
 - (void)testNestedExpression {
     NSDictionary *program = @{
-                    @"+": @[
-                        @{ @"+": @[ @1, @1 ] },
-                        @{ @"+": @[ @2, @2 ] }
-                    ]
+        @"+": @[
+            @{ @"+": @[ @1, @1 ] },
+            @{ @"+": @[ @2, @2 ] }
+        ]
     };
     
     NSNumber *returnValue = [_interpreter runJSON:program];
