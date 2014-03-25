@@ -13,19 +13,19 @@
 
 + (NSArray *)codeBlocksForIf:(NSDictionary *)codeItem {
     // TODO: Create transform that adds in false branches to all if statements
-    return @[codeItem[@"if"][@"true"], (codeItem[@"if"][@"false"] ?: @[])];
+    return @[codeItem[@"if"][@"true"], codeItem[@"if"][@"false"] ?: @[]];
 }
 
 + (NSArray *)codeBlocksForOnEvent:(NSDictionary *)codeItem {
-    return @[codeItem[@"on_event"][@"code"]];
+    return @[(codeItem[@"on_event"][@"code"] ?: @[])];
 }
 
 + (NSArray *)codeBlocksForSuite:(NSDictionary *)codeItem {
-    return @[codeItem[@"suite"]];
+    return @[codeItem[@"suite"] ?: @[]];
 }
 
 + (NSArray *)codeBlocksForObject:(NSDictionary *)codeItem {
-    return @[codeItem[@"object"][@"code"]];
+    return @[codeItem[@"object"][@"code"] ?: @[]];
 }
 
 + (NSDictionary *)codeItemBySettingCodeBlocks:(NSArray *)codeBlocks
@@ -71,7 +71,7 @@
     } else if ([key isEqualToString:@"object"]) {
         newCodeItem = [self codeItemBySettingCodeBlocks:codeBlocks forObject:codeItem];
     } else {
-        return newCodeItem = codeItem;
+        newCodeItem = codeItem;
     }
     return newCodeItem;
 }
@@ -91,34 +91,54 @@
     }
 }
 
-+ (NSDictionary *)codeItemByTraversingCodeItem:(NSDictionary *)codeItem
-                       replacingItemsWithBlock:(NSDictionary *(^)(NSDictionary *))replacementBlock {
-    NSDictionary *transformedItem = replacementBlock(codeItem);
-    
-    NSArray *codeBlocks = [self codeBlocksForCodeItem:transformedItem];
-    
-    codeBlocks = [codeBlocks map:^id(NSArray *codeBlock) {
-        return [codeBlock map:^id(NSDictionary *innerCodeItem) {
-            return [self codeItemByTraversingCodeItem:innerCodeItem replacingItemsWithBlock:replacementBlock];
-        }];
-    }];
-    
-    return [self codeItemBySettingCodeBlocks:codeBlocks
-                                 forCodeItem:transformedItem];
++ (NSDictionary *)map:(NSDictionary *)codeItem block:(NSDictionary *(^)(NSDictionary *))replacementBlock {
+    return [self reduce:@[codeItem] block:^NSArray *(NSArray *innerCodeItems, NSDictionary *innerCodeItem) {
+        NSDictionary *replacement = replacementBlock(innerCodeItem);
+        return [innerCodeItems arrayByAddingObject:replacement];
+    }].firstObject ?: @[];
 }
 
-+ (NSDictionary *)codeItemByTransformingCodeItem:(NSDictionary *)codeItem
-                                         withKey:(NSString *)codeItemKey
-                                      usingBlock:(NSDictionary *(^)(NSDictionary *))transformBlock {
-    return [self codeItemByTraversingCodeItem:codeItem
-                      replacingItemsWithBlock:^NSDictionary *(NSDictionary *innerCodeItem) {
-                          NSString *key = innerCodeItem.allKeys.firstObject;
-                          if ([key isEqualToString:codeItemKey]) {
-                              return transformBlock(innerCodeItem);
-                          } else {
-                              return innerCodeItem;
-                          }
-                      }];
++ (NSDictionary *)filter:(NSDictionary *)codeItem block:(ZSCodeValidBlock)testBlock {
+    return [self reduce:@[codeItem] block:^NSArray *(NSArray *innerCodeItems, NSDictionary *innerCodeItem) {
+        if (testBlock(innerCodeItem)) {
+            return [innerCodeItems arrayByAddingObject:innerCodeItem];
+        } else {
+            return innerCodeItems;
+        }
+    }].firstObject ?: @[];
+}
+
++ (NSArray *)reduce:(NSArray *)codeItems block:(NSArray *(^)(NSArray *innerCodeItems, NSDictionary *innerCodeItem))reduceBlock {
+    __block NSArray *result = @[];
+    
+    [codeItems each:^(NSDictionary *codeItem) {
+        result = reduceBlock(result, codeItem);
+    }];
+    
+    result = [result map:^(NSDictionary *transformedItem) {
+        NSArray *codeBlocks = [self codeBlocksForCodeItem:transformedItem];
+        
+        codeBlocks =  [codeBlocks map:^id(NSArray *codeBlock) {
+            return [self reduce:codeBlock block:reduceBlock];
+        }];
+        
+        return [self codeItemBySettingCodeBlocks:codeBlocks
+                                     forCodeItem:transformedItem];
+    }];
+    
+    return result;
+}
+
++ (NSDictionary *)map:(NSDictionary *)codeItem onKeys:(NSArray *)codeItemKeys block:(ZSCodeTransformBlock)transformBlock {
+    NSSet *keySet = [NSSet setWithArray:codeItemKeys];
+    return [self map:codeItem block:^NSDictionary *(NSDictionary *innerCodeItem) {
+        NSString *key = innerCodeItem.allKeys.firstObject;
+        if ([keySet containsObject:key]) {
+            return transformBlock(innerCodeItem);
+        } else {
+            return innerCodeItem;
+        }
+    }];
 }
 
 @end

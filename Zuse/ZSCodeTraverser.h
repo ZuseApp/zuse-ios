@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "ZSCodeTransforms.h"
 
+typedef BOOL (^ZSCodeValidBlock)(NSDictionary *codeItem);
+
 @interface ZSCodeTraverser : NSObject
 
 /**
@@ -21,11 +23,13 @@
  *
  *  @return A new NSDictionary with any statements/expression transformed by replacementBlock
  */
-+ (NSDictionary *)codeItemByTraversingCodeItem:(NSDictionary *)codeItem
-              replacingItemsWithBlock:(ZSCodeTransformBlock)replacementBlock;
++ (NSDictionary *)map:(NSDictionary *)codeItem block:(ZSCodeTransformBlock)replacementBlock;
+
+
++ (NSDictionary *)filter:(NSDictionary *)codeItem block:(ZSCodeValidBlock)testBlock;
 
 /**
- *  Transforms any statements identified in the Zuse IR by `codeItemKey` using
+ *  Transforms any statements identified in the Zuse IR by `codeItemKeys` using
  *  `transformBlock`. All other code items will remain unchanged.
  *
  *  @param codeItem       Code item from Zuse domain language
@@ -35,9 +39,7 @@
  *
  *  @return New code item, potentially transformed.
  */
-+ (NSDictionary *)codeItemByTransformingCodeItem:(NSDictionary *)codeItem
-                                         withKey:(NSString *)codeItemKey
-                                      usingBlock:(ZSCodeTransformBlock)transformBlock;
++ (NSDictionary *)map:(NSDictionary *)codeItem onKeys:(NSArray *)codeItemKeys block:(ZSCodeTransformBlock)transformBlock;
 
 /**
  *  Find all code blocks associated with `object` key in Zuse domain language.

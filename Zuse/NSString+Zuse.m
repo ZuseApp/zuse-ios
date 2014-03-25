@@ -14,4 +14,12 @@
     return self;
 }
 
+- (NSNumber *)coercedNumber {
+    return @0;
+}
+
+- (NSNumber *)coercedBool {
+    return @NO;
+}
+
 @end

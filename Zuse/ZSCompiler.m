@@ -9,6 +9,7 @@
 #import "ZSCompiler.h"
 #import "BlocksKit.h"
 #import "ZSCodeTraverser.h"
+#import "ZSCodeNormalizer.h"
 #import "ZSCodeTransforms.h"
 
 @interface ZSCompiler ()
@@ -43,9 +44,8 @@
     
     NSDictionary *code = @{ @"suite": newObjects };
     
-    code = [ZSCodeTraverser codeItemByTransformingCodeItem:code
-                                                   withKey:@"every"
-                                                    usingBlock:ZSCodeTransformEveryBlock];
+    code = [ZSCodeNormalizer normalizedCodeItem:code];
+    code = [ZSCodeTraverser map:code onKeys:@[@"every"] block:ZSCodeTransformEveryBlock];
     
     return code;
 }

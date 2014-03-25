@@ -104,10 +104,8 @@
 		5F2EC4D4183ABEE60091CEAD /* events_scope.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F2EC4D2183ABEE60091CEAD /* events_scope.json */; };
 		5F2EC4D5183ABEE60091CEAD /* suite.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F2EC4D3183ABEE60091CEAD /* suite.json */; };
 		5F2EC4D8183ABF160091CEAD /* ZSCompilerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F2EC4D7183ABF160091CEAD /* ZSCompilerTests.m */; };
-		5F2EC4DA183AC7C10091CEAD /* project_traits.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F2EC4D9183AC7C10091CEAD /* project_traits.json */; };
 		5F2EC4DC183AD7510091CEAD /* ZSInterpreterDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F2EC4DB183AD7510091CEAD /* ZSInterpreterDelegateTests.m */; };
 		5F2EC4DE183B06840091CEAD /* property_update.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F2EC4DD183B06840091CEAD /* property_update.json */; };
-		5F2EC4E3183DC2550091CEAD /* scope_set_object_var.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F2EC4E2183DC2550091CEAD /* scope_set_object_var.json */; };
 		5F39172118C4F9FA00109747 /* ZSProjectJSONKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F39172018C4F9FA00109747 /* ZSProjectJSONKeys.m */; };
 		5F39172718C53ED100109747 /* ZSCanvasSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F39172618C53ED100109747 /* ZSCanvasSegue.m */; };
 		5F39172D18C55C1A00109747 /* UIImageView+Zuse.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F39172C18C55C1A00109747 /* UIImageView+Zuse.m */; };
@@ -146,6 +144,12 @@
 		5F8138D41898C36B009F3495 /* NSNumber+Zuse.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8138D31898C36B009F3495 /* NSNumber+Zuse.m */; };
 		5F8138D9189A1DF1009F3495 /* ZSComponentNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8138D8189A1DF1009F3495 /* ZSComponentNode.m */; };
 		5F8138DF18A0BA07009F3495 /* ZSCollisionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8138DE18A0BA07009F3495 /* ZSCollisionsViewController.m */; };
+		5F93F08618DE1ECA005E382B /* ZSCodeNormalizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F93F08518DE1ECA005E382B /* ZSCodeNormalizer.m */; };
+		5F93F08E18E12D9C005E382B /* normalize_dsl_expected.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F93F08A18E12D9C005E382B /* normalize_dsl_expected.json */; };
+		5F93F08F18E12D9C005E382B /* normalize_dsl.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F93F08B18E12D9C005E382B /* normalize_dsl.json */; };
+		5F93F09018E12D9C005E382B /* project_traits.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F93F08C18E12D9C005E382B /* project_traits.json */; };
+		5F93F09118E12D9C005E382B /* scope_set_object_var.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F93F08D18E12D9C005E382B /* scope_set_object_var.json */; };
+		5F93F09318E12E31005E382B /* ZSCodeNormalizerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F93F09218E12E31005E382B /* ZSCodeNormalizerTests.m */; };
 		5FADD82018D7DD2B00A336CC /* ZSZuseDSL.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FADD81F18D7DD2B00A336CC /* ZSZuseDSL.m */; };
 		5FADD82218D7E98400A336CC /* ZSZuseDSLTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FADD82118D7E98400A336CC /* ZSZuseDSLTests.m */; };
 		5FADD82618D7FB3000A336CC /* galaga_example.json in Resources */ = {isa = PBXBuildFile; fileRef = 5FADD82518D7FB3000A336CC /* galaga_example.json */; };
@@ -325,10 +329,8 @@
 		5F2EC4D2183ABEE60091CEAD /* events_scope.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = events_scope.json; path = CodeSamples/events_scope.json; sourceTree = "<group>"; };
 		5F2EC4D3183ABEE60091CEAD /* suite.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = suite.json; path = CodeSamples/suite.json; sourceTree = "<group>"; };
 		5F2EC4D7183ABF160091CEAD /* ZSCompilerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCompilerTests.m; sourceTree = "<group>"; };
-		5F2EC4D9183AC7C10091CEAD /* project_traits.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = project_traits.json; sourceTree = "<group>"; };
 		5F2EC4DB183AD7510091CEAD /* ZSInterpreterDelegateTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSInterpreterDelegateTests.m; sourceTree = "<group>"; };
 		5F2EC4DD183B06840091CEAD /* property_update.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = property_update.json; path = CodeSamples/property_update.json; sourceTree = "<group>"; };
-		5F2EC4E2183DC2550091CEAD /* scope_set_object_var.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = scope_set_object_var.json; sourceTree = "<group>"; };
 		5F39171F18C4F9C800109747 /* ZSProjectJSONKeys.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZSProjectJSONKeys.h; sourceTree = "<group>"; };
 		5F39172018C4F9FA00109747 /* ZSProjectJSONKeys.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSProjectJSONKeys.m; sourceTree = "<group>"; };
 		5F39172518C53ED100109747 /* ZSCanvasSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCanvasSegue.h; sourceTree = "<group>"; };
@@ -398,6 +400,13 @@
 		5F8138DB189CA574009F3495 /* ZSGroupsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSGroupsViewController.m; sourceTree = "<group>"; };
 		5F8138DD18A0BA07009F3495 /* ZSCollisionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCollisionsViewController.h; sourceTree = "<group>"; };
 		5F8138DE18A0BA07009F3495 /* ZSCollisionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCollisionsViewController.m; sourceTree = "<group>"; };
+		5F93F08418DE1ECA005E382B /* ZSCodeNormalizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCodeNormalizer.h; sourceTree = "<group>"; };
+		5F93F08518DE1ECA005E382B /* ZSCodeNormalizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCodeNormalizer.m; sourceTree = "<group>"; };
+		5F93F08A18E12D9C005E382B /* normalize_dsl_expected.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = normalize_dsl_expected.json; path = CodeSamples/normalize_dsl_expected.json; sourceTree = "<group>"; };
+		5F93F08B18E12D9C005E382B /* normalize_dsl.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = normalize_dsl.json; path = CodeSamples/normalize_dsl.json; sourceTree = "<group>"; };
+		5F93F08C18E12D9C005E382B /* project_traits.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = project_traits.json; path = CodeSamples/project_traits.json; sourceTree = "<group>"; };
+		5F93F08D18E12D9C005E382B /* scope_set_object_var.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = scope_set_object_var.json; path = CodeSamples/scope_set_object_var.json; sourceTree = "<group>"; };
+		5F93F09218E12E31005E382B /* ZSCodeNormalizerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCodeNormalizerTests.m; sourceTree = "<group>"; };
 		5FADD81E18D7DD2B00A336CC /* ZSZuseDSL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSZuseDSL.h; sourceTree = "<group>"; };
 		5FADD81F18D7DD2B00A336CC /* ZSZuseDSL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSZuseDSL.m; sourceTree = "<group>"; };
 		5FADD82118D7E98400A336CC /* ZSZuseDSLTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSZuseDSLTests.m; sourceTree = "<group>"; };
@@ -780,20 +789,13 @@
 		4CE35626188B08A0007024C0 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				5F93F08718DE248D005E382B /* Compilation */,
 				5F099D4417F1135300EB2AC7 /* ZSInterpreter.h */,
 				5F099D4517F1135300EB2AC7 /* ZSInterpreter.m */,
 				5F41ACB618341C980089D136 /* ZSExecutionContext.h */,
 				5F41ACB718341C980089D136 /* ZSExecutionContext.m */,
-				5F1B5BA41837EE7800632DE6 /* ZSCompiler.h */,
-				5F1B5BA51837EE7800632DE6 /* ZSCompiler.m */,
-				5F01FBD818B4643500E14834 /* ZSPatternMatch.h */,
-				5F01FBD918B4643500E14834 /* ZSPatternMatch.m */,
 				5F6AD25418BD932200299AB8 /* ZSCodePropertyScope.h */,
 				5F6AD25518BD932200299AB8 /* ZSCodePropertyScope.m */,
-				5F57B13B18D4F89A007DB634 /* ZSCodeTraverser.h */,
-				5F57B13C18D4F89A007DB634 /* ZSCodeTraverser.m */,
-				5F57B14018D538AE007DB634 /* ZSCodeTransforms.h */,
-				5F57B14118D538AE007DB634 /* ZSCodeTransforms.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -952,6 +954,7 @@
 				5F57B13E18D4FA70007DB634 /* ZSCodeTraverserTests.m */,
 				5F57B14318D538CA007DB634 /* ZSCodeTransformsTests.m */,
 				5FADD82118D7E98400A336CC /* ZSZuseDSLTests.m */,
+				5F93F09218E12E31005E382B /* ZSCodeNormalizerTests.m */,
 				4CF1CBD717EF882A00636E0D /* Supporting Files */,
 			);
 			path = ZuseTests;
@@ -1039,11 +1042,11 @@
 				5F6AD25918BD952900299AB8 /* ZSCodePropertyScope */,
 				5F01FBDE18B467F600E14834 /* ZSPatternMatch */,
 				5F8138CE18945DE0009F3495 /* Compiler */,
+				5F93F08D18E12D9C005E382B /* scope_set_object_var.json */,
 				5F2EC4DD183B06840091CEAD /* property_update.json */,
 				5F2EC4D2183ABEE60091CEAD /* events_scope.json */,
 				5F2EC4D3183ABEE60091CEAD /* suite.json */,
 				5F2EC4CE183ABECE0091CEAD /* pong_compiled.json */,
-				5F2EC4E2183DC2550091CEAD /* scope_set_object_var.json */,
 			);
 			name = JSON;
 			sourceTree = "<group>";
@@ -1140,9 +1143,28 @@
 			children = (
 				5F8138C818945D8F009F3495 /* object_transform.json */,
 				5F8138CC18945DDD009F3495 /* object_transform_result.json */,
-				5F2EC4D9183AC7C10091CEAD /* project_traits.json */,
+				5F93F08A18E12D9C005E382B /* normalize_dsl_expected.json */,
+				5F93F08B18E12D9C005E382B /* normalize_dsl.json */,
+				5F93F08C18E12D9C005E382B /* project_traits.json */,
 			);
 			name = Compiler;
+			sourceTree = "<group>";
+		};
+		5F93F08718DE248D005E382B /* Compilation */ = {
+			isa = PBXGroup;
+			children = (
+				5F1B5BA41837EE7800632DE6 /* ZSCompiler.h */,
+				5F1B5BA51837EE7800632DE6 /* ZSCompiler.m */,
+				5F57B13B18D4F89A007DB634 /* ZSCodeTraverser.h */,
+				5F57B13C18D4F89A007DB634 /* ZSCodeTraverser.m */,
+				5F57B14018D538AE007DB634 /* ZSCodeTransforms.h */,
+				5F57B14118D538AE007DB634 /* ZSCodeTransforms.m */,
+				5F93F08418DE1ECA005E382B /* ZSCodeNormalizer.h */,
+				5F93F08518DE1ECA005E382B /* ZSCodeNormalizer.m */,
+				5F01FBD818B4643500E14834 /* ZSPatternMatch.h */,
+				5F01FBD918B4643500E14834 /* ZSPatternMatch.m */,
+			);
+			name = Compilation;
 			sourceTree = "<group>";
 		};
 		5FBB4A7A18BFE8DA00B79AB6 /* Main Menu */ = {
@@ -1300,17 +1322,19 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F93F08F18E12D9C005E382B /* normalize_dsl.json in Resources */,
 				5F6AD25C18BD954700299AB8 /* property_scope_flat.json in Resources */,
 				5F2EC4D5183ABEE60091CEAD /* suite.json in Resources */,
-				5F2EC4DA183AC7C10091CEAD /* project_traits.json in Resources */,
 				5F2EC4D0183ABECE0091CEAD /* pong_compiled.json in Resources */,
-				5F2EC4E3183DC2550091CEAD /* scope_set_object_var.json in Resources */,
 				5F2EC4DE183B06840091CEAD /* property_update.json in Resources */,
 				4CF1CBDB17EF882A00636E0D /* InfoPlist.strings in Resources */,
 				5F2EC4D4183ABEE60091CEAD /* events_scope.json in Resources */,
 				5F8138C918945D8F009F3495 /* object_transform.json in Resources */,
+				5F93F09018E12D9C005E382B /* project_traits.json in Resources */,
 				5F6AD25D18BD954700299AB8 /* property_scope_nested.json in Resources */,
+				5F93F09118E12D9C005E382B /* scope_set_object_var.json in Resources */,
 				5F8138CD18945DDD009F3495 /* object_transform_result.json in Resources */,
+				5F93F08E18E12D9C005E382B /* normalize_dsl_expected.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1430,6 +1454,7 @@
 				5F39DFD1188A40A0008ECAC1 /* NSObject+BlockObservation.m in Sources */,
 				5F57B13D18D4F89A007DB634 /* ZSCodeTraverser.m in Sources */,
 				4C4087091852480F009117E1 /* ZSSpriteLibrary.m in Sources */,
+				5F93F08618DE1ECA005E382B /* ZSCodeNormalizer.m in Sources */,
 				2CA9D387183F3F0300401231 /* ZSRendererScene.m in Sources */,
 				2CA9A32A18C26605005F4404 /* ZSZuseHubSideMenuViewController.m in Sources */,
 				5FADD82018D7DD2B00A336CC /* ZSZuseDSL.m in Sources */,
@@ -1455,6 +1480,7 @@
 				5F2EC4DC183AD7510091CEAD /* ZSInterpreterDelegateTests.m in Sources */,
 				5FADD82218D7E98400A336CC /* ZSZuseDSLTests.m in Sources */,
 				5F2EC4D8183ABF160091CEAD /* ZSCompilerTests.m in Sources */,
+				5F93F09318E12E31005E382B /* ZSCodeNormalizerTests.m in Sources */,
 				5F39DFD7188A472E008ECAC1 /* ZSInterpreterExpressionTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
