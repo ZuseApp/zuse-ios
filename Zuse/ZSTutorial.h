@@ -2,7 +2,9 @@
 #import "CMPopTipView.h"
 #import "ZSOverlayView.h"
 
-@interface ZSTutorial : NSObject
+extern NSString * const ZSTutorialBroadcastPopupDismissed;
+
+@interface ZSTutorial : NSObject <CMPopTipViewDelegate>
 
 @property (nonatomic, strong) ZSOverlayView *overlayView;
 @property (nonatomic, strong) NSArray *allowedGestures;

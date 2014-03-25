@@ -1,5 +1,7 @@
 #import "ZSTutorial.h"
 
+NSString * const ZSTutorialBroadcastPopupDismissed = @"ZSTutorialBroadcastPopupDismissed";
+
 @interface ZSTutorial ()
 
 @property (nonatomic, strong) UIWindow *window;
@@ -89,7 +91,7 @@
 
 - (void)processNextAction {
     if (_active) {
-        _overlayView.invertActiveRegion = NO;
+        [_overlayView reset];
         if (_actions.count == 0) {
             [_overlayView removeFromSuperview];
             if (_stageCompletion) {
@@ -119,17 +121,36 @@
         }
         
         // Show tooltip view
-        UIView *view = nil;
-        view = [[UIView alloc] initWithFrame:_overlayView.activeRegion];
-//        view.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.9];
-//        view.layer.borderColor = [[UIColor blackColor] CGColor];
-//        view.layer.borderWidth = 0.5f;
-        [_overlayView addSubview:view];
-        
         _toolTipView = [[CMPopTipView alloc] initWithMessage:action[@"text"]];
-        _toolTipView.disableTapToDismiss = YES;
+        _toolTipView.hasGradientBackground = NO;
+        _toolTipView.backgroundColor = [UIColor zuseYellow];
+        _toolTipView.has3DStyle = NO;
+        _toolTipView.borderWidth = 0.5f;
+        _toolTipView.hasShadow = NO;
+        _toolTipView.textColor = [UIColor zuseBackgroundGrey];
+        _toolTipView.delegate = self;
+
+        UIView *view = nil;
+        if (CGRectEqualToRect(_overlayView.activeRegion, CGRectZero)) {
+            // If the active region is CGRectZero invert the active region and turn the tooltip into a message bubble instead.
+            _toolTipView.pointerSize = 0;
+            _toolTipView.dismissTapAnywhere = YES;
+            view = [[UIView alloc] initWithFrame:CGRectMake(160, 10, 0, 0)];
+            _overlayView.invertActiveRegion = YES;
+            _overlayView.tapToDismiss = YES;
+            [_overlayView addSubview:view];
+        }
+        else {
+            _toolTipView.disableTapToDismiss = YES;
+            view = [[UIView alloc] initWithFrame:_overlayView.activeRegion];
+            [_overlayView addSubview:view];
+        }
         [_toolTipView presentPointingAtView:view inView:_overlayView animated:YES];
     }
+}
+
+- (void)popTipViewWasDismissedByUser:(CMPopTipView *)popTipView {
+    [self broadcastEvent:ZSTutorialBroadcastPopupDismissed];
 }
 
 - (void)saveObject:(id)anObject forKey:(id <NSCopying>)aKey {

@@ -242,7 +242,7 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
         CGRect paddleRect = [collectionView layoutAttributesForItemAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]].frame;
         paddleRect.size.height -= 17;
         
-        CGRect settingsButtonRect = ((ZSCanvasBarButtonItem *)_toolbar.items[3]).button.frame;
+        CGRect settingsButtonRect = ((ZSCanvasBarButtonItem *)_toolbar.items[4]).button.frame;
         
         [_tutorial addActionWithText:@"Touch the toolbox icon to open the sprite toolbox."
                             forEvent:ZSTutorialBroadcastDidShowToolbox
@@ -259,6 +259,14 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
                               paddle1 = [weakSelf.canvasView.subviews lastObject];
                               [weakSelf.tutorial saveObject:paddle1 forKey:@"paddle1"];
                           }];
+        [_tutorial addActionWithText:@"In general the toolbox won't show again but for the tutorial we will bring it up again for you."
+                            forEvent:ZSTutorialBroadcastPopupDismissed
+                     allowedGestures:@[UITapGestureRecognizer.class]
+                        activeRegion:CGRectZero
+                               setup:nil
+                          completion:^{
+                              [weakSelf showToolbox];
+                          }];
         [_tutorial addActionWithText:@"Drag another paddle sprite onto the upper part of the canvas."
                             forEvent:ZSTutorialBroadcastDidDropSprite
                      allowedGestures:@[UILongPressGestureRecognizer.class]
@@ -267,6 +275,7 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
                           completion:^{
                               paddle2 = [weakSelf.canvasView.subviews lastObject];
                               [weakSelf.tutorial saveObject:paddle2 forKey:@"paddle2"];
+                              [weakSelf showToolbox];
                           }];
         [_tutorial addActionWithText:@"Drag a ball sprite onto the middle of the canvas."
                             forEvent:ZSTutorialBroadcastDidDropSprite
@@ -277,14 +286,6 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
                               ball = [weakSelf.canvasView.subviews lastObject];
                               [weakSelf.tutorial saveObject:ball forKey:@"ball"];
                           }];
-        [_tutorial addActionWithText:@"Touch anywhere outside of the toolbox to close it."
-                            forEvent:ZSTutorialBroadcastDidHideToolbox
-                     allowedGestures:@[UITapGestureRecognizer.class]
-                        activeRegion:_toolboxView.frame
-                               setup:^{
-                                   weakSelf.tutorial.overlayView.invertActiveRegion = YES;
-                               }
-                          completion:nil];
 //        [_tutorial addActionWithText:@"Touch the lower paddle to bring up the sprite editor."
 //                            forEvent:ZSTutorialBroadcastDidTapPaddle
 //                     allowedGestures:@[UITapGestureRecognizer.class]
@@ -618,11 +619,11 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
                      [weakSelf toggleGeneratorView];
                  }
              }],
-             [ZSCanvasBarButtonItem gridButtonWithHandler:^{
-                 [weakSelf toggleSliderViewWithHandler:nil];
-             }],
              [ZSCanvasBarButtonItem toolboxButtonWithHandler:^{
                  [weakSelf showToolbox];
+             }],
+             [ZSCanvasBarButtonItem gridButtonWithHandler:^{
+                 [weakSelf toggleSliderViewWithHandler:nil];
              }],
              [ZSCanvasBarButtonItem shareButtonWithHandler:^{
                  [weakSelf shareProject];
