@@ -125,7 +125,7 @@ NSString * const ZSTutorialBroadcastPopupDismissed = @"ZSTutorialBroadcastPopupD
         _toolTipView.hasGradientBackground = NO;
         _toolTipView.backgroundColor = [UIColor zuseYellow];
         _toolTipView.has3DStyle = NO;
-        _toolTipView.borderWidth = 0.5f;
+        _toolTipView.borderWidth = 0;
         _toolTipView.hasShadow = NO;
         _toolTipView.textColor = [UIColor zuseBackgroundGrey];
         _toolTipView.delegate = self;
@@ -135,7 +135,7 @@ NSString * const ZSTutorialBroadcastPopupDismissed = @"ZSTutorialBroadcastPopupD
             // If the active region is CGRectZero invert the active region and turn the tooltip into a message bubble instead.
             _toolTipView.pointerSize = 0;
             _toolTipView.dismissTapAnywhere = YES;
-            view = [[UIView alloc] initWithFrame:CGRectMake(160, 10, 0, 0)];
+            view = [[UIView alloc] initWithFrame:CGRectMake(160, 20, 0, 0)];
             _overlayView.invertActiveRegion = YES;
             _overlayView.tapToDismiss = YES;
             [_overlayView addSubview:view];

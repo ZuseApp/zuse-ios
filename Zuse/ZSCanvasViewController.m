@@ -258,15 +258,14 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
                           completion:^{
                               paddle1 = [weakSelf.canvasView.subviews lastObject];
                               [weakSelf.tutorial saveObject:paddle1 forKey:@"paddle1"];
+                              [weakSelf showToolbox];
                           }];
         [_tutorial addActionWithText:@"In general the toolbox won't show again but for the tutorial we will bring it up again for you."
                             forEvent:ZSTutorialBroadcastPopupDismissed
                      allowedGestures:@[UITapGestureRecognizer.class]
                         activeRegion:CGRectZero
                                setup:nil
-                          completion:^{
-                              [weakSelf showToolbox];
-                          }];
+                          completion:nil];
         [_tutorial addActionWithText:@"Drag another paddle sprite onto the upper part of the canvas."
                             forEvent:ZSTutorialBroadcastDidDropSprite
                      allowedGestures:@[UILongPressGestureRecognizer.class]
