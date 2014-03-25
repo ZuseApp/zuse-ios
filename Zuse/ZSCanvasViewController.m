@@ -197,11 +197,14 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
     frame.origin.y = self.initialCanvasRect.origin.y;
     self.canvasView.frame = frame;
     
+    self.gridSlider.hidden = YES;
     [UIView animateWithDuration:0.4
                      animations:^{
                          self.canvasView.transform = CGAffineTransformIdentity;
                          self.canvasView.frame = normalFrame;
                          self.toolbar.frame = originalToolbarFrame;
+                     } completion:^(BOOL finished) {
+                         self.gridSlider.hidden = NO;
                      }];
 }
 
@@ -213,6 +216,7 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
     CGRect toolbarRect = self.toolbar.frame;
     toolbarRect.origin.y = self.view.bounds.size.height;
     
+    self.gridSlider.hidden = YES;
     [UIView animateWithDuration:0.4
                      animations:^{
                          self.canvasView.transform = CGAffineTransformMakeScale(scale, scale);
