@@ -24,10 +24,13 @@
 - (id)init {
     self = [super init];
     if (self) {
+        // Grab the size of the screen to create the project size correctly.
+        CGSize screenSize = [[UIScreen mainScreen] bounds].size;
+        
         // Create an empty project.
         _title = @"Untitled";
         _version = @"1.0.0";
-        _canvasSize = @[@(320), @(524)];
+        _canvasSize = @[@(screenSize.width), @(screenSize.height - 44)];
         _identifier = [[NSUUID UUID] UUIDString];
         
         _projectJSON = [NSMutableDictionary dictionary];

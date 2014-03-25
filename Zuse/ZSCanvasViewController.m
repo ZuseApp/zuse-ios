@@ -98,12 +98,33 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
     [super viewDidLoad];
     
     // Load the project if it exists.
+    CGFloat scale = 1;
     if (_project) {
         // Setup pieces of the canvas.
         [self setupCanvas];
         [self setupGenerators];
         [self setupToolbar];
         [self setupToolbox];
+        
+        // Setup aspect ratio of project based on the size of the phone.
+        CGRect canvasFrames = [[UIScreen mainScreen] bounds];
+        canvasFrames.size.height -= 44;
+        self.canvasView.frame = canvasFrames;
+        self.rendererView.frame = canvasFrames;
+        self.generatorView.frame = canvasFrames;
+        
+        CGRect gridSliderFrame = self.gridSlider.frame;
+        gridSliderFrame.size.height = 42; // For some reason it's not getting set correctly.
+        gridSliderFrame.origin.y = canvasFrames.size.height;
+        self.gridSlider.frame = gridSliderFrame;
+        
+        // NSLog(@"%@", ((NSArray*)self.project.rawJSON[@"canvas_size"])[1]);
+        NSArray *sizeArray = self.project.rawJSON[@"canvas_size"];
+        CGFloat projectHeight = [sizeArray[1] floatValue];
+        scale = canvasFrames.size.height / projectHeight;
+        
+//        self.canvasView.transform = CGAffineTransformMakeScale(scale, scale);
+//        NSLog(@"%@", NSStringFromCGRect(self.canvasView.frame));
         
         // Set a curved radius on the canvas label.
         self.canvasLabel.layer.cornerRadius = 10;
@@ -390,7 +411,12 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
 - (void)setupToolbox {
     [self setupToolboxController];
     
-    _toolboxView = [[ZSToolboxView alloc] initWithFrame:CGRectMake(19, 82, 282, 361)];
+    CGFloat height = 82;
+    if ([[UIScreen mainScreen] bounds].size.height == 480) {
+        height = 38;
+    }
+    _toolboxView = [[ZSToolboxView alloc] initWithFrame:CGRectMake(19, height, 282, 361)];
+    
     WeakSelf
     _toolboxView.hidView = ^{
         [weakSelf.tutorial broadcastEvent:ZSTutorialBroadcastDidHideToolbox];

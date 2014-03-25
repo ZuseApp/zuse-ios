@@ -1,111 +1,150 @@
 {
-  "title" : "Breakout",
-  "version" : "1.0.0",
-  "traits" : {
-    "Disappearable" : {
-      "parameters" : {},
-      "code" : [
-        { "set": ["hits left", 1] },
+  "title": "Breakout",
+  "version": "1.0.0",
+  "canvas_size": [
+    320,
+    524
+  ],
+  "traits": {
+    "Disappearable": {
+      "parameters": {},
+      "code": [
+        {
+          "set": [
+            "hits left",
+            1
+          ]
+        },
         {
           "on_event": {
             "name": "collision",
-            "parameters": ["other_sprite"],
+            "parameters": [
+              "other_sprite"
+            ],
             "code": [
-              { "set": ["hits left", { "-": [{ "get": "hits left" }, 1] }] },
+              {
+                "set": [
+                  "hits left",
+                  {
+                    "-": [
+                      {
+                        "get": "hits left"
+                      },
+                      1
+                    ]
+                  }
+                ]
+              },
               {
                 "if": {
-                  "test": { "==": [{ "get": "hits left" }, 0] },
+                  "test": {
+                    "==": [
+                      {
+                        "get": "hits left"
+                      },
+                      0
+                    ]
+                  },
                   "true": [
-                    { "call": { "method": "remove" } }
+                    {
+                      "call": {
+                        "method": "remove"
+                      }
+                    }
                   ]
                 }
               },
-              { "trigger_event": { "name": "score", "parameters": {} } }
+              {
+                "trigger_event": {
+                  "name": "score",
+                  "parameters": {}
+                }
+              }
             ]
           }
         }
       ]
     },
-    "Draggable" : {
-      "code" : [
+    "Draggable": {
+      "code": [
         {
-          "set" : [
+          "set": [
             "offset_x",
             0
           ]
         },
         {
-          "set" : [
+          "set": [
             "offset_y",
             0
           ]
         },
         {
-          "on_event" : {
-            "name" : "touch_began",
-            "code" : [
+          "on_event": {
+            "name": "touch_began",
+            "code": [
               {
-                "set" : [
+                "set": [
                   "offset_x",
                   {
-                    "-" : [
+                    "-": [
                       {
-                        "get" : "touch_x"
+                        "get": "touch_x"
                       },
                       {
-                        "get" : "x"
+                        "get": "x"
                       }
                     ]
                   }
                 ]
               },
               {
-                "set" : [
+                "set": [
                   "offset_y",
                   {
-                    "-" : [
+                    "-": [
                       {
-                        "get" : "touch_y"
+                        "get": "touch_y"
                       },
                       {
-                        "get" : "y"
+                        "get": "y"
                       }
                     ]
                   }
                 ]
               }
             ],
-            "parameters" : [
+            "parameters": [
               "touch_x",
               "touch_y"
             ]
           }
         },
         {
-          "on_event" : {
-            "name" : "touch_moved",
-            "code" : [
+          "on_event": {
+            "name": "touch_moved",
+            "code": [
               {
-                "if" : {
-                  "test" : {
-                    "==" : [
+                "if": {
+                  "test": {
+                    "==": [
                       {
-                        "get" : "horizontal"
+                        "get": "horizontal"
                       },
                       true
                     ]
                   },
-                  "true" : [
+                  "true": [
                     {
-                      "set" : [
+                      "set": [
                         "x",
                         {
-                          "-" : [
+                          "-": [
                             {
-                              "get" : "touch_x"
+                              "get": "touch_x"
                             },
                             {
-                              "get" : "offset_x"
+                              "get": "offset_x"
                             }
                           ]
                         }
@@ -115,26 +154,26 @@
                 }
               },
               {
-                "if" : {
-                  "test" : {
-                    "==" : [
+                "if": {
+                  "test": {
+                    "==": [
                       {
-                        "get" : "vertical"
+                        "get": "vertical"
                       },
                       true
                     ]
                   },
-                  "true" : [
+                  "true": [
                     {
-                      "set" : [
+                      "set": [
                         "y",
                         {
-                          "-" : [
+                          "-": [
                             {
-                              "get" : "touch_y"
+                              "get": "touch_y"
                             },
                             {
-                              "get" : "offset_y"
+                              "get": "offset_y"
                             }
                           ]
                         }
@@ -144,27 +183,34 @@
                 }
               }
             ],
-            "parameters" : [
+            "parameters": [
               "touch_x",
               "touch_y"
             ]
           }
         }
       ],
-      "parameters" : {
-        "vertical" : true,
-        "horizontal" : true
+      "parameters": {
+        "vertical": true,
+        "horizontal": true
       }
     }
   },
   "collision_groups": {
-    "ball": ["paddle", "brick"],
-    "paddle": ["ball"],
-    "brick": ["ball"],
+    "ball": [
+      "paddle",
+      "brick"
+    ],
+    "paddle": [
+      "ball"
+    ],
+    "brick": [
+      "ball"
+    ],
     "text": []
   },
-  "generators" : [ ],
-  "objects" : [
+  "generators": [],
+  "objects": [
     {
       "id": "score",
       "properties": {
@@ -184,466 +230,445 @@
             "name": "score",
             "parameters": [],
             "code": [
-              { "set": ["score", { "+": [{ "get": "score" }, 1] } ] },
-              { "set": ["text", { "get": "score" }] }
+              {
+                "set": [
+                  "score",
+                  {
+                    "+": [
+                      {
+                        "get": "score"
+                      },
+                      1
+                    ]
+                  }
+                ]
+              },
+              {
+                "set": [
+                  "text",
+                  {
+                    "get": "score"
+                  }
+                ]
+              }
             ]
           }
         }
       ]
     },
     {
-      "code" : [
-
-      ],
-      "type" : "image",
-      "id" : "AA230D34-CA98-45D7-9C6D-F2CD7BD15EFA",
-      "properties" : {
-        "y" : 452,
-        "width" : 64,
-        "x" : 53,
-        "height" : 32
+      "code": [],
+      "type": "image",
+      "id": "AA230D34-CA98-45D7-9C6D-F2CD7BD15EFA",
+      "properties": {
+        "y": 452,
+        "width": 64,
+        "x": 53,
+        "height": 32
       },
-      "image" : {
-        "path" : "sprite_brick.png"
+      "image": {
+        "path": "sprite_brick.png"
       },
       "collision_group": "brick",
-      "physics_body" : "rectangle",
-      "traits" : {
-        "Disappearable": {
-        "parameters": {}
-        }
-      }
-    },
-    {
-      "code" : [
-
-      ],
-      "type" : "image",
-      "id" : "AB37B553-8E5A-4331-9CE0-4535BE4BD511",
-      "properties" : {
-        "y" : 452,
-        "width" : 64,
-        "x" : 123,
-        "height" : 32
-      },
-      "physics_body" : "rectangle",
-      "collision_group": "brick",
-      "image" : {
-        "path" : "sprite_brick.png"
-      },
-      "traits" : {
+      "physics_body": "rectangle",
+      "traits": {
         "Disappearable": {
           "parameters": {}
         }
       }
     },
     {
-      "code" : [
-
-      ],
-      "type" : "image",
-      "id" : "193EA3F5-C059-4223-87B7-EE554C713CE0",
-      "properties" : {
-        "y" : 452,
-        "width" : 64,
-        "x" : 193,
-        "height" : 32
+      "code": [],
+      "type": "image",
+      "id": "AB37B553-8E5A-4331-9CE0-4535BE4BD511",
+      "properties": {
+        "y": 452,
+        "width": 64,
+        "x": 123,
+        "height": 32
       },
-      "image" : {
-        "path" : "sprite_brick.png"
-      },
-      "physics_body" : "rectangle",
+      "physics_body": "rectangle",
       "collision_group": "brick",
-      "traits" : {
+      "image": {
+        "path": "sprite_brick.png"
+      },
+      "traits": {
         "Disappearable": {
           "parameters": {}
         }
       }
     },
     {
-      "code" : [
-
-      ],
-      "type" : "image",
-      "id" : "B2EC74F2-7484-412C-8F3F-5EBE68C87CD4",
-      "properties" : {
-        "y" : 452,
-        "width" : 64,
-        "x" : 263,
-        "height" : 32
+      "code": [],
+      "type": "image",
+      "id": "193EA3F5-C059-4223-87B7-EE554C713CE0",
+      "properties": {
+        "y": 452,
+        "width": 64,
+        "x": 193,
+        "height": 32
       },
-      "physics_body" : "rectangle",
+      "image": {
+        "path": "sprite_brick.png"
+      },
+      "physics_body": "rectangle",
       "collision_group": "brick",
-      "image" : {
-        "path" : "sprite_brick.png"
-      },
-      "traits" : {
+      "traits": {
         "Disappearable": {
           "parameters": {}
         }
       }
     },
     {
-      "code" : [
-
-      ],
-      "type" : "image",
-      "id" : "9A75DF35-2992-4271-ABA0-BB786BE59E6B",
-      "properties" : {
-        "y" : 417,
-        "width" : 64,
-        "x" : 88,
-        "height" : 32
+      "code": [],
+      "type": "image",
+      "id": "B2EC74F2-7484-412C-8F3F-5EBE68C87CD4",
+      "properties": {
+        "y": 452,
+        "width": 64,
+        "x": 263,
+        "height": 32
       },
-      "image" : {
-        "path" : "sprite_brick.png"
-      },
+      "physics_body": "rectangle",
       "collision_group": "brick",
-      "physics_body" : "rectangle",
-      "traits" : {
+      "image": {
+        "path": "sprite_brick.png"
+      },
+      "traits": {
         "Disappearable": {
           "parameters": {}
         }
       }
     },
     {
-      "code" : [
-
-      ],
-      "type" : "image",
-      "id" : "E8825123-AA3F-4E5E-B6F8-D1FBCEEB389E",
-      "properties" : {
-        "y" : 417,
-        "width" : 64,
-        "x" : 158,
-        "height" : 32
+      "code": [],
+      "type": "image",
+      "id": "9A75DF35-2992-4271-ABA0-BB786BE59E6B",
+      "properties": {
+        "y": 417,
+        "width": 64,
+        "x": 88,
+        "height": 32
+      },
+      "image": {
+        "path": "sprite_brick.png"
       },
       "collision_group": "brick",
-      "physics_body" : "rectangle",
-      "image" : {
-        "path" : "sprite_brick.png"
-      },
-      "traits" : {
+      "physics_body": "rectangle",
+      "traits": {
         "Disappearable": {
           "parameters": {}
         }
       }
     },
     {
-      "code" : [
-
-      ],
-      "type" : "image",
-      "id" : "DF35FE55-BE9C-4011-98B9-089579B2CA07",
-      "properties" : {
-        "y" : 417,
-        "width" : 64,
-        "x" : 228,
-        "height" : 32
+      "code": [],
+      "type": "image",
+      "id": "E8825123-AA3F-4E5E-B6F8-D1FBCEEB389E",
+      "properties": {
+        "y": 417,
+        "width": 64,
+        "x": 158,
+        "height": 32
       },
-      "image" : {
-        "path" : "sprite_brick.png"
-      },
-      "physics_body" : "rectangle",
       "collision_group": "brick",
-      "traits" : {
+      "physics_body": "rectangle",
+      "image": {
+        "path": "sprite_brick.png"
+      },
+      "traits": {
         "Disappearable": {
           "parameters": {}
         }
       }
     },
     {
-      "code" : [
-
-      ],
-      "type" : "image",
-      "id" : "06B2560B-3E0C-428E-B672-B0464AB2E1F2",
-      "properties" : {
-        "y" : 382,
-        "width" : 64,
-        "x" : 53,
-        "height" : 32
+      "code": [],
+      "type": "image",
+      "id": "DF35FE55-BE9C-4011-98B9-089579B2CA07",
+      "properties": {
+        "y": 417,
+        "width": 64,
+        "x": 228,
+        "height": 32
       },
-      "physics_body" : "rectangle",
+      "image": {
+        "path": "sprite_brick.png"
+      },
+      "physics_body": "rectangle",
       "collision_group": "brick",
-      "image" : {
-        "path" : "sprite_brick.png"
-      },
-      "traits" : {
+      "traits": {
         "Disappearable": {
           "parameters": {}
         }
       }
     },
     {
-      "code" : [
-
-      ],
-      "type" : "image",
-      "id" : "C30FB6D2-99F3-4AD4-A4C2-FC55707F5510",
-      "properties" : {
-        "y" : 382,
-        "width" : 64,
-        "x" : 123,
-        "height" : 32
+      "code": [],
+      "type": "image",
+      "id": "06B2560B-3E0C-428E-B672-B0464AB2E1F2",
+      "properties": {
+        "y": 382,
+        "width": 64,
+        "x": 53,
+        "height": 32
       },
-      "image" : {
-        "path" : "sprite_brick.png"
-      },
+      "physics_body": "rectangle",
       "collision_group": "brick",
-      "physics_body" : "rectangle",
-      "traits" : {
+      "image": {
+        "path": "sprite_brick.png"
+      },
+      "traits": {
         "Disappearable": {
           "parameters": {}
         }
       }
     },
     {
-      "code" : [
-
-      ],
-      "type" : "image",
-      "id" : "428956B0-B6AA-4EDD-BB7C-83809BFF1327",
-      "properties" : {
-        "y" : 382,
-        "width" : 64,
-        "x" : 193,
-        "height" : 32
+      "code": [],
+      "type": "image",
+      "id": "C30FB6D2-99F3-4AD4-A4C2-FC55707F5510",
+      "properties": {
+        "y": 382,
+        "width": 64,
+        "x": 123,
+        "height": 32
       },
-      "physics_body" : "rectangle",
+      "image": {
+        "path": "sprite_brick.png"
+      },
       "collision_group": "brick",
-      "image" : {
-        "path" : "sprite_brick.png"
-      },
-      "traits" : {
+      "physics_body": "rectangle",
+      "traits": {
         "Disappearable": {
           "parameters": {}
         }
       }
     },
     {
-      "code" : [
-
-      ],
-      "type" : "image",
-      "id" : "A3BC4097-0258-4284-9978-E4B67DAC797F",
-      "properties" : {
-        "y" : 382,
-        "width" : 64,
-        "x" : 263,
-        "height" : 32
+      "code": [],
+      "type": "image",
+      "id": "428956B0-B6AA-4EDD-BB7C-83809BFF1327",
+      "properties": {
+        "y": 382,
+        "width": 64,
+        "x": 193,
+        "height": 32
       },
-      "image" : {
-        "path" : "sprite_brick.png"
-      },
+      "physics_body": "rectangle",
       "collision_group": "brick",
-      "physics_body" : "rectangle",
-      "traits" : {
+      "image": {
+        "path": "sprite_brick.png"
+      },
+      "traits": {
         "Disappearable": {
           "parameters": {}
         }
       }
     },
     {
-      "code" : [
-
-      ],
-      "type" : "image",
-      "id" : "E3E37F7E-5062-4B81-A7F8-D103C5A5E9DA",
-      "properties" : {
-        "y" : 347,
-        "width" : 64,
-        "x" : 88,
-        "height" : 32
+      "code": [],
+      "type": "image",
+      "id": "A3BC4097-0258-4284-9978-E4B67DAC797F",
+      "properties": {
+        "y": 382,
+        "width": 64,
+        "x": 263,
+        "height": 32
       },
-      "physics_body" : "rectangle",
+      "image": {
+        "path": "sprite_brick.png"
+      },
       "collision_group": "brick",
-      "image" : {
-        "path" : "sprite_brick.png"
-      },
-      "traits" : {
+      "physics_body": "rectangle",
+      "traits": {
         "Disappearable": {
           "parameters": {}
         }
       }
     },
     {
-      "code" : [
-
-      ],
-      "type" : "image",
-      "id" : "7CF87828-2687-43D8-BEB6-C4C6DC4BFBE9",
-      "properties" : {
-        "y" : 347,
-        "width" : 64,
-        "x" : 158,
-        "height" : 32
+      "code": [],
+      "type": "image",
+      "id": "E3E37F7E-5062-4B81-A7F8-D103C5A5E9DA",
+      "properties": {
+        "y": 347,
+        "width": 64,
+        "x": 88,
+        "height": 32
       },
-      "image" : {
-        "path" : "sprite_brick.png"
-      },
+      "physics_body": "rectangle",
       "collision_group": "brick",
-      "physics_body" : "rectangle",
-      "traits" : {
+      "image": {
+        "path": "sprite_brick.png"
+      },
+      "traits": {
         "Disappearable": {
           "parameters": {}
         }
       }
     },
     {
-      "code" : [
-
-      ],
-      "type" : "image",
-      "id" : "90F23CB9-62CE-4FEF-AB35-09FF1B4A5547",
-      "properties" : {
-        "y" : 347,
-        "width" : 64,
-        "x" : 228,
-        "height" : 32
+      "code": [],
+      "type": "image",
+      "id": "7CF87828-2687-43D8-BEB6-C4C6DC4BFBE9",
+      "properties": {
+        "y": 347,
+        "width": 64,
+        "x": 158,
+        "height": 32
       },
-      "physics_body" : "rectangle",
+      "image": {
+        "path": "sprite_brick.png"
+      },
       "collision_group": "brick",
-      "image" : {
-        "path" : "sprite_brick.png"
-      },
-      "traits" : {
+      "physics_body": "rectangle",
+      "traits": {
         "Disappearable": {
           "parameters": {}
         }
       }
     },
     {
-      "code" : [
-
-      ],
-      "type" : "image",
-      "id" : "C4CDDCC8-32A4-4C1B-94AA-D69F9BAFFB62",
-      "properties" : {
-        "y" : 312,
-        "width" : 64,
-        "x" : 53,
-        "height" : 32
+      "code": [],
+      "type": "image",
+      "id": "90F23CB9-62CE-4FEF-AB35-09FF1B4A5547",
+      "properties": {
+        "y": 347,
+        "width": 64,
+        "x": 228,
+        "height": 32
       },
-      "image" : {
-        "path" : "sprite_brick.png"
-      },
+      "physics_body": "rectangle",
       "collision_group": "brick",
-      "physics_body" : "rectangle",
-      "traits" : {
+      "image": {
+        "path": "sprite_brick.png"
+      },
+      "traits": {
         "Disappearable": {
           "parameters": {}
         }
       }
     },
     {
-      "code" : [
-
-      ],
-      "type" : "image",
-      "id" : "66BBF7CA-985A-40C7-9587-5CA64DD5D178",
-      "properties" : {
-        "y" : 312,
-        "width" : 64,
-        "x" : 123,
-        "height" : 32
+      "code": [],
+      "type": "image",
+      "id": "C4CDDCC8-32A4-4C1B-94AA-D69F9BAFFB62",
+      "properties": {
+        "y": 312,
+        "width": 64,
+        "x": 53,
+        "height": 32
       },
-      "physics_body" : "rectangle",
+      "image": {
+        "path": "sprite_brick.png"
+      },
       "collision_group": "brick",
-      "image" : {
-        "path" : "sprite_brick.png"
-      },
-      "traits" : {
+      "physics_body": "rectangle",
+      "traits": {
         "Disappearable": {
           "parameters": {}
         }
       }
     },
     {
-      "code" : [
-
-      ],
-      "type" : "image",
-      "id" : "DE9B3D74-12C6-4B76-86AE-A7A08A99507A",
-      "properties" : {
-        "y" : 312,
-        "width" : 64,
-        "x" : 193,
-        "height" : 32
+      "code": [],
+      "type": "image",
+      "id": "66BBF7CA-985A-40C7-9587-5CA64DD5D178",
+      "properties": {
+        "y": 312,
+        "width": 64,
+        "x": 123,
+        "height": 32
       },
-      "image" : {
-        "path" : "sprite_brick.png"
-      },
+      "physics_body": "rectangle",
       "collision_group": "brick",
-      "physics_body" : "rectangle",
-      "traits" : {
+      "image": {
+        "path": "sprite_brick.png"
+      },
+      "traits": {
         "Disappearable": {
           "parameters": {}
         }
       }
     },
     {
-      "code" : [
-
-      ],
-      "type" : "image",
-      "id" : "0B214181-92FE-4CE2-94A7-9B5C684973E7",
-      "properties" : {
-        "y" : 312,
-        "width" : 64,
-        "x" : 263,
-        "height" : 32
+      "code": [],
+      "type": "image",
+      "id": "DE9B3D74-12C6-4B76-86AE-A7A08A99507A",
+      "properties": {
+        "y": 312,
+        "width": 64,
+        "x": 193,
+        "height": 32
       },
-      "physics_body" : "rectangle",
+      "image": {
+        "path": "sprite_brick.png"
+      },
       "collision_group": "brick",
-      "image" : {
-        "path" : "sprite_brick.png"
-      },
-      "traits" : {
+      "physics_body": "rectangle",
+      "traits": {
         "Disappearable": {
           "parameters": {}
         }
       }
     },
     {
-      "code" : [
-
-      ],
-      "type" : "image",
-      "id" : "20E26463-2409-4D90-8ED9-937FE6746DED",
-      "properties" : {
-        "y" : 29,
-        "width" : 129,
-        "x" : 106.5,
-        "height" : 28
+      "code": [],
+      "type": "image",
+      "id": "0B214181-92FE-4CE2-94A7-9B5C684973E7",
+      "properties": {
+        "y": 312,
+        "width": 64,
+        "x": 263,
+        "height": 32
       },
-      "physics_body" : "rectangle",
+      "physics_body": "rectangle",
+      "collision_group": "brick",
+      "image": {
+        "path": "sprite_brick.png"
+      },
+      "traits": {
+        "Disappearable": {
+          "parameters": {}
+        }
+      }
+    },
+    {
+      "code": [],
+      "type": "image",
+      "id": "20E26463-2409-4D90-8ED9-937FE6746DED",
+      "properties": {
+        "y": 29,
+        "width": 129,
+        "x": 106.5,
+        "height": 28
+      },
+      "physics_body": "rectangle",
       "collision_group": "paddle",
-      "image" : {
-        "path" : "sprite_paddle.png"
+      "image": {
+        "path": "sprite_paddle.png"
       },
-      "traits" : {
-        "Draggable" : {
-          "parameters" : {
-            "vertical" : false,
-            "horizontal" : true
+      "traits": {
+        "Draggable": {
+          "parameters": {
+            "vertical": false,
+            "horizontal": true
           }
         }
       }
     },
     {
-      "code" : [
+      "code": [
         {
-          "on_event" : {
-            "parameters" : [
-
-            ],
-            "name" : "start",
-            "code" : [
+          "on_event": {
+            "parameters": [],
+            "name": "start",
+            "code": [
               {
-                "call" : {
-                  "method" : "move",
-                  "parameters" : [
+                "call": {
+                  "method": "move",
+                  "parameters": [
                     45,
                     200
                   ]
@@ -653,22 +678,20 @@
           }
         }
       ],
-      "type" : "image",
-      "id" : "B00B8AED-B3C3-4A3C-AB0E-3559E0BCA33C",
-      "properties" : {
-        "y" : 63,
-        "width" : 30,
-        "x" : 106,
-        "height" : 30
+      "type": "image",
+      "id": "B00B8AED-B3C3-4A3C-AB0E-3559E0BCA33C",
+      "properties": {
+        "y": 63,
+        "width": 30,
+        "x": 106,
+        "height": 30
       },
       "collision_group": "ball",
-      "physics_body" : "circle",
-      "image" : {
-        "path" : "sprite_ball.png"
+      "physics_body": "circle",
+      "image": {
+        "path": "sprite_ball.png"
       },
-      "traits" : {
-
-      }
+      "traits": {}
     }
   ]
 }
