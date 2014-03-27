@@ -37,7 +37,7 @@
         },
         {
           "on_event": {
-            "name": "collide",
+            "name": "collision",
             "parameters": ["other_group"],
             "code": [
               {
@@ -58,8 +58,10 @@
   "title": "Galaga",
   "id": "E8C31CAA-C5AC-4335-BE51-5920715A0295",
   "collision_groups": {
-    "hero": [],
-    "baddy": []
+    "hero": ["baddy bullet"],
+    "baddy": ["hero bullet"],
+    "hero bullet": ["baddy"],
+    "baddy bullet": ["hero"]
   },
   "version": "1.0.0",
   "objects": [
@@ -77,7 +79,7 @@
       "code": [
         {
           "on_event": {
-            "name": "collide",
+            "name": "collision",
             "parameters": ["other_group"],
             "code": [
               {
@@ -171,17 +173,24 @@
       "physics_body": "circle",
       "code": [
         {
-          "call": {
-            "method": "move",
-            "parameters": [90, 100]
-          }
-        },
-        {
           "on_event": {
-            "name": "collide",
-            "parameters": ["other_group"],
+            "name": "start",
             "code": [
-              { "call": { "method": "remove", "parameters": [] } }
+              {
+                "call": {
+                  "method": "move",
+                  "parameters": [-90, 100]
+                }
+              },
+              {
+                "on_event": {
+                  "name": "collision",
+                  "parameters": ["other_group"],
+                  "code": [
+                    { "call": { "method": "remove", "parameters": [] } }
+                  ]
+                }
+              }
             ]
           }
         }
@@ -205,17 +214,24 @@
       "physics_body": "circle",
       "code": [
         {
-          "call": {
-            "method": "move",
-            "parameters": [90, 100]
-          }
-        },
-        {
           "on_event": {
-            "name": "collide",
-            "parameters": ["other_group"],
+            "name": "start",
             "code": [
-              { "call": { "method": "remove", "parameters": [] } }
+              {
+                "call": {
+                  "method": "move",
+                  "parameters": [90, 100]
+                }
+              },
+              {
+                "on_event": {
+                  "name": "collision",
+                  "parameters": ["other_group"],
+                  "code": [
+                    { "call": { "method": "remove", "parameters": [] } }
+                  ]
+                }
+              }
             ]
           }
         }

@@ -18,6 +18,7 @@
 #import "ZSSpriteView.h"
 #import "BlocksKit.h"
 #import "ZSCanvasBarButtonItem.h"
+#import "ZSGeneratorView.h"
 
 @interface ZSGroupsViewController () <WYPopoverControllerDelegate>
 
@@ -27,8 +28,11 @@
 
 // Properties
 @property (strong, nonatomic) NSArray *spriteViews;
+@property (strong, nonatomic) NSArray *generatorViews;
 @property (strong, nonatomic) NSString *selectedGroup;
 @property (strong, nonatomic) WYPopoverController *popover;
+@property (strong, nonatomic) UIView *canvasView;
+@property (strong, nonatomic) UIView *generatorView;
 
 
 @end
@@ -44,15 +48,25 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     if (!_spriteViews) {
+        self.canvasView = [[UIView alloc] initWithFrame:self.view.bounds];
+        self.canvasView.backgroundColor = [UIColor whiteColor];
+        self.generatorView = [[UIView alloc] initWithFrame:self.view.bounds];
+        self.generatorView.backgroundColor = [UIColor whiteColor];
+        
         _spriteViews = [_sprites map:^id(NSDictionary *spriteJSON) {
             ZSSpriteView *spriteView = [[ZSSpriteView alloc] initWithFrame:CGRectZero];
             spriteView.frame = [self rectForSprite:spriteJSON];
             UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(spriteViewTapped:)];
             [spriteView addGestureRecognizer:recognizer];
             [spriteView setContentFromJSON:spriteJSON];
-            [self.view addSubview:spriteView];
+            [self.canvasView addSubview:spriteView];
             return spriteView;
         }];
+        
+        [self.view addSubview:self.generatorView];
+        [self.view addSubview:self.canvasView];
+        
+        self.interfaceState = _interfaceState;
     }
 }
 
@@ -65,6 +79,15 @@
                              [[self alertViewForNewGroupWithMessage:@"Enter a name for your first group"] show];
                          }
                      }];
+}
+
+- (void)setInterfaceState:(ZSGroupsInterfaceState)interfaceState {
+    _interfaceState = interfaceState;
+    if (_interfaceState == ZSGroupsInterfaceStateCanvas) {
+        [self.view bringSubviewToFront:self.canvasView];
+    } else {
+        [self.view bringSubviewToFront:self.generatorView];
+    }
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {

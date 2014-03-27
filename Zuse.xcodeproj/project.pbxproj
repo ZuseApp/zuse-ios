@@ -150,6 +150,7 @@
 		5F93F09018E12D9C005E382B /* project_traits.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F93F08C18E12D9C005E382B /* project_traits.json */; };
 		5F93F09118E12D9C005E382B /* scope_set_object_var.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F93F08D18E12D9C005E382B /* scope_set_object_var.json */; };
 		5F93F09318E12E31005E382B /* ZSCodeNormalizerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F93F09218E12E31005E382B /* ZSCodeNormalizerTests.m */; };
+		5F93F09618E21BC0005E382B /* ZSTimedEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F93F09518E21BC0005E382B /* ZSTimedEvent.m */; };
 		5FADD82018D7DD2B00A336CC /* ZSZuseDSL.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FADD81F18D7DD2B00A336CC /* ZSZuseDSL.m */; };
 		5FADD82218D7E98400A336CC /* ZSZuseDSLTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FADD82118D7E98400A336CC /* ZSZuseDSLTests.m */; };
 		5FADD82618D7FB3000A336CC /* galaga_example.json in Resources */ = {isa = PBXBuildFile; fileRef = 5FADD82518D7FB3000A336CC /* galaga_example.json */; };
@@ -407,6 +408,8 @@
 		5F93F08C18E12D9C005E382B /* project_traits.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = project_traits.json; path = CodeSamples/project_traits.json; sourceTree = "<group>"; };
 		5F93F08D18E12D9C005E382B /* scope_set_object_var.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = scope_set_object_var.json; path = CodeSamples/scope_set_object_var.json; sourceTree = "<group>"; };
 		5F93F09218E12E31005E382B /* ZSCodeNormalizerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCodeNormalizerTests.m; sourceTree = "<group>"; };
+		5F93F09418E21BC0005E382B /* ZSTimedEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSTimedEvent.h; sourceTree = "<group>"; };
+		5F93F09518E21BC0005E382B /* ZSTimedEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSTimedEvent.m; sourceTree = "<group>"; };
 		5FADD81E18D7DD2B00A336CC /* ZSZuseDSL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSZuseDSL.h; sourceTree = "<group>"; };
 		5FADD81F18D7DD2B00A336CC /* ZSZuseDSL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSZuseDSL.m; sourceTree = "<group>"; };
 		5FADD82118D7E98400A336CC /* ZSZuseDSLTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSZuseDSLTests.m; sourceTree = "<group>"; };
@@ -824,6 +827,8 @@
 				2CA9D386183F3F0300401231 /* ZSRendererScene.m */,
 				5F8138D7189A1DF1009F3495 /* ZSComponentNode.h */,
 				5F8138D8189A1DF1009F3495 /* ZSComponentNode.m */,
+				5F93F09418E21BC0005E382B /* ZSTimedEvent.h */,
+				5F93F09518E21BC0005E382B /* ZSTimedEvent.m */,
 			);
 			name = Scenes;
 			sourceTree = "<group>";
@@ -1452,6 +1457,7 @@
 				5F39172718C53ED100109747 /* ZSCanvasSegue.m in Sources */,
 				4C5F732318873A59007F61B3 /* ZSGrid.m in Sources */,
 				5F39DFD1188A40A0008ECAC1 /* NSObject+BlockObservation.m in Sources */,
+				5F93F09618E21BC0005E382B /* ZSTimedEvent.m in Sources */,
 				5F57B13D18D4F89A007DB634 /* ZSCodeTraverser.m in Sources */,
 				4C4087091852480F009117E1 /* ZSSpriteLibrary.m in Sources */,
 				5F93F08618DE1ECA005E382B /* ZSCodeNormalizer.m in Sources */,

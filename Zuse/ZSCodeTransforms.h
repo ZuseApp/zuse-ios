@@ -11,7 +11,7 @@
 typedef NSDictionary *(^ZSCodeTransformBlock)(NSDictionary *codeItem);
 
 /**
- * Transforms Zuse domain language 'every' statement into Zuse IR
+ * Transforms Zuse DSL 'every' statement into Zuse IR
  * primitives. Makes the following conversion:
  *
  * {
@@ -21,7 +21,7 @@ typedef NSDictionary *(^ZSCodeTransformBlock)(NSDictionary *codeItem);
  * Turns into:
  *
  * {
- *   "code": [
+ *   "suite": [
  *     { on_event: { "name": "abcd", "parameters": [], "code": [] } },
  *     { "call": { "method": "every_seconds", "parameters": [1, "abcd"] } }
  *   ]

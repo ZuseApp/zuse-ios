@@ -917,6 +917,11 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
     
     self.groupsController.view.frame = self.canvasView.bounds;
     self.groupsController.view.backgroundColor = [UIColor whiteColor];
+    if (self.generatorView.hidden) {
+        self.groupsController.interfaceState = ZSGroupsInterfaceStateCanvas;
+    } else {
+        self.groupsController.interfaceState = ZSGroupsInterfaceStateGenerators;
+    }
     [self.view addSubview:self.groupsController.view];
 }
 

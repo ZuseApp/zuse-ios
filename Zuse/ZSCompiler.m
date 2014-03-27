@@ -40,7 +40,7 @@
                                            objects:newObjects];
     }
     
-    newObjects = [self ZuseIRObjectsFromDSLObjects:newObjects];
+    newObjects = [self.class zuseIRObjectsFromDSLObjects:newObjects];
     
     NSDictionary *code = @{ @"suite": newObjects };
 
@@ -104,7 +104,7 @@
  *
  *  @return Array of `object` statements from the Zuse IR
  */
-- (NSArray *)ZuseIRObjectsFromDSLObjects:(NSArray *)objects {
++ (NSArray *)zuseIRObjectsFromDSLObjects:(NSArray *)objects {
     NSArray *newObjects = [objects map:^id(NSDictionary *obj) {
         return @{
             @"object": @{

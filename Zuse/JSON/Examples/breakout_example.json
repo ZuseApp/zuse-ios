@@ -46,11 +46,8 @@
                     ]
                   },
                   "true": [
-                    {
-                      "call": {
-                        "method": "remove"
-                      }
-                    }
+                    { "call": { "method": "generate", "parameters": ["ball", { "get": "x" }, { "get": "y" }] } },
+                    { "call": { "method": "remove" } }
                   ]
                 }
               },
