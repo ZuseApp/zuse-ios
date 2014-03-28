@@ -601,7 +601,6 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
                      [weakSelf playProject];
                  }
              }],
-             [ZSCanvasBarButtonItem flexibleBarButtonItem],
              [ZSCanvasBarButtonItem groupsButtonWithHandler:^{
                  if (weakSelf.gridSliderShowing) {
                      [weakSelf hideSliderWithHandler:^{

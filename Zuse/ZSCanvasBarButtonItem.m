@@ -3,7 +3,7 @@
 #import <FontAwesomeKit/FAKIonIcons.h>
 #import <FontAwesomeKit/FAKFontAwesome.h>
 
-CGFloat const DefaultSize = 30;
+CGFloat const DefaultSize = 33;
 
 @interface ZSCanvasBarButtonItem ()
 
