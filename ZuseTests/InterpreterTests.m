@@ -171,6 +171,56 @@
     XCTAssert(didRun, @"");
 }
 
+- (void)testMutipleOfSameEvent {
+    __block BOOL didRun = NO;
+    __block BOOL didRun2 = NO;
+    
+    NSDictionary *method = @{
+        @"method":  @"test",
+        @"block": ^id(NSString *identifier, NSArray *args) {
+            didRun = YES;
+            return [NSNull null];
+        }
+    };
+    
+    NSDictionary *method2 = @{
+        @"method":  @"test2",
+        @"block": ^id(NSString *identifier, NSArray *args) {
+            didRun2 = YES;
+            return [NSNull null];
+        }
+    };
+    
+    [_interpreter loadMethod:method];
+    [_interpreter loadMethod:method2];
+    
+    [_interpreter runJSON:@{
+        @"suite": @[
+            @{
+                @"on_event": @{
+                    @"name": @"start",
+                    @"code": @[
+                        @{ @"call": @{ @"method": @"test", @"parameters": @[] } }
+                    ]
+                }
+            },
+            @{
+                @"on_event": @{
+                    @"name": @"start",
+                    @"code": @[
+                        @{ @"call": @{ @"method": @"test2", @"parameters": @[] } }
+                    ]
+                }
+            }
+        ]
+    }];
+    
+    [_interpreter triggerEvent:@"start"];
+    
+    XCTAssert(didRun, @"");
+    XCTAssert(didRun2, @"");
+}
+
 - (void)testAsyncMethod {
     NSDictionary *method = @{
         @"method":  @"print",

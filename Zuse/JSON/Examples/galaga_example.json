@@ -42,7 +42,7 @@
             "code": [
               {
                 "if": {
-                  "test": { "==": [{ "get": "other_group" }, "hero bullet"] },
+                  "test": true,
                   "true": [
                     { "call": { "method": "remove", "parameters": [] } }
                   ],
@@ -95,6 +95,19 @@
                     }
                   ],
                   "false": []
+                }
+              }
+            ]
+          }
+        },
+        {
+          "every": {
+            "seconds": 1,
+            "code": [
+              {
+                "call": {
+                  "method": "generate",
+                  "parameters": ["hero bullet", { "get": "x" }, { "get": "y" }]
                 }
               }
             ]

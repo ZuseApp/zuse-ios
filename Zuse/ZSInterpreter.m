@@ -116,7 +116,13 @@
     }
     
     else if ([key isEqualToString:@"on_event"]) {
-        [_events[context.objectID] setObject:@{ @"code": data[@"code"], @"context": context } forKey:data[@"name"]];
+        NSMutableArray *events = _events[context.objectID][data[@"name"]];
+        if (!events) {
+            events = [NSMutableArray array];
+            _events[context.objectID][data[@"name"]] = events;
+        }
+        
+        [events addObject:@{ @"code": data[@"code"], @"context": context }];
     }
     
     else if ([key isEqualToString:@"trigger_event"]) {
@@ -315,11 +321,13 @@
 - (void)  triggerEvent:(NSString *)event
 onObjectWithIdentifier:(NSString *)objectID
             parameters:(NSDictionary *)parameters {
-    NSMutableDictionary *environment = [[_events[objectID][event][@"context"] environment] mutableCopy];
-    [environment addEntriesFromDictionary:[self dictionaryForStoringDictionary:parameters]];
-    ZSExecutionContext *newContext = [ZSExecutionContext contextWithObjectId:objectID
-                                                                 environment:environment];
-    [self runSuite:_events[objectID][event][@"code"] context:newContext];
+    [_events[objectID][event] each:^(NSDictionary *event) {
+        NSMutableDictionary *environment = [[event[@"context"] environment] mutableCopy];
+        [environment addEntriesFromDictionary:[self dictionaryForStoringDictionary:parameters]];
+        ZSExecutionContext *newContext = [ZSExecutionContext contextWithObjectId:objectID
+                                                                     environment:environment];
+        [self runSuite:event[@"code"] context:newContext];
+    }];
 }
 
 - (void)removeObjectWithIdentifier:(NSString *)identifier {
