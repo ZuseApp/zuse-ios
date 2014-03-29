@@ -269,13 +269,11 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
         ZSComponentNode *nodeB = (ZSComponentNode *)contact.bodyB.node;
         
         [_interpreter triggerEvent:@"collision"
-            onObjectWithIdentifier:nodeA.identifier];
+            onObjectWithIdentifier:nodeA.identifier parameters:@{ @"other_group": nodeB.identifier }];
         [_interpreter triggerEvent:@"collision"
-            onObjectWithIdentifier:nodeB.identifier];
-        
-        NSLog(@"%@", nodeA.identifier);
-        NSLog(@"%@", nodeB.identifier);
-        NSLog(@"");
+            onObjectWithIdentifier:nodeB.identifier parameters:@{ @"other_group": nodeA.identifier }];
+    } else {
+        // TODO: Put in world collisions
     }
 }
 
