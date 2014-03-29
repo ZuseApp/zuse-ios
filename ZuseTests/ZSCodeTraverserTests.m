@@ -211,7 +211,7 @@
     }];
     
     XCTAssertEqual((NSUInteger)0, statements.count, @"");
-    XCTAssertEqual((NSUInteger)7, timesCalled, @"");
+    XCTAssertEqual(7, timesCalled, @"");
 }
 
 - (void)testMapBlockReplacesItems {
