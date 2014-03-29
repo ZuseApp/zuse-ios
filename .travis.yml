@@ -2,3 +2,4 @@ language: objective-c
 xcode_workspace: Zuse.xcworkspace
 xcode_scheme: Zuse
 xcode_sdk: iphonesimulator7.0
+install: echo hi
