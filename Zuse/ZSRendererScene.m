@@ -482,6 +482,23 @@ void APARunOneShotEmitter(SKEmitterNode *emitter, CGFloat duration) {
     }
 }
 
+- (BOOL)interpreter:(ZSInterpreter *)interpreter shouldDelegateProperty:(NSString *)property objectIdentifier:(NSString *)identifier {
+    return [@[@"x", @"y"] indexOfObject:property] != NSNotFound;
+}
+
+- (id)interpreter:(ZSInterpreter *)interpreter valueForProperty:(NSString *)property objectIdentifier:(NSString *)identifier {
+    ZSComponentNode *node = _spriteNodes[identifier];
+    if ([property isEqualToString:@"x"]) {
+        return @(node.position.x);
+    } else if ([property isEqualToString:@"y"]) {
+        return @(node.position.y);
+    }
+    
+    assert(false);
+    
+    return nil;
+}
+
 - (void)update:(NSTimeInterval)currentTime {
     // Handle time delta.
     // If we drop below 60fps, we still want everything to move the same distance.

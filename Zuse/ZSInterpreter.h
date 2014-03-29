@@ -16,6 +16,10 @@
 objectWithIdentifier:(NSString *)identifier
  didUpdateProperties:(NSDictionary *)properties;
 
+
+- (BOOL) interpreter:(ZSInterpreter *)interpreter shouldDelegateProperty:(NSString *)property objectIdentifier:(NSString *)identifier;
+- (id)interpreter:(ZSInterpreter *)interpreter valueForProperty:(NSString *)property objectIdentifier:(NSString *)identifier;
+
 @end
 
 @interface ZSInterpreter : NSObject

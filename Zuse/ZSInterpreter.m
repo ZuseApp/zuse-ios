@@ -194,10 +194,14 @@
     }
 
     else if ([key isEqualToString:@"get"]) {
-        NSString *identifier = context.environment[code];
-        if (!identifier)
-            NSLog(@"ZSInterpreter#evaluateExpression:context: - Attempt to access unknown variable: %@", code);
-        return _dataStore[identifier];
+        if ([self.delegate interpreter:self shouldDelegateProperty:code objectIdentifier:context.objectID]) {
+            return [self.delegate interpreter:self valueForProperty:code objectIdentifier:context.objectID];
+        } else {
+            NSString *identifier = context.environment[code];
+            if (!identifier)
+                NSLog(@"ZSInterpreter#evaluateExpression:context: - Attempt to access unknown variable: %@", code);
+            return _dataStore[identifier];
+        }
     }
     
     else {
