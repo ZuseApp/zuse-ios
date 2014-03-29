@@ -24,8 +24,8 @@
         }
     }];
     
-    XCTAssertEqual(1, codeBlocks.count, @"");
-    XCTAssertEqual(1, ([codeBlocks[0] count]), @"");
+    XCTAssertEqual((NSUInteger)1, codeBlocks.count, @"");
+    XCTAssertEqual((NSUInteger)1, ([codeBlocks[0] count]), @"");
 }
 
 - (void)testSetCodeBlocksForObject {
@@ -61,8 +61,8 @@
         }
     }];
     
-    XCTAssertEqual(1, codeBlocks.count, @"");
-    XCTAssertEqual(1, ([codeBlocks[0] count]), @"");
+    XCTAssertEqual((NSUInteger)1, codeBlocks.count, @"");
+    XCTAssertEqual((NSUInteger)1, ([codeBlocks[0] count]), @"");
 }
 
 - (void)testSetCodeBlocksForOnEvent {
@@ -98,8 +98,8 @@
         ]
     }];
     
-    XCTAssertEqual(1, codeBlocks.count, @"");
-    XCTAssertEqual(1, ([codeBlocks[0] count]), @"");
+    XCTAssertEqual((NSUInteger)1, codeBlocks.count, @"");
+    XCTAssertEqual((NSUInteger)1, ([codeBlocks[0] count]), @"");
 }
 
 - (void)testSetCodeBlocksForSuite {
@@ -133,9 +133,9 @@
         }
     }];
     
-    XCTAssertEqual(2, codeBlocks.count, @"");
-    XCTAssertEqual(1, ([codeBlocks[0] count]), @"");
-    XCTAssertEqual(1, ([codeBlocks[1] count]), @"");
+    XCTAssertEqual((NSUInteger)2, codeBlocks.count, @"");
+    XCTAssertEqual((NSUInteger)1, ([codeBlocks[0] count]), @"");
+    XCTAssertEqual((NSUInteger)1, ([codeBlocks[1] count]), @"");
 }
 
 - (void)testSetCodeBlocksForIf {
@@ -210,8 +210,8 @@
         return codeItem;
     }];
     
-    XCTAssertEqual(0, statements.count, @"");
-    XCTAssertEqual(7, timesCalled, @"");
+    XCTAssertEqual((NSUInteger)0, statements.count, @"");
+    XCTAssertEqual((NSUInteger)7, timesCalled, @"");
 }
 
 - (void)testMapBlockReplacesItems {
