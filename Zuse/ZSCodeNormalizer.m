@@ -43,6 +43,12 @@
             if ([self isPlaceholderValue:codeItem[key][@"name"]]) {
                 valid = NO;
             }
+        // No method call parameters can be placeholder values.
+        } else if ([key isEqualToString:@"call"]) {
+            if (codeItem[key][@"parameters"] &&
+                [(NSArray *)codeItem[key][@"parameters"] any:^BOOL(id obj) { return [self isPlaceholderValue:obj]; }]) {
+                valid = NO;
+            }
         }
         
         return valid;

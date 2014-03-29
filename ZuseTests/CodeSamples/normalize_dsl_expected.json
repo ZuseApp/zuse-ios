@@ -20,6 +20,12 @@
         "true": [],
         "false": []
       }
+    },
+    {
+      "call": {
+        "method": "foo",
+        "parameters": ["foo", "this", "that"]
+      }
     }
   ]
 }
