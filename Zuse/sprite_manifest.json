@@ -28,6 +28,69 @@
           "width": 64,
           "height": 32
         }
+      },
+      {
+        "name": "Bullet",
+        "path": "bullet",
+        "physics_body": "rectangle",
+        "preferred_size": {
+          "width": 3,
+          "height": 10
+        }
+      },
+      {
+        "name": "Ship",
+        "path": "ship",
+        "physics_body": "rectangle",
+        "preferred_size": {
+          "width": 30,
+          "height": 42
+        }
+      },
+      {
+        "name": "Catcher",
+        "path": "catcher",
+        "physics_body": "rectangle",
+        "preferred_size": {
+          "width": 30,
+          "height": 32
+        }
+      },
+      {
+        "name": "Deathmite",
+        "path": "deathmite",
+        "physics_body": "rectangle",
+        "preferred_size": {
+          "width": 30,
+          "height": 29
+        }
+      },
+      {
+        "name": "Dragonfly",
+        "path": "dragonfly",
+        "physics_body": "rectangle",
+        "preferred_size": {
+          "width": 30,
+          "height": 27
+        }
+      },
+      {
+        "name": "Grunt",
+        "path": "grunt",
+        "physics_body": "rectangle",
+        "preferred_size": {
+          "width": 30,
+          "height": 38
+        }
+      },
+      {
+        "name": "Moth",
+        "path": "moth",
+        "physics_body": "rectangle",
+        "preferred_size": {
+          "width": 30,
+          "height": 35
+        }
       }
     ]
   },

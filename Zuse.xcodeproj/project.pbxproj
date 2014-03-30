@@ -29,6 +29,7 @@
 		4C0930FD18B8131400BBCC2F /* ZSToolboxView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0930FC18B8131400BBCC2F /* ZSToolboxView.m */; };
 		4C0D470517FB800400F13786 /* guess_a_number.json in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D470417FB800400F13786 /* guess_a_number.json */; };
 		4C0D470817FB927600F13786 /* ZSCanvasViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0D470717FB927600F13786 /* ZSCanvasViewController.m */; };
+		4C1772B418E7A6D700C7AA35 /* galaga_example.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C1772B318E7A6D700C7AA35 /* galaga_example.png */; };
 		4C26880318D7734200276A76 /* ZSAddItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C26880218D7734200276A76 /* ZSAddItemCell.m */; };
 		4C2D1ECE1891EB65002C431A /* sprite_manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 4C2D1ECD1891EB65002C431A /* sprite_manifest.json */; };
 		4C3DD66118B7005D0013B3A5 /* ZSToolboxCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C3DD66018B7005D0013B3A5 /* ZSToolboxCell.m */; };
@@ -157,7 +158,6 @@
 		5FADD82A18D7FB9D00A336CC /* blank_project.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FADD82718D7FB9D00A336CC /* blank_project.png */; };
 		5FADD82B18D7FB9D00A336CC /* breakout_example.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FADD82818D7FB9D00A336CC /* breakout_example.png */; };
 		5FADD82C18D7FB9D00A336CC /* pong_example.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FADD82918D7FB9D00A336CC /* pong_example.png */; };
-		5FADD82E18D7FBC800A336CC /* galaga_example.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FADD82D18D7FBC800A336CC /* galaga_example.png */; };
 		5FB05F2018C44B6600356531 /* ZS_VariableChooserCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FB05F1F18C44B6600356531 /* ZS_VariableChooserCollectionViewController.m */; };
 		5FBB4A7D18BFE90A00B79AB6 /* ZSProjectCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBB4A7C18BFE90A00B79AB6 /* ZSProjectCollectionViewCell.m */; };
 		5FBB4A8018BFEA4300B79AB6 /* ZSMainMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBB4A7F18BFEA4300B79AB6 /* ZSMainMenuViewController.m */; };
@@ -229,6 +229,7 @@
 		4C0D470417FB800400F13786 /* guess_a_number.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = guess_a_number.json; path = JSON/guess_a_number.json; sourceTree = "<group>"; };
 		4C0D470617FB927600F13786 /* ZSCanvasViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCanvasViewController.h; sourceTree = "<group>"; };
 		4C0D470717FB927600F13786 /* ZSCanvasViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCanvasViewController.m; sourceTree = "<group>"; };
+		4C1772B318E7A6D700C7AA35 /* galaga_example.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = galaga_example.png; sourceTree = "<group>"; };
 		4C26880118D7734200276A76 /* ZSAddItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSAddItemCell.h; sourceTree = "<group>"; };
 		4C26880218D7734200276A76 /* ZSAddItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSAddItemCell.m; sourceTree = "<group>"; };
 		4C2D1ECD1891EB65002C431A /* sprite_manifest.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = sprite_manifest.json; sourceTree = "<group>"; };
@@ -417,7 +418,6 @@
 		5FADD82718D7FB9D00A336CC /* blank_project.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blank_project.png; path = JSON/Examples/blank_project.png; sourceTree = "<group>"; };
 		5FADD82818D7FB9D00A336CC /* breakout_example.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = breakout_example.png; path = JSON/Examples/breakout_example.png; sourceTree = "<group>"; };
 		5FADD82918D7FB9D00A336CC /* pong_example.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pong_example.png; path = JSON/Examples/pong_example.png; sourceTree = "<group>"; };
-		5FADD82D18D7FBC800A336CC /* galaga_example.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = galaga_example.png; path = JSON/Examples/galaga_example.png; sourceTree = "<group>"; };
 		5FB05F1E18C44B6600356531 /* ZS_VariableChooserCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZS_VariableChooserCollectionViewController.h; sourceTree = "<group>"; };
 		5FB05F1F18C44B6600356531 /* ZS_VariableChooserCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZS_VariableChooserCollectionViewController.m; sourceTree = "<group>"; };
 		5FBB4A7B18BFE90A00B79AB6 /* ZSProjectCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSProjectCollectionViewCell.h; sourceTree = "<group>"; };
@@ -632,10 +632,10 @@
 		4C2D1ECF1891EB70002C431A /* templates */ = {
 			isa = PBXGroup;
 			children = (
+				4C1772B318E7A6D700C7AA35 /* galaga_example.png */,
 				5FADD82718D7FB9D00A336CC /* blank_project.png */,
 				5FADD82818D7FB9D00A336CC /* breakout_example.png */,
 				5FADD82918D7FB9D00A336CC /* pong_example.png */,
-				5FADD82D18D7FBC800A336CC /* galaga_example.png */,
 				5FBB4A8818C2497B00B79AB6 /* breakout_example.json */,
 				5FBB4A8918C2497B00B79AB6 /* pong_example.json */,
 				4C0D470417FB800400F13786 /* guess_a_number.json */,
@@ -1281,7 +1281,6 @@
 				4C5A31C918B3FA2400FCE1A9 /* sprite_brick.png in Resources */,
 				5F687DD118B9A3B200D57A34 /* event_manifest.json in Resources */,
 				4C97DBEF18B313D5006B551D /* bar_menu.png in Resources */,
-				5FADD82E18D7FBC800A336CC /* galaga_example.png in Resources */,
 				4CEB19C018971F27009D89B3 /* text_icon.png in Resources */,
 				4C5A31C518B3F7AA00FCE1A9 /* sprite_paddle.png in Resources */,
 				4C0D470517FB800400F13786 /* guess_a_number.json in Resources */,
@@ -1311,6 +1310,7 @@
 				4CB1E181188E314B004F5D96 /* arrow-090.png in Resources */,
 				5F687DD218B9A3B200D57A34 /* method_manifest.json in Resources */,
 				4CB1E183188E314B004F5D96 /* arrow-270.png in Resources */,
+				4C1772B418E7A6D700C7AA35 /* galaga_example.png in Resources */,
 				4CB1E184188E314B004F5D96 /* arrow.png in Resources */,
 				5FADD82618D7FB3000A336CC /* galaga_example.json in Resources */,
 				4C9E43E3188B698200045D86 /* cross.png in Resources */,
