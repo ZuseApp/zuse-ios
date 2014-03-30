@@ -278,7 +278,7 @@
       ],
       "physics_body" : "circle",
       "image" : {
-        "path" : "sprite_ball.png"
+        "path" : "bullet"
       },
       "properties" : {
         "y" : 0,
@@ -333,7 +333,7 @@
       ],
       "physics_body" : "circle",
       "image" : {
-        "path" : "sprite_ball.png"
+        "path" : "bullet"
       },
       "properties" : {
         "y" : 0,
