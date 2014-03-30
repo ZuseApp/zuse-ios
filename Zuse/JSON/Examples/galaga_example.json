@@ -45,8 +45,8 @@
               "call" : {
                 "method" : "random_number",
                 "parameters" : [
-                  1,
-                  3
+                  4,
+                  10
                 ]
               }
             },
@@ -512,6 +512,14 @@
             "name" : "collision",
             "code" : [
               {
+                "call" : {
+                  "method" : "remove",
+                  "parameters" : [
+
+                  ]
+                }
+              },
+              {
                 "if" : {
                   "true" : [
                     {
@@ -539,7 +547,7 @@
                       {
                         "get" : "other_group"
                       },
-                      "hero bullet"
+                      "baddy bullet"
                     ]
                   }
                 }

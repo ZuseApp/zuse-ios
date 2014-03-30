@@ -362,6 +362,11 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
             NSString *generatorIdentifier = args[0];
             NSNumber *x = args[1];
             NSNumber *y = args[2];
+        
+            // TODO: Complete and udder hack to stop the app from crashing
+            // until we can figure out why x is NaN sometimes.
+            if (isnan(x.doubleValue)) return nil;
+        
             NSMutableDictionary *object = [(NSDictionary *)[(NSArray *)self.projectJSON[@"generators"] match:^BOOL(NSDictionary *generator) {
                 return [generator[@"name"] isEqualToString:generatorIdentifier];
             }] deepMutableCopy];
@@ -391,7 +396,7 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
              eventIdentifier:(NSString *)eventIdentifier {
     ZSTimedEvent *event = [[ZSTimedEvent alloc] init];
     event.interval = seconds;
-    event.nextTime = [[NSDate date] timeIntervalSinceReferenceDate];
+    event.nextTime = [[NSDate date] timeIntervalSinceReferenceDate] + seconds;
     event.eventIdentifier = eventIdentifier;
     event.objectIdentifier = objectIdentifier;
     
@@ -400,7 +405,7 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
 
 - (void)removeSpriteWithIdentifier:(NSString *)identifier {
     ZSComponentNode *node = _spriteNodes[identifier];
-    [self addParticle:identifier position:node.position duration:0.15f particleType:@"Explosion"];
+//    [self addParticle:identifier position:node.position duration:0.15f particleType:@"Explosion"];
     [self removePhysicsJoint:identifier];
     [self removeJointNode:identifier];
     [self removeSpriteNode:identifier];
@@ -491,6 +496,9 @@ void APARunOneShotEmitter(SKEmitterNode *emitter, CGFloat duration) {
 
 - (id)interpreter:(ZSInterpreter *)interpreter valueForProperty:(NSString *)property objectIdentifier:(NSString *)identifier {
     ZSComponentNode *node = _spriteNodes[identifier];
+    if (node.position.x != node.position.x) {
+        NSLog(@"position: %@", NSStringFromCGPoint(node.position));
+    }
     if ([property isEqualToString:@"x"]) {
         return @(node.position.x);
     } else if ([property isEqualToString:@"y"]) {
