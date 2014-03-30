@@ -395,7 +395,7 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
 
 - (void)removeSpriteWithIdentifier:(NSString *)identifier {
     ZSComponentNode *node = _spriteNodes[identifier];
-    [self addParticle:identifier position:node.position duration:0.15f particleType:@"BrickExplosion"];
+    [self addParticle:identifier position:node.position duration:0.15f particleType:@"Explosion"];
     [self removePhysicsJoint:identifier];
     [self removeJointNode:identifier];
     [self removeSpriteNode:identifier];

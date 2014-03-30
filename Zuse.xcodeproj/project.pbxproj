@@ -30,6 +30,7 @@
 		4C0D470517FB800400F13786 /* guess_a_number.json in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D470417FB800400F13786 /* guess_a_number.json */; };
 		4C0D470817FB927600F13786 /* ZSCanvasViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0D470717FB927600F13786 /* ZSCanvasViewController.m */; };
 		4C1772B418E7A6D700C7AA35 /* galaga_example.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C1772B318E7A6D700C7AA35 /* galaga_example.png */; };
+		4C1772B618E7C56100C7AA35 /* Explosion.sks in Resources */ = {isa = PBXBuildFile; fileRef = 4C1772B518E7C56100C7AA35 /* Explosion.sks */; };
 		4C26880318D7734200276A76 /* ZSAddItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C26880218D7734200276A76 /* ZSAddItemCell.m */; };
 		4C2D1ECE1891EB65002C431A /* sprite_manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 4C2D1ECD1891EB65002C431A /* sprite_manifest.json */; };
 		4C3DD66118B7005D0013B3A5 /* ZSToolboxCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C3DD66018B7005D0013B3A5 /* ZSToolboxCell.m */; };
@@ -230,6 +231,7 @@
 		4C0D470617FB927600F13786 /* ZSCanvasViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSCanvasViewController.h; sourceTree = "<group>"; };
 		4C0D470717FB927600F13786 /* ZSCanvasViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCanvasViewController.m; sourceTree = "<group>"; };
 		4C1772B318E7A6D700C7AA35 /* galaga_example.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = galaga_example.png; sourceTree = "<group>"; };
+		4C1772B518E7C56100C7AA35 /* Explosion.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Explosion.sks; sourceTree = "<group>"; };
 		4C26880118D7734200276A76 /* ZSAddItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSAddItemCell.h; sourceTree = "<group>"; };
 		4C26880218D7734200276A76 /* ZSAddItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSAddItemCell.m; sourceTree = "<group>"; };
 		4C2D1ECD1891EB65002C431A /* sprite_manifest.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = sprite_manifest.json; sourceTree = "<group>"; };
@@ -574,6 +576,7 @@
 			children = (
 				2CF6E516189D7FB900E2779C /* BrickExplosion.sks */,
 				2CF6E517189D7FB900E2779C /* spark.png */,
+				4C1772B518E7C56100C7AA35 /* Explosion.sks */,
 			);
 			name = Particles;
 			sourceTree = "<group>";
@@ -1317,6 +1320,7 @@
 				5F154BDE18592E7E00A759F1 /* Main-iPad.storyboard in Resources */,
 				4CF1CBBC17EF882A00636E0D /* InfoPlist.strings in Resources */,
 				4C430DED188B8C12009D754C /* gear--pencil.png in Resources */,
+				4C1772B618E7C56100C7AA35 /* Explosion.sks in Resources */,
 				4C8068CF18B739D5002601B3 /* toolbox_import.png in Resources */,
 				4CB1E182188E314B004F5D96 /* arrow-180.png in Resources */,
 				2CF6E518189D7FB900E2779C /* BrickExplosion.sks in Resources */,
