@@ -64,7 +64,7 @@ CGFloat const DefaultSize = 33;
 }
 
 + (ZSCanvasBarButtonItem *)groupsButtonWithHandler:(void (^)())handler {
-    FAKIcon *icon = [self styledIcon:[FAKFontAwesome usersIconWithSize:DefaultSize]];
+    FAKIcon *icon = [self styledIcon:[FAKIonIcons pricetagsIconWithSize:DefaultSize]];
     return [self buttonWithIcon:icon tapHandler:handler];
 }
 
@@ -134,7 +134,7 @@ CGFloat const DefaultSize = 33;
 }
 
 + (ZSCanvasBarButtonItem *)collisionsButtonWithHandler:(void (^)())handler {
-    FAKIcon *icon = [self styledIcon:[FAKIonIcons flashIconWithSize:DefaultSize]];
+    FAKIcon *icon = [self styledIcon:[FAKIonIcons pricetagIconWithSize:DefaultSize]];
     return [self buttonWithIcon:icon tapHandler:handler];
 }
 
@@ -149,7 +149,7 @@ CGFloat const DefaultSize = 33;
 }
 
 + (ZSCanvasBarButtonItem *)addButtonWithHandler:(void (^)())handler {
-    FAKIcon *icon = [self styledIcon:[FAKIonIcons ios7PlusIconWithSize:DefaultSize]];
+    FAKIcon *icon = [self styledIcon:[FAKIonIcons ios7PlusEmptyIconWithSize:DefaultSize]];
     return [self buttonWithIcon:icon tapHandler:handler];
 }
 
