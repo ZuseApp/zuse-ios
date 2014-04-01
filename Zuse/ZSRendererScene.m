@@ -161,6 +161,14 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
     };
     
     touchComponent.touchesEnded = ^(UITouch *touch) {
+        CGPoint point = [touch locationInNode:self];
+        
+        [_interpreter triggerEvent:@"touch_ended"
+            onObjectWithIdentifier:spriteJSON[@"id"]
+                        parameters:@{ @"touch_x": @(point.x), @"touch_y": @(point.y) }];
+    };
+    
+    touchComponent.touchesEnded = ^(UITouch *touch) {
         if (node.physicsBody) {
             
             //remove the physics joint once the touch event ends
@@ -449,9 +457,7 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
             particleType:(NSString *)particleType{
     
     //TODO make path generic
-    NSString *burstPath =
-    [[NSBundle mainBundle]
-     pathForResource:particleType ofType:@"sks"];
+    NSString *burstPath = [[NSBundle mainBundle] pathForResource:particleType ofType:@"sks"];
     
     SKEmitterNode *burstNode =
     [NSKeyedUnarchiver unarchiveObjectWithFile:burstPath];
