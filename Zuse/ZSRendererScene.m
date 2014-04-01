@@ -83,7 +83,7 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
     
     ZSComponentNode *node = [ZSComponentNode node];
     node.identifier = spriteJSON[@"id"];
-    //            node.particleType = spriteJSON[@"particle_type"];
+    // node.particleType = spriteJSON[@"particle_type"];
     node.name = kZSSpriteName;
     node.position = position;
     
@@ -405,7 +405,7 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
 
 - (void)removeSpriteWithIdentifier:(NSString *)identifier {
     ZSComponentNode *node = _spriteNodes[identifier];
-//    [self addParticle:identifier position:node.position duration:0.15f particleType:@"Explosion"];
+    [self addParticle:identifier position:node.position duration:0.15f particleType:@"Explosion"];
     [self removePhysicsJoint:identifier];
     [self removeJointNode:identifier];
     [self removeSpriteNode:identifier];

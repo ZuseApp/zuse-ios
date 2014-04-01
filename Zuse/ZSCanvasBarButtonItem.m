@@ -54,7 +54,7 @@ CGFloat const DefaultSize = 33;
 }
 
 + (ZSCanvasBarButtonItem *)generatorsButtonWithHandler:(void (^)())handler {
-    FAKIcon *icon = [self styledIcon:[FAKIonIcons nuclearIconWithSize:DefaultSize]];
+    FAKIcon *icon = [self styledIcon:[FAKIonIcons ios7BrowsersIconWithSize:DefaultSize]];
     return [self buttonWithIcon:icon tapHandler:handler];
 }
 
@@ -64,7 +64,7 @@ CGFloat const DefaultSize = 33;
 }
 
 + (ZSCanvasBarButtonItem *)groupsButtonWithHandler:(void (^)())handler {
-    FAKIcon *icon = [self styledIcon:[FAKIonIcons ios7BrowsersIconWithSize:DefaultSize]];
+    FAKIcon *icon = [self styledIcon:[FAKFontAwesome usersIconWithSize:DefaultSize]];
     return [self buttonWithIcon:icon tapHandler:handler];
 }
 
