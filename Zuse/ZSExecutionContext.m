@@ -8,6 +8,13 @@
 
 #import "ZSExecutionContext.h"
 
+@interface ZSExecutionContext ()
+
+@property (strong, nonatomic) NSString *objectID;
+@property (strong, nonatomic) NSMutableDictionary *environment;
+
+@end
+
 @implementation ZSExecutionContext
 
 + (instancetype)context {

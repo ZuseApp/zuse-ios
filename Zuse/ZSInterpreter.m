@@ -54,7 +54,7 @@
     NSDictionary *obj = [self blankObject];
     [self loadObject:obj];
     ZSExecutionContext *context = [ZSExecutionContext contextWithObjectId:obj[@"id"]
-                                                              environment:_properties[obj[@"id"]]];
+                                                              environment:self.properties[obj[@"id"]]];
     return [self runJSON:JSON context:context];
 }
 
@@ -66,7 +66,7 @@
     NSDictionary *obj = [self blankObject];
     [self loadObject:obj];
     ZSExecutionContext *context = [ZSExecutionContext contextWithObjectId:obj[@"id"]
-                                                              environment:_properties[obj[@"id"]]];
+                                                              environment:self.properties[obj[@"id"]]];
     return [self runSuite:suite context:context];
 }
 
@@ -96,12 +96,12 @@
         // already in the data store so that nested scopes update their
         // outer-scopes
         if (identifier)
-            _dataStore[identifier] = newValue;
+            self.dataStore[identifier] = newValue;
         else
             context.environment[data[0]] = [self IDForStoringValue:newValue];
         
-        if (_delegate) {
-            [_delegate interpreter:self
+        if (self.delegate) {
+            [self.delegate interpreter:self
               objectWithIdentifier:context.objectID
                didUpdateProperties:@{ data[0]: newValue }];
         }
@@ -116,10 +116,10 @@
     }
     
     else if ([key isEqualToString:@"on_event"]) {
-        NSMutableArray *events = _events[context.objectID][data[@"name"]];
+        NSMutableArray *events = self.events[context.objectID][data[@"name"]];
         if (!events) {
             events = [NSMutableArray array];
-            _events[context.objectID][data[@"name"]] = events;
+            self.events[context.objectID][data[@"name"]] = events;
         }
         
         [events addObject:@{ @"code": data[@"code"], @"context": context }];
@@ -138,7 +138,7 @@
 
 - (NSString *)IDForStoringValue:(id)value {
     NSString *UUID = [[NSUUID UUID] UUIDString];
-    _dataStore[UUID] = value;
+    self.dataStore[UUID] = value;
     return UUID;
 }
 
@@ -171,7 +171,7 @@
         }];
 
         if (code[@"async"] && [code[@"async"] boolValue]) {
-            void (^method)(NSString *, NSArray *, void(^)(id)) = _methods[code[@"method"]];
+            void (^method)(NSString *, NSArray *, void(^)(id)) = self.methods[code[@"method"]];
 
             __block id returnValue = nil;
             method(context.objectID, params, ^void(id obj){
@@ -184,7 +184,7 @@
             
             return returnValue;
         } else {
-            id (^method)(NSString *, NSArray *) = _methods[code[@"method"]];
+            id (^method)(NSString *, NSArray *) = self.methods[code[@"method"]];
             return method(context.objectID, params);
         }
     }
@@ -206,7 +206,7 @@
             NSString *identifier = context.environment[code];
             if (!identifier)
                 NSLog(@"ZSInterpreter#evaluateExpression:context: - Attempt to access unknown variable: %@", code);
-            return _dataStore[identifier];
+            return self.dataStore[identifier];
         }
     }
     
@@ -289,20 +289,20 @@
 }
 
 - (void)loadMethod:(NSDictionary *)method {
-    [_methods setObject:method[@"block"] forKey:method[@"method"]];
+    [self.methods setObject:method[@"block"] forKey:method[@"method"]];
 }
 
 - (void)loadObject:(NSDictionary *)obj {
-    [_events setObject:[NSMutableDictionary dictionary] forKey:obj[@"id"]];
-    [_properties setObject:[self dictionaryForStoringDictionary:obj[@"properties"]] forKey:obj[@"id"]];
-    [_objects setObject:obj forKey:obj[@"id"]];
+    [self.events setObject:[NSMutableDictionary dictionary] forKey:obj[@"id"]];
+    [self.properties setObject:[self dictionaryForStoringDictionary:obj[@"properties"]] forKey:obj[@"id"]];
+    [self.objects setObject:obj forKey:obj[@"id"]];
     ZSExecutionContext *context = [ZSExecutionContext contextWithObjectId:obj[@"id"]
-                                                              environment:_properties[obj[@"id"]]];
+                                                              environment:self.properties[obj[@"id"]]];
     [self runSuite:obj[@"code"] context:context];
 }
 
 - (void)triggerEvent:(NSString *)event {
-    [_objects each:^(id key, id obj) {
+    [self.objects each:^(id key, id obj) {
         [self triggerEvent:event onObjectWithIdentifier:key parameters:@{}];
     }];
 }
@@ -313,7 +313,7 @@
 
 - (void)triggerEvent:(NSString *)event
           parameters:(NSDictionary *)parameters {
-    [_objects each:^(id key, id obj) {
+    [self.objects each:^(id key, id obj) {
         [self triggerEvent:event onObjectWithIdentifier:key parameters:parameters];
     }];
 }
@@ -321,7 +321,7 @@
 - (void)  triggerEvent:(NSString *)event
 onObjectWithIdentifier:(NSString *)objectID
             parameters:(NSDictionary *)parameters {
-    [_events[objectID][event] each:^(NSDictionary *event) {
+    [self.events[objectID][event] each:^(NSDictionary *event) {
         NSMutableDictionary *environment = [[event[@"context"] environment] mutableCopy];
         [environment addEntriesFromDictionary:[self dictionaryForStoringDictionary:parameters]];
         ZSExecutionContext *newContext = [ZSExecutionContext contextWithObjectId:objectID
@@ -331,9 +331,9 @@ onObjectWithIdentifier:(NSString *)objectID
 }
 
 - (void)removeObjectWithIdentifier:(NSString *)identifier {
-    [_objects removeObjectForKey:identifier];
-    [_events removeObjectForKey:identifier];
-    [_properties removeObjectForKey:identifier];
+    [self.objects removeObjectForKey:identifier];
+    [self.events removeObjectForKey:identifier];
+    [self.properties removeObjectForKey:identifier];
 }
 
 /*
@@ -346,8 +346,8 @@ onObjectWithIdentifier:(NSString *)objectID
    }
  }
 */
-- (NSDictionary *)objects {
-    return [_objects map:^id(id key, id obj) {
+- (NSDictionary *)allObjects {
+    return [self.objects map:^id(id key, id obj) {
         return obj[@"properties"];
     }];
 }

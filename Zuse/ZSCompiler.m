@@ -31,10 +31,9 @@
 }
 
 - (NSDictionary *)compiledJSON {
-    NSMutableDictionary *traits = _projectJSON[@"traits"];
+    NSArray *newObjects = self.projectJSON[@"objects"];
     
-    NSArray *newObjects = _projectJSON[@"objects"];
-    
+    NSMutableDictionary *traits = self.projectJSON[@"traits"];
     if (traits) {
         newObjects = [self objectsByInliningTraits:traits
                                            objects:newObjects];
@@ -51,7 +50,7 @@
 }
 
 - (NSArray *)objectsByInliningTraits:(NSDictionary *)traits objects:(NSArray *)objects {
-    NSArray *newObjects = [_projectJSON[@"objects"] map:^id(NSDictionary *object) {
+    NSArray *newObjects = [self.projectJSON[@"objects"] map:^id(NSDictionary *object) {
         NSMutableDictionary *newObject = [object mutableCopy];
         if (!newObject[@"code"])
             newObject[@"code"] = [NSMutableArray array];
