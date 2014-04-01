@@ -701,13 +701,13 @@
 			isa = PBXGroup;
 			children = (
 				7899785518B9255500A8FE05 /* ZS_CodeEditorViewController.h */,
-				7899785618B9255500A8FE05 /* ZS_CodeEditorViewController.m */,
 				7899785718B9255500A8FE05 /* ZS_StatementView.h */,
 				7899785818B9255500A8FE05 /* ZS_StatementView.m */,
 				7899785918B9255500A8FE05 /* ZS_JsonUtilities.h */,
 				7899785A18B9255500A8FE05 /* ZS_JsonUtilities.m */,
 				7899785B18B9255500A8FE05 /* ZS_ExpressionViewController.h */,
 				7899785C18B9255500A8FE05 /* ZS_ExpressionViewController.m */,
+				7899785618B9255500A8FE05 /* ZS_CodeEditorViewController.m */,
 				789433B418C307A700C8D810 /* ZS_StatementChooserCollectionViewController.h */,
 				789433B518C307A700C8D810 /* ZS_StatementChooserCollectionViewController.m */,
 				5FB05F1E18C44B6600356531 /* ZS_VariableChooserCollectionViewController.h */,

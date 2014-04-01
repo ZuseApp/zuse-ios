@@ -79,7 +79,7 @@
 + (NSString*) recursiveExpressionStringFromJson: (NSObject*) json
 {
     // Number
-    if ([json isKindOfClass:[NSNumber class]])
+    if ([self isNumber: json])
     {
         NSNumber* number = (NSNumber*)json;
         
@@ -94,34 +94,116 @@
         }
     }
     // String
-    else if ([json isKindOfClass:[NSString class]])
+    else if ([self isString: json])
     {
         return (NSString*)json;
     }
-    // Variable or Math Expression
-    else if ([json isKindOfClass:[NSDictionary class]])
+    // Variable Name
+    else if ([self isVariableName: json])
+    {
+        return ((NSDictionary*)json)[@"get"];
+    }
+    // Operator
+    else if ([self isOperator: json])
     {
         NSString* key = ((NSDictionary*)json).allKeys[0];
         
-        // Variable
-        if ([key isEqualToString:@"get"])
-        {
-            return ((NSDictionary*)json)[@"get"];
-        }
+        NSString* leftExpression = [self recursiveExpressionStringFromJson: ((NSDictionary*)json)[key][0]];
+        NSString* operator = [self convertToFansySymbolFromJsonOperator: key];
+        NSString* rightExpression = [self recursiveExpressionStringFromJson: ((NSDictionary*)json)[key][1]];
         
-        // Math Expression
-        else
+        return [NSString stringWithFormat:@"(%@ %@ %@)", leftExpression, operator, rightExpression];
+    }
+    // Square root function call
+    else if ([self isSqrtFunctionCall: json])
+    {
+        NSObject* jsonExpression = ((NSDictionary*)json)[@"call"][@"parameters"][0];
+        NSString* expression = [self recursiveExpressionStringFromJson: jsonExpression];
+        return [NSString stringWithFormat:@"√%@", expression];
+    }
+    // Random number function call
+    else if ([self isRandomNumberFunctionCall: json])
+    {
+        NSObject* jsonParam1 = ((NSDictionary*)json)[@"call"][@"parameters"][0];
+        NSString* param1 = [self recursiveExpressionStringFromJson: jsonParam1];
+        NSObject* jsonParam2 = ((NSDictionary*)json)[@"call"][@"parameters"][1];
+        NSString* param2 = [self recursiveExpressionStringFromJson: jsonParam2];
+        
+        // delete parenthesys in param1 and param2
+        if ([param1 characterAtIndex:0] == '(')
         {
-            NSString* leftNode = [self expressionStringFromJson: ((NSDictionary*)json)[key][0]];
-            NSString* operator = [self convertToFansySymbolFromJsonOperator: key];
-            NSString* rightNode = [self expressionStringFromJson: ((NSDictionary*)json)[key][1]];
-            
-            return [NSString stringWithFormat:@"(%@ %@ %@)", leftNode, operator, rightNode];
+            param1 = [param1 substringWithRange:NSMakeRange(1, param1.length - 2)];
         }
+        if ([param2 characterAtIndex:0] == '(')
+        {
+            param2 = [param2 substringWithRange:NSMakeRange(1, param2.length - 2)];
+        }
+        // Form the expression
+        return [NSString stringWithFormat:@"rand(%@, %@)", param1, param2];
     }
     return nil;
 }
-
++ (BOOL) isOperator:(NSObject*) json
+{
+    if ([json isKindOfClass:[NSMutableDictionary class]])
+    {
+        NSString* key = ((NSMutableDictionary*)json).allKeys[0];
+        return [key isEqualToString:@"+"]
+        || [key isEqualToString:@"-"]
+        || [key isEqualToString:@"*"]
+        || [key isEqualToString:@"/"]
+        || [key isEqualToString:@"%"]
+        || [key isEqualToString:@">"]
+        || [key isEqualToString:@"<"]
+        || [key isEqualToString:@">="]
+        || [key isEqualToString:@"<="]
+        || [key isEqualToString:@"=="]
+        || [key isEqualToString:@"!="]
+        || [key isEqualToString:@"and"]
+        || [key isEqualToString:@"or"];
+    }
+    return NO;
+}
++ (BOOL) isFunctionCall:(NSObject*) json
+{
+    if ([json isKindOfClass:[NSMutableDictionary class]])
+    {
+        return [((NSMutableDictionary*)json).allKeys[0] isEqualToString:@"call"];
+    }
+    return NO;
+}
++ (BOOL) isSqrtFunctionCall:(NSObject*) json
+{
+    if ([self isFunctionCall:json])
+    {
+        return [((NSDictionary*)json)[@"call"][@"method"] isEqualToString:@"square root"];
+    }
+    return NO;
+}
++ (BOOL) isRandomNumberFunctionCall:(NSObject*) json
+{
+    if ([self isFunctionCall:json])
+    {
+        return [((NSDictionary*)json)[@"call"][@"method"] isEqualToString:@"random_number"];
+    }
+    return NO;
+}
++ (BOOL) isVariableName:(NSObject*) json
+{
+    if ([json isKindOfClass:[NSMutableDictionary class]])
+    {
+        return [((NSMutableDictionary*)json).allKeys[0] isEqualToString:@"get"];
+    }
+    return NO;
+}
++ (BOOL) isString:(NSObject*) json
+{
+    return [json isKindOfClass:[NSString class]];
+}
++ (BOOL) isNumber:(NSObject*) json
+{
+    return [json isKindOfClass:[NSNumber class]];
+}
 + (NSArray*) emptyStatements
 {
     NSArray *statements = nil;
