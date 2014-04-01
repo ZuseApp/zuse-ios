@@ -9,6 +9,7 @@
 #import "ZSEditorViewController.h"
 #import "ZS_CodeEditorViewController.h"
 #import "ZSTraitEditorViewController.h"
+#import "ZSSpriteTraits.h"
 
 NSString * const ZSTutorialBroadcastTraitTouched = @"ZSTutorialBroadcastTraitTouched";
 
@@ -47,8 +48,9 @@ typedef NS_ENUM(NSInteger, ZSEditorTutorialStage) {
     if (!self.spriteObject[@"traits"]) {
         self.spriteObject[@"traits"] = [NSMutableDictionary dictionary];
     }
-    traitController.traits = self.spriteObject[@"traits"];
-    traitController.traitImplementations = self.projectTraits;
+    traitController.enabledSpriteTraits  = self.spriteObject[@"traits"];
+    traitController.projectTraits = self.projectTraits;
+    traitController.globalTraits  = [ZSSpriteTraits defaultTraits];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -67,7 +69,17 @@ typedef NS_ENUM(NSInteger, ZSEditorTutorialStage) {
 - (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
     if ([item.title isEqualToString:@"Traits"]) {
         [[ZSTutorial sharedTutorial] broadcastEvent:ZSTutorialBroadcastTraitTouched];
+        
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+                                                                                               target:self.traitController
+                                                                                               action:@selector(addTapped:)];
+    } else {
+        self.navigationItem.rightBarButtonItem = nil;
     }
+}
+
+- (ZSTraitEditorViewController *)traitController {
+    return (ZSTraitEditorViewController *)self.viewControllers[1];
 }
 
 #pragma mark Tutorial

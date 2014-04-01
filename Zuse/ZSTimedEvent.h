@@ -10,7 +10,7 @@
 
 @interface ZSTimedEvent : NSObject
 
-@property (assign, nonatomic) NSInteger interval;
+@property (assign, nonatomic) NSTimeInterval interval;
 @property (assign, nonatomic) NSTimeInterval nextTime;
 @property (strong, nonatomic) NSString *objectIdentifier;
 @property (strong, nonatomic) NSString *eventIdentifier;

@@ -10,6 +10,7 @@
 #import "ZSTraitEditorParametersViewController.h"
 #import "ZS_CodeEditorViewController.h"
 #import "ZSSpriteTraits.h"
+#import <MTBlockAlertView/MTBlockAlertView.h>
 
 NSString * const ZSTutorialBroadcastTraitToggled = @"ZSTutorialBroadcastTraitToggled";
 NSString * const ZSTutorialBroadcastBackPressedTraitEditor = @"ZSTutorialBroadcastBackPressed";
@@ -21,7 +22,6 @@ typedef NS_ENUM(NSInteger, ZSEditorTutorialStage) {
 
 @interface ZSTraitEditorViewController () <UITableViewDelegate, UITableViewDataSource>
 
-@property (strong, nonatomic) NSDictionary *globalTraits;
 // @property (strong, nonatomic) NSArray      *globalTraitNames;
 @property (strong, nonatomic) NSMutableDictionary *allTraits;
 @property (strong, nonatomic) NSArray *allTraitNames;
@@ -46,15 +46,40 @@ typedef NS_ENUM(NSInteger, ZSEditorTutorialStage) {
 {
     [super viewDidLoad];
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"Cell"];
+    [self reloadData];
+}
+
+- (void)addTapped:(id)sender {
+    NSLog(@"Working");
     
-    self.globalTraits     = [ZSSpriteTraits defaultTraits];
-    // self.globalTraitNames = [self.globalTraits allKeys];
-    
+    MTBlockAlertView *alertView = [[MTBlockAlertView alloc] initWithTitle:@"New Trait"
+                                                                  message:@"Enter the name of your new trait"
+                                                          completionHanlder:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                                                              NSString *text = [alertView textFieldAtIndex:0].text;
+                                                              NSMutableDictionary *emptyTrait = [@{
+                                                                                                   @"code": @[],
+                                                                                                   @"parameters": @{}
+                                                                                                   } deepMutableCopy];
+                                                              // TODO: Do a more thorough check to make sure it doesn't conflict
+                                                              // with existing trait names, etc.
+                                                              if (text && text.length > 0) {
+                                                                  self.projectTraits[text] = emptyTrait;
+                                                                  [self reloadData];
+                                                              }
+                                                              
+                                                              
+                                                          } cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+    alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alertView show];
+}
+
+- (void)reloadData {
     self.allTraits = [self.globalTraits deepMutableCopy];
-    for (id key in self.traitImplementations) {
-        [self.allTraits setObject:self.traitImplementations[key] forKey:key];
+    for (id key in self.projectTraits) {
+        [self.allTraits setObject:self.projectTraits[key] forKey:key];
     }
     self.allTraitNames = [self.allTraits allKeys];
+    [self.tableView reloadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -84,13 +109,15 @@ typedef NS_ENUM(NSInteger, ZSEditorTutorialStage) {
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
+    [cell.contentView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    
     NSString *traitIdentifier = self.allTraitNames[indexPath.row];
     cell.textLabel.text = traitIdentifier;
     cell.textLabel.backgroundColor = [UIColor clearColor];
     cell.detailTextLabel.backgroundColor = [UIColor clearColor];
     cell.accessoryView.backgroundColor = [UIColor clearColor];
     
-    if (self.traits[traitIdentifier]) {
+    if (self.enabledSpriteTraits[traitIdentifier]) {
         cell.contentView.backgroundColor = [UIColor colorWithRed:1.0
                                                            green:0
                                                             blue:0
@@ -110,7 +137,7 @@ typedef NS_ENUM(NSInteger, ZSEditorTutorialStage) {
         cell.accessoryType = UITableViewCellAccessoryNone;
     }
     
-    NSString *buttonTitle = indexPath.row < self.globalTraits.count ? @"View" : @"Edit";
+    NSString *buttonTitle = self.globalTraits[traitIdentifier] ? @"View" : @"Edit";
     UIButton *editButton = [UIButton buttonWithType:UIButtonTypeSystem];
     editButton.frame = CGRectMake(254, 7, 46, 30);
     editButton.tag = indexPath.row;
@@ -133,10 +160,10 @@ typedef NS_ENUM(NSInteger, ZSEditorTutorialStage) {
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     NSString *traitIdentifier = self.allTraitNames[indexPath.row];
-    if (self.traits[traitIdentifier]) {
-        [self.traits removeObjectForKey:traitIdentifier];
+    if (self.enabledSpriteTraits[traitIdentifier]) {
+        [self.enabledSpriteTraits removeObjectForKey:traitIdentifier];
     } else {
-        self.traits[traitIdentifier] = [@{
+        self.enabledSpriteTraits[traitIdentifier] = [@{
                 @"parameters": [self.allTraits[traitIdentifier][@"parameters"] mutableCopy]
         } mutableCopy];
     }
@@ -148,12 +175,12 @@ typedef NS_ENUM(NSInteger, ZSEditorTutorialStage) {
     
     // Merge any current trait parameters with the default, preferring the current
     NSMutableDictionary *defaultParams = [self.allTraits[traitIdentifier][@"parameters"] mutableCopy];
-    [defaultParams addEntriesFromDictionary:self.traits[traitIdentifier][@"parameters"]];
-    self.traits[traitIdentifier][@"parameters"] = defaultParams;
+    [defaultParams addEntriesFromDictionary:self.enabledSpriteTraits[traitIdentifier][@"parameters"]];
+    self.enabledSpriteTraits[traitIdentifier][@"parameters"] = defaultParams;
     
     if ([segue.identifier isEqualToString:@"parameters"]) {
         ZSTraitEditorParametersViewController *controller = (ZSTraitEditorParametersViewController *)segue.destinationViewController;
-        controller.parameters = self.traits[traitIdentifier][@"parameters"];
+        controller.parameters = self.enabledSpriteTraits[traitIdentifier][@"parameters"];
         [[ZSTutorial sharedTutorial] broadcastEvent:ZSTutorialBroadcastTraitToggled];
     }
     else {

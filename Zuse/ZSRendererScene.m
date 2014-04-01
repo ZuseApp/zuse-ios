@@ -336,7 +336,7 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
     [interpreter loadMethod:@{
         @"method": @"every_seconds",
         @"block": ^id(NSString *identifier, NSArray *args) {
-            NSInteger seconds = [args[0] integerValue];
+            CGFloat seconds = [args[0] floatValue];
             NSString *eventIdentifier = args[1];
             [self addTimerWithDuration:seconds
                       objectIdentifier:identifier
@@ -391,7 +391,7 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
     }];
 }
 
-- (void)addTimerWithDuration:(NSInteger)seconds
+- (void)addTimerWithDuration:(CGFloat)seconds
             objectIdentifier:(NSString *)objectIdentifier
              eventIdentifier:(NSString *)eventIdentifier {
     ZSTimedEvent *event = [[ZSTimedEvent alloc] init];
