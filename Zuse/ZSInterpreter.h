@@ -106,7 +106,7 @@ onObjectWithIdentifier:(NSString *)objectID
  *
  *  @return Dictionary of objects
  */
-- (NSDictionary *)objects;
+- (NSDictionary *)allObjects;
 
 /**
  *  Removes object registered with `identifier` from the context of the interpreter.

@@ -32,7 +32,7 @@
 }
 
 - (void)testDidUpdateProperties {
-    _didRunUpdateProperties = NO;
+    self.didRunUpdateProperties = NO;
     
     ZSInterpreter *interpreter = [ZSInterpreter interpreter];
     
@@ -42,7 +42,7 @@
     
     [interpreter runJSON:JSON];
     
-    XCTAssert(_didRunUpdateProperties, @"");
+    XCTAssert(self.didRunUpdateProperties, @"");
 }
 
 - (void)testShouldDelegateProperty {
@@ -63,7 +63,7 @@
 - (void) interpreter:(ZSInterpreter *)interpreter
 objectWithIdentifier:(NSString *)identifier
  didUpdateProperties:(NSDictionary *)properties {
-    _didRunUpdateProperties = YES;
+    self.didRunUpdateProperties = YES;
     XCTAssertEqualObjects(properties, (@{ @"x": @10 }), @"");
 }
 

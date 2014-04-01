@@ -30,10 +30,10 @@
     self = [super init];
     
     if (self) {
-        _initialProperties = [properties copy];
-        _uniqueIDCounter = 0;
+        self.initialProperties = [properties copy];
+        self.uniqueIDCounter = 0;
         
-        _codeLines = [[codeLines map:^id(NSDictionary *codeLine) {
+        self.codeLines = [[codeLines map:^id(NSDictionary *codeLine) {
             return [self codeLineWithUniqueID:codeLine];
         }] deepMutableCopy];
     }
@@ -43,7 +43,7 @@
 
 - (NSArray *)codeLineWithUniqueID:(NSDictionary *)codeLine
 {
-    return @[ @(_uniqueIDCounter++), codeLine ];
+    return @[ @(self.uniqueIDCounter++), codeLine ];
 }
 
 - (NSInteger)uniqueIDForLine:(NSInteger)lineNumber
@@ -53,15 +53,14 @@
 
 - (instancetype)nestedScopeForCode:(NSArray *)codeLines
                             atLine:(NSInteger)line
-                 initialProperties:(NSSet *)initialProperties
-{
+                 initialProperties:(NSSet *)initialProperties {
     ZSCodePropertyScope *newScope = [self.class scopeWithCode:codeLines
                                             initialProperties:initialProperties];
     
     NSInteger uniqueID = [self uniqueIDForLine:line];
     
     newScope.propertiesInParent = ^NSSet *() {
-        return [_initialProperties setByAddingObjectsFromSet:[self propertiesAtUniqueID:uniqueID]];
+        return [self.initialProperties setByAddingObjectsFromSet:[self propertiesAtUniqueID:uniqueID]];
     };
     
     return newScope;
@@ -87,7 +86,7 @@
 }
 
 - (NSSet *)propertiesAtLine:(NSInteger)lineNumber {
-    NSMutableSet *properties = [_initialProperties mutableCopy];
+    NSMutableSet *properties = [self.initialProperties mutableCopy];
     
     if (self.propertiesInParent) {
         properties = [[properties setByAddingObjectsFromSet:self.propertiesInParent()] mutableCopy];
