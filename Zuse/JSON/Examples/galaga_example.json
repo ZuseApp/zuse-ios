@@ -1,44 +1,7 @@
 {
   "traits" : {
-    "BaddyLeft" : {
+    "Baddy" : {
       "code" : [
-        {
-          "set" : [
-            "direction",
-            0
-          ]
-        },
-        {
-          "every" : {
-            "seconds" : 1,
-            "code" : [
-              {
-                "set" : [
-                  "direction",
-                  {
-                    "+" : [
-                      {
-                        "get" : "direction"
-                      },
-                      180
-                    ]
-                  }
-                ]
-              },
-              {
-                "call" : {
-                  "method" : "move",
-                  "parameters" : [
-                    {
-                      "get" : "direction"
-                    },
-                    20
-                  ]
-                }
-              }
-            ]
-          }
-        },
         {
           "every" : {
             "seconds" : {
@@ -77,6 +40,15 @@
                   "true" : [
                     {
                       "call" : {
+                        "method" : "explosion",
+                        "parameters" : [
+                          { "get": "x" },
+                          { "get": "y" }
+                        ]
+                      }
+                    },
+                    {
+                      "call" : {
                         "method" : "remove",
                         "parameters" : [
 
@@ -87,12 +59,56 @@
                   "false" : [
 
                   ],
-                  "test" : true
+                  "test" : { "==": [{ "get": "other_group" }, "hero bullet"] }
                 }
               }
             ],
             "parameters" : [
               "other_group"
+            ]
+          }
+        }
+      ],
+      "parameters" : {
+
+      }
+    },
+    "BaddyLeft" : {
+      "code" : [
+        {
+          "set" : [
+            "direction",
+            0
+          ]
+        },
+        {
+          "every" : {
+            "seconds" : 1,
+            "code" : [
+              {
+                "set" : [
+                  "direction",
+                  {
+                    "+" : [
+                      {
+                        "get" : "direction"
+                      },
+                      180
+                    ]
+                  }
+                ]
+              },
+              {
+                "call" : {
+                  "method" : "move",
+                  "parameters" : [
+                    {
+                      "get" : "direction"
+                    },
+                    20
+                  ]
+                }
+              }
             ]
           }
         }
@@ -137,63 +153,6 @@
                   ]
                 }
               }
-            ]
-          }
-        },
-        {
-          "every" : {
-            "seconds" : {
-              "call" : {
-                "method" : "random_number",
-                "parameters" : [
-                  4,
-                  10
-                ]
-              }
-            },
-            "code" : [
-              {
-                "call" : {
-                  "method" : "generate",
-                  "parameters" : [
-                    "baddy bullet",
-                    {
-                      "get" : "x"
-                    },
-                    {
-                      "get" : "y"
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        },
-        {
-          "on_event" : {
-            "name" : "collision",
-            "code" : [
-              {
-                "if" : {
-                  "true" : [
-                    {
-                      "call" : {
-                        "method" : "remove",
-                        "parameters" : [
-
-                        ]
-                      }
-                    }
-                  ],
-                  "false" : [
-
-                  ],
-                  "test" : true
-                }
-              }
-            ],
-            "parameters" : [
-              "other_group"
             ]
           }
         }
@@ -473,6 +432,11 @@
           "parameters" : {
 
           }
+        },
+        "Baddy" : {
+          "parameters" : {
+
+          }
         }
       },
       "id" : "BF9ACD4A-7562-4816-A3A1-F967D924BDFD",
@@ -496,6 +460,11 @@
     {
       "traits" : {
         "BaddyRight" : {
+          "parameters" : {
+
+          }
+        },
+        "Baddy" : {
           "parameters" : {
 
           }
@@ -525,6 +494,11 @@
           "parameters" : {
 
           }
+        },
+        "Baddy" : {
+          "parameters" : {
+
+          }
         }
       },
       "id" : "63C39ADF-4E80-4B59-95B1-670C1A941BF5",
@@ -551,6 +525,11 @@
           "parameters" : {
 
           }
+        },
+        "Baddy" : {
+          "parameters" : {
+
+          }
         }
       },
       "id" : "CBB63EB5-E28A-4148-AD2E-D4BAB9601F55",
@@ -574,6 +553,11 @@
     {
       "traits" : {
         "BaddyRight" : {
+          "parameters" : {
+
+          }
+        },
+        "Baddy" : {
           "parameters" : {
 
           }
@@ -613,16 +597,17 @@
             "name" : "collision",
             "code" : [
               {
-                "call" : {
-                  "method" : "remove",
-                  "parameters" : [
-
-                  ]
-                }
-              },
-              {
                 "if" : {
                   "true" : [
+                    {
+                      "call" : {
+                        "method" : "explosion",
+                        "parameters" : [
+                          { "get": "x" },
+                          { "get": "y" }
+                        ]
+                      }
+                    },
                     {
                       "call" : {
                         "method" : "remove",
@@ -701,6 +686,11 @@
           "parameters" : {
 
           }
+        },
+        "Baddy" : {
+          "parameters" : {
+
+          }
         }
       },
       "id" : "D3E978C5-0D8C-4A75-A9A6-0523DE6D3F18",
@@ -724,6 +714,11 @@
     {
       "traits" : {
         "BaddyLeft" : {
+          "parameters" : {
+
+          }
+        },
+        "Baddy" : {
           "parameters" : {
 
           }
@@ -753,6 +748,11 @@
           "parameters" : {
 
           }
+        },
+        "Baddy" : {
+          "parameters" : {
+
+          }
         }
       },
       "id" : "3280D7A0-777C-43C6-80CF-BF49165A6D3D",
@@ -776,6 +776,11 @@
     {
       "traits" : {
         "BaddyLeft" : {
+          "parameters" : {
+
+          }
+        },
+        "Baddy" : {
           "parameters" : {
 
           }
@@ -805,6 +810,11 @@
           "parameters" : {
 
           }
+        },
+        "Baddy" : {
+          "parameters" : {
+
+          }
         }
       },
       "id" : "4330ABEB-4C59-473B-8FC3-50CD80145255",
@@ -828,6 +838,11 @@
     {
       "traits" : {
         "BaddyRight" : {
+          "parameters" : {
+
+          }
+        },
+        "Baddy" : {
           "parameters" : {
 
           }
@@ -857,6 +872,11 @@
           "parameters" : {
 
           }
+        },
+        "Baddy" : {
+          "parameters" : {
+
+          }
         }
       },
       "id" : "8ED6D66F-9FE3-4356-9B7F-BA25AF0194BB",
@@ -880,6 +900,11 @@
     {
       "traits" : {
         "BaddyRight" : {
+          "parameters" : {
+
+          }
+        },
+        "Baddy" : {
           "parameters" : {
 
           }
@@ -909,6 +934,11 @@
           "parameters" : {
 
           }
+        },
+        "Baddy" : {
+          "parameters" : {
+
+          }
         }
       },
       "id" : "BD65F1AC-1E33-4AE2-B2E8-0D0232B14D28",
@@ -932,6 +962,11 @@
     {
       "traits" : {
         "BaddyRight" : {
+          "parameters" : {
+
+          }
+        },
+        "Baddy" : {
           "parameters" : {
 
           }
@@ -961,6 +996,11 @@
           "parameters" : {
 
           }
+        },
+        "Baddy" : {
+          "parameters" : {
+
+          }
         }
       },
       "id" : "02A1348C-61B4-496A-A02A-76DE6F80BCF5",
@@ -984,6 +1024,11 @@
     {
       "traits" : {
         "BaddyLeft" : {
+          "parameters" : {
+
+          }
+        },
+        "Baddy" : {
           "parameters" : {
 
           }
@@ -1013,6 +1058,11 @@
           "parameters" : {
 
           }
+        },
+        "Baddy" : {
+          "parameters" : {
+
+          }
         }
       },
       "id" : "41CF410D-513E-41C4-86E3-1ED8F86B4469",
@@ -1036,6 +1086,11 @@
     {
       "traits" : {
         "BaddyLeft" : {
+          "parameters" : {
+
+          }
+        },
+        "Baddy" : {
           "parameters" : {
 
           }
@@ -1065,6 +1120,11 @@
           "parameters" : {
 
           }
+        },
+        "Baddy" : {
+          "parameters" : {
+
+          }
         }
       },
       "id" : "270245B0-0C02-4600-9F16-7FE78BDFFBE4",
@@ -1088,6 +1148,11 @@
     {
       "traits" : {
         "BaddyRight" : {
+          "parameters" : {
+
+          }
+        },
+        "Baddy" : {
           "parameters" : {
 
           }
@@ -1117,6 +1182,11 @@
           "parameters" : {
 
           }
+        },
+        "Baddy" : {
+          "parameters" : {
+
+          }
         }
       },
       "id" : "A1930311-0BD2-40B0-8C2D-65F186ECD2DA",
@@ -1140,6 +1210,11 @@
     {
       "traits" : {
         "BaddyRight" : {
+          "parameters" : {
+
+          }
+        },
+        "Baddy" : {
           "parameters" : {
 
           }
@@ -1169,6 +1244,11 @@
           "parameters" : {
 
           }
+        },
+        "Baddy" : {
+          "parameters" : {
+
+          }
         }
       },
       "id" : "8FF84994-DB52-4969-AA5B-8678AD85791E",
@@ -1192,6 +1272,11 @@
     {
       "traits" : {
         "BaddyRight" : {
+          "parameters" : {
+
+          }
+        },
+        "Baddy" : {
           "parameters" : {
 
           }
@@ -1221,6 +1306,11 @@
           "parameters" : {
 
           }
+        },
+        "Baddy" : {
+          "parameters" : {
+
+          }
         }
       },
       "id" : "A59070ED-BC1E-4A0E-B6CB-B1879FC9EC28",
@@ -1244,6 +1334,11 @@
     {
       "traits" : {
         "BaddyLeft" : {
+          "parameters" : {
+
+          }
+        },
+        "Baddy" : {
           "parameters" : {
 
           }
@@ -1273,6 +1368,11 @@
           "parameters" : {
 
           }
+        },
+        "Baddy" : {
+          "parameters" : {
+
+          }
         }
       },
       "id" : "CAC04CED-123D-40F3-9E7A-2747DB3BF840",
@@ -1296,6 +1396,11 @@
     {
       "traits" : {
         "BaddyLeft" : {
+          "parameters" : {
+
+          }
+        },
+        "Baddy" : {
           "parameters" : {
 
           }
@@ -1325,6 +1430,11 @@
           "parameters" : {
 
           }
+        },
+        "Baddy" : {
+          "parameters" : {
+
+          }
         }
       },
       "id" : "10E641DE-B1C1-4FE5-82A2-B8E1695E4D74",
@@ -1348,6 +1458,11 @@
     {
       "traits" : {
         "BaddyLeft" : {
+          "parameters" : {
+
+          }
+        },
+        "Baddy" : {
           "parameters" : {
 
           }
@@ -1377,6 +1492,11 @@
           "parameters" : {
 
           }
+        },
+        "Baddy" : {
+          "parameters" : {
+
+          }
         }
       },
       "id" : "15543AA0-DB8A-4551-A846-C5ADA8152537",
@@ -1400,6 +1520,11 @@
     {
       "traits" : {
         "BaddyLeft" : {
+          "parameters" : {
+
+          }
+        },
+        "Baddy" : {
           "parameters" : {
 
           }
@@ -1429,6 +1554,11 @@
           "parameters" : {
 
           }
+        },
+        "Baddy" : {
+          "parameters" : {
+
+          }
         }
       },
       "id" : "AC3174F8-F54D-42FF-A995-AD7EDEE8E61B",
@@ -1452,6 +1582,11 @@
     {
       "traits" : {
         "BaddyLeft" : {
+          "parameters" : {
+
+          }
+        },
+        "Baddy" : {
           "parameters" : {
 
           }

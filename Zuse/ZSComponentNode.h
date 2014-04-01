@@ -11,5 +11,6 @@
 @interface ZSComponentNode : SKComponentNode
 
 @property (strong, nonatomic) NSString *identifier;
+@property (strong, nonatomic) NSString *group;
 
 @end

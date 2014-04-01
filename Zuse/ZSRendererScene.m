@@ -18,6 +18,7 @@
 #import "NSString+Zuse.h"
 #import "NSNumber+Zuse.h"
 #import "ZSTimedEvent.h"
+#import "ZSProjectJSONKeys.h"
 
 
 @interface ZSRendererScene() <ZSInterpreterDelegate>
@@ -83,6 +84,7 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
     
     ZSComponentNode *node = [ZSComponentNode node];
     node.identifier = spriteJSON[@"id"];
+    node.group      = spriteJSON[@"collision_group"];
     // node.particleType = spriteJSON[@"particle_type"];
     node.name = kZSSpriteName;
     node.position = position;
@@ -270,10 +272,10 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
         
         [_interpreter triggerEvent:@"collision"
             onObjectWithIdentifier:nodeA.identifier
-                        parameters:@{ @"other_group": nodeB.identifier }];
+                        parameters:@{ @"other_group": nodeB.group }];
         [_interpreter triggerEvent:@"collision"
             onObjectWithIdentifier:nodeB.identifier
-                        parameters:@{ @"other_group": nodeA.identifier }];
+                        parameters:@{ @"other_group": nodeA.group }];
     } else {
         ZSComponentNode *node = (ZSComponentNode *)(contact.bodyA.categoryBitMask != GFPhysicsCategoryWorld ? contact.bodyA.node : contact.bodyB.node);
         [_interpreter triggerEvent:@"collision"
@@ -329,6 +331,15 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
         @"method": @"remove",
         @"block": ^id(NSString *identifier, NSArray *args) {
             [self removeSpriteWithIdentifier:identifier];
+            return nil;
+        }
+    }];
+    
+    [interpreter loadMethod:@{
+        @"method": @"explosion",
+        @"block": ^id(NSString *identifier, NSArray *args) {
+            ZSComponentNode *node = _spriteNodes[identifier];
+            [self addParticle:identifier position:node.position duration:0.15f particleType:@"Explosion"];
             return nil;
         }
     }];
@@ -404,8 +415,6 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
 }
 
 - (void)removeSpriteWithIdentifier:(NSString *)identifier {
-    ZSComponentNode *node = _spriteNodes[identifier];
-    [self addParticle:identifier position:node.position duration:0.15f particleType:@"Explosion"];
     [self removePhysicsJoint:identifier];
     [self removeJointNode:identifier];
     [self removeSpriteNode:identifier];

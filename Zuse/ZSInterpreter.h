@@ -47,7 +47,7 @@ objectWithIdentifier:(NSString *)identifier
  *  context, which any object is allowed to call from anywhere in their code. The dictionary
  *  should be structured like so:
  *
- *  [_interpreter loadMethod: @{
+ *  [interpreter loadMethod: @{
  *      @"method":  @"method name",
  *      @"block": ^id(NSString *identifier, NSArray *args) { ... } 
  *  }];
