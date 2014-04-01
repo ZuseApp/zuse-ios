@@ -228,7 +228,8 @@
             @"+": ^id(CGFloat first, CGFloat second) { return @(first + second); },
             @"-": ^id(CGFloat first, CGFloat second) { return @(first - second); },
             @"*": ^id(CGFloat first, CGFloat second) { return @(first * second); },
-            @"/": ^id(CGFloat first, CGFloat second) { return @(first / (second ?: 1)); }
+            @"/": ^id(CGFloat first, CGFloat second) { return @(first / (second ?: 1)); },
+            @"%": ^id(CGFloat first, CGFloat second) { return @((NSInteger)first % (NSInteger)second); }
         };
     });
     

@@ -79,6 +79,12 @@
     XCTAssertEqualObjects(result, @5.5, @"");
 }
 
+- (void)testModulo {
+    NSDictionary *program = @{ @"%": @[ @1, @2 ] };
+    NSNumber *result = [self.interpreter runJSON:program];
+    XCTAssertEqualObjects(result, @1, @"");
+}
+
 
 
 /************ Boolean Expressions *************/
