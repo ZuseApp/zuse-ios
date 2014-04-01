@@ -10,6 +10,7 @@
 #import "ZSTraitEditorParametersViewController.h"
 #import "ZS_CodeEditorViewController.h"
 #import "ZSSpriteTraits.h"
+#import <MTBlockAlertView/MTBlockAlertView.h>
 
 NSString * const ZSTutorialBroadcastTraitToggled = @"ZSTutorialBroadcastTraitToggled";
 NSString * const ZSTutorialBroadcastBackPressedTraitEditor = @"ZSTutorialBroadcastBackPressed";
@@ -21,7 +22,6 @@ typedef NS_ENUM(NSInteger, ZSEditorTutorialStage) {
 
 @interface ZSTraitEditorViewController () <UITableViewDelegate, UITableViewDataSource>
 
-@property (strong, nonatomic) NSDictionary *globalTraits;
 // @property (strong, nonatomic) NSArray      *globalTraitNames;
 @property (strong, nonatomic) NSMutableDictionary *allTraits;
 @property (strong, nonatomic) NSArray *allTraitNames;
@@ -36,8 +36,8 @@ typedef NS_ENUM(NSInteger, ZSEditorTutorialStage) {
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        _tutorial = [ZSTutorial sharedTutorial];
-        _tutorialStage = ZSTraitEditorToggleTraitOne;
+        self.tutorial = [ZSTutorial sharedTutorial];
+        self.tutorialStage = ZSTraitEditorToggleTraitOne;
     }
     return self;
 }
@@ -46,22 +46,47 @@ typedef NS_ENUM(NSInteger, ZSEditorTutorialStage) {
 {
     [super viewDidLoad];
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"Cell"];
+    [self reloadData];
+}
+
+- (void)addTapped:(id)sender {
+    NSLog(@"Working");
     
-    _globalTraits     = [ZSSpriteTraits defaultTraits];
-    // _globalTraitNames = [_globalTraits allKeys];
-    
-    self.allTraits = [_globalTraits deepMutableCopy];
-    for (id key in self.traitImplementations) {
-        [self.allTraits setObject:self.traitImplementations[key] forKey:key];
+    MTBlockAlertView *alertView = [[MTBlockAlertView alloc] initWithTitle:@"New Trait"
+                                                                  message:@"Enter the name of your new trait"
+                                                          completionHanlder:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                                                              NSString *text = [alertView textFieldAtIndex:0].text;
+                                                              NSMutableDictionary *emptyTrait = [@{
+                                                                                                   @"code": @[],
+                                                                                                   @"parameters": @{}
+                                                                                                   } deepMutableCopy];
+                                                              // TODO: Do a more thorough check to make sure it doesn't conflict
+                                                              // with existing trait names, etc.
+                                                              if (text && text.length > 0) {
+                                                                  self.projectTraits[text] = emptyTrait;
+                                                                  [self reloadData];
+                                                              }
+                                                              
+                                                              
+                                                          } cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+    alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alertView show];
+}
+
+- (void)reloadData {
+    self.allTraits = [self.globalTraits deepMutableCopy];
+    for (id key in self.projectTraits) {
+        [self.allTraits setObject:self.projectTraits[key] forKey:key];
     }
     self.allTraitNames = [self.allTraits allKeys];
+    [self.tableView reloadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-    if (_tutorial.isActive) {
-        [self createTutorialForStage:_tutorialStage];
-        [_tutorial presentWithCompletion:^{
-            _tutorialStage++;
+    if (self.tutorial.isActive) {
+        [self createTutorialForStage:self.tutorialStage];
+        [self.tutorial presentWithCompletion:^{
+            self.tutorialStage++;
         }];
     }
 }
@@ -84,19 +109,21 @@ typedef NS_ENUM(NSInteger, ZSEditorTutorialStage) {
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
+    [cell.contentView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    
     NSString *traitIdentifier = self.allTraitNames[indexPath.row];
     cell.textLabel.text = traitIdentifier;
     cell.textLabel.backgroundColor = [UIColor clearColor];
     cell.detailTextLabel.backgroundColor = [UIColor clearColor];
     cell.accessoryView.backgroundColor = [UIColor clearColor];
     
-    if (_traits[traitIdentifier]) {
+    if (self.enabledSpriteTraits[traitIdentifier]) {
         cell.contentView.backgroundColor = [UIColor colorWithRed:1.0
                                                            green:0
                                                             blue:0
                                                            alpha:0.3];
         
-        if (((NSDictionary*)_allTraits[traitIdentifier][@"parameters"]).count != 0) {
+        if (((NSDictionary*)self.allTraits[traitIdentifier][@"parameters"]).count != 0) {
             UIButton *optionsButton = [UIButton buttonWithType:UIButtonTypeSystem];
             optionsButton.frame = CGRectMake(190, 7, 56, 30);
             [optionsButton setTitle:@"Options" forState:UIControlStateNormal];
@@ -104,13 +131,13 @@ typedef NS_ENUM(NSInteger, ZSEditorTutorialStage) {
             optionsButton.tag = indexPath.row;
             [cell.contentView addSubview:optionsButton];
         }
-        [_tutorial broadcastEvent:ZSTutorialBroadcastTraitToggled];
+        [self.tutorial broadcastEvent:ZSTutorialBroadcastTraitToggled];
     } else {
         cell.contentView.backgroundColor = [UIColor whiteColor];
         cell.accessoryType = UITableViewCellAccessoryNone;
     }
     
-    NSString *buttonTitle = indexPath.row < self.globalTraits.count ? @"View" : @"Edit";
+    NSString *buttonTitle = self.globalTraits[traitIdentifier] ? @"View" : @"Edit";
     UIButton *editButton = [UIButton buttonWithType:UIButtonTypeSystem];
     editButton.frame = CGRectMake(254, 7, 46, 30);
     editButton.tag = indexPath.row;
@@ -133,11 +160,11 @@ typedef NS_ENUM(NSInteger, ZSEditorTutorialStage) {
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     NSString *traitIdentifier = self.allTraitNames[indexPath.row];
-    if (_traits[traitIdentifier]) {
-        [_traits removeObjectForKey:traitIdentifier];
+    if (self.enabledSpriteTraits[traitIdentifier]) {
+        [self.enabledSpriteTraits removeObjectForKey:traitIdentifier];
     } else {
-        _traits[traitIdentifier] = [@{
-                @"parameters": [_allTraits[traitIdentifier][@"parameters"] mutableCopy]
+        self.enabledSpriteTraits[traitIdentifier] = [@{
+                @"parameters": [self.allTraits[traitIdentifier][@"parameters"] mutableCopy]
         } mutableCopy];
     }
     [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
@@ -147,13 +174,13 @@ typedef NS_ENUM(NSInteger, ZSEditorTutorialStage) {
     NSString *traitIdentifier = self.allTraitNames[((UIButton*)sender).tag];
     
     // Merge any current trait parameters with the default, preferring the current
-    NSMutableDictionary *defaultParams = [_allTraits[traitIdentifier][@"parameters"] mutableCopy];
-    [defaultParams addEntriesFromDictionary:_traits[traitIdentifier][@"parameters"]];
-    _traits[traitIdentifier][@"parameters"] = defaultParams;
+    NSMutableDictionary *defaultParams = [self.allTraits[traitIdentifier][@"parameters"] mutableCopy];
+    [defaultParams addEntriesFromDictionary:self.enabledSpriteTraits[traitIdentifier][@"parameters"]];
+    self.enabledSpriteTraits[traitIdentifier][@"parameters"] = defaultParams;
     
     if ([segue.identifier isEqualToString:@"parameters"]) {
         ZSTraitEditorParametersViewController *controller = (ZSTraitEditorParametersViewController *)segue.destinationViewController;
-        controller.parameters = _traits[traitIdentifier][@"parameters"];
+        controller.parameters = self.enabledSpriteTraits[traitIdentifier][@"parameters"];
         [[ZSTutorial sharedTutorial] broadcastEvent:ZSTutorialBroadcastTraitToggled];
     }
     else {
@@ -161,7 +188,7 @@ typedef NS_ENUM(NSInteger, ZSEditorTutorialStage) {
         NSMutableDictionary *spriteObject = [NSMutableDictionary dictionary];
         spriteObject[@"id"] = traitIdentifier;
         spriteObject[@"parameters"] = defaultParams;
-        spriteObject[@"code"] = [_allTraits[traitIdentifier][@"code"] mutableCopy];
+        spriteObject[@"code"] = [self.allTraits[traitIdentifier][@"code"] mutableCopy];
         controller.json = spriteObject;
     }
 }
@@ -170,12 +197,12 @@ typedef NS_ENUM(NSInteger, ZSEditorTutorialStage) {
 
 - (void)createTutorialForStage:(ZSEditorTutorialStage)stage {
     if (stage == ZSTraitEditorToggleTraitOne || stage == ZSTraitEditorToggleTraitTwo) {
-        CGRect frame = [_tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+        CGRect frame = [self.tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
         frame.size.width = 254; // Remove edit button from touchable area.
         [[ZSTutorial sharedTutorial] addActionWithText:@"Click here to toggle trait."
                                               forEvent:ZSTutorialBroadcastTraitToggled
                                        allowedGestures:@[UITapGestureRecognizer.class]
-                                          activeRegion:[_tableView convertRect:frame toView:self.view]
+                                          activeRegion:[self.tableView convertRect:frame toView:self.view]
                                                  setup:nil
                                             completion:nil];
         frame = self.navigationController.navigationBar.frame;

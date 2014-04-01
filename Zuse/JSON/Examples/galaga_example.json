@@ -1,11 +1,112 @@
 {
   "traits" : {
-    "Baddy" : {
+    "BaddyLeft" : {
       "code" : [
         {
           "set" : [
             "direction",
             0
+          ]
+        },
+        {
+          "every" : {
+            "seconds" : 1,
+            "code" : [
+              {
+                "set" : [
+                  "direction",
+                  {
+                    "+" : [
+                      {
+                        "get" : "direction"
+                      },
+                      180
+                    ]
+                  }
+                ]
+              },
+              {
+                "call" : {
+                  "method" : "move",
+                  "parameters" : [
+                    {
+                      "get" : "direction"
+                    },
+                    20
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "every" : {
+            "seconds" : {
+              "call" : {
+                "method" : "random_number",
+                "parameters" : [
+                  4,
+                  10
+                ]
+              }
+            },
+            "code" : [
+              {
+                "call" : {
+                  "method" : "generate",
+                  "parameters" : [
+                    "baddy bullet",
+                    {
+                      "get" : "x"
+                    },
+                    {
+                      "get" : "y"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "on_event" : {
+            "name" : "collision",
+            "code" : [
+              {
+                "if" : {
+                  "true" : [
+                    {
+                      "call" : {
+                        "method" : "remove",
+                        "parameters" : [
+
+                        ]
+                      }
+                    }
+                  ],
+                  "false" : [
+
+                  ],
+                  "test" : true
+                }
+              }
+            ],
+            "parameters" : [
+              "other_group"
+            ]
+          }
+        }
+      ],
+      "parameters" : {
+
+      }
+    },
+    "BaddyRight" : {
+      "code" : [
+        {
+          "set" : [
+            "direction",
+            180
           ]
         },
         {
@@ -368,7 +469,7 @@
   "objects" : [
     {
       "traits" : {
-        "Baddy" : {
+        "BaddyLeft" : {
           "parameters" : {
 
           }
@@ -394,7 +495,7 @@
     },
     {
       "traits" : {
-        "Baddy" : {
+        "BaddyRight" : {
           "parameters" : {
 
           }
@@ -420,7 +521,7 @@
     },
     {
       "traits" : {
-        "Baddy" : {
+        "BaddyLeft" : {
           "parameters" : {
 
           }
@@ -446,7 +547,7 @@
     },
     {
       "traits" : {
-        "Baddy" : {
+        "BaddyLeft" : {
           "parameters" : {
 
           }
@@ -472,7 +573,7 @@
     },
     {
       "traits" : {
-        "Baddy" : {
+        "BaddyRight" : {
           "parameters" : {
 
           }
@@ -560,7 +661,7 @@
         },
         {
           "every" : {
-            "seconds" : 1,
+            "seconds" : 0.5,
             "code" : [
               {
                 "call" : {
@@ -596,7 +697,7 @@
     },
     {
       "traits" : {
-        "Baddy" : {
+        "BaddyLeft" : {
           "parameters" : {
 
           }
@@ -622,7 +723,7 @@
     },
     {
       "traits" : {
-        "Baddy" : {
+        "BaddyLeft" : {
           "parameters" : {
 
           }
@@ -648,7 +749,7 @@
     },
     {
       "traits" : {
-        "Baddy" : {
+        "BaddyLeft" : {
           "parameters" : {
 
           }
@@ -674,7 +775,7 @@
     },
     {
       "traits" : {
-        "Baddy" : {
+        "BaddyLeft" : {
           "parameters" : {
 
           }
@@ -700,7 +801,7 @@
     },
     {
       "traits" : {
-        "Baddy" : {
+        "BaddyLeft" : {
           "parameters" : {
 
           }
@@ -726,7 +827,7 @@
     },
     {
       "traits" : {
-        "Baddy" : {
+        "BaddyRight" : {
           "parameters" : {
 
           }
@@ -752,7 +853,7 @@
     },
     {
       "traits" : {
-        "Baddy" : {
+        "BaddyRight" : {
           "parameters" : {
 
           }
@@ -778,7 +879,7 @@
     },
     {
       "traits" : {
-        "Baddy" : {
+        "BaddyRight" : {
           "parameters" : {
 
           }
@@ -804,7 +905,7 @@
     },
     {
       "traits" : {
-        "Baddy" : {
+        "BaddyRight" : {
           "parameters" : {
 
           }
@@ -830,7 +931,7 @@
     },
     {
       "traits" : {
-        "Baddy" : {
+        "BaddyRight" : {
           "parameters" : {
 
           }
@@ -856,7 +957,7 @@
     },
     {
       "traits" : {
-        "Baddy" : {
+        "BaddyLeft" : {
           "parameters" : {
 
           }
@@ -882,7 +983,7 @@
     },
     {
       "traits" : {
-        "Baddy" : {
+        "BaddyLeft" : {
           "parameters" : {
 
           }
@@ -908,7 +1009,7 @@
     },
     {
       "traits" : {
-        "Baddy" : {
+        "BaddyLeft" : {
           "parameters" : {
 
           }
@@ -934,7 +1035,7 @@
     },
     {
       "traits" : {
-        "Baddy" : {
+        "BaddyLeft" : {
           "parameters" : {
 
           }
@@ -960,7 +1061,7 @@
     },
     {
       "traits" : {
-        "Baddy" : {
+        "BaddyLeft" : {
           "parameters" : {
 
           }
@@ -986,7 +1087,7 @@
     },
     {
       "traits" : {
-        "Baddy" : {
+        "BaddyRight" : {
           "parameters" : {
 
           }
@@ -1012,7 +1113,7 @@
     },
     {
       "traits" : {
-        "Baddy" : {
+        "BaddyRight" : {
           "parameters" : {
 
           }
@@ -1038,7 +1139,7 @@
     },
     {
       "traits" : {
-        "Baddy" : {
+        "BaddyRight" : {
           "parameters" : {
 
           }
@@ -1064,7 +1165,7 @@
     },
     {
       "traits" : {
-        "Baddy" : {
+        "BaddyRight" : {
           "parameters" : {
 
           }
@@ -1090,7 +1191,7 @@
     },
     {
       "traits" : {
-        "Baddy" : {
+        "BaddyRight" : {
           "parameters" : {
 
           }
@@ -1116,7 +1217,7 @@
     },
     {
       "traits" : {
-        "Baddy" : {
+        "BaddyLeft" : {
           "parameters" : {
 
           }
@@ -1142,7 +1243,7 @@
     },
     {
       "traits" : {
-        "Baddy" : {
+        "BaddyLeft" : {
           "parameters" : {
 
           }
@@ -1168,7 +1269,7 @@
     },
     {
       "traits" : {
-        "Baddy" : {
+        "BaddyLeft" : {
           "parameters" : {
 
           }
@@ -1194,7 +1295,7 @@
     },
     {
       "traits" : {
-        "Baddy" : {
+        "BaddyLeft" : {
           "parameters" : {
 
           }
@@ -1220,7 +1321,7 @@
     },
     {
       "traits" : {
-        "Baddy" : {
+        "BaddyLeft" : {
           "parameters" : {
 
           }
@@ -1246,7 +1347,7 @@
     },
     {
       "traits" : {
-        "Baddy" : {
+        "BaddyLeft" : {
           "parameters" : {
 
           }
@@ -1272,7 +1373,7 @@
     },
     {
       "traits" : {
-        "Baddy" : {
+        "BaddyRight" : {
           "parameters" : {
 
           }
@@ -1298,7 +1399,7 @@
     },
     {
       "traits" : {
-        "Baddy" : {
+        "BaddyLeft" : {
           "parameters" : {
 
           }
@@ -1324,7 +1425,7 @@
     },
     {
       "traits" : {
-        "Baddy" : {
+        "BaddyRight" : {
           "parameters" : {
 
           }
@@ -1350,7 +1451,7 @@
     },
     {
       "traits" : {
-        "Baddy" : {
+        "BaddyLeft" : {
           "parameters" : {
 
           }

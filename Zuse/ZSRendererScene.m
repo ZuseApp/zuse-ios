@@ -83,7 +83,7 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
     
     ZSComponentNode *node = [ZSComponentNode node];
     node.identifier = spriteJSON[@"id"];
-    //            node.particleType = spriteJSON[@"particle_type"];
+    // node.particleType = spriteJSON[@"particle_type"];
     node.name = kZSSpriteName;
     node.position = position;
     
@@ -336,7 +336,7 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
     [interpreter loadMethod:@{
         @"method": @"every_seconds",
         @"block": ^id(NSString *identifier, NSArray *args) {
-            NSInteger seconds = [args[0] integerValue];
+            CGFloat seconds = [args[0] floatValue];
             NSString *eventIdentifier = args[1];
             [self addTimerWithDuration:seconds
                       objectIdentifier:identifier
@@ -391,7 +391,7 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
     }];
 }
 
-- (void)addTimerWithDuration:(NSInteger)seconds
+- (void)addTimerWithDuration:(CGFloat)seconds
             objectIdentifier:(NSString *)objectIdentifier
              eventIdentifier:(NSString *)eventIdentifier {
     ZSTimedEvent *event = [[ZSTimedEvent alloc] init];
@@ -405,7 +405,7 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
 
 - (void)removeSpriteWithIdentifier:(NSString *)identifier {
     ZSComponentNode *node = _spriteNodes[identifier];
-//    [self addParticle:identifier position:node.position duration:0.15f particleType:@"Explosion"];
+    [self addParticle:identifier position:node.position duration:0.15f particleType:@"Explosion"];
     [self removePhysicsJoint:identifier];
     [self removeJointNode:identifier];
     [self removeSpriteNode:identifier];
