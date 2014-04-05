@@ -28,19 +28,6 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
     ZSToolbarInterfaceStateEditTextSprite
 };
 
-NSString * const ZSTutorialBroadcastDidDropSprite = @"ZSTutorialBroadcastDidDropSprite";
-NSString * const ZSTutorialBroadcastDidDoubleTap = @"ZSTutorialBroadcastDidDoubleTap";
-NSString * const ZSTutorialBroadcastDidShowToolbox = @"ZSTutorialBroadcastDidShowToolbox";
-NSString * const ZSTutorialBroadcastDidHideToolbox = @"ZSTutorialBroadcastDidHideToolbox";
-NSString * const ZSTutorialBroadcastDidTapPaddle = @"ZSTutorialBroadcastDidTapPaddle";
-
-typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
-    ZSCanvasTutorialSetupStage,
-    ZSCanvasTutorialPaddleTwoSetupStage,
-    ZSCanvasTutorialBallSetupStage,
-    ZSCanvasTutorialGroupSetupStage,
-};
-
 @interface ZSCanvasViewController ()
 
 // Canvas
@@ -246,16 +233,35 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
         CGRect paddleRect = [collectionView layoutAttributesForItemAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]].frame;
         paddleRect.size.height -= 17;
         
-        CGRect settingsButtonRect = ((ZSCanvasBarButtonItem *)_toolbar.items[4]).button.frame;
+        CGRect settingsButtonRect = ((ZSCanvasBarButtonItem *)_toolbar.items[3]).button.frame;
+        CGRect playButtonRect = ((ZSCanvasBarButtonItem *)_toolbar.items[7]).button.frame;
         
-        [_tutorial addActionWithText:@"Touch the toolbox icon to open the sprite toolbox."
-                            forEvent:ZSTutorialBroadcastDidShowToolbox
+        [_tutorial addActionWithText:@"Zuse allows you to build games on your iPhone.  This tutorial will teach you how to build Pong.  Tap anywhere to continue."
+                            forEvent:ZSTutorialBroadcastEventComplete
+                     allowedGestures:@[UITapGestureRecognizer.class]
+                        activeRegion:CGRectZero
+                               setup:nil
+                          completion:nil];
+        [_tutorial addActionWithText:@"This screen you are on right now is called the Canvas, which is where you lay out your game visually.  Our Pong game will have two paddles, one on top of the screen and one on bottom, and a ball that bounces around the screen."
+                            forEvent:ZSTutorialBroadcastEventComplete
+                     allowedGestures:@[UITapGestureRecognizer.class]
+                        activeRegion:CGRectZero
+                               setup:nil
+                          completion:nil];
+        [_tutorial addActionWithText:@"Tap here to open the Toolbox."
+                            forEvent:ZSTutorialBroadcastEventComplete
                      allowedGestures:@[UITapGestureRecognizer.class]
                         activeRegion:[_toolbar convertRect:settingsButtonRect toView:weakSelf.view]
                                setup:nil
                           completion:nil];
-        [_tutorial addActionWithText:@"Drag a paddle sprite onto the lower part of the canvas."
-                            forEvent:ZSTutorialBroadcastDidDropSprite
+        [_tutorial addActionWithText:@"The Toolbox contains Sprites, which are images and text boxes you can give behavior to."
+                            forEvent:ZSTutorialBroadcastEventComplete
+                     allowedGestures:@[UITapGestureRecognizer.class]
+                        activeRegion:CGRectZero
+                               setup:nil
+                          completion:nil];
+        [_tutorial addActionWithText:@"Tap-and-hold this paddle to place it near the top of the Canvas."
+                            forEvent:ZSTutorialBroadcastEventComplete
                      allowedGestures:@[UILongPressGestureRecognizer.class]
                         activeRegion:[collectionView convertRect:paddleRect toView:weakSelf.view]
                                setup:nil
@@ -264,14 +270,8 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
                               [weakSelf.tutorial saveObject:paddle1 forKey:@"paddle1"];
                               [weakSelf showToolbox];
                           }];
-        [_tutorial addActionWithText:@"In general the toolbox won't show again but for the tutorial we will bring it up again for you."
-                            forEvent:ZSTutorialBroadcastPopupDismissed
-                     allowedGestures:@[UITapGestureRecognizer.class]
-                        activeRegion:CGRectZero
-                               setup:nil
-                          completion:nil];
-        [_tutorial addActionWithText:@"Drag another paddle sprite onto the upper part of the canvas."
-                            forEvent:ZSTutorialBroadcastDidDropSprite
+        [_tutorial addActionWithText:@"Tap-and-hold again and lay this paddle at the bottom of the Canvas."
+                            forEvent:ZSTutorialBroadcastEventComplete
                      allowedGestures:@[UILongPressGestureRecognizer.class]
                         activeRegion:[collectionView convertRect:paddleRect toView:weakSelf.view]
                                setup:nil
@@ -280,8 +280,8 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
                               [weakSelf.tutorial saveObject:paddle2 forKey:@"paddle2"];
                               [weakSelf showToolbox];
                           }];
-        [_tutorial addActionWithText:@"Drag a ball sprite onto the middle of the canvas."
-                            forEvent:ZSTutorialBroadcastDidDropSprite
+        [_tutorial addActionWithText:@"Put the ball near the center of the screen."
+                            forEvent:ZSTutorialBroadcastEventComplete
                      allowedGestures:@[UILongPressGestureRecognizer.class]
                         activeRegion:[collectionView convertRect:ballRect toView:weakSelf.view]
                                setup:nil
@@ -289,6 +289,22 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
                               ball = [weakSelf.canvasView.subviews lastObject];
                               [weakSelf.tutorial saveObject:ball forKey:@"ball"];
                           }];
+        [_tutorial addActionWithText:@"Great job!  This Play button will run your game at any time.  Try pressing it now."
+                            forEvent:ZSTutorialBroadcastEventComplete
+                     allowedGestures:@[UITapGestureRecognizer.class]
+                        activeRegion:[_toolbar convertRect:playButtonRect toView:weakSelf.view]
+                               setup:nil
+                          completion:nil];
+        [_tutorial addActionWithText:@"Our game is now running! Try dragging a paddle. Nothing works! Our ball isn’t moving, either. That’s because we have to tell our Sprites what to do by giving them code that will run when we press the Play button. Let’s create some code to make the ball move! Tap the Stop button to stop the game and go back to the Canvas."
+                            forEvent:ZSTutorialBroadcastEventComplete
+                     allowedGestures:@[UITapGestureRecognizer.class]
+                        activeRegion:[_toolbar convertRect:CGRectNull toView:weakSelf.view]
+                               setup:^{
+                                   CGRect stopButtonRect = ((ZSCanvasBarButtonItem *)weakSelf.toolbar.items[1]).button.frame;
+                                   stopButtonRect = [weakSelf.view convertRect:stopButtonRect fromView:weakSelf.toolbar.viewForBaselineLayout];
+                                   weakSelf.tutorial.overlayView.activeRegion = stopButtonRect;
+                               }
+                          completion:nil];
 //        [_tutorial addActionWithText:@"Touch the lower paddle to bring up the sprite editor."
 //                            forEvent:ZSTutorialBroadcastDidTapPaddle
 //                     allowedGestures:@[UITapGestureRecognizer.class]
@@ -297,10 +313,11 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
 //                                   weakSelf.tutorial.overlayView.activeRegion = paddle1.frame;
 //                               }
 //                          completion:nil];
+        
     }
     if (stage == ZSCanvasTutorialPaddleTwoSetupStage) {
         [_tutorial addActionWithText:@"Touch the upper paddle to bring up the sprite editor."
-                            forEvent:ZSTutorialBroadcastDidTapPaddle
+                            forEvent:ZSTutorialBroadcastEventComplete
                      allowedGestures:@[UITapGestureRecognizer.class]
                         activeRegion:CGRectZero
                                setup:^{
@@ -311,7 +328,7 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
     }
     if (stage == ZSCanvasTutorialBallSetupStage) {
         [_tutorial addActionWithText:@"Touch the ball to bring up the sprite editor."
-                            forEvent:ZSTutorialBroadcastDidTapPaddle
+                            forEvent:ZSTutorialBroadcastEventComplete
                      allowedGestures:@[UITapGestureRecognizer.class]
                         activeRegion:CGRectZero
                                setup:^{
@@ -352,7 +369,7 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
     WeakSelf
     
     _canvasView.spriteSingleTapped = ^(ZSSpriteView *spriteView) {
-        [_tutorial broadcastEvent:ZSTutorialBroadcastDidTapPaddle];
+        [_tutorial broadcastEvent:ZSTutorialBroadcastEventComplete];
         [self hideSliderWithHandler:^{
             [weakSelf performSegueWithIdentifier:@"editor" sender:spriteView];
         }];
@@ -423,7 +440,7 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
     
     WeakSelf
     _toolboxView.hidView = ^{
-        [weakSelf.tutorial broadcastEvent:ZSTutorialBroadcastDidHideToolbox];
+        [weakSelf.tutorial broadcastEvent:ZSTutorialBroadcastEventComplete];
     };
     NSMutableArray *categories = [ZSSpriteLibrary sharedLibrary].categories;
     for (int i = 0; i < categories.count; i++) {
@@ -551,7 +568,7 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
             
             // Save the project.
             [weakSelf saveProject];
-            [weakSelf.tutorial broadcastEvent:ZSTutorialBroadcastDidDropSprite];
+            [weakSelf.tutorial broadcastEvent:ZSTutorialBroadcastEventComplete];
         }
     };
 }
@@ -591,15 +608,8 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
 - (NSArray *)normalToolbarItems {
     WeakSelf
     return @[
-             [ZSCanvasBarButtonItem playButtonWithHandler:^{
-                 if (weakSelf.gridSliderShowing) {
-                     [weakSelf hideSliderWithHandler:^{
-                         [weakSelf playProject];
-                     }];
-                 }
-                 else {
-                     [weakSelf playProject];
-                 }
+             [ZSCanvasBarButtonItem backButtonWithHandler:^{
+                 [weakSelf finish];
              }],
              [ZSCanvasBarButtonItem groupsButtonWithHandler:^{
                  if (weakSelf.gridSliderShowing) {
@@ -623,6 +633,7 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
              }],
              [ZSCanvasBarButtonItem toolboxButtonWithHandler:^{
                  [weakSelf showToolbox];
+                 [self.tutorial broadcastEvent:ZSTutorialBroadcastEventComplete];
              }],
              [ZSCanvasBarButtonItem gridButtonWithHandler:^{
                  [weakSelf toggleSliderViewWithHandler:nil];
@@ -630,8 +641,17 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
              [ZSCanvasBarButtonItem shareButtonWithHandler:^{
                  [weakSelf shareProject];
              }],
-             [ZSCanvasBarButtonItem backButtonWithHandler:^{
-                 [weakSelf finish];
+             [ZSCanvasBarButtonItem flexibleBarButtonItem],
+             [ZSCanvasBarButtonItem playButtonWithHandler:^{
+                 if (weakSelf.gridSliderShowing) {
+                     [weakSelf hideSliderWithHandler:^{
+                         [weakSelf playProject];
+                     }];
+                 }
+                 else {
+                     [weakSelf playProject];
+                 }
+                 [self.tutorial broadcastEvent:ZSTutorialBroadcastEventComplete];
              }]
              ];
 }
@@ -643,11 +663,13 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
 - (NSArray *)rendererPlayingToolbarItems {
     WeakSelf
     return @[
-             [ZSCanvasBarButtonItem pauseButtonWithHandler:^{
-                 [weakSelf pauseProject];
-             }],
+             [ZSCanvasBarButtonItem flexibleBarButtonItem],
              [ZSCanvasBarButtonItem stopButtonWithHandler:^{
                  [weakSelf stopProject];
+                 [weakSelf.tutorial broadcastEvent:ZSTutorialBroadcastEventComplete];
+             }],
+             [ZSCanvasBarButtonItem pauseButtonWithHandler:^{
+                 [weakSelf pauseProject];
              }]
              ];
 }
@@ -655,11 +677,12 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
 - (NSArray *)rendererPausedToolbarItems {
     WeakSelf
     return @[
-             [ZSCanvasBarButtonItem playButtonWithHandler:^{
-                 [weakSelf playProject];
-             }],
+             [ZSCanvasBarButtonItem flexibleBarButtonItem],
              [ZSCanvasBarButtonItem stopButtonWithHandler:^{
                  [weakSelf stopProject];
+             }],
+             [ZSCanvasBarButtonItem playButtonWithHandler:^{
+                 [weakSelf playProject];
              }]
              ];
 }
@@ -985,7 +1008,6 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
 
 - (void)showToolbox {
     [_toolboxView showAnimated:YES];
-    [_tutorial broadcastEvent:ZSTutorialBroadcastDidShowToolbox];
 }
 
 @end

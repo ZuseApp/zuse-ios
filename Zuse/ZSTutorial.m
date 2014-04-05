@@ -1,6 +1,6 @@
 #import "ZSTutorial.h"
 
-NSString * const ZSTutorialBroadcastPopupDismissed = @"ZSTutorialBroadcastPopupDismissed";
+NSString * const ZSTutorialBroadcastEventComplete = @"ZSTutorialBroadcastEventComplete";
 
 @interface ZSTutorial ()
 
@@ -150,7 +150,7 @@ NSString * const ZSTutorialBroadcastPopupDismissed = @"ZSTutorialBroadcastPopupD
 }
 
 - (void)popTipViewWasDismissedByUser:(CMPopTipView *)popTipView {
-    [self broadcastEvent:ZSTutorialBroadcastPopupDismissed];
+    [self broadcastEvent:ZSTutorialBroadcastEventComplete];
 }
 
 - (void)saveObject:(id)anObject forKey:(id <NSCopying>)aKey {
