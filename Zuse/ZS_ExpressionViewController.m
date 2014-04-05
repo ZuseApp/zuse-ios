@@ -50,6 +50,7 @@ NSString* ZS_OperatorToString(ZS_Operator operator)
 - (void) setOperator: (ZS_Operator) operator;
 - (void) setNumber: (NSNumber*) number;
 - (void) setVariableName: (NSString*) name;
+- (void) setString: (NSString*) str;
 - (void) setSqrtFunction;
 - (void) setRandomNumberFunction;
 - (BOOL) isOperator;
@@ -234,6 +235,13 @@ NSString* ZS_OperatorToString(ZS_Operator operator)
     if (!self.isOperator && !self.isFunctionCall)
     {
         self.json = [NSMutableDictionary dictionaryWithDictionary:@{@"get": name}];
+    }
+}
+- (void) setString: (NSString*) str
+{
+    if (!self.isOperator && !self.isFunctionCall)
+    {
+        self.json = str;
     }
 }
 - (void) setSqrtFunction
@@ -644,10 +652,12 @@ NSString* ZS_OperatorToString(ZS_Operator operator)
                                     message: @"Please, enter a string"
                           completionHanlder: ^(UIAlertView *alertView, NSInteger buttonIndex)
      {
-         if (self.didFinish)
+         
+         if (!self.selectedNode.isFunctionCall && !self.selectedNode.isOperator)
          {
              NSString* str = [alertView textFieldAtIndex:0].text;
-             self.didFinish([str isEqual:@""] ? nil : str);
+             [self.selectedNode setString: str];
+             [self reloadExpression];
          }
      }
                           cancelButtonTitle:@"OK" otherButtonTitles:nil];
