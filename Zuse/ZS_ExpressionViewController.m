@@ -55,6 +55,7 @@ NSString* ZS_OperatorToString(ZS_Operator operator)
 - (void) setRandomNumberFunction;
 - (BOOL) isOperator;
 - (BOOL) isFunctionCall;
+- (BOOL) isNumber;
 - (BOOL) isSqrtFunctionCall;
 - (BOOL) isRandomNumberFunctionCall;
 @end
@@ -370,6 +371,10 @@ NSString* ZS_OperatorToString(ZS_Operator operator)
 {
     return [self isOperator: self.json];
 }
+- (BOOL) isNumber
+{
+    return [self isNumber:self.json];
+}
 - (BOOL) isFunctionCall
 {
     return [self isFunctionCall: self.json];
@@ -682,6 +687,16 @@ NSString* ZS_OperatorToString(ZS_Operator operator)
     {
         [self.selectedNode setRandomNumberFunction];
         self.selectedNode = self.selectedNode.nodes[0];
+        [self reloadExpression];
+    }
+}
+- (IBAction)changeSignButtonTapped
+{
+    if (self.selectedNode.isNumber)
+    {
+        NSNumber* number = (NSNumber*)self.selectedNode.json;
+        number = [NSNumber numberWithFloat: number.floatValue * -1];
+        [self.selectedNode setNumber: number];
         [self reloadExpression];
     }
 }
