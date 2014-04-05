@@ -656,8 +656,11 @@ NSString* ZS_OperatorToString(ZS_Operator operator)
          if (!self.selectedNode.isFunctionCall && !self.selectedNode.isOperator)
          {
              NSString* str = [alertView textFieldAtIndex:0].text;
-             [self.selectedNode setString: str];
-             [self reloadExpression];
+             if (![str isEqualToString:@""])
+             {
+                 [self.selectedNode setString: str];
+                 [self reloadExpression];
+             }
          }
      }
                           cancelButtonTitle:@"OK" otherButtonTitles:nil];
