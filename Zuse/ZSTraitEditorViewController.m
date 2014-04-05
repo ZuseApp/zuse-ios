@@ -183,12 +183,12 @@ typedef NS_ENUM(NSInteger, ZSEditorTutorialStage) {
         controller.parameters = self.enabledSpriteTraits[traitIdentifier][@"parameters"];
         [[ZSTutorial sharedTutorial] broadcastEvent:ZSTutorialBroadcastTraitToggled];
     }
-    else {
+    else if ([segue.identifier isEqualToString:@"editor"]) {
         ZS_CodeEditorViewController *controller = (ZS_CodeEditorViewController*)segue.destinationViewController;
         NSMutableDictionary *spriteObject = [NSMutableDictionary dictionary];
         spriteObject[@"id"] = traitIdentifier;
         spriteObject[@"parameters"] = defaultParams;
-        spriteObject[@"code"] = [self.allTraits[traitIdentifier][@"code"] mutableCopy];
+        spriteObject[@"code"] = self.allTraits[traitIdentifier][@"code"];
         controller.json = spriteObject;
     }
 }
