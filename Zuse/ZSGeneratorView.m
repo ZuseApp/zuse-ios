@@ -13,17 +13,33 @@
 
 @implementation ZSGeneratorView
 
+- (id)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    
+    if (self) {
+        [self sharedInit];
+    }
+    
+    return self;
+}
+
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        self.generators = [NSMutableArray array];
-        self.delegate = self;
-        self.dataSource = self;
-        self.contentInset = UIEdgeInsetsMake(4, 4, 4, 4);
-        [self registerClass:ZSToolboxCell.class forCellWithReuseIdentifier:@"cellID"];
-        [self registerClass:ZSAddItemCell.class forCellWithReuseIdentifier:@"addItemID"];
+        [self sharedInit];
     }
     return self;
+}
+
+- (void)sharedInit {
+    self.generators = [NSMutableArray array];
+    self.delegate = self;
+    self.dataSource = self;
+    self.contentInset = UIEdgeInsetsMake(4, 4, 4, 4);
+    self.canAddNewSprites = YES;
+    [self registerClass:ZSToolboxCell.class forCellWithReuseIdentifier:@"cellID"];
+    [self registerClass:ZSAddItemCell.class forCellWithReuseIdentifier:@"addItemID"];
+    [self registerClass:UICollectionViewCell.class forCellWithReuseIdentifier:@"normal"];
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -35,13 +51,19 @@
     NSInteger row = indexPath.row;
     
     if (row == 0) {
-        ZSAddItemCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"addItemID" forIndexPath:indexPath];
-        cell.singleTapped = ^{
-            if (self.addGeneratorRequested) {
-                self.addGeneratorRequested();
-            }
-        };
-        return cell;
+        if (self.canAddNewSprites) {
+            ZSAddItemCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"addItemID" forIndexPath:indexPath];
+            cell.singleTapped = ^{
+                if (self.addGeneratorRequested) {
+                    self.addGeneratorRequested();
+                }
+            };
+            return cell;
+        } else {
+            UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"normal" forIndexPath:indexPath];
+            
+            return cell;
+        }
     }
     else {
         ZSToolboxCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cellID" forIndexPath:indexPath];

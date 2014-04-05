@@ -1,0 +1,31 @@
+{
+  "suite": [
+    { "set": ["this", "that"] },
+    {
+      "on_event": {
+        "name": "this",
+        "parameters": [],
+        "code": []
+      }
+    },
+    {
+      "trigger_event": {
+        "name": "this",
+        "parameters": {}
+      }
+    },
+    {
+      "if": {
+        "test": true,
+        "true": [],
+        "false": []
+      }
+    },
+    {
+      "call": {
+        "method": "foo",
+        "parameters": ["foo", "this", "that"]
+      }
+    }
+  ]
+}

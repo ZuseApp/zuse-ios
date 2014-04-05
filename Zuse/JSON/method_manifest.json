@@ -1,5 +1,37 @@
 [
   {
+    "name": "explosion",
+    "return_type": "none",
+    "parameters": [
+      {
+        "name": "x",
+        "types": ["numeric"]
+      },
+      {
+        "name": "y",
+        "types": ["numeric"]
+      }
+    ]
+  },
+  {
+    "name": "generate",
+    "return_type": "none",
+    "parameters": [
+      {
+        "name": "name",
+        "types": ["string"]
+      },
+      {
+        "name": "x",
+        "types": ["numeric"]
+      },
+      {
+        "name": "y",
+        "types": ["numeric"]
+      }
+    ]
+  },
+  {
     "name": "move",
     "return_type": "none",
     "parameters": [
@@ -22,23 +54,5 @@
     "name": "square root",
     "return_type": "numeric",
     "parameters": []
-  },
-  {
-    "name": "generate",
-    "return_type": "none",
-    "parameters": [
-      {
-        "name": "name",
-        "types": ["string"]
-      },
-      {
-        "name": "x",
-        "types": ["numeric"]
-      },
-      {
-        "name": "y",
-        "types": ["numeric"]
-      }
-    ]
   }
 ]

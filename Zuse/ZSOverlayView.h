@@ -12,5 +12,8 @@
 
 @property (nonatomic, assign) CGRect activeRegion;
 @property (nonatomic, assign) BOOL invertActiveRegion;
+@property (nonatomic, assign) BOOL tapToDismiss;
+
+- (void)reset;
 
 @end

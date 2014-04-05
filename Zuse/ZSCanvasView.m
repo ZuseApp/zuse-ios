@@ -43,6 +43,7 @@
 
 - (IBAction)valueChanged:(id)sender {
     NSInteger value = (NSInteger)((UISlider*)sender).value + 0.5;
+    ((UISlider*)sender).value = value;
     _grid.dimensions = CGSizeMake(value, 524 / (320 / value));
     [self setNeedsDisplay];
 }
@@ -55,18 +56,27 @@
     longPressGesture.delegate = self;
     [self addGestureRecognizer:longPressGesture];
     
-    UIPinchGestureRecognizer *pinchRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchDetected:)];
-    [self addGestureRecognizer:pinchRecognizer];
-    pinchRecognizer.delegate = self;
+    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTapRecognized)];
+    [self addGestureRecognizer:singleTap];
     
-    UIRotationGestureRecognizer *rotationRecognizer = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(rotationDetected:)];
-    [self addGestureRecognizer:rotationRecognizer];
-    rotationRecognizer.delegate = self;
+//    UIPinchGestureRecognizer *pinchRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchDetected:)];
+//    [self addGestureRecognizer:pinchRecognizer];
+//    pinchRecognizer.delegate = self;
+//    
+//    UIRotationGestureRecognizer *rotationRecognizer = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(rotationDetected:)];
+//    [self addGestureRecognizer:rotationRecognizer];
+//    rotationRecognizer.delegate = self;
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {
     return YES;
+}
+
+- (void)singleTapRecognized {
+    if (self.singleTapped) {
+        self.singleTapped();
+    }
 }
 
 - (void)longPressRecognized:(id)sender {

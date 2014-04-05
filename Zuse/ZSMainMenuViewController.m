@@ -65,40 +65,61 @@ typedef NS_ENUM(NSInteger, ZSMainMenuProjectFilter) {
 }
 
 - (void)segueToProject:(ZSProject *)project {
-    UINavigationController *navController = [self.storyboard instantiateViewControllerWithIdentifier:@"CanvasNav"];
-    navController.view.backgroundColor = [UIColor clearColor];
+    CGRect canvasFrames = [[UIScreen mainScreen] bounds];
+    canvasFrames.size.height -= 44;
     
+    NSArray *sizeArray = project.rawJSON[@"canvas_size"];
+    CGFloat projectHeight = [sizeArray[1] floatValue];
+    CGFloat scale = canvasFrames.size.height / projectHeight;
     
-    ZSCanvasViewController *controller = (ZSCanvasViewController *)navController.viewControllers.firstObject;
-    //        ZSCanvasViewController *controller = (ZSCanvasViewController *)segue.destinationViewController;
-    
-    controller.project = self.selectedProject;
-    
-    NSIndexPath *indexPath = [self.projectCollectionView indexPathsForSelectedItems].firstObject;
-    ZSProjectCollectionViewCell *cell = (ZSProjectCollectionViewCell *)[self.projectCollectionView cellForItemAtIndexPath:indexPath];
-    
-    CGRect rect = cell.screenshotView.imageFrame;
-    
-    rect = [cell.screenshotView convertRect:rect toView:self.view];
-    
-    controller.initialCanvasRect = rect;
-//    navController.modalPresentationStyle = UIModalPresentationNone;
-    self.modalPresentationStyle = UIModalPresentationCurrentContext;
-    
-    WeakSelf
-//    __weak typeof(navController) weakNavController = navController;
-    //        __weak typeof(controller) weakNavController = controller;
-    controller.didFinish = ^{
-        [weakSelf dismissViewControllerAnimated:NO completion:^{ }];
-        //            [weakNavController.view removeFromSuperview];
-        //            [weakSelf.view.subviews.lastObject removeFromSuperview];
-        [weakSelf reloadDataSources];
-        [weakSelf scrollToBeginningWithCompletion:^(BOOL finished){ }];
-    };
-    
-    [self presentViewController:navController
-                       animated:NO
-                     completion:^{}];
+    if (scale == 1) {
+        UINavigationController *navController = [self.storyboard instantiateViewControllerWithIdentifier:@"CanvasNav"];
+        navController.view.backgroundColor = [UIColor clearColor];
+        
+        
+        ZSCanvasViewController *controller = (ZSCanvasViewController *)navController.viewControllers.firstObject;
+        //        ZSCanvasViewController *controller = (ZSCanvasViewController *)segue.destinationViewController;
+        
+        controller.project = self.selectedProject;
+        
+        NSIndexPath *indexPath = [self.projectCollectionView indexPathsForSelectedItems].firstObject;
+        ZSProjectCollectionViewCell *cell = (ZSProjectCollectionViewCell *)[self.projectCollectionView cellForItemAtIndexPath:indexPath];
+        
+        CGRect rect = cell.screenshotView.imageFrame;
+        
+        rect = [cell.screenshotView convertRect:rect toView:self.view];
+        
+        controller.initialCanvasRect = rect;
+        //    navController.modalPresentationStyle = UIModalPresentationNone;
+        self.modalPresentationStyle = UIModalPresentationCurrentContext;
+        
+        WeakSelf
+        //    __weak typeof(navController) weakNavController = navController;
+        //        __weak typeof(controller) weakNavController = controller;
+        controller.didFinish = ^{
+            [weakSelf dismissViewControllerAnimated:NO completion:^{ }];
+            //            [weakNavController.view removeFromSuperview];
+            //            [weakSelf.view.subviews.lastObject removeFromSuperview];
+            [weakSelf reloadDataSources];
+            [weakSelf scrollToBeginningWithCompletion:^(BOOL finished){ }];
+        };
+        
+        [self presentViewController:navController
+                           animated:NO
+                         completion:^{}];
+    }
+    else {
+        MTBlockAlertView *alertView = [[MTBlockAlertView alloc]
+                                       initWithTitle:@"Unsupported Project"
+                                       message:@"Zuse currently doesn't support loading projects that were created on different size phones."
+                                       completionHanlder:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                                           
+                                       }
+                                       cancelButtonTitle:@"OK"
+                                       otherButtonTitles:nil];
+        alertView.alertViewStyle = UIAlertViewStyleDefault;
+        [alertView show];
+    }
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {

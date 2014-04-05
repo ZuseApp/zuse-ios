@@ -8,9 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSInteger, ZSGroupsInterfaceState) {
+    ZSGroupsInterfaceStateCanvas,
+    ZSGroupsInterfaceStateGenerators
+};
+
 @interface ZSGroupsViewController : UIViewController
 
+@property (assign, nonatomic) ZSGroupsInterfaceState interfaceState;
 @property (weak, nonatomic) NSArray *sprites;
+@property (weak, nonatomic) NSArray *generators;
 @property (weak, nonatomic) NSMutableDictionary *groups;
 @property (strong, nonatomic) NSArray *canvasToolbarItems;
 @property (copy, nonatomic) void(^didFinish)();

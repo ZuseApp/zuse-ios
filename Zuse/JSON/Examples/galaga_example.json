@@ -1,230 +1,1613 @@
 {
-  "canvas_size": [
-    320,
-    524
-  ],
-  "traits": {
-    "Baddy": {
-      "parameters": {},
-      "code": [
-        { "set": ["direction", 0] },
+  "traits" : {
+    "Baddy" : {
+      "code" : [
         {
-          "every": {
-            "seconds": 1,
-            "code": [
-              { "set": ["direction", { "+": [{ "get": "direction" }, 180] }] },
-              {
-                "call": {
-                  "method": "move",
-                  "parameters": [{ "get": "direction" }, 50]
-                }
+          "every" : {
+            "seconds" : {
+              "call" : {
+                "method" : "random_number",
+                "parameters" : [
+                  4,
+                  10
+                ]
               }
-            ]
-          }
-        },
-        {
-          "every": {
-            "seconds": { "call": { "method": "random_number", "parameters": [1, 3] } },
-            "code": [
+            },
+            "code" : [
               {
-                "call": {
-                  "method": "generate",
-                  "parameters": ["baddy bullet", { "get": "x" }, { "get": "y" }]
-                }
-              }
-            ]
-          }
-        },
-        {
-          "on_event": {
-            "name": "collide",
-            "parameters": ["other_group"],
-            "code": [
-              {
-                "if": {
-                  "test": { "==": [{ "get": "other_group" }, "hero bullet"] },
-                  "true": [
-                    { "call": { "method": "remove", "parameters": [] } }
-                  ],
-                  "false": []
-                }
-              }
-            ]
-          }
-        }
-      ]
-    }
-  },
-  "title": "Galaga",
-  "id": "E8C31CAA-C5AC-4335-BE51-5920715A0295",
-  "collision_groups": {
-    "hero": [],
-    "baddy": []
-  },
-  "version": "1.0.0",
-  "objects": [
-    {
-      "properties": {
-        "y": 35.10715,
-        "width": 129,
-        "x": 144.4464,
-        "height": 28
-      },
-      "type": "image",
-      "id": "23F4A837-BBAB-49F6-8742-4648422D5777",
-      "name": "Paddle",
-      "physics_body": "rectangle",
-      "code": [
-        {
-          "on_event": {
-            "name": "collide",
-            "parameters": ["other_group"],
-            "code": [
-              {
-                "if": {
-                  "test": { "==": [{ "get": "other_group" }, "hero bullet"] },
-                  "true": [
-                    { "call": { "method": "remove", "parameters": [] } },
+                "call" : {
+                  "method" : "generate",
+                  "parameters" : [
+                    "baddy bullet",
                     {
-                      "trigger_event": {
-                        "name": "gameover",
-                        "parameters": []
+                      "get" : "x"
+                    },
+                    {
+                      "get" : "y"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "on_event" : {
+            "name" : "collision",
+            "code" : [
+              {
+                "if" : {
+                  "true" : [
+                    {
+                      "call" : {
+                        "method" : "explosion",
+                        "parameters" : [
+                          { "get": "x" },
+                          { "get": "y" }
+                        ]
+                      }
+                    },
+                    {
+                      "call" : {
+                        "method" : "remove",
+                        "parameters" : [
+
+                        ]
                       }
                     }
                   ],
-                  "false": []
+                  "false" : [
+
+                  ],
+                  "test" : { "==": [{ "get": "other_group" }, "hero bullet"] }
+                }
+              }
+            ],
+            "parameters" : [
+              "other_group"
+            ]
+          }
+        }
+      ],
+      "parameters" : {
+
+      }
+    },
+    "BaddyLeft" : {
+      "code" : [
+        {
+          "set" : [
+            "direction",
+            0
+          ]
+        },
+        {
+          "every" : {
+            "seconds" : 1,
+            "code" : [
+              {
+                "set" : [
+                  "direction",
+                  {
+                    "+" : [
+                      {
+                        "get" : "direction"
+                      },
+                      180
+                    ]
+                  }
+                ]
+              },
+              {
+                "call" : {
+                  "method" : "move",
+                  "parameters" : [
+                    {
+                      "get" : "direction"
+                    },
+                    20
+                  ]
                 }
               }
             ]
           }
         }
       ],
-      "traits": {
-        "Draggable": {
-          "parameters": {
-            "vertical": false,
-            "horizontal": true
+      "parameters" : {
+
+      }
+    },
+    "BaddyRight" : {
+      "code" : [
+        {
+          "set" : [
+            "direction",
+            180
+          ]
+        },
+        {
+          "every" : {
+            "seconds" : 1,
+            "code" : [
+              {
+                "set" : [
+                  "direction",
+                  {
+                    "+" : [
+                      {
+                        "get" : "direction"
+                      },
+                      180
+                    ]
+                  }
+                ]
+              },
+              {
+                "call" : {
+                  "method" : "move",
+                  "parameters" : [
+                    {
+                      "get" : "direction"
+                    },
+                    20
+                  ]
+                }
+              }
+            ]
           }
         }
+      ],
+      "parameters" : {
+
+      }
+    },
+    "Draggable" : {
+      "code" : [
+        {
+          "set" : [
+            "offset_x",
+            0
+          ]
+        },
+        {
+          "set" : [
+            "offset_y",
+            0
+          ]
+        },
+        {
+          "on_event" : {
+            "name" : "touch_began",
+            "code" : [
+              {
+                "set" : [
+                  "offset_x",
+                  {
+                    "-" : [
+                      {
+                        "get" : "touch_x"
+                      },
+                      {
+                        "get" : "x"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "set" : [
+                  "offset_y",
+                  {
+                    "-" : [
+                      {
+                        "get" : "touch_y"
+                      },
+                      {
+                        "get" : "y"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "parameters" : [
+              "touch_x",
+              "touch_y"
+            ]
+          }
+        },
+        {
+          "on_event" : {
+            "name" : "touch_moved",
+            "code" : [
+              {
+                "if" : {
+                  "true" : [
+                    {
+                      "set" : [
+                        "x",
+                        {
+                          "-" : [
+                            {
+                              "get" : "touch_x"
+                            },
+                            {
+                              "get" : "offset_x"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "test" : {
+                    "==" : [
+                      {
+                        "get" : "horizontal"
+                      },
+                      true
+                    ]
+                  }
+                }
+              },
+              {
+                "if" : {
+                  "true" : [
+                    {
+                      "set" : [
+                        "y",
+                        {
+                          "-" : [
+                            {
+                              "get" : "touch_y"
+                            },
+                            {
+                              "get" : "offset_y"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "test" : {
+                    "==" : [
+                      {
+                        "get" : "vertical"
+                      },
+                      true
+                    ]
+                  }
+                }
+              }
+            ],
+            "parameters" : [
+              "touch_x",
+              "touch_y"
+            ]
+          }
+        }
+      ],
+      "parameters" : {
+        "horizontal" : true,
+        "vertical" : true
+      }
+    }
+  },
+  "title" : "Galaga",
+  "generators" : [
+    {
+      "traits" : {
+
       },
-      "image": {
-        "path": "sprite_paddle.png"
+      "id" : "E7FC3888-7729-441D-A910-CB6682A756F2",
+      "code" : [
+        {
+          "on_event" : {
+            "name" : "start",
+            "code" : [
+              {
+                "call" : {
+                  "method" : "move",
+                  "parameters" : [
+                    -90,
+                    100
+                  ]
+                }
+              },
+              {
+                "on_event" : {
+                  "name" : "collision",
+                  "code" : [
+                    {
+                      "call" : {
+                        "method" : "remove",
+                        "parameters" : [
+
+                        ]
+                      }
+                    }
+                  ],
+                  "parameters" : [
+                    "other_group"
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "physics_body" : "circle",
+      "image" : {
+        "path" : "bullet"
       },
-      "collision_group": "hero"
+      "properties" : {
+        "y" : 0,
+        "width" : 3,
+        "x" : 0,
+        "height" : 10
+      },
+      "type" : "image",
+      "name" : "baddy bullet",
+      "collision_group" : "baddy bullet"
     },
     {
-      "properties": {
-        "y": 422,
-        "width": 64,
-        "x": 85.5,
-        "height": 32
+      "traits" : {
+
       },
-      "type": "image",
-      "id": "E7FC3888-7729-441D-A910-CB6682A756F1",
-      "name": "Red Brick",
-      "physics_body": "rectangle",
-      "code": [],
-      "traits": {
-        "Baddy": {
-          "parameters": { }
+      "id" : "E7FC3888-7729-441D-A910-CB6682A756F3",
+      "code" : [
+        {
+          "on_event" : {
+            "name" : "start",
+            "code" : [
+              {
+                "call" : {
+                  "method" : "move",
+                  "parameters" : [
+                    90,
+                    100
+                  ]
+                }
+              },
+              {
+                "on_event" : {
+                  "name" : "collision",
+                  "code" : [
+                    {
+                      "call" : {
+                        "method" : "remove",
+                        "parameters" : [
+
+                        ]
+                      }
+                    }
+                  ],
+                  "parameters" : [
+                    "other_group"
+                  ]
+                }
+              }
+            ]
+          }
         }
+      ],
+      "physics_body" : "circle",
+      "image" : {
+        "path" : "bullet"
       },
-      "image": {
-        "path": "sprite_brick.png"
+      "properties" : {
+        "y" : 0,
+        "width" : 3,
+        "x" : 0,
+        "height" : 10
       },
-      "collision_group": "baddy"
-    },
-    {
-      "properties": {
-        "y": 421.5,
-        "width": 64,
-        "x": 201,
-        "height": 32
-      },
-      "type": "image",
-      "id": "A12B4FF5-BE17-4BCC-9A78-F2E8CC36A202",
-      "name": "Red Brick",
-      "physics_body": "rectangle",
-      "code": [],
-      "traits": {
-        "Baddy": {
-          "parameters": { }
-        }
-      },
-      "image": {
-        "path": "sprite_brick.png"
-      },
-      "collision_group": "baddy"
+      "type" : "image",
+      "name" : "hero bullet",
+      "collision_group" : "hero bullet"
     }
   ],
-  "generators": [
+  "canvas_size" : [
+    320,
+    524
+  ],
+  "version" : "1.0.0",
+  "collision_groups" : {
+    "hero" : [
+      "baddy bullet"
+    ],
+    "baddy bullet" : [
+      "hero"
+    ],
+    "baddy" : [
+      "hero bullet"
+    ],
+    "hero bullet" : [
+      "baddy"
+    ]
+  },
+  "objects" : [
     {
-      "properties": {
-        "y": 0,
-        "width": 30,
-        "x": 0,
-        "height": 30
-      },
-      "type": "image",
-      "id": "E7FC3888-7729-441D-A910-CB6682A756F2",
-      "name": "baddy bullet",
-      "physics_body": "circle",
-      "code": [
-        {
-          "call": {
-            "method": "move",
-            "parameters": [90, 100]
+      "traits" : {
+        "BaddyLeft" : {
+          "parameters" : {
+
           }
         },
-        {
-          "on_event": {
-            "name": "collide",
-            "parameters": ["other_group"],
-            "code": [
-              { "call": { "method": "remove", "parameters": [] } }
-            ]
+        "Baddy" : {
+          "parameters" : {
+
           }
         }
-      ],
-      "traits": {},
-      "image": {
-        "path": "sprite_ball.png"
       },
-      "collision_group": "baddy bullet"
+      "id" : "BF9ACD4A-7562-4816-A3A1-F967D924BDFD",
+      "code" : [
+
+      ],
+      "physics_body" : "rectangle",
+      "image" : {
+        "path" : "deathmite"
+      },
+      "properties" : {
+        "y" : 472.0714285714286,
+        "width" : 30,
+        "x" : 50.55555555555556,
+        "height" : 29
+      },
+      "type" : "image",
+      "name" : "Deathmite",
+      "collision_group" : "baddy"
     },
     {
-      "properties": {
-        "y": 0,
-        "width": 30,
-        "x": 0,
-        "height": 30
+      "traits" : {
+        "BaddyRight" : {
+          "parameters" : {
+
+          }
+        },
+        "Baddy" : {
+          "parameters" : {
+
+          }
+        }
       },
-      "type": "image",
-      "id": "E7FC3888-7729-441D-A910-CB6682A756F3",
-      "name": "hero bullet",
-      "physics_body": "circle",
-      "code": [
+      "id" : "96266C6E-CB34-49F0-820F-3A94D3335105",
+      "code" : [
+
+      ],
+      "physics_body" : "rectangle",
+      "image" : {
+        "path" : "catcher"
+      },
+      "properties" : {
+        "y" : 433.1428571428571,
+        "width" : 30,
+        "x" : 50.55555555555556,
+        "height" : 32
+      },
+      "type" : "image",
+      "name" : "Catcher",
+      "collision_group" : "baddy"
+    },
+    {
+      "traits" : {
+        "BaddyLeft" : {
+          "parameters" : {
+
+          }
+        },
+        "Baddy" : {
+          "parameters" : {
+
+          }
+        }
+      },
+      "id" : "63C39ADF-4E80-4B59-95B1-670C1A941BF5",
+      "code" : [
+
+      ],
+      "physics_body" : "rectangle",
+      "image" : {
+        "path" : "grunt"
+      },
+      "properties" : {
+        "y" : 392.7142857142857,
+        "width" : 30,
+        "x" : 50.55555555555556,
+        "height" : 38
+      },
+      "type" : "image",
+      "name" : "Grunt",
+      "collision_group" : "baddy"
+    },
+    {
+      "traits" : {
+        "BaddyLeft" : {
+          "parameters" : {
+
+          }
+        },
+        "Baddy" : {
+          "parameters" : {
+
+          }
+        }
+      },
+      "id" : "CBB63EB5-E28A-4148-AD2E-D4BAB9601F55",
+      "code" : [
+
+      ],
+      "physics_body" : "rectangle",
+      "image" : {
+        "path" : "dragonfly"
+      },
+      "properties" : {
+        "y" : 323.3571428571428,
+        "width" : 30,
+        "x" : 50.55555555555556,
+        "height" : 27
+      },
+      "type" : "image",
+      "name" : "Dragonfly",
+      "collision_group" : "baddy"
+    },
+    {
+      "traits" : {
+        "BaddyRight" : {
+          "parameters" : {
+
+          }
+        },
+        "Baddy" : {
+          "parameters" : {
+
+          }
+        }
+      },
+      "id" : "425E3980-C8DE-4580-86A2-1BEAE395DAA8",
+      "code" : [
+
+      ],
+      "physics_body" : "rectangle",
+      "image" : {
+        "path" : "moth"
+      },
+      "properties" : {
+        "y" : 356.7857142857143,
+        "width" : 30,
+        "x" : 50.55555555555556,
+        "height" : 35
+      },
+      "type" : "image",
+      "name" : "Moth",
+      "collision_group" : "baddy"
+    },
+    {
+      "traits" : {
+        "Draggable" : {
+          "parameters" : {
+            "horizontal" : true,
+            "vertical" : false
+          }
+        }
+      },
+      "id" : "23F4A837-BBAB-49F6-8742-4648422D5777",
+      "code" : [
         {
-          "call": {
-            "method": "move",
-            "parameters": [90, 100]
+          "on_event" : {
+            "name" : "collision",
+            "code" : [
+              {
+                "if" : {
+                  "true" : [
+                    {
+                      "call" : {
+                        "method" : "explosion",
+                        "parameters" : [
+                          { "get": "x" },
+                          { "get": "y" }
+                        ]
+                      }
+                    },
+                    {
+                      "call" : {
+                        "method" : "remove",
+                        "parameters" : [
+
+                        ]
+                      }
+                    },
+                    {
+                      "trigger_event" : {
+                        "name" : "gameover",
+                        "parameters" : [
+
+                        ]
+                      }
+                    }
+                  ],
+                  "false" : [
+
+                  ],
+                  "test" : {
+                    "==" : [
+                      {
+                        "get" : "other_group"
+                      },
+                      "baddy bullet"
+                    ]
+                  }
+                }
+              }
+            ],
+            "parameters" : [
+              "other_group"
+            ]
           }
         },
         {
-          "on_event": {
-            "name": "collide",
-            "parameters": ["other_group"],
-            "code": [
-              { "call": { "method": "remove", "parameters": [] } }
+          "every" : {
+            "seconds" : 0.5,
+            "code" : [
+              {
+                "call" : {
+                  "method" : "generate",
+                  "parameters" : [
+                    "hero bullet",
+                    {
+                      "get" : "x"
+                    },
+                    {
+                      "get" : "y"
+                    }
+                  ]
+                }
+              }
             ]
           }
         }
       ],
-      "traits": {},
-      "image": {
-        "path": "sprite_ball.png"
+      "physics_body" : "rectangle",
+      "image" : {
+        "path" : "ship"
       },
-      "collision_group": "hero bullet"
+      "properties" : {
+        "y" : 37.10715103149414,
+        "width" : 30,
+        "x" : 169.4463958740234,
+        "height" : 42
+      },
+      "type" : "image",
+      "name" : "Ship",
+      "collision_group" : "hero"
+    },
+    {
+      "traits" : {
+        "BaddyLeft" : {
+          "parameters" : {
+
+          }
+        },
+        "Baddy" : {
+          "parameters" : {
+
+          }
+        }
+      },
+      "id" : "D3E978C5-0D8C-4A75-A9A6-0523DE6D3F18",
+      "code" : [
+
+      ],
+      "physics_body" : "rectangle",
+      "image" : {
+        "path" : "deathmite"
+      },
+      "properties" : {
+        "y" : 472.0714285714286,
+        "width" : 30,
+        "x" : 86.11111111111111,
+        "height" : 29
+      },
+      "type" : "image",
+      "name" : "Deathmite",
+      "collision_group" : "baddy"
+    },
+    {
+      "traits" : {
+        "BaddyLeft" : {
+          "parameters" : {
+
+          }
+        },
+        "Baddy" : {
+          "parameters" : {
+
+          }
+        }
+      },
+      "id" : "3DA2FE6C-5C21-40CE-9A09-774A43D67C00",
+      "code" : [
+
+      ],
+      "physics_body" : "rectangle",
+      "image" : {
+        "path" : "deathmite"
+      },
+      "properties" : {
+        "y" : 472.0714285714286,
+        "width" : 30,
+        "x" : 121.6666666666667,
+        "height" : 29
+      },
+      "type" : "image",
+      "name" : "Deathmite",
+      "collision_group" : "baddy"
+    },
+    {
+      "traits" : {
+        "BaddyLeft" : {
+          "parameters" : {
+
+          }
+        },
+        "Baddy" : {
+          "parameters" : {
+
+          }
+        }
+      },
+      "id" : "3280D7A0-777C-43C6-80CF-BF49165A6D3D",
+      "code" : [
+
+      ],
+      "physics_body" : "rectangle",
+      "image" : {
+        "path" : "deathmite"
+      },
+      "properties" : {
+        "y" : 472.0714285714286,
+        "width" : 30,
+        "x" : 157.2222222222222,
+        "height" : 29
+      },
+      "type" : "image",
+      "name" : "Deathmite",
+      "collision_group" : "baddy"
+    },
+    {
+      "traits" : {
+        "BaddyLeft" : {
+          "parameters" : {
+
+          }
+        },
+        "Baddy" : {
+          "parameters" : {
+
+          }
+        }
+      },
+      "id" : "D9EF6272-20C6-49E3-BB00-8B70AF689AD9",
+      "code" : [
+
+      ],
+      "physics_body" : "rectangle",
+      "image" : {
+        "path" : "deathmite"
+      },
+      "properties" : {
+        "y" : 472.0714285714286,
+        "width" : 30,
+        "x" : 192.7777777777778,
+        "height" : 29
+      },
+      "type" : "image",
+      "name" : "Deathmite",
+      "collision_group" : "baddy"
+    },
+    {
+      "traits" : {
+        "BaddyLeft" : {
+          "parameters" : {
+
+          }
+        },
+        "Baddy" : {
+          "parameters" : {
+
+          }
+        }
+      },
+      "id" : "4330ABEB-4C59-473B-8FC3-50CD80145255",
+      "code" : [
+
+      ],
+      "physics_body" : "rectangle",
+      "image" : {
+        "path" : "deathmite"
+      },
+      "properties" : {
+        "y" : 472.0714285714286,
+        "width" : 30,
+        "x" : 228.3333333333333,
+        "height" : 29
+      },
+      "type" : "image",
+      "name" : "Deathmite",
+      "collision_group" : "baddy"
+    },
+    {
+      "traits" : {
+        "BaddyRight" : {
+          "parameters" : {
+
+          }
+        },
+        "Baddy" : {
+          "parameters" : {
+
+          }
+        }
+      },
+      "id" : "DC7F1A2F-3511-4D3E-A1F8-BAA891535CD0",
+      "code" : [
+
+      ],
+      "physics_body" : "rectangle",
+      "image" : {
+        "path" : "catcher"
+      },
+      "properties" : {
+        "y" : 433.1428571428571,
+        "width" : 30,
+        "x" : 86.11111111111111,
+        "height" : 32
+      },
+      "type" : "image",
+      "name" : "Catcher",
+      "collision_group" : "baddy"
+    },
+    {
+      "traits" : {
+        "BaddyRight" : {
+          "parameters" : {
+
+          }
+        },
+        "Baddy" : {
+          "parameters" : {
+
+          }
+        }
+      },
+      "id" : "8ED6D66F-9FE3-4356-9B7F-BA25AF0194BB",
+      "code" : [
+
+      ],
+      "physics_body" : "rectangle",
+      "image" : {
+        "path" : "catcher"
+      },
+      "properties" : {
+        "y" : 433.1428571428571,
+        "width" : 30,
+        "x" : 121.6666666666667,
+        "height" : 32
+      },
+      "type" : "image",
+      "name" : "Catcher",
+      "collision_group" : "baddy"
+    },
+    {
+      "traits" : {
+        "BaddyRight" : {
+          "parameters" : {
+
+          }
+        },
+        "Baddy" : {
+          "parameters" : {
+
+          }
+        }
+      },
+      "id" : "5F471786-14E2-46E1-B6D0-F8959DC549F0",
+      "code" : [
+
+      ],
+      "physics_body" : "rectangle",
+      "image" : {
+        "path" : "catcher"
+      },
+      "properties" : {
+        "y" : 433.1428571428571,
+        "width" : 30,
+        "x" : 157.2222222222222,
+        "height" : 32
+      },
+      "type" : "image",
+      "name" : "Catcher",
+      "collision_group" : "baddy"
+    },
+    {
+      "traits" : {
+        "BaddyRight" : {
+          "parameters" : {
+
+          }
+        },
+        "Baddy" : {
+          "parameters" : {
+
+          }
+        }
+      },
+      "id" : "BD65F1AC-1E33-4AE2-B2E8-0D0232B14D28",
+      "code" : [
+
+      ],
+      "physics_body" : "rectangle",
+      "image" : {
+        "path" : "catcher"
+      },
+      "properties" : {
+        "y" : 433.1428571428571,
+        "width" : 30,
+        "x" : 192.7777777777778,
+        "height" : 32
+      },
+      "type" : "image",
+      "name" : "Catcher",
+      "collision_group" : "baddy"
+    },
+    {
+      "traits" : {
+        "BaddyRight" : {
+          "parameters" : {
+
+          }
+        },
+        "Baddy" : {
+          "parameters" : {
+
+          }
+        }
+      },
+      "id" : "01052A22-9D95-4245-9766-5CC7C114DC70",
+      "code" : [
+
+      ],
+      "physics_body" : "rectangle",
+      "image" : {
+        "path" : "catcher"
+      },
+      "properties" : {
+        "y" : 433.1428571428571,
+        "width" : 30,
+        "x" : 228.3333333333333,
+        "height" : 32
+      },
+      "type" : "image",
+      "name" : "Catcher",
+      "collision_group" : "baddy"
+    },
+    {
+      "traits" : {
+        "BaddyLeft" : {
+          "parameters" : {
+
+          }
+        },
+        "Baddy" : {
+          "parameters" : {
+
+          }
+        }
+      },
+      "id" : "02A1348C-61B4-496A-A02A-76DE6F80BCF5",
+      "code" : [
+
+      ],
+      "physics_body" : "rectangle",
+      "image" : {
+        "path" : "grunt"
+      },
+      "properties" : {
+        "y" : 392.7142857142857,
+        "width" : 30,
+        "x" : 86.11111111111111,
+        "height" : 38
+      },
+      "type" : "image",
+      "name" : "Grunt",
+      "collision_group" : "baddy"
+    },
+    {
+      "traits" : {
+        "BaddyLeft" : {
+          "parameters" : {
+
+          }
+        },
+        "Baddy" : {
+          "parameters" : {
+
+          }
+        }
+      },
+      "id" : "96237848-C315-4326-B73B-51E227252A17",
+      "code" : [
+
+      ],
+      "physics_body" : "rectangle",
+      "image" : {
+        "path" : "grunt"
+      },
+      "properties" : {
+        "y" : 392.7142857142857,
+        "width" : 30,
+        "x" : 121.6666666666667,
+        "height" : 38
+      },
+      "type" : "image",
+      "name" : "Grunt",
+      "collision_group" : "baddy"
+    },
+    {
+      "traits" : {
+        "BaddyLeft" : {
+          "parameters" : {
+
+          }
+        },
+        "Baddy" : {
+          "parameters" : {
+
+          }
+        }
+      },
+      "id" : "41CF410D-513E-41C4-86E3-1ED8F86B4469",
+      "code" : [
+
+      ],
+      "physics_body" : "rectangle",
+      "image" : {
+        "path" : "grunt"
+      },
+      "properties" : {
+        "y" : 392.7142857142857,
+        "width" : 30,
+        "x" : 157.2222222222222,
+        "height" : 38
+      },
+      "type" : "image",
+      "name" : "Grunt",
+      "collision_group" : "baddy"
+    },
+    {
+      "traits" : {
+        "BaddyLeft" : {
+          "parameters" : {
+
+          }
+        },
+        "Baddy" : {
+          "parameters" : {
+
+          }
+        }
+      },
+      "id" : "1DED1678-38D4-48AE-93D3-AF3BDA9466A7",
+      "code" : [
+
+      ],
+      "physics_body" : "rectangle",
+      "image" : {
+        "path" : "grunt"
+      },
+      "properties" : {
+        "y" : 392.7142857142857,
+        "width" : 30,
+        "x" : 192.7777777777778,
+        "height" : 38
+      },
+      "type" : "image",
+      "name" : "Grunt",
+      "collision_group" : "baddy"
+    },
+    {
+      "traits" : {
+        "BaddyLeft" : {
+          "parameters" : {
+
+          }
+        },
+        "Baddy" : {
+          "parameters" : {
+
+          }
+        }
+      },
+      "id" : "270245B0-0C02-4600-9F16-7FE78BDFFBE4",
+      "code" : [
+
+      ],
+      "physics_body" : "rectangle",
+      "image" : {
+        "path" : "grunt"
+      },
+      "properties" : {
+        "y" : 392.7142857142857,
+        "width" : 30,
+        "x" : 228.3333333333333,
+        "height" : 38
+      },
+      "type" : "image",
+      "name" : "Grunt",
+      "collision_group" : "baddy"
+    },
+    {
+      "traits" : {
+        "BaddyRight" : {
+          "parameters" : {
+
+          }
+        },
+        "Baddy" : {
+          "parameters" : {
+
+          }
+        }
+      },
+      "id" : "B462E499-38B3-48D1-BBAE-9295245CEEA0",
+      "code" : [
+
+      ],
+      "physics_body" : "rectangle",
+      "image" : {
+        "path" : "moth"
+      },
+      "properties" : {
+        "y" : 356.7857142857143,
+        "width" : 30,
+        "x" : 86.11111111111111,
+        "height" : 35
+      },
+      "type" : "image",
+      "name" : "Moth",
+      "collision_group" : "baddy"
+    },
+    {
+      "traits" : {
+        "BaddyRight" : {
+          "parameters" : {
+
+          }
+        },
+        "Baddy" : {
+          "parameters" : {
+
+          }
+        }
+      },
+      "id" : "A1930311-0BD2-40B0-8C2D-65F186ECD2DA",
+      "code" : [
+
+      ],
+      "physics_body" : "rectangle",
+      "image" : {
+        "path" : "moth"
+      },
+      "properties" : {
+        "y" : 356.7857142857143,
+        "width" : 30,
+        "x" : 121.6666666666667,
+        "height" : 35
+      },
+      "type" : "image",
+      "name" : "Moth",
+      "collision_group" : "baddy"
+    },
+    {
+      "traits" : {
+        "BaddyRight" : {
+          "parameters" : {
+
+          }
+        },
+        "Baddy" : {
+          "parameters" : {
+
+          }
+        }
+      },
+      "id" : "ED84FC68-8A21-4311-B06F-7985BEF376AC",
+      "code" : [
+
+      ],
+      "physics_body" : "rectangle",
+      "image" : {
+        "path" : "moth"
+      },
+      "properties" : {
+        "y" : 356.7857142857143,
+        "width" : 30,
+        "x" : 157.2222222222222,
+        "height" : 35
+      },
+      "type" : "image",
+      "name" : "Moth",
+      "collision_group" : "baddy"
+    },
+    {
+      "traits" : {
+        "BaddyRight" : {
+          "parameters" : {
+
+          }
+        },
+        "Baddy" : {
+          "parameters" : {
+
+          }
+        }
+      },
+      "id" : "8FF84994-DB52-4969-AA5B-8678AD85791E",
+      "code" : [
+
+      ],
+      "physics_body" : "rectangle",
+      "image" : {
+        "path" : "moth"
+      },
+      "properties" : {
+        "y" : 356.7857142857143,
+        "width" : 30,
+        "x" : 192.7777777777778,
+        "height" : 35
+      },
+      "type" : "image",
+      "name" : "Moth",
+      "collision_group" : "baddy"
+    },
+    {
+      "traits" : {
+        "BaddyRight" : {
+          "parameters" : {
+
+          }
+        },
+        "Baddy" : {
+          "parameters" : {
+
+          }
+        }
+      },
+      "id" : "57651EFA-23BB-40AD-B3EF-1657509B428B",
+      "code" : [
+
+      ],
+      "physics_body" : "rectangle",
+      "image" : {
+        "path" : "moth"
+      },
+      "properties" : {
+        "y" : 356.7857142857143,
+        "width" : 30,
+        "x" : 228.3333333333333,
+        "height" : 35
+      },
+      "type" : "image",
+      "name" : "Moth",
+      "collision_group" : "baddy"
+    },
+    {
+      "traits" : {
+        "BaddyLeft" : {
+          "parameters" : {
+
+          }
+        },
+        "Baddy" : {
+          "parameters" : {
+
+          }
+        }
+      },
+      "id" : "A59070ED-BC1E-4A0E-B6CB-B1879FC9EC28",
+      "code" : [
+
+      ],
+      "physics_body" : "rectangle",
+      "image" : {
+        "path" : "dragonfly"
+      },
+      "properties" : {
+        "y" : 323.3571428571428,
+        "width" : 30,
+        "x" : 86.11111111111111,
+        "height" : 27
+      },
+      "type" : "image",
+      "name" : "Dragonfly",
+      "collision_group" : "baddy"
+    },
+    {
+      "traits" : {
+        "BaddyLeft" : {
+          "parameters" : {
+
+          }
+        },
+        "Baddy" : {
+          "parameters" : {
+
+          }
+        }
+      },
+      "id" : "5B05CF2E-CB74-4288-AD77-CBDE39733D3D",
+      "code" : [
+
+      ],
+      "physics_body" : "rectangle",
+      "image" : {
+        "path" : "dragonfly"
+      },
+      "properties" : {
+        "y" : 323.3571428571428,
+        "width" : 30,
+        "x" : 121.6666666666667,
+        "height" : 27
+      },
+      "type" : "image",
+      "name" : "Dragonfly",
+      "collision_group" : "baddy"
+    },
+    {
+      "traits" : {
+        "BaddyLeft" : {
+          "parameters" : {
+
+          }
+        },
+        "Baddy" : {
+          "parameters" : {
+
+          }
+        }
+      },
+      "id" : "CAC04CED-123D-40F3-9E7A-2747DB3BF840",
+      "code" : [
+
+      ],
+      "physics_body" : "rectangle",
+      "image" : {
+        "path" : "dragonfly"
+      },
+      "properties" : {
+        "y" : 323.3571428571428,
+        "width" : 30,
+        "x" : 157.2222222222222,
+        "height" : 27
+      },
+      "type" : "image",
+      "name" : "Dragonfly",
+      "collision_group" : "baddy"
+    },
+    {
+      "traits" : {
+        "BaddyLeft" : {
+          "parameters" : {
+
+          }
+        },
+        "Baddy" : {
+          "parameters" : {
+
+          }
+        }
+      },
+      "id" : "29DF45A9-B95B-4AC0-B128-788B05817835",
+      "code" : [
+
+      ],
+      "physics_body" : "rectangle",
+      "image" : {
+        "path" : "dragonfly"
+      },
+      "properties" : {
+        "y" : 323.3571428571428,
+        "width" : 30,
+        "x" : 192.7777777777778,
+        "height" : 27
+      },
+      "type" : "image",
+      "name" : "Dragonfly",
+      "collision_group" : "baddy"
+    },
+    {
+      "traits" : {
+        "BaddyLeft" : {
+          "parameters" : {
+
+          }
+        },
+        "Baddy" : {
+          "parameters" : {
+
+          }
+        }
+      },
+      "id" : "10E641DE-B1C1-4FE5-82A2-B8E1695E4D74",
+      "code" : [
+
+      ],
+      "physics_body" : "rectangle",
+      "image" : {
+        "path" : "dragonfly"
+      },
+      "properties" : {
+        "y" : 323.3571428571428,
+        "width" : 30,
+        "x" : 228.3333333333333,
+        "height" : 27
+      },
+      "type" : "image",
+      "name" : "Dragonfly",
+      "collision_group" : "baddy"
+    },
+    {
+      "traits" : {
+        "BaddyLeft" : {
+          "parameters" : {
+
+          }
+        },
+        "Baddy" : {
+          "parameters" : {
+
+          }
+        }
+      },
+      "id" : "D5CE1B40-99E9-48AC-A3CD-D94188D6C7C6",
+      "code" : [
+
+      ],
+      "physics_body" : "rectangle",
+      "image" : {
+        "path" : "deathmite"
+      },
+      "properties" : {
+        "y" : 472.0714285714286,
+        "width" : 30,
+        "x" : 263.8888888888889,
+        "height" : 29
+      },
+      "type" : "image",
+      "name" : "Deathmite",
+      "collision_group" : "baddy"
+    },
+    {
+      "traits" : {
+        "BaddyRight" : {
+          "parameters" : {
+
+          }
+        },
+        "Baddy" : {
+          "parameters" : {
+
+          }
+        }
+      },
+      "id" : "15543AA0-DB8A-4551-A846-C5ADA8152537",
+      "code" : [
+
+      ],
+      "physics_body" : "rectangle",
+      "image" : {
+        "path" : "catcher"
+      },
+      "properties" : {
+        "y" : 433.1428571428571,
+        "width" : 30,
+        "x" : 263.8888888888889,
+        "height" : 32
+      },
+      "type" : "image",
+      "name" : "Catcher",
+      "collision_group" : "baddy"
+    },
+    {
+      "traits" : {
+        "BaddyLeft" : {
+          "parameters" : {
+
+          }
+        },
+        "Baddy" : {
+          "parameters" : {
+
+          }
+        }
+      },
+      "id" : "29CA519C-8EDD-437F-A327-964AF68C7BF5",
+      "code" : [
+
+      ],
+      "physics_body" : "rectangle",
+      "image" : {
+        "path" : "grunt"
+      },
+      "properties" : {
+        "y" : 392.7142857142857,
+        "width" : 30,
+        "x" : 263.8888888888889,
+        "height" : 38
+      },
+      "type" : "image",
+      "name" : "Grunt",
+      "collision_group" : "baddy"
+    },
+    {
+      "traits" : {
+        "BaddyRight" : {
+          "parameters" : {
+
+          }
+        },
+        "Baddy" : {
+          "parameters" : {
+
+          }
+        }
+      },
+      "id" : "AC3174F8-F54D-42FF-A995-AD7EDEE8E61B",
+      "code" : [
+
+      ],
+      "physics_body" : "rectangle",
+      "image" : {
+        "path" : "moth"
+      },
+      "properties" : {
+        "y" : 356.7857142857143,
+        "width" : 30,
+        "x" : 263.8888888888889,
+        "height" : 35
+      },
+      "type" : "image",
+      "name" : "Moth",
+      "collision_group" : "baddy"
+    },
+    {
+      "traits" : {
+        "BaddyLeft" : {
+          "parameters" : {
+
+          }
+        },
+        "Baddy" : {
+          "parameters" : {
+
+          }
+        }
+      },
+      "id" : "0EC682F4-47ED-4D7F-B667-FE2F27F83D24",
+      "code" : [
+
+      ],
+      "physics_body" : "rectangle",
+      "image" : {
+        "path" : "dragonfly"
+      },
+      "properties" : {
+        "y" : 323.3571428571428,
+        "width" : 30,
+        "x" : 263.8888888888889,
+        "height" : 27
+      },
+      "type" : "image",
+      "name" : "Dragonfly",
+      "collision_group" : "baddy"
     }
   ]
 }

@@ -1,0 +1,60 @@
+{
+  "suite": [
+    { "set": ["#name", 1] },
+    { "set": ["blah", "#value"] },
+    { "set": ["#blah", "#value"] },
+    { "set": ["this", "that"] },
+    {
+      "on_event": {
+        "name": "#this",
+        "parameters": [],
+        "code": []
+      }
+    },
+    {
+      "on_event": {
+        "name": "this",
+        "parameters": [],
+        "code": []
+      }
+    },
+    {
+      "trigger_event": {
+        "name": "#this",
+        "parameters": {}
+      }
+    },
+    {
+      "trigger_event": {
+        "name": "this",
+        "parameters": {}
+      }
+    },
+    {
+      "if": {
+        "test": "#this",
+        "true": [],
+        "false": []
+      }
+    },
+    {
+      "if": {
+        "test": true,
+        "true": [],
+        "false": []
+      }
+    },
+    {
+      "call": {
+        "method": "foo",
+        "parameters": ["foo", "#this", "that"]
+      }
+    },
+    {
+      "call": {
+        "method": "foo",
+        "parameters": ["foo", "this", "that"]
+      }
+    }
+  ]
+}

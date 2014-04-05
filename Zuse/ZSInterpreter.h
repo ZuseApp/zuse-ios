@@ -16,6 +16,10 @@
 objectWithIdentifier:(NSString *)identifier
  didUpdateProperties:(NSDictionary *)properties;
 
+
+- (BOOL) interpreter:(ZSInterpreter *)interpreter shouldDelegateProperty:(NSString *)property objectIdentifier:(NSString *)identifier;
+- (id)interpreter:(ZSInterpreter *)interpreter valueForProperty:(NSString *)property objectIdentifier:(NSString *)identifier;
+
 @end
 
 @interface ZSInterpreter : NSObject
@@ -43,7 +47,7 @@ objectWithIdentifier:(NSString *)identifier
  *  context, which any object is allowed to call from anywhere in their code. The dictionary
  *  should be structured like so:
  *
- *  [_interpreter loadMethod: @{
+ *  [interpreter loadMethod: @{
  *      @"method":  @"method name",
  *      @"block": ^id(NSString *identifier, NSArray *args) { ... } 
  *  }];
@@ -102,7 +106,7 @@ onObjectWithIdentifier:(NSString *)objectID
  *
  *  @return Dictionary of objects
  */
-- (NSDictionary *)objects;
+- (NSDictionary *)allObjects;
 
 /**
  *  Removes object registered with `identifier` from the context of the interpreter.

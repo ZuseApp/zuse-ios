@@ -14,4 +14,12 @@
     return [self stringValue];
 }
 
+- (NSNumber *)coercedNumber {
+    return self;
+}
+
+- (NSNumber *)coercedBool {
+    return @(self.boolValue);
+}
+
 @end

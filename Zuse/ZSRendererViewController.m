@@ -44,8 +44,11 @@
     self.SKView.showsNodeCount = YES;
     
     // The bounds are the wrong size.  Eventually pull it out of JSON, but hard set it for now.
+    NSArray *sizeArray = self.projectJSON[@"canvas_size"];
+    CGSize projectSize = CGSizeMake([sizeArray[0] floatValue], [sizeArray[1] floatValue]);
+    
     CGRect bounds = self.SKView.bounds;
-    bounds.size = CGSizeMake(320, 524);
+    bounds.size = projectSize;
     self.SKView.bounds = bounds;
 }
 

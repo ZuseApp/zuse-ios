@@ -11,5 +11,7 @@
 @interface NSString (Zuse)
 
 - (NSString *)coercedString;
+- (NSNumber *)coercedNumber;
+- (NSNumber *)coercedBool;
 
 @end

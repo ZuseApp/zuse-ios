@@ -27,4 +27,16 @@
  */
 - (NSDictionary *)compiledJSON;
 
+/**
+ *
+ * Turns a Zuse iOS app-specific object, that might have a physics body/etc., into just the things
+ * the interpreter needs and turns them into 'object' statements that the interpreter natively
+ * understands.
+ *
+ *  @param objects Project JSON-specific objects
+ *
+ *  @return Array of `object` statements from the Zuse IR
+ */
++ (NSArray *)zuseIRObjectsFromDSLObjects:(NSArray *)objects;
+
 @end

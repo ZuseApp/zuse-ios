@@ -3,7 +3,7 @@
 #import <FontAwesomeKit/FAKIonIcons.h>
 #import <FontAwesomeKit/FAKFontAwesome.h>
 
-CGFloat const DefaultSize = 30;
+CGFloat const DefaultSize = 33;
 
 @interface ZSCanvasBarButtonItem ()
 
@@ -54,7 +54,7 @@ CGFloat const DefaultSize = 30;
 }
 
 + (ZSCanvasBarButtonItem *)generatorsButtonWithHandler:(void (^)())handler {
-    FAKIcon *icon = [self styledIcon:[FAKIonIcons nuclearIconWithSize:DefaultSize]];
+    FAKIcon *icon = [self styledIcon:[FAKIonIcons ios7BrowsersIconWithSize:DefaultSize]];
     return [self buttonWithIcon:icon tapHandler:handler];
 }
 
@@ -64,7 +64,7 @@ CGFloat const DefaultSize = 30;
 }
 
 + (ZSCanvasBarButtonItem *)groupsButtonWithHandler:(void (^)())handler {
-    FAKIcon *icon = [self styledIcon:[FAKIonIcons ios7BrowsersIconWithSize:DefaultSize]];
+    FAKIcon *icon = [self styledIcon:[FAKIonIcons pricetagsIconWithSize:DefaultSize]];
     return [self buttonWithIcon:icon tapHandler:handler];
 }
 
@@ -134,7 +134,7 @@ CGFloat const DefaultSize = 30;
 }
 
 + (ZSCanvasBarButtonItem *)collisionsButtonWithHandler:(void (^)())handler {
-    FAKIcon *icon = [self styledIcon:[FAKIonIcons flashIconWithSize:DefaultSize]];
+    FAKIcon *icon = [self styledIcon:[FAKIonIcons pricetagIconWithSize:DefaultSize]];
     return [self buttonWithIcon:icon tapHandler:handler];
 }
 
@@ -149,7 +149,7 @@ CGFloat const DefaultSize = 30;
 }
 
 + (ZSCanvasBarButtonItem *)addButtonWithHandler:(void (^)())handler {
-    FAKIcon *icon = [self styledIcon:[FAKIonIcons ios7PlusIconWithSize:DefaultSize]];
+    FAKIcon *icon = [self styledIcon:[FAKIonIcons ios7PlusEmptyIconWithSize:DefaultSize]];
     return [self buttonWithIcon:icon tapHandler:handler];
 }
 

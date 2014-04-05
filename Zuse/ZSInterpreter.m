@@ -9,6 +9,8 @@
 #import "ZSInterpreter.h"
 #import "ZSExecutionContext.h"
 #import "BlocksKit.h"
+#import "NSString+Zuse.h"
+#import "NSNumber+Zuse.h"
 
 @interface ZSInterpreter ()
 
@@ -52,7 +54,7 @@
     NSDictionary *obj = [self blankObject];
     [self loadObject:obj];
     ZSExecutionContext *context = [ZSExecutionContext contextWithObjectId:obj[@"id"]
-                                                              environment:_properties[obj[@"id"]]];
+                                                              environment:self.properties[obj[@"id"]]];
     return [self runJSON:JSON context:context];
 }
 
@@ -64,7 +66,7 @@
     NSDictionary *obj = [self blankObject];
     [self loadObject:obj];
     ZSExecutionContext *context = [ZSExecutionContext contextWithObjectId:obj[@"id"]
-                                                              environment:_properties[obj[@"id"]]];
+                                                              environment:self.properties[obj[@"id"]]];
     return [self runSuite:suite context:context];
 }
 
@@ -94,12 +96,12 @@
         // already in the data store so that nested scopes update their
         // outer-scopes
         if (identifier)
-            _dataStore[identifier] = newValue;
+            self.dataStore[identifier] = newValue;
         else
             context.environment[data[0]] = [self IDForStoringValue:newValue];
         
-        if (_delegate) {
-            [_delegate interpreter:self
+        if (self.delegate) {
+            [self.delegate interpreter:self
               objectWithIdentifier:context.objectID
                didUpdateProperties:@{ data[0]: newValue }];
         }
@@ -114,7 +116,13 @@
     }
     
     else if ([key isEqualToString:@"on_event"]) {
-        [_events[context.objectID] setObject:@{ @"code": data[@"code"], @"context": context } forKey:data[@"name"]];
+        NSMutableArray *events = self.events[context.objectID][data[@"name"]];
+        if (!events) {
+            events = [NSMutableArray array];
+            self.events[context.objectID][data[@"name"]] = events;
+        }
+        
+        [events addObject:@{ @"code": data[@"code"], @"context": context }];
     }
     
     else if ([key isEqualToString:@"trigger_event"]) {
@@ -130,7 +138,7 @@
 
 - (NSString *)IDForStoringValue:(id)value {
     NSString *UUID = [[NSUUID UUID] UUIDString];
-    _dataStore[UUID] = value;
+    self.dataStore[UUID] = value;
     return UUID;
 }
 
@@ -163,7 +171,7 @@
         }];
 
         if (code[@"async"] && [code[@"async"] boolValue]) {
-            void (^method)(NSString *, NSArray *, void(^)(id)) = _methods[code[@"method"]];
+            void (^method)(NSString *, NSArray *, void(^)(id)) = self.methods[code[@"method"]];
 
             __block id returnValue = nil;
             method(context.objectID, params, ^void(id obj){
@@ -176,7 +184,7 @@
             
             return returnValue;
         } else {
-            id (^method)(NSString *, NSArray *) = _methods[code[@"method"]];
+            id (^method)(NSString *, NSArray *) = self.methods[code[@"method"]];
             return method(context.objectID, params);
         }
     }
@@ -192,10 +200,14 @@
     }
 
     else if ([key isEqualToString:@"get"]) {
-        NSString *identifier = context.environment[code];
-        if (!identifier)
-            NSLog(@"ZSInterpreter#evaluateExpression:context: - Attempt to access unknown variable: %@", code);
-        return _dataStore[identifier];
+        if ([self.delegate interpreter:self shouldDelegateProperty:code objectIdentifier:context.objectID]) {
+            return [self.delegate interpreter:self valueForProperty:code objectIdentifier:context.objectID];
+        } else {
+            NSString *identifier = context.environment[code];
+            if (!identifier)
+                NSLog(@"ZSInterpreter#evaluateExpression:context: - Attempt to access unknown variable: %@", code);
+            return self.dataStore[identifier];
+        }
     }
     
     else {
@@ -209,123 +221,89 @@
     NSString *key = [expression allKeys][0];
     id code = expression[key];
     
-    if ([key isEqualToString:@"+"]) {
-        CGFloat first = [[self evaluateExpression:code[0] context:context] floatValue];
-        CGFloat second = [[self evaluateExpression:code[1] context:context] floatValue];
-        
-        return @(first + second);
+    static NSDictionary *values = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        values = @{
+            @"+": ^id(CGFloat first, CGFloat second) { return @(first + second); },
+            @"-": ^id(CGFloat first, CGFloat second) { return @(first - second); },
+            @"*": ^id(CGFloat first, CGFloat second) { return @(first * second); },
+            @"/": ^id(CGFloat first, CGFloat second) { return @(first / (second ?: 1)); },
+            @"%": ^id(CGFloat first, CGFloat second) { return @((NSInteger)first % (NSInteger)second); }
+        };
+    });
+    
+    id(^function)(CGFloat, CGFloat) = values[key];
+    
+    if (function) {
+        CGFloat first =  [[[self evaluateExpression:code[0] context:context] coercedNumber] floatValue];
+        CGFloat second = [[[self evaluateExpression:code[1] context:context] coercedNumber] floatValue];
+        return function(first, second);
     }
     
-    else if ([key isEqualToString:@"-"]) {
-        CGFloat first = [[self evaluateExpression:code[0] context:context] floatValue];
-        CGFloat second = [[self evaluateExpression:code[1] context:context] floatValue];
-        
-        return @(first - second);
-    }
-    
-    else if ([key isEqualToString:@"*"]) {
-        CGFloat first = [[self evaluateExpression:code[0] context:context] floatValue];
-        CGFloat second = [[self evaluateExpression:code[1] context:context] floatValue];
-        
-        return @(first * second);
-    }
-    
-    else if ([key isEqualToString:@"/"]) {
-        CGFloat first = [[self evaluateExpression:code[0] context:context] floatValue];
-        CGFloat second = [[self evaluateExpression:code[1] context:context] floatValue];
-        
-        return @(first / second);
-    }
-    
-    else {
-        return nil;
-    }
+    return nil;
 }
 
 - (id)evaluateBooleanExpression:(id)expression context:(ZSExecutionContext *)context {
     NSString *key = [expression allKeys][0];
     id code = expression[key];
     
-    if ([key isEqualToString:@"=="]) {
-        id firstExpression = [self evaluateExpression:code[0] context:context];
-        id secondExpression = [self evaluateExpression:code[1] context:context];
-        
-        if ([firstExpression isEqual:secondExpression])
-            return @YES;
-        else
-            return @NO;
+    
+    static NSDictionary *equalityValues = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        equalityValues = @{
+            @"==": ^id(id first, id second) { return @([first isEqual:second]); },
+            @"!=": ^id(id first, id second) { return @(![first isEqual:second]); }
+        };
+    });
+    
+    id(^equalityFunction)(id, id) = equalityValues[key];
+    
+    if (equalityFunction) {
+        id first = [self evaluateExpression:code[0] context:context];
+        id second = [self evaluateExpression:code[1] context:context];
+        return equalityFunction(first, second);
     }
     
-    if ([key isEqualToString:@"!="]) {
-        id firstExpression = [self evaluateExpression:code[0] context:context];
-        id secondExpression = [self evaluateExpression:code[1] context:context];
-        
-        if ([firstExpression isEqual:secondExpression])
-            return @NO;
-        else
-            return @YES;
+    static NSDictionary *comparisonValues = nil;
+    static dispatch_once_t comparisonOnceToken;
+    dispatch_once(&comparisonOnceToken, ^{
+        comparisonValues = @{
+            @"<":  ^id(CGFloat first, CGFloat second) { return @(first < second); },
+            @">":  ^id(CGFloat first, CGFloat second) { return @(first > second); },
+            @"<=": ^id(CGFloat first, CGFloat second) { return @(first <= second); },
+            @">=": ^id(CGFloat first, CGFloat second) { return @(first >= second); },
+        };
+    });
+    
+    
+    id(^comparisonFunction)(CGFloat, CGFloat) = comparisonValues[key];
+    
+    if (comparisonFunction) {
+        CGFloat first = [[[self evaluateExpression:code[0] context:context] coercedNumber] floatValue];
+        CGFloat second = [[[self evaluateExpression:code[1] context:context] coercedNumber] floatValue];
+        return comparisonFunction(first, second);
     }
     
-    else if ([key isEqualToString:@"<"]) {
-        CGFloat firstExpression = [[self evaluateExpression:code[0] context:context] floatValue];
-        CGFloat secondExpression = [[self evaluateExpression:code[1] context:context] floatValue];
-        
-        if (firstExpression < secondExpression)
-            return @YES;
-        else
-            return @NO;
-    }
-    
-    else if ([key isEqualToString:@">"]) {
-        CGFloat firstExpression = [[self evaluateExpression:code[0] context:context] floatValue];
-        CGFloat secondExpression = [[self evaluateExpression:code[1] context:context] floatValue];
-        
-        if (firstExpression > secondExpression)
-            return @YES;
-        else
-            return @NO;
-    }
-    
-    else if ([key isEqualToString:@"<="]) {
-        CGFloat firstExpression = [[self evaluateExpression:code[0] context:context] floatValue];
-        CGFloat secondExpression = [[self evaluateExpression:code[1] context:context] floatValue];
-        
-        if (firstExpression <= secondExpression)
-            return @YES;
-        else
-            return @NO;
-    }
-    
-    else if ([key isEqualToString:@">="]) {
-        CGFloat firstExpression = [[self evaluateExpression:code[0] context:context] floatValue];
-        CGFloat secondExpression = [[self evaluateExpression:code[1] context:context] floatValue];
-        
-        if (firstExpression >= secondExpression)
-            return @YES;
-        else
-            return @NO;
-    }
-    
-    else {
-        return nil;
-    }
+    return nil;
 }
 
 - (void)loadMethod:(NSDictionary *)method {
-    [_methods setObject:method[@"block"] forKey:method[@"method"]];
+    [self.methods setObject:method[@"block"] forKey:method[@"method"]];
 }
 
 - (void)loadObject:(NSDictionary *)obj {
-    [_events setObject:[NSMutableDictionary dictionary] forKey:obj[@"id"]];
-    [_properties setObject:[self dictionaryForStoringDictionary:obj[@"properties"]] forKey:obj[@"id"]];
-    [_objects setObject:obj forKey:obj[@"id"]];
+    [self.events setObject:[NSMutableDictionary dictionary] forKey:obj[@"id"]];
+    [self.properties setObject:[self dictionaryForStoringDictionary:obj[@"properties"]] forKey:obj[@"id"]];
+    [self.objects setObject:obj forKey:obj[@"id"]];
     ZSExecutionContext *context = [ZSExecutionContext contextWithObjectId:obj[@"id"]
-                                                              environment:_properties[obj[@"id"]]];
+                                                              environment:self.properties[obj[@"id"]]];
     [self runSuite:obj[@"code"] context:context];
 }
 
 - (void)triggerEvent:(NSString *)event {
-    [_objects each:^(id key, id obj) {
+    [self.objects each:^(id key, id obj) {
         [self triggerEvent:event onObjectWithIdentifier:key parameters:@{}];
     }];
 }
@@ -336,7 +314,7 @@
 
 - (void)triggerEvent:(NSString *)event
           parameters:(NSDictionary *)parameters {
-    [_objects each:^(id key, id obj) {
+    [self.objects each:^(id key, id obj) {
         [self triggerEvent:event onObjectWithIdentifier:key parameters:parameters];
     }];
 }
@@ -344,17 +322,19 @@
 - (void)  triggerEvent:(NSString *)event
 onObjectWithIdentifier:(NSString *)objectID
             parameters:(NSDictionary *)parameters {
-    NSMutableDictionary *environment = [[_events[objectID][event][@"context"] environment] mutableCopy];
-    [environment addEntriesFromDictionary:[self dictionaryForStoringDictionary:parameters]];
-    ZSExecutionContext *newContext = [ZSExecutionContext contextWithObjectId:objectID
-                                                                 environment:environment];
-    [self runSuite:_events[objectID][event][@"code"] context:newContext];
+    [self.events[objectID][event] each:^(NSDictionary *event) {
+        NSMutableDictionary *environment = [[event[@"context"] environment] mutableCopy];
+        [environment addEntriesFromDictionary:[self dictionaryForStoringDictionary:parameters]];
+        ZSExecutionContext *newContext = [ZSExecutionContext contextWithObjectId:objectID
+                                                                     environment:environment];
+        [self runSuite:event[@"code"] context:newContext];
+    }];
 }
 
 - (void)removeObjectWithIdentifier:(NSString *)identifier {
-    [_objects removeObjectForKey:identifier];
-    [_events removeObjectForKey:identifier];
-    [_properties removeObjectForKey:identifier];
+    [self.objects removeObjectForKey:identifier];
+    [self.events removeObjectForKey:identifier];
+    [self.properties removeObjectForKey:identifier];
 }
 
 /*
@@ -367,8 +347,8 @@ onObjectWithIdentifier:(NSString *)objectID
    }
  }
 */
-- (NSDictionary *)objects {
-    return [_objects map:^id(id key, id obj) {
+- (NSDictionary *)allObjects {
+    return [self.objects map:^id(id key, id obj) {
         return obj[@"properties"];
     }];
 }

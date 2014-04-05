@@ -11,7 +11,10 @@
 
 @interface ZSTraitEditorViewController : UIViewController
 
-@property (strong, nonatomic) NSMutableDictionary *traits;
-@property (strong, nonatomic) NSMutableDictionary *traitImplementations;
+@property (strong, nonatomic) NSMutableDictionary *enabledSpriteTraits;
+@property (strong, nonatomic) NSMutableDictionary *projectTraits;
+@property (strong, nonatomic) NSDictionary *globalTraits;
+
+- (void)addTapped:(id)sender;
 
 @end

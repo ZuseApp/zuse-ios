@@ -20,7 +20,7 @@
 - (void)setUp
 {
     [super setUp];
-    _interpreter = [[ZSInterpreter alloc] init];
+    self.interpreter = [[ZSInterpreter alloc] init];
 }
 
 - (NSDictionary *)loadTestFileAtPath:(NSString *)path {
@@ -39,32 +39,50 @@
 
 - (void)testAddition {
     NSDictionary *program = @{ @"+": @[ @1, @2 ] };
-    NSNumber *result = [_interpreter runJSON:program];
+    NSNumber *result = [self.interpreter runJSON:program];
     XCTAssertEqualObjects(result, @3, @"");
+}
+
+- (void)testAdditionCoercion {
+    NSDictionary *program = @{ @"+": @[ @1, @"hi" ] };
+    NSNumber *result = [self.interpreter runJSON:program];
+    XCTAssertEqualObjects(result, @1, @"");
 }
 
 - (void)testSubtraction {
     NSDictionary *program = @{ @"-": @[ @1, @2 ] };
-    NSNumber *result = [_interpreter runJSON:program];
+    NSNumber *result = [self.interpreter runJSON:program];
     XCTAssertEqualObjects(result, @(-1), @"");
 }
 
 - (void)testMultiplication {
     NSDictionary *program = @{ @"*": @[ @7, @2 ] };
-    NSNumber *result = [_interpreter runJSON:program];
+    NSNumber *result = [self.interpreter runJSON:program];
     XCTAssertEqualObjects(result, @14, @"");
 }
 
 - (void)testDivision {
     NSDictionary *program = @{ @"/": @[ @10, @2 ] };
-    NSNumber *result = [_interpreter runJSON:program];
+    NSNumber *result = [self.interpreter runJSON:program];
     XCTAssertEqualObjects(result, @5, @"");
+}
+
+- (void)testDivisionByZeroCoercesToOne {
+    NSDictionary *program = @{ @"/": @[ @10, @0 ] };
+    NSNumber *result = [self.interpreter runJSON:program];
+    XCTAssertEqualObjects(result, @10, @"");
 }
 
 - (void)testDivisionFloatingPoint {
     NSDictionary *program = @{ @"/": @[ @11, @2 ] };
-    NSNumber *result = [_interpreter runJSON:program];
+    NSNumber *result = [self.interpreter runJSON:program];
     XCTAssertEqualObjects(result, @5.5, @"");
+}
+
+- (void)testModulo {
+    NSDictionary *program = @{ @"%": @[ @1, @2 ] };
+    NSNumber *result = [self.interpreter runJSON:program];
+    XCTAssertEqualObjects(result, @1, @"");
 }
 
 
@@ -75,93 +93,93 @@
 
 - (void)testIsEqualNumber {
     NSDictionary *program = @{ @"==": @[ @2, @2 ] };
-    NSNumber *result = [_interpreter runJSON:program];
+    NSNumber *result = [self.interpreter runJSON:program];
     XCTAssertEqualObjects(result, @YES, @"");
 }
 
 - (void)testIsEqualNumberFails {
     NSDictionary *program = @{ @"==": @[ @3, @2 ] };
-    NSNumber *result = [_interpreter runJSON:program];
+    NSNumber *result = [self.interpreter runJSON:program];
     XCTAssertEqualObjects(result, @NO, @"");
 }
 
 - (void)testIsEqualString {
     NSDictionary *program = @{ @"==": @[ @"foo", @"foo" ] };
-    NSNumber *result = [_interpreter runJSON:program];
+    NSNumber *result = [self.interpreter runJSON:program];
     XCTAssertEqualObjects(result, @YES, @"");
 }
 
 - (void)testIsEqualStringFails {
     NSDictionary *program = @{ @"==": @[ @"foo", @"bar" ] };
-    NSNumber *result = [_interpreter runJSON:program];
+    NSNumber *result = [self.interpreter runJSON:program];
     XCTAssertEqualObjects(result, @NO, @"");
 }
 
 - (void)testIsNotEqual {
     NSDictionary *program = @{ @"!=": @[ @"foo", @"bar" ] };
-    NSNumber *result = [_interpreter runJSON:program];
+    NSNumber *result = [self.interpreter runJSON:program];
     XCTAssertEqualObjects(result, @YES, @"");
 }
 
 - (void)testIsNotEqualFails {
     NSDictionary *program = @{ @"!=": @[ @"foo", @"foo" ] };
-    NSNumber *result = [_interpreter runJSON:program];
+    NSNumber *result = [self.interpreter runJSON:program];
     XCTAssertEqualObjects(result, @NO, @"");
 }
 
 - (void)testLessThan {
     NSDictionary *program = @{ @"<": @[ @2.1, @2.2 ] };
-    NSNumber *result = [_interpreter runJSON:program];
+    NSNumber *result = [self.interpreter runJSON:program];
     XCTAssertEqualObjects(result, @YES, @"");
     
     program = @{ @"<": @[ @2.3, @2.2 ] };
-    result = [_interpreter runJSON:program];
+    result = [self.interpreter runJSON:program];
     XCTAssertEqualObjects(result, @NO, @"");
     
     program = @{ @"<": @[ @2.2, @2.2 ] };
-    result = [_interpreter runJSON:program];
+    result = [self.interpreter runJSON:program];
     XCTAssertEqualObjects(result, @NO, @"");
 }
 
 - (void)testGreaterThan {
     NSDictionary *program = @{ @">": @[ @2.1, @2.2 ] };
-    NSNumber *result = [_interpreter runJSON:program];
+    NSNumber *result = [self.interpreter runJSON:program];
     XCTAssertEqualObjects(result, @NO, @"");
     
     program = @{ @">": @[ @2.3, @2.2 ] };
-    result = [_interpreter runJSON:program];
+    result = [self.interpreter runJSON:program];
     XCTAssertEqualObjects(result, @YES, @"");
     
     program = @{ @">": @[ @2.2, @2.2 ] };
-    result = [_interpreter runJSON:program];
+    result = [self.interpreter runJSON:program];
     XCTAssertEqualObjects(result, @NO, @"");
 }
 
 - (void)testLessThanOrEqual {
     NSDictionary *program = @{ @"<=": @[ @2.1, @2.2 ] };
-    NSNumber *result = [_interpreter runJSON:program];
+    NSNumber *result = [self.interpreter runJSON:program];
     XCTAssertEqualObjects(result, @YES, @"");
     
     program = @{ @"<=": @[ @2.3, @2.2 ] };
-    result = [_interpreter runJSON:program];
+    result = [self.interpreter runJSON:program];
     XCTAssertEqualObjects(result, @NO, @"");
     
     program = @{ @"<=": @[ @2.2, @2.2 ] };
-    result = [_interpreter runJSON:program];
+    result = [self.interpreter runJSON:program];
     XCTAssertEqualObjects(result, @YES, @"");
 }
 
 - (void)testGreaterThanOrEqual {
     NSDictionary *program = @{ @">=": @[ @2.1, @2.2 ] };
-    NSNumber *result = [_interpreter runJSON:program];
+    NSNumber *result = [self.interpreter runJSON:program];
     XCTAssertEqualObjects(result, @NO, @"");
     
     program = @{ @">=": @[ @2.3, @2.2 ] };
-    result = [_interpreter runJSON:program];
+    result = [self.interpreter runJSON:program];
     XCTAssertEqualObjects(result, @YES, @"");
     
     program = @{ @">=": @[ @2.2, @2.2 ] };
-    result = [_interpreter runJSON:program];
+    result = [self.interpreter runJSON:program];
     XCTAssertEqualObjects(result, @YES, @"");
 }
 
@@ -171,13 +189,13 @@
 
 - (void)testNestedExpression {
     NSDictionary *program = @{
-                    @"+": @[
-                        @{ @"+": @[ @1, @1 ] },
-                        @{ @"+": @[ @2, @2 ] }
-                    ]
+        @"+": @[
+            @{ @"+": @[ @1, @1 ] },
+            @{ @"+": @[ @2, @2 ] }
+        ]
     };
     
-    NSNumber *returnValue = [_interpreter runJSON:program];
+    NSNumber *returnValue = [self.interpreter runJSON:program];
     
     XCTAssertEqualObjects(@6, returnValue, @"");
 }

@@ -9,6 +9,7 @@
 #import "ZSCompiler.h"
 #import "BlocksKit.h"
 #import "ZSCodeTraverser.h"
+#import "ZSCodeNormalizer.h"
 #import "ZSCodeTransforms.h"
 
 @interface ZSCompiler ()
@@ -30,28 +31,26 @@
 }
 
 - (NSDictionary *)compiledJSON {
-    NSMutableDictionary *traits = _projectJSON[@"traits"];
+    NSArray *newObjects = self.projectJSON[@"objects"];
     
-    NSArray *newObjects = _projectJSON[@"objects"];
-    
+    NSMutableDictionary *traits = self.projectJSON[@"traits"];
     if (traits) {
         newObjects = [self objectsByInliningTraits:traits
                                            objects:newObjects];
     }
     
-    newObjects = [self inlinedObjectsForObjects:newObjects];
+    newObjects = [self.class zuseIRObjectsFromDSLObjects:newObjects];
     
     NSDictionary *code = @{ @"suite": newObjects };
-    
-    code = [ZSCodeTraverser codeItemByTransformingCodeItem:code
-                                                   withKey:@"every"
-                                                    usingBlock:ZSCodeTransformEveryBlock];
+
+    code = [ZSCodeNormalizer normalizedCodeItem:code];
+    code = [ZSCodeTraverser map:code onKeys:@[@"every"] block:ZSCodeTransformEveryBlock];
     
     return code;
 }
 
 - (NSArray *)objectsByInliningTraits:(NSDictionary *)traits objects:(NSArray *)objects {
-    NSArray *newObjects = [_projectJSON[@"objects"] map:^id(NSDictionary *object) {
+    NSArray *newObjects = [self.projectJSON[@"objects"] map:^id(NSDictionary *object) {
         NSMutableDictionary *newObject = [object mutableCopy];
         if (!newObject[@"code"])
             newObject[@"code"] = [NSMutableArray array];
@@ -104,7 +103,7 @@
  *
  *  @return Array of `object` statements from the Zuse IR
  */
-- (NSArray *)inlinedObjectsForObjects:(NSArray *)objects {
++ (NSArray *)zuseIRObjectsFromDSLObjects:(NSArray *)objects {
     NSArray *newObjects = [objects map:^id(NSDictionary *obj) {
         return @{
             @"object": @{

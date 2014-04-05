@@ -73,6 +73,8 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
 // Grid
 @property (assign, nonatomic) BOOL gridSliderShowing;
 @property (weak, nonatomic) IBOutlet UIView *gridSlider;
+@property (weak, nonatomic) IBOutlet UILabel *smallGridLabel;
+@property (weak, nonatomic) IBOutlet UILabel *gridLabel;
 
 @end
 
@@ -97,6 +99,7 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
     [super viewDidLoad];
     
     // Load the project if it exists.
+    CGFloat scale = 1;
     if (_project) {
         // Setup pieces of the canvas.
         [self setupCanvas];
@@ -104,8 +107,31 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
         [self setupToolbar];
         [self setupToolbox];
         
+        // Setup aspect ratio of project based on the size of the phone.
+        CGRect canvasFrames = [[UIScreen mainScreen] bounds];
+        canvasFrames.size.height -= 44;
+        self.canvasView.frame = canvasFrames;
+        self.rendererView.frame = canvasFrames;
+        self.generatorView.frame = canvasFrames;
+        
+        CGRect gridSliderFrame = self.gridSlider.frame;
+        gridSliderFrame.size.height = 42; // For some reason it's not getting set correctly.
+        gridSliderFrame.origin.y = canvasFrames.size.height;
+        self.gridSlider.frame = gridSliderFrame;
+        
+        // NSLog(@"%@", ((NSArray*)self.project.rawJSON[@"canvas_size"])[1]);
+        NSArray *sizeArray = self.project.rawJSON[@"canvas_size"];
+        CGFloat projectHeight = [sizeArray[1] floatValue];
+        scale = canvasFrames.size.height / projectHeight;
+        
+//        self.canvasView.transform = CGAffineTransformMakeScale(scale, scale);
+//        NSLog(@"%@", NSStringFromCGRect(self.canvasView.frame));
+        
         // Set a curved radius on the canvas label.
         self.canvasLabel.layer.cornerRadius = 10;
+        
+        [self.smallGridLabel setAttributedText:[FAKIonIcons gridIconWithSize:20].attributedString];
+        [self.gridLabel setAttributedText:[FAKIonIcons gridIconWithSize:30].attributedString];
         
         // Load Sprites and generators.
         [self loadSpritesAndGeneratorsFromProject];
@@ -172,11 +198,14 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
     frame.origin.y = self.initialCanvasRect.origin.y;
     self.canvasView.frame = frame;
     
+    self.gridSlider.hidden = YES;
     [UIView animateWithDuration:0.4
                      animations:^{
                          self.canvasView.transform = CGAffineTransformIdentity;
                          self.canvasView.frame = normalFrame;
                          self.toolbar.frame = originalToolbarFrame;
+                     } completion:^(BOOL finished) {
+                         self.gridSlider.hidden = NO;
                      }];
 }
 
@@ -188,6 +217,7 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
     CGRect toolbarRect = self.toolbar.frame;
     toolbarRect.origin.y = self.view.bounds.size.height;
     
+    self.gridSlider.hidden = YES;
     [UIView animateWithDuration:0.4
                      animations:^{
                          self.canvasView.transform = CGAffineTransformMakeScale(scale, scale);
@@ -217,7 +247,7 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
         CGRect paddleRect = [collectionView layoutAttributesForItemAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]].frame;
         paddleRect.size.height -= 17;
         
-        CGRect settingsButtonRect = ((ZSCanvasBarButtonItem *)_toolbar.items[3]).button.frame;
+        CGRect settingsButtonRect = ((ZSCanvasBarButtonItem *)_toolbar.items[4]).button.frame;
         
         [_tutorial addActionWithText:@"Touch the toolbox icon to open the sprite toolbox."
                             forEvent:ZSTutorialBroadcastDidShowToolbox
@@ -233,7 +263,14 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
                           completion:^{
                               paddle1 = [weakSelf.canvasView.subviews lastObject];
                               [weakSelf.tutorial saveObject:paddle1 forKey:@"paddle1"];
+                              [weakSelf showToolbox];
                           }];
+        [_tutorial addActionWithText:@"In general the toolbox won't show again but for the tutorial we will bring it up again for you."
+                            forEvent:ZSTutorialBroadcastPopupDismissed
+                     allowedGestures:@[UITapGestureRecognizer.class]
+                        activeRegion:CGRectZero
+                               setup:nil
+                          completion:nil];
         [_tutorial addActionWithText:@"Drag another paddle sprite onto the upper part of the canvas."
                             forEvent:ZSTutorialBroadcastDidDropSprite
                      allowedGestures:@[UILongPressGestureRecognizer.class]
@@ -242,6 +279,7 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
                           completion:^{
                               paddle2 = [weakSelf.canvasView.subviews lastObject];
                               [weakSelf.tutorial saveObject:paddle2 forKey:@"paddle2"];
+                              [weakSelf showToolbox];
                           }];
         [_tutorial addActionWithText:@"Drag a ball sprite onto the middle of the canvas."
                             forEvent:ZSTutorialBroadcastDidDropSprite
@@ -252,14 +290,6 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
                               ball = [weakSelf.canvasView.subviews lastObject];
                               [weakSelf.tutorial saveObject:ball forKey:@"ball"];
                           }];
-        [_tutorial addActionWithText:@"Touch anywhere outside of the toolbox to close it."
-                            forEvent:ZSTutorialBroadcastDidHideToolbox
-                     allowedGestures:@[UITapGestureRecognizer.class]
-                        activeRegion:_toolboxView.frame
-                               setup:^{
-                                   weakSelf.tutorial.overlayView.invertActiveRegion = YES;
-                               }
-                          completion:nil];
 //        [_tutorial addActionWithText:@"Touch the lower paddle to bring up the sprite editor."
 //                            forEvent:ZSTutorialBroadcastDidTapPaddle
 //                     allowedGestures:@[UITapGestureRecognizer.class]
@@ -324,7 +354,9 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
     
     _canvasView.spriteSingleTapped = ^(ZSSpriteView *spriteView) {
         [_tutorial broadcastEvent:ZSTutorialBroadcastDidTapPaddle];
-        [weakSelf performSegueWithIdentifier:@"editor" sender:spriteView];
+        [self hideSliderWithHandler:^{
+            [weakSelf performSegueWithIdentifier:@"editor" sender:spriteView];
+        }];
     };
     
     _canvasView.spriteCreated = ^(ZSSpriteView *spriteView) {
@@ -350,6 +382,11 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
         else if ([type isEqualToString:@"text"]) {
             [weakSelf transitionToInterfaceState:ZSToolbarInterfaceStateEditTextSprite];
         }
+        [self hideSliderWithHandler:nil];
+    };
+    
+    _canvasView.singleTapped = ^() {
+        [self hideSliderWithHandler:nil];
     };
 }
 
@@ -379,7 +416,12 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
 - (void)setupToolbox {
     [self setupToolboxController];
     
-    _toolboxView = [[ZSToolboxView alloc] initWithFrame:CGRectMake(19, 82, 282, 361)];
+    CGFloat height = 82;
+    if ([[UIScreen mainScreen] bounds].size.height == 480) {
+        height = 38;
+    }
+    _toolboxView = [[ZSToolboxView alloc] initWithFrame:CGRectMake(19, height, 282, 361)];
+    
     WeakSelf
     _toolboxView.hidView = ^{
         [weakSelf.tutorial broadcastEvent:ZSTutorialBroadcastDidHideToolbox];
@@ -551,20 +593,40 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
     WeakSelf
     return @[
              [ZSCanvasBarButtonItem playButtonWithHandler:^{
-                 [weakSelf playProject];
+                 if (weakSelf.gridSliderShowing) {
+                     [weakSelf hideSliderWithHandler:^{
+                         [weakSelf playProject];
+                     }];
+                 }
+                 else {
+                     [weakSelf playProject];
+                 }
              }],
-             [ZSCanvasBarButtonItem flexibleBarButtonItem],
              [ZSCanvasBarButtonItem groupsButtonWithHandler:^{
-                 [weakSelf modifyGroups];
+                 if (weakSelf.gridSliderShowing) {
+                     [weakSelf hideSliderWithHandler:^{
+                         [weakSelf modifyGroups];
+                     }];
+                 }
+                 else {
+                     [weakSelf modifyGroups];
+                 }
              }],
              [ZSCanvasBarButtonItem generatorsButtonWithHandler:^{
-                 [weakSelf toggleGeneratorView];
-             }],
-             [ZSCanvasBarButtonItem gridButtonWithHandler:^{
-                 [weakSelf toggleSliderView];
+                 if (weakSelf.gridSliderShowing) {
+                     [weakSelf hideSliderWithHandler:^{
+                         [weakSelf toggleGeneratorView];
+                     }];
+                 }
+                 else {
+                     [weakSelf toggleGeneratorView];
+                 }
              }],
              [ZSCanvasBarButtonItem toolboxButtonWithHandler:^{
                  [weakSelf showToolbox];
+             }],
+             [ZSCanvasBarButtonItem gridButtonWithHandler:^{
+                 [weakSelf toggleSliderViewWithHandler:nil];
              }],
              [ZSCanvasBarButtonItem shareButtonWithHandler:^{
                  [weakSelf shareProject];
@@ -606,21 +668,12 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
 - (NSArray *)generatorsToolbarItems {
     WeakSelf
     return @[
-             [ZSCanvasBarButtonItem playButtonWithHandler:^{
-                 [weakSelf playProject];
-             }],
              [ZSCanvasBarButtonItem flexibleBarButtonItem],
              [ZSCanvasBarButtonItem groupsButtonWithHandler:^{
                  [weakSelf modifyGroups];
              }],
-             [ZSCanvasBarButtonItem generatorsButtonWithHandler:^{
+             [ZSCanvasBarButtonItem finishButtonWithHandler:^{
                  [weakSelf toggleGeneratorView];
-             }],
-             [ZSCanvasBarButtonItem shareButtonWithHandler:^{
-                 [weakSelf shareProject];
-             }],
-             [ZSCanvasBarButtonItem backButtonWithHandler:^{
-                 [weakSelf finish];
              }]
              ];
 }
@@ -774,20 +827,56 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
     }];
 }
 
-- (void)toggleSliderView {
-    CGRect frame = self.gridSlider.frame;
+- (void)toggleSliderViewWithHandler:(void (^)())handler {
     if (self.gridSliderShowing) {
-        self.gridSliderShowing = NO;
-        frame.origin.y += frame.size.height;
+        [self hideSliderWithHandler:handler];
     }
     else {
-        [self.canvasView bringSubviewToFront:self.gridSlider];
+        [self showSliderWithHandler:handler];
+    }
+}
+
+- (void)showSliderWithHandler:(void (^)())handler {
+    if (!self.gridSliderShowing) {
+        [self.view bringSubviewToFront:self.gridSlider];
+        [self.view bringSubviewToFront:self.toolbar];
+        CGRect frame = self.gridSlider.frame;
         self.gridSliderShowing = YES;
         frame.origin.y -= frame.size.height;
+        [UIView animateWithDuration:0.25 animations:^{
+            self.gridSlider.frame = frame;
+        } completion:^(BOOL finished) {
+            if (handler) {
+                handler();
+            }
+        }];
     }
-    [UIView animateWithDuration:0.25 animations:^{
-        self.gridSlider.frame = frame;
-    }];
+    else {
+        if (handler) {
+            handler();
+        }
+    }
+}
+
+- (void)hideSliderWithHandler:(void (^)())handler {
+    if (self.gridSliderShowing) {
+        [self.view bringSubviewToFront:self.toolbar];
+        CGRect frame = self.gridSlider.frame;
+        self.gridSliderShowing = NO;
+        frame.origin.y += frame.size.height;
+        [UIView animateWithDuration:0.25 animations:^{
+            self.gridSlider.frame = frame;
+        } completion:^(BOOL finished) {
+            if (handler) {
+                handler();
+            }
+        }];
+    }
+    else {
+        if (handler) {
+            handler();
+        }
+    }
 }
 
 - (void)modifyGroups {
@@ -828,12 +917,21 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
     
     self.groupsController.view.frame = self.canvasView.bounds;
     self.groupsController.view.backgroundColor = [UIColor whiteColor];
+    if (self.generatorView.hidden) {
+        self.groupsController.interfaceState = ZSGroupsInterfaceStateCanvas;
+    } else {
+        self.groupsController.interfaceState = ZSGroupsInterfaceStateGenerators;
+    }
     [self.view addSubview:self.groupsController.view];
 }
 
 - (void)finish {
-    [self saveProject];
-    [self animateCanvasViewOut];
+    [self hideSliderWithHandler:^{
+        self.canvasView.grid.dimensions = CGSizeMake(0, 0);
+        [self.canvasView setNeedsDisplay];
+        [self saveProject];
+        [self animateCanvasViewOut];
+    }];
 }
 
 - (void)shareProject {

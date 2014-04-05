@@ -3,6 +3,7 @@
 
 @interface ZSGeneratorView : UICollectionView <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
+@property (assign, nonatomic) BOOL canAddNewSprites;
 @property (strong, nonatomic) void(^singleTapped)(ZSSpriteView *spriteView);
 @property (strong, nonatomic) void(^generatorRemoved)(ZSSpriteView *spriteView);
 @property (strong, nonatomic) void(^addGeneratorRequested)();

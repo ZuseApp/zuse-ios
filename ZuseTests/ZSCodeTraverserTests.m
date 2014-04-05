@@ -24,8 +24,8 @@
         }
     }];
     
-    XCTAssertEqual(1, codeBlocks.count, @"");
-    XCTAssertEqual(1, ([codeBlocks[0] count]), @"");
+    XCTAssertEqual((NSUInteger)1, codeBlocks.count, @"");
+    XCTAssertEqual((NSUInteger)1, ([codeBlocks[0] count]), @"");
 }
 
 - (void)testSetCodeBlocksForObject {
@@ -61,8 +61,8 @@
         }
     }];
     
-    XCTAssertEqual(1, codeBlocks.count, @"");
-    XCTAssertEqual(1, ([codeBlocks[0] count]), @"");
+    XCTAssertEqual((NSUInteger)1, codeBlocks.count, @"");
+    XCTAssertEqual((NSUInteger)1, ([codeBlocks[0] count]), @"");
 }
 
 - (void)testSetCodeBlocksForOnEvent {
@@ -98,8 +98,8 @@
         ]
     }];
     
-    XCTAssertEqual(1, codeBlocks.count, @"");
-    XCTAssertEqual(1, ([codeBlocks[0] count]), @"");
+    XCTAssertEqual((NSUInteger)1, codeBlocks.count, @"");
+    XCTAssertEqual((NSUInteger)1, ([codeBlocks[0] count]), @"");
 }
 
 - (void)testSetCodeBlocksForSuite {
@@ -133,9 +133,9 @@
         }
     }];
     
-    XCTAssertEqual(2, codeBlocks.count, @"");
-    XCTAssertEqual(1, ([codeBlocks[0] count]), @"");
-    XCTAssertEqual(1, ([codeBlocks[1] count]), @"");
+    XCTAssertEqual((NSUInteger)2, codeBlocks.count, @"");
+    XCTAssertEqual((NSUInteger)1, ([codeBlocks[0] count]), @"");
+    XCTAssertEqual((NSUInteger)1, ([codeBlocks[1] count]), @"");
 }
 
 - (void)testSetCodeBlocksForIf {
@@ -168,7 +168,7 @@
     XCTAssertEqualObjects(expected, actual, @"");
 }
 
-- (void)testTraverseCodeReplacementBlockNested
+- (void)testMapBlockNested
 {
     NSDictionary *code = @{
         @"suite": @[
@@ -201,21 +201,20 @@
     
     NSMutableArray *statements = [@[@"suite", @"if", @"object", @"set", @"suite", @"get", @"get"] mutableCopy];
     
-    [ZSCodeTraverser codeItemByTraversingCodeItem:code
-                 replacingItemsWithBlock:^NSDictionary *(NSDictionary *codeItem) {
-                     NSString *key = codeItem.allKeys.firstObject;
-                     NSInteger index = [statements indexOfObject:key];
-                     XCTAssertNotEqual(NSNotFound, index, @"");
-                     [statements removeObjectAtIndex:index];
-                     timesCalled++;
-                     return codeItem;
-                 }];
+    [ZSCodeTraverser map:code block:^NSDictionary *(NSDictionary *codeItem) {
+        NSString *key = codeItem.allKeys.firstObject;
+        NSInteger index = [statements indexOfObject:key];
+        XCTAssertNotEqual(NSNotFound, index, @"");
+        [statements removeObjectAtIndex:index];
+        timesCalled++;
+        return codeItem;
+    }];
     
-    XCTAssertEqual(0, statements.count, @"");
+    XCTAssertEqual((NSUInteger)0, statements.count, @"");
     XCTAssertEqual(7, timesCalled, @"");
 }
 
-- (void)testTraverseCodeReplacementBlockReplacesItems {
+- (void)testMapBlockReplacesItems {
     NSDictionary *code = @{
         @"if": @{
             @"test": @YES,
@@ -228,7 +227,7 @@
         }
     };
     
-    NSDictionary * actual = [ZSCodeTraverser codeItemByTraversingCodeItem:code replacingItemsWithBlock:^NSDictionary *(NSDictionary *codeItem) {
+    NSDictionary * actual = [ZSCodeTraverser map:code block:^NSDictionary *(NSDictionary *codeItem) {
         if ([codeItem.allKeys.firstObject isEqualToString:@"if"]) {
             return codeItem;
         } else {
@@ -251,24 +250,47 @@
     XCTAssertEqualObjects(expected, actual, @"");
 }
 
-- (void)testTraversingCodeItemWithKeyUsingBlock {
+- (void)testMapWithKeyUsingBlock {
     NSDictionary *code = @{
         @"suite": @[
             @{ @"get": @"foo" },
+            @{ @"foo": @"foo" },
             @{ @"set": @[@"this", @1] }
         ]
     };
 
-    NSDictionary *actual = [ZSCodeTraverser codeItemByTransformingCodeItem:code
-                                                                   withKey:@"set"
-                                                                usingBlock:^NSDictionary *(NSDictionary *codeItem) {
-                                                                    return @{ @"get": @"bar" };
-                                                                }];
+    NSDictionary *actual = [ZSCodeTraverser map:code onKeys:@[@"set", @"foo"] block:^NSDictionary *(NSDictionary *codeItem) {
+        return @{ @"get": @"bar" };
+    }];
     
     NSDictionary *expected = @{
         @"suite": @[
             @{ @"get": @"foo" },
             @{ @"get": @"bar" },
+            @{ @"get": @"bar" },
+        ]
+    };
+    
+    XCTAssertEqualObjects(expected, actual, @"");
+}
+
+- (void)testFilterBlock {
+    NSDictionary *code = @{
+        @"suite": @[
+            @{ @"get": @"foo" },
+            @{ @"foo": @"foo" },
+            @{ @"set": @[@"this", @1] }
+        ]
+    };
+
+    NSDictionary *actual = [ZSCodeTraverser filter:code block:^BOOL(NSDictionary *codeItem) {
+        return ![codeItem.allKeys.firstObject isEqualToString:@"foo"];
+    }];
+    
+    NSDictionary *expected = @{
+        @"suite": @[
+            @{ @"get": @"foo" },
+            @{ @"set": @[@"this", @1] }
         ]
     };
     
