@@ -102,8 +102,8 @@
         
         if (self.delegate) {
             [self.delegate interpreter:self
-              objectWithIdentifier:context.objectID
-               didUpdateProperties:@{ data[0]: newValue }];
+                  objectWithIdentifier:context.objectID
+                   didUpdateProperties:@{ data[0]: newValue }];
         }
     }
     
@@ -228,7 +228,8 @@
             @"+": ^id(CGFloat first, CGFloat second) { return @(first + second); },
             @"-": ^id(CGFloat first, CGFloat second) { return @(first - second); },
             @"*": ^id(CGFloat first, CGFloat second) { return @(first * second); },
-            @"/": ^id(CGFloat first, CGFloat second) { return @(first / (second ?: 1)); }
+            @"/": ^id(CGFloat first, CGFloat second) { return @(first / (second ?: 1)); },
+            @"%": ^id(CGFloat first, CGFloat second) { return @((NSInteger)first % (NSInteger)second); }
         };
     });
     

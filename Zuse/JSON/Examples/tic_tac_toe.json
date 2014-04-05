@@ -1,0 +1,1912 @@
+{
+  "traits" : {
+
+  },
+  "id" : "B4F9BB30-FEDB-4250-8F50-F5F27D3D2F39",
+  "title" : "Tic Tac Toe",
+  "generators" : [
+
+  ],
+  "canvas_size" : [
+    320,
+    524
+  ],
+  "version" : "1.0.0",
+  "objects" : [
+    {
+      "traits" : {
+
+      },
+      "id" : "FD9A6D7E-F917-4078-9935-11BAC39294B0",
+      "code" : [
+        {
+          "on_event" : {
+            "name" : "start",
+            "parameters" : [
+
+            ],
+            "code" : [
+              {
+                "set" : [
+                  "text",
+                  "?"
+                ]
+              },
+              {
+                "set" : [
+                  "played",
+                  0
+                ]
+              },
+              {
+                "set" : [
+                  "turn",
+                  0
+                ]
+              },
+              {
+                "on_event" : {
+                  "name" : "touch_began",
+                  "parameters" : [
+                    "touch_x",
+                    "touch_y"
+                  ],
+                  "code" : [
+                    {
+                      "if" : {
+                        "true" : [
+                          {
+                            "set" : [
+                              "played",
+                              1
+                            ]
+                          },
+                          {
+                            "if" : {
+                              "true" : [
+                                {
+                                  "set" : [
+                                    "text",
+                                    "O"
+                                  ]
+                                }
+                              ],
+                              "test" : {
+                                "==" : [
+                                  0,
+                                  {
+                                    "%" : [
+                                      {
+                                        "get" : "turn"
+                                      },
+                                      2
+                                    ]
+                                  }
+                                ]
+                              }
+                            }
+                          },
+                          {
+                            "if" : {
+                              "true" : [
+                                {
+                                  "set" : [
+                                    "text",
+                                    "X"
+                                  ]
+                                }
+                              ],
+                              "test" : {
+                                "==" : [
+                                  1,
+                                  {
+                                    "%" : [
+                                      {
+                                        "get" : "turn"
+                                      },
+                                      2
+                                    ]
+                                  }
+                                ]
+                              }
+                            }
+                          },
+                          {
+                            "trigger_event" : {
+                              "name" : "turn",
+                              "parameters" : {
+
+                              }
+                            }
+                          }
+                        ],
+                        "test" : {
+                          "==" : [
+                            {
+                              "get" : "played"
+                            },
+                            0
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "on_event" : {
+                  "name" : "turn",
+                  "parameters" : [
+
+                  ],
+                  "code" : [
+                    {
+                      "set" : [
+                        "turn",
+                        {
+                          "+" : [
+                            {
+                              "get" : "turn"
+                            },
+                            1
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "on_event" : {
+                  "name" : "play again",
+                  "parameters" : [
+
+                  ],
+                  "code" : [
+                    {
+                      "set" : [
+                        "turn",
+                        0
+                      ]
+                    },
+                    {
+                      "set" : [
+                        "played",
+                        0
+                      ]
+                    },
+                    {
+                      "set" : [
+                        "text",
+                        "?"
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "physics_body" : "rectangle",
+      "properties" : {
+        "y" : 418,
+        "height" : 21,
+        "x" : 159,
+        "width" : 200,
+        "text" : "?"
+      },
+      "type" : "text",
+      "collision_group" : "",
+      "name" : "Text Box"
+    },
+    {
+      "traits" : {
+
+      },
+      "id" : "498A1C12-4FD8-469E-B998-797A1C2423E0",
+      "code" : [
+        {
+          "on_event" : {
+            "name" : "start",
+            "code" : [
+              {
+                "set" : [
+                  "turn",
+                  0
+                ]
+              },
+              {
+                "on_event" : {
+                  "name" : "turn",
+                  "code" : [
+                    {
+                      "set" : [
+                        "turn",
+                        {
+                          "+" : [
+                            {
+                              "get" : "turn"
+                            },
+                            1
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "if" : {
+                        "true" : [
+                          {
+                            "set" : [
+                              "text",
+                              "Somebody one or it's a draw!"
+                            ]
+                          }
+                        ],
+                        "test" : {
+                          "==" : [
+                            {
+                              "get" : "turn"
+                            },
+                            9
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "parameters" : [
+
+                  ]
+                }
+              },
+              {
+                "on_event" : {
+                  "name" : "play again",
+                  "code" : [
+                    {
+                      "set" : [
+                        "turn",
+                        0
+                      ]
+                    },
+                    {
+                      "set" : [
+                        "text",
+                        " "
+                      ]
+                    }
+                  ],
+                  "parameters" : [
+
+                  ]
+                }
+              }
+            ],
+            "parameters" : [
+
+            ]
+          }
+        }
+      ],
+      "physics_body" : "rectangle",
+      "properties" : {
+        "y" : 465,
+        "text" : "",
+        "width" : 200,
+        "height" : 21,
+        "x" : 158.5
+      },
+      "type" : "text",
+      "collision_group" : "",
+      "name" : "Text Box"
+    },
+    {
+      "traits" : {
+
+      },
+      "id" : "4AD5E789-BC2F-40F8-8ADB-12E5F5824EF1",
+      "code" : [
+        {
+          "on_event" : {
+            "name" : "start",
+            "parameters" : [
+
+            ],
+            "code" : [
+              {
+                "set" : [
+                  "turn",
+                  0
+                ]
+              },
+              {
+                "on_event" : {
+                  "name" : "turn",
+                  "parameters" : [
+
+                  ],
+                  "code" : [
+                    {
+                      "set" : [
+                        "turn",
+                        {
+                          "+" : [
+                            {
+                              "get" : "turn"
+                            },
+                            1
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "if" : {
+                        "true" : [
+                          {
+                            "set" : [
+                              "text",
+                              "Play Again"
+                            ]
+                          }
+                        ],
+                        "test" : {
+                          "==" : [
+                            {
+                              "get" : "turn"
+                            },
+                            9
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "on_event" : {
+                  "name" : "touch_began",
+                  "parameters" : [
+                    "touch_x",
+                    "touch_y"
+                  ],
+                  "code" : [
+                    {
+                      "set" : [
+                        "turn",
+                        0
+                      ]
+                    },
+                    {
+                      "set" : [
+                        "text",
+                        " "
+                      ]
+                    },
+                    {
+                      "trigger_event" : {
+                        "name" : "play again",
+                        "parameters" : {
+
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "physics_body" : "rectangle",
+      "properties" : {
+        "y" : 133.5,
+        "height" : 21,
+        "x" : 155.5,
+        "width" : 200,
+        "text" : ""
+      },
+      "type" : "text",
+      "collision_group" : "",
+      "name" : "Text Box"
+    },
+    {
+      "traits" : {
+
+      },
+      "id" : "4E59D2E1-1A4C-4B44-BBF1-CA18E1F25AC7",
+      "code" : [
+        {
+          "on_event" : {
+            "name" : "start",
+            "code" : [
+              {
+                "set" : [
+                  "text",
+                  "?"
+                ]
+              },
+              {
+                "set" : [
+                  "played",
+                  0
+                ]
+              },
+              {
+                "set" : [
+                  "turn",
+                  0
+                ]
+              },
+              {
+                "on_event" : {
+                  "name" : "touch_began",
+                  "code" : [
+                    {
+                      "if" : {
+                        "true" : [
+                          {
+                            "set" : [
+                              "played",
+                              1
+                            ]
+                          },
+                          {
+                            "if" : {
+                              "true" : [
+                                {
+                                  "set" : [
+                                    "text",
+                                    "O"
+                                  ]
+                                }
+                              ],
+                              "test" : {
+                                "==" : [
+                                  0,
+                                  {
+                                    "%" : [
+                                      {
+                                        "get" : "turn"
+                                      },
+                                      2
+                                    ]
+                                  }
+                                ]
+                              }
+                            }
+                          },
+                          {
+                            "if" : {
+                              "true" : [
+                                {
+                                  "set" : [
+                                    "text",
+                                    "X"
+                                  ]
+                                }
+                              ],
+                              "test" : {
+                                "==" : [
+                                  1,
+                                  {
+                                    "%" : [
+                                      {
+                                        "get" : "turn"
+                                      },
+                                      2
+                                    ]
+                                  }
+                                ]
+                              }
+                            }
+                          },
+                          {
+                            "trigger_event" : {
+                              "name" : "turn",
+                              "parameters" : {
+
+                              }
+                            }
+                          }
+                        ],
+                        "test" : {
+                          "==" : [
+                            {
+                              "get" : "played"
+                            },
+                            0
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "parameters" : [
+                    "touch_x",
+                    "touch_y"
+                  ]
+                }
+              },
+              {
+                "on_event" : {
+                  "name" : "turn",
+                  "code" : [
+                    {
+                      "set" : [
+                        "turn",
+                        {
+                          "+" : [
+                            {
+                              "get" : "turn"
+                            },
+                            1
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "parameters" : [
+
+                  ]
+                }
+              },
+              {
+                "on_event" : {
+                  "name" : "play again",
+                  "code" : [
+                    {
+                      "set" : [
+                        "turn",
+                        0
+                      ]
+                    },
+                    {
+                      "set" : [
+                        "played",
+                        0
+                      ]
+                    },
+                    {
+                      "set" : [
+                        "text",
+                        "?"
+                      ]
+                    }
+                  ],
+                  "parameters" : [
+
+                  ]
+                }
+              }
+            ],
+            "parameters" : [
+
+            ]
+          }
+        }
+      ],
+      "physics_body" : "rectangle",
+      "properties" : {
+        "y" : 418,
+        "text" : "?",
+        "width" : 200,
+        "height" : 21,
+        "x" : 87
+      },
+      "type" : "text",
+      "collision_group" : "",
+      "name" : "Text Box"
+    },
+    {
+      "traits" : {
+
+      },
+      "id" : "51B32616-0550-4B2B-9F7D-FA7FE1944EAC",
+      "code" : [
+        {
+          "on_event" : {
+            "name" : "start",
+            "parameters" : [
+
+            ],
+            "code" : [
+              {
+                "set" : [
+                  "text",
+                  "?"
+                ]
+              },
+              {
+                "set" : [
+                  "played",
+                  0
+                ]
+              },
+              {
+                "set" : [
+                  "turn",
+                  0
+                ]
+              },
+              {
+                "on_event" : {
+                  "name" : "touch_began",
+                  "parameters" : [
+                    "touch_x",
+                    "touch_y"
+                  ],
+                  "code" : [
+                    {
+                      "if" : {
+                        "true" : [
+                          {
+                            "set" : [
+                              "played",
+                              1
+                            ]
+                          },
+                          {
+                            "if" : {
+                              "true" : [
+                                {
+                                  "set" : [
+                                    "text",
+                                    "O"
+                                  ]
+                                }
+                              ],
+                              "test" : {
+                                "==" : [
+                                  0,
+                                  {
+                                    "%" : [
+                                      {
+                                        "get" : "turn"
+                                      },
+                                      2
+                                    ]
+                                  }
+                                ]
+                              }
+                            }
+                          },
+                          {
+                            "if" : {
+                              "true" : [
+                                {
+                                  "set" : [
+                                    "text",
+                                    "X"
+                                  ]
+                                }
+                              ],
+                              "test" : {
+                                "==" : [
+                                  1,
+                                  {
+                                    "%" : [
+                                      {
+                                        "get" : "turn"
+                                      },
+                                      2
+                                    ]
+                                  }
+                                ]
+                              }
+                            }
+                          },
+                          {
+                            "trigger_event" : {
+                              "name" : "turn",
+                              "parameters" : {
+
+                              }
+                            }
+                          }
+                        ],
+                        "test" : {
+                          "==" : [
+                            {
+                              "get" : "played"
+                            },
+                            0
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "on_event" : {
+                  "name" : "turn",
+                  "parameters" : [
+
+                  ],
+                  "code" : [
+                    {
+                      "set" : [
+                        "turn",
+                        {
+                          "+" : [
+                            {
+                              "get" : "turn"
+                            },
+                            1
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "on_event" : {
+                  "name" : "play again",
+                  "parameters" : [
+
+                  ],
+                  "code" : [
+                    {
+                      "set" : [
+                        "turn",
+                        0
+                      ]
+                    },
+                    {
+                      "set" : [
+                        "played",
+                        0
+                      ]
+                    },
+                    {
+                      "set" : [
+                        "text",
+                        "?"
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "physics_body" : "rectangle",
+      "properties" : {
+        "y" : 417,
+        "height" : 21,
+        "x" : 219.5,
+        "width" : 200,
+        "text" : "?"
+      },
+      "type" : "text",
+      "collision_group" : "",
+      "name" : "Text Box"
+    },
+    {
+      "traits" : {
+
+      },
+      "id" : "CCABC464-6803-4BE3-B32C-C085A11040E9",
+      "code" : [
+        {
+          "on_event" : {
+            "name" : "start",
+            "code" : [
+              {
+                "set" : [
+                  "text",
+                  "?"
+                ]
+              },
+              {
+                "set" : [
+                  "played",
+                  0
+                ]
+              },
+              {
+                "set" : [
+                  "turn",
+                  0
+                ]
+              },
+              {
+                "on_event" : {
+                  "name" : "touch_began",
+                  "code" : [
+                    {
+                      "if" : {
+                        "true" : [
+                          {
+                            "set" : [
+                              "played",
+                              1
+                            ]
+                          },
+                          {
+                            "if" : {
+                              "true" : [
+                                {
+                                  "set" : [
+                                    "text",
+                                    "O"
+                                  ]
+                                }
+                              ],
+                              "test" : {
+                                "==" : [
+                                  0,
+                                  {
+                                    "%" : [
+                                      {
+                                        "get" : "turn"
+                                      },
+                                      2
+                                    ]
+                                  }
+                                ]
+                              }
+                            }
+                          },
+                          {
+                            "if" : {
+                              "true" : [
+                                {
+                                  "set" : [
+                                    "text",
+                                    "X"
+                                  ]
+                                }
+                              ],
+                              "test" : {
+                                "==" : [
+                                  1,
+                                  {
+                                    "%" : [
+                                      {
+                                        "get" : "turn"
+                                      },
+                                      2
+                                    ]
+                                  }
+                                ]
+                              }
+                            }
+                          },
+                          {
+                            "trigger_event" : {
+                              "name" : "turn",
+                              "parameters" : {
+
+                              }
+                            }
+                          }
+                        ],
+                        "test" : {
+                          "==" : [
+                            {
+                              "get" : "played"
+                            },
+                            0
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "parameters" : [
+                    "touch_x",
+                    "touch_y"
+                  ]
+                }
+              },
+              {
+                "on_event" : {
+                  "name" : "turn",
+                  "code" : [
+                    {
+                      "set" : [
+                        "turn",
+                        {
+                          "+" : [
+                            {
+                              "get" : "turn"
+                            },
+                            1
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "parameters" : [
+
+                  ]
+                }
+              },
+              {
+                "on_event" : {
+                  "name" : "play again",
+                  "code" : [
+                    {
+                      "set" : [
+                        "turn",
+                        0
+                      ]
+                    },
+                    {
+                      "set" : [
+                        "played",
+                        0
+                      ]
+                    },
+                    {
+                      "set" : [
+                        "text",
+                        "?"
+                      ]
+                    }
+                  ],
+                  "parameters" : [
+
+                  ]
+                }
+              }
+            ],
+            "parameters" : [
+
+            ]
+          }
+        }
+      ],
+      "physics_body" : "rectangle",
+      "properties" : {
+        "y" : 363.5,
+        "text" : "?",
+        "width" : 200,
+        "height" : 21,
+        "x" : 80
+      },
+      "type" : "text",
+      "collision_group" : "",
+      "name" : "Text Box"
+    },
+    {
+      "traits" : {
+
+      },
+      "id" : "F50721E5-1A97-4D53-96E9-91939D27B0BF",
+      "code" : [
+        {
+          "on_event" : {
+            "name" : "start",
+            "parameters" : [
+
+            ],
+            "code" : [
+              {
+                "set" : [
+                  "text",
+                  "?"
+                ]
+              },
+              {
+                "set" : [
+                  "played",
+                  0
+                ]
+              },
+              {
+                "set" : [
+                  "turn",
+                  0
+                ]
+              },
+              {
+                "on_event" : {
+                  "name" : "touch_began",
+                  "parameters" : [
+                    "touch_x",
+                    "touch_y"
+                  ],
+                  "code" : [
+                    {
+                      "if" : {
+                        "true" : [
+                          {
+                            "set" : [
+                              "played",
+                              1
+                            ]
+                          },
+                          {
+                            "if" : {
+                              "true" : [
+                                {
+                                  "set" : [
+                                    "text",
+                                    "O"
+                                  ]
+                                }
+                              ],
+                              "test" : {
+                                "==" : [
+                                  0,
+                                  {
+                                    "%" : [
+                                      {
+                                        "get" : "turn"
+                                      },
+                                      2
+                                    ]
+                                  }
+                                ]
+                              }
+                            }
+                          },
+                          {
+                            "if" : {
+                              "true" : [
+                                {
+                                  "set" : [
+                                    "text",
+                                    "X"
+                                  ]
+                                }
+                              ],
+                              "test" : {
+                                "==" : [
+                                  1,
+                                  {
+                                    "%" : [
+                                      {
+                                        "get" : "turn"
+                                      },
+                                      2
+                                    ]
+                                  }
+                                ]
+                              }
+                            }
+                          },
+                          {
+                            "trigger_event" : {
+                              "name" : "turn",
+                              "parameters" : {
+
+                              }
+                            }
+                          }
+                        ],
+                        "test" : {
+                          "==" : [
+                            {
+                              "get" : "played"
+                            },
+                            0
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "on_event" : {
+                  "name" : "turn",
+                  "parameters" : [
+
+                  ],
+                  "code" : [
+                    {
+                      "set" : [
+                        "turn",
+                        {
+                          "+" : [
+                            {
+                              "get" : "turn"
+                            },
+                            1
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "on_event" : {
+                  "name" : "play again",
+                  "parameters" : [
+
+                  ],
+                  "code" : [
+                    {
+                      "set" : [
+                        "turn",
+                        0
+                      ]
+                    },
+                    {
+                      "set" : [
+                        "played",
+                        0
+                      ]
+                    },
+                    {
+                      "set" : [
+                        "text",
+                        "?"
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "physics_body" : "rectangle",
+      "properties" : {
+        "y" : 364,
+        "height" : 21,
+        "x" : 159.5,
+        "width" : 200,
+        "text" : "?"
+      },
+      "type" : "text",
+      "collision_group" : "",
+      "name" : "Text Box"
+    },
+    {
+      "traits" : {
+
+      },
+      "id" : "CE6C1D6B-4BA2-4296-A8A8-806AC6EA1CC1",
+      "code" : [
+        {
+          "on_event" : {
+            "name" : "start",
+            "code" : [
+              {
+                "set" : [
+                  "text",
+                  "?"
+                ]
+              },
+              {
+                "set" : [
+                  "played",
+                  0
+                ]
+              },
+              {
+                "set" : [
+                  "turn",
+                  0
+                ]
+              },
+              {
+                "on_event" : {
+                  "name" : "touch_began",
+                  "code" : [
+                    {
+                      "if" : {
+                        "true" : [
+                          {
+                            "set" : [
+                              "played",
+                              1
+                            ]
+                          },
+                          {
+                            "if" : {
+                              "true" : [
+                                {
+                                  "set" : [
+                                    "text",
+                                    "O"
+                                  ]
+                                }
+                              ],
+                              "test" : {
+                                "==" : [
+                                  0,
+                                  {
+                                    "%" : [
+                                      {
+                                        "get" : "turn"
+                                      },
+                                      2
+                                    ]
+                                  }
+                                ]
+                              }
+                            }
+                          },
+                          {
+                            "if" : {
+                              "true" : [
+                                {
+                                  "set" : [
+                                    "text",
+                                    "X"
+                                  ]
+                                }
+                              ],
+                              "test" : {
+                                "==" : [
+                                  1,
+                                  {
+                                    "%" : [
+                                      {
+                                        "get" : "turn"
+                                      },
+                                      2
+                                    ]
+                                  }
+                                ]
+                              }
+                            }
+                          },
+                          {
+                            "trigger_event" : {
+                              "name" : "turn",
+                              "parameters" : {
+
+                              }
+                            }
+                          }
+                        ],
+                        "test" : {
+                          "==" : [
+                            {
+                              "get" : "played"
+                            },
+                            0
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "parameters" : [
+                    "touch_x",
+                    "touch_y"
+                  ]
+                }
+              },
+              {
+                "on_event" : {
+                  "name" : "turn",
+                  "code" : [
+                    {
+                      "set" : [
+                        "turn",
+                        {
+                          "+" : [
+                            {
+                              "get" : "turn"
+                            },
+                            1
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "parameters" : [
+
+                  ]
+                }
+              },
+              {
+                "on_event" : {
+                  "name" : "play again",
+                  "code" : [
+                    {
+                      "set" : [
+                        "turn",
+                        0
+                      ]
+                    },
+                    {
+                      "set" : [
+                        "played",
+                        0
+                      ]
+                    },
+                    {
+                      "set" : [
+                        "text",
+                        "?"
+                      ]
+                    }
+                  ],
+                  "parameters" : [
+
+                  ]
+                }
+              }
+            ],
+            "parameters" : [
+
+            ]
+          }
+        }
+      ],
+      "physics_body" : "rectangle",
+      "properties" : {
+        "y" : 364,
+        "text" : "?",
+        "width" : 200,
+        "height" : 21,
+        "x" : 223.5
+      },
+      "type" : "text",
+      "collision_group" : "",
+      "name" : "Text Box"
+    },
+    {
+      "traits" : {
+
+      },
+      "id" : "2A7818C0-A9F2-4FE0-B827-4CDA105C993D",
+      "code" : [
+        {
+          "on_event" : {
+            "name" : "start",
+            "parameters" : [
+
+            ],
+            "code" : [
+              {
+                "set" : [
+                  "text",
+                  "?"
+                ]
+              },
+              {
+                "set" : [
+                  "played",
+                  0
+                ]
+              },
+              {
+                "set" : [
+                  "turn",
+                  0
+                ]
+              },
+              {
+                "on_event" : {
+                  "name" : "touch_began",
+                  "parameters" : [
+                    "touch_x",
+                    "touch_y"
+                  ],
+                  "code" : [
+                    {
+                      "if" : {
+                        "true" : [
+                          {
+                            "set" : [
+                              "played",
+                              1
+                            ]
+                          },
+                          {
+                            "if" : {
+                              "true" : [
+                                {
+                                  "set" : [
+                                    "text",
+                                    "O"
+                                  ]
+                                }
+                              ],
+                              "test" : {
+                                "==" : [
+                                  0,
+                                  {
+                                    "%" : [
+                                      {
+                                        "get" : "turn"
+                                      },
+                                      2
+                                    ]
+                                  }
+                                ]
+                              }
+                            }
+                          },
+                          {
+                            "if" : {
+                              "true" : [
+                                {
+                                  "set" : [
+                                    "text",
+                                    "X"
+                                  ]
+                                }
+                              ],
+                              "test" : {
+                                "==" : [
+                                  1,
+                                  {
+                                    "%" : [
+                                      {
+                                        "get" : "turn"
+                                      },
+                                      2
+                                    ]
+                                  }
+                                ]
+                              }
+                            }
+                          },
+                          {
+                            "trigger_event" : {
+                              "name" : "turn",
+                              "parameters" : {
+
+                              }
+                            }
+                          }
+                        ],
+                        "test" : {
+                          "==" : [
+                            {
+                              "get" : "played"
+                            },
+                            0
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "on_event" : {
+                  "name" : "turn",
+                  "parameters" : [
+
+                  ],
+                  "code" : [
+                    {
+                      "set" : [
+                        "turn",
+                        {
+                          "+" : [
+                            {
+                              "get" : "turn"
+                            },
+                            1
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "on_event" : {
+                  "name" : "play again",
+                  "parameters" : [
+
+                  ],
+                  "code" : [
+                    {
+                      "set" : [
+                        "turn",
+                        0
+                      ]
+                    },
+                    {
+                      "set" : [
+                        "played",
+                        0
+                      ]
+                    },
+                    {
+                      "set" : [
+                        "text",
+                        "?"
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "physics_body" : "rectangle",
+      "properties" : {
+        "y" : 311,
+        "height" : 21,
+        "x" : 79.5,
+        "width" : 200,
+        "text" : "?"
+      },
+      "type" : "text",
+      "collision_group" : "",
+      "name" : "Text Box"
+    },
+    {
+      "traits" : {
+
+      },
+      "id" : "09AE3B40-1D65-45FE-8091-900B7C70D619",
+      "code" : [
+        {
+          "on_event" : {
+            "name" : "start",
+            "code" : [
+              {
+                "set" : [
+                  "text",
+                  "?"
+                ]
+              },
+              {
+                "set" : [
+                  "played",
+                  0
+                ]
+              },
+              {
+                "set" : [
+                  "turn",
+                  0
+                ]
+              },
+              {
+                "on_event" : {
+                  "name" : "touch_began",
+                  "code" : [
+                    {
+                      "if" : {
+                        "true" : [
+                          {
+                            "set" : [
+                              "played",
+                              1
+                            ]
+                          },
+                          {
+                            "if" : {
+                              "true" : [
+                                {
+                                  "set" : [
+                                    "text",
+                                    "O"
+                                  ]
+                                }
+                              ],
+                              "test" : {
+                                "==" : [
+                                  0,
+                                  {
+                                    "%" : [
+                                      {
+                                        "get" : "turn"
+                                      },
+                                      2
+                                    ]
+                                  }
+                                ]
+                              }
+                            }
+                          },
+                          {
+                            "if" : {
+                              "true" : [
+                                {
+                                  "set" : [
+                                    "text",
+                                    "X"
+                                  ]
+                                }
+                              ],
+                              "test" : {
+                                "==" : [
+                                  1,
+                                  {
+                                    "%" : [
+                                      {
+                                        "get" : "turn"
+                                      },
+                                      2
+                                    ]
+                                  }
+                                ]
+                              }
+                            }
+                          },
+                          {
+                            "trigger_event" : {
+                              "name" : "turn",
+                              "parameters" : {
+
+                              }
+                            }
+                          }
+                        ],
+                        "test" : {
+                          "==" : [
+                            {
+                              "get" : "played"
+                            },
+                            0
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "parameters" : [
+                    "touch_x",
+                    "touch_y"
+                  ]
+                }
+              },
+              {
+                "on_event" : {
+                  "name" : "turn",
+                  "code" : [
+                    {
+                      "set" : [
+                        "turn",
+                        {
+                          "+" : [
+                            {
+                              "get" : "turn"
+                            },
+                            1
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "parameters" : [
+
+                  ]
+                }
+              },
+              {
+                "on_event" : {
+                  "name" : "play again",
+                  "code" : [
+                    {
+                      "set" : [
+                        "turn",
+                        0
+                      ]
+                    },
+                    {
+                      "set" : [
+                        "played",
+                        0
+                      ]
+                    },
+                    {
+                      "set" : [
+                        "text",
+                        "?"
+                      ]
+                    }
+                  ],
+                  "parameters" : [
+
+                  ]
+                }
+              }
+            ],
+            "parameters" : [
+
+            ]
+          }
+        }
+      ],
+      "physics_body" : "rectangle",
+      "properties" : {
+        "y" : 311.5,
+        "text" : "?",
+        "width" : 200,
+        "height" : 21,
+        "x" : 155.5
+      },
+      "type" : "text",
+      "collision_group" : "",
+      "name" : "Text Box"
+    },
+    {
+      "traits" : {
+
+      },
+      "id" : "52575C85-6792-4BFF-913E-60EE460CA7D4",
+      "code" : [
+        {
+          "on_event" : {
+            "name" : "start",
+            "parameters" : [
+
+            ],
+            "code" : [
+              {
+                "set" : [
+                  "text",
+                  "?"
+                ]
+              },
+              {
+                "set" : [
+                  "played",
+                  0
+                ]
+              },
+              {
+                "set" : [
+                  "turn",
+                  0
+                ]
+              },
+              {
+                "on_event" : {
+                  "name" : "touch_began",
+                  "parameters" : [
+                    "touch_x",
+                    "touch_y"
+                  ],
+                  "code" : [
+                    {
+                      "if" : {
+                        "true" : [
+                          {
+                            "set" : [
+                              "played",
+                              1
+                            ]
+                          },
+                          {
+                            "if" : {
+                              "true" : [
+                                {
+                                  "set" : [
+                                    "text",
+                                    "O"
+                                  ]
+                                }
+                              ],
+                              "test" : {
+                                "==" : [
+                                  0,
+                                  {
+                                    "%" : [
+                                      {
+                                        "get" : "turn"
+                                      },
+                                      2
+                                    ]
+                                  }
+                                ]
+                              }
+                            }
+                          },
+                          {
+                            "if" : {
+                              "true" : [
+                                {
+                                  "set" : [
+                                    "text",
+                                    "X"
+                                  ]
+                                }
+                              ],
+                              "test" : {
+                                "==" : [
+                                  1,
+                                  {
+                                    "%" : [
+                                      {
+                                        "get" : "turn"
+                                      },
+                                      2
+                                    ]
+                                  }
+                                ]
+                              }
+                            }
+                          },
+                          {
+                            "trigger_event" : {
+                              "name" : "turn",
+                              "parameters" : {
+
+                              }
+                            }
+                          }
+                        ],
+                        "test" : {
+                          "==" : [
+                            {
+                              "get" : "played"
+                            },
+                            0
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "on_event" : {
+                  "name" : "turn",
+                  "parameters" : [
+
+                  ],
+                  "code" : [
+                    {
+                      "set" : [
+                        "turn",
+                        {
+                          "+" : [
+                            {
+                              "get" : "turn"
+                            },
+                            1
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "on_event" : {
+                  "name" : "play again",
+                  "parameters" : [
+
+                  ],
+                  "code" : [
+                    {
+                      "set" : [
+                        "turn",
+                        0
+                      ]
+                    },
+                    {
+                      "set" : [
+                        "played",
+                        0
+                      ]
+                    },
+                    {
+                      "set" : [
+                        "text",
+                        "?"
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "physics_body" : "rectangle",
+      "properties" : {
+        "y" : 312,
+        "height" : 21,
+        "x" : 226,
+        "width" : 200,
+        "text" : "?"
+      },
+      "type" : "text",
+      "collision_group" : "",
+      "name" : "Text Box"
+    }
+  ],
+  "collision_groups" : {
+
+  }
+}
