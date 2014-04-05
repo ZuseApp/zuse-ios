@@ -102,8 +102,8 @@
         
         if (self.delegate) {
             [self.delegate interpreter:self
-              objectWithIdentifier:context.objectID
-               didUpdateProperties:@{ data[0]: newValue }];
+                  objectWithIdentifier:context.objectID
+                   didUpdateProperties:@{ data[0]: newValue }];
         }
     }
     
