@@ -79,7 +79,7 @@ CGFloat const DefaultSize = 33;
 }
 
 + (ZSCanvasBarButtonItem *)backButtonWithHandler:(void (^)())handler {
-    FAKIcon *icon = [self styledIcon:[FAKIonIcons replyIconWithSize:DefaultSize]];
+    FAKIcon *icon = [self styledIcon:[FAKIonIcons arrowLeftCIconWithSize:DefaultSize]];
     return [self buttonWithIcon:icon tapHandler:handler];
 }
 
