@@ -7,6 +7,7 @@
 //
 
 #import "ZSOverlayView.h"
+#import "ZSTutorial.h"
 
 @implementation ZSOverlayView
 
@@ -14,6 +15,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         [self setUserInteractionEnabled:YES];
+        [self becomeFirstResponder];
         _invertActiveRegion = NO;
         _tapToDismiss = NO;
     }
@@ -36,5 +38,22 @@
     _invertActiveRegion = NO;
     _tapToDismiss = NO;
 }
+
+- (BOOL)canBecomeFirstResponder {
+    return YES;
+}
+
+- (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event
+{
+    if ( event.subtype == UIEventSubtypeMotionShake )
+    {
+        [[ZSTutorial sharedTutorial] broadcastEvent:ZSTutorialBroadcastExitTutorial];
+    }
+    
+    if ( [super respondsToSelector:@selector(motionEnded:withEvent:)] )
+        [super motionEnded:motion withEvent:event];
+}
+
+
 
 @end

@@ -3,6 +3,7 @@
 #import "ZSOverlayView.h"
 
 extern NSString * const ZSTutorialBroadcastEventComplete;
+extern NSString * const ZSTutorialBroadcastExitTutorial;
 
 typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
     ZSCanvasTutorialSetupStage,

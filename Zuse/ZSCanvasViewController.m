@@ -12,6 +12,7 @@
 #import "ZSProjectPersistence.h"
 #import "ZSCanvasBarButtonItem.h"
 #import "ZSProjectJSONKeys.h"
+#import "ZSZuseDSL.h"
 #import <FontAwesomeKit/FAKIonIcons.h>
 #import <AFNetworking/AFNetworking.h>
 #import <Social/Social.h>
@@ -480,6 +481,11 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
         CGRect frame = CGRectZero;
         frame.size.width = [json[@"properties"][@"width"] floatValue];
         frame.size.height = [json[@"properties"][@"height"] floatValue];
+        
+        // Make the start event wrap all code.
+        NSMutableDictionary *eventJSON = [[ZSZuseDSL onEventJSON] deepMutableCopy];
+        eventJSON[@"on_event"][@"name"] = @"start";
+        json[@"code"] = [NSMutableArray arrayWithObject:eventJSON];
         
         // If the generator view is hidden start sprite dragging, otherwise simply add it to the
         // generator view.
