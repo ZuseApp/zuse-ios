@@ -118,6 +118,10 @@
                                                                    initialProperties:[NSSet set]];
             }];
         }
+        else if ([key isEqualToString:@"every"])
+        {
+            statementView = [self everyStatementViewFromJson:jsonStatement];
+        }
         else
         {
             statementView = [[ZS_StatementView alloc]init];
@@ -311,6 +315,49 @@
     {
         [view addParametersLabelWithText:[ZS_JsonUtilities parametersStringFromJson: parameters]];
     }
+    return view;
+}
+- (ZS_StatementView*) everyStatementViewFromJson:(NSMutableDictionary *)json
+{
+    ZS_StatementView* view = [[ZS_StatementView alloc]initWithJson:json];
+    view.delegate = self;
+    view.jsonCode = json[@"every"][@"code"];
+    
+    // Statement name EVERY
+    [view addNameLabelWithText:@"EVERY"];
+    
+    // add 'seconds' argument
+    NSString* seconds = ((NSNumber*)json[@"every"][@"seconds"]).stringValue;
+    [view addArgumentLabelWithText: seconds
+                        touchBlock:^(UILabel* label)
+     {
+         [self performSegueWithIdentifier:@"to expression editor" sender: label];
+     }];
+    
+    // Statement name SECONDS
+    [view addNameLabelWithText:@"SECONDS"];
+    
+    // Code block
+    [self addToView: view codeStatementsFromJson:json[@"every"][@"code"]];
+    
+    // Add <new code statement> button
+    [view addNewStatementLabelWithTouchBlock:^(UILabel* label)
+     {
+         ZSToolboxView* toolboxView = [[ZSToolboxView alloc] initWithFrame:CGRectMake(19, 82, 282, 361)];
+         ZS_StatementChooserCollectionViewController* controller = [[ZS_StatementChooserCollectionViewController alloc]init];
+         
+         controller.jsonCodeBody = json[@"every"][@"code"];
+         controller.codeEditorViewController = self;
+         controller.toolboxView = toolboxView;
+         
+         self.statementChooserController = controller;
+         
+         [toolboxView setPagingEnabled:NO];
+         [toolboxView addContentView: controller.collectionView title: @"STATEMENT CHOOSER"];
+         [self.view addSubview: toolboxView];
+         [toolboxView showAnimated:YES];
+     }];
+    
     return view;
 }
 - (ZS_StatementView*) setStatementViewFromJson:(NSMutableDictionary *)json
