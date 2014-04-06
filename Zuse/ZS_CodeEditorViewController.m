@@ -517,6 +517,23 @@
                 [self dismissViewControllerAnimated: YES completion: nil];
             };
         }
+        else if([statementView.json.allKeys[0] isEqualToString:@"every"])
+        {
+            // pass a mutable copy of json to the expression editor controller
+            NSObject* json = statementView.json[@"every"][@"seconds"];
+            c.json = [json isKindOfClass:[NSMutableDictionary class]] ? ((NSMutableDictionary*)json).deepMutableCopy : json;
+            
+            // code block executed upon exiting expression editor
+            c.didFinish = ^(NSObject* json)
+            {
+                if (json)
+                {
+                    statementView.json[@"every"][@"seconds"] = json;
+                    [self reloadFromJson];
+                }
+                [self dismissViewControllerAnimated: YES completion: nil];
+            };
+        }
     }
     else if ([[segue identifier] isEqualToString:@"to json viewer"])
     {
