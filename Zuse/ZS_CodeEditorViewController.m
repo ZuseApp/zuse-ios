@@ -332,7 +332,7 @@
     [view addNameLabelWithText:@"EVERY"];
     
     // add 'seconds' argument
-    NSString* seconds = ((NSNumber*)json[@"every"][@"seconds"]).stringValue;
+    NSString* seconds = [ZS_JsonUtilities expressionStringFromJson: json[@"every"][@"seconds"]];
     [view addArgumentLabelWithText: seconds
                         touchBlock:^(UILabel* label)
      {
