@@ -120,7 +120,11 @@
         }
         else if ([key isEqualToString:@"every"])
         {
-            statementView = [self everyStatementViewFromJson:jsonStatement];
+            statementView = [self everyStatementViewFromJson:jsonStatement beforeAddingSubstatementsBlock:^(ZS_StatementView *statementView) {
+                statementView.propertyScope = [view.propertyScope nestedScopeForCode:jsonStatement[key][@"code"]
+                                                                              atLine:idx
+                                                                   initialProperties:[NSSet set]];
+            }];
         }
         else
         {
@@ -318,6 +322,7 @@
     return view;
 }
 - (ZS_StatementView*) everyStatementViewFromJson:(NSMutableDictionary *)json
+               beforeAddingSubstatementsBlock:(void (^)(ZS_StatementView *))beforeSubstatementBlock
 {
     ZS_StatementView* view = [[ZS_StatementView alloc]initWithJson:json];
     view.delegate = self;
@@ -336,6 +341,8 @@
     
     // Statement name SECONDS
     [view addNameLabelWithText:@"SECONDS"];
+    
+    beforeSubstatementBlock(view);
     
     // Code block
     [self addToView: view codeStatementsFromJson:json[@"every"][@"code"]];
