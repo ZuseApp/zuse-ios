@@ -213,6 +213,7 @@
             [[ZSZuseDSL onEventJSON] deepMutableCopy],
             [[ZSZuseDSL triggerEventJSON] deepMutableCopy],
             [[ZSZuseDSL ifJSON] deepMutableCopy],
+            [[ZSZuseDSL everyJSON] deepMutableCopy],
             [[ZSZuseDSL setJSON] deepMutableCopy]
         ];
 //    }

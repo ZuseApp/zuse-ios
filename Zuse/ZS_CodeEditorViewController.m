@@ -118,6 +118,14 @@
                                                                    initialProperties:[NSSet set]];
             }];
         }
+        else if ([key isEqualToString:@"every"])
+        {
+            statementView = [self everyStatementViewFromJson:jsonStatement beforeAddingSubstatementsBlock:^(ZS_StatementView *statementView) {
+                statementView.propertyScope = [view.propertyScope nestedScopeForCode:jsonStatement[key][@"code"]
+                                                                              atLine:idx
+                                                                   initialProperties:[NSSet set]];
+            }];
+        }
         else
         {
             statementView = [[ZS_StatementView alloc]init];
@@ -313,6 +321,52 @@
     }
     return view;
 }
+- (ZS_StatementView*) everyStatementViewFromJson:(NSMutableDictionary *)json
+               beforeAddingSubstatementsBlock:(void (^)(ZS_StatementView *))beforeSubstatementBlock
+{
+    ZS_StatementView* view = [[ZS_StatementView alloc]initWithJson:json];
+    view.delegate = self;
+    view.jsonCode = json[@"every"][@"code"];
+    
+    // Statement name EVERY
+    [view addNameLabelWithText:@"EVERY"];
+    
+    // add 'seconds' argument
+    NSString* seconds = [ZS_JsonUtilities expressionStringFromJson: json[@"every"][@"seconds"]];
+    [view addArgumentLabelWithText: seconds
+                        touchBlock:^(UILabel* label)
+     {
+         [self performSegueWithIdentifier:@"to expression editor" sender: label];
+     }];
+    
+    // Statement name SECONDS
+    [view addNameLabelWithText:@"SECONDS"];
+    
+    beforeSubstatementBlock(view);
+    
+    // Code block
+    [self addToView: view codeStatementsFromJson:json[@"every"][@"code"]];
+    
+    // Add <new code statement> button
+    [view addNewStatementLabelWithTouchBlock:^(UILabel* label)
+     {
+         ZSToolboxView* toolboxView = [[ZSToolboxView alloc] initWithFrame:CGRectMake(19, 82, 282, 361)];
+         ZS_StatementChooserCollectionViewController* controller = [[ZS_StatementChooserCollectionViewController alloc]init];
+         
+         controller.jsonCodeBody = json[@"every"][@"code"];
+         controller.codeEditorViewController = self;
+         controller.toolboxView = toolboxView;
+         
+         self.statementChooserController = controller;
+         
+         [toolboxView setPagingEnabled:NO];
+         [toolboxView addContentView: controller.collectionView title: @"STATEMENT CHOOSER"];
+         [self.view addSubview: toolboxView];
+         [toolboxView showAnimated:YES];
+     }];
+    
+    return view;
+}
 - (ZS_StatementView*) setStatementViewFromJson:(NSMutableDictionary *)json
 {
     ZS_StatementView* view = [[ZS_StatementView alloc]initWithJson:json];
@@ -465,6 +519,23 @@
                 if (json)
                 {
                     statementView.json[@"call"][@"parameters"][parameterNumber] = json;
+                    [self reloadFromJson];
+                }
+                [self dismissViewControllerAnimated: YES completion: nil];
+            };
+        }
+        else if([statementView.json.allKeys[0] isEqualToString:@"every"])
+        {
+            // pass a mutable copy of json to the expression editor controller
+            NSObject* json = statementView.json[@"every"][@"seconds"];
+            c.json = [json isKindOfClass:[NSMutableDictionary class]] ? ((NSMutableDictionary*)json).deepMutableCopy : json;
+            
+            // code block executed upon exiting expression editor
+            c.didFinish = ^(NSObject* json)
+            {
+                if (json)
+                {
+                    statementView.json[@"every"][@"seconds"] = json;
                     [self reloadFromJson];
                 }
                 [self dismissViewControllerAnimated: YES completion: nil];

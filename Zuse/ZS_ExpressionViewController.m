@@ -50,10 +50,12 @@ NSString* ZS_OperatorToString(ZS_Operator operator)
 - (void) setOperator: (ZS_Operator) operator;
 - (void) setNumber: (NSNumber*) number;
 - (void) setVariableName: (NSString*) name;
+- (void) setString: (NSString*) str;
 - (void) setSqrtFunction;
 - (void) setRandomNumberFunction;
 - (BOOL) isOperator;
 - (BOOL) isFunctionCall;
+- (BOOL) isNumber;
 - (BOOL) isSqrtFunctionCall;
 - (BOOL) isRandomNumberFunctionCall;
 @end
@@ -236,6 +238,13 @@ NSString* ZS_OperatorToString(ZS_Operator operator)
         self.json = [NSMutableDictionary dictionaryWithDictionary:@{@"get": name}];
     }
 }
+- (void) setString: (NSString*) str
+{
+    if (!self.isOperator && !self.isFunctionCall)
+    {
+        self.json = str;
+    }
+}
 - (void) setSqrtFunction
 {
     if (!self.isOperator && !self.isFunctionCall)
@@ -361,6 +370,10 @@ NSString* ZS_OperatorToString(ZS_Operator operator)
 - (BOOL) isOperator
 {
     return [self isOperator: self.json];
+}
+- (BOOL) isNumber
+{
+    return [self isNumber:self.json];
 }
 - (BOOL) isFunctionCall
 {
@@ -644,10 +657,15 @@ NSString* ZS_OperatorToString(ZS_Operator operator)
                                     message: @"Please, enter a string"
                           completionHanlder: ^(UIAlertView *alertView, NSInteger buttonIndex)
      {
-         if (self.didFinish)
+         
+         if (!self.selectedNode.isFunctionCall && !self.selectedNode.isOperator)
          {
              NSString* str = [alertView textFieldAtIndex:0].text;
-             self.didFinish([str isEqual:@""] ? nil : str);
+             if (![str isEqualToString:@""])
+             {
+                 [self.selectedNode setString: str];
+                 [self reloadExpression];
+             }
          }
      }
                           cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -669,6 +687,16 @@ NSString* ZS_OperatorToString(ZS_Operator operator)
     {
         [self.selectedNode setRandomNumberFunction];
         self.selectedNode = self.selectedNode.nodes[0];
+        [self reloadExpression];
+    }
+}
+- (IBAction)changeSignButtonTapped
+{
+    if (self.selectedNode.isNumber)
+    {
+        NSNumber* number = (NSNumber*)self.selectedNode.json;
+        number = [NSNumber numberWithFloat: number.floatValue * -1];
+        [self.selectedNode setNumber: number];
         [self reloadExpression];
     }
 }

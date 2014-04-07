@@ -1,6 +1,8 @@
 #import "ZSTutorial.h"
+#import <MTBlockAlertView/MTBlockAlertView.h>
 
-NSString * const ZSTutorialBroadcastPopupDismissed = @"ZSTutorialBroadcastPopupDismissed";
+NSString * const ZSTutorialBroadcastEventComplete = @"ZSTutorialBroadcastEventComplete";
+NSString * const ZSTutorialBroadcastExitTutorial = @"ZSTutorialBroadcastExitTutorial";
 
 @interface ZSTutorial ()
 
@@ -43,11 +45,27 @@ NSString * const ZSTutorialBroadcastPopupDismissed = @"ZSTutorialBroadcastPopupD
 }
 
 - (void)broadcastEvent:(NSString*)event {
-    if (_active && [_event isEqualToString:event]) {
-        if (_completion) {
-            _completion();
+    if (_active) {
+        if ([_event isEqualToString:event]) {
+            if (_completion) {
+                _completion();
+            }
+            [self processNextAction];
         }
-        [self processNextAction];
+        else {
+            UIAlertView *alertView = [[MTBlockAlertView alloc] initWithTitle:@"Exit Tutorial"
+                                                                     message:@"Would you like to exit the tutorial?"
+                                                           completionHanlder:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                                                               if (buttonIndex == 1) {
+                                                                   _active = NO;
+                                                                   [_overlayView removeFromSuperview];
+                                                               }
+                                                           }
+                                                           cancelButtonTitle:@"Cancel"
+                                                           otherButtonTitles:@"OK", nil];
+
+            [alertView show];
+        }
     }
 }
 
@@ -150,7 +168,7 @@ NSString * const ZSTutorialBroadcastPopupDismissed = @"ZSTutorialBroadcastPopupD
 }
 
 - (void)popTipViewWasDismissedByUser:(CMPopTipView *)popTipView {
-    [self broadcastEvent:ZSTutorialBroadcastPopupDismissed];
+    [self broadcastEvent:ZSTutorialBroadcastEventComplete];
 }
 
 - (void)saveObject:(id)anObject forKey:(id <NSCopying>)aKey {

@@ -32,7 +32,7 @@
         _version = @"1.0.0";
         _canvasSize = @[@(screenSize.width), @(screenSize.height - 44)];
         _identifier = [[NSUUID UUID] UUIDString];
-        
+                
         _projectJSON = [NSMutableDictionary dictionary];
         [_projectJSON setObject:_title forKey:@"title"];
         [_projectJSON setObject:_identifier forKey:@"id"];

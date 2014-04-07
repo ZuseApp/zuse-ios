@@ -14,6 +14,7 @@
 + (NSDictionary *)triggerEventJSON;
 + (NSDictionary *)ifJSON;
 + (NSDictionary *)setJSON;
++ (NSDictionary *)everyJSON;
 
 + (NSDictionary *)callFromManifestJSON:(NSDictionary *)entry;
 

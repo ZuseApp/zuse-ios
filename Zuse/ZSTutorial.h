@@ -2,7 +2,15 @@
 #import "CMPopTipView.h"
 #import "ZSOverlayView.h"
 
-extern NSString * const ZSTutorialBroadcastPopupDismissed;
+extern NSString * const ZSTutorialBroadcastEventComplete;
+extern NSString * const ZSTutorialBroadcastExitTutorial;
+
+typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
+    ZSCanvasTutorialSetupStage,
+    ZSCanvasTutorialPaddleTwoSetupStage,
+    ZSCanvasTutorialBallSetupStage,
+    ZSCanvasTutorialGroupSetupStage,
+};
 
 @interface ZSTutorial : NSObject <CMPopTipViewDelegate>
 

@@ -21,6 +21,15 @@
     };
 }
 
++ (NSDictionary *)everyJSON {
+    return @{
+        @"every": @{
+            @"seconds": @1,
+            @"code": @[]
+        }
+    };
+}
+
 + (NSDictionary *)triggerEventJSON {
     return @{
         @"trigger_event": @{
