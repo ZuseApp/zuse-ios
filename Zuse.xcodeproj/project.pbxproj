@@ -8,8 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2C6B5D6A183D43AB00E3D56C /* ZSSpriteTouchComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C6B5D69183D43AB00E3D56C /* ZSSpriteTouchComponent.m */; };
-		2CA36ECC18CE5A6D00CAB651 /* ZSUserLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA36ECB18CE5A6D00CAB651 /* ZSUserLoginViewController.m */; };
-		2CA36ECF18CFCA7D00CAB651 /* ZSUserRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA36ECE18CFCA7D00CAB651 /* ZSUserRegisterViewController.m */; };
+		2CA36ECC18CE5A6D00CAB651 /* ZSUserLoginRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA36ECB18CE5A6D00CAB651 /* ZSUserLoginRegisterViewController.m */; };
 		2CA36ED318D1027800CAB651 /* ZSZuseHubInitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA36ED218D1027800CAB651 /* ZSZuseHubInitViewController.m */; };
 		2CA9A32A18C26605005F4404 /* ZSZuseHubSideMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9A32918C26605005F4404 /* ZSZuseHubSideMenuViewController.m */; };
 		2CA9A32D18C26E27005F4404 /* ZSZuseHubViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9A32C18C26E27005F4404 /* ZSZuseHubViewController.m */; };
@@ -192,10 +191,8 @@
 /* Begin PBXFileReference section */
 		2C6B5D68183D43AB00E3D56C /* ZSSpriteTouchComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSSpriteTouchComponent.h; sourceTree = "<group>"; };
 		2C6B5D69183D43AB00E3D56C /* ZSSpriteTouchComponent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSSpriteTouchComponent.m; sourceTree = "<group>"; };
-		2CA36ECA18CE5A6D00CAB651 /* ZSUserLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSUserLoginViewController.h; sourceTree = "<group>"; };
-		2CA36ECB18CE5A6D00CAB651 /* ZSUserLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSUserLoginViewController.m; sourceTree = "<group>"; };
-		2CA36ECD18CFCA7D00CAB651 /* ZSUserRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSUserRegisterViewController.h; sourceTree = "<group>"; };
-		2CA36ECE18CFCA7D00CAB651 /* ZSUserRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSUserRegisterViewController.m; sourceTree = "<group>"; };
+		2CA36ECA18CE5A6D00CAB651 /* ZSUserLoginRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSUserLoginRegisterViewController.h; sourceTree = "<group>"; };
+		2CA36ECB18CE5A6D00CAB651 /* ZSUserLoginRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSUserLoginRegisterViewController.m; sourceTree = "<group>"; };
 		2CA36ED118D1027800CAB651 /* ZSZuseHubInitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSZuseHubInitViewController.h; sourceTree = "<group>"; };
 		2CA36ED218D1027800CAB651 /* ZSZuseHubInitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSZuseHubInitViewController.m; sourceTree = "<group>"; };
 		2CA9A32818C26605005F4404 /* ZSZuseHubSideMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSZuseHubSideMenuViewController.h; sourceTree = "<group>"; };
@@ -592,10 +589,8 @@
 		2CF6713818D7CB6C005CF5F5 /* Registration and Login Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				2CA36ECA18CE5A6D00CAB651 /* ZSUserLoginViewController.h */,
-				2CA36ECB18CE5A6D00CAB651 /* ZSUserLoginViewController.m */,
-				2CA36ECD18CFCA7D00CAB651 /* ZSUserRegisterViewController.h */,
-				2CA36ECE18CFCA7D00CAB651 /* ZSUserRegisterViewController.m */,
+				2CA36ECA18CE5A6D00CAB651 /* ZSUserLoginRegisterViewController.h */,
+				2CA36ECB18CE5A6D00CAB651 /* ZSUserLoginRegisterViewController.m */,
 			);
 			name = "Registration and Login Controllers";
 			sourceTree = "<group>";
@@ -1446,7 +1441,7 @@
 				5F50CBD218A1529000B7C020 /* ZSSelectedGroupViewController.m in Sources */,
 				5F39DFCA188A40A0008ECAC1 /* NSInvocation+BlocksKit.m in Sources */,
 				789433B618C307A700C8D810 /* ZS_StatementChooserCollectionViewController.m in Sources */,
-				2CA36ECC18CE5A6D00CAB651 /* ZSUserLoginViewController.m in Sources */,
+				2CA36ECC18CE5A6D00CAB651 /* ZSUserLoginRegisterViewController.m in Sources */,
 				789433BC18C3D1E800C8D810 /* ZS_ExpressionVariableChooserCollectionViewController.m in Sources */,
 				5F57B14218D538AE007DB634 /* ZSCodeTransforms.m in Sources */,
 				5F39DFD2188A40A0008ECAC1 /* NSObject+BlocksKit.m in Sources */,
@@ -1476,7 +1471,6 @@
 				5F39DFCC188A40A0008ECAC1 /* NSMutableDictionary+BlocksKit.m in Sources */,
 				4C0D470817FB927600F13786 /* ZSCanvasViewController.m in Sources */,
 				2CA9A35218C53833005F4404 /* MMExampleDrawerVisualStateManager.m in Sources */,
-				2CA36ECF18CFCA7D00CAB651 /* ZSUserRegisterViewController.m in Sources */,
 				7899786418B9255500A8FE05 /* ZS_ExpressionViewController.m in Sources */,
 				2C6B5D6A183D43AB00E3D56C /* ZSSpriteTouchComponent.m in Sources */,
 				2CF6713718D7A329005CF5F5 /* ZSZuseHubBrowseProjectDetailViewController.m in Sources */,
@@ -1630,8 +1624,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_IDENTITY = "iPhone Developer: ROBERT WIGHTMAN (6M3BSZ6J39)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: ROBERT WIGHTMAN (6M3BSZ6J39)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1640,7 +1632,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE = "9FDED36A-0021-41C7-9C17-347B09FC8638";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "arm64 armv7 armv7s";
@@ -1654,8 +1645,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_IDENTITY = "iPhone Developer: ROBERT WIGHTMAN (6M3BSZ6J39)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: ROBERT WIGHTMAN (6M3BSZ6J39)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1664,7 +1653,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE = "9FDED36A-0021-41C7-9C17-347B09FC8638";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "arm64 armv7 armv7s";

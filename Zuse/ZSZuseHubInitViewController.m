@@ -7,7 +7,7 @@
 //
 
 #import "ZSZuseHubInitViewController.h"
-#import "ZSUserLoginViewController.h"
+#import "ZSUserLoginRegisterViewController.h"
 #import "ZSZuseHubViewController.h"
 #import "ZSZuseHubJSONClient.h"
 
@@ -33,23 +33,23 @@
 {
     [super viewDidAppear:animated];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-//    NSString *token = [defaults objectForKey:@"token"];
-    NSString *token = @"WCJQjMenNnJrhqtVBXKlhvXB9JxcCqzeN6mpWS7Z";
+    NSString *token = [defaults objectForKey:@"token"];
+//    NSString *token = @"WCJQjMenNnJrhqtVBXKlhvXB9JxcCqzeN6mpWS7Z";
     if(!token)
     {
         
-        ZSUserLoginViewController *loginController = [[UIStoryboard storyboardWithName:@"Main"
+        ZSUserLoginRegisterViewController *loginRegisterController = [[UIStoryboard storyboardWithName:@"Main"
                                                                                 bundle:[NSBundle mainBundle]]
-                                                      instantiateViewControllerWithIdentifier:@"ZuseHubLogin"];
-        loginController.didFinish = ^(BOOL isLoggedIn) {
+                                                      instantiateViewControllerWithIdentifier:@"ZuseHubLoginRegister"];
+        loginRegisterController.didFinish = ^(BOOL isLoggedIn) {
             if (isLoggedIn) {
                 [self presentHubController];
             } else {
                 [self close];
             }
         };
-        loginController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-        [self presentViewController:loginController animated:YES completion:^{}];
+        loginRegisterController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+        [self presentViewController:loginRegisterController animated:YES completion:^{}];
     }
     else
     {
