@@ -106,6 +106,9 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
             
             touchComponent.touchesBegan = ^(UITouch *touch) {
                 CGPoint point = [touch locationInNode:self];
+                node.touchesBeganOffsetVector = CGVectorMake(node.position.x - point.x, node.position.y - point.y);
+                node.touchesBeganPoint = node.position;
+                
                 [_interpreter triggerEvent:@"touch_began"
                         onObjectWithIdentifier:object[@"id"]
                                     parameters:@{ @"touch_x": @(point.x), @"touch_y": @(point.y) }];
@@ -114,10 +117,30 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
             
             touchComponent.touchesMoved = ^(UITouch *touch) {
                 CGPoint point = [touch locationInNode:self];
-                [_interpreter triggerEvent:@"touch_moved"
-                        onObjectWithIdentifier:object[@"id"]
-                                    parameters:@{ @"touch_x": @(point.x), @"touch_y": @(point.y) }];
                 
+                CGPoint movePoint = CGPointMake(point.x + node.touchesBeganOffsetVector.dx, point.y + node.touchesBeganOffsetVector.dy);
+                
+                CGFloat offsetx = node.size.width / 2.0f;
+                CGFloat offsety = node.size.height / 2.0f;
+                if (movePoint.x <= offsetx) {
+                    movePoint.x = offsetx;
+                }
+                if (movePoint.x >= self.scene.frame.size.width - offsetx) {
+                    movePoint.x = self.scene.frame.size.width - offsetx;
+                }
+                if (movePoint.y < offsety) {
+                    movePoint.y = offsety;
+                }
+                if (movePoint.y > self.scene.frame.size.height - offsety) {
+                    movePoint.y = self.scene.frame.size.height - offsety;
+                }
+                
+                CGPoint actualPoint = CGPointMake(movePoint.x - node.touchesBeganOffsetVector.dx, movePoint.y - node.touchesBeganOffsetVector.dy);
+        
+                
+                [_interpreter triggerEvent:@"touch_moved"
+                    onObjectWithIdentifier:object[@"id"]
+                                parameters:@{ @"touch_x": @(actualPoint.x), @"touch_y": @(actualPoint.y) }];
             };
             
             touchComponent.touchesEnded = ^(UITouch *touch) {
@@ -327,42 +350,11 @@ void APARunOneShotEmitter(SKEmitterNode *emitter, CGFloat duration) {
     
     if (properties[@"x"]) {
         CGPoint point = CGPointMake([properties[@"x"] floatValue], node.position.y);
-        CGPoint movePoint = CGPointMake(point.x, node.position.y);
-        
-        CGFloat offsetx = node.size.width / 2.0f;
-        if([self withinParentFrame:movePoint size:node.size])
-        {
-            node.position = movePoint;
-        }
-        else {
-            if (movePoint.x < offsetx) {
-                movePoint.x = offsetx;
-            }
-            if (movePoint.x > self.scene.frame.size.width - offsetx) {
-                movePoint.x = self.scene.frame.size.width - offsetx;
-            }
-            node.position = movePoint;
-        }
-        
+        node.position = point;
     }
     if (properties[@"y"]) {
         CGPoint point = CGPointMake(node.position.x, [properties[@"y"] floatValue]);
-        CGPoint movePoint = CGPointMake(node.position.x, point.y);
-        
-        CGFloat offsety = node.size.height / 2.0f;
-        if([self withinParentFrame:movePoint size:node.size])
-        {
-            node.position = movePoint;
-        }
-        else {
-            if (movePoint.y < offsety) {
-                movePoint.y = offsety;
-            }
-            if (movePoint.y > self.scene.frame.size.height - offsety) {
-                movePoint.y = self.scene.frame.size.height - offsety;
-            }
-            node.position = movePoint;
-        }
+        node.position = point;
     }
     if (properties[@"text"]) {
         SKLabelNode *textNode = [node.children match:^BOOL(id obj) {

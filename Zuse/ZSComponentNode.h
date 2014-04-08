@@ -12,7 +12,9 @@
 @interface ZSComponentNode : SKComponentNode
 
 @property (strong, nonatomic) NSString *identifier;
+@property CGVector touchesBeganOffsetVector;
 @property CGVector velocity;
+@property CGPoint touchesBeganPoint;
 @property (strong, nonatomic) NSString *collisionGroup;
 @property CGSize size;
 @property CGFloat top, bottom, left, right;
