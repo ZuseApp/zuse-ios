@@ -115,6 +115,7 @@
             success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject)
             {
                 completion(responseObject);
+                [self setToken];
             }
             failure:^(AFHTTPRequestOperation *operation, NSError *error)
             {
@@ -124,11 +125,10 @@
 }
 
 /**
- * Gets the user's token if the user has already logged in.
+ * Get the user token for registered users.
  */
 - (void)authenticateUser:(NSDictionary *)loginInfo completion:(void(^)(NSDictionary *response))completion
 {
-    //TODO make the user info generic
     NSDictionary *params = @{
                              @"user" : @{
                                      @"username" : loginInfo[@"username"],
@@ -141,6 +141,7 @@
             success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject)
             {
                 completion(responseObject);
+                [self setToken];
             }
             failure:^(AFHTTPRequestOperation *operation, NSError *error)
             {
@@ -155,11 +156,17 @@
  */
 - (void)setAuthHeader:(NSString *)token
 {
-//    NSString *params = [@"Token: " stringByAppendingString:self.token];
-//    [self.manager.requestSerializer setValue:[@"Token: " stringByAppendingString:self.token]
-//                          forHTTPHeaderField:@"Authorization"];
-    
     [self.manager.requestSerializer setValue:[@"Token: " stringByAppendingString:token] forHTTPHeaderField:@"Authorization"];
+}
+
+/**
+ * Helper to store the token
+ */
+- (void)setToken
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:self.token forKey:@"token"];
+    [defaults synchronize];
 }
 
 //USER SPECIFIC

@@ -13,9 +13,9 @@
 
 @interface ZSZuseHubInitViewController ()
 
-@property (strong, nonatomic) UINavigationController *loginNavController;
 @property (strong, nonatomic) ZSZuseHubJSONClient *jsonClientManager;
 @property (strong, nonatomic) ZSZuseHubViewController *hubController;
+@property (strong, nonatomic) ZSUserLoginRegisterViewController *loginRegisterViewController;
 
 @end
 
@@ -37,19 +37,32 @@
 //    NSString *token = @"WCJQjMenNnJrhqtVBXKlhvXB9JxcCqzeN6mpWS7Z";
     if(!token)
     {
-        
-        ZSUserLoginRegisterViewController *loginRegisterController = [[UIStoryboard storyboardWithName:@"Main"
+        self.loginRegisterViewController = [[UIStoryboard storyboardWithName:@"Main"
                                                                                 bundle:[NSBundle mainBundle]]
                                                       instantiateViewControllerWithIdentifier:@"ZuseHubLoginRegister"];
-        loginRegisterController.didFinish = ^(BOOL isLoggedIn) {
-            if (isLoggedIn) {
-                [self presentHubController];
-            } else {
-                [self close];
+        WeakSelf
+        self.loginRegisterViewController.didFinish = ^(BOOL isLoggedIn) {
+            //what to do when finished logging in.
+            if (isLoggedIn)
+            {
+                //NOTE TO SELF
+                //instead of handling presenting the views from here, have them handled in main menu
+                //that way the main menu can decide which view belongs in the hierarchy.
+                
+                [weakSelf.loginRegisterViewController dismissViewControllerAnimated:YES completion:^{
+//                    [weakSelf presentHubController];
+                }];
+            } else
+            {
+                [weakSelf.loginRegisterViewController dismissViewControllerAnimated:YES completion:^{
+                    weakSelf.didFinish();
+                }];
+                
+                
             }
         };
-        loginRegisterController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-        [self presentViewController:loginRegisterController animated:YES completion:^{}];
+        self.loginRegisterViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+        [self presentViewController:self.loginRegisterViewController animated:YES completion:^{}];
     }
     else
     {
@@ -67,17 +80,9 @@
     self.hubController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     [self presentViewController:self.hubController animated:YES completion:^{}];
     self.hubController.didFinish = ^{
-        [weakSelf close];
+        weakSelf.didFinish();
     };
     
-}
-
-/**
- * Closes the navigation controller so that it can return to the main menu.
- */
-- (void)close
-{
-    self.didFinish();
 }
 
 @end

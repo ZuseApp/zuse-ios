@@ -153,8 +153,7 @@ typedef NS_ENUM(NSInteger, ZSMainMenuProjectFilter) {
     self.zuseHubController = [[ZSZuseHubInitViewController alloc] init];
     WeakSelf
     self.zuseHubController.didFinish = ^{
-        [weakSelf.zuseHubController dismissViewControllerAnimated:YES completion:^{
-        }];
+        [weakSelf.zuseHubController dismissViewControllerAnimated:YES completion:^{}];
     };
     self.zuseHubController.needsOpenProject = ^(ZSProject *project) {
         weakSelf.projectFilter = ZSMainMenuProjectFilterMyProjects;

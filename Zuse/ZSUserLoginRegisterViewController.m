@@ -26,16 +26,9 @@
     self.jsonClientManager = [ZSZuseHubJSONClient sharedClient];
     //set to email textfield to hidden since we default on sign in
     self.emailTextField.hidden = YES;
+    self.view.backgroundColor = [UIColor zuseBackgroundGrey];
 }
 - (IBAction)backTapped:(id)sender {
-    self.didFinish(self.didLogIn);
-}
-
-/**
- * Closes the navigation controller so that it can return to the main menu.
- */
-- (void)close
-{
     self.didFinish(self.didLogIn);
 }
 
@@ -70,17 +63,13 @@
                      self.jsonClientManager.token = response[@"token"];
                      [self.jsonClientManager setAuthHeader:self.jsonClientManager.token];
                      
-                     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-                     [defaults setObject:self.jsonClientManager.token forKey:@"token"];
-                     [defaults synchronize];
-                     
                      self.didLogIn = YES;
                      self.errorMsgLabel.text = @"";
-                     [self close];
+                     self.didFinish(self.didLogIn);
                  }
                  else {
                      self.errorMsgLabel.text = @"Username or password invalid";
-                     [self close];
+                     self.didFinish(self.didLogIn);
                  }
              } ];
         }
@@ -102,16 +91,14 @@
                 {
                     self.jsonClientManager.token = response[@"token"];
                     [self.jsonClientManager setAuthHeader:self.jsonClientManager.token];
-                    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-                    [defaults setObject:self.jsonClientManager.token forKey:@"token"];
-                    [defaults synchronize];
+                    
                     self.didLogIn = YES;
                     self.errorMsgLabel.text = @"";
-                    [self close];
+                    self.didFinish(self.didLogIn);
                 }
                 else{
                     self.errorMsgLabel.text = @"Username taken or email invalid";
-                    [self close];
+                    self.didFinish(self.didLogIn);
                 }
             }];
         }

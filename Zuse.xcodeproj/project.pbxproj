@@ -523,7 +523,7 @@
 		2CA9A31918C1C1CD005F4404 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				2CF6713818D7CB6C005CF5F5 /* Registration and Login Controllers */,
+				2CF6713818D7CB6C005CF5F5 /* Login and Registration Controller */,
 				2CF6713418D7753D005CF5F5 /* Init Controllers */,
 				2CA9A36318C56D76005F4404 /* Drawer Controller */,
 				2CA9A36218C56D4C005F4404 /* Center Controllers */,
@@ -586,13 +586,13 @@
 			name = "Init Controllers";
 			sourceTree = "<group>";
 		};
-		2CF6713818D7CB6C005CF5F5 /* Registration and Login Controllers */ = {
+		2CF6713818D7CB6C005CF5F5 /* Login and Registration Controller */ = {
 			isa = PBXGroup;
 			children = (
 				2CA36ECA18CE5A6D00CAB651 /* ZSUserLoginRegisterViewController.h */,
 				2CA36ECB18CE5A6D00CAB651 /* ZSUserLoginRegisterViewController.m */,
 			);
-			name = "Registration and Login Controllers";
+			name = "Login and Registration Controller";
 			sourceTree = "<group>";
 		};
 		2CF6E515189D7F8C00E2779C /* Particles */ = {
