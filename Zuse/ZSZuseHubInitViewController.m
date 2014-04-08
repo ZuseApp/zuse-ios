@@ -7,7 +7,7 @@
 //
 
 #import "ZSZuseHubInitViewController.h"
-#import "ZSUserLoginRegisterViewController.h"
+
 #import "ZSZuseHubViewController.h"
 #import "ZSZuseHubJSONClient.h"
 
@@ -15,7 +15,7 @@
 
 @property (strong, nonatomic) ZSZuseHubJSONClient *jsonClientManager;
 @property (strong, nonatomic) ZSZuseHubViewController *hubController;
-@property (strong, nonatomic) ZSUserLoginRegisterViewController *loginRegisterViewController;
+
 
 @end
 
@@ -45,20 +45,11 @@
             //what to do when finished logging in.
             if (isLoggedIn)
             {
-                //NOTE TO SELF
-                //instead of handling presenting the views from here, have them handled in main menu
-                //that way the main menu can decide which view belongs in the hierarchy.
-                
-                [weakSelf.loginRegisterViewController dismissViewControllerAnimated:YES completion:^{
-//                    [weakSelf presentHubController];
-                }];
+                [weakSelf.loginRegisterViewController dismissViewControllerAnimated:YES completion:^{}];
             } else
             {
-                [weakSelf.loginRegisterViewController dismissViewControllerAnimated:YES completion:^{
-                    weakSelf.didFinish();
-                }];
-                
-                
+                [weakSelf.loginRegisterViewController dismissViewControllerAnimated:YES completion:^{}];
+                weakSelf.didFinish();
             }
         };
         self.loginRegisterViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;

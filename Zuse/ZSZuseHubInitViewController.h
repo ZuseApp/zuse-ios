@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ZSUserLoginRegisterViewController.h"
 
 @class ZSProject;
 
@@ -14,5 +15,6 @@
 
 @property (copy, nonatomic) void (^didFinish)();
 @property (copy, nonatomic) void (^needsOpenProject)(ZSProject *project);
+@property (strong, nonatomic) ZSUserLoginRegisterViewController *loginRegisterViewController;
 
 @end
