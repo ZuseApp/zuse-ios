@@ -4,4 +4,5 @@
 @interface ZS_CodeEditorViewController : UIViewController <ZS_StatementViewDelegate>
 @property (strong, nonatomic) NSMutableDictionary* json;
 - (void) reloadFromJson;
+- (void) scrollToRight;
 @end

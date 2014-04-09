@@ -1,5 +1,6 @@
 #import "ZS_StatementChooserCollectionViewController.h"
 #import "ZS_JsonUtilities.h"
+#import "ZSTutorial.h"
 
 @interface ZS_StatementChooserCollectionViewCell : UICollectionViewCell
 @property (nonatomic, strong) UILabel* label;
@@ -76,6 +77,7 @@
     [self.jsonCodeBody addObject: self.statements[indexPath.row]];
     [self.codeEditorViewController reloadFromJson];
     [self.toolboxView hideAnimated:YES];
+    [[ZSTutorial sharedTutorial] broadcastEvent:ZSTutorialBroadcastEventComplete];
 }
 #pragma mark UICollectionViewDelegateFlowLayout
 

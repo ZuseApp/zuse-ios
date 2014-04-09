@@ -1,6 +1,7 @@
 #import "ZS_EventChooserCollectionViewController.h"
 #import "ZS_JsonUtilities.h"
 #import <MTBlockAlertView/MTBlockAlertView.h>
+#import "ZSTutorial.h"
 
 @interface ZS_EventChooserCollectionViewCell : UICollectionViewCell
 @property (nonatomic, strong) UILabel* label;
@@ -101,6 +102,7 @@
         [self.codeEditorViewController reloadFromJson];
         [self.toolboxView hideAnimated:YES];
     }
+    [[ZSTutorial sharedTutorial] broadcastEvent:ZSTutorialBroadcastEventComplete];
 }
 #pragma mark UICollectionViewDelegateFlowLayout
 

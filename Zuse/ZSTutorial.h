@@ -4,12 +4,11 @@
 
 extern NSString * const ZSTutorialBroadcastEventComplete;
 extern NSString * const ZSTutorialBroadcastExitTutorial;
+extern NSString * const ZSTutorialBroadcastDebugPause;
 
-typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
-    ZSCanvasTutorialSetupStage,
-    ZSCanvasTutorialPaddleTwoSetupStage,
-    ZSCanvasTutorialBallSetupStage,
-    ZSCanvasTutorialGroupSetupStage,
+typedef NS_ENUM(NSInteger, ZSTutorialStage) {
+    ZSTutorialSetupStage,
+    ZSTutorialBallCodeStage
 };
 
 @interface ZSTutorial : NSObject <CMPopTipViewDelegate>
@@ -17,10 +16,11 @@ typedef NS_ENUM(NSInteger, ZSCanvasTutorialStage) {
 @property (nonatomic, strong) ZSOverlayView *overlayView;
 @property (nonatomic, strong) NSArray *allowedGestures;
 @property (nonatomic, assign, getter=isActive) BOOL active;
+@property (nonatomic, assign) ZSTutorialStage stage;
 
 + (ZSTutorial*)sharedTutorial;
 
-- (void)presentWithCompletion:(void(^)())completion;
+- (void)present;
 - (void)broadcastEvent:(NSString*)event;
 - (void)addActionWithText:(NSString*)text forEvent:(NSString*)event allowedGestures:(NSArray*)allowedGestures activeRegion:(CGRect)activeRegion setup:(void(^)())setup completion:(void(^)())completion;
 - (void)saveObject:(id)anObject forKey:(id <NSCopying>)aKey;

@@ -10,20 +10,12 @@
 #import "ZS_CodeEditorViewController.h"
 #import "ZSTraitEditorViewController.h"
 #import "ZSSpriteTraits.h"
-
-NSString * const ZSTutorialBroadcastTraitTouched = @"ZSTutorialBroadcastTraitTouched";
-
-typedef NS_ENUM(NSInteger, ZSEditorTutorialStage) {
-    ZSEditorPaddleOneSetup,
-    ZSEditorPaddleTwoSetup,
-    ZSEditorBallStage // Just a place holder for ZSTraitEditorParametersViewcontroller
-};
+#import "ZSTutorial.h"
 
 @interface ZSEditorViewController ()
 
 // Tutorial
 @property (strong, nonatomic) ZSTutorial *tutorial;
-@property (assign, nonatomic) ZSEditorTutorialStage tutorialStage;
 
 @end
 
@@ -33,7 +25,6 @@ typedef NS_ENUM(NSInteger, ZSEditorTutorialStage) {
     self = [super initWithCoder:aDecoder];
     if (self) {
         _tutorial = [ZSTutorial sharedTutorial];
-        _tutorialStage = ZSEditorPaddleOneSetup;
     }
     return self;
 }
@@ -59,16 +50,14 @@ typedef NS_ENUM(NSInteger, ZSEditorTutorialStage) {
 
 - (void)viewDidAppear:(BOOL)animated {
     if (_tutorial.isActive) {
-        [self createTutorialForStage:_tutorialStage];
-        [_tutorial presentWithCompletion:^{
-            _tutorialStage++;
-        }];
+        [self createTutorialForStage:_tutorial.stage];
+        [self.tutorial present];
     }
 }
 
 - (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
     if ([item.title isEqualToString:@"Traits"]) {
-        [[ZSTutorial sharedTutorial] broadcastEvent:ZSTutorialBroadcastTraitTouched];
+        [[ZSTutorial sharedTutorial] broadcastEvent:ZSTutorialBroadcastEventComplete];
         
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
                                                                                                target:self.traitController
@@ -78,21 +67,84 @@ typedef NS_ENUM(NSInteger, ZSEditorTutorialStage) {
     }
 }
 
+- (ZS_CodeEditorViewController *)codeController {
+    return (ZS_CodeEditorViewController *)self.viewControllers[0];
+}
+
 - (ZSTraitEditorViewController *)traitController {
     return (ZSTraitEditorViewController *)self.viewControllers[1];
 }
 
 #pragma mark Tutorial
 
-- (void)createTutorialForStage:(ZSEditorTutorialStage)stage {
-    if (stage == ZSEditorPaddleOneSetup || stage == ZSEditorPaddleTwoSetup) {
-        CGRect frame = CGRectMake(160, 519, 160, 49);
-        [[ZSTutorial sharedTutorial] addActionWithText:@"Click here to toggle traits for the sprite."
-                                              forEvent:ZSTutorialBroadcastTraitTouched
-                                       allowedGestures:@[UITapGestureRecognizer.class]
-                                          activeRegion:frame
-                                                 setup:nil
-                                            completion:nil];
+- (void)createTutorialForStage:(ZSTutorialStage)stage {
+//    if (stage == ZSEditorPaddleOneSetup || stage == ZSEditorPaddleTwoSetup) {
+//        CGRect frame = CGRectMake(160, 519, 160, 49);
+//        [[ZSTutorial sharedTutorial] addActionWithText:@"Click here to toggle traits for the sprite."
+//                                              forEvent:ZSTutorialBroadcastEventComplete
+//                                       allowedGestures:@[UITapGestureRecognizer.class]
+//                                          activeRegion:frame
+//                                                 setup:nil
+//                                            completion:nil];
+//    }
+    if (stage == ZSTutorialBallCodeStage) {
+        WeakSelf
+        [_tutorial addActionWithText:@"This is the Sprite Editor. At the bottom, you can see it has two tabs, one for Code and one for Traits. We'll visit Traits in a minute."
+                            forEvent:ZSTutorialBroadcastEventComplete
+                     allowedGestures:@[UITapGestureRecognizer.class]
+                        activeRegion:CGRectZero
+                               setup:nil
+                          completion:nil];
+        [_tutorial addActionWithText:@"Tap the \"add new statement\" line to add some new Code."
+                            forEvent:ZSTutorialBroadcastEventComplete
+                     allowedGestures:@[UITapGestureRecognizer.class]
+                        activeRegion:CGRectMake(45, 107, 192, 23)
+                               setup:nil
+                          completion:nil];
+        [_tutorial addActionWithText:@"The Code Toolbox has various behaviors and code statements you can choose from. Statements are organized lines or groups of code that perform actions when executed."
+                            forEvent:ZSTutorialBroadcastEventComplete
+                     allowedGestures:@[UITapGestureRecognizer.class]
+                        activeRegion:CGRectZero
+                               setup:nil
+                          completion:nil];
+        [_tutorial addActionWithText:@"Tap the On Event method to add this to your sprite. A method is a chunk of code that executes a series of statements and can take in parameters. A parameter is a value that a method uses as input for variables. A variable is a holder for a value. On Event will execute the code inside it every time based on the Event passed in as a parameter."
+                            forEvent:ZSTutorialBroadcastEventComplete
+                     allowedGestures:@[UITapGestureRecognizer.class]
+                        activeRegion:CGRectMake(29, 134, 79, 29)
+                               setup:nil
+                          completion:nil];
+        [_tutorial addActionWithText:@"Tap this to edit the Event Toolbox."
+                            forEvent:ZSTutorialBroadcastEventComplete
+                     allowedGestures:@[UITapGestureRecognizer.class]
+                        activeRegion:CGRectMake(150, 108, 127, 21)
+                               setup:nil
+                          completion:nil];
+        [_tutorial addActionWithText:@"Select touch_began to make this event occur when the user touches the ball."
+                            forEvent:ZSTutorialBroadcastEventComplete
+                     allowedGestures:@[UITapGestureRecognizer.class]
+                        activeRegion:CGRectMake(29, 171, 110, 32)
+                               setup:nil
+                          completion:nil];
+        [_tutorial addActionWithText:@"#something about adding a move method#"
+                            forEvent:ZSTutorialBroadcastEventComplete
+                     allowedGestures:@[UITapGestureRecognizer.class]
+                        activeRegion:CGRectMake(92, 152, 182, 21)
+                               setup:nil
+                          completion:nil];
+        [_tutorial addActionWithText:@"Select move."
+                            forEvent:ZSTutorialBroadcastEventComplete
+                     allowedGestures:@[UITapGestureRecognizer.class]
+                        activeRegion:CGRectMake(27, 210, 57, 32)
+                               setup:nil
+                          completion:nil];
+        [_tutorial addActionWithText:@"#Something about direction parameter.#"
+                            forEvent:ZSTutorialBroadcastEventComplete
+                     allowedGestures:@[UITapGestureRecognizer.class]
+                        activeRegion:CGRectMake(155, 151, 103, 22)
+                               setup:nil
+                          completion:^{
+                              [[weakSelf codeController] scrollToRight];
+                          }];
     }
 }
 @end

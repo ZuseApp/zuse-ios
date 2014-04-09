@@ -1,5 +1,6 @@
 #import "ZS_StatementView.h"
 #import <QuartzCore/QuartzCore.h>
+#import "ZSTutorial.h"
 
 @interface ZS_TouchLabel : UILabel
 - (instancetype) initWithText: (NSString*)text font: (UIFont*)font;
@@ -40,6 +41,7 @@
     {
         self.hasBeenTouched(self);
     }
+    [[ZSTutorial sharedTutorial] broadcastEvent:ZSTutorialBroadcastEventComplete];
 }
 //- (void) setText:(NSString *)text
 //{
@@ -95,15 +97,24 @@
         // Add double tap recognizer
         UITapGestureRecognizer*tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(handleDoubleTapGesture:)];
         tapGesture.numberOfTapsRequired = 2;
+        tapGesture.delegate = self;
         [self addGestureRecognizer: tapGesture];
         
         // Add long press recognizer
         UILongPressGestureRecognizer* longPress = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(handleLongPressGesture:)];
         longPress.minimumPressDuration = 0.2;
+        longPress.delegate = self;
         [self addGestureRecognizer: longPress];
-        
     }
     return self;
+}
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    ZSTutorial *tutorial = [ZSTutorial sharedTutorial];
+    if (!tutorial.active || [tutorial.allowedGestures containsObject:gestureRecognizer.class]) {
+        return YES;
+    }
+    return NO;
 }
 
 #pragma mark - Interface Methods
@@ -239,6 +250,7 @@
         // Notify Code Editor Controller
         [[NSNotificationCenter defaultCenter] postNotificationName: @"statement view selected"
                                                             object: self];
+        [[ZSTutorial sharedTutorial] broadcastEvent:ZSTutorialBroadcastEventComplete];
     }
 }
 -(BOOL) canBecomeFirstResponder

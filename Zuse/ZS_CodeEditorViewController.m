@@ -13,6 +13,8 @@
 #import "ZS_StatementChooserCollectionViewController.h"
 #import "ZS_EventChooserCollectionViewController.h"
 
+#import "ZSTutorial.h"
+
 @interface ZS_CodeEditorViewController ()
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) UILabel* selectedLabel;
@@ -562,6 +564,13 @@
         }
     }
     [self reloadFromJson];
+}
+
+#pragma mark Tutorial Hooks
+
+- (void) scrollToRight {
+    CGPoint rightOffset = CGPointMake(self.scrollView.contentSize.width - self.scrollView.bounds.size.width, 0);
+    [self.scrollView setContentOffset:rightOffset animated:YES];
 }
 
 @end
