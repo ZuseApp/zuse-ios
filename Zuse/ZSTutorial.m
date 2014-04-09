@@ -36,7 +36,7 @@ NSString * const ZSTutorialBroadcastDebugPause = @"ZSTutorialBroadcastDebugPause
         _savedObjects = [NSMutableDictionary dictionary];
         
         _overlayView = [[ZSOverlayView alloc] initWithFrame:_window.frame];
-        _overlayView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5f];
+        // _overlayView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5f];
         
         _stage = ZSTutorialSetupStage;
         _lastImplementedStage = ZSTutorialBallCodeStage;
@@ -171,7 +171,7 @@ NSString * const ZSTutorialBroadcastDebugPause = @"ZSTutorialBroadcastDebugPause
         else {
             _toolTipView.disableTapToDismiss = YES;
             view = [[UIView alloc] initWithFrame:_overlayView.activeRegion];
-            view.backgroundColor = [UIColor whiteColor];
+            // view.backgroundColor = [UIColor whiteColor];
             [_overlayView addSubview:view];
         }
         [_toolTipView presentPointingAtView:view inView:_overlayView animated:YES];
