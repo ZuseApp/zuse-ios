@@ -909,8 +909,9 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
 
 - (void)modifyGroups {
     self.groupsController = [[ZSGroupsViewController alloc] init];
-    self.groupsController.sprites = _project.assembledJSON[@"objects"];
-    self.groupsController.groups = _project.assembledJSON[ZSProjectJSONKeyGroups];
+    self.groupsController.sprites    = _project.assembledJSON[@"objects"];
+    self.groupsController.generators = _project.assembledJSON[@"generators"];
+    self.groupsController.groups     = _project.assembledJSON[ZSProjectJSONKeyGroups];
     
     WeakSelf
     self.groupsController.viewControllerNeedsPresented = ^(UIViewController *controller) {

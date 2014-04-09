@@ -19,21 +19,17 @@
 #import "BlocksKit.h"
 #import "ZSCanvasBarButtonItem.h"
 #import "ZSGeneratorView.h"
+#import "ZSGroupsGeneratorView.h"
 
 @interface ZSGroupsViewController () <WYPopoverControllerDelegate>
 
-// IBOutlets
 @property (strong, nonatomic) UIBarButtonItem *selectedGroupItem;
 @property (strong, nonatomic) UIBarButtonItem *collisionsGroupItem;
-
-// Properties
 @property (strong, nonatomic) NSArray *spriteViews;
-@property (strong, nonatomic) NSArray *generatorViews;
 @property (strong, nonatomic) NSString *selectedGroup;
 @property (strong, nonatomic) WYPopoverController *popover;
 @property (strong, nonatomic) UIView *canvasView;
-@property (strong, nonatomic) UIView *generatorView;
-
+@property (strong, nonatomic) ZSGroupsGeneratorView *generatorView;
 
 @end
 
@@ -42,18 +38,27 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    [self setSelectedGroup:_groups.allKeys.lastObject];
+    [self setSelectedGroup:self.groups.allKeys.lastObject];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    if (!_spriteViews) {
+    if (!self.spriteViews) {
         self.canvasView = [[UIView alloc] initWithFrame:self.view.bounds];
         self.canvasView.backgroundColor = [UIColor whiteColor];
-        self.generatorView = [[UIView alloc] initWithFrame:self.view.bounds];
+
+        self.generatorView = [[ZSGroupsGeneratorView alloc] initWithFrame:self.view.bounds collectionViewLayout:[[UICollectionViewFlowLayout alloc] init]];
         self.generatorView.backgroundColor = [UIColor whiteColor];
+        self.generatorView.generators = self.generators;
+        WeakSelf
+        self.generatorView.didTapSprite = ^(NSDictionary *sprite) {
+            [weakSelf toggleGroupForSpriteWithIdentifier:sprite[@"id"]];
+        };
+
+        self.generatorView.isSpriteSelected = ^BOOL(NSDictionary *sprite) {
+            return [sprite[ZSProjectJSONKeyGroup] isEqualToString:weakSelf.selectedGroup];
+        };
         
-        _spriteViews = [_sprites map:^id(NSDictionary *spriteJSON) {
+        self.spriteViews = [self.sprites map:^id(NSDictionary *spriteJSON) {
             ZSSpriteView *spriteView = [[ZSSpriteView alloc] initWithFrame:CGRectZero];
             spriteView.frame = [self rectForSprite:spriteJSON];
             UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(spriteViewTapped:)];
@@ -65,8 +70,10 @@
         
         [self.view addSubview:self.generatorView];
         [self.view addSubview:self.canvasView];
-        
-        self.interfaceState = _interfaceState;
+
+        // Trigger the right view to come up, probably not the best way
+        // to implicitly trigger this but it is what it is.
+        self.interfaceState = self.interfaceState;
     }
 }
 
@@ -75,7 +82,7 @@
                      animations:^{
                          [self updateSelectedSprites];
                      } completion:^(BOOL finished) {
-                         if (_groups.count == 0) {
+                         if (self.groups.count == 0) {
                              [[self alertViewForNewGroupWithMessage:@"Enter a name for your first group"] show];
                          }
                      }];
@@ -87,13 +94,6 @@
         [self.view bringSubviewToFront:self.canvasView];
     } else {
         [self.view bringSubviewToFront:self.generatorView];
-    }
-}
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"collisions"]) {
-    }
-    else if ([segue.identifier isEqualToString:@"selectedGroup"]) {
     }
 }
 
@@ -126,7 +126,8 @@
 }
 
 - (void)toggleGroupForSpriteWithIdentifier:(NSString *)identifier {
-    NSMutableDictionary *sprite = [_sprites match:^BOOL(NSMutableDictionary *sprite) {
+    NSArray *allSprites = [self.sprites arrayByAddingObjectsFromArray:self.generators];
+    NSMutableDictionary *sprite = [allSprites match:^BOOL(NSMutableDictionary *sprite) {
         return [sprite[@"id"] isEqualToString:identifier];
     }];
     
@@ -157,16 +158,17 @@
 - (void)updateSelectedSprites {
     [_spriteViews each:^(ZSSpriteView *spriteView) {
         NSString *identifier = spriteView.spriteJSON[@"id"];
-        NSMutableDictionary *sprite = [_sprites match:^BOOL(NSMutableDictionary *sprite) {
+        NSMutableDictionary *sprite = [self.sprites match:^BOOL(NSMutableDictionary *sprite) {
             return [sprite[@"id"] isEqualToString:identifier];
         }];
         
-        if ([sprite[ZSProjectJSONKeyGroup] isEqualToString:_selectedGroup]) {
+        if ([sprite[ZSProjectJSONKeyGroup] isEqualToString:self.selectedGroup]) {
             spriteView.alpha = 1.0;
         } else {
             spriteView.alpha = 0.2;
         }
     }];
+    [self.generatorView reloadData];
 }
 
 - (CGRect)rectForSprite:(NSDictionary *)sprite {
@@ -189,10 +191,10 @@
 }
 
 - (void)doneButtonTapped {
-    _didFinish();
+    self.didFinish();
     [UIView animateWithDuration:0.3
                      animations:^{
-                         [_spriteViews each:^(ZSSpriteView *spriteView) {
+                         [self.spriteViews each:^(ZSSpriteView *spriteView) {
                              spriteView.alpha = 1.0;
                          }];
                      } completion:^(BOOL finished) {
@@ -221,7 +223,7 @@
 
 - (void)selectGroupButtonTapped {
     ZSSelectedGroupViewController *controller = [[ZSSelectedGroupViewController alloc] init];
-    controller.groupNames = _groups.allKeys;
+    controller.groupNames = self.groups.allKeys;
     
     self.popover = nil;
     
@@ -252,8 +254,8 @@
 
 - (void)collisionsButtonTapped {
     ZSCollisionsViewController *controller = [[ZSCollisionsViewController alloc] init];
-    controller.collisionGroups = _groups;
-    controller.selectedGroup   = _selectedGroup;
+    controller.collisionGroups = self.groups;
+    controller.selectedGroup   = self.selectedGroup;
     
     WeakSelf
     controller.didFinish = ^{

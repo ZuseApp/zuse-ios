@@ -151,6 +151,7 @@
 		5F93F09118E12D9C005E382B /* scope_set_object_var.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F93F08D18E12D9C005E382B /* scope_set_object_var.json */; };
 		5F93F09318E12E31005E382B /* ZSCodeNormalizerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F93F09218E12E31005E382B /* ZSCodeNormalizerTests.m */; };
 		5F93F09618E21BC0005E382B /* ZSTimedEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F93F09518E21BC0005E382B /* ZSTimedEvent.m */; };
+		5FA11D8518F0738400D358C9 /* ZSGroupsGeneratorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FA11D8418F0738400D358C9 /* ZSGroupsGeneratorView.m */; };
 		5FADD82018D7DD2B00A336CC /* ZSZuseDSL.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FADD81F18D7DD2B00A336CC /* ZSZuseDSL.m */; };
 		5FADD82218D7E98400A336CC /* ZSZuseDSLTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FADD82118D7E98400A336CC /* ZSZuseDSLTests.m */; };
 		5FADD82618D7FB3000A336CC /* galaga_example.json in Resources */ = {isa = PBXBuildFile; fileRef = 5FADD82518D7FB3000A336CC /* galaga_example.json */; };
@@ -407,6 +408,8 @@
 		5F93F09218E12E31005E382B /* ZSCodeNormalizerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCodeNormalizerTests.m; sourceTree = "<group>"; };
 		5F93F09418E21BC0005E382B /* ZSTimedEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSTimedEvent.h; sourceTree = "<group>"; };
 		5F93F09518E21BC0005E382B /* ZSTimedEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSTimedEvent.m; sourceTree = "<group>"; };
+		5FA11D8318F0738400D358C9 /* ZSGroupsGeneratorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSGroupsGeneratorView.h; sourceTree = "<group>"; };
+		5FA11D8418F0738400D358C9 /* ZSGroupsGeneratorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSGroupsGeneratorView.m; sourceTree = "<group>"; };
 		5FADD81E18D7DD2B00A336CC /* ZSZuseDSL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSZuseDSL.h; sourceTree = "<group>"; };
 		5FADD81F18D7DD2B00A336CC /* ZSZuseDSL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSZuseDSL.m; sourceTree = "<group>"; };
 		5FADD82118D7E98400A336CC /* ZSZuseDSLTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSZuseDSLTests.m; sourceTree = "<group>"; };
@@ -1124,6 +1127,8 @@
 				5F8138DE18A0BA07009F3495 /* ZSCollisionsViewController.m */,
 				5F50CBD018A1529000B7C020 /* ZSSelectedGroupViewController.h */,
 				5F50CBD118A1529000B7C020 /* ZSSelectedGroupViewController.m */,
+				5FA11D8318F0738400D358C9 /* ZSGroupsGeneratorView.h */,
+				5FA11D8418F0738400D358C9 /* ZSGroupsGeneratorView.m */,
 			);
 			name = Groups;
 			sourceTree = "<group>";
@@ -1450,6 +1455,7 @@
 				4CC2969018D2A918009428CD /* ZSGeneratorView.m in Sources */,
 				5F8138DF18A0BA07009F3495 /* ZSCollisionsViewController.m in Sources */,
 				5F39172718C53ED100109747 /* ZSCanvasSegue.m in Sources */,
+				5FA11D8518F0738400D358C9 /* ZSGroupsGeneratorView.m in Sources */,
 				4C5F732318873A59007F61B3 /* ZSGrid.m in Sources */,
 				5F39DFD1188A40A0008ECAC1 /* NSObject+BlockObservation.m in Sources */,
 				5F93F09618E21BC0005E382B /* ZSTimedEvent.m in Sources */,
