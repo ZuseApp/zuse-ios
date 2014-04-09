@@ -964,7 +964,7 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
 }
 
 - (void)shareProject {
-    NSURL *baseURL = [NSURL URLWithString:@"https://zusehub.herokuapp.com/api/v1/"];
+    NSURL *baseURL = [NSURL URLWithString:@"http://zusehub.com/api/v1/"];
 //    NSURL *baseURL = [NSURL URLWithString:@"http://128.110.74.238:3000/api/v1/"];
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseURL];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
