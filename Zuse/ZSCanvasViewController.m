@@ -530,9 +530,9 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
                                                newJson[@"name"] = name;
                                                newJson[@"properties"][@"x"] = @(0);
                                                newJson[@"properties"][@"y"] = @(0);
-                                               [[weakSelf.project rawJSON][@"generators"] addObject:newJson];
+                                               [[weakSelf.project rawJSON][@"generators"] insertObject:newJson atIndex:0];
                                                
-                                               [weakSelf.generatorView addGeneratorFromJSON:newJson];
+                                               [weakSelf.generatorView insertGeneratorFromJSON:newJson];
                                                [weakSelf.generatorView reloadData];
                                                [weakSelf saveProject];
                                            }
