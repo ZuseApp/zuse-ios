@@ -80,9 +80,16 @@
          {
              NSString *text = [alertView textFieldAtIndex:0].text;
              if (![text isEqualToString:@""]) {
-                 self.json[@"on_event"][@"name"] = text;
-                 self.json[@"on_event"][@"parameters"] = [NSMutableArray array];
+                 if ([self.json.allKeys[0] isEqualToString:@"on_event"]) {
+                     self.json[@"on_event"][@"name"] = text;
+                     self.json[@"on_event"][@"parameters"] = [NSMutableArray array];
+                 }
+                 else if ([self.json.allKeys[0] isEqualToString:@"trigger_event"]) {
+                     self.json[@"trigger_event"][@"name"] = text;
+                 }
              }
+             [self.codeEditorViewController reloadFromJson];
+             [self.toolboxView hideAnimated:YES];
          }
                               cancelButtonTitle:@"OK" otherButtonTitles:nil];
         alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
