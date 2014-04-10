@@ -52,7 +52,7 @@
                 weakSelf.didFinish();
             }
         };
-        self.loginRegisterViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+//        self.loginRegisterViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
         [self presentViewController:self.loginRegisterViewController animated:YES completion:^{}];
     }
     else

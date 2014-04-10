@@ -11,7 +11,7 @@
 
 @class ZSProject;
 
-@interface ZSZuseHubShareViewController : ZSZuseHubContentViewController
+@interface ZSZuseHubShareViewController : ZSZuseHubContentViewController<UITextViewDelegate>
 
 @property (strong, nonatomic) ZSProject *project;
 

@@ -2,6 +2,9 @@
 //  ZSZuseHubMyHubViewController.m
 //  Zuse
 //
+//  Displays projects that are on the user's device so they can share them and also a
+//  list of projects the user has already shared to ZuseHub.
+//
 //  Created by Sarah Hong on 3/3/14.
 //  Copyright (c) 2014 Michael Hogenson. All rights reserved.
 //
@@ -20,10 +23,12 @@
 #import "ZSProject.h"
 #import "ZSZuseHubMySharedProjectDetailViewController.h"
 #import "ZSProjectCollectionViewCell.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface ZSZuseHubMyHubViewController ()
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
-@property (strong, nonatomic) NSArray *userProjects;
+@property (strong, nonatomic) NSMutableArray *userProjects;
+@property NSInteger currentPage;
 @end
 
 @implementation ZSZuseHubMyHubViewController
@@ -32,7 +37,8 @@
 {
     [super viewDidLoad];
     
-    self.userProjects = @[];
+    self.userProjects = [[NSMutableArray alloc] init];
+    self.currentPage = 1;
     
     self.navigationItem.title = @"ZuseHub";
     
@@ -65,7 +71,7 @@
     
     if(self.contentType == ZSZuseHubMyHubTypeShareProject)
     {
-        self.userProjects = [ZSProjectPersistence userProjects];
+        [self.userProjects addObjectsFromArray:[ZSProjectPersistence userProjects]];
         [self.collectionView reloadData];
     }
     else if(self.contentType == ZSZuseHubMyHubTypeViewMySharedProjects)
@@ -109,33 +115,26 @@
     ZSProjectCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"CollectionCell" forIndexPath:indexPath];
     
     NSString *title;
-    UIImage *image;
     
+    //display projects the user has on their device
     if(self.contentType == ZSZuseHubMyHubTypeShareProject)
     {
         ZSProject *project = self.userProjects[indexPath.row];
         title = project.title;
-        image = project.screenshot;
+        if(project.screenshot)
+            cell.screenshot = project.screenshot;
+        else
+            cell.screenshot = [UIImage imageNamed:@"blank_project.png"];
     }
+    //display projects the user has already shared
     else if(self.contentType == ZSZuseHubMyHubTypeViewMySharedProjects)
     {
         NSDictionary *project = self.userProjects[indexPath.row];
         title = project[@"title"];
-        if(project[@"screenshot"] != NULL)
-        {
-            NSData *data = [[NSData alloc] initWithBase64EncodedString:project[@"screenshot"] options:0];
-            if(data)
-            {
-                image = [UIImage imageWithData:data];
-            }
-        }
+        [cell.screenshotView setImageWithURL:[NSURL URLWithString:project[@"screenshot_url"]] placeholderImage:[UIImage imageNamed:@"blank_project.png"]];
     }
     
     cell.projectTitle = title;
-    if(image)
-        cell.screenshot = image;
-    else
-        cell.screenshot = [UIImage imageNamed:@"blank_project.png"];
     
     [cell setNeedsLayout];
     
@@ -187,7 +186,8 @@
  */
 - (void)setupData
 {
-    [self.jsonClientManager getUsersSharedProjects:^(NSArray *projects) {
+    [self.jsonClientManager getUsersSharedProjects:self.currentPage itemsPerPage:10 completion:^(NSArray *projects, NSInteger statusCode)
+    {
         if(projects)
         {
             self.userProjects = projects;

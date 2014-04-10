@@ -8,13 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import "ZSZuseHubJSONClient.h"
+#import "ZSUserLoginRegisterViewController.h"
 
 @interface ZSZuseHubContentViewController : UIViewController
 
 @property NSInteger contentType;
 @property (strong, nonatomic) ZSZuseHubJSONClient *jsonClientManager;
-//@property (copy, nonatomic) void(^didDownloadProject)(ZSProject *project);
+@property (strong, nonatomic) ZSUserLoginRegisterViewController *loginRegisterViewController;
 
 - (void)contentSizeDidChange:(NSString*)size;
+- (void)showLoginRegisterPage;
 
 @end

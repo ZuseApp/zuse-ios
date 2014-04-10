@@ -25,9 +25,10 @@
 + (ZSZuseHubJSONClient *)sharedClient;
 
 //general
-- (void )getNewestProjects:(int)page itemsPerPage:(int)itemsPerPage completion:(void(^)(NSArray *projects))completion;
-- (void )getPopularProjects:(int)page itemsPerPage:(int)itemsPerPage completion:(void(^)(NSArray *projects))completion;
-- (void )downloadProject:(NSString *)uuid completion:(void(^)(NSDictionary *project))completion;
+- (void)getNewestProjects:(NSInteger)page itemsPerPage:(NSInteger)itemsPerPage completion:(void(^)(NSArray *projects))completion;
+- (void)getPopularProjects:(NSInteger)page itemsPerPage:(NSInteger)itemsPerPage completion:(void(^)(NSArray *projects))completion;
+- (void)downloadProject:(NSString *)uuid completion:(void(^)(NSDictionary *project))completion;
+- (void)showProjectDetail:(NSString *)uuid completion:(void(^)(NSDictionary *project))completion;
 
 //authentication registration
 - (void)registerUser:(NSDictionary *)loginInfo completion:(void (^)(NSDictionary *))completion;
@@ -35,9 +36,11 @@
 - (void)setAuthHeader:(NSString *)token;
 
 //user specific
-- (void)getUsersSharedProjects:(void(^)(NSArray *projects))completion;
-- (void)createSharedProject:(NSString *)title description:(NSString *)description projectJson:(ZSProject *)projectJson completion:(void(^)(NSError *))completion;
-- (void)deleteSharedProject:(NSString *)uuid completion:(void(^)(BOOL success))completion;
+- (void)getUsersSharedProjects:(NSInteger)page itemsPerPage:(NSInteger)itemsPerPage completion:(void(^)(NSArray *projects, NSInteger statusCode))completion;
+- (void)getUsersSharedSingleProject:(NSString *) uuid completion:(void(^)(NSArray *projects, NSInteger statusCode))completion;
+- (void)createSharedProject:(NSString *)title description:(NSString *)description projectJson:(ZSProject *)projectJson completion:(void(^)(NSArray *project, NSError *error, NSInteger statusCode))completion;
+- (void)deleteSharedProject:(NSString *)uuid completion:(void(^)(BOOL success, NSInteger statusCode ))completion;
+- (void)updateSharedProject:(NSString *)title description:(NSString *)description projectJson:(ZSProject *)project completion:(void(^)(NSArray *project, NSError *error, NSInteger statusCode))completion;
 
 @end
 

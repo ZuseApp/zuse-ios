@@ -13,7 +13,7 @@
 
 + (ZSZuseHubJSONClient *)sharedClient
 {
-    NSURL *url = [NSURL URLWithString:@"https://zusehub.herokuapp.com/api/v1/"];
+    NSURL *url = [NSURL URLWithString:@"http://zusehub.com/api/v1/"];
     
     static ZSZuseHubJSONClient *_zuseHubSharedManager = nil;
     static dispatch_once_t onceToken;
@@ -23,8 +23,6 @@
         _zuseHubSharedManager.manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:url];
         _zuseHubSharedManager.manager.requestSerializer = [AFJSONRequestSerializer serializer];
         _zuseHubSharedManager.manager.responseSerializer = [AFJSONResponseSerializer serializer];
-
-        
     });
     
     return _zuseHubSharedManager;
@@ -35,7 +33,7 @@
 /**
  * Gets the 10 newest projects shared on ZuseHub
  */
-- (void)getNewestProjects:(int)page itemsPerPage:(int)itemsPerPage completion:(void (^)(NSArray *))completion
+- (void)getNewestProjects:(NSInteger)page itemsPerPage:(NSInteger)itemsPerPage completion:(void (^)(NSArray *))completion
 {
     NSString *pageUrl = [@"&page=" stringByAppendingString:[NSString stringWithFormat: @"%d", page]];
     NSString *itemsUrl = [@"&per_page=" stringByAppendingString:[NSString stringWithFormat: @"%d", itemsPerPage]];
@@ -57,7 +55,7 @@
 /**
  * Gets the 10 popular projects shared on ZuseHub
  */
-- (void)getPopularProjects:(int)page itemsPerPage:(int)itemsPerPage completion:(void (^)(NSArray *))completion
+- (void)getPopularProjects:(NSInteger)page itemsPerPage:(NSInteger)itemsPerPage completion:(void (^)(NSArray *))completion
 {
     NSString *pageUrl = [@"&page=" stringByAppendingString:[NSString stringWithFormat: @"%d", page]];
     NSString *itemsUrl = [@"&per_page=" stringByAppendingString:[NSString stringWithFormat: @"%d", itemsPerPage]];
@@ -91,6 +89,19 @@
                   NSLog(@"Failed to download project! %@", error.localizedDescription);
                   completion(nil);
               }];
+}
+
+/**
+ * Gets the project details for a specific project
+ */
+- (void)showProjectDetail:(NSString *)uuid completion:(void (^)(NSDictionary *))completion
+{
+    NSString *url = [[@"projects/" stringByAppendingString:uuid] stringByAppendingString:@"/.json"];
+    [self.manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *project) {
+        completion(project);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        completion(nil);
+    }];
 }
 
 //AUTHENTICATION/REGISTRATION
@@ -174,20 +185,37 @@
 /**
  * Returns the shared projects the user has put on ZuseHub
  */
-- (void)getUsersSharedProjects:(void (^)(NSArray *))completion
+- (void)getUsersSharedProjects:(NSInteger)page itemsPerPage:(NSInteger)itemsPerPage completion:(void (^)(NSArray *, NSInteger))completion
 {
-    [self.manager GET:@"user/projects.json"
+    NSString *pageUrl = [@"&page=" stringByAppendingString:[NSString stringWithFormat: @"%d", page]];
+    NSString *itemsUrl = [@"&per_page=" stringByAppendingString:[NSString stringWithFormat: @"%d", itemsPerPage]];
+    NSString *url = [[@"user/projects.json?" stringByAppendingString:pageUrl] stringByAppendingString:itemsUrl];
+    [self.manager GET:url
            parameters:nil
               success:^(AFHTTPRequestOperation *operation, NSArray *projects)
      {
-         completion(projects);
+         completion(projects, operation.response.statusCode);
      }
               failure:^(AFHTTPRequestOperation *operation, NSError *error)
      {
          NSLog(@"Failed to get user's shared projects! %@", error.localizedDescription);
-         completion(nil);
+         completion(nil, operation.response.statusCode);
      }
      ];
+}
+
+/**
+ * Gets a specific shared project by the user
+ */
+- (void)getUsersSharedSingleProject:(NSString *)uuid completion:(void (^)(NSArray *, NSInteger))completion
+{
+    NSString *url = [@"user/projects.json/" stringByAppendingString:uuid];
+    [self.manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, NSArray *project) {
+        completion(project, operation.response.statusCode);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Failed to get specific project by the user! %@", error.localizedDescription);
+        completion(nil, operation.response.statusCode);
+    }];
 }
 
 /**
@@ -196,7 +224,7 @@
 - (void)createSharedProject:(NSString *)title
                 description:(NSString *)description
                 projectJson:(ZSProject *)project
-                 completion:(void (^)(NSError *))completion
+                 completion:(void (^)(NSArray *project, NSError *error, NSInteger statusCode))completion
 
 {
     NSData *projectData = [NSJSONSerialization dataWithJSONObject:project.assembledJSON
@@ -220,7 +248,6 @@
         @"project" : @{
             @"title" : title,
             @"description" : description,
-            @"screenshot" : base64Screenshot,
             @"uuid" : uuid,
             @"project_json" : projectString,
             @"compiled_code" : compiledString,
@@ -228,14 +255,15 @@
         }
         };
     [self.manager POST:@"user/projects.json"
-           parameters:params
-              success:^(AFHTTPRequestOperation *operation, id project)
+            parameters:params
+               success:^(AFHTTPRequestOperation *operation, NSArray *project)
      {
-         completion(nil);
+         completion(project, nil, operation.response.statusCode);
      }
               failure:^(AFHTTPRequestOperation *operation, NSError *error)
      {
-         completion(error);
+         completion(nil, error, operation.response.statusCode);
+         
          NSLog(@"Failed to create a shared project! %@", error.localizedDescription);
          NSLog(@"error string for sharing project failure %@", error.localizedFailureReason);
      }
@@ -245,14 +273,61 @@
 /**
  * Deletes the project the user shared from ZuseHub
  */
-- (void)deleteSharedProject:(NSString *)uuid completion:(void (^)(BOOL))completion
+- (void)deleteSharedProject:(NSString *)uuid completion:(void (^)(BOOL, NSInteger))completion
 {
     NSString *url = [[@"user/projects/" stringByAppendingString:uuid] stringByAppendingString:@".json"];
     [self.manager DELETE:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        completion(YES);
+        completion(YES, operation.response.statusCode);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Failed to delete shared project! %@", error.localizedDescription);
-        completion(NO);
+        completion(NO, operation.response.statusCode);
+    }];
+}
+
+/**
+ * Updates a project that has already been shared
+ */
+- (void)updateSharedProject:(NSString *)title description:(NSString *)description projectJson:(ZSProject *)project completion:(void (^)(NSArray *, NSError *, NSInteger))completion
+{
+    NSData *projectData = [NSJSONSerialization dataWithJSONObject:project.assembledJSON
+                                                          options:0
+                                                            error:nil];
+    NSString *projectString = [[NSString alloc] initWithBytes:projectData.bytes
+                                                       length:projectData.length
+                                                     encoding:NSUTF8StringEncoding];
+    ZSCompiler *compiler = [ZSCompiler compilerWithProjectJSON:project.assembledJSON];
+    NSData *compiledData = [NSJSONSerialization dataWithJSONObject:compiler.compiledJSON
+                                                           options:0
+                                                             error:nil];
+    NSString *compiledString = [[NSString alloc] initWithBytes:compiledData.bytes
+                                                        length:compiledData.length
+                                                      encoding:NSUTF8StringEncoding];
+    NSString *uuid = project.identifier;
+    
+    NSString *version = project.version;
+    
+    NSString *base64Screenshot = [UIImagePNGRepresentation(project.screenshot) base64EncodedStringWithOptions:0];
+    
+    NSDictionary *params = @{
+                             @"project" : @{
+                                     @"title" : title,
+                                     @"description" : description,
+                                     @"project_json" : projectString,
+                                     @"compiled_code" : compiledString,
+                                     @"screenshot" : base64Screenshot,
+                                     @"version" : version
+                                     }
+                             };
+    NSString *url = [[@"user/projects/" stringByAppendingString:uuid] stringByAppendingString:@".json"];
+    
+    [self.manager PUT:url
+           parameters:params
+              success:^(AFHTTPRequestOperation *operation, NSArray *project)
+    {
+        completion(project, nil, operation.response.statusCode);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Failed to update project! %@", error.localizedDescription);
+        completion(nil, error, operation.response.statusCode);
     }];
 }
 

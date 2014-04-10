@@ -14,7 +14,7 @@
 #import "ZSCanvasViewController.h"
 #import "ZSTutorial.h"
 #import "UIImageView+Zuse.h"
-#import "ZSZuseHubInitViewController.h"
+#import "ZSZuseHubViewController.h"
 
 typedef NS_ENUM(NSInteger, ZSMainMenuProjectFilter) {
     ZSMainMenuProjectFilterMyProjects,
@@ -29,7 +29,7 @@ typedef NS_ENUM(NSInteger, ZSMainMenuProjectFilter) {
 @property (weak, nonatomic) NSArray *selectedProjects;
 @property (strong, nonatomic) ZSProject *selectedProject;
 @property (assign, nonatomic) ZSMainMenuProjectFilter projectFilter;
-@property (strong, nonatomic) ZSZuseHubInitViewController *zuseHubController;
+@property (strong, nonatomic) ZSZuseHubViewController *zuseHubController;
 
 @end
 
@@ -150,12 +150,12 @@ typedef NS_ENUM(NSInteger, ZSMainMenuProjectFilter) {
 }
 
 - (IBAction)zuseHubTapped:(id)sender {    
-    self.zuseHubController = [[ZSZuseHubInitViewController alloc] init];
+    self.zuseHubController = [[ZSZuseHubViewController alloc] init];
     WeakSelf
     self.zuseHubController.didFinish = ^{
         [weakSelf.zuseHubController dismissViewControllerAnimated:YES completion:^{}];
     };
-    self.zuseHubController.needsOpenProject = ^(ZSProject *project) {
+    self.zuseHubController.didDownloadProject = ^(ZSProject *project) {
         weakSelf.projectFilter = ZSMainMenuProjectFilterMyProjects;
         [weakSelf reloadDataSources];
         BOOL wasPersisted = [ZSProjectPersistence isProjectPersisted:project];

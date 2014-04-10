@@ -2,6 +2,8 @@
 //  ZSZuseHubMySharedProjectDetailViewController.m
 //  Zuse
 //
+//  Shows the project detail for the projects that the user has shared.
+//
 //  Created by Sarah Hong on 3/17/14.
 //  Copyright (c) 2014 Michael Hogenson. All rights reserved.
 //
@@ -50,13 +52,31 @@
 }
 
 - (IBAction)deleteTapped:(id)sender {
-    [self.jsonClientManager deleteSharedProject:self.project[@"uuid"] completion:^(BOOL success) {
-        if(success)
+    [self.jsonClientManager deleteSharedProject:self.project[@"uuid"] completion:^(BOOL success, NSInteger statusCode) {
+        //delete failed
+        if(!success)
         {
-            //TODO display msg so user knows delete succeeded
-        }
-        else{
-            //TODO display msg so user knows delete failed
+            //not logged in
+            if(statusCode == 401)
+            {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Delete Failed"
+                                                                message:@"You must log in to delete."
+                                                               delegate:nil
+                                                      cancelButtonTitle:@"OK"
+                                                      otherButtonTitles:nil];
+                [alert show];
+                [self showLoginRegisterPage];
+            }
+            //trying to delete another user's project
+            else if(statusCode == 403)
+            {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Delete Failed"
+                                                                message:@"You are not allowed delete this project."
+                                                               delegate:nil
+                                                      cancelButtonTitle:@"OK"
+                                                      otherButtonTitles:nil];
+                [alert show];
+            }
         }
     }];
     self.didFinish();

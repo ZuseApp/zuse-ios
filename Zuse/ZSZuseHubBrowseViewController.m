@@ -22,10 +22,7 @@
 @interface ZSZuseHubBrowseViewController ()
 
 @property (strong, nonatomic) NSArray *jsonProjectsFirst;
-@property (strong, nonatomic) NSArray *jsonProjectsSecond;
 @property int currentPage;
-@property int nextPage;
-@property int itemsPerPage;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (strong, nonatomic) ZSZuseHubBrowseProjectDetailViewController *detailController;
 
@@ -38,11 +35,8 @@
     [super viewDidLoad];
     
     self.currentPage = 1;
-    self.nextPage = 2;
-    self.itemsPerPage = 10;
     
     self.jsonProjectsFirst = @[];
-//    self.jsonProjectsSecond = @[];
     
     self.navigationItem.title = @"ZuseHub";
     
@@ -73,12 +67,10 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     self.jsonProjectsFirst = nil;
-    self.jsonProjectsSecond = nil;
     //set up the data source
     if(self.contentType == ZSZuseHubBrowseTypeNewest)
     {
-//        [self getNewestData:1 array:self.jsonProjectsFirst];
-        [self.jsonClientManager getNewestProjects:1 itemsPerPage:self.itemsPerPage completion:^(NSArray *projects) {
+        [self.jsonClientManager getNewestProjects:1 itemsPerPage:10 completion:^(NSArray *projects) {
             if(projects)
             {
                 self.jsonProjectsFirst = projects;
@@ -199,7 +191,7 @@
 - (void)getNewestData:(int)page array:(NSArray *)array
 {
     __block NSArray *tempArray = array;
-    [self.jsonClientManager getNewestProjects:page itemsPerPage:self.itemsPerPage completion:^(NSArray *projects) {
+    [self.jsonClientManager getNewestProjects:page itemsPerPage:10 completion:^(NSArray *projects) {
         if(projects)
         {
             tempArray = projects;

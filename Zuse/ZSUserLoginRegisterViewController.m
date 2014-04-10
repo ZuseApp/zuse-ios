@@ -28,9 +28,6 @@
     self.emailTextField.hidden = YES;
     self.view.backgroundColor = [UIColor zuseBackgroundGrey];
 }
-- (IBAction)backTapped:(id)sender {
-    self.didFinish(self.didLogIn);
-}
 
 - (IBAction)segmentDidChange:(id)sender {
     
@@ -44,6 +41,9 @@
     {
         self.emailTextField.hidden = NO;
     }
+}
+- (IBAction)cancelTapped:(id)sender {
+    self.didFinish(self.didLogIn);
 }
 
 - (IBAction)doneTapped:(id)sender {

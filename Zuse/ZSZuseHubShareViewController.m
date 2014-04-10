@@ -2,6 +2,9 @@
 //  ZSZuseHubShareViewController.m
 //  Zuse
 //
+//  Shows a form where the user can fill out the project details to share a
+//  project from their device.
+//
 //  Created by Sarah Hong on 3/4/14.
 //  Copyright (c) 2014 Michael Hogenson. All rights reserved.
 //
@@ -9,7 +12,9 @@
 #import "ZSZuseHubShareViewController.h"
 
 @interface ZSZuseHubShareViewController ()
-@property (weak, nonatomic) IBOutlet UITextField *titleTextField;
+
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet UILabel *titleTextLabel;
 @property (weak, nonatomic) IBOutlet UITextView *descriptionTextField;
 
 @property (strong, nonatomic) NSString *title;
@@ -27,37 +32,69 @@
 	// Do any additional setup after loading the view.
     
     self.navigationItem.title = @"ZuseHub";
-    
-    self.titleTextField.enabled = NO;
-    self.titleTextField.text = self.project.title;
-    
-    [self.view setBackgroundColor:[UIColor colorWithRed:208.0/255.0
-                                                  green:208.0/255.0
-                                                   blue:208.0/255.0
-                                                  alpha:1.0]];
+    self.titleTextLabel.text = self.project.title;
+    self.descriptionTextField.layer.cornerRadius = 5.0f;
+    self.descriptionTextField.clipsToBounds = YES;
+    self.descriptionTextField.delegate = self;
+    self.view.backgroundColor = [UIColor zuseBackgroundGrey];
 }
+
 - (IBAction)outerViewTapped:(id)sender {
-    [self.titleTextField resignFirstResponder];
+    [self.titleTextLabel resignFirstResponder];
     [self.descriptionTextField resignFirstResponder];
 }
 - (IBAction)cancelTapped:(id)sender {
     self.didFinish(NO);
 }
-- (IBAction)shareTapped:(id)sender {
-    if(self.titleTextField.text.length != 0 && self.descriptionTextField.text.length != 0)
-    {
+
+- (void)textViewDidBeginEditing:(UITextView *)textView
+{
+    textView.text = @"";
+    textView.textColor = [UIColor blackColor];
     
-    // JSON request
-        [self.jsonClientManager createSharedProject:self.titleTextField.text description:self.descriptionTextField.text projectJson:self.project
-         completion:^(NSError *error) {
-             if(error.localizedDescription.length == 0)
-                 NSLog(@"share succeeded");
+    self.scrollView.contentOffset = CGPointMake(0, textView.frame.origin.y);
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView
+{
+    if(textView.text.length == 0)
+    {
+        textView.text = @"Enter description";
+        textView.textColor = [UIColor blackColor];
+    }
+    self.scrollView.contentOffset = CGPointMake(0, 0);
+}
+
+- (IBAction)shareTapped:(id)sender {
+    if(self.titleTextLabel.text.length != 0 && self.descriptionTextField.text.length != 0)
+    {
+        //TODO have logic here to check if the project should use create or update endpoint
+        [self.jsonClientManager createSharedProject:self.titleTextLabel.text description:self.descriptionTextField.text projectJson:self.project
+         completion:^(NSArray *project, NSError *error, NSInteger statusCode)
+        {
+            //user not logged in
+             if(statusCode == 401)
+             {
+                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Share Failed"
+                                                                 message:@"You must log in to share."
+                                                                delegate:nil
+                                                       cancelButtonTitle:@"OK"
+                                                       otherButtonTitles:nil];
+                 [alert show];
+                 [self showLoginRegisterPage];
+             }
+             else
+             {
+                 if(error.localizedDescription.length == 0)
+                 {
+                     NSLog(@"share succeeded");
+                     //TODO store the project JSON that came back
+                 }
+             }
          }];
      
         self.didFinish(YES);
     }
-    
-    
 }
 
 @end
