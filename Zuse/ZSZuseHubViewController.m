@@ -67,9 +67,7 @@
     
     [self.view addSubview:self.drawerController.view];
 
-    
-    [self setUpLeftDrawerBlocks];
-    
+    [self setUpLeftDrawerBlocks];    
 }
 
 - (void)setUpLeftDrawerBlocks

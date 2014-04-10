@@ -35,8 +35,8 @@
  */
 - (void)getNewestProjects:(NSInteger)page itemsPerPage:(NSInteger)itemsPerPage completion:(void (^)(NSArray *))completion
 {
-    NSString *pageUrl = [@"&page=" stringByAppendingString:[NSString stringWithFormat: @"%d", page]];
-    NSString *itemsUrl = [@"&per_page=" stringByAppendingString:[NSString stringWithFormat: @"%d", itemsPerPage]];
+    NSString *pageUrl = [@"&page=" stringByAppendingString:[NSString stringWithFormat: @"%ld", (long)page]];
+    NSString *itemsUrl = [@"&per_page=" stringByAppendingString:[NSString stringWithFormat: @"%ld", (long)itemsPerPage]];
     NSString *url = [[@"projects.json?category=newest" stringByAppendingString:pageUrl] stringByAppendingString:itemsUrl];
     [self.manager GET:url
            parameters:nil
@@ -57,8 +57,8 @@
  */
 - (void)getPopularProjects:(NSInteger)page itemsPerPage:(NSInteger)itemsPerPage completion:(void (^)(NSArray *))completion
 {
-    NSString *pageUrl = [@"&page=" stringByAppendingString:[NSString stringWithFormat: @"%d", page]];
-    NSString *itemsUrl = [@"&per_page=" stringByAppendingString:[NSString stringWithFormat: @"%d", itemsPerPage]];
+    NSString *pageUrl = [@"&page=" stringByAppendingString:[NSString stringWithFormat: @"%ld", (long)page]];
+    NSString *itemsUrl = [@"&per_page=" stringByAppendingString:[NSString stringWithFormat: @"%ld", (long)itemsPerPage]];
     NSString *url = [[@"projects.json?category=popular" stringByAppendingString:pageUrl] stringByAppendingString:itemsUrl];
 
     [self.manager GET:url

@@ -2,6 +2,8 @@
 //  ZSZuseHubBrowseViewController.m
 //  Zuse
 //
+//  Allows the user to browse projects shared on ZuseHub even if not signed in.
+//
 //  Created by Sarah Hong on 3/3/14.
 //  Copyright (c) 2014 Michael Hogenson. All rights reserved.
 //
@@ -18,6 +20,9 @@
 #import "ZSZuseHubBrowseProjectDetailViewController.h"
 #import "ZSZuseHubShareViewController.h"
 #import "ZSProjectCollectionViewCell.h"
+#import <SDWebImage/UIImageView+WebCache.h>
+#import <SVPullToRefresh/SVPullToRefresh.h>
+#import <SVPullToRefresh/UIScrollView+SVInfiniteScrolling.h>
 
 @interface ZSZuseHubBrowseViewController ()
 
@@ -137,19 +142,7 @@
     NSDictionary *project = self.jsonProjectsFirst[indexPath.row];
     
     cell.projectTitle = project[@"title"];
-    UIImage *image = nil;
-    if(project[@"screenshot"] != NULL)
-    {
-        NSData *data = [[NSData alloc] initWithBase64EncodedString:project[@"screenshot"] options:0];
-        if(data)
-        {
-            image = [UIImage imageWithData:data];
-        }
-    }
-    if(image)
-        cell.screenshot = image;
-    else
-        cell.screenshot = [UIImage imageNamed:@"blank_project.png"];
+    [cell.screenshotView setImageWithURL:[NSURL URLWithString:project[@"screenshot_url"]] placeholderImage:[UIImage imageNamed:@"blank_project.png"]];
     
     [cell setNeedsLayout];
     
@@ -168,7 +161,8 @@
                                                                           bundle:[NSBundle mainBundle]]
                                                 instantiateViewControllerWithIdentifier:@"BrowseProjectDetail"];
     NSInteger index = [self.collectionView.indexPathsForSelectedItems.firstObject row];
-    self.detailController.project = self.jsonProjectsFirst[index];
+    NSDictionary *project = self.jsonProjectsFirst[index];
+    self.detailController.uuid = project[@"uuid"];
     [self presentViewController:self.detailController animated:YES completion:^{}];
     WeakSelf
     self.detailController.didDownloadProject = ^(ZSProject *project){

@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		2C6B5D6A183D43AB00E3D56C /* ZSSpriteTouchComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C6B5D69183D43AB00E3D56C /* ZSSpriteTouchComponent.m */; };
 		2CA36ECC18CE5A6D00CAB651 /* ZSUserLoginRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA36ECB18CE5A6D00CAB651 /* ZSUserLoginRegisterViewController.m */; };
-		2CA36ED318D1027800CAB651 /* ZSZuseHubInitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA36ED218D1027800CAB651 /* ZSZuseHubInitViewController.m */; };
 		2CA9A32A18C26605005F4404 /* ZSZuseHubSideMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9A32918C26605005F4404 /* ZSZuseHubSideMenuViewController.m */; };
 		2CA9A32D18C26E27005F4404 /* ZSZuseHubViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9A32C18C26E27005F4404 /* ZSZuseHubViewController.m */; };
 		2CA9A33618C4805D005F4404 /* ZSZuseHubBrowseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9A33518C4805D005F4404 /* ZSZuseHubBrowseViewController.m */; };
@@ -193,8 +192,6 @@
 		2C6B5D69183D43AB00E3D56C /* ZSSpriteTouchComponent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSSpriteTouchComponent.m; sourceTree = "<group>"; };
 		2CA36ECA18CE5A6D00CAB651 /* ZSUserLoginRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSUserLoginRegisterViewController.h; sourceTree = "<group>"; };
 		2CA36ECB18CE5A6D00CAB651 /* ZSUserLoginRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSUserLoginRegisterViewController.m; sourceTree = "<group>"; };
-		2CA36ED118D1027800CAB651 /* ZSZuseHubInitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSZuseHubInitViewController.h; sourceTree = "<group>"; };
-		2CA36ED218D1027800CAB651 /* ZSZuseHubInitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSZuseHubInitViewController.m; sourceTree = "<group>"; };
 		2CA9A32818C26605005F4404 /* ZSZuseHubSideMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSZuseHubSideMenuViewController.h; sourceTree = "<group>"; };
 		2CA9A32918C26605005F4404 /* ZSZuseHubSideMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSZuseHubSideMenuViewController.m; sourceTree = "<group>"; };
 		2CA9A32B18C26E27005F4404 /* ZSZuseHubViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSZuseHubViewController.h; sourceTree = "<group>"; };
@@ -578,8 +575,6 @@
 		2CF6713418D7753D005CF5F5 /* Init Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				2CA36ED118D1027800CAB651 /* ZSZuseHubInitViewController.h */,
-				2CA36ED218D1027800CAB651 /* ZSZuseHubInitViewController.m */,
 				2CA9A32B18C26E27005F4404 /* ZSZuseHubViewController.h */,
 				2CA9A32C18C26E27005F4404 /* ZSZuseHubViewController.m */,
 			);
@@ -1420,7 +1415,6 @@
 				5FBB4A8018BFEA4300B79AB6 /* ZSMainMenuViewController.m in Sources */,
 				5FBB4A7D18BFE90A00B79AB6 /* ZSProjectCollectionViewCell.m in Sources */,
 				2CA9A35818C54B40005F4404 /* MMSideDrawerSectionHeaderView.m in Sources */,
-				2CA36ED318D1027800CAB651 /* ZSZuseHubInitViewController.m in Sources */,
 				5F39172118C4F9FA00109747 /* ZSProjectJSONKeys.m in Sources */,
 				5F39DFCF188A40A0008ECAC1 /* NSMutableSet+BlocksKit.m in Sources */,
 				2CA9A34918C533BF005F4404 /* MMTableViewCell.m in Sources */,
