@@ -153,7 +153,7 @@
                                                        length:projectData.length
                                                      encoding:NSUTF8StringEncoding];
     ZSCompiler *compiler = [ZSCompiler compilerWithProjectJSON:project.assembledJSON];
-    NSData *compiledData = [NSJSONSerialization dataWithJSONObject:compiler.compiledJSON
+    NSData *compiledData = [NSJSONSerialization dataWithJSONObject:compiler.compiledComponents
                                                           options:0
                                                             error:nil];
     NSString *compiledString = [[NSString alloc] initWithBytes:compiledData.bytes
@@ -170,22 +170,21 @@
             @"screenshot" : base64Screenshot,
             @"uuid" : uuid,
             @"project_json" : projectString,
-            @"compiled_code" : compiledString
+            @"compiled_components" : compiledString
         }
-        };
+    };
+
     [self.manager POST:@"user/projects.json"
-           parameters:params
-              success:^(AFHTTPRequestOperation *operation, id project)
-     {
-         completion(nil);
-     }
-              failure:^(AFHTTPRequestOperation *operation, NSError *error)
-     {
-         completion(error);
-         NSLog(@"Failed to create a shared project! %@", error.localizedDescription);
-         NSLog(@"error string for sharing project failure %@", error.localizedFailureReason);
-         result = NO;
-     }
+            parameters:params
+               success:^(AFHTTPRequestOperation *operation, id project) {
+                   completion(nil);
+               }
+               failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                   completion(error);
+                   NSLog(@"Failed to create a shared project! %@", error.localizedDescription);
+                   NSLog(@"error string for sharing project failure %@", error.localizedFailureReason);
+                   result = NO;
+               }
      ];
 }
 

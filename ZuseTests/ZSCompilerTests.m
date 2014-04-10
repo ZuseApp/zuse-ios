@@ -31,7 +31,7 @@
     
     ZSCompiler *compiler = [ZSCompiler compilerWithProjectJSON:projectWithTraits];
     
-    NSDictionary *compiledJSON = [compiler compiledJSON];
+    NSDictionary *compiledJSON = [compiler compiledComponents];
     
     ZSInterpreter *interpreter = [ZSInterpreter interpreter];
     
@@ -64,7 +64,7 @@
     }];
     
     
-    [interpreter runJSON:compiledJSON];
+    [interpreter runJSON:compiledJSON[@"objects"]];
     
     XCTAssert(didRunInObject, @"");
     XCTAssert(didRunInTrait, @"");
@@ -76,6 +76,6 @@
     
     ZSCompiler *compiler = [ZSCompiler compilerWithProjectJSON:original];
     
-    XCTAssertEqualObjects(expected, compiler.compiledJSON, @"");
+    XCTAssertEqualObjects(expected, compiler.compiledComponents, @"");
 }
 @end

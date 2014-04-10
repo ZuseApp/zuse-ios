@@ -31,7 +31,7 @@ typedef NS_ENUM(NSInteger, ZSCompilerOptions) {
  *
  *  @return NSDictionary representing the compiled JSON
  */
-- (NSDictionary *)compiledJSON;
+- (NSDictionary *)compiledComponents;
 
 /**
  *

@@ -33,6 +33,7 @@
 @property (strong, nonatomic) NSDictionary *categoryBitMasks;
 @property (strong, nonatomic) NSDictionary *collisionBitMasks;
 @property (strong, nonatomic) NSMutableArray *timedEvents;
+@property (strong, nonatomic) NSDictionary *compiledComponents;
 
 @end
 
@@ -99,9 +100,10 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
     node.physicsBody = [self physicsBodyForType:spriteJSON[@"physics_body"] size:size];
     
     if (node.physicsBody) {
-        node.physicsBody.categoryBitMask    = [self.categoryBitMasks[spriteJSON[@"collision_group"]] integerValue];
-        node.physicsBody.collisionBitMask   = [self.collisionBitMasks[spriteJSON[@"collision_group"]] integerValue];
-        node.physicsBody.contactTestBitMask = [self.collisionBitMasks[spriteJSON[@"collision_group"]] integerValue];
+        node.physicsBody.categoryBitMask    = [self.categoryBitMasks[spriteJSON[@"collision_group"]] intValue];
+//        node.physicsBody.collisionBitMask = 0;
+        node.physicsBody.collisionBitMask   = [self.collisionBitMasks[spriteJSON[@"collision_group"]] intValue];
+        node.physicsBody.contactTestBitMask = [self.collisionBitMasks[spriteJSON[@"collision_group"]] intValue];
         
         node.physicsBody.dynamic = NO;
         node.physicsBody.mass    = 0.02;
@@ -187,7 +189,8 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
 - (void) setupInterpreterWithProjectJSON:(NSDictionary *)projectJSON {
         ZSCompiler *compiler = [ZSCompiler compilerWithProjectJSON:projectJSON options:ZSCompilerOptionWrapInStartEvent];
         [self loadMethodsIntoInterpreter:_interpreter];
-        [_interpreter runJSON:compiler.compiledJSON];
+        self.compiledComponents = compiler.compiledComponents;
+        [_interpreter runJSON:self.compiledComponents[@"objects"]];
 }
 
 - (void) setupWorldPhysics {
@@ -386,24 +389,25 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
             // until we can figure out why x is NaN sometimes.
             if (isnan(x.doubleValue)) return nil;
         
-            NSMutableDictionary *object = [(NSDictionary *)[(NSArray *)self.projectJSON[@"generators"] match:^BOOL(NSDictionary *generator) {
-                return [generator[@"name"] isEqualToString:generatorIdentifier];
-            }] deepMutableCopy];
+            NSMutableDictionary *object = self.compiledComponents[@"generators"][generatorIdentifier];
         
             NSLog(@"%@", generatorIdentifier);
         
-            object[@"id"] = [NSUUID.UUID UUIDString];
-            [object[@"properties"] addEntriesFromDictionary:@{ @"x": x, @"y": y }];
+            object[@"object"][@"id"] = [NSUUID.UUID UUIDString];
+            [object[@"object"][@"properties"] addEntriesFromDictionary:@{ @"x": x, @"y": y }];
         
-            NSArray *interpreterObjects = [ZSCompiler zuseIRObjectsFromDSLObjects:@[object] shouldEmbedInStartEvent:YES];
+            [self.interpreter runJSON:object];
+
+            NSMutableDictionary *DSLSprite = [(NSDictionary *)[(NSArray *)self.projectJSON[@"generators"] match:^BOOL(NSDictionary *generator) {
+                return [generator[@"name"] isEqualToString:generatorIdentifier];
+            }] deepMutableCopy];
+
+            DSLSprite[@"id"] = object[@"object"][@"id"];
+            [DSLSprite[@"properties"] addEntriesFromDictionary:@{ @"x": x, @"y": y }];
         
-            NSDictionary *codeItem = @{ @"suite": interpreterObjects };
+            [self addSpriteWithJSON:DSLSprite];
         
-            [self.interpreter runJSON:codeItem];
-        
-            [self addSpriteWithJSON:object];
-        
-            [self.interpreter triggerEvent:@"start" onObjectWithIdentifier:object[@"id"]];
+            [self.interpreter triggerEvent:@"start" onObjectWithIdentifier:object[@"object"][@"id"]];
         
             return nil;
         }

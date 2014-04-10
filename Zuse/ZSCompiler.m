@@ -38,28 +38,51 @@
     return compiler;
 }
 
-- (NSDictionary *)compiledJSON {
-    NSArray *newObjects = self.projectJSON[@"objects"];
-    
-    NSMutableDictionary *traits = self.projectJSON[@"traits"];
-    if (traits) {
-        newObjects = [self objectsByInliningTraits:traits
-                                           objects:newObjects];
-    }
-    
-    newObjects = [self.class zuseIRObjectsFromDSLObjects:newObjects
-                                 shouldEmbedInStartEvent:self.compilerOptions & ZSCompilerOptionWrapInStartEvent];
-    
-    NSDictionary *code = @{ @"suite": newObjects };
+- (NSDictionary *)compiledComponents {
+    NSArray *projectGenerators = (self.projectJSON[@"generators"] ?: @[]);
+    NSDictionary *components = @{
+        @"objects": self.projectJSON[@"objects"],
+        @"generators": projectGenerators
+    };
 
-    code = [ZSCodeNormalizer normalizedCodeItem:code];
-    code = [ZSCodeTraverser map:code onKeys:@[@"every"] block:ZSCodeTransformEveryBlock];
+    components = [components map:^id(id key, NSArray *newObjects) {
+        NSMutableDictionary *traits = self.projectJSON[@"traits"];
 
-    return code;
+        if (traits) {
+            newObjects = [self objectsByInliningTraits:traits
+                                               objects:newObjects];
+        }
+        
+        newObjects = [self.class zuseIRObjectsFromDSLObjects:newObjects
+                                     shouldEmbedInStartEvent:self.compilerOptions & ZSCompilerOptionWrapInStartEvent];
+        
+        NSDictionary *code = @{ @"suite": newObjects };
+
+        code = [ZSCodeNormalizer normalizedCodeItem:code];
+        code = [ZSCodeTraverser map:code onKeys:@[@"every"] block:ZSCodeTransformEveryBlock];
+
+        return code[@"suite"];
+    }];
+
+    NSArray *generatorsKeys = [projectGenerators map:^id(NSDictionary *generator) {
+        return generator[@"name"];
+    }];
+
+    NSMutableDictionary *generators = [NSMutableDictionary dictionary];
+
+    [components[@"generators"] enumerateObjectsUsingBlock:^(NSDictionary *generator, NSUInteger idx, BOOL *stop) {
+        NSString *key = generatorsKeys[idx];
+        generators[key] = generator;
+    }];
+
+    return @{
+        @"objects": @{ @"suite": components[@"objects"] },
+        @"generators": generators
+    };
 }
 
 - (NSArray *)objectsByInliningTraits:(NSDictionary *)traits objects:(NSArray *)objects {
-    NSArray *newObjects = [self.projectJSON[@"objects"] map:^id(NSDictionary *object) {
+    NSArray *newObjects = [objects map:^id(NSDictionary *object) {
         NSMutableDictionary *newObject = [object deepMutableCopy];
         if (!newObject[@"code"]) {
             newObject[@"code"] = [NSMutableArray array];

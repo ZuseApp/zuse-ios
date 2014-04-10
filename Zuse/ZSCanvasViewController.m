@@ -19,6 +19,7 @@
 #import <Accounts/Accounts.h>
 #import <MTBlockAlertView/MTBlockAlertView.h>
 #import "ZSTutorial.h"
+#import "ZSCompiler.h"
 
 typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
     ZSToolbarInterfaceStateNormal,
@@ -932,11 +933,23 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
     NSString *projectString = [[NSString alloc] initWithBytes:projectData.bytes
                                                        length:projectData.length
                                                      encoding:NSUTF8StringEncoding];
-    
+
+    ZSCompiler *compiler = [ZSCompiler compilerWithProjectJSON:self.project.assembledJSON
+                                                       options:ZSCompilerOptionWrapInStartEvent];
+
+    NSData *compiledData = [NSJSONSerialization dataWithJSONObject:compiler.compiledComponents
+                                                           options:0
+                                                            error:nil];
+
+    NSString *compiledString = [[NSString alloc] initWithBytes:compiledData.bytes
+                                                        length:compiledData.length
+                                                      encoding:NSUTF8StringEncoding];
+
     NSDictionary *params = @{
         @"shared_project": @{
             @"title": self.project.title,
-            @"project_json": projectString
+            @"project_json": projectString,
+            @"compiled_components": compiledString
         }
     };
                         
