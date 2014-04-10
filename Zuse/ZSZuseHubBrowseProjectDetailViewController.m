@@ -52,9 +52,20 @@
             self.descriptionLabel.text = self.project[@"description"];
             long downloads = [self.project[@"downloads"] longLongValue];
             self.timesDownloadedLabel.text = [[NSNumber numberWithLong:downloads] stringValue];
-            [self.screenshotImageView setImageWithURL:[NSURL URLWithString:project[@"screenshot_url"]] placeholderImage:[UIImage imageNamed:@"blank_project.png"]];
+            UIImageView *temp = [[UIImageView alloc] init];
+            [temp setImageWithURL:[NSURL URLWithString:project[@"screenshot_url"]]
+             placeholderImage:[UIImage imageNamed:@"blank_project.png"]
+                        completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+                            //set the new image
+                            if(!error)
+                            {
+                                self.screenshotImageView.image = image;
+                            }
+            } ];
             
-            [self.view setNeedsDisplay];
+            //give it the default blank until the new image comes in
+            self.screenshotImageView.image = temp.image;
+            
         }
         else
         {

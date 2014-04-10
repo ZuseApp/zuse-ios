@@ -142,7 +142,9 @@
     NSDictionary *project = self.jsonProjectsFirst[indexPath.row];
     
     cell.projectTitle = project[@"title"];
-    [cell.screenshotView setImageWithURL:[NSURL URLWithString:project[@"screenshot_url"]] placeholderImage:[UIImage imageNamed:@"blank_project.png"]];
+    UIImageView *temp = [[UIImageView alloc] init];
+    [temp setImageWithURL:[NSURL URLWithString:project[@"screenshot_url"]] placeholderImage:[UIImage imageNamed:@"blank_project.png"]];
+    cell.screenshot = temp.image;
     
     [cell setNeedsLayout];
     

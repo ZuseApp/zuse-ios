@@ -85,7 +85,7 @@
                                                        cancelButtonTitle:@"OK"
                                                        otherButtonTitles:nil];
                  [alert show];
-                 self.didLogIn(NO);
+                 [self showLoginRegisterPage];
              }
              else
              {
@@ -94,11 +94,16 @@
                      NSLog(@"share succeeded");
                      //TODO store the project JSON that came back
                      
-                     
+                     self.didFinish(YES);
+                 }
+                 //share failed
+                 else{
+                     self.didFinish(NO);
                  }
              }
+            
          }];
-        self.didFinish(YES);
+        
     }
     else{
         self.errorMsgLabel.text = @"Fill in the description";

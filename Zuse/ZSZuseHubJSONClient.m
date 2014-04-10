@@ -96,7 +96,7 @@
  */
 - (void)showProjectDetail:(NSString *)uuid completion:(void (^)(NSDictionary *))completion
 {
-    NSString *url = [[@"projects/" stringByAppendingString:uuid] stringByAppendingString:@"/.json"];
+    NSString *url = [[@"projects/" stringByAppendingString:uuid] stringByAppendingString:@".json"];
     [self.manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *project) {
         completion(project);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -250,7 +250,7 @@
             @"description" : description,
             @"uuid" : uuid,
             @"project_json" : projectString,
-            @"compiled_code" : compiledString,
+            @"compiled_components" : compiledString,
             @"screenshot" : base64Screenshot
         }
         };
@@ -313,9 +313,9 @@
                                      @"title" : title,
                                      @"description" : description,
                                      @"project_json" : projectString,
-                                     @"compiled_code" : compiledString,
+                                     @"compiled_components" : compiledString,
                                      @"screenshot" : base64Screenshot,
-                                     @"version" : version
+                                     @"commit_number" : version
                                      }
                              };
     NSString *url = [[@"user/projects/" stringByAppendingString:uuid] stringByAppendingString:@".json"];
