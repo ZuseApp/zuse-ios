@@ -60,7 +60,7 @@
             if(statusCode == 401)
             {
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Delete Failed"
-                                                                message:@"You must log in to delete."
+                                                                message:@"You must sign in to delete."
                                                                delegate:nil
                                                       cancelButtonTitle:@"OK"
                                                       otherButtonTitles:nil];

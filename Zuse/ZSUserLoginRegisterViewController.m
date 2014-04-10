@@ -30,6 +30,7 @@
     self.usernameTextField.delegate = self;
     self.emailTextField.delegate = self;
     self.passwordTextField.delegate = self;
+    self.scrollView.bounds = self.view.bounds;
     self.view.backgroundColor = [UIColor zuseBackgroundGrey];
 }
 
@@ -57,10 +58,14 @@
     }
 }
 - (IBAction)cancelTapped:(id)sender {
+    self.errorMsgLabel.text = @"";
     self.didFinish(self.didLogIn);
 }
 
 - (IBAction)doneTapped:(id)sender {
+    self.errorMsgLabel.text = @"";
+    [self.usernameTextField resignFirstResponder];
+    [self.passwordTextField resignFirstResponder];
     //login
     if(self.segmentControl.selectedSegmentIndex == 0)
     {
@@ -83,9 +88,12 @@
                  }
                  else {
                      self.errorMsgLabel.text = @"Username or password invalid";
-                     self.didFinish(self.didLogIn);
                  }
              } ];
+        }
+        else
+        {
+            self.errorMsgLabel.text = @"Fill out all fields";
         }
     }
     //register
@@ -112,9 +120,11 @@
                 }
                 else{
                     self.errorMsgLabel.text = @"Username taken or email invalid";
-                    self.didFinish(self.didLogIn);
                 }
             }];
+        }
+        else{
+            self.errorMsgLabel.text = @"Fill out all fields";
         }
     }
 }
