@@ -235,7 +235,7 @@
         assert(!error);
     }
     
-    return methodManifest;
+    return [methodManifest deepCopy];
 }
 
 // TODO: This could be sped up by creating a dictionary from the array,
@@ -258,7 +258,7 @@
         }];
     }
     
-    return methods;
+    return [methods deepCopy];
 }
 
 + (NSArray*) emptyEvents
