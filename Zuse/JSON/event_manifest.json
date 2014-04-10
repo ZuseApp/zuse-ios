@@ -1,9 +1,5 @@
 [
   {
-    "name": "start",
-    "parameters": []
-  },
-  {
     "name": "collision",
     "parameters": [
       {

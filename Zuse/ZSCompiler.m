@@ -15,6 +15,7 @@
 @interface ZSCompiler ()
 
 @property (strong, nonatomic) NSDictionary *projectJSON;
+@property (assign, nonatomic) ZSCompilerOptions compilerOptions;
 
 @end
 
@@ -30,6 +31,13 @@
     return compiler;
 }
 
++ (instancetype) compilerWithProjectJSON:(NSDictionary *)projectJSON options:(ZSCompilerOptions)options {
+    ZSCompiler *compiler = [self compilerWithProjectJSON:projectJSON];
+    compiler.compilerOptions = options;
+
+    return compiler;
+}
+
 - (NSDictionary *)compiledJSON {
     NSArray *newObjects = self.projectJSON[@"objects"];
     
@@ -39,24 +47,24 @@
                                            objects:newObjects];
     }
     
-    newObjects = [self.class zuseIRObjectsFromDSLObjects:newObjects];
+    newObjects = [self.class zuseIRObjectsFromDSLObjects:newObjects
+                                 shouldEmbedInStartEvent:self.compilerOptions & ZSCompilerOptionWrapInStartEvent];
     
     NSDictionary *code = @{ @"suite": newObjects };
 
     code = [ZSCodeNormalizer normalizedCodeItem:code];
     code = [ZSCodeTraverser map:code onKeys:@[@"every"] block:ZSCodeTransformEveryBlock];
-    
+
     return code;
 }
 
 - (NSArray *)objectsByInliningTraits:(NSDictionary *)traits objects:(NSArray *)objects {
     NSArray *newObjects = [self.projectJSON[@"objects"] map:^id(NSDictionary *object) {
-        NSMutableDictionary *newObject = [object mutableCopy];
-        if (!newObject[@"code"])
+        NSMutableDictionary *newObject = [object deepMutableCopy];
+        if (!newObject[@"code"]) {
             newObject[@"code"] = [NSMutableArray array];
-        else
-            newObject[@"code"] = [newObject[@"code"] mutableCopy];
-        
+        }
+
         NSDictionary *objectTraits = object[@"traits"];
         
         if (objectTraits && objectTraits.count > 0) {
@@ -103,13 +111,28 @@
  *
  *  @return Array of `object` statements from the Zuse IR
  */
-+ (NSArray *)zuseIRObjectsFromDSLObjects:(NSArray *)objects {
++ (NSArray *)zuseIRObjectsFromDSLObjects:(NSArray *)objects
+                 shouldEmbedInStartEvent:(BOOL)shouldEmbed {
+
     NSArray *newObjects = [objects map:^id(NSDictionary *obj) {
+        NSArray *code = (obj[@"code"] ?: @[]);
+
+        if (shouldEmbed) {
+            code = @[
+                @{
+                    @"on_event": @{
+                        @"name": @"start",
+                        @"code": (obj[@"code"] ?: @[])
+                    }
+                }
+            ];
+        }
+
         return @{
             @"object": @{
                 @"id": obj[@"id"],
                 @"properties": (obj[@"properties"] ?: @{}),
-                @"code": (obj[@"code"] ?: @[])
+                @"code": code
             }
         };
     }];

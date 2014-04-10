@@ -13,68 +13,61 @@
       },
       "code": [
         {
-          "on_event": {
-            "name": "start",
-            "code": [
-              {
-                "set": [
-                  "num",
-                  {
-                    "call": {
-                      "method": "random_number",
-                      "parameters": [
-                        1,
-                        10
-                      ]
-                    }
-                  }
+          "set": [
+            "num",
+            {
+              "call": {
+                "method": "random_number",
+                "parameters": [
+                  1,
+                  10
                 ]
-              },
-              {
-                "set": [
-                  "result",
-                  {
-                    "call": {
-                      "method": "ask",
-                      "async": true,
-                      "parameters": [
-                        "Enter a number between one and ten"
-                      ]
-                    }
-                  }
+              }
+            }
+          ]
+        },
+        {
+          "set": [
+            "result",
+            {
+              "call": {
+                "method": "ask",
+                "async": true,
+                "parameters": [
+                  "Enter a number between one and ten"
                 ]
-              },
+              }
+            }
+          ]
+        },
+        {
+          "if": {
+            "test": {
+              "==": [
+                {
+                  "get": "num"
+                },
+                {
+                  "get": "result"
+                }
+              ]
+            },
+            "true": [
               {
-                "if": {
-                  "test": {
-                    "==": [
-                      {
-                        "get": "num"
-                      },
-                      {
-                        "get": "result"
-                      }
-                    ]
-                  },
-                  "true": [
-                    {
-                      "call": {
-                        "method": "display",
-                        "parameters": [
-                          "Good guess!"
-                        ]
-                      }
-                    }
-                  ],
-                  "false": [
-                    {
-                      "call": {
-                        "method": "display",
-                        "parameters": [
-                          "Wrong!"
-                        ]
-                      }
-                    }
+                "call": {
+                  "method": "display",
+                  "parameters": [
+                    "Good guess!"
+                  ]
+                }
+              }
+            ],
+            "false": [
+              {
+                "call": {
+                  "method": "display",
+                  "parameters": [
+                    "Wrong!"
                   ]
                 }
               }

@@ -46,7 +46,11 @@
                     ]
                   },
                   "true": [
-                    { "call": { "method": "remove" } }
+                    {
+                      "call": {
+                        "method": "remove"
+                      }
+                    }
                   ]
                 }
               },
@@ -657,19 +661,11 @@
     {
       "code": [
         {
-          "on_event": {
-            "parameters": [],
-            "name": "start",
-            "code": [
-              {
-                "call": {
-                  "method": "move",
-                  "parameters": [
-                    45,
-                    200
-                  ]
-                }
-              }
+          "call": {
+            "method": "move",
+            "parameters": [
+              45,
+              200
             ]
           }
         }

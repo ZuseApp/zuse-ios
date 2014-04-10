@@ -43,13 +43,7 @@ typedef NS_ENUM(NSInteger, ZSEditorTutorialStage) {
 {
     [super viewDidLoad];
     ZS_CodeEditorViewController *codeController = (ZS_CodeEditorViewController *)self.viewControllers[0];
-    NSMutableArray *codeItems = self.spriteObject[@"code"];
-    if (codeItems.count == 0) {
-        NSMutableDictionary *onEvent = [[ZSZuseDSL onEventJSON] deepMutableCopy];;
-        onEvent[@"on_event"][@"name"] = @"start";
-        [codeItems addObject:onEvent];
-    }
-    codeController.codeItems = codeItems[0][@"on_event"][@"code"];
+    codeController.codeItems = self.spriteObject[@"code"];
     codeController.initialProperties = self.spriteObject[@"properties"];
     
     ZSTraitEditorViewController *traitController = (ZSTraitEditorViewController *)self.viewControllers[1];

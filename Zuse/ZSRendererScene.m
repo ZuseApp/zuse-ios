@@ -395,7 +395,7 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
             object[@"id"] = [NSUUID.UUID UUIDString];
             [object[@"properties"] addEntriesFromDictionary:@{ @"x": x, @"y": y }];
         
-            NSArray *interpreterObjects = [ZSCompiler zuseIRObjectsFromDSLObjects:@[object]];
+            NSArray *interpreterObjects = [ZSCompiler zuseIRObjectsFromDSLObjects:@[object] shouldEmbedInStartEvent:YES];
         
             NSDictionary *codeItem = @{ @"suite": interpreterObjects };
         
