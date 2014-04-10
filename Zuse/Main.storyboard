@@ -944,6 +944,7 @@
                         <outlet property="emailTextField" destination="FBE-O2-hq0" id="XRC-80-07t"/>
                         <outlet property="errorMsgLabel" destination="ZPQ-LC-ytO" id="LjO-g1-Xpo"/>
                         <outlet property="passwordTextField" destination="GB5-hF-E7R" id="1xi-6B-24u"/>
+                        <outlet property="scrollView" destination="Voo-fS-Paj" id="wDU-x6-Qdl"/>
                         <outlet property="segmentControl" destination="sVF-Aj-1xY" id="Z1k-fZ-V4S"/>
                         <outlet property="usernameTextField" destination="FKZ-kb-Flu" id="3Zl-lx-SKJ"/>
                     </connections>

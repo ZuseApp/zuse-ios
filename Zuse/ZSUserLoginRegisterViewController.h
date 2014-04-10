@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface ZSUserLoginRegisterViewController : UIViewController
+@interface ZSUserLoginRegisterViewController : UIViewController<UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentControl;
 @property (weak, nonatomic) IBOutlet UITextField *usernameTextField;

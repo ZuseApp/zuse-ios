@@ -12,6 +12,7 @@
 
 @interface ZSUserLoginRegisterViewController()
 
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic) ZSZuseHubJSONClient *jsonClientManager;
 @property (assign, nonatomic) BOOL didLogIn;
 
@@ -26,7 +27,20 @@
     self.jsonClientManager = [ZSZuseHubJSONClient sharedClient];
     //set to email textfield to hidden since we default on sign in
     self.emailTextField.hidden = YES;
+    self.usernameTextField.delegate = self;
+    self.emailTextField.delegate = self;
+    self.passwordTextField.delegate = self;
     self.view.backgroundColor = [UIColor zuseBackgroundGrey];
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    self.scrollView.contentOffset = CGPointMake(0, self.usernameTextField.frame.origin.y);
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    self.scrollView.contentOffset = CGPointMake(0, 0);
 }
 
 - (IBAction)segmentDidChange:(id)sender {
