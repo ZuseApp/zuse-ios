@@ -10,6 +10,7 @@
 #import "ZS_CodeEditorViewController.h"
 #import "ZSTraitEditorViewController.h"
 #import "ZSSpriteTraits.h"
+#import "ZSZuseDSL.h"
 
 NSString * const ZSTutorialBroadcastTraitTouched = @"ZSTutorialBroadcastTraitTouched";
 
@@ -42,7 +43,14 @@ typedef NS_ENUM(NSInteger, ZSEditorTutorialStage) {
 {
     [super viewDidLoad];
     ZS_CodeEditorViewController *codeController = (ZS_CodeEditorViewController *)self.viewControllers[0];
-    codeController.json = self.spriteObject;
+    NSMutableArray *codeItems = self.spriteObject[@"code"];
+    if (codeItems.count == 0) {
+        NSMutableDictionary *onEvent = [[ZSZuseDSL onEventJSON] deepMutableCopy];;
+        onEvent[@"on_event"][@"name"] = @"start";
+        [codeItems addObject:onEvent];
+    }
+    codeController.codeItems = codeItems[0][@"on_event"][@"code"];
+    codeController.initialProperties = self.spriteObject[@"properties"];
     
     ZSTraitEditorViewController *traitController = (ZSTraitEditorViewController *)self.viewControllers[1];
     if (!self.spriteObject[@"traits"]) {
@@ -51,6 +59,7 @@ typedef NS_ENUM(NSInteger, ZSEditorTutorialStage) {
     traitController.enabledSpriteTraits  = self.spriteObject[@"traits"];
     traitController.projectTraits = self.projectTraits;
     traitController.globalTraits  = [ZSSpriteTraits defaultTraits];
+    traitController.spriteProperties = self.spriteObject[@"properties"];
 }
 
 -(void)viewWillAppear:(BOOL)animated {

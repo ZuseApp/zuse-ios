@@ -188,8 +188,8 @@ typedef NS_ENUM(NSInteger, ZSEditorTutorialStage) {
         NSMutableDictionary *spriteObject = [NSMutableDictionary dictionary];
         spriteObject[@"id"] = traitIdentifier;
         spriteObject[@"parameters"] = defaultParams;
-        spriteObject[@"code"] = self.allTraits[traitIdentifier][@"code"];
-        controller.json = spriteObject;
+        controller.codeItems = self.allTraits[traitIdentifier][@"code"];
+        controller.initialProperties = [self.spriteProperties mutableCopy];
     }
 }
 

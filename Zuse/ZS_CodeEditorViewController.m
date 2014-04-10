@@ -41,13 +41,13 @@
 - (void) reloadFromJson
 {
     ZS_StatementView* objectStatementView =
-    [self objectStatementViewFromJson: self.json
-       beforeAddingSubstatementsBlock: ^(ZS_StatementView *statementView)
+    [self objectStatementViewFromJson:self.codeItems
+       beforeAddingSubstatementsBlock:^(ZS_StatementView *statementView)
     {
-           NSSet *initialProperties = [NSSet setWithArray:[self.json[@"properties"] allKeys]];
+           NSSet *initialPropertiesSet = [NSSet setWithArray:[self.initialProperties allKeys]];
         
-           statementView.propertyScope = [ZSCodePropertyScope scopeWithCode: self.json[@"code"]
-                                                          initialProperties: initialProperties];
+           statementView.propertyScope = [ZSCodePropertyScope scopeWithCode:self.codeItems
+                                                          initialProperties: initialPropertiesSet];
     }];
  
     // Clean scroll view
@@ -138,29 +138,29 @@
         [view addSubStatementView: statementView];
     }];
 }
-- (ZS_StatementView*) objectStatementViewFromJson:(NSMutableDictionary *)jsonObject
+- (ZS_StatementView*) objectStatementViewFromJson:(NSMutableArray *)codeItems
                    beforeAddingSubstatementsBlock:(void (^)(ZS_StatementView *))beforeSubstatementsBlock
 {
-    ZS_StatementView* view = [[ZS_StatementView alloc]initWithJson:jsonObject];
+    ZS_StatementView* view = [[ZS_StatementView alloc]initWithJson:nil];
     
     // DEBUG
     //view.backgroundColor = [UIColor yellowColor];
     // END DEBUG
     
-    view.jsonCode = jsonObject[@"code"];
+    view.jsonCode = codeItems;
     view.topLevelStatement = YES;
 
     // Properties
-    NSDictionary* properties = jsonObject[@"properties"];
-    if (properties.count)
-    {
-        [view addParametersLabelWithText:[ZS_JsonUtilities propertiesStringFromJson: properties]];
-    }
-    
+//    NSDictionary* properties = jsonObject[@"properties"];
+//    if (properties.count)
+//    {
+//        [view addParametersLabelWithText:[ZS_JsonUtilities propertiesStringFromJson: properties]];
+//    }
+
     beforeSubstatementsBlock(view);
 
     // Code
-    [self addToView: view codeStatementsFromJson: jsonObject[@"code"]];
+    [self addToView: view codeStatementsFromJson:codeItems];
     
     // Add <new code statement> button
     [view addNewStatementLabelWithTouchBlock:^(UILabel* label)
@@ -168,7 +168,7 @@
         ZSToolboxView* toolboxView = [[ZSToolboxView alloc] initWithFrame:CGRectMake(19, 82, 282, 361)];
         ZS_StatementChooserCollectionViewController* controller = [[ZS_StatementChooserCollectionViewController alloc]init];
         
-        controller.jsonCodeBody = jsonObject[@"code"];
+        controller.jsonCodeBody = codeItems;
         controller.codeEditorViewController = self;
         controller.toolboxView = toolboxView;
   
@@ -544,8 +544,9 @@
     }
     else if ([[segue identifier] isEqualToString:@"to json viewer"])
     {
-        ZS_JsonViewController* c  = (ZS_JsonViewController*)segue.destinationViewController;
-        c.json = self.json;
+        // TODO: Fix later.
+//        ZS_JsonViewController* c  = (ZS_JsonViewController*)segue.destinationViewController;
+//        c.json = self.json;
     }
 }
 #pragma mark ZS_StatementViewDelegate
