@@ -16,5 +16,6 @@
 @property (strong, nonatomic) ZSProject *project;
 
 @property (copy, nonatomic) void(^didFinish)(BOOL didShare);
+@property (copy, nonatomic) void(^didLogIn)(BOOL isLoggedIn);
 
 @end

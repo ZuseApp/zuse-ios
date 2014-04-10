@@ -81,7 +81,7 @@
                                                        cancelButtonTitle:@"OK"
                                                        otherButtonTitles:nil];
                  [alert show];
-                 [self showLoginRegisterPage];
+                 self.didLogIn(NO);
              }
              else
              {

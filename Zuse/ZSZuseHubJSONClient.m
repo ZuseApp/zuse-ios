@@ -187,8 +187,8 @@
  */
 - (void)getUsersSharedProjects:(NSInteger)page itemsPerPage:(NSInteger)itemsPerPage completion:(void (^)(NSArray *, NSInteger))completion
 {
-    NSString *pageUrl = [@"&page=" stringByAppendingString:[NSString stringWithFormat: @"%d", page]];
-    NSString *itemsUrl = [@"&per_page=" stringByAppendingString:[NSString stringWithFormat: @"%d", itemsPerPage]];
+    NSString *pageUrl = [@"&page=" stringByAppendingString:[NSString stringWithFormat: @"%ld", (long)page]];
+    NSString *itemsUrl = [@"&per_page=" stringByAppendingString:[NSString stringWithFormat: @"%ld", (long)itemsPerPage]];
     NSString *url = [[@"user/projects.json?" stringByAppendingString:pageUrl] stringByAppendingString:itemsUrl];
     [self.manager GET:url
            parameters:nil

@@ -150,6 +150,7 @@
     
     NSInteger index = [self.collectionView.indexPathsForSelectedItems.firstObject row];
     
+    //display the view to share the selected project.
     if(self.contentType == ZSZuseHubMyHubTypeShareProject)
     {
         ZSZuseHubShareViewController *controller = [[UIStoryboard storyboardWithName:@"Main"
@@ -158,11 +159,13 @@
         controller.project = self.userProjects[index];
         [self presentViewController:controller animated:YES completion:^{}];
         controller.didFinish = ^(BOOL didShare){
-            
             [self dismissViewControllerAnimated:YES completion:^{ }];
-            
+        };
+        controller.didLogIn = ^(BOOL isLoggedIn){
+            [self showLoginRegisterPage];
         };
     }
+    //display the view that shows the detailed for the user's shared project
     else if(self.contentType == ZSZuseHubMyHubTypeViewMySharedProjects)
     {
         ZSZuseHubMySharedProjectDetailViewController *controller = [[UIStoryboard storyboardWithName:@"Main"
