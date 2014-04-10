@@ -185,7 +185,7 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
 }
 
 - (void) setupInterpreterWithProjectJSON:(NSDictionary *)projectJSON {
-        ZSCompiler *compiler = [ZSCompiler compilerWithProjectJSON:projectJSON];
+        ZSCompiler *compiler = [ZSCompiler compilerWithProjectJSON:projectJSON options:ZSCompilerOptionWrapInStartEvent];
         [self loadMethodsIntoInterpreter:_interpreter];
         [_interpreter runJSON:compiler.compiledJSON];
 }
