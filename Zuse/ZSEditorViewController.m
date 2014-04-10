@@ -12,14 +12,6 @@
 #import "ZSSpriteTraits.h"
 #import "ZSZuseDSL.h"
 
-NSString * const ZSTutorialBroadcastTraitTouched = @"ZSTutorialBroadcastTraitTouched";
-
-typedef NS_ENUM(NSInteger, ZSEditorTutorialStage) {
-    ZSEditorPaddleOneSetup,
-    ZSEditorPaddleTwoSetup,
-    ZSEditorBallStage // Just a place holder for ZSTraitEditorParametersViewcontroller
-};
-
 @interface ZSEditorViewController ()
 
 // Tutorial
