@@ -569,7 +569,7 @@
                     {
                       "trigger_event": {
                         "name": "gameover",
-                        "parameters": []
+                        "parameters": {}
                       }
                     }
                   ],

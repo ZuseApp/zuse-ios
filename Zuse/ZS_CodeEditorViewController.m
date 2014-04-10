@@ -316,11 +316,12 @@
          [toolboxView showAnimated:YES];
      }];
     // parameters
-    NSArray* parameters = json[@"trigger_event"][@"parameters"];
-    if (parameters.count)
-    {
-        [view addParametersLabelWithText:[ZS_JsonUtilities parametersStringFromJson: parameters]];
-    }
+    // Note: json[@"trigger_event"][@"parameters"] is currently a dictionary, not an array
+//    NSArray* parameters = json[@"trigger_event"][@"parameters"];
+//    if (parameters.count)
+//    {
+//        [view addParametersLabelWithText:[ZS_JsonUtilities parametersStringFromJson: parameters]];
+//    }
     return view;
 }
 - (ZS_StatementView*) everyStatementViewFromJson:(NSMutableDictionary *)json
