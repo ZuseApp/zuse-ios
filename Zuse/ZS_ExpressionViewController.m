@@ -3,6 +3,7 @@
 #import "ZS_JsonUtilities.h"
 #import "ZSToolboxView.h"
 #import <MTBlockAlertView/MTBlockAlertView.h>
+#import "ZSTutorial.h"
 
 typedef NS_ENUM(NSInteger, ZS_Operator)
 {
@@ -470,6 +471,7 @@ NSString* ZS_OperatorToString(ZS_Operator operator)
 {
     [[NSNotificationCenter defaultCenter] postNotificationName: @"any expression label touched"
                                                         object: self];
+    [[ZSTutorial sharedTutorial] broadcastEvent:ZSTutorialBroadcastEventComplete];
 }
 #pragma mark UILabel
 

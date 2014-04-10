@@ -5,4 +5,5 @@
 @property (strong, nonatomic) NSMutableArray *codeItems;
 @property (strong, nonatomic) NSDictionary *initialProperties;
 - (void) reloadFromJson;
+- (void) scrollToRight;
 @end

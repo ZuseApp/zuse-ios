@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ZSTutorial.h"
 
 @interface ZSEditorViewController : UITabBarController
 

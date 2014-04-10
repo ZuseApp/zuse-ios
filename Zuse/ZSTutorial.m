@@ -3,6 +3,7 @@
 
 NSString * const ZSTutorialBroadcastEventComplete = @"ZSTutorialBroadcastEventComplete";
 NSString * const ZSTutorialBroadcastExitTutorial = @"ZSTutorialBroadcastExitTutorial";
+NSString * const ZSTutorialBroadcastDebugPause = @"ZSTutorialBroadcastDebugPause";
 
 @interface ZSTutorial ()
 
@@ -12,7 +13,7 @@ NSString * const ZSTutorialBroadcastExitTutorial = @"ZSTutorialBroadcastExitTuto
 @property (nonatomic, strong) void (^completion)();
 @property (nonatomic, strong) CMPopTipView *toolTipView;
 @property (nonatomic, strong) NSMutableDictionary *savedObjects;
-@property (nonatomic, strong) void (^stageCompletion)();
+@property (nonatomic, assign) ZSTutorialStage lastImplementedStage;
 
 @end
 
@@ -36,6 +37,9 @@ NSString * const ZSTutorialBroadcastExitTutorial = @"ZSTutorialBroadcastExitTuto
         
         _overlayView = [[ZSOverlayView alloc] initWithFrame:_window.frame];
         // _overlayView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5f];
+        
+        _stage = ZSTutorialSetupStage;
+        _lastImplementedStage = ZSTutorialBallCodeStage;
     }
     return self;
 }
@@ -51,6 +55,10 @@ NSString * const ZSTutorialBroadcastExitTutorial = @"ZSTutorialBroadcastExitTuto
                 _completion();
             }
             [self processNextAction];
+        }
+        else if ([_event isEqualToString:ZSTutorialBroadcastDebugPause]) {
+            [self hideMessage];
+            [self.overlayView reset];
         }
         else {
             UIAlertView *alertView = [[MTBlockAlertView alloc] initWithTitle:@"Exit Tutorial"
@@ -100,8 +108,7 @@ NSString * const ZSTutorialBroadcastExitTutorial = @"ZSTutorialBroadcastExitTuto
     }
 }
 
-- (void)presentWithCompletion:(void(^)())completion {
-    _stageCompletion = completion;
+- (void)present {
     _active = YES;
     [_window addSubview:_overlayView];
     [self processNextAction];
@@ -112,8 +119,11 @@ NSString * const ZSTutorialBroadcastExitTutorial = @"ZSTutorialBroadcastExitTuto
         [_overlayView reset];
         if (_actions.count == 0) {
             [_overlayView removeFromSuperview];
-            if (_stageCompletion) {
-                _stageCompletion();
+            if (self.stage == self.lastImplementedStage) {
+                self.active = NO;
+            }
+            else {
+                self.stage++;
             }
         }
         else {
@@ -161,6 +171,7 @@ NSString * const ZSTutorialBroadcastExitTutorial = @"ZSTutorialBroadcastExitTuto
         else {
             _toolTipView.disableTapToDismiss = YES;
             view = [[UIView alloc] initWithFrame:_overlayView.activeRegion];
+            // view.backgroundColor = [UIColor whiteColor];
             [_overlayView addSubview:view];
         }
         [_toolTipView presentPointingAtView:view inView:_overlayView animated:YES];
