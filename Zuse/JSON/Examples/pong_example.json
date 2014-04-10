@@ -145,7 +145,7 @@
       "paddle"
     ]
   },
-  "generators" : [ ],
+  "generators": [],
   "objects": [
     {
       "id": "score",
@@ -256,26 +256,18 @@
       "collision_group": "ball",
       "code": [
         {
-          "on_event": {
-            "name": "start",
-            "parameters": [],
-            "code": [
+          "set": [
+            "speed",
+            200
+          ]
+        },
+        {
+          "call": {
+            "method": "move",
+            "parameters": [
+              45,
               {
-                "set": [
-                  "speed",
-                  200
-                ]
-              },
-              {
-                "call": {
-                  "method": "move",
-                  "parameters": [
-                    45,
-                    {
-                      "get": "speed"
-                    }
-                  ]
-                }
+                "get": "speed"
               }
             ]
           }

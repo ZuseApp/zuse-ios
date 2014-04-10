@@ -266,12 +266,6 @@
     NSMutableArray* events = [[NSMutableArray alloc]init];
     NSMutableDictionary* event;
     
-    // start
-    event =  [[NSMutableDictionary alloc]init];
-    event[@"name"] = @"start";
-    event[@"parameters"] = [NSMutableArray arrayWithArray:@[]];
-    [events addObject: event];
-    
     // collision
     event =  [[NSMutableDictionary alloc]init];
     event[@"name"] = @"collision";
