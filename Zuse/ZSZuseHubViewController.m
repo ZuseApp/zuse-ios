@@ -12,6 +12,8 @@
 #import "ZSZuseHubMyHubViewController.h"
 #import "MMNavigationController.h"
 #import "MMExampleDrawerVisualStateManager.h"
+#import "ZSZuseHubJSONClient.h"
+#import "ZSUserLoginRegisterViewController.h"
 
 @interface ZSZuseHubViewController ()
 @property (strong, nonatomic) UIWindow *window;
@@ -21,6 +23,8 @@
 @property (strong, nonatomic) __block ZSZuseHubContentViewController *centerViewController;
 @property (strong, nonatomic) __block UINavigationController *navigationController;
 @property (strong, nonatomic) __block UINavigationController *leftSideNavController;
+@property (strong, nonatomic) __block ZSZuseHubJSONClient *jsonClientManager;
+@property (strong, nonatomic) ZSUserLoginRegisterViewController *loginRegisterViewController;
 @end
 
 @implementation ZSZuseHubViewController
@@ -34,6 +38,8 @@
                                            blue:234.0/255.0
                                           alpha:1.0];
     [self.window setTintColor:tintColor];
+    
+    self.jsonClientManager = [ZSZuseHubJSONClient sharedClient];
     
     self.leftSideDrawerViewController = [[ZSZuseHubSideMenuViewController alloc] init];
     //the initial center view will be 10 newest projects until the user changes it
@@ -74,17 +80,31 @@
 {
     WeakSelf
     //set up the blocks
+    
+    //back to main menu option
     self.leftSideDrawerViewController.didSelectBack = ^{
         [weakSelf.leftSideDrawerViewController.mm_drawerController setCenterViewController:weakSelf.navigationController withCloseAnimation:YES completion:nil];
         weakSelf.didFinish();
     };
     
-    self.leftSideDrawerViewController.didSelectLogout = ^{
+    //signout option
+    self.leftSideDrawerViewController.didSelectSignInSignOut = ^{
         [weakSelf.leftSideDrawerViewController.mm_drawerController setCenterViewController:weakSelf.navigationController withCloseAnimation:YES completion:nil];
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        [defaults removeObjectForKey:@"token"];
-        [defaults synchronize];
-        weakSelf.didFinish();
+        
+        //sign out user
+        if(weakSelf.jsonClientManager.token)
+        {
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            [defaults removeObjectForKey:@"token"];
+            [defaults synchronize];
+            weakSelf.jsonClientManager.token = nil;
+            weakSelf.didFinish();
+        }
+        //sign in user
+        else
+        {
+            [weakSelf showLoginSignUpView];
+        }
     };
     
     self.leftSideDrawerViewController.didSelectNewestProjects = ^{
@@ -131,6 +151,29 @@
         [weakSelf.leftSideDrawerViewController.mm_drawerController setCenterViewController:weakSelf.navigationController withCloseAnimation:YES completion:nil];
     };
 
+}
+
+/**
+ *  Helper to show the user login/sign up view
+ */
+- (void)showLoginSignUpView
+{
+    self.loginRegisterViewController = [[UIStoryboard storyboardWithName:@"Main"
+                                                                  bundle:[NSBundle mainBundle]]
+                                        instantiateViewControllerWithIdentifier:@"ZuseHubLoginRegister"];
+    WeakSelf
+    self.loginRegisterViewController.didFinish = ^(BOOL isLoggedIn) {
+        //what to do when finished logging in.
+        if (isLoggedIn)
+        {
+            [weakSelf.loginRegisterViewController dismissViewControllerAnimated:YES completion:^{}];
+        } else
+        {
+            [weakSelf.loginRegisterViewController dismissViewControllerAnimated:YES completion:^{}];
+        }
+    };
+    self.loginRegisterViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    [self presentViewController:self.loginRegisterViewController animated:YES completion:^{}];
 }
 
 @end

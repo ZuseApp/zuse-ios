@@ -33,7 +33,7 @@ typedef NS_ENUM(NSInteger, ZSZuseHubMyHubType)
 typedef NS_ENUM(NSInteger, ZSZuseHubSettingsType)
 {
     ZSZuseHubSettingsBackToMainMenu,
-    ZSZuseHubSettingsLogout,
+    ZSZuseHubSettingsSignInSignOut,
 };
 
 @end

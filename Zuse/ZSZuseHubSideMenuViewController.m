@@ -33,7 +33,7 @@
     //TODO put the other browse filter strings here
     _browseMenuStrings = @[@"Newest", @"Most Popular"];
     _myZuseHubMenuStrings = @[@"Share", @"My Projects"];
-    _settingsStrings = @[@"Main Menu", @"Sign Out"];
+    _settingsStrings = @[@"Main Menu", @"Sign"];
 
     _tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
 
@@ -42,9 +42,9 @@
     [self.view addSubview:self.tableView];
     [self.tableView setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
     
-    UIColor * tableViewBackgroundColor = [UIColor colorWithRed:110.0/255.0
-                                               green:113.0/255.0
-                                                blue:115.0/255.0
+    UIColor * tableViewBackgroundColor = [UIColor colorWithRed:100.0/255.0
+                                               green:103.0/255.0
+                                                blue:105.0/255.0
                                                alpha:1.0];
     
     [self.tableView setBackgroundColor:tableViewBackgroundColor];
@@ -139,21 +139,31 @@
         [cell setSelectionStyle:UITableViewCellSelectionStyleBlue];
     }
     
-    //set the cell text for each section
-    switch (indexPath.section)
+     //set the cell text for each section
+    if(indexPath.section == ZSZuseHubDrawerMyZuseHub)
     {
-        case ZSZuseHubDrawerMyZuseHub:
-            [cell.textLabel setText:_myZuseHubMenuStrings[indexPath.row]];
-            break;
-        case ZSZuseHubDrawerBrowseProjects:
-            [cell.textLabel setText:_browseMenuStrings[indexPath.row]];
-            break;
-        case ZSZuseHubDrawerSettings:
-            [cell.textLabel setText:_settingsStrings[indexPath.row]];
-            break;
-        default:
-            break;
+        [cell.textLabel setText:_myZuseHubMenuStrings[indexPath.row]];
     }
+    else if(indexPath.section == ZSZuseHubDrawerBrowseProjects)
+    {
+        [cell.textLabel setText:_browseMenuStrings[indexPath.row]];
+    }
+    else if(indexPath.section == ZSZuseHubDrawerSettings)
+    {
+        //set up string for sign in/sign out option.
+        if([_settingsStrings[indexPath.row] isEqualToString:@"Sign"])
+        {
+            if(self.jsonClientManager.token)
+                [cell.textLabel setText:@"Sign Out"];
+            else
+                [cell.textLabel setText:@"Sign In"];
+        }
+        else
+        {
+            [cell.textLabel setText:_settingsStrings[indexPath.row]];
+        }
+    }
+    
     //place an arrow to show it can be selected
     [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     
@@ -182,10 +192,6 @@
     [headerView setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth];
     [headerView setTitle:[tableView.dataSource tableView:tableView titleForHeaderInSection:section]];
     return headerView;
-}
-
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 56.0;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -218,8 +224,8 @@
     else if (indexPath.section == ZSZuseHubDrawerSettings) {
         if(indexPath.row == ZSZuseHubSettingsBackToMainMenu)
             self.didSelectBack();
-        else if(indexPath.row == ZSZuseHubSettingsLogout)
-            self.didSelectLogout();
+        else if(indexPath.row == ZSZuseHubSettingsSignInSignOut)
+            self.didSelectSignInSignOut();
         else
             NSLog(@"Error in selecting main menu options");
     }

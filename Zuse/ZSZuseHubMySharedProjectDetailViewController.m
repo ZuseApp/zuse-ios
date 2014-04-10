@@ -9,6 +9,7 @@
 //
 
 #import "ZSZuseHubMySharedProjectDetailViewController.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface ZSZuseHubMySharedProjectDetailViewController ()
 @property (weak, nonatomic) IBOutlet UINavigationItem *titleBar;
@@ -23,28 +24,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self.view setBackgroundColor:[UIColor colorWithRed:208.0/255.0
-                                                  green:208.0/255.0
-                                                   blue:208.0/255.0
-                                                  alpha:1.0]];
+    self.view.backgroundColor = [UIColor zuseBackgroundGrey];
     // Do any additional setup after loading the view.
     self.titleBar.title = self.project[@"title"];
     self.descriptionLabel.text = self.project[@"description"];
     long downloads = [self.project[@"downloads"] longLongValue];
     self.timesDownloadedLabel.text = [[NSNumber numberWithLong:downloads] stringValue];
-    UIImage *image;
-    if(self.project[@"screenshot"] != NULL)
-    {
-        NSData *data = [[NSData alloc] initWithBase64EncodedString:self.project[@"screenshot"] options:0];
-        if(data)
-        {
-            image = [UIImage imageWithData:data];
-        }
-    }
-    if(image)
-        self.screenshotImageView.image = image;
-    else
-        self.screenshotImageView.image = [UIImage imageNamed:@"blank_project.png"];
+    [self.screenshotImageView setImageWithURL:[NSURL URLWithString:self.project[@"screenshot_url"]] placeholderImage:[UIImage imageNamed:@"blank_project.png"]];
 }
 
 - (IBAction)backTapped:(id)sender {

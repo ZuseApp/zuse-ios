@@ -15,7 +15,6 @@
 		2CA9A33918C481FE005F4404 /* ZSZuseHubJSONClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9A33818C481FE005F4404 /* ZSZuseHubJSONClient.m */; };
 		2CA9A33C18C521C8005F4404 /* ZSZuseHubContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9A33B18C521C8005F4404 /* ZSZuseHubContentViewController.m */; };
 		2CA9A34918C533BF005F4404 /* MMTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9A34818C533BF005F4404 /* MMTableViewCell.m */; };
-		2CA9A34C18C533D0005F4404 /* MMCenterTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9A34B18C533D0005F4404 /* MMCenterTableViewCell.m */; };
 		2CA9A35218C53833005F4404 /* MMExampleDrawerVisualStateManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9A35118C53833005F4404 /* MMExampleDrawerVisualStateManager.m */; };
 		2CA9A35518C5465B005F4404 /* MMSideDrawerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9A35418C5465B005F4404 /* MMSideDrawerTableViewCell.m */; };
 		2CA9A35818C54B40005F4404 /* MMSideDrawerSectionHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9A35718C54B40005F4404 /* MMSideDrawerSectionHeaderView.m */; };
@@ -204,8 +203,6 @@
 		2CA9A33B18C521C8005F4404 /* ZSZuseHubContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSZuseHubContentViewController.m; sourceTree = "<group>"; };
 		2CA9A34718C533BF005F4404 /* MMTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMTableViewCell.h; sourceTree = "<group>"; };
 		2CA9A34818C533BF005F4404 /* MMTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMTableViewCell.m; sourceTree = "<group>"; };
-		2CA9A34A18C533D0005F4404 /* MMCenterTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMCenterTableViewCell.h; sourceTree = "<group>"; };
-		2CA9A34B18C533D0005F4404 /* MMCenterTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMCenterTableViewCell.m; sourceTree = "<group>"; };
 		2CA9A35018C53833005F4404 /* MMExampleDrawerVisualStateManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMExampleDrawerVisualStateManager.h; sourceTree = "<group>"; };
 		2CA9A35118C53833005F4404 /* MMExampleDrawerVisualStateManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMExampleDrawerVisualStateManager.m; sourceTree = "<group>"; };
 		2CA9A35318C5465B005F4404 /* MMSideDrawerTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMSideDrawerTableViewCell.h; sourceTree = "<group>"; };
@@ -509,8 +506,6 @@
 				2CA9A35418C5465B005F4404 /* MMSideDrawerTableViewCell.m */,
 				2CA9A35018C53833005F4404 /* MMExampleDrawerVisualStateManager.h */,
 				2CA9A35118C53833005F4404 /* MMExampleDrawerVisualStateManager.m */,
-				2CA9A34A18C533D0005F4404 /* MMCenterTableViewCell.h */,
-				2CA9A34B18C533D0005F4404 /* MMCenterTableViewCell.m */,
 				2CA9A34718C533BF005F4404 /* MMTableViewCell.h */,
 				2CA9A34818C533BF005F4404 /* MMTableViewCell.m */,
 			);
@@ -1468,7 +1463,6 @@
 				7899786418B9255500A8FE05 /* ZS_ExpressionViewController.m in Sources */,
 				2C6B5D6A183D43AB00E3D56C /* ZSSpriteTouchComponent.m in Sources */,
 				2CF6713718D7A329005CF5F5 /* ZSZuseHubBrowseProjectDetailViewController.m in Sources */,
-				2CA9A34C18C533D0005F4404 /* MMCenterTableViewCell.m in Sources */,
 				5F39DFCD188A40A0008ECAC1 /* NSMutableIndexSet+BlocksKit.m in Sources */,
 				5F6AD25618BD932200299AB8 /* ZSCodePropertyScope.m in Sources */,
 				2CA9A35E18C54E03005F4404 /* ZSZuseHubMyHubViewController.m in Sources */,

@@ -20,7 +20,7 @@
 @property (copy, nonatomic) void (^didSelectPopularProjects)();
 @property (copy, nonatomic) void (^didSelectViewMySharedProjects)();
 @property (copy, nonatomic) void (^didSelectBack)();
-@property (copy, nonatomic) void (^didSelectLogout)();
+@property (copy, nonatomic) void (^didSelectSignInSignOut)();
 
 @property (nonatomic, strong) UITableView * tableView;
 
