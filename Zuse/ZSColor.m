@@ -12,14 +12,14 @@
 
 + (UIColor *)colorForDSLItem:(NSString *)DSLItem {
     NSDictionary *mapping = @{
-        @"if": [UIColor redColor],
-        @"every": [self darkenColor:[UIColor greenColor] withValue:0.3],
-        @"call": [UIColor orangeColor],
-        @"on_event": [UIColor purpleColor],
-        @"trigger_event": [UIColor brownColor]
+        @"if": [UIColor colorWithRed:0.99 green:0.48 blue:0.51 alpha:1],
+        @"every": [UIColor colorWithRed:0.71 green:0.74 blue:0.36 alpha:1],
+        @"call": [UIColor colorWithRed:0.75 green:0.59 blue:0.36 alpha:1],
+        @"on_event": [UIColor colorWithRed:0.76 green:0.53 blue:0.83 alpha:1],
+        @"trigger_event": [UIColor colorWithRed:0.6 green:0.57 blue:0.85 alpha:1]
     };
 
-    return (mapping[DSLItem] ?: [UIColor whiteColor]);
+    return (mapping[DSLItem] ?: [UIColor zuseBackgroundGrey]);
 }
 
 + (UIColor*)lightenColor:(UIColor *)color withValue:(CGFloat)value

@@ -266,7 +266,7 @@ CGFloat const LabelPadding = 10.0f;
     // Hightlight background
     UIColor *backgroundColor = [ZSColor colorForDSLItem:self.json.allKeys.firstObject];
     if (isHighlighted) {
-        self.backgroundColor = [ZSColor lightenColor:backgroundColor withValue:0.3];
+        self.backgroundColor = [ZSColor darkenColor:backgroundColor withValue:0.3];
     } else {
         self.backgroundColor = backgroundColor;
     }
