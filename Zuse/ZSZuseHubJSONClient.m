@@ -249,7 +249,7 @@
                                                        length:projectData.length
                                                      encoding:NSUTF8StringEncoding];
     ZSCompiler *compiler = [ZSCompiler compilerWithProjectJSON:project.assembledJSON];
-    NSData *compiledData = [NSJSONSerialization dataWithJSONObject:compiler.compiledJSON
+    NSData *compiledData = [NSJSONSerialization dataWithJSONObject:compiler.compiledComponents
                                                           options:0
                                                             error:nil];
     NSString *compiledString = [[NSString alloc] initWithBytes:compiledData.bytes
@@ -268,7 +268,8 @@
             @"compiled_components" : compiledString,
             @"screenshot" : base64Screenshot
         }
-        };
+    };
+
     [self.manager POST:@"user/projects.json"
             parameters:params
                success:^(AFHTTPRequestOperation *operation, NSDictionary *project)
@@ -311,7 +312,8 @@
                                                        length:projectData.length
                                                      encoding:NSUTF8StringEncoding];
     ZSCompiler *compiler = [ZSCompiler compilerWithProjectJSON:project.assembledJSON];
-    NSData *compiledData = [NSJSONSerialization dataWithJSONObject:compiler.compiledJSON
+    
+    NSData *compiledData = [NSJSONSerialization dataWithJSONObject:compiler.compiledComponents
                                                            options:0
                                                              error:nil];
     NSString *compiledString = [[NSString alloc] initWithBytes:compiledData.bytes

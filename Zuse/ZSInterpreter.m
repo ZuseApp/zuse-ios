@@ -73,14 +73,14 @@
 - (id)runSuite:(NSArray *)suite context:(ZSExecutionContext *)context {
     __block id returnValue = nil;
     
-    [suite each:^(id obj) {
+    [suite each:^(NSDictionary *obj) {
         returnValue = [self runCode:obj context:context];
     }];
     
     return returnValue;
 }
 
-- (id)runCode:(id)code context:(ZSExecutionContext *)context {
+- (id)runCode:(NSDictionary *)code context:(ZSExecutionContext *)context {
     NSString *key = [code allKeys][0];
     id data = code[key];
     
@@ -163,8 +163,8 @@
         return code;
     }
     
-    if ([key isEqualToString:@"call"]) {
-        // It's legal to not specify an parameters array
+    else if ([key isEqualToString:@"call"]) {
+        // It's legal to not specify a parameters array
         NSArray *params = code[@"parameters"] ?: @[];
         params = [params map:^id(id obj) {
             return [self evaluateExpression:obj context:context];
@@ -261,7 +261,7 @@
     id(^equalityFunction)(id, id) = equalityValues[key];
     
     if (equalityFunction) {
-        id first = [self evaluateExpression:code[0] context:context];
+        id first  = [self evaluateExpression:code[0] context:context];
         id second = [self evaluateExpression:code[1] context:context];
         return equalityFunction(first, second);
     }
@@ -270,8 +270,8 @@
     static dispatch_once_t comparisonOnceToken;
     dispatch_once(&comparisonOnceToken, ^{
         comparisonValues = @{
-            @"<":  ^id(CGFloat first, CGFloat second) { return @(first < second); },
-            @">":  ^id(CGFloat first, CGFloat second) { return @(first > second); },
+            @"<":  ^id(CGFloat first, CGFloat second) { return @(first <  second); },
+            @">":  ^id(CGFloat first, CGFloat second) { return @(first >  second); },
             @"<=": ^id(CGFloat first, CGFloat second) { return @(first <= second); },
             @">=": ^id(CGFloat first, CGFloat second) { return @(first >= second); },
         };
@@ -281,7 +281,7 @@
     id(^comparisonFunction)(CGFloat, CGFloat) = comparisonValues[key];
     
     if (comparisonFunction) {
-        CGFloat first = [[[self evaluateExpression:code[0] context:context] coercedNumber] floatValue];
+        CGFloat first  = [[[self evaluateExpression:code[0] context:context] coercedNumber] floatValue];
         CGFloat second = [[[self evaluateExpression:code[1] context:context] coercedNumber] floatValue];
         return comparisonFunction(first, second);
     }

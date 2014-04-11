@@ -19,6 +19,9 @@
 #import <Social/Social.h>
 #import <Accounts/Accounts.h>
 #import <MTBlockAlertView/MTBlockAlertView.h>
+#import <SVProgressHUD/SVProgressHUD.h>
+#import "ZSTutorial.h"
+#import "ZSCompiler.h"
 
 typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
     ZSToolbarInterfaceStateNormal,
@@ -45,7 +48,6 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
 
 // Tutorial
 @property (strong, nonatomic) ZSTutorial *tutorial;
-@property (assign, nonatomic) ZSCanvasTutorialStage tutorialStage;
 
 // Toolbox
 @property (strong, nonatomic) ZSToolboxView *toolboxView;
@@ -72,7 +74,6 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
     self = [super initWithCoder:aDecoder];
     if (self) {
         _tutorial = [ZSTutorial sharedTutorial];
-        _tutorialStage = ZSCanvasTutorialSetupStage;
         _toolboxController = [[ZSToolboxController alloc] init];
         _gridSliderShowing = NO;
         self.interfaceState = ZSToolbarInterfaceStateNormal;
@@ -107,13 +108,9 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
         gridSliderFrame.origin.y = canvasFrames.size.height;
         self.gridSlider.frame = gridSliderFrame;
         
-        // NSLog(@"%@", ((NSArray*)self.project.rawJSON[@"canvas_size"])[1]);
         NSArray *sizeArray = self.project.rawJSON[@"canvas_size"];
         CGFloat projectHeight = [sizeArray[1] floatValue];
         scale = canvasFrames.size.height / projectHeight;
-        
-//        self.canvasView.transform = CGAffineTransformMakeScale(scale, scale);
-//        NSLog(@"%@", NSStringFromCGRect(self.canvasView.frame));
         
         // Set a curved radius on the canvas label.
         self.canvasLabel.layer.cornerRadius = 10;
@@ -137,7 +134,7 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
     self.navigationController.navigationBarHidden = YES;
     
     // TODO: Figure out the correct place to put this.  The editor may have modified the project
-    // so save the project here as well.  This means that the project gets loaded and than saved
+    // so save the project here as well.  This means that the project gets loaded and then saved
     // right away on creation as well.
     [self saveProject];
     [self.view setNeedsDisplay];
@@ -145,15 +142,8 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
 
 - (void)viewDidAppear:(BOOL)animated {
     if (_tutorial.isActive) {
-        [self createTutorialForStage:_tutorialStage];
-        [_tutorial presentWithCompletion:^{
-            if (_tutorialStage == ZSCanvasTutorialSetupStage) {
-                _tutorial.active = NO;
-            }
-            else {
-                _tutorialStage++;
-            }
-        }];
+        [self createTutorialForStage:_tutorial.stage];
+        [_tutorial present];
     }
 }
 
@@ -223,12 +213,12 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
 
 #pragma mark Tutorial
 
-- (void)createTutorialForStage:(ZSCanvasTutorialStage)stage {
+- (void)createTutorialForStage:(ZSTutorialStage)stage {
     WeakSelf
     __block UIView *paddle1 = nil;
     __block UIView *paddle2 = nil;
     __block UIView *ball = nil;
-    if (stage == ZSCanvasTutorialSetupStage) {
+    if (stage == ZSTutorialSetupStage) {
         UICollectionView *collectionView = (UICollectionView*)[_toolboxView viewByIndex:0];
         CGRect ballRect = [collectionView layoutAttributesForItemAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]].frame;
         ballRect.size.height -= 17;
@@ -256,13 +246,7 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
                         activeRegion:[_toolbar convertRect:settingsButtonRect toView:weakSelf.view]
                                setup:nil
                           completion:nil];
-        [_tutorial addActionWithText:@"The Toolbox contains Sprites, which are images and text boxes you can give behavior to."
-                            forEvent:ZSTutorialBroadcastEventComplete
-                     allowedGestures:@[UITapGestureRecognizer.class]
-                        activeRegion:CGRectZero
-                               setup:nil
-                          completion:nil];
-        [_tutorial addActionWithText:@"Tap-and-hold this paddle to place it near the top of the Canvas."
+        [_tutorial addActionWithText:@"The Toolbox contains Sprites, which are images and text boxes you can give behavior to.  Tap-and-hold this paddle, which is a Sprite, to place it near the top of the Canvas."
                             forEvent:ZSTutorialBroadcastEventComplete
                      allowedGestures:@[UILongPressGestureRecognizer.class]
                         activeRegion:[collectionView convertRect:paddleRect toView:weakSelf.view]
@@ -307,29 +291,7 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
                                    weakSelf.tutorial.overlayView.activeRegion = stopButtonRect;
                                }
                           completion:nil];
-//        [_tutorial addActionWithText:@"Touch the lower paddle to bring up the sprite editor."
-//                            forEvent:ZSTutorialBroadcastDidTapPaddle
-//                     allowedGestures:@[UITapGestureRecognizer.class]
-//                        activeRegion:CGRectZero
-//                               setup:^{
-//                                   weakSelf.tutorial.overlayView.activeRegion = paddle1.frame;
-//                               }
-//                          completion:nil];
-        
-    }
-    if (stage == ZSCanvasTutorialPaddleTwoSetupStage) {
-        [_tutorial addActionWithText:@"Touch the upper paddle to bring up the sprite editor."
-                            forEvent:ZSTutorialBroadcastEventComplete
-                     allowedGestures:@[UITapGestureRecognizer.class]
-                        activeRegion:CGRectZero
-                               setup:^{
-                                   paddle2 = [weakSelf.tutorial getObjectForKey:@"paddle2"];
-                                   weakSelf.tutorial.overlayView.activeRegion = paddle2.frame;
-                               }
-                          completion:nil];
-    }
-    if (stage == ZSCanvasTutorialBallSetupStage) {
-        [_tutorial addActionWithText:@"Touch the ball to bring up the sprite editor."
+        [_tutorial addActionWithText:@"Let's start by making the ball move. You can tap any sprite to bring up the Sprite Editor, where we give sprites behavior. Tap the ball so we can give it some Code!"
                             forEvent:ZSTutorialBroadcastEventComplete
                      allowedGestures:@[UITapGestureRecognizer.class]
                         activeRegion:CGRectZero
@@ -483,11 +445,6 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
         frame.size.width = [json[@"properties"][@"width"] floatValue];
         frame.size.height = [json[@"properties"][@"height"] floatValue];
         
-        // Make the start event wrap all code.
-        NSMutableDictionary *eventJSON = [[ZSZuseDSL onEventJSON] deepMutableCopy];
-        eventJSON[@"on_event"][@"name"] = @"start";
-        json[@"code"] = [NSMutableArray arrayWithObject:eventJSON];
-        
         // If the generator view is hidden start sprite dragging, otherwise simply add it to the
         // generator view.
         if (weakSelf.generatorView.hidden) {
@@ -531,9 +488,9 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
                                                newJson[@"name"] = name;
                                                newJson[@"properties"][@"x"] = @(0);
                                                newJson[@"properties"][@"y"] = @(0);
-                                               [[weakSelf.project rawJSON][@"generators"] addObject:newJson];
+                                               [[weakSelf.project rawJSON][@"generators"] insertObject:newJson atIndex:0];
                                                
-                                               [weakSelf.generatorView addGeneratorFromJSON:newJson];
+                                               [weakSelf.generatorView insertGeneratorFromJSON:newJson];
                                                [weakSelf.generatorView reloadData];
                                                [weakSelf saveProject];
                                            }
@@ -910,8 +867,9 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
 
 - (void)modifyGroups {
     self.groupsController = [[ZSGroupsViewController alloc] init];
-    self.groupsController.sprites = _project.assembledJSON[@"objects"];
-    self.groupsController.groups = _project.assembledJSON[ZSProjectJSONKeyGroups];
+    self.groupsController.sprites    = _project.assembledJSON[@"objects"];
+    self.groupsController.generators = _project.assembledJSON[@"generators"];
+    self.groupsController.groups     = _project.assembledJSON[ZSProjectJSONKeyGroups];
     
     WeakSelf
     self.groupsController.viewControllerNeedsPresented = ^(UIViewController *controller) {
@@ -964,40 +922,51 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
 }
 
 - (void)shareProject {
-    NSURL *baseURL = [NSURL URLWithString:@"https://zusehub.herokuapp.com/api/v1/"];
+    NSURL *baseURL = [NSURL URLWithString:@"http://zusehub.com/api/v1/"];
 //    NSURL *baseURL = [NSURL URLWithString:@"http://128.110.74.238:3000/api/v1/"];
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseURL];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     
     NSData *projectData = [NSJSONSerialization dataWithJSONObject:self.project.assembledJSON
-                                                          options:NSJSONWritingPrettyPrinted
+                                                          options:0
                                                             error:nil];
     
-    NSData *compiledData = [NSJSONSerialization dataWithJSONObject:[ZSCompiler compilerWithProjectJSON:self.project.assembledJSON].compiledJSON
-                                                          options:NSJSONWritingPrettyPrinted
-                                                            error:nil];
     
     NSString *projectString = [[NSString alloc] initWithBytes:projectData.bytes
                                                        length:projectData.length
                                                      encoding:NSUTF8StringEncoding];
-    
+
+
+    ZSCompiler *compiler = [ZSCompiler compilerWithProjectJSON:self.project.assembledJSON
+                                                       options:ZSCompilerOptionWrapInStartEvent];
+
+    NSData *compiledData = [NSJSONSerialization dataWithJSONObject:compiler.compiledComponents
+                                                           options:0
+                                                            error:nil];
+
     NSString *compiledString = [[NSString alloc] initWithBytes:compiledData.bytes
                                                         length:compiledData.length
                                                       encoding:NSUTF8StringEncoding];
-    
+
     NSDictionary *params = @{
         @"shared_project": @{
+            @"title": self.project.title,
             @"project_json": projectString,
-            @"compiled_code": compiledString
+            @"compiled_components": compiledString
         }
     };
-                        
-    
-    // { "url": "..." }
+
+    NSLog(@"Requesting...");
+
+    [SVProgressHUD setBackgroundColor:[UIColor zuseBackgroundGrey]];
+    [SVProgressHUD setForegroundColor:[UIColor zuseYellow]];
+    [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
+
     [manager POST:@"shared_projects"
        parameters:params
           success:^(AFHTTPRequestOperation *operation, NSDictionary *project) {
+              [SVProgressHUD dismiss];
               NSLog(@"Success! %@", project);
               
               if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter]) {
@@ -1016,7 +985,8 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
                                        
                                    }];
               }
-          }  failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+          } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+              [SVProgressHUD dismiss];
               NSLog(@"Failed! %@", error.localizedDescription);
           }];
 }

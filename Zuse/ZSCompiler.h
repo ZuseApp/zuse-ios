@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
+typedef NS_ENUM(NSInteger, ZSCompilerOptions) {
+    ZSCompilerOptionWrapInStartEvent = 1 << 0
+};
+
 @interface ZSCompiler : NSObject
 
 /**
@@ -18,6 +22,8 @@
  *  @return ZSCompiler object
  */
 + (instancetype) compilerWithProjectJSON:(NSDictionary *)projectJSON;
++ (instancetype) compilerWithProjectJSON:(NSDictionary *)projectJSON
+                                 options:(ZSCompilerOptions)options;
 
 /**
  *  Returns a compiled form of the project JSON that can be passed directly
@@ -25,7 +31,7 @@
  *
  *  @return NSDictionary representing the compiled JSON
  */
-- (NSDictionary *)compiledJSON;
+- (NSDictionary *)compiledComponents;
 
 /**
  *
@@ -37,6 +43,7 @@
  *
  *  @return Array of `object` statements from the Zuse IR
  */
-+ (NSArray *)zuseIRObjectsFromDSLObjects:(NSArray *)objects;
++ (NSArray *)zuseIRObjectsFromDSLObjects:(NSArray *)objects
+                 shouldEmbedInStartEvent:(BOOL)shouldEmbed;
 
 @end

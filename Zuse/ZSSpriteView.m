@@ -137,6 +137,7 @@
     
     UITapGestureRecognizer *singleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTapRecognized)];
     [singleTapGesture requireGestureRecognizerToFail:panGesture];
+    singleTapGesture.delegate = self;
     [self addGestureRecognizer:singleTapGesture];
     
     UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressRecognized:)];

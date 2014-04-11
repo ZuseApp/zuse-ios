@@ -1,5 +1,10 @@
 #import "ZS_StatementView.h"
 #import <QuartzCore/QuartzCore.h>
+#import "ZSTutorial.h"
+#import "ZSColor.h"
+#import <FontAwesomeKit/FAKIonIcons.h>
+
+CGFloat const LabelPadding = 10.0f;
 
 @interface ZS_TouchLabel : UILabel
 - (instancetype) initWithText: (NSString*)text font: (UIFont*)font;
@@ -18,19 +23,27 @@
         
         // add padding
         CGRect frame = self.frame;
-        frame.size.width += self.font.pointSize;
+        frame.size.width += self.font.pointSize / 2;
+        frame.size.height += LabelPadding - 5;
+        frame.origin.y += 3;
         self.frame = frame;
         
-        self.layer.cornerRadius = self.font.pointSize * 0.5;
-        
-        self.textColor = [UIColor colorWithRed:0.8 green:0.4 blue:0.2 alpha:1];
+        self.textColor = [UIColor whiteColor];
+        self.shadowColor = [UIColor blackColor];
+        self.shadowOffset = CGSizeMake(0, 1);
         self.highlightedTextColor = [UIColor whiteColor];
+//        self.backgroundColor = [UIColor zuseBackgroundGrey];
+        self.clipsToBounds = YES;
+        self.layer.cornerRadius = 5;
         self.textAlignment = NSTextAlignmentCenter;
         self.userInteractionEnabled = YES;
+        UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(wasTapped:)];
+        [self addGestureRecognizer:tapRecognizer];
     }
     return self;
 }
-- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+
+- (void)wasTapped:(id)sender
 {
     self.highlighted = YES;
     
@@ -40,6 +53,7 @@
     {
         self.hasBeenTouched(self);
     }
+    [[ZSTutorial sharedTutorial] broadcastEvent:ZSTutorialBroadcastEventComplete];
 }
 //- (void) setText:(NSString *)text
 //{
@@ -56,12 +70,65 @@
 //    self.frame = frame;
 //    
 //}
-- (void) setHighlighted:(BOOL)isHighlighted
-{
-    super.highlighted = isHighlighted;
-    self.layer.backgroundColor = isHighlighted ? [UIColor orangeColor].CGColor : [UIColor clearColor].CGColor;
-}
+//- (void) setHighlighted:(BOOL)isHighlighted
+//{
+//    super.highlighted = isHighlighted;
+////    self.layer.backgroundColor = isHighlighted ? [UIColor orangeColor].CGColor : [UIColor clearColor].CGColor;
+//}
 @end
+
+
+
+
+
+
+@interface ZSNameLabel : UILabel
+
+@property (nonatomic, assign) UIEdgeInsets edgeInsets;
+
+@end
+
+@implementation ZSNameLabel
+
+- (id)initWithFrame:(CGRect)frame{
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self sharedInit];
+    }
+    return self;
+}
+
+- (id)init {
+    self = [super init];
+    if (self) {
+        [self sharedInit];
+    }
+    return self;
+}
+
+- (void)sharedInit {
+    self.edgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
+}
+
+- (void)sizeToFit {
+    [super sizeToFit];
+    CGRect frame = self.frame;
+    frame.size.height += self.edgeInsets.bottom + self.edgeInsets.top;
+    frame.size.width += self.edgeInsets.left + self.edgeInsets.right;
+    self.frame = frame;
+}
+
+- (void)drawTextInRect:(CGRect)rect {
+    [super drawTextInRect:UIEdgeInsetsInsetRect(rect, self.edgeInsets)];
+}
+
+@end
+
+
+
+
+
+
 
 @interface ZS_StatementView ()
 
@@ -83,11 +150,15 @@
 {
     if (self = [super init])
     {
-        self.font = [UIFont boldSystemFontOfSize: 20];
-        self.bodyIndentation = self.font.pointSize * 2;
+        self.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:20];
+        self.bodyIndentation = self.font.pointSize * 1.5;
         self.layer.cornerRadius = 5;
+//        self.layer.borderColor = [UIColor zuseBackgroundGrey].CGColor;
+//        self.layer.borderWidth = 1;
         self.json = json;
-        
+
+        self.backgroundColor = [ZSColor colorForDSLItem:json.allKeys.firstObject];
+
         self.name = [[NSMutableArray alloc]init];
         self.header = [[NSMutableArray alloc]init];
         self.body = [[NSMutableArray alloc]init];
@@ -95,28 +166,46 @@
         // Add double tap recognizer
         UITapGestureRecognizer*tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(handleDoubleTapGesture:)];
         tapGesture.numberOfTapsRequired = 2;
+        tapGesture.delegate = self;
         [self addGestureRecognizer: tapGesture];
         
         // Add long press recognizer
         UILongPressGestureRecognizer* longPress = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(handleLongPressGesture:)];
         longPress.minimumPressDuration = 0.5;
+        longPress.delegate = self;
         [self addGestureRecognizer: longPress];
-        
+
+        UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(wasTapped:)];
+        [self addGestureRecognizer:tapRecognizer];
     }
     return self;
+}
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    ZSTutorial *tutorial = [ZSTutorial sharedTutorial];
+    if (!tutorial.active || [tutorial.allowedGestures containsObject:gestureRecognizer.class]) {
+        return YES;
+    }
+    return NO;
 }
 
 #pragma mark - Interface Methods
 
 -(void)addNameLabelWithText:(NSString*)text
 {
-    UILabel* label = [[UILabel alloc]init];
+    ZSNameLabel* label = [[ZSNameLabel alloc]init];
     label.font = self.font;
-    label.text = text.uppercaseString;
+    label.text = text;
     label.textAlignment = NSTextAlignmentCenter;
-    label.textColor = [UIColor blueColor];
+    label.textColor = [UIColor whiteColor];
+    label.shadowColor = [UIColor darkGrayColor];
+    label.shadowOffset = CGSizeMake(0, 1);
     label.highlightedTextColor = [UIColor whiteColor];
     [label sizeToFit];
+    CGRect frame = label.frame;
+    frame.size.height += LabelPadding;
+    frame.origin.x += 20;
+    label.frame = frame;
     
     // Add to statement view
     [self.header addObject:label];
@@ -127,6 +216,12 @@
 {
     ZS_TouchLabel* label = [[ZS_TouchLabel alloc]initWithText:text font:self.font];
     label.hasBeenTouched = touchBlock;
+
+    label.backgroundColor = [ZSColor darkenColor:self.backgroundColor withValue:0.2];
+    if ([text hasPrefix:@"#"]) {
+        label.textColor = [UIColor lightGrayColor];
+        label.text = [text substringFromIndex:1];
+    }
     
     // Add to statement view
     [self.header addObject:label];
@@ -153,9 +248,19 @@
 }
 - (void) addNewStatementLabelWithTouchBlock: (void(^)(UILabel*)) touchBlock
 {
-    ZS_TouchLabel* label = [[ZS_TouchLabel alloc]initWithText: @"add new statement"
+    ZS_TouchLabel* label = [[ZS_TouchLabel alloc]initWithText: @"         +          "
                                                                font: self.font];
-    label.textColor = [UIColor lightGrayColor];
+
+    label.attributedText = [FAKIonIcons plusRoundIconWithSize:label.font.pointSize * 1.2].attributedString;
+    CGRect frame = label.frame;
+    frame.size.height *= 1.2;
+    label.frame = frame;
+    label.textColor = [UIColor whiteColor];
+    label.shadowColor = [UIColor darkGrayColor];
+    label.shadowOffset = CGSizeMake(0, 1);
+    label.layer.borderColor = [UIColor darkGrayColor].CGColor;
+    label.layer.borderWidth = 0.5;
+    label.backgroundColor = [ZSColor darkenColor:self.backgroundColor withValue:0.1];
     label.hasBeenTouched = touchBlock;
     [self.body addObject:label];
     [self addSubview:label];    
@@ -167,10 +272,18 @@
     // Highlight the name labels
     for (UILabel* label in self.name)
     {
-        label.highlighted = isHighlighted;
+//        label.highlighted = isHighlighted;
     }
     // Hightlight background
-    self.backgroundColor = isHighlighted ? [UIColor colorWithWhite: 0.8 alpha: 1] : [UIColor clearColor];
+    UIColor *backgroundColor = [ZSColor colorForDSLItem:self.json.allKeys.firstObject];
+    if (isHighlighted) {
+        self.backgroundColor = [ZSColor darkenColor:backgroundColor withValue:0.1];
+        self.layer.borderWidth = 0.5;
+        self.layer.borderColor = [UIColor blackColor].CGColor;
+    } else {
+        self.backgroundColor = backgroundColor;
+        self.layer.borderWidth = 0;
+    }
 }
 - (void) setTopLevelStatement:(BOOL)isTopLevelStatement
 {
@@ -181,31 +294,40 @@
         {
             [self removeGestureRecognizer: gr];
         }
-        self.bodyIndentation = 2;
+        self.bodyIndentation = 0;
     }
 }
 - (void) layoutStatementSubviews
 {
-    CGFloat x = 2;
+    CGFloat x = 8;
     
     // Layout header
     for (UIView* subview in self.header)
     {
         CGRect frame = subview.frame;
-        frame.origin.x = x;
+        if ([subview isKindOfClass:ZS_TouchLabel.class]) {
+            frame.origin.x = x + 5;
+        } else {
+            frame.origin.x = x;
+        }
         subview.frame = frame;
         x = CGRectGetMaxX(frame);
+
+        if ([subview isKindOfClass:ZS_TouchLabel.class]) {
+            x += 5;
+        }
     }
     
     // Layout parameters
-    CGFloat headerMaxY = CGRectGetMaxY(((UIView*)self.header.firstObject).frame);
+    CGFloat headerMaxY = CGRectGetMaxY(((UIView*)self.header.firstObject).frame) - 4;
     CGRect frame = self.parameters.frame;
-    frame.origin = CGPointMake(2, headerMaxY);
+    frame.origin = CGPointMake(9, headerMaxY);
     self.parameters.frame = frame;
-    
+
     // Layout body
-    CGFloat parametersLineMaxY = CGRectGetMaxY(self.parameters.frame);
+    CGFloat parametersLineMaxY = CGRectGetMaxY(self.parameters.frame) + 5;
     CGFloat y =  MAX(headerMaxY, parametersLineMaxY);
+    BOOL isFirstIteration = YES;
     for (UIView* subview in self.body)
     {
         if ([subview isKindOfClass:[ZS_StatementView class]])
@@ -215,9 +337,10 @@
         }
         CGRect frame = subview.frame;
         frame.origin.x = self.bodyIndentation;
-        frame.origin.y = y;
+        frame.origin.y = y + (isFirstIteration ? 0 : 1);
         subview.frame = frame;
         y = CGRectGetMaxY(frame);
+        isFirstIteration = NO;
     }
     // resize this statement view to fit subviews
     frame = CGRectZero;
@@ -225,12 +348,20 @@
     {
         frame = CGRectUnion(frame, view.frame);
     }
+
+    for (UIView *subview in self.body) {
+        CGRect subFrame = subview.frame;
+        subFrame.size.width = frame.size.width - 0;
+        subview.frame = subFrame;
+    }
+
     frame.origin = self.frame.origin;
+    frame.size.width += 20;
     self.frame = frame;
 }
 # pragma mark UIView methods
 
-- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+- (void)wasTapped:(id)sender
 {
     if (!self.topLevelStatement && !self.isHighlighted)
     {
@@ -239,8 +370,10 @@
         // Notify Code Editor Controller
         [[NSNotificationCenter defaultCenter] postNotificationName: @"statement view selected"
                                                             object: self];
+        [[ZSTutorial sharedTutorial] broadcastEvent:ZSTutorialBroadcastEventComplete];
     }
 }
+
 -(BOOL) canBecomeFirstResponder
 {
     return YES;
@@ -255,10 +388,13 @@
         self.collapsed = !self.isCollapsed;
     }
 }
-- (void)handleLongPressGesture:(UITapGestureRecognizer *)sender
+- (void)handleLongPressGesture:(UILongPressGestureRecognizer *)sender
 {
     if (sender.state == UIGestureRecognizerStateBegan)
     {
+        // Notify Code Editor Controller
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"statement view selected"
+                                                            object: self];
         [self.delegate statementViewLongPressed: self];
     }
 }
@@ -299,10 +435,13 @@
 {
     if (!_parameters)
     {
-        _parameters = [[UILabel alloc]init];
+        _parameters = [[ZSNameLabel alloc]init];
+        _parameters.backgroundColor = [UIColor clearColor];
         _parameters.highlightedTextColor = [UIColor whiteColor];
-        _parameters.font = [self.font fontWithSize:self.font.pointSize * 0.75];
-        _parameters.textColor = [UIColor lightGrayColor];
+        _parameters.font = [self.font fontWithSize:self.font.pointSize * 0.7];
+        _parameters.textColor = [UIColor colorWithWhite:0.829 alpha:1.000];
+        _parameters.shadowColor = [UIColor darkGrayColor];
+        _parameters.shadowOffset = CGSizeMake(0, 1);
         _parameters.numberOfLines = 2;
     }
     return _parameters;

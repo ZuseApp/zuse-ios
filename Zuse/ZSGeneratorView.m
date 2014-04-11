@@ -108,6 +108,10 @@
 #pragma mark Generator Manipulation
 
 - (void)addGeneratorFromJSON:(NSMutableDictionary*)generatorJSON {
+    [self.generators addObject:generatorJSON];
+}
+
+- (void)insertGeneratorFromJSON:(NSMutableDictionary*)generatorJSON {
     [self.generators insertObject:generatorJSON atIndex:0];
 }
 

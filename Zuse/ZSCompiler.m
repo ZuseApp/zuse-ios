@@ -15,6 +15,7 @@
 @interface ZSCompiler ()
 
 @property (strong, nonatomic) NSDictionary *projectJSON;
+@property (assign, nonatomic) ZSCompilerOptions compilerOptions;
 
 @end
 
@@ -30,33 +31,63 @@
     return compiler;
 }
 
-- (NSDictionary *)compiledJSON {
-    NSArray *newObjects = self.projectJSON[@"objects"];
-    
-    NSMutableDictionary *traits = self.projectJSON[@"traits"];
-    if (traits) {
-        newObjects = [self objectsByInliningTraits:traits
-                                           objects:newObjects];
-    }
-    
-    newObjects = [self.class zuseIRObjectsFromDSLObjects:newObjects];
-    
-    NSDictionary *code = @{ @"suite": newObjects };
++ (instancetype) compilerWithProjectJSON:(NSDictionary *)projectJSON options:(ZSCompilerOptions)options {
+    ZSCompiler *compiler = [self compilerWithProjectJSON:projectJSON];
+    compiler.compilerOptions = options;
 
-    code = [ZSCodeNormalizer normalizedCodeItem:code];
-    code = [ZSCodeTraverser map:code onKeys:@[@"every"] block:ZSCodeTransformEveryBlock];
-    
-    return code;
+    return compiler;
+}
+
+- (NSDictionary *)compiledComponents {
+    NSArray *projectGenerators = (self.projectJSON[@"generators"] ?: @[]);
+    NSDictionary *components = @{
+        @"objects": self.projectJSON[@"objects"],
+        @"generators": projectGenerators
+    };
+
+    components = [components map:^id(id key, NSArray *newObjects) {
+        NSMutableDictionary *traits = self.projectJSON[@"traits"];
+
+        if (traits) {
+            newObjects = [self objectsByInliningTraits:traits
+                                               objects:newObjects];
+        }
+        
+        newObjects = [self.class zuseIRObjectsFromDSLObjects:newObjects
+                                     shouldEmbedInStartEvent:self.compilerOptions & ZSCompilerOptionWrapInStartEvent];
+        
+        NSDictionary *code = @{ @"suite": newObjects };
+
+        code = [ZSCodeNormalizer normalizedCodeItem:code];
+        code = [ZSCodeTraverser map:code onKeys:@[@"every"] block:ZSCodeTransformEveryBlock];
+
+        return code[@"suite"];
+    }];
+
+    NSArray *generatorsKeys = [projectGenerators map:^id(NSDictionary *generator) {
+        return generator[@"name"];
+    }];
+
+    NSMutableDictionary *generators = [NSMutableDictionary dictionary];
+
+    [components[@"generators"] enumerateObjectsUsingBlock:^(NSDictionary *generator, NSUInteger idx, BOOL *stop) {
+        NSString *key = generatorsKeys[idx];
+        generators[key] = generator;
+    }];
+
+    return @{
+        @"objects": @{ @"suite": components[@"objects"] },
+        @"generators": generators
+    };
 }
 
 - (NSArray *)objectsByInliningTraits:(NSDictionary *)traits objects:(NSArray *)objects {
-    NSArray *newObjects = [self.projectJSON[@"objects"] map:^id(NSDictionary *object) {
-        NSMutableDictionary *newObject = [object mutableCopy];
-        if (!newObject[@"code"])
+    NSArray *newObjects = [objects map:^id(NSDictionary *object) {
+        NSMutableDictionary *newObject = [object deepMutableCopy];
+        if (!newObject[@"code"]) {
             newObject[@"code"] = [NSMutableArray array];
-        else
-            newObject[@"code"] = [newObject[@"code"] mutableCopy];
-        
+        }
+
         NSDictionary *objectTraits = object[@"traits"];
         
         if (objectTraits && objectTraits.count > 0) {
@@ -103,13 +134,28 @@
  *
  *  @return Array of `object` statements from the Zuse IR
  */
-+ (NSArray *)zuseIRObjectsFromDSLObjects:(NSArray *)objects {
++ (NSArray *)zuseIRObjectsFromDSLObjects:(NSArray *)objects
+                 shouldEmbedInStartEvent:(BOOL)shouldEmbed {
+
     NSArray *newObjects = [objects map:^id(NSDictionary *obj) {
+        NSArray *code = (obj[@"code"] ?: @[]);
+
+        if (shouldEmbed) {
+            code = @[
+                @{
+                    @"on_event": @{
+                        @"name": @"start",
+                        @"code": (obj[@"code"] ?: @[])
+                    }
+                }
+            ];
+        }
+
         return @{
             @"object": @{
                 @"id": obj[@"id"],
                 @"properties": (obj[@"properties"] ?: @{}),
-                @"code": (obj[@"code"] ?: @[])
+                @"code": code
             }
         };
     }];

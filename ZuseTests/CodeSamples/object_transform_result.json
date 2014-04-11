@@ -1,22 +1,25 @@
 {
-  "suite": [
-    {
-      "object": {
-        "id": "foo",
-        "properties": { "x": 5, "y": 10 },
-        "code": [
-          { "set": ["this", "works"] }
-        ]
+  "objects": {
+    "suite": [
+      {
+        "object": {
+          "id": "foo",
+          "properties": { "x": 5, "y": 10 },
+          "code": [
+            { "set": ["this", "works"] }
+          ]
+        }
+      },
+      {
+        "object":  {
+          "id": "bar",
+          "properties": { "x": 5, "y": 10 },
+          "code": [
+            { "set": ["this", "works"] }
+          ]
+        }
       }
-    },
-    {
-      "object":  {
-        "id": "bar",
-        "properties": { "x": 5, "y": 10 },
-        "code": [
-          { "set": ["this", "works"] }
-        ]
-      }
-    }
-  ]
+    ]
+  },
+  "generators": { }
 }

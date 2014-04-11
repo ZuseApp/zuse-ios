@@ -284,7 +284,7 @@
     NSDictionary *json = [self loadTestFileAtPath:@"suite"];
     ZSCompiler *compiler = [ZSCompiler compilerWithProjectJSON:json];
     
-    [self.interpreter runJSON:compiler.compiledJSON];
+    [self.interpreter runJSON:compiler.compiledComponents[@"objects"]];
     
     XCTAssert(didRun1, @"");
     XCTAssert(didRun2, @"");
@@ -321,7 +321,7 @@
     NSDictionary *json = [self loadTestFileAtPath:@"scope_set_object_var"];
     ZSCompiler *compiler = [ZSCompiler compilerWithProjectJSON:json];
     
-    [self.interpreter runJSON:compiler.compiledJSON];
+    [self.interpreter runJSON:compiler.compiledComponents[@"objects"]];
     
     XCTAssert(didRunCheckOne, @"");
     XCTAssert(didRunCheckTwo, @"");
@@ -375,7 +375,7 @@
     NSDictionary *json = [self loadTestFileAtPath:@"events_scope"];
     ZSCompiler *compiler = [ZSCompiler compilerWithProjectJSON:json];
     
-    [self.interpreter runJSON:compiler.compiledJSON];
+    [self.interpreter runJSON:compiler.compiledComponents[@"objects"]];
     
     [self.interpreter triggerEvent:@"my_event" onObjectWithIdentifier:@"my_object" parameters:@{
         @"x": @10,

@@ -7,7 +7,7 @@
 -(void) statementViewLongPressed: (ZS_StatementView*) view;
 @end
 
-@interface ZS_StatementView : UIView
+@interface ZS_StatementView : UIView <UIGestureRecognizerDelegate>
 
 @property (weak, nonatomic) id<ZS_StatementViewDelegate> delegate;
 @property (strong, nonatomic) NSMutableDictionary* json;

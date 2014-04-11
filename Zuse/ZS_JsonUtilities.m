@@ -55,7 +55,7 @@
 }
 + (NSString*) parametersStringFromJson: (NSArray*) json
 {
-    NSString* parameters = @"PARAMETERS: ";
+    NSString* parameters = @"parameters: ";
     for (NSString* parameter in json)
     {
         parameters = [NSString stringWithFormat:@"%@%@, ", parameters, parameter];
@@ -235,7 +235,7 @@
         assert(!error);
     }
     
-    return methodManifest;
+    return [methodManifest deepCopy];
 }
 
 // TODO: This could be sped up by creating a dictionary from the array,
@@ -258,19 +258,13 @@
         }];
     }
     
-    return methods;
+    return [methods deepCopy];
 }
 
 + (NSArray*) emptyEvents
 {
     NSMutableArray* events = [[NSMutableArray alloc]init];
     NSMutableDictionary* event;
-    
-    // start
-    event =  [[NSMutableDictionary alloc]init];
-    event[@"name"] = @"start";
-    event[@"parameters"] = [NSMutableArray arrayWithArray:@[]];
-    [events addObject: event];
     
     // collision
     event =  [[NSMutableDictionary alloc]init];

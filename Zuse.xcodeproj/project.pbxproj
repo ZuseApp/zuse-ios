@@ -152,6 +152,7 @@
 		5F93F09118E12D9C005E382B /* scope_set_object_var.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F93F08D18E12D9C005E382B /* scope_set_object_var.json */; };
 		5F93F09318E12E31005E382B /* ZSCodeNormalizerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F93F09218E12E31005E382B /* ZSCodeNormalizerTests.m */; };
 		5F93F09618E21BC0005E382B /* ZSTimedEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F93F09518E21BC0005E382B /* ZSTimedEvent.m */; };
+		5FA11D8518F0738400D358C9 /* ZSGroupsGeneratorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FA11D8418F0738400D358C9 /* ZSGroupsGeneratorView.m */; };
 		5FADD82018D7DD2B00A336CC /* ZSZuseDSL.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FADD81F18D7DD2B00A336CC /* ZSZuseDSL.m */; };
 		5FADD82218D7E98400A336CC /* ZSZuseDSLTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FADD82118D7E98400A336CC /* ZSZuseDSLTests.m */; };
 		5FADD82618D7FB3000A336CC /* galaga_example.json in Resources */ = {isa = PBXBuildFile; fileRef = 5FADD82518D7FB3000A336CC /* galaga_example.json */; };
@@ -165,6 +166,8 @@
 		5FBB4A8A18C2497B00B79AB6 /* breakout_example.json in Resources */ = {isa = PBXBuildFile; fileRef = 5FBB4A8818C2497B00B79AB6 /* breakout_example.json */; };
 		5FBB4A8B18C2497B00B79AB6 /* pong_example.json in Resources */ = {isa = PBXBuildFile; fileRef = 5FBB4A8918C2497B00B79AB6 /* pong_example.json */; };
 		5FBB4A8E18C24C8800B79AB6 /* UIColor+ZuseColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBB4A8D18C24C8800B79AB6 /* UIColor+ZuseColors.m */; };
+		5FC6E28B18F78DA400CEFBE6 /* ZSColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FC6E28A18F78DA400CEFBE6 /* ZSColor.m */; };
+		5FC6E28E18F7C4C100CEFBE6 /* UIFont+Zuse.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FC6E28D18F7C4C100CEFBE6 /* UIFont+Zuse.m */; };
 		789433B618C307A700C8D810 /* ZS_StatementChooserCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 789433B518C307A700C8D810 /* ZS_StatementChooserCollectionViewController.m */; };
 		789433B918C3BCA000C8D810 /* ZS_EventChooserCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 789433B818C3BCA000C8D810 /* ZS_EventChooserCollectionViewController.m */; };
 		789433BC18C3D1E800C8D810 /* ZS_ExpressionVariableChooserCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 789433BB18C3D1E800C8D810 /* ZS_ExpressionVariableChooserCollectionViewController.m */; };
@@ -410,6 +413,8 @@
 		5F93F09218E12E31005E382B /* ZSCodeNormalizerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCodeNormalizerTests.m; sourceTree = "<group>"; };
 		5F93F09418E21BC0005E382B /* ZSTimedEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSTimedEvent.h; sourceTree = "<group>"; };
 		5F93F09518E21BC0005E382B /* ZSTimedEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSTimedEvent.m; sourceTree = "<group>"; };
+		5FA11D8318F0738400D358C9 /* ZSGroupsGeneratorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSGroupsGeneratorView.h; sourceTree = "<group>"; };
+		5FA11D8418F0738400D358C9 /* ZSGroupsGeneratorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSGroupsGeneratorView.m; sourceTree = "<group>"; };
 		5FADD81E18D7DD2B00A336CC /* ZSZuseDSL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSZuseDSL.h; sourceTree = "<group>"; };
 		5FADD81F18D7DD2B00A336CC /* ZSZuseDSL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSZuseDSL.m; sourceTree = "<group>"; };
 		5FADD82118D7E98400A336CC /* ZSZuseDSLTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSZuseDSLTests.m; sourceTree = "<group>"; };
@@ -429,6 +434,10 @@
 		5FBB4A8918C2497B00B79AB6 /* pong_example.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = pong_example.json; path = JSON/Examples/pong_example.json; sourceTree = "<group>"; };
 		5FBB4A8C18C24C8800B79AB6 /* UIColor+ZuseColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+ZuseColors.h"; sourceTree = "<group>"; };
 		5FBB4A8D18C24C8800B79AB6 /* UIColor+ZuseColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+ZuseColors.m"; sourceTree = "<group>"; };
+		5FC6E28918F78DA400CEFBE6 /* ZSColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSColor.h; sourceTree = "<group>"; };
+		5FC6E28A18F78DA400CEFBE6 /* ZSColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSColor.m; sourceTree = "<group>"; };
+		5FC6E28C18F7C4C100CEFBE6 /* UIFont+Zuse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+Zuse.h"; sourceTree = "<group>"; };
+		5FC6E28D18F7C4C100CEFBE6 /* UIFont+Zuse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+Zuse.m"; sourceTree = "<group>"; };
 		789433B418C307A700C8D810 /* ZS_StatementChooserCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZS_StatementChooserCollectionViewController.h; sourceTree = "<group>"; };
 		789433B518C307A700C8D810 /* ZS_StatementChooserCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZS_StatementChooserCollectionViewController.m; sourceTree = "<group>"; };
 		789433B718C3BCA000C8D810 /* ZS_EventChooserCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZS_EventChooserCollectionViewController.h; sourceTree = "<group>"; };
@@ -736,6 +745,8 @@
 				7899786018B9255500A8FE05 /* ZS_JsonViewController.m */,
 				5FADD81E18D7DD2B00A336CC /* ZSZuseDSL.h */,
 				5FADD81F18D7DD2B00A336CC /* ZSZuseDSL.m */,
+				5FC6E28918F78DA400CEFBE6 /* ZSColor.h */,
+				5FC6E28A18F78DA400CEFBE6 /* ZSColor.m */,
 			);
 			name = Editor;
 			sourceTree = "<group>";
@@ -1037,6 +1048,8 @@
 				5FBB4A8D18C24C8800B79AB6 /* UIColor+ZuseColors.m */,
 				5F39172B18C55C1A00109747 /* UIImageView+Zuse.h */,
 				5F39172C18C55C1A00109747 /* UIImageView+Zuse.m */,
+				5FC6E28C18F7C4C100CEFBE6 /* UIFont+Zuse.h */,
+				5FC6E28D18F7C4C100CEFBE6 /* UIFont+Zuse.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -1145,6 +1158,8 @@
 				5F8138DE18A0BA07009F3495 /* ZSCollisionsViewController.m */,
 				5F50CBD018A1529000B7C020 /* ZSSelectedGroupViewController.h */,
 				5F50CBD118A1529000B7C020 /* ZSSelectedGroupViewController.m */,
+				5FA11D8318F0738400D358C9 /* ZSGroupsGeneratorView.h */,
+				5FA11D8418F0738400D358C9 /* ZSGroupsGeneratorView.m */,
 			);
 			name = Groups;
 			sourceTree = "<group>";
@@ -1400,6 +1415,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5FC6E28B18F78DA400CEFBE6 /* ZSColor.m in Sources */,
 				5F39173018C6634E00109747 /* ZSGroupsViewController.m in Sources */,
 				5F1B5BA71838109600632DE6 /* ZSInterpreter.m in Sources */,
 				4CF1CBBE17EF882A00636E0D /* main.m in Sources */,
@@ -1418,6 +1434,7 @@
 				5F0139BB1856BCA7005D7FAE /* ZSTraitEditorParametersViewController.m in Sources */,
 				4CF303F11856E5DB00B57B95 /* ZSProject.m in Sources */,
 				789433B918C3BCA000C8D810 /* ZS_EventChooserCollectionViewController.m in Sources */,
+				5FC6E28E18F7C4C100CEFBE6 /* UIFont+Zuse.m in Sources */,
 				2CA9A33C18C521C8005F4404 /* ZSZuseHubContentViewController.m in Sources */,
 				5F0139AC1856896F005D7FAE /* ZSEditorViewController.m in Sources */,
 				4CD2311918AC3CC100DC5619 /* ZSTutorial.m in Sources */,
@@ -1472,6 +1489,7 @@
 				4CC2969018D2A918009428CD /* ZSGeneratorView.m in Sources */,
 				5F8138DF18A0BA07009F3495 /* ZSCollisionsViewController.m in Sources */,
 				5F39172718C53ED100109747 /* ZSCanvasSegue.m in Sources */,
+				5FA11D8518F0738400D358C9 /* ZSGroupsGeneratorView.m in Sources */,
 				4C5F732318873A59007F61B3 /* ZSGrid.m in Sources */,
 				5F39DFD1188A40A0008ECAC1 /* NSObject+BlockObservation.m in Sources */,
 				5F93F09618E21BC0005E382B /* ZSTimedEvent.m in Sources */,
@@ -1612,15 +1630,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: ROBERT WIGHTMAN (6M3BSZ6J39)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: ROBERT WIGHTMAN (6M3BSZ6J39)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Zuse/Zuse-Prefix.pch";
 				INFOPLIST_FILE = "Zuse/Zuse-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "9FDED36A-0021-41C7-9C17-347B09FC8638";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "arm64 armv7 armv7s";
 				WRAPPER_EXTENSION = app;
@@ -1633,15 +1651,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: ROBERT WIGHTMAN (6M3BSZ6J39)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: ROBERT WIGHTMAN (6M3BSZ6J39)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Zuse/Zuse-Prefix.pch";
 				INFOPLIST_FILE = "Zuse/Zuse-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "9FDED36A-0021-41C7-9C17-347B09FC8638";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "arm64 armv7 armv7s";
 				WRAPPER_EXTENSION = app;

@@ -8,5 +8,6 @@
 @property (strong, nonatomic) void(^generatorRemoved)(ZSSpriteView *spriteView);
 @property (strong, nonatomic) void(^addGeneratorRequested)();
 - (void)addGeneratorFromJSON:(NSMutableDictionary*)generatorJSON;
+- (void)insertGeneratorFromJSON:(NSMutableDictionary*)generatorJSON;
 
 @end

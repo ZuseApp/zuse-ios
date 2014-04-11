@@ -23,6 +23,7 @@
 }
 
 - (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event {
+    NSLog(@"TUTORIAL DEBUG: %@", NSStringFromCGPoint(point));
     if (self.tapToDismiss) {
         return YES;
     }
@@ -53,7 +54,5 @@
     if ( [super respondsToSelector:@selector(motionEnded:withEvent:)] )
         [super motionEnded:motion withEvent:event];
 }
-
-
 
 @end

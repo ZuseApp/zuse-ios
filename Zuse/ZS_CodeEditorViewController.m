@@ -13,6 +13,8 @@
 #import "ZS_StatementChooserCollectionViewController.h"
 #import "ZS_EventChooserCollectionViewController.h"
 
+#import "ZSTutorial.h"
+
 @interface ZS_CodeEditorViewController ()
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) UILabel* selectedLabel;
@@ -41,13 +43,13 @@
 - (void) reloadFromJson
 {
     ZS_StatementView* objectStatementView =
-    [self objectStatementViewFromJson: self.json
-       beforeAddingSubstatementsBlock: ^(ZS_StatementView *statementView)
+    [self objectStatementViewFromJson:self.codeItems
+       beforeAddingSubstatementsBlock:^(ZS_StatementView *statementView)
     {
-           NSSet *initialProperties = [NSSet setWithArray:[self.json[@"properties"] allKeys]];
+           NSSet *initialPropertiesSet = [NSSet setWithArray:[self.initialProperties allKeys]];
         
-           statementView.propertyScope = [ZSCodePropertyScope scopeWithCode: self.json[@"code"]
-                                                          initialProperties: initialProperties];
+           statementView.propertyScope = [ZSCodePropertyScope scopeWithCode:self.codeItems
+                                                          initialProperties: initialPropertiesSet];
     }];
  
     // Clean scroll view
@@ -138,29 +140,29 @@
         [view addSubStatementView: statementView];
     }];
 }
-- (ZS_StatementView*) objectStatementViewFromJson:(NSMutableDictionary *)jsonObject
+- (ZS_StatementView*) objectStatementViewFromJson:(NSMutableArray *)codeItems
                    beforeAddingSubstatementsBlock:(void (^)(ZS_StatementView *))beforeSubstatementsBlock
 {
-    ZS_StatementView* view = [[ZS_StatementView alloc]initWithJson:jsonObject];
+    ZS_StatementView* view = [[ZS_StatementView alloc]initWithJson:nil];
     
     // DEBUG
     //view.backgroundColor = [UIColor yellowColor];
     // END DEBUG
     
-    view.jsonCode = jsonObject[@"code"];
+    view.jsonCode = codeItems;
     view.topLevelStatement = YES;
 
     // Properties
-    NSDictionary* properties = jsonObject[@"properties"];
-    if (properties.count)
-    {
-        [view addParametersLabelWithText:[ZS_JsonUtilities propertiesStringFromJson: properties]];
-    }
-    
+//    NSDictionary* properties = jsonObject[@"properties"];
+//    if (properties.count)
+//    {
+//        [view addParametersLabelWithText:[ZS_JsonUtilities propertiesStringFromJson: properties]];
+//    }
+
     beforeSubstatementsBlock(view);
 
     // Code
-    [self addToView: view codeStatementsFromJson: jsonObject[@"code"]];
+    [self addToView: view codeStatementsFromJson:codeItems];
     
     // Add <new code statement> button
     [view addNewStatementLabelWithTouchBlock:^(UILabel* label)
@@ -168,7 +170,7 @@
         ZSToolboxView* toolboxView = [[ZSToolboxView alloc] initWithFrame:CGRectMake(19, 82, 282, 361)];
         ZS_StatementChooserCollectionViewController* controller = [[ZS_StatementChooserCollectionViewController alloc]init];
         
-        controller.jsonCodeBody = jsonObject[@"code"];
+        controller.jsonCodeBody = codeItems;
         controller.codeEditorViewController = self;
         controller.toolboxView = toolboxView;
   
@@ -193,7 +195,7 @@
     view.jsonCode = json[@"on_event"][@"code"];
     
     // statement name
-    [view addNameLabelWithText:@"ON EVENT"];
+    [view addNameLabelWithText:@"on event"];
     
     // event name
     [view addArgumentLabelWithText: json[@"on_event"][@"name"]
@@ -253,7 +255,7 @@
     view.jsonCode = json[@"if"][@"true"];
     
     // statement name
-    [view addNameLabelWithText:@"IF"];
+    [view addNameLabelWithText:@"if"];
     
     // boolean expression
     NSString* expressionString = [ZS_JsonUtilities expressionStringFromJson: json[@"if"][@"test"]];
@@ -293,7 +295,7 @@
     view.delegate = self;
     
     // statement name
-    [view addNameLabelWithText:@"TRIGGER EVENT"];
+    [view addNameLabelWithText:@"trigger event"];
 
     // event name
     [view addArgumentLabelWithText: json[@"trigger_event"][@"name"]
@@ -314,11 +316,12 @@
          [toolboxView showAnimated:YES];
      }];
     // parameters
-    NSArray* parameters = json[@"trigger_event"][@"parameters"];
-    if (parameters.count)
-    {
-        [view addParametersLabelWithText:[ZS_JsonUtilities parametersStringFromJson: parameters]];
-    }
+    // Note: json[@"trigger_event"][@"parameters"] is currently a dictionary, not an array
+//    NSArray* parameters = json[@"trigger_event"][@"parameters"];
+//    if (parameters.count)
+//    {
+//        [view addParametersLabelWithText:[ZS_JsonUtilities parametersStringFromJson: parameters]];
+//    }
     return view;
 }
 - (ZS_StatementView*) everyStatementViewFromJson:(NSMutableDictionary *)json
@@ -329,7 +332,7 @@
     view.jsonCode = json[@"every"][@"code"];
     
     // Statement name EVERY
-    [view addNameLabelWithText:@"EVERY"];
+    [view addNameLabelWithText:@"every"];
     
     // add 'seconds' argument
     NSString* seconds = [ZS_JsonUtilities expressionStringFromJson: json[@"every"][@"seconds"]];
@@ -340,7 +343,7 @@
      }];
     
     // Statement name SECONDS
-    [view addNameLabelWithText:@"SECONDS"];
+    [view addNameLabelWithText:@"seconds"];
     
     beforeSubstatementBlock(view);
     
@@ -373,7 +376,7 @@
     view.delegate = self;
     
     // Statement name SET
-    [view addNameLabelWithText:@"SET"];
+    [view addNameLabelWithText:@"set"];
     
     // Variable name
     __weak typeof(view) weakView = view;
@@ -544,8 +547,9 @@
     }
     else if ([[segue identifier] isEqualToString:@"to json viewer"])
     {
-        ZS_JsonViewController* c  = (ZS_JsonViewController*)segue.destinationViewController;
-        c.json = self.json;
+        // TODO: Fix later.
+//        ZS_JsonViewController* c  = (ZS_JsonViewController*)segue.destinationViewController;
+//        c.json = self.json;
     }
 }
 #pragma mark ZS_StatementViewDelegate
@@ -555,7 +559,7 @@
     // Create menu items
     UIMenuItem* menuItemCopy = [[UIMenuItem alloc]initWithTitle: @"copy"
                                                          action: @selector(menuItemCopy)];
-    UIMenuItem* menuItemDelete = [[UIMenuItem alloc]initWithTitle: @"del"
+    UIMenuItem* menuItemDelete = [[UIMenuItem alloc]initWithTitle: @"delete"
                                                            action: @selector(menuItemDelete)];
     // Add menu items to array
     NSMutableArray* menuItems = [NSMutableArray arrayWithArray:@[menuItemCopy, menuItemDelete]];
@@ -633,6 +637,13 @@
         }
     }
     [self reloadFromJson];
+}
+
+#pragma mark Tutorial Hooks
+
+- (void) scrollToRight {
+    CGPoint rightOffset = CGPointMake(self.scrollView.contentSize.width - self.scrollView.bounds.size.width, 0);
+    [self.scrollView setContentOffset:rightOffset animated:YES];
 }
 
 @end
