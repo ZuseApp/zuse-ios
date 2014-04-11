@@ -123,7 +123,7 @@
 #pragma mark - Collection view data source
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
-    return UIEdgeInsetsMake(5, 25, 5, 25);
+    return UIEdgeInsetsMake(0, 25, 5, 25);
 }
 
 //TODO create sections to organize different browsing categories
