@@ -390,10 +390,13 @@ CGFloat const LabelPadding = 10.0f;
 }
 - (void)handleLongPressGesture:(UILongPressGestureRecognizer *)sender
 {
-//    if (sender.state == UIGestureRecognizerStateBegan)
-//    {
+    if (sender.state == UIGestureRecognizerStateBegan)
+    {
+        // Notify Code Editor Controller
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"statement view selected"
+                                                            object: self];
         [self.delegate statementViewLongPressed: self];
-//    }
+    }
 }
 # pragma mark - Private methods
 
