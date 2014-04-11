@@ -327,7 +327,7 @@
       ],
       "physics_body": "circle",
       "image": {
-        "path": "bullet"
+        "path": "bullet.png"
       },
       "properties": {
         "y": 0,
@@ -371,7 +371,7 @@
       ],
       "physics_body": "circle",
       "image": {
-        "path": "bullet"
+        "path": "bullet.png"
       },
       "properties": {
         "y": 0,
@@ -417,7 +417,7 @@
       "code": [],
       "physics_body": "rectangle",
       "image": {
-        "path": "deathmite"
+        "path": "deathmite.png"
       },
       "properties": {
         "y": 472.0714285714286,
@@ -442,7 +442,7 @@
       "code": [],
       "physics_body": "rectangle",
       "image": {
-        "path": "catcher"
+        "path": "catcher.png"
       },
       "properties": {
         "y": 433.1428571428571,
@@ -467,7 +467,7 @@
       "code": [],
       "physics_body": "rectangle",
       "image": {
-        "path": "grunt"
+        "path": "grunt.png"
       },
       "properties": {
         "y": 392.7142857142857,
@@ -492,7 +492,7 @@
       "code": [],
       "physics_body": "rectangle",
       "image": {
-        "path": "dragonfly"
+        "path": "dragonfly.png"
       },
       "properties": {
         "y": 323.3571428571428,
@@ -517,7 +517,7 @@
       "code": [],
       "physics_body": "rectangle",
       "image": {
-        "path": "moth"
+        "path": "moth.png"
       },
       "properties": {
         "y": 356.7857142857143,
@@ -614,7 +614,7 @@
       ],
       "physics_body": "rectangle",
       "image": {
-        "path": "ship"
+        "path": "ship.png"
       },
       "properties": {
         "y": 37.10715103149414,
@@ -639,7 +639,7 @@
       "code": [],
       "physics_body": "rectangle",
       "image": {
-        "path": "deathmite"
+        "path": "deathmite.png"
       },
       "properties": {
         "y": 472.0714285714286,
@@ -664,7 +664,7 @@
       "code": [],
       "physics_body": "rectangle",
       "image": {
-        "path": "deathmite"
+        "path": "deathmite.png"
       },
       "properties": {
         "y": 472.0714285714286,
@@ -689,7 +689,7 @@
       "code": [],
       "physics_body": "rectangle",
       "image": {
-        "path": "deathmite"
+        "path": "deathmite.png"
       },
       "properties": {
         "y": 472.0714285714286,
@@ -714,7 +714,7 @@
       "code": [],
       "physics_body": "rectangle",
       "image": {
-        "path": "deathmite"
+        "path": "deathmite.png"
       },
       "properties": {
         "y": 472.0714285714286,
@@ -739,7 +739,7 @@
       "code": [],
       "physics_body": "rectangle",
       "image": {
-        "path": "deathmite"
+        "path": "deathmite.png"
       },
       "properties": {
         "y": 472.0714285714286,
@@ -764,7 +764,7 @@
       "code": [],
       "physics_body": "rectangle",
       "image": {
-        "path": "catcher"
+        "path": "catcher.png"
       },
       "properties": {
         "y": 433.1428571428571,
@@ -789,7 +789,7 @@
       "code": [],
       "physics_body": "rectangle",
       "image": {
-        "path": "catcher"
+        "path": "catcher.png"
       },
       "properties": {
         "y": 433.1428571428571,
@@ -814,7 +814,7 @@
       "code": [],
       "physics_body": "rectangle",
       "image": {
-        "path": "catcher"
+        "path": "catcher.png"
       },
       "properties": {
         "y": 433.1428571428571,
@@ -839,7 +839,7 @@
       "code": [],
       "physics_body": "rectangle",
       "image": {
-        "path": "catcher"
+        "path": "catcher.png"
       },
       "properties": {
         "y": 433.1428571428571,
@@ -864,7 +864,7 @@
       "code": [],
       "physics_body": "rectangle",
       "image": {
-        "path": "catcher"
+        "path": "catcher.png"
       },
       "properties": {
         "y": 433.1428571428571,
@@ -889,7 +889,7 @@
       "code": [],
       "physics_body": "rectangle",
       "image": {
-        "path": "grunt"
+        "path": "grunt.png"
       },
       "properties": {
         "y": 392.7142857142857,
@@ -914,7 +914,7 @@
       "code": [],
       "physics_body": "rectangle",
       "image": {
-        "path": "grunt"
+        "path": "grunt.png"
       },
       "properties": {
         "y": 392.7142857142857,
@@ -939,7 +939,7 @@
       "code": [],
       "physics_body": "rectangle",
       "image": {
-        "path": "grunt"
+        "path": "grunt.png"
       },
       "properties": {
         "y": 392.7142857142857,
@@ -964,7 +964,7 @@
       "code": [],
       "physics_body": "rectangle",
       "image": {
-        "path": "grunt"
+        "path": "grunt.png"
       },
       "properties": {
         "y": 392.7142857142857,
@@ -989,7 +989,7 @@
       "code": [],
       "physics_body": "rectangle",
       "image": {
-        "path": "grunt"
+        "path": "grunt.png"
       },
       "properties": {
         "y": 392.7142857142857,
@@ -1014,7 +1014,7 @@
       "code": [],
       "physics_body": "rectangle",
       "image": {
-        "path": "moth"
+        "path": "moth.png"
       },
       "properties": {
         "y": 356.7857142857143,
@@ -1039,7 +1039,7 @@
       "code": [],
       "physics_body": "rectangle",
       "image": {
-        "path": "moth"
+        "path": "moth.png"
       },
       "properties": {
         "y": 356.7857142857143,
@@ -1064,7 +1064,7 @@
       "code": [],
       "physics_body": "rectangle",
       "image": {
-        "path": "moth"
+        "path": "moth.png"
       },
       "properties": {
         "y": 356.7857142857143,
@@ -1089,7 +1089,7 @@
       "code": [],
       "physics_body": "rectangle",
       "image": {
-        "path": "moth"
+        "path": "moth.png"
       },
       "properties": {
         "y": 356.7857142857143,
@@ -1114,7 +1114,7 @@
       "code": [],
       "physics_body": "rectangle",
       "image": {
-        "path": "moth"
+        "path": "moth.png"
       },
       "properties": {
         "y": 356.7857142857143,
@@ -1139,7 +1139,7 @@
       "code": [],
       "physics_body": "rectangle",
       "image": {
-        "path": "dragonfly"
+        "path": "dragonfly.png"
       },
       "properties": {
         "y": 323.3571428571428,
@@ -1164,7 +1164,7 @@
       "code": [],
       "physics_body": "rectangle",
       "image": {
-        "path": "dragonfly"
+        "path": "dragonfly.png"
       },
       "properties": {
         "y": 323.3571428571428,
@@ -1189,7 +1189,7 @@
       "code": [],
       "physics_body": "rectangle",
       "image": {
-        "path": "dragonfly"
+        "path": "dragonfly.png"
       },
       "properties": {
         "y": 323.3571428571428,
@@ -1214,7 +1214,7 @@
       "code": [],
       "physics_body": "rectangle",
       "image": {
-        "path": "dragonfly"
+        "path": "dragonfly.png"
       },
       "properties": {
         "y": 323.3571428571428,
@@ -1239,7 +1239,7 @@
       "code": [],
       "physics_body": "rectangle",
       "image": {
-        "path": "dragonfly"
+        "path": "dragonfly.png"
       },
       "properties": {
         "y": 323.3571428571428,
@@ -1264,7 +1264,7 @@
       "code": [],
       "physics_body": "rectangle",
       "image": {
-        "path": "deathmite"
+        "path": "deathmite.png"
       },
       "properties": {
         "y": 472.0714285714286,
@@ -1289,7 +1289,7 @@
       "code": [],
       "physics_body": "rectangle",
       "image": {
-        "path": "catcher"
+        "path": "catcher.png"
       },
       "properties": {
         "y": 433.1428571428571,
@@ -1314,7 +1314,7 @@
       "code": [],
       "physics_body": "rectangle",
       "image": {
-        "path": "grunt"
+        "path": "grunt.png"
       },
       "properties": {
         "y": 392.7142857142857,
@@ -1339,7 +1339,7 @@
       "code": [],
       "physics_body": "rectangle",
       "image": {
-        "path": "moth"
+        "path": "moth.png"
       },
       "properties": {
         "y": 356.7857142857143,
@@ -1364,7 +1364,7 @@
       "code": [],
       "physics_body": "rectangle",
       "image": {
-        "path": "dragonfly"
+        "path": "dragonfly.png"
       },
       "properties": {
         "y": 323.3571428571428,
