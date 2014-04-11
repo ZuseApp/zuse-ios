@@ -1,4 +1,6 @@
 #import <MTBlockAlertView/MTBlockAlertView.h>
+#import <FontAwesomeKit/FAKIonIcons.h>
+#import <QBPopupMenu/QBPopupMenu.h>
 
 #import "ZS_CodeEditorViewController.h"
 #import "ZS_JsonUtilities.h"
@@ -556,10 +558,16 @@
 
 - (void) statementViewLongPressed:(ZS_StatementView*) view
 {
+    FAKIcon *icon = [FAKIonIcons ios7TrashIconWithSize:25];
+    [icon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
     // Create menu items
+    QBPopupMenuItem *deleteItem = [QBPopupMenuItem itemWithImage:[icon imageWithSize:CGSizeMake(25, 25)]
+                                                          target:self
+                                                          action:@selector(menuItemDelete)];
+
     UIMenuItem* menuItemCopy = [[UIMenuItem alloc]initWithTitle: @"copy"
                                                          action: @selector(menuItemCopy)];
-    UIMenuItem* menuItemDelete = [[UIMenuItem alloc]initWithTitle: @"delete"
+    UIMenuItem* menuItemDelete = [[UIMenuItem alloc]initWithTitle: icon.characterCode
                                                            action: @selector(menuItemDelete)];
     // Add menu items to array
     NSMutableArray* menuItems = [NSMutableArray arrayWithArray:@[menuItemCopy, menuItemDelete]];
@@ -577,10 +585,17 @@
     
     // Create menu controller
     [view becomeFirstResponder];
-    UIMenuController* menu = [UIMenuController sharedMenuController];
-    [menu setMenuItems: menuItems];
-    [menu setTargetRect: CGRectZero inView:view];
-    [menu setMenuVisible:YES animated:YES];
+    QBPopupMenu *menu = [[QBPopupMenu alloc] initWithItems:@[deleteItem]];
+    CGRect rect = view.bounds;
+    rect.size.width = 50;
+    rect.origin.y += 30;
+    menu.color = [[UIColor blackColor] colorWithAlphaComponent:0.7];
+    menu.arrowDirection = QBPopupMenuArrowDirectionDown;
+    [menu showInView:view targetRect:rect animated:YES];
+//    UIMenuController* menu = [UIMenuController sharedMenuController];
+//    [menu setMenuItems: menuItems];
+//    [menu setTargetRect: CGRectZero inView:view];
+//    [menu setMenuVisible:YES animated:YES];
 }
 #pragma mark Menu Methods
 
