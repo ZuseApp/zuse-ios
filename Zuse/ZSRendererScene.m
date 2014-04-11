@@ -241,22 +241,23 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
 
 - (SKNode *)childNodeForObjectJSON:(NSDictionary *)object size:(CGSize)size {
     SKNode *node = nil;
-            if ([object[@"type"] isEqualToString:@"image"]) {
-                SKSpriteNode *sprite = [SKSpriteNode spriteNodeWithImageNamed:object[@"image"][@"path"]];
-                sprite.size = size;
-                node = sprite;
-            }
-            else if ([object[@"type"] isEqualToString:@"text"]) {
-                SKLabelNode *labelNode = [SKLabelNode labelNodeWithFontNamed:@"Helvetica"];
-                labelNode.name = @"Text";
-                labelNode.text = object[@"properties"][@"text"];
-                labelNode.fontColor = [SKColor blackColor];
-                labelNode.fontSize = 30;
-                labelNode.verticalAlignmentMode = SKLabelVerticalAlignmentModeCenter;
-                labelNode.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
-                node = labelNode;
-            }
-    
+
+    if ([object[@"type"] isEqualToString:@"image"]) {
+        SKSpriteNode *sprite = [SKSpriteNode spriteNodeWithImageNamed:object[@"image"][@"path"]];
+        sprite.size = size;
+        node = sprite;
+    }
+    else if ([object[@"type"] isEqualToString:@"text"]) {
+        SKLabelNode *labelNode = [SKLabelNode labelNodeWithFontNamed:@"Helvetica"];
+        labelNode.name = @"Text";
+        labelNode.text = object[@"properties"][@"text"];
+        labelNode.fontColor = [SKColor blackColor];
+        labelNode.fontSize = 30;
+        labelNode.verticalAlignmentMode = SKLabelVerticalAlignmentModeCenter;
+        labelNode.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
+        node = labelNode;
+    }
+
     if (!node) {
         @throw [NSString stringWithFormat:@"ZSRendererScene#childNodeForObjectJSON:size: - attempted to create unknown node type %@", object[@"image"][@"path"]];
     }
@@ -489,25 +490,42 @@ void APARunOneShotEmitter(SKEmitterNode *emitter, CGFloat duration) {
         objectWithIdentifier:(NSString *)identifier
         didUpdateProperties:(NSDictionary *)properties {
     ZSComponentNode *node = _spriteNodes[identifier];
+
     if (properties[@"x"]) {
         ZSComponentNode *joint = _jointNodes[identifier];
         if (joint)
             node = joint;
         node.position = CGPointMake([properties[@"x"] floatValue], node.position.y);
     }
-    if (properties[@"y"]) {
+    else if (properties[@"y"]) {
         ZSComponentNode *joint = _jointNodes[identifier];
         if (joint)
             node = joint;
         node.position = CGPointMake(node.position.x, [properties[@"y"] floatValue]);
     }
-    if (properties[@"text"]) {
+    else if (properties[@"text"]) {
         SKLabelNode *textNode = [node.children match:^BOOL(id obj) {
             return [obj isKindOfClass:SKLabelNode.class];
         }];
         if (textNode) {
             textNode.text = [properties[@"text"] coercedString];
         }
+    }
+
+    // TODO: I think the joint node might need to be updated too?
+    ZSComponentNode *jointNode = _jointNodes[identifier];
+
+    if (properties[@"width"]) {
+        SKSpriteNode *spriteNode = node.children[0];
+        CGSize size = spriteNode.size;
+        size.width = [properties[@"width"] floatValue];
+        spriteNode.size = size;
+    }
+    else if (properties[@"height"]) {
+        SKSpriteNode *spriteNode = node.children[0];
+        CGSize size = spriteNode.size;
+        size.height = [properties[@"height"] floatValue];
+        spriteNode.size = size;
     }
 }
 
