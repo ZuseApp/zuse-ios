@@ -195,7 +195,7 @@
     view.jsonCode = json[@"on_event"][@"code"];
     
     // statement name
-    [view addNameLabelWithText:@"ON EVENT"];
+    [view addNameLabelWithText:@"on event"];
     
     // event name
     [view addArgumentLabelWithText: json[@"on_event"][@"name"]
@@ -255,7 +255,7 @@
     view.jsonCode = json[@"if"][@"true"];
     
     // statement name
-    [view addNameLabelWithText:@"IF"];
+    [view addNameLabelWithText:@"if"];
     
     // boolean expression
     NSString* expressionString = [ZS_JsonUtilities expressionStringFromJson: json[@"if"][@"test"]];
@@ -295,7 +295,7 @@
     view.delegate = self;
     
     // statement name
-    [view addNameLabelWithText:@"TRIGGER EVENT"];
+    [view addNameLabelWithText:@"trigger event"];
 
     // event name
     [view addArgumentLabelWithText: json[@"trigger_event"][@"name"]
@@ -332,7 +332,7 @@
     view.jsonCode = json[@"every"][@"code"];
     
     // Statement name EVERY
-    [view addNameLabelWithText:@"EVERY"];
+    [view addNameLabelWithText:@"every"];
     
     // add 'seconds' argument
     NSString* seconds = [ZS_JsonUtilities expressionStringFromJson: json[@"every"][@"seconds"]];
@@ -343,7 +343,7 @@
      }];
     
     // Statement name SECONDS
-    [view addNameLabelWithText:@"SECONDS"];
+    [view addNameLabelWithText:@"seconds"];
     
     beforeSubstatementBlock(view);
     
@@ -376,7 +376,7 @@
     view.delegate = self;
     
     // Statement name SET
-    [view addNameLabelWithText:@"SET"];
+    [view addNameLabelWithText:@"set"];
     
     // Variable name
     __weak typeof(view) weakView = view;
@@ -559,7 +559,7 @@
     // Create menu items
     UIMenuItem* menuItemCopy = [[UIMenuItem alloc]initWithTitle: @"copy"
                                                          action: @selector(menuItemCopy)];
-    UIMenuItem* menuItemDelete = [[UIMenuItem alloc]initWithTitle: @"del"
+    UIMenuItem* menuItemDelete = [[UIMenuItem alloc]initWithTitle: @"delete"
                                                            action: @selector(menuItemDelete)];
     // Add menu items to array
     NSMutableArray* menuItems = [NSMutableArray arrayWithArray:@[menuItemCopy, menuItemDelete]];

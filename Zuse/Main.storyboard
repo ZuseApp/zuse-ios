@@ -880,7 +880,6 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="deleteButtonTapped" destination="OZT-ie-xeo" eventType="touchUpInside" id="smA-EG-N49"/>
                                     <action selector="doneButtonTapped" destination="OZT-ie-xeo" eventType="touchUpInside" id="U9d-yd-99u"/>
                                 </connections>
                             </button>

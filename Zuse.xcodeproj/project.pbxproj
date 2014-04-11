@@ -165,6 +165,7 @@
 		5FBB4A8A18C2497B00B79AB6 /* breakout_example.json in Resources */ = {isa = PBXBuildFile; fileRef = 5FBB4A8818C2497B00B79AB6 /* breakout_example.json */; };
 		5FBB4A8B18C2497B00B79AB6 /* pong_example.json in Resources */ = {isa = PBXBuildFile; fileRef = 5FBB4A8918C2497B00B79AB6 /* pong_example.json */; };
 		5FBB4A8E18C24C8800B79AB6 /* UIColor+ZuseColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBB4A8D18C24C8800B79AB6 /* UIColor+ZuseColors.m */; };
+		5FC6E28B18F78DA400CEFBE6 /* ZSColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FC6E28A18F78DA400CEFBE6 /* ZSColor.m */; };
 		789433B618C307A700C8D810 /* ZS_StatementChooserCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 789433B518C307A700C8D810 /* ZS_StatementChooserCollectionViewController.m */; };
 		789433B918C3BCA000C8D810 /* ZS_EventChooserCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 789433B818C3BCA000C8D810 /* ZS_EventChooserCollectionViewController.m */; };
 		789433BC18C3D1E800C8D810 /* ZS_ExpressionVariableChooserCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 789433BB18C3D1E800C8D810 /* ZS_ExpressionVariableChooserCollectionViewController.m */; };
@@ -429,6 +430,8 @@
 		5FBB4A8918C2497B00B79AB6 /* pong_example.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = pong_example.json; path = JSON/Examples/pong_example.json; sourceTree = "<group>"; };
 		5FBB4A8C18C24C8800B79AB6 /* UIColor+ZuseColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+ZuseColors.h"; sourceTree = "<group>"; };
 		5FBB4A8D18C24C8800B79AB6 /* UIColor+ZuseColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+ZuseColors.m"; sourceTree = "<group>"; };
+		5FC6E28918F78DA400CEFBE6 /* ZSColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSColor.h; sourceTree = "<group>"; };
+		5FC6E28A18F78DA400CEFBE6 /* ZSColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSColor.m; sourceTree = "<group>"; };
 		789433B418C307A700C8D810 /* ZS_StatementChooserCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZS_StatementChooserCollectionViewController.h; sourceTree = "<group>"; };
 		789433B518C307A700C8D810 /* ZS_StatementChooserCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZS_StatementChooserCollectionViewController.m; sourceTree = "<group>"; };
 		789433B718C3BCA000C8D810 /* ZS_EventChooserCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZS_EventChooserCollectionViewController.h; sourceTree = "<group>"; };
@@ -718,6 +721,8 @@
 				7899786018B9255500A8FE05 /* ZS_JsonViewController.m */,
 				5FADD81E18D7DD2B00A336CC /* ZSZuseDSL.h */,
 				5FADD81F18D7DD2B00A336CC /* ZSZuseDSL.m */,
+				5FC6E28918F78DA400CEFBE6 /* ZSColor.h */,
+				5FC6E28A18F78DA400CEFBE6 /* ZSColor.m */,
 			);
 			name = Editor;
 			sourceTree = "<group>";
@@ -1384,6 +1389,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5FC6E28B18F78DA400CEFBE6 /* ZSColor.m in Sources */,
 				5F39173018C6634E00109747 /* ZSGroupsViewController.m in Sources */,
 				5F1B5BA71838109600632DE6 /* ZSInterpreter.m in Sources */,
 				4CF1CBBE17EF882A00636E0D /* main.m in Sources */,

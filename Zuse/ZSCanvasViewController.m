@@ -18,6 +18,7 @@
 #import <Social/Social.h>
 #import <Accounts/Accounts.h>
 #import <MTBlockAlertView/MTBlockAlertView.h>
+#import <SVProgressHUD/SVProgressHUD.h>
 #import "ZSTutorial.h"
 #import "ZSCompiler.h"
 
@@ -927,8 +928,8 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     
     NSData *projectData = [NSJSONSerialization dataWithJSONObject:self.project.assembledJSON
-     options:NSJSONWritingPrettyPrinted
-      error:nil];
+                                                          options:0
+                                                            error:nil];
     
     NSString *projectString = [[NSString alloc] initWithBytes:projectData.bytes
                                                        length:projectData.length
@@ -952,12 +953,17 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
             @"compiled_components": compiledString
         }
     };
-                        
-    
-    // { "url": "..." }
+
+    NSLog(@"Requesting...");
+
+    [SVProgressHUD setBackgroundColor:[UIColor zuseBackgroundGrey]];
+    [SVProgressHUD setForegroundColor:[UIColor zuseYellow]];
+    [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
+
     [manager POST:@"shared_projects"
        parameters:params
           success:^(AFHTTPRequestOperation *operation, NSDictionary *project) {
+              [SVProgressHUD dismiss];
               NSLog(@"Success! %@", project);
               
               if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter]) {
@@ -976,7 +982,8 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
                                        
                                    }];
               }
-          }  failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+          } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+              [SVProgressHUD dismiss];
               NSLog(@"Failed! %@", error.localizedDescription);
           }];
 }

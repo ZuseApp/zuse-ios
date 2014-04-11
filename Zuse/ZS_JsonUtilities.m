@@ -55,7 +55,7 @@
 }
 + (NSString*) parametersStringFromJson: (NSArray*) json
 {
-    NSString* parameters = @"PARAMETERS: ";
+    NSString* parameters = @"parameters: ";
     for (NSString* parameter in json)
     {
         parameters = [NSString stringWithFormat:@"%@%@, ", parameters, parameter];

@@ -37,7 +37,9 @@ PODS:
   - MMDrawerController/Subclass (0.5.3):
     - MMDrawerController/Core
   - MTBlockAlertView (0.1.1)
+  - Reveal-iOS-SDK (1.0.3)
   - SpriteKit-Components (1.0.2)
+  - SVProgressHUD (HEAD based on 1.0)
   - WYPopoverController (0.2.2)
 
 DEPENDENCIES:
@@ -48,7 +50,9 @@ DEPENDENCIES:
   - FXBlurView
   - MMDrawerController (~> 0.5.3)
   - MTBlockAlertView
+  - Reveal-iOS-SDK
   - SpriteKit-Components
+  - SVProgressHUD (HEAD)
   - WYPopoverController (~> 0.2.2)
 
 SPEC CHECKSUMS:
@@ -58,7 +62,9 @@ SPEC CHECKSUMS:
   FXBlurView: 8d662dd5b4ba15a1a0e97235501326fbdfb2b755
   MMDrawerController: 4445e1927e8947b7e2382136c9b7109840efbfb9
   MTBlockAlertView: 05cf381a078c0005bcbad973cf63d9740ca67323
+  Reveal-iOS-SDK: 8e6a6f22a9520437e4a180fe1d4e99f43b75430e
   SpriteKit-Components: f2d3ca5ea1abfc232bc9a774a9c751199f4bc458
+  SVProgressHUD: 5e10939a296debf5fe5a5895eda9539b8b2114f1
   WYPopoverController: bc21a6897fe41524508649c628587ab577b9ef73
 
-COCOAPODS: 0.29.0
+COCOAPODS: 0.31.1

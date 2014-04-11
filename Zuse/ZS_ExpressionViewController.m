@@ -74,6 +74,8 @@ NSString* ZS_OperatorToString(ZS_Operator operator)
         self.layer.cornerRadius = self.font.pointSize * 0.2;
         self.userInteractionEnabled = YES;
         self.nodes = [[NSMutableArray alloc]init];
+        UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(wasTapped:)];
+        [self addGestureRecognizer:tapRecognizer];
     }
     return self;
 }
@@ -467,7 +469,7 @@ NSString* ZS_OperatorToString(ZS_Operator operator)
 }
 #pragma mark UIView
 
-- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+- (void)wasTapped:(id)sender
 {
     [[NSNotificationCenter defaultCenter] postNotificationName: @"any expression label touched"
                                                         object: self];
