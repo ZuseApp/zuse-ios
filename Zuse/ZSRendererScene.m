@@ -385,12 +385,14 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
             NSNumber *x = args[1];
             NSNumber *y = args[2];
         
-            // TODO: Complete and udder hack to stop the app from crashing
+            // TODO: Complete and utter hack to stop the app from crashing
             // until we can figure out why x is NaN sometimes.
             if (isnan(x.doubleValue)) return nil;
         
             NSMutableDictionary *object = self.compiledComponents[@"generators"][generatorIdentifier];
-        
+
+            if (!object) return nil;
+
             NSLog(@"%@", generatorIdentifier);
         
             object[@"object"][@"id"] = [NSUUID.UUID UUIDString];
