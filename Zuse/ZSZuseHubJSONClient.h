@@ -38,9 +38,9 @@
 //user specific
 - (void)getUsersSharedProjects:(NSInteger)page itemsPerPage:(NSInteger)itemsPerPage completion:(void(^)(NSArray *projects, NSInteger statusCode))completion;
 - (void)getUsersSharedSingleProject:(NSString *) uuid completion:(void(^)(NSDictionary *project, NSInteger statusCode))completion;
-- (void)createSharedProject:(NSString *)title description:(NSString *)description projectJson:(ZSProject *)projectJson completion:(void(^)(NSArray *project, NSError *error, NSInteger statusCode))completion;
+- (void)createSharedProject:(NSString *)title description:(NSString *)description projectJson:(ZSProject *)projectJson completion:(void(^)(NSDictionary *project, NSError *error, NSInteger statusCode))completion;
 - (void)deleteSharedProject:(NSString *)uuid completion:(void(^)(BOOL success, NSInteger statusCode ))completion;
-- (void)updateSharedProject:(NSString *)title description:(NSString *)description projectJson:(ZSProject *)project completion:(void(^)(NSArray *project, NSError *error, NSInteger statusCode))completion;
+- (void)updateSharedProject:(NSString *)title description:(NSString *)description projectJson:(ZSProject *)project completion:(void(^)(NSDictionary *project, NSError *error, NSInteger statusCode))completion;
 
 @end
 

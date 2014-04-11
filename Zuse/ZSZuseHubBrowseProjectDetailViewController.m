@@ -83,6 +83,12 @@
         }
         else{
             //TODO put msg for user to indicate that download failed
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Download Failed"
+                                                            message:@"Unable to download project."
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+            [alert show];
         }
     }];
     

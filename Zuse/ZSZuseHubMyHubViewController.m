@@ -179,6 +179,17 @@
             [self dismissViewControllerAnimated:YES completion:^{ }];
             [self setupData];
         };
+        
+        //if the user isn't signed in, then prompt them to do so
+        if(!self.jsonClientManager.token)
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"View My Shared Projects Failed"
+                                                            message:@"You must sign in to view your shared projects."
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+            [alert show];
+        }
     }
     else
         NSLog( @"TODO put different browse types");

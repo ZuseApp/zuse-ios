@@ -239,7 +239,7 @@
 - (void)createSharedProject:(NSString *)title
                 description:(NSString *)description
                 projectJson:(ZSProject *)project
-                 completion:(void (^)(NSArray *project, NSError *error, NSInteger statusCode))completion
+                 completion:(void (^)(NSDictionary *project, NSError *error, NSInteger statusCode))completion
 
 {
     NSData *projectData = [NSJSONSerialization dataWithJSONObject:project.assembledJSON
@@ -271,7 +271,7 @@
         };
     [self.manager POST:@"user/projects.json"
             parameters:params
-               success:^(AFHTTPRequestOperation *operation, NSArray *project)
+               success:^(AFHTTPRequestOperation *operation, NSDictionary *project)
      {
          completion(project, nil, operation.response.statusCode);
      }
@@ -302,7 +302,7 @@
 /**
  * Updates a project that has already been shared
  */
-- (void)updateSharedProject:(NSString *)title description:(NSString *)description projectJson:(ZSProject *)project completion:(void (^)(NSArray *, NSError *, NSInteger))completion
+- (void)updateSharedProject:(NSString *)title description:(NSString *)description projectJson:(ZSProject *)project completion:(void (^)(NSDictionary *, NSError *, NSInteger))completion
 {
     NSData *projectData = [NSJSONSerialization dataWithJSONObject:project.assembledJSON
                                                           options:0
@@ -337,7 +337,7 @@
     
     [self.manager PUT:url
            parameters:params
-              success:^(AFHTTPRequestOperation *operation, NSArray *project)
+              success:^(AFHTTPRequestOperation *operation, NSDictionary *project)
     {
         completion(project, nil, operation.response.statusCode);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

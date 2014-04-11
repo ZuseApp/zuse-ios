@@ -10,6 +10,7 @@
 //
 
 #import "ZSZuseHubShareViewController.h"
+#import "ZSProjectPersistence.h"
 
 @interface ZSZuseHubShareViewController ()
 
@@ -74,7 +75,7 @@
     {
         //TODO have logic here to check if the project should use create or update endpoint
         [self.jsonClientManager createSharedProject:self.titleTextLabel.text description:self.descriptionTextField.text projectJson:self.project
-         completion:^(NSArray *project, NSError *error, NSInteger statusCode)
+         completion:^(NSDictionary *project, NSError *error, NSInteger statusCode)
         {
             //user not logged in
              if(statusCode == 401)
@@ -87,12 +88,63 @@
                  [alert show];
                  [self showLoginRegisterPage];
              }
+            else if(statusCode == 409)
+            {
+                //try an update because this project could be on the server already
+                [self.jsonClientManager updateSharedProject:self.titleTextLabel.text
+                                                description:self.descriptionTextField.text projectJson:self.project
+                                                 completion:^(NSDictionary *project, NSError *error, NSInteger statusCode) {
+                    if(project)
+                    {
+                        //TODO create a project onto disk
+                        NSString *JSONString = project[@"project_json"];
+                        NSError *error = nil;
+                        NSDictionary *projectJSONParsed = [NSJSONSerialization JSONObjectWithData:[JSONString dataUsingEncoding:NSUTF8StringEncoding]
+                                                                                          options:0
+                                                                                            error:&error];
+                        
+                        assert(!error);
+                        
+                        ZSProject *project = [ZSProject projectWithJSON:projectJSONParsed];
+                        [ZSProjectPersistence writeProject:project];
+                    }
+                    else if (statusCode == 422)
+                    {
+                        //TODO display view to show that sharing failed
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Share Failed"
+                                                                        message:@"Your code has errors."
+                                                                       delegate:nil
+                                                              cancelButtonTitle:@"OK"
+                                                              otherButtonTitles:nil];
+                        [alert show];
+                    }
+                }];
+            }
+            else if (statusCode == 422)
+            {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Share Failed"
+                                                                message:@"Your code has errors."
+                                                               delegate:nil
+                                                      cancelButtonTitle:@"OK"
+                                                      otherButtonTitles:nil];
+                [alert show];
+            }
              else
              {
                  if(error.localizedDescription.length == 0)
                  {
                      NSLog(@"share succeeded");
                      //TODO store the project JSON that came back
+                     NSString *JSONString = project[@"project_json"];
+                     NSError *error = nil;
+                     NSDictionary *projectJSONParsed = [NSJSONSerialization JSONObjectWithData:[JSONString dataUsingEncoding:NSUTF8StringEncoding]
+                                                                                       options:0
+                                                                                         error:&error];
+                     
+                     assert(!error);
+                     
+                     ZSProject *project = [ZSProject projectWithJSON:projectJSONParsed];
+                     [ZSProjectPersistence writeProject:project];
                      
                      self.didFinish(YES);
                  }
