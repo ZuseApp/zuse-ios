@@ -21,15 +21,26 @@
 @property (strong, nonatomic) AFJSONRequestSerializer *jsonRequestSerializer;
 @property (strong, nonatomic) AFJSONResponseSerializer *jsonResponseSerializer;
 @property (strong, nonatomic) NSString *token;
-@property (strong, nonatomic) NSString *uuid;
 
 + (ZSZuseHubJSONClient *)sharedClient;
-- (void )getNewestProjects:(void(^)(NSArray *projects))completion;
-- (void)registerUser:(void(^)(NSDictionary *response))completion;
-- (void)authenticateUser:(void(^)(NSDictionary *response))completion;;
-- (void)setAuthHeader;
-- (void)getUsersSharedProjects:(void(^)(NSArray *projects))completion;
-- (void)createSharedProject:(NSString *)title description:(NSString *)description projectJson:(ZSProject *)projectJson completion:(void(^)(NSError *))completion;
+
+//general
+- (void)getNewestProjects:(NSInteger)page itemsPerPage:(NSInteger)itemsPerPage completion:(void(^)(NSArray *projects))completion;
+- (void)getPopularProjects:(NSInteger)page itemsPerPage:(NSInteger)itemsPerPage completion:(void(^)(NSArray *projects))completion;
+- (void)downloadProject:(NSString *)uuid completion:(void(^)(NSDictionary *project))completion;
+- (void)showProjectDetail:(NSString *)uuid completion:(void(^)(NSDictionary *project))completion;
+
+//authentication registration
+- (void)registerUser:(NSDictionary *)loginInfo completion:(void (^)(NSDictionary *))completion;
+- (void)authenticateUser:(NSDictionary *)loginInfo completion:(void(^)(NSDictionary *response))completion;
+- (void)setAuthHeader:(NSString *)token;
+
+//user specific
+- (void)getUsersSharedProjects:(NSInteger)page itemsPerPage:(NSInteger)itemsPerPage completion:(void(^)(NSArray *projects, NSInteger statusCode))completion;
+- (void)getUsersSharedSingleProject:(NSString *) uuid completion:(void(^)(NSDictionary *project, NSInteger statusCode))completion;
+- (void)createSharedProject:(NSString *)title description:(NSString *)description projectJson:(ZSProject *)projectJson completion:(void(^)(NSDictionary *project, NSError *error, NSInteger statusCode))completion;
+- (void)deleteSharedProject:(NSString *)uuid completion:(void(^)(BOOL success, NSInteger statusCode ))completion;
+- (void)updateSharedProject:(NSString *)title description:(NSString *)description projectJson:(ZSProject *)project completion:(void(^)(NSDictionary *project, NSError *error, NSInteger statusCode))completion;
 
 @end
 

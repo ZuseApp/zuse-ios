@@ -8,6 +8,8 @@ pod "AFNetworking"
 pod "FXBlurView"
 pod "FontAwesomeKit/IonIcons"
 pod "FontAwesomeKit/FontAwesome"
+pod "SVPullToRefresh"
+pod "SDWebImage"
 pod "MMDrawerController", '~> 0.5.3'
 pod "SVProgressHUD", :head
 pod "Reveal-iOS-SDK"

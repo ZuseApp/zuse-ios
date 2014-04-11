@@ -13,6 +13,7 @@
 #import "ZSCanvasBarButtonItem.h"
 #import "ZSProjectJSONKeys.h"
 #import "ZSZuseDSL.h"
+#import "ZSCompiler.h"
 #import <FontAwesomeKit/FAKIonIcons.h>
 #import <AFNetworking/AFNetworking.h>
 #import <Social/Social.h>
@@ -931,9 +932,11 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
                                                           options:0
                                                             error:nil];
     
+    
     NSString *projectString = [[NSString alloc] initWithBytes:projectData.bytes
                                                        length:projectData.length
                                                      encoding:NSUTF8StringEncoding];
+
 
     ZSCompiler *compiler = [ZSCompiler compilerWithProjectJSON:self.project.assembledJSON
                                                        options:ZSCompilerOptionWrapInStartEvent];

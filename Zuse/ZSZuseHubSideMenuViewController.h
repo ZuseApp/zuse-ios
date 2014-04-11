@@ -17,8 +17,10 @@
 
 @property (copy, nonatomic) void (^didSelectShareProject)();
 @property (copy, nonatomic) void (^didSelectNewestProjects)();
+@property (copy, nonatomic) void (^didSelectPopularProjects)();
 @property (copy, nonatomic) void (^didSelectViewMySharedProjects)();
 @property (copy, nonatomic) void (^didSelectBack)();
+@property (copy, nonatomic) void (^didSelectSignInSignOut)();
 
 @property (nonatomic, strong) UITableView * tableView;
 

@@ -12,8 +12,6 @@
 #import "ZSZuseHubContentViewController.h"
 #import "ZSZuseHubEnums.h"
 
-@interface ZSZuseHubMyHubViewController : ZSZuseHubContentViewController <UITableViewDataSource,UITableViewDelegate>
-
-@property (nonatomic,strong) UITableView * tableView;
+@interface ZSZuseHubMyHubViewController : ZSZuseHubContentViewController <UICollectionViewDataSource,UICollectionViewDelegate>
 
 @end

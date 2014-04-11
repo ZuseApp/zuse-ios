@@ -11,10 +11,10 @@
 #import "ZSMainMenuViewController.h"
 #import "ZSProjectCollectionViewCell.h"
 #import "ZSProjectPersistence.h"
-#import "ZSZuseHubViewController.h"
 #import "ZSCanvasViewController.h"
 #import "ZSTutorial.h"
 #import "UIImageView+Zuse.h"
+#import "ZSZuseHubViewController.h"
 
 typedef NS_ENUM(NSInteger, ZSMainMenuProjectFilter) {
     ZSMainMenuProjectFilterMyProjects,
@@ -29,6 +29,7 @@ typedef NS_ENUM(NSInteger, ZSMainMenuProjectFilter) {
 @property (weak, nonatomic) NSArray *selectedProjects;
 @property (strong, nonatomic) ZSProject *selectedProject;
 @property (assign, nonatomic) ZSMainMenuProjectFilter projectFilter;
+@property (strong, nonatomic) ZSZuseHubViewController *zuseHubController;
 
 @end
 
@@ -45,10 +46,11 @@ typedef NS_ENUM(NSInteger, ZSMainMenuProjectFilter) {
     self.view.backgroundColor = [UIColor zuseBackgroundGrey];
     
     self.projectFilter = ZSMainMenuProjectFilterExamples;
+    [self reloadDataSources];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    [self reloadDataSources];
+//    [self reloadDataSources];
 }
 
 - (void)reloadDataSources {
@@ -148,13 +150,29 @@ typedef NS_ENUM(NSInteger, ZSMainMenuProjectFilter) {
     [self segueToProject:self.selectedProject];
 }
 
-- (IBAction)zuseHubTapped:(id)sender {
-    ZSZuseHubViewController *controller = [[ZSZuseHubViewController alloc] init];
-    controller.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-    [self presentViewController:controller animated:YES completion:^{}];
-    controller.didFinish = ^{
-        [self dismissViewControllerAnimated:YES completion:^{ }];
+- (IBAction)zuseHubTapped:(id)sender {    
+    self.zuseHubController = [[ZSZuseHubViewController alloc] init];
+    WeakSelf
+    self.zuseHubController.didFinish = ^{
+        [weakSelf.zuseHubController dismissViewControllerAnimated:YES completion:^{}];
     };
+    self.zuseHubController.didDownloadProject = ^(ZSProject *project) {
+        weakSelf.projectFilter = ZSMainMenuProjectFilterMyProjects;
+        [weakSelf reloadDataSources];
+        BOOL wasPersisted = [ZSProjectPersistence isProjectPersisted:project];
+        [ZSProjectPersistence writeProject:project];
+        weakSelf.selectedProject = project;
+        [weakSelf dismissViewControllerAnimated:YES
+                                 completion:^{
+                                     if (wasPersisted) {
+                                         [weakSelf segueToProject:project];
+                                     } else {
+                                         [weakSelf insertAndSegueToNewProject:project];
+                                     }
+                                 }];
+    };
+    self.zuseHubController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    [self presentViewController:self.zuseHubController animated:YES completion:^{}];
 }
 
 - (IBAction)newProjectTapped:(id)sender {

@@ -33,12 +33,12 @@
     if (self) {
         // Initialization code
 
-            [self setBackgroundColor:[UIColor colorWithRed:110./255.0
-                                                     green:113.0/255.0
-                                                      blue:115.0/255.0
+            [self setBackgroundColor:[UIColor colorWithRed:100./255.0
+                                                     green:103.0/255.0
+                                                      blue:105.0/255.0
                                                      alpha:1.0]];
         
-            _label = [[UILabel alloc] initWithFrame:CGRectMake(15, CGRectGetMaxY(self.bounds)-28,CGRectGetWidth(self.bounds)-30, 22)];
+            _label = [[UILabel alloc] initWithFrame:CGRectMake(15, CGRectGetMaxY(self.bounds)-28,CGRectGetWidth(self.bounds)-30, 15)];
 
         
         if([[UIFont class] respondsToSelector:@selector(preferredFontForTextStyle:)]){
@@ -49,10 +49,7 @@
         }
         
         [self.label setBackgroundColor:[UIColor clearColor]];
-        [self.label setTextColor:[UIColor colorWithRed:203.0/255.0
-                                            green:206.0/255.0
-                                             blue:209.0/255.0
-                                            alpha:1.0]];
+        [self.label setTextColor:[UIColor zuseYellow]];
 
             [self.label setShadowOffset:CGSizeMake(0, 1)];
             [self.label setShadowColor:[[UIColor blackColor] colorWithAlphaComponent:.5]];
@@ -67,25 +64,6 @@
 -(void)setTitle:(NSString *)title{
     _title = title;
     [self.label setText:[self.title uppercaseString]];
-}
-
--(void)drawRect:(CGRect)rect{
-
-        CGContextRef context = UIGraphicsGetCurrentContext();
-        UIColor * lineColor = [UIColor colorWithRed:94.0/255.0
-                                              green:97.0/255.0
-                                               blue:99.0/255.0
-                                              alpha:1.0];
-        CGContextSetStrokeColorWithColor(context, lineColor.CGColor);
-        
-        CGContextSetLineWidth(context, 1.0);
-        
-        CGContextMoveToPoint(context, CGRectGetMinX(self.bounds), CGRectGetMaxY(self.bounds)-.5); //start at this point
-        
-        CGContextAddLineToPoint(context, CGRectGetMaxX(self.bounds), CGRectGetMaxY(self.bounds)-.5); //draw to this point
-        
-        CGContextStrokePath(context);
-   
 }
 
 @end

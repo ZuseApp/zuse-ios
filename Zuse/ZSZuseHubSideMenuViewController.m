@@ -17,7 +17,7 @@
 @interface ZSZuseHubSideMenuViewController ()
 @property (strong, nonatomic) NSArray *browseMenuStrings;
 @property (strong, nonatomic) NSArray *myZuseHubMenuStrings;
-@property (strong, nonatomic) NSArray *mainMenuStrings;
+@property (strong, nonatomic) NSArray *settingsStrings;
 
 @end
 
@@ -31,9 +31,9 @@
     self.tableView.delegate = self;
     
     //TODO put the other browse filter strings here
-    _browseMenuStrings = @[@"Newest"];
+    _browseMenuStrings = @[@"Newest", @"Most Popular"];
     _myZuseHubMenuStrings = @[@"Share", @"My Projects"];
-    _mainMenuStrings = @[@"Main Menu"];
+    _settingsStrings = @[@"Main Menu", @"Sign"];
 
     _tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
 
@@ -42,9 +42,9 @@
     [self.view addSubview:self.tableView];
     [self.tableView setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
     
-    UIColor * tableViewBackgroundColor = [UIColor colorWithRed:110.0/255.0
-                                               green:113.0/255.0
-                                                blue:115.0/255.0
+    UIColor * tableViewBackgroundColor = [UIColor colorWithRed:100.0/255.0
+                                               green:103.0/255.0
+                                                blue:105.0/255.0
                                                alpha:1.0];
     
     [self.tableView setBackgroundColor:tableViewBackgroundColor];
@@ -89,23 +89,20 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    [self.tableView reloadData];
     [self.tableView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, self.tableView.numberOfSections-1)] withRowAnimation:UITableViewRowAnimationNone];
-    NSLog(@"Left will appear");
 }
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    NSLog(@"Left did appear");
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-    NSLog(@"Left will disappear");
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
-    NSLog(@"Left did disappear");
 }
 
 -(void)contentSizeDidChange:(NSString *)size{
@@ -125,8 +122,8 @@
             return _myZuseHubMenuStrings.count;
         case ZSZuseHubDrawerBrowseProjects:
             return _browseMenuStrings.count;
-        case ZSZuseHubDrawerBackToMainMenu:
-            return _mainMenuStrings.count;
+        case ZSZuseHubDrawerSettings:
+            return _settingsStrings.count;
         default:
             return 0;
     }
@@ -143,21 +140,31 @@
         [cell setSelectionStyle:UITableViewCellSelectionStyleBlue];
     }
     
-    //set the cell text for each section
-    switch (indexPath.section)
+     //set the cell text for each section
+    if(indexPath.section == ZSZuseHubDrawerMyZuseHub)
     {
-        case ZSZuseHubDrawerMyZuseHub:
-            [cell.textLabel setText:_myZuseHubMenuStrings[indexPath.row]];
-            break;
-        case ZSZuseHubDrawerBrowseProjects:
-            [cell.textLabel setText:_browseMenuStrings[indexPath.row]];
-            break;
-        case ZSZuseHubDrawerBackToMainMenu:
-            [cell.textLabel setText:_mainMenuStrings[indexPath.row]];
-            break;
-        default:
-            break;
+        [cell.textLabel setText:_myZuseHubMenuStrings[indexPath.row]];
     }
+    else if(indexPath.section == ZSZuseHubDrawerBrowseProjects)
+    {
+        [cell.textLabel setText:_browseMenuStrings[indexPath.row]];
+    }
+    else if(indexPath.section == ZSZuseHubDrawerSettings)
+    {
+        //set up string for sign in/sign out option.
+        if([_settingsStrings[indexPath.row] isEqualToString:@"Sign"])
+        {
+            if(self.jsonClientManager.token)
+                [cell.textLabel setText:@"Sign Out"];
+            else
+                [cell.textLabel setText:@"Sign In"];
+        }
+        else
+        {
+            [cell.textLabel setText:_settingsStrings[indexPath.row]];
+        }
+    }
+    
     //place an arrow to show it can be selected
     [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     
@@ -172,6 +179,8 @@
             return @"My ZuseHub";
         case ZSZuseHubDrawerBrowseProjects:
             return @"Browse Projects";
+        case ZSZuseHubDrawerSettings:
+            return @"Settings";
         default:
             return nil;
     }
@@ -184,10 +193,6 @@
     [headerView setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth];
     [headerView setTitle:[tableView.dataSource tableView:tableView titleForHeaderInSection:section]];
     return headerView;
-}
-
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 56.0;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -212,11 +217,18 @@
     {
         if(indexPath.row == ZSZuseHubBrowseTypeNewest)
             self.didSelectNewestProjects();
+        else if(indexPath.row == ZSZuseHubBrowseTypePopular)
+            self.didSelectPopularProjects();
         else
-            NSLog(@"Error in selecting user zusehub options");
+            NSLog(@"Error in selecting browse zusehub options");
     }
-    else if (indexPath.section == ZSZuseHubDrawerBackToMainMenu) {
-        self.didSelectBack();
+    else if (indexPath.section == ZSZuseHubDrawerSettings) {
+        if(indexPath.row == ZSZuseHubSettingsBackToMainMenu)
+            self.didSelectBack();
+        else if(indexPath.row == ZSZuseHubSettingsSignInSignOut)
+            self.didSelectSignInSignOut();
+        else
+            NSLog(@"Error in selecting main menu options");
     }
     else
     {

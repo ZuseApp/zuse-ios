@@ -10,8 +10,7 @@
 #import "ZSZuseHubContentViewController.h"
 #import "ZSZuseHubEnums.h"
 
-@interface ZSZuseHubBrowseViewController : ZSZuseHubContentViewController <UITableViewDataSource,UITableViewDelegate>
-
-@property (nonatomic,strong) UITableView * tableView;
+@interface ZSZuseHubBrowseViewController : ZSZuseHubContentViewController <UICollectionViewDataSource, UICollectionViewDelegate>
+@property (copy, nonatomic) void(^didDownloadProject)(ZSProject *project);
 
 @end

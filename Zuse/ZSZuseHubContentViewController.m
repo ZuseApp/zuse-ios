@@ -19,8 +19,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
-    NSLog(@"loaded zusehub");
     
     self.jsonClientManager = [ZSZuseHubJSONClient sharedClient];
     
@@ -37,6 +35,26 @@
 
 - (void)contentSizeDidChange:(NSString *)size{
     //Implement in subclass
+}
+
+- (void)showLoginRegisterPage
+{
+    self.loginRegisterViewController = [[UIStoryboard storyboardWithName:@"Main"
+                                                                  bundle:[NSBundle mainBundle]]
+                                        instantiateViewControllerWithIdentifier:@"ZuseHubLoginRegister"];
+    WeakSelf
+    self.loginRegisterViewController.didFinish = ^(BOOL isLoggedIn) {
+        //what to do when finished logging in.
+        if (isLoggedIn)
+        {
+            [weakSelf.loginRegisterViewController dismissViewControllerAnimated:YES completion:^{}];
+        } else
+        {
+            [weakSelf.loginRegisterViewController dismissViewControllerAnimated:YES completion:^{}];
+        }
+    };
+    self.loginRegisterViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    [self presentViewController:self.loginRegisterViewController animated:YES completion:^{}];
 }
 
 @end

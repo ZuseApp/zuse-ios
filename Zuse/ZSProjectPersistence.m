@@ -231,4 +231,9 @@ NSString const * ZSProjectPersistenceProjectsFolder = @"UserProjects";
     });
 }
 
++ (BOOL)isProjectPersisted:(ZSProject *)project {
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    return [fileManager fileExistsAtPath:[self pathForProject:project]];
+}
+
 @end
