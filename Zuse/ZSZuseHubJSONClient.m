@@ -25,7 +25,22 @@
         _zuseHubSharedManager.manager.responseSerializer = [AFJSONResponseSerializer serializer];
     });
     
+    [_zuseHubSharedManager setUserTokenProperty];
+    
     return _zuseHubSharedManager;
+}
+
+/**
+ * Helper to set the token if one exists
+ */
+- (void)setUserTokenProperty
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    self.token = [defaults objectForKey:@"token"];
+    if(self.token)
+    {
+        [self setAuthHeader:self.token];
+    }
 }
 
 //GENERAL
