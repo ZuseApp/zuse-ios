@@ -100,8 +100,7 @@
             }
         }];
     }
-    
-    
+    [self.collectionView reloadData];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -141,10 +140,8 @@
     NSDictionary *project = self.jsonProjectsFirst[indexPath.row];
     
     cell.projectTitle = project[@"title"];
-    UIImageView *temp = [[UIImageView alloc] init];
-    [temp setImageWithURL:[NSURL URLWithString:project[@"screenshot_url"]] placeholderImage:[UIImage imageNamed:@"blank_project.png"]];
-    cell.screenshot = temp.image;
-    
+    [cell.screenshotView setImageWithURL:[NSURL URLWithString:project[@"screenshot_url"]] placeholderImage:[UIImage imageNamed:@"blank_project.png"]];
+    cell.screenshot = cell.screenshotView.image;
     [cell setNeedsLayout];
     
     return cell;
