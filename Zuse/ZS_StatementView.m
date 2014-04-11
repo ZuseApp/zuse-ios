@@ -151,7 +151,7 @@ CGFloat const LabelPadding = 10.0f;
     if (self = [super init])
     {
         self.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:20];
-        self.bodyIndentation = self.font.pointSize;
+        self.bodyIndentation = self.font.pointSize * 1.5;
         self.layer.cornerRadius = 5;
 //        self.layer.borderColor = [UIColor zuseBackgroundGrey].CGColor;
 //        self.layer.borderWidth = 1;
