@@ -374,7 +374,7 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
         @"block": ^id(NSString *identifier, NSArray *args) {
             NSInteger low  = [[args[0] coercedNumber] integerValue];
             NSInteger high = [[args[1] coercedNumber] integerValue];
-            return @((arc4random() % high) + low);
+            return @((arc4random() % (high + 1)) + low);
         }
     }];
     
