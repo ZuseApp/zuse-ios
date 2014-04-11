@@ -12,6 +12,7 @@
 @interface ZSZuseHubMySharedProjectDetailViewController : ZSZuseHubContentViewController
 
 @property (strong, nonatomic) NSDictionary *project;
+@property (strong, nonatomic) NSString *uuid;
 
 @property (copy, nonatomic) void(^didFinish)();
 

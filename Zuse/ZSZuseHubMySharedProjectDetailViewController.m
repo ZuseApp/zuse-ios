@@ -25,12 +25,32 @@
 {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor zuseBackgroundGrey];
-    // Do any additional setup after loading the view.
-    self.titleBar.title = self.project[@"title"];
-    self.descriptionLabel.text = self.project[@"description"];
-    long downloads = [self.project[@"downloads"] longLongValue];
-    self.timesDownloadedLabel.text = [[NSNumber numberWithLong:downloads] stringValue];
-    [self.screenshotImageView setImageWithURL:[NSURL URLWithString:self.project[@"screenshot_url"]] placeholderImage:[UIImage imageNamed:@"blank_project.png"]];
+    
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [self setupData];
+}
+
+- (void)setupData
+{
+    [self.jsonClientManager getUsersSharedSingleProject:self.uuid completion:^(NSDictionary *project, NSInteger statusCode) {
+            if(project)
+            {
+                self.project = project;
+                self.titleBar.title = self.project[@"title"];
+                self.descriptionLabel.text = self.project[@"description"];
+                long downloads = [self.project[@"downloads"] longLongValue];
+                self.timesDownloadedLabel.text = [[NSNumber numberWithLong:downloads] stringValue];
+                [self.screenshotImageView setImageWithURL:[NSURL URLWithString:self.project[@"screenshot_url"]] placeholderImage:[UIImage imageNamed:@"blank_project.png"]];
+                
+            }
+            else
+            {
+                //TODO display message for the user
+            }
+    }];
 }
 
 - (IBAction)backTapped:(id)sender {

@@ -31,7 +31,7 @@
 }
 
 /**
- * Helper to set the token if one exists
+ * Helper to set the token if one exists and to set the authentication header for requests
  */
 - (void)setUserTokenProperty
 {
@@ -198,7 +198,7 @@
 //USER SPECIFIC
 
 /**
- * Returns the shared projects the user has put on ZuseHub
+ * Returns a list of the shared projects the user has put on ZuseHub
  */
 - (void)getUsersSharedProjects:(NSInteger)page itemsPerPage:(NSInteger)itemsPerPage completion:(void (^)(NSArray *, NSInteger))completion
 {
@@ -220,11 +220,11 @@
 }
 
 /**
- * Gets a specific shared project by the user
+ * Gets a specific shared project by the user to show the project
  */
-- (void)getUsersSharedSingleProject:(NSString *)uuid completion:(void (^)(NSArray *, NSInteger))completion
+- (void)getUsersSharedSingleProject:(NSString *)uuid completion:(void (^)(NSDictionary *, NSInteger))completion
 {
-    NSString *url = [@"user/projects.json/" stringByAppendingString:uuid];
+    NSString *url = [[@"user/projects/" stringByAppendingString:uuid] stringByAppendingString:@".json"];
     [self.manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, NSArray *project) {
         completion(project, operation.response.statusCode);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

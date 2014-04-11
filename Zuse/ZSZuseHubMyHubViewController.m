@@ -172,7 +172,8 @@
         ZSZuseHubMySharedProjectDetailViewController *controller = [[UIStoryboard storyboardWithName:@"Main"
                                                                                               bundle:[NSBundle mainBundle]]
                                                                     instantiateViewControllerWithIdentifier:@"MySharedProjectDetail"];
-        controller.project = self.userProjects[index];
+        NSDictionary *project = self.userProjects[index];
+        controller.uuid = project[@"uuid"];
         [self presentViewController:controller animated:YES completion:^{}];
         controller.didFinish = ^(){
             [self dismissViewControllerAnimated:YES completion:^{ }];
