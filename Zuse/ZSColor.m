@@ -16,7 +16,8 @@
         @"every": [UIColor colorWithRed:0.71 green:0.74 blue:0.36 alpha:1],
         @"call": [UIColor colorWithRed:0.75 green:0.59 blue:0.36 alpha:1],
         @"on_event": [UIColor colorWithRed:0.76 green:0.53 blue:0.83 alpha:1],
-        @"trigger_event": [UIColor colorWithRed:0.6 green:0.57 blue:0.85 alpha:1]
+        @"trigger_event": [UIColor colorWithRed:0.6 green:0.57 blue:0.85 alpha:1],
+        @"set": [UIColor colorWithRed:1 green:0.55 blue:0.32 alpha:1]
     };
 
     return (mapping[DSLItem] ?: [UIColor colorWithRed:0.30 green:0.30 blue:0.30 alpha:1.0]);
