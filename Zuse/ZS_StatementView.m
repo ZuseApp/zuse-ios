@@ -325,6 +325,7 @@ CGFloat const LabelPadding = 10.0f;
     // Layout body
     CGFloat parametersLineMaxY = CGRectGetMaxY(self.parameters.frame) + 5;
     CGFloat y =  MAX(headerMaxY, parametersLineMaxY);
+    BOOL isFirstIteration = YES;
     for (UIView* subview in self.body)
     {
         if ([subview isKindOfClass:[ZS_StatementView class]])
@@ -334,9 +335,10 @@ CGFloat const LabelPadding = 10.0f;
         }
         CGRect frame = subview.frame;
         frame.origin.x = self.bodyIndentation;
-        frame.origin.y = y;
+        frame.origin.y = y + (isFirstIteration ? 0 : 1);
         subview.frame = frame;
         y = CGRectGetMaxY(frame);
+        isFirstIteration = NO;
     }
     // resize this statement view to fit subviews
     frame = CGRectZero;
@@ -344,8 +346,15 @@ CGFloat const LabelPadding = 10.0f;
     {
         frame = CGRectUnion(frame, view.frame);
     }
+
+    for (UIView *subview in self.body) {
+        CGRect subFrame = subview.frame;
+        subFrame.size.width = frame.size.width - 0;
+        subview.frame = subFrame;
+    }
+
     frame.origin = self.frame.origin;
-    frame.size.width += 8;
+    frame.size.width += 20;
     self.frame = frame;
 }
 # pragma mark UIView methods
