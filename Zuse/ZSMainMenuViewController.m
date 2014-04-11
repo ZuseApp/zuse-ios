@@ -73,6 +73,7 @@ typedef NS_ENUM(NSInteger, ZSMainMenuProjectFilter) {
     if (scale == 1) {
         UINavigationController *navController = [self.storyboard instantiateViewControllerWithIdentifier:@"CanvasNav"];
         navController.view.backgroundColor = [UIColor clearColor];
+        navController.toolbar.translucent = NO;
         
         
         ZSCanvasViewController *controller = (ZSCanvasViewController *)navController.viewControllers.firstObject;

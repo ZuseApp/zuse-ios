@@ -11,6 +11,7 @@
 #import "ZSTraitEditorViewController.h"
 #import "ZSSpriteTraits.h"
 #import "ZSZuseDSL.h"
+#import <FontAwesomeKit/FAKIonIcons.h>
 
 @interface ZSEditorViewController ()
 
@@ -44,6 +45,24 @@
     traitController.projectTraits = self.projectTraits;
     traitController.globalTraits  = [ZSSpriteTraits defaultTraits];
     traitController.spriteProperties = self.spriteObject[@"properties"];
+
+    CGFloat imageSize = 30;
+    UIImage *codeImage = [[FAKIonIcons clipboardIconWithSize:imageSize] imageWithSize:CGSizeMake(imageSize, imageSize)];
+    UIImage *traitImage = [[FAKIonIcons ios7PricetagIconWithSize:imageSize] imageWithSize:CGSizeMake(imageSize, imageSize)];
+    
+    UITabBarItem *codeItem = [[UITabBarItem alloc] initWithTitle:@"Code Editor"
+                                                       image:codeImage
+                                               selectedImage:codeImage];
+
+    UITabBarItem *traitItem = [[UITabBarItem alloc] initWithTitle:@"Trait Editor"
+                                                       image:traitImage
+                                               selectedImage:traitImage];
+
+    [self.tabBar setBarTintColor:[UIColor zuseBackgroundGrey]];
+
+    [codeController setTabBarItem:codeItem];
+    [traitController setTabBarItem:traitItem];
+
 }
 
 -(void)viewWillAppear:(BOOL)animated {

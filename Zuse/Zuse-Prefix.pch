@@ -16,6 +16,7 @@
     #import "NSArray+Zuse.h"
     #import "NSDictionary+Zuse.h"
     #import "UIColor+ZuseColors.h"
+    #import "UIFont+Zuse.h"
 
 #define WeakSelf __weak typeof(self) weakSelf = self;
 #endif

@@ -19,7 +19,7 @@
         @"trigger_event": [UIColor colorWithRed:0.6 green:0.57 blue:0.85 alpha:1]
     };
 
-    return (mapping[DSLItem] ?: [UIColor zuseBackgroundGrey]);
+    return (mapping[DSLItem] ?: [UIColor colorWithRed:0.30 green:0.30 blue:0.30 alpha:1.0]);
 }
 
 + (UIColor*)lightenColor:(UIColor *)color withValue:(CGFloat)value

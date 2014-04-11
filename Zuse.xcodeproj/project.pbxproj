@@ -166,6 +166,7 @@
 		5FBB4A8B18C2497B00B79AB6 /* pong_example.json in Resources */ = {isa = PBXBuildFile; fileRef = 5FBB4A8918C2497B00B79AB6 /* pong_example.json */; };
 		5FBB4A8E18C24C8800B79AB6 /* UIColor+ZuseColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBB4A8D18C24C8800B79AB6 /* UIColor+ZuseColors.m */; };
 		5FC6E28B18F78DA400CEFBE6 /* ZSColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FC6E28A18F78DA400CEFBE6 /* ZSColor.m */; };
+		5FC6E28E18F7C4C100CEFBE6 /* UIFont+Zuse.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FC6E28D18F7C4C100CEFBE6 /* UIFont+Zuse.m */; };
 		789433B618C307A700C8D810 /* ZS_StatementChooserCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 789433B518C307A700C8D810 /* ZS_StatementChooserCollectionViewController.m */; };
 		789433B918C3BCA000C8D810 /* ZS_EventChooserCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 789433B818C3BCA000C8D810 /* ZS_EventChooserCollectionViewController.m */; };
 		789433BC18C3D1E800C8D810 /* ZS_ExpressionVariableChooserCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 789433BB18C3D1E800C8D810 /* ZS_ExpressionVariableChooserCollectionViewController.m */; };
@@ -432,6 +433,8 @@
 		5FBB4A8D18C24C8800B79AB6 /* UIColor+ZuseColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+ZuseColors.m"; sourceTree = "<group>"; };
 		5FC6E28918F78DA400CEFBE6 /* ZSColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSColor.h; sourceTree = "<group>"; };
 		5FC6E28A18F78DA400CEFBE6 /* ZSColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSColor.m; sourceTree = "<group>"; };
+		5FC6E28C18F7C4C100CEFBE6 /* UIFont+Zuse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+Zuse.h"; sourceTree = "<group>"; };
+		5FC6E28D18F7C4C100CEFBE6 /* UIFont+Zuse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+Zuse.m"; sourceTree = "<group>"; };
 		789433B418C307A700C8D810 /* ZS_StatementChooserCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZS_StatementChooserCollectionViewController.h; sourceTree = "<group>"; };
 		789433B518C307A700C8D810 /* ZS_StatementChooserCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZS_StatementChooserCollectionViewController.m; sourceTree = "<group>"; };
 		789433B718C3BCA000C8D810 /* ZS_EventChooserCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZS_EventChooserCollectionViewController.h; sourceTree = "<group>"; };
@@ -1024,6 +1027,8 @@
 				5FBB4A8D18C24C8800B79AB6 /* UIColor+ZuseColors.m */,
 				5F39172B18C55C1A00109747 /* UIImageView+Zuse.h */,
 				5F39172C18C55C1A00109747 /* UIImageView+Zuse.m */,
+				5FC6E28C18F7C4C100CEFBE6 /* UIFont+Zuse.h */,
+				5FC6E28D18F7C4C100CEFBE6 /* UIFont+Zuse.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -1408,6 +1413,7 @@
 				5F0139BB1856BCA7005D7FAE /* ZSTraitEditorParametersViewController.m in Sources */,
 				4CF303F11856E5DB00B57B95 /* ZSProject.m in Sources */,
 				789433B918C3BCA000C8D810 /* ZS_EventChooserCollectionViewController.m in Sources */,
+				5FC6E28E18F7C4C100CEFBE6 /* UIFont+Zuse.m in Sources */,
 				2CA9A33C18C521C8005F4404 /* ZSZuseHubContentViewController.m in Sources */,
 				5F0139AC1856896F005D7FAE /* ZSEditorViewController.m in Sources */,
 				4CD2311918AC3CC100DC5619 /* ZSTutorial.m in Sources */,

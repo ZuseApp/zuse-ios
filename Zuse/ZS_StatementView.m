@@ -32,7 +32,7 @@ CGFloat const LabelPadding = 10.0f;
         self.shadowColor = [UIColor blackColor];
         self.shadowOffset = CGSizeMake(0, 1);
         self.highlightedTextColor = [UIColor whiteColor];
-        self.backgroundColor = [UIColor zuseBackgroundGrey];
+//        self.backgroundColor = [UIColor zuseBackgroundGrey];
         self.clipsToBounds = YES;
         self.layer.cornerRadius = 5;
         self.textAlignment = NSTextAlignmentCenter;
@@ -70,11 +70,11 @@ CGFloat const LabelPadding = 10.0f;
 //    self.frame = frame;
 //    
 //}
-- (void) setHighlighted:(BOOL)isHighlighted
-{
-    super.highlighted = isHighlighted;
-//    self.layer.backgroundColor = isHighlighted ? [UIColor orangeColor].CGColor : [UIColor clearColor].CGColor;
-}
+//- (void) setHighlighted:(BOOL)isHighlighted
+//{
+//    super.highlighted = isHighlighted;
+////    self.layer.backgroundColor = isHighlighted ? [UIColor orangeColor].CGColor : [UIColor clearColor].CGColor;
+//}
 @end
 
 
@@ -151,7 +151,7 @@ CGFloat const LabelPadding = 10.0f;
     if (self = [super init])
     {
         self.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:20];
-        self.bodyIndentation = self.font.pointSize * 2;
+        self.bodyIndentation = self.font.pointSize;
 //        self.layer.cornerRadius = 5;
 //        self.layer.borderColor = [UIColor zuseBackgroundGrey].CGColor;
 //        self.layer.borderWidth = 1;
@@ -216,6 +216,12 @@ CGFloat const LabelPadding = 10.0f;
 {
     ZS_TouchLabel* label = [[ZS_TouchLabel alloc]initWithText:text font:self.font];
     label.hasBeenTouched = touchBlock;
+
+    label.backgroundColor = [ZSColor darkenColor:self.backgroundColor withValue:0.2];
+    if ([text hasPrefix:@"#"]) {
+        label.textColor = [UIColor lightGrayColor];
+        label.text = [text substringFromIndex:1];
+    }
     
     // Add to statement view
     [self.header addObject:label];
@@ -245,7 +251,10 @@ CGFloat const LabelPadding = 10.0f;
     ZS_TouchLabel* label = [[ZS_TouchLabel alloc]initWithText: @"         +          "
                                                                font: self.font];
 
-    label.attributedText = [FAKIonIcons plusRoundIconWithSize:label.font.pointSize].attributedString;
+    label.attributedText = [FAKIonIcons plusRoundIconWithSize:label.font.pointSize * 1.2].attributedString;
+    CGRect frame = label.frame;
+    frame.size.height *= 1.2;
+    label.frame = frame;
     label.textColor = [UIColor whiteColor];
     label.shadowColor = [UIColor darkGrayColor];
     label.shadowOffset = CGSizeMake(0, 1);
@@ -266,9 +275,12 @@ CGFloat const LabelPadding = 10.0f;
     // Hightlight background
     UIColor *backgroundColor = [ZSColor colorForDSLItem:self.json.allKeys.firstObject];
     if (isHighlighted) {
-        self.backgroundColor = [ZSColor darkenColor:backgroundColor withValue:0.3];
+        self.backgroundColor = [ZSColor darkenColor:backgroundColor withValue:0.1];
+        self.layer.borderWidth = 0.5;
+        self.layer.borderColor = [UIColor blackColor].CGColor;
     } else {
         self.backgroundColor = backgroundColor;
+        self.layer.borderWidth = 0;
     }
 }
 - (void) setTopLevelStatement:(BOOL)isTopLevelStatement
@@ -280,7 +292,7 @@ CGFloat const LabelPadding = 10.0f;
         {
             [self removeGestureRecognizer: gr];
         }
-        self.bodyIndentation = 2;
+        self.bodyIndentation = 0;
     }
 }
 - (void) layoutStatementSubviews
@@ -305,13 +317,13 @@ CGFloat const LabelPadding = 10.0f;
     }
     
     // Layout parameters
-    CGFloat headerMaxY = CGRectGetMaxY(((UIView*)self.header.firstObject).frame);
+    CGFloat headerMaxY = CGRectGetMaxY(((UIView*)self.header.firstObject).frame) - 4;
     CGRect frame = self.parameters.frame;
-    frame.origin = CGPointMake(8, headerMaxY);
+    frame.origin = CGPointMake(9, headerMaxY);
     self.parameters.frame = frame;
 
     // Layout body
-    CGFloat parametersLineMaxY = CGRectGetMaxY(self.parameters.frame);
+    CGFloat parametersLineMaxY = CGRectGetMaxY(self.parameters.frame) + 5;
     CGFloat y =  MAX(headerMaxY, parametersLineMaxY);
     for (UIView* subview in self.body)
     {
@@ -410,7 +422,7 @@ CGFloat const LabelPadding = 10.0f;
     if (!_parameters)
     {
         _parameters = [[ZSNameLabel alloc]init];
-        _parameters.backgroundColor = [UIColor zuseBackgroundGrey];
+        _parameters.backgroundColor = [UIColor clearColor];
         _parameters.highlightedTextColor = [UIColor whiteColor];
         _parameters.font = [self.font fontWithSize:self.font.pointSize * 0.75];
         _parameters.textColor = [UIColor whiteColor];

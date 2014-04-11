@@ -22,4 +22,8 @@
     return [UIColor colorWithRed:0.37 green:0.68 blue:0.32 alpha:1.0];
 }
 
++ (UIColor *)zuseExpressionEditorTintColor {
+    return [UIColor colorWithRed:0.4157 green:0.694 blue:0.8157 alpha:1.0];
+}
+
 @end

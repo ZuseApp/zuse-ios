@@ -45,6 +45,7 @@ NSString* ZS_OperatorToString(ZS_Operator operator)
 @property (strong, nonatomic) NSObject* json;
 @property (nonatomic) ZS_ExpressionLabel* parentNode;
 @property (strong, nonatomic) NSMutableArray* nodes; // of ZS_ExpressionLabel
+@property (strong, nonatomic) UIMenuController *menuController;
 
 - (NSArray*) allLabels; // in order they appear from left to right including itself
 - (NSArray*) allNodes;
@@ -67,15 +68,18 @@ NSString* ZS_OperatorToString(ZS_Operator operator)
 {
     if (self = [super init])
     {
-        self.font = [UIFont boldSystemFontOfSize: 20];
-        self.textColor = [UIColor colorWithRed:0.8 green:0.4 blue:0.2 alpha:1];
+        self.font = [UIFont zuseFontWithSize:25];
+        self.textColor = [UIColor zuseExpressionEditorTintColor];
         self.highlightedTextColor = [UIColor whiteColor];
+        self.textAlignment = NSTextAlignmentCenter;
         self.text = nil;
         self.layer.cornerRadius = self.font.pointSize * 0.2;
         self.userInteractionEnabled = YES;
         self.nodes = [[NSMutableArray alloc]init];
         UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(wasTapped:)];
         [self addGestureRecognizer:tapRecognizer];
+        UILongPressGestureRecognizer *longRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self  action:@selector(wasLongPressed:)];
+        [self addGestureRecognizer:longRecognizer];
     }
     return self;
 }
@@ -475,6 +479,16 @@ NSString* ZS_OperatorToString(ZS_Operator operator)
                                                         object: self];
     [[ZSTutorial sharedTutorial] broadcastEvent:ZSTutorialBroadcastEventComplete];
 }
+
+- (void)wasLongPressed:(id)sender
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName: @"any expression label touched"
+                                                        object: self];
+    self.menuController = [UIMenuController sharedMenuController];
+    [self becomeFirstResponder];
+    [self.menuController setTargetRect:self.bounds inView:self];
+    [self.menuController setMenuVisible:YES animated:YES];
+}
 #pragma mark UILabel
 
 - (void) setText:(NSString*) text
@@ -485,7 +499,7 @@ NSString* ZS_OperatorToString(ZS_Operator operator)
 - (void) setHighlighted: (BOOL)isHighlighted
 {
     super.highlighted = isHighlighted;
-    self.layer.backgroundColor = isHighlighted ? [UIColor orangeColor].CGColor:[UIColor clearColor].CGColor;
+    self.layer.backgroundColor = isHighlighted ? [UIColor zuseExpressionEditorTintColor].CGColor:[UIColor clearColor].CGColor;
 }
 @end
 
@@ -511,7 +525,7 @@ NSString* ZS_OperatorToString(ZS_Operator operator)
     self.expressionView.backgroundColor = [UIColor whiteColor];
     self.expressionView.layer.borderColor = [UIColor lightGrayColor].CGColor;
     self.expressionView.layer.borderWidth = 1;
-	self.expressionView.layer.cornerRadius = 5;
+//	self.expressionView.layer.cornerRadius = 5;
     self.numberBuffer = @"";
     self.headNode = [[ZS_ExpressionLabel alloc] init];
     self.headNode.json = self.json;
@@ -537,7 +551,7 @@ NSString* ZS_OperatorToString(ZS_Operator operator)
         [self.expressionView addSubview:node];
     }
     // Layout
-    CGFloat padding = 1;
+    CGFloat padding = 8;
     
     CGFloat x = padding;
     CGFloat y = padding;
@@ -691,5 +705,14 @@ NSString* ZS_OperatorToString(ZS_Operator operator)
         [self.selectedNode setNumber: number];
         [self reloadExpression];
     }
+}
+
+#pragma mark UIMenuController
+- (BOOL)canBecomeFirstResponder {
+    return YES;
+}
+
+- (void)delete:(id)sender {
+    [self deleteButtonTapped];
 }
 @end
