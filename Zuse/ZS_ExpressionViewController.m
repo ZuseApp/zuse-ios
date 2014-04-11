@@ -616,18 +616,6 @@ NSString* ZS_OperatorToString(ZS_Operator operator)
         self.didFinish(nil);
     }
 }
-- (IBAction)moveToPreviousNodeButtonTapped
-{
-    NSArray* nodes = self.headNode.allNodes;
-    NSInteger i = [nodes indexOfObject:self.selectedNode];
-    self.selectedNode =  (i == 0) ? nodes[nodes.count-1] : nodes[i-1];
-}
-- (IBAction)moveToNextNodeButtonTapped
-{
-    NSArray* nodes = self.headNode.allNodes;
-    NSInteger i = [nodes indexOfObject:self.selectedNode];
-    self.selectedNode =  (i == nodes.count-1) ? nodes[0] : nodes[i+1];
-}
 - (IBAction)varButtonTapped
 {
     ZSToolboxView* variableToolboxView = [[ZSToolboxView alloc] initWithFrame:CGRectMake(19, 82, 282, 361)];

@@ -91,19 +91,14 @@
           "width": 30,
           "height": 35
         }
-      }
-    ]
-  },
-  {
-    "category": "Test Sprites",
-    "sprites": [
+      },
       {
-        "name": "Yoda",
-        "path": "yoda.jpg",
+        "name": "Missile",
+        "path": "missile",
         "physics_body": "rectangle",
         "preferred_size": {
-          "width": 225,
-          "height": 180
+          "width": 13,
+          "height": 27
         }
       }
     ]
