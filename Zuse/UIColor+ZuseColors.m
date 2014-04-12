@@ -31,11 +31,11 @@
 }
 
 + (UIColor *)zuseEditorTextColor {
-    return [UIColor whiteColor];
+    return [UIColor zuseBackgroundGrey];
 }
 
 + (UIColor *)zuseEditorTextShadowColor {
-    return [UIColor darkGrayColor];
+    return [UIColor clearColor];
 }
 
 @end

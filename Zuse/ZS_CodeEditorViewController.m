@@ -23,6 +23,7 @@
 @property (strong, nonatomic) ZS_StatementChooserCollectionViewController* statementChooserController;
 @property (strong, nonatomic) ZS_EventChooserCollectionViewController* eventChooserController;
 @property (strong, nonatomic) NSMutableDictionary* statementCopyBuffer; // for menu
+@property (strong, nonatomic) UIMenuController* menu;
 @end
 
 @implementation ZS_CodeEditorViewController
@@ -40,6 +41,14 @@
     [self reloadFromJson];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    NSLog(@"Will Appear: %f", _scrollView.contentInset.top);
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    NSLog(@"Did Appear: %f", _scrollView.contentInset.top);
+}
+
 - (void) reloadFromJson
 {
     ZS_StatementView* objectStatementView =
@@ -54,6 +63,10 @@
  
     // Clean scroll view
     [self.scrollView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    
+    // DEBUG
+    self.scrollView.backgroundColor = [UIColor yellowColor];
+    // END DEBUG
     
     // Adjust the content size of the scroll view
     self.scrollView.contentSize = objectStatementView.bounds.size;
@@ -578,10 +591,10 @@
     }
     // Create menu controller
     [view becomeFirstResponder];
-    UIMenuController* menu = [UIMenuController sharedMenuController];
-    [menu setMenuItems: menuItems];
-    [menu setTargetRect: CGRectZero inView:view];
-    [menu setMenuVisible:YES animated:YES];
+    self.menu = [UIMenuController sharedMenuController];
+    [self.menu setMenuItems: menuItems];
+    [self.menu setTargetRect: CGRectZero inView:view];
+    [self.menu setMenuVisible:YES animated:YES];
 }
 #pragma mark Menu Methods
 
@@ -673,6 +686,11 @@
 - (void) scrollToRight {
     CGPoint rightOffset = CGPointMake(self.scrollView.contentSize.width - self.scrollView.bounds.size.width, 0);
     [self.scrollView setContentOffset:rightOffset animated:YES];
+}
+
+#pragma mark UIMenuController
+- (void)hideMenuController {
+    [self.menu setMenuVisible:NO animated:YES];
 }
 
 @end

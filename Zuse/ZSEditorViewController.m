@@ -35,7 +35,7 @@
     [super viewDidLoad];
     ZS_CodeEditorViewController *codeController = (ZS_CodeEditorViewController *)self.viewControllers[0];
     codeController.codeItems = self.spriteObject[@"code"];
-    codeController.initialProperties = self.spriteObject[@"properties"];
+    //codeController.initialProperties = self.spriteObject[@"properties"];
     
     ZSTraitEditorViewController *traitController = (ZSTraitEditorViewController *)self.viewControllers[1];
     if (!self.spriteObject[@"traits"]) {
