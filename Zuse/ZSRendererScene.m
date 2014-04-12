@@ -168,9 +168,6 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
         [_interpreter triggerEvent:@"touch_ended"
             onObjectWithIdentifier:spriteJSON[@"id"]
                         parameters:@{ @"touch_x": @(point.x), @"touch_y": @(point.y) }];
-    };
-    
-    touchComponent.touchesEnded = ^(UITouch *touch) {
         if (node.physicsBody) {
             
             //remove the physics joint once the touch event ends
