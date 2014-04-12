@@ -58,7 +58,7 @@
                                                        image:traitImage
                                                selectedImage:traitImage];
 
-    [self.tabBar setBarTintColor:[UIColor zuseBackgroundGrey]];
+//    [self.tabBar setBarTintColor:[UIColor zuseBackgroundGrey]];
 
     [codeController setTabBarItem:codeItem];
     [traitController setTabBarItem:traitItem];

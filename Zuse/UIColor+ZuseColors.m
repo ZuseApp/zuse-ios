@@ -22,8 +22,20 @@
     return [UIColor colorWithRed:0.37 green:0.68 blue:0.32 alpha:1.0];
 }
 
++ (UIColor *)zuseBlue {
+    return [UIColor colorWithRed:0.42 green:0.69 blue:0.82 alpha:1.0];
+}
+
 + (UIColor *)zuseExpressionEditorTintColor {
     return [UIColor colorWithRed:0.4157 green:0.694 blue:0.8157 alpha:1.0];
+}
+
++ (UIColor *)zuseEditorTextColor {
+    return [UIColor whiteColor];
+}
+
++ (UIColor *)zuseEditorTextShadowColor {
+    return [UIColor darkGrayColor];
 }
 
 @end
