@@ -117,6 +117,12 @@
     
     else if ([key isEqualToString:@"on_event"]) {
         NSMutableArray *events = self.events[context.objectID][data[@"name"]];
+        if ([context.objectID isEqualToString:@"A0ADCB1C-88F6-4CA4-81B8-C9AE2382CED4"]) {
+            if ([data[@"name"] isEqualToString:@"start"]) {
+                NSLog(@"Code: %@", code);
+                NSLog(@"Code: %@", events);
+            }
+        }
         if (!events) {
             events = [NSMutableArray array];
             self.events[context.objectID][data[@"name"]] = events;
@@ -303,6 +309,9 @@
 }
 
 - (void)triggerEvent:(NSString *)event {
+    if (!self.objects[@"A0ADCB1C-88F6-4CA4-81B8-C9AE2382CED4"]) {
+        NSLog(@"foo");
+    }
     [self.objects each:^(id key, id obj) {
         [self triggerEvent:event onObjectWithIdentifier:key parameters:@{}];
     }];
@@ -322,6 +331,15 @@
 - (void)  triggerEvent:(NSString *)event
 onObjectWithIdentifier:(NSString *)objectID
             parameters:(NSDictionary *)parameters {
+    static BOOL startPassed = NO;
+    if ([objectID isEqualToString:@"A0ADCB1C-88F6-4CA4-81B8-C9AE2382CED4"] && [event isEqualToString:@"start"]) {
+        startPassed = YES;
+        NSLog(@"foo");
+    }
+
+    if ([objectID isEqualToString:@"A0ADCB1C-88F6-4CA4-81B8-C9AE2382CED4"] && startPassed) {
+        NSLog(@"Number of events: %d", [self.events[objectID] count]);
+    }
     [self.events[objectID][event] each:^(NSDictionary *event) {
         NSMutableDictionary *environment = [[event[@"context"] environment] mutableCopy];
         [environment addEntriesFromDictionary:[self dictionaryForStoringDictionary:parameters]];

@@ -101,8 +101,8 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
     
     if (node.physicsBody) {
         node.physicsBody.categoryBitMask    = [self.categoryBitMasks[spriteJSON[@"collision_group"]] intValue];
-//        node.physicsBody.collisionBitMask = 0;
-        node.physicsBody.collisionBitMask   = [self.collisionBitMasks[spriteJSON[@"collision_group"]] intValue];
+        node.physicsBody.collisionBitMask = 0;
+//        node.physicsBody.collisionBitMask   = [self.collisionBitMasks[spriteJSON[@"collision_group"]] intValue];
         node.physicsBody.contactTestBitMask = [self.collisionBitMasks[spriteJSON[@"collision_group"]] intValue];
         
         node.physicsBody.dynamic = NO;
