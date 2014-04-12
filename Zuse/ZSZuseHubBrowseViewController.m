@@ -37,8 +37,6 @@
 {
     [super viewDidLoad];
     
-    
-    
     self.currentPage = 1;
     
     self.projects = [[NSMutableArray alloc] init];

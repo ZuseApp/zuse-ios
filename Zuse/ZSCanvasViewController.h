@@ -1,7 +1,7 @@
 #import <UIKit/UIKit.h>
 #import "ZSProject.h"
 
-@interface ZSCanvasViewController : UIViewController <UIGestureRecognizerDelegate>
+@interface ZSCanvasViewController : UIViewController <UIGestureRecognizerDelegate, UIActionSheetDelegate>
 
 @property (strong, nonatomic) ZSProject *project;
 @property (assign, nonatomic) CGRect initialCanvasRect;
