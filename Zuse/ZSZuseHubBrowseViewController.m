@@ -83,6 +83,8 @@
     WeakSelf
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void)
     {
+        self.currentPage = 1;
+        [self.projects removeAllObjects];
         [weakSelf setupData];
         [weakSelf.collectionView.pullToRefreshView stopAnimating];
     });
