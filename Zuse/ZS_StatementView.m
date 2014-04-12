@@ -217,7 +217,7 @@ CGFloat const LabelPadding = 10.0f;
     [label sizeToFit];
     
     CGRect frame = label.frame;
-    frame.origin.y += 5;
+    frame.origin.y += 7;
     label.frame = frame;
     
     // Add to statement view
