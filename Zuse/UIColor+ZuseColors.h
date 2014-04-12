@@ -14,5 +14,7 @@
 + (UIColor *)zuseYellow;
 + (UIColor *)zuseGreen;
 + (UIColor *)zuseExpressionEditorTintColor;
++ (UIColor *)zuseEditorTextColor;
++ (UIColor *)zuseEditorTextShadowColor;
 
 @end
