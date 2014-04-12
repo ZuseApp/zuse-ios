@@ -140,11 +140,11 @@
                      NSDictionary *projectJSONParsed = [NSJSONSerialization JSONObjectWithData:[JSONString dataUsingEncoding:NSUTF8StringEncoding]
                                                                                        options:0
                                                                                          error:&error];
-                     
-                     assert(!error);
-                     
-                     ZSProject *project = [ZSProject projectWithJSON:projectJSONParsed];
-                     [ZSProjectPersistence writeProject:project];
+//
+//                     assert(!error);
+//                     
+//                     ZSProject *project = [ZSProject projectWithJSON:projectJSONParsed];
+//                     [ZSProjectPersistence writeProject:project];
                      
                      self.didFinish(YES);
                  }
