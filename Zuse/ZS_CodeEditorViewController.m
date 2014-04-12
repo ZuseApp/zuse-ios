@@ -401,7 +401,7 @@
          [variableToolboxView showAnimated:YES];
      }];
     // Statement name TO
-    [view addNameLabelWithText:@"TO"];
+    [view addNameLabelWithText:@"to"];
     
     // Variable value
     NSString* variableString = [ZS_JsonUtilities expressionStringFromJson: json[@"set"][1]];
