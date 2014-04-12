@@ -49,7 +49,7 @@
     CGFloat imageSize = 30;
     UIImage *codeImage = [[FAKIonIcons clipboardIconWithSize:imageSize] imageWithSize:CGSizeMake(imageSize, imageSize)];
     UIImage *traitImage = [[FAKIonIcons ios7PricetagIconWithSize:imageSize] imageWithSize:CGSizeMake(imageSize, imageSize)];
-    
+
     UITabBarItem *codeItem = [[UITabBarItem alloc] initWithTitle:@"Code Editor"
                                                        image:codeImage
                                                selectedImage:codeImage];
@@ -77,7 +77,7 @@
 }
 
 - (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
-    if ([item.title isEqualToString:@"Traits"]) {
+    if (self.tabBar.items[1] == item) {
         [[ZSTutorial sharedTutorial] broadcastEvent:ZSTutorialBroadcastEventComplete];
         
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
