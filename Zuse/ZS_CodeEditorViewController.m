@@ -559,22 +559,23 @@
     // Create menu items
     UIMenuItem* menuItemCopy = [[UIMenuItem alloc]initWithTitle: @"copy"
                                                          action: @selector(menuItemCopy)];
-    UIMenuItem* menuItemDelete = [[UIMenuItem alloc]initWithTitle: @"delete"
+    UIMenuItem* menuItemDelete = [[UIMenuItem alloc]initWithTitle: @"del"
                                                            action: @selector(menuItemDelete)];
+    UIMenuItem* menuItemAddAbove = [[UIMenuItem alloc]initWithTitle: @"add ↑"
+                                                             action: @selector(menuItemAddAbove)];
     // Add menu items to array
-    NSMutableArray* menuItems = [NSMutableArray arrayWithArray:@[menuItemCopy, menuItemDelete]];
+    NSMutableArray* menuItems = [NSMutableArray arrayWithArray:@[menuItemCopy, menuItemDelete, menuItemAddAbove]];
     
     // If copy buffer is not empty, then add two more menu items
     if (self.statementCopyBuffer)
     {
-        UIMenuItem* menuItemInsertAbove = [[UIMenuItem alloc]initWithTitle: @"insert ↑"
+        UIMenuItem* menuItemInsertAbove = [[UIMenuItem alloc]initWithTitle: @"ins ↑"
                                                                     action: @selector(menuItemInsertAbove)];
-        UIMenuItem* menuItemInsertBelow = [[UIMenuItem alloc]initWithTitle: @"insert ↓"
+        UIMenuItem* menuItemInsertBelow = [[UIMenuItem alloc]initWithTitle: @"ins ↓"
                                                                     action: @selector(menuItemInsertBelow)];
         [menuItems addObject: menuItemInsertAbove];
         [menuItems addObject: menuItemInsertBelow];
     }
-    
     // Create menu controller
     [view becomeFirstResponder];
     UIMenuController* menu = [UIMenuController sharedMenuController];
@@ -601,6 +602,34 @@
         }
     }
     [self reloadFromJson];
+}
+- (void)menuItemAddAbove
+{
+    NSMutableArray* parentCodeBlock = ((ZS_StatementView*)self.selectedStatementView.superview).jsonCode;
+    NSInteger newStatementIndex;
+    for (NSInteger i = 0; i < parentCodeBlock.count; i++)
+    {
+        if (parentCodeBlock[i] == self.selectedStatementView.json)
+        {
+            newStatementIndex = i;
+            break;
+        }
+    }
+    
+    ZSToolboxView* toolboxView = [[ZSToolboxView alloc] initWithFrame:CGRectMake(19, 82, 282, 361)];
+    ZS_StatementChooserCollectionViewController* controller = [[ZS_StatementChooserCollectionViewController alloc]init];
+    
+    controller.jsonCodeBody = parentCodeBlock;
+    controller.newStatementIndex = newStatementIndex;
+    controller.codeEditorViewController = self;
+    controller.toolboxView = toolboxView;
+    
+    self.statementChooserController = controller;
+    
+    [toolboxView setPagingEnabled:NO];
+    [toolboxView addContentView: controller.collectionView title: @"STATEMENT CHOOSER"];
+    [self.view addSubview: toolboxView];
+    [toolboxView showAnimated:YES];
 }
 - (void)menuItemInsertAbove
 {

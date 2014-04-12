@@ -261,6 +261,28 @@
     return [methods deepCopy];
 }
 
++ (NSArray *)emptyFunctions
+{
+    NSMutableArray* functions = [[NSMutableArray alloc]init];
+    
+    // Random number function
+    NSMutableDictionary* callRand = [[NSMutableDictionary alloc]init];
+    callRand[@"call"] = [[NSMutableDictionary alloc]init];
+    callRand[@"call"][@"method"] = @"random_number";
+    callRand[@"call"][@"parameters"] = [NSMutableArray arrayWithArray: @[@"#expression", @"#expression"]];
+    [functions addObject: callRand];
+    
+    
+    // Square root function
+    NSMutableDictionary* callSqrt = [[NSMutableDictionary alloc]init];
+    callSqrt[@"call"] = [[NSMutableDictionary alloc]init];
+    callSqrt[@"call"][@"method"] = @"square root";
+    callSqrt[@"call"][@"parameters"] = [NSMutableArray arrayWithArray: @[@"#expression"]];
+    [functions addObject: callSqrt];
+    
+    return functions;
+}
+
 + (NSArray*) emptyEvents
 {
     NSMutableArray* events = [[NSMutableArray alloc]init];

@@ -133,7 +133,7 @@ NSString* ZS_OperatorToString(ZS_Operator operator)
         paramNode1.parentNode = self;
         [self.nodes addObject: paramNode1];
         
-        // First parameter
+        // Second parameter
         ZS_ExpressionLabel* paramNode2 = [[ZS_ExpressionLabel alloc] init];
         paramNode2.json = ((NSDictionary*)json)[@"call"][@"parameters"][1];
         paramNode2.parentNode = self;

@@ -33,6 +33,12 @@
 
 @implementation ZS_StatementChooserCollectionViewController
 
+- (void) setJsonCodeBody:(NSMutableArray *)jsonCodeBody
+{
+    _jsonCodeBody = jsonCodeBody;
+    self.newStatementIndex = jsonCodeBody.count;
+}
+
 - (NSArray*) statements
 {
     if (!_statements)
@@ -74,7 +80,9 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self.jsonCodeBody addObject: self.statements[indexPath.row]];
+    //[self.jsonCodeBody addObject: self.statements[indexPath.row]];
+    [self.jsonCodeBody insertObject: self.statements[indexPath.row] atIndex:self.newStatementIndex];
+    
     [self.codeEditorViewController reloadFromJson];
     [self.toolboxView hideAnimated:YES];
     [[ZSTutorial sharedTutorial] broadcastEvent:ZSTutorialBroadcastEventComplete];
