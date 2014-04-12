@@ -13,6 +13,7 @@
 + (UIColor *)zuseBackgroundGrey;
 + (UIColor *)zuseYellow;
 + (UIColor *)zuseGreen;
++ (UIColor *)zuseBlue;
 + (UIColor *)zuseExpressionEditorTintColor;
 + (UIColor *)zuseEditorTextColor;
 + (UIColor *)zuseEditorTextShadowColor;

@@ -13,10 +13,11 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
-    [[UINavigationBar appearance] setBackgroundImage:[[UIImage alloc] init] forBarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
-    [[UINavigationBar appearance] setBackgroundColor:[UIColor zuseBackgroundGrey]];
-    [[UINavigationBar appearance] setTintColor:[UIColor zuseYellow]];
-    [[UITabBar appearance] setTintColor:[UIColor zuseYellow]];
+//    [[UINavigationBar appearance] setBackgroundImage:[[UIImage alloc] init] forBarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
+//    [[UINavigationBar appearance] setBackgroundColor:[UIColor zuseBackgroundGrey]];
+    [[UINavigationBar appearance] setTintColor:[UIColor zuseBlue]];
+    [[UITabBar appearance] setTintColor:[UIColor zuseBlue]];
+//    [[UITabBar appearance] setBarTintColor:[UIColor zuseBlue]];
     return YES;
 }
 							
