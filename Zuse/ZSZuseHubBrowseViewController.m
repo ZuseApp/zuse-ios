@@ -37,6 +37,8 @@
 {
     [super viewDidLoad];
     
+    
+    
     self.currentPage = 1;
     
     self.projects = [[NSMutableArray alloc] init];
@@ -67,9 +69,9 @@
         self.title = @"10 Most Popular Projects";
     
     WeakSelf
-    [self.collectionView addPullToRefreshWithActionHandler:^{
-        [weakSelf insertRowAtTop];
-    }];
+//    [self.collectionView addPullToRefreshWithActionHandler:^{
+//        [weakSelf insertRowAtTop];
+//    }];
     
     [self.collectionView addInfiniteScrollingWithActionHandler:^{
         [weakSelf insertRowAtBottom];
@@ -128,7 +130,7 @@
 #pragma mark - Collection view data source
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
-    return UIEdgeInsetsMake(5, 25, 5, 25);
+    return UIEdgeInsetsMake(0, 25, 0, 25);
 }
 
 //TODO create sections to organize different browsing categories

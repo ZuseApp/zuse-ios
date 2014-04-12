@@ -66,9 +66,9 @@
     {
         self.title = @"My Shared Projects";
         WeakSelf
-        [self.collectionView addPullToRefreshWithActionHandler:^{
-            [weakSelf insertRowAtTop];
-        }];
+//        [self.collectionView addPullToRefreshWithActionHandler:^{
+//            [weakSelf insertRowAtTop];
+//        }];
         
         [self.collectionView addInfiniteScrollingWithActionHandler:^{
             [weakSelf insertRowAtBottom];
