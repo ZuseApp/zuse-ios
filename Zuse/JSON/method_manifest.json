@@ -54,15 +54,5 @@
     "name": "square root",
     "return_type": "numeric",
     "parameters": []
-  },
-  {
-    "name": "rotate",
-    "return_type": "numberic",
-    "parameters": [
-      {
-        "name": "angle",
-        "types": ["numeric"]
-      }
-    ]
   }
 ]
