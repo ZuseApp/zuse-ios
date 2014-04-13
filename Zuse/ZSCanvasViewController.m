@@ -525,6 +525,7 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
             
             properties[@"x"] = @(x);
             properties[@"y"] = @(y);
+            // properties[@"angle"] = @(0);
             
             draggedView.spriteJSON = newJson;
             [weakSelf.canvasView setupGesturesForSpriteView:draggedView withProperties:properties];

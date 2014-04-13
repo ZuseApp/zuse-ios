@@ -305,6 +305,13 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
     node.physicsBody.velocity = CGVectorMake(speed * cosf(direction), speed * sinf(direction));
 }
 
+- (void)rotateSpriteWithIdentifier:(NSString *)identifier
+                             angle:(CGFloat)angle {
+    angle = ((angle) / 180 * M_PI);
+    SKComponentNode *node = _spriteNodes[identifier];
+    node.zRotation += angle;
+}
+
 - (void)didSimulatePhysics {
     [self enumerateChildNodesWithName:kZSSpriteName
                            usingBlock:^(SKNode *node, BOOL *stop) {
@@ -373,6 +380,15 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
             NSInteger low  = [[args[0] coercedNumber] integerValue];
             NSInteger high = [[args[1] coercedNumber] integerValue];
             return @((arc4random() % (high + 1)) + low);
+        }
+    }];
+    
+    [interpreter loadMethod:@{
+        @"method": @"rotate",
+        @"block": ^id(NSString *identifier, NSArray *args) {
+            CGFloat angle = [args[0] floatValue];
+            [self rotateSpriteWithIdentifier:identifier angle:angle];
+            return nil;
         }
     }];
     
