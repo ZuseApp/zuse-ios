@@ -380,7 +380,7 @@ NSString* ZS_OperatorToString(ZS_Operator operator)
 
 - (void) setText:(NSString*) text
 {
-    super.text = text;
+    super.text = [text stringByAppendingString:@" "];
     [self sizeToFit];
 }
 - (void) setHighlighted: (BOOL)isHighlighted
@@ -413,7 +413,6 @@ NSString* ZS_OperatorToString(ZS_Operator operator)
     self.expressionView.backgroundColor = [UIColor whiteColor];
     self.expressionView.layer.borderColor = [UIColor lightGrayColor].CGColor;
     self.expressionView.layer.borderWidth = 1;
-//	self.expressionView.layer.cornerRadius = 5;
     self.numberBuffer = @"";
     self.headNode = [[ZS_ExpressionLabel alloc] init];
     self.headNode.json = self.json;
