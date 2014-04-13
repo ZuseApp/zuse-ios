@@ -100,6 +100,51 @@
           "width": 13,
           "height": 27
         }
+      },
+      {
+        "name": "Up Arrow",
+        "path": "arrow_up",
+        "physics_body": "rectangle",
+        "preferred_size": {
+          "width": 54,
+          "height": 54
+        }
+      },
+      {
+        "name": "Down Arrow",
+        "path": "arrow_down",
+        "physics_body": "rectangle",
+        "preferred_size": {
+          "width": 54,
+          "height": 54
+        }
+      },
+      {
+        "name": "Left Arrow",
+        "path": "arrow_left",
+        "physics_body": "rectangle",
+        "preferred_size": {
+          "width": 54,
+          "height": 54
+        }
+      },
+      {
+        "name": "Right Arrow",
+        "path": "arrow_right",
+        "physics_body": "rectangle",
+        "preferred_size": {
+          "width": 54,
+          "height": 54
+        }
+      },
+      {
+        "name": "Heart",
+        "path": "heart",
+        "physics_body": "rectangle",
+        "preferred_size": {
+          "width": 54,
+          "height": 54
+        }
       }
     ]
   }
