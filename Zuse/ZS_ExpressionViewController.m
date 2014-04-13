@@ -1,5 +1,6 @@
 #import "ZS_ExpressionViewController.h"
 #import "ZS_ExpressionVariableChooserCollectionViewController.h"
+#import "ZS_FunctionChooserCollectionViewController.h"
 #import "ZS_JsonUtilities.h"
 #import "ZSToolboxView.h"
 #import <MTBlockAlertView/MTBlockAlertView.h>
@@ -49,17 +50,16 @@ NSString* ZS_OperatorToString(ZS_Operator operator)
 
 - (NSArray*) allLabels; // in order they appear from left to right including itself
 - (NSArray*) allNodes;
+
 - (void) setOperator: (ZS_Operator) operator;
 - (void) setNumber: (NSNumber*) number;
 - (void) setVariableName: (NSString*) name;
 - (void) setString: (NSString*) str;
-- (void) setSqrtFunction;
-- (void) setRandomNumberFunction;
+- (void) setFunction:(NSMutableDictionary*) fnJson;
+
 - (BOOL) isOperator;
 - (BOOL) isFunctionCall;
 - (BOOL) isNumber;
-- (BOOL) isSqrtFunctionCall;
-- (BOOL) isRandomNumberFunctionCall;
 @end
 
 @implementation ZS_ExpressionLabel
@@ -83,15 +83,6 @@ NSString* ZS_OperatorToString(ZS_Operator operator)
     }
     return self;
 }
-- (NSString*) squareRootFunctionName
-{
-    return @"square root";
-}
-- (NSString*) randomNumberFunctionName
-{
-    return @"random_number";
-}
-
 #pragma mark Interface
 
 - (void) setJson: (NSObject *)json
@@ -99,56 +90,43 @@ NSString* ZS_OperatorToString(ZS_Operator operator)
     [self clean];
     
     // String
-    if ([self isString: json])
+    if ([ZS_JsonUtilities isString: json])
     {
         _json = json;
         self.text = [(NSString*)json characterAtIndex:0] == '#' ? @"   " : (NSString*)json;
     }
     // Number
-    else if ([self isNumber: json])
+    else if ([ZS_JsonUtilities isNumber: json])
     {
         _json = json;
         self.text = ((NSNumber*)json).stringValue;
     }
-    // Square root function call
-    else if ([self isSqrtFunctionCall: json])
+    // Function
+    else if ([ZS_JsonUtilities isFunctionCall:json])
     {
         _json = json;
         
-        ZS_ExpressionLabel* sqrtParameterNode = [[ZS_ExpressionLabel alloc] init];
-        sqrtParameterNode.json = ((NSDictionary*)json)[@"call"][@"parameters"][0];
-        sqrtParameterNode.parentNode = self;
-        
-        self.text = @"√";
-        [self.nodes addObject: sqrtParameterNode];
-    }
-    // Random_number function call
-    else if ([self isRandomNumberFunctionCall: json])
-    {
-        _json = json;
-        
-        // First parameter
-        ZS_ExpressionLabel* paramNode1 = [[ZS_ExpressionLabel alloc] init];
-        paramNode1.json = ((NSDictionary*)json)[@"call"][@"parameters"][0];
-        paramNode1.parentNode = self;
-        [self.nodes addObject: paramNode1];
-        
-        // Second parameter
-        ZS_ExpressionLabel* paramNode2 = [[ZS_ExpressionLabel alloc] init];
-        paramNode2.json = ((NSDictionary*)json)[@"call"][@"parameters"][1];
-        paramNode2.parentNode = self;
-        [self.nodes addObject: paramNode2];
-        
-        self.text = @"rand";
+        // Add parameter labels as child nodes
+        NSMutableDictionary* parameters = ((NSDictionary*)json)[@"call"][@"parameters"];
+        for (NSInteger i = 0; i < parameters.count; i++)
+        {
+            ZS_ExpressionLabel* paramNode = [[ZS_ExpressionLabel alloc] init];
+            paramNode.json = ((NSDictionary*)json)[@"call"][@"parameters"][i];
+            paramNode.parentNode = self;
+            [self.nodes addObject: paramNode];
+        }
+        // Set function name
+        NSString* functionName = ((NSDictionary*)json)[@"call"][@"method"];
+        self.text = [ZS_JsonUtilities convertToFansySymbolFromJsonOperator: functionName];
     }
     // Variable name
-    else if ([self isVariableName: json])
+    else if ([ZS_JsonUtilities isVariableName: json])
     {
         _json = json;
         self.text = ((NSDictionary*)json)[@"get"];
     }
     // Operator
-    else if ([self isOperator: json])
+    else if ([ZS_JsonUtilities isOperator: json])
     {
         _json = json;
         NSString* operator = ((NSDictionary*)json).allKeys[0];
@@ -169,23 +147,18 @@ NSString* ZS_OperatorToString(ZS_Operator operator)
     // Make changes in the parent's json
     if (self.parentNode)
     {
-        // Parent is square root function call
-        if (self.parentNode.isSqrtFunctionCall)
+        // Parent is function call
+        if (self.parentNode.isFunctionCall)
         {
             NSMutableDictionary* parentJson = (NSMutableDictionary*)self.parentNode.json;
-            parentJson[@"call"][@"parameters"][0] = self.json;
-        }
-        // Parent is random_number function call
-        else if (self.parentNode.isRandomNumberFunctionCall)
-        {
-            NSMutableDictionary* parentJson = (NSMutableDictionary*)self.parentNode.json;
-            if (self.parentNode.nodes[0] == self)
+            NSArray* parentParameters = parentJson[@"call"][@"parameters"];
+            for (NSInteger i = 0; i < parentParameters.count; i++)
             {
-                parentJson[@"call"][@"parameters"][0] = self.json;
-            }
-            else
-            {
-                parentJson[@"call"][@"parameters"][1] = self.json;
+                if (self.parentNode.nodes[i] == self)
+                {
+                    parentJson[@"call"][@"parameters"][i] = self.json;
+                    break;
+                }
             }
         }
         // Parent is Operator
@@ -252,101 +225,92 @@ NSString* ZS_OperatorToString(ZS_Operator operator)
         self.json = str;
     }
 }
-- (void) setSqrtFunction
+- (void) setFunction:(NSMutableDictionary*) fnJson
 {
     if (!self.isOperator && !self.isFunctionCall)
     {
-        NSMutableDictionary* callSqrt = [[NSMutableDictionary alloc]init];
-        callSqrt[@"call"] = [[NSMutableDictionary alloc]init];
-        callSqrt[@"call"][@"method"] = self.squareRootFunctionName;
-        callSqrt[@"call"][@"parameters"] = [NSMutableArray arrayWithArray: @[self.json]];
-        self.json = callSqrt;
-    }
-}
-- (void) setRandomNumberFunction
-{
-    if (!self.isOperator && !self.isFunctionCall)
-    {
-        NSMutableDictionary* callRand = [[NSMutableDictionary alloc]init];
-        callRand[@"call"] = [[NSMutableDictionary alloc]init];
-        callRand[@"call"][@"method"] = self.randomNumberFunctionName;
-        callRand[@"call"][@"parameters"] = [NSMutableArray arrayWithArray: @[@"#expression", @"#expression"]];
-        self.json = callRand;
+        NSInteger parametersCount = ((NSMutableArray*)fnJson[@"call"][@"parameters"]).count;
+        if (parametersCount == 1)
+        {
+            fnJson[@"call"][@"parameters"] = [NSMutableArray arrayWithArray: @[self.json]];
+        }
+        self.json = fnJson;
     }
 }
 - (NSArray*) allLabels
 {
-    NSMutableArray* views = [[NSMutableArray alloc]init];
+    NSMutableArray* labels = [[NSMutableArray alloc]init];
     
     // self is operator
     if (self.isOperator)
     {
         // Left parenthesys
-        if (self.parentNode != nil && !self.parentNode.isRandomNumberFunctionCall)
+        if (self.parentNode != nil)
         {
             UILabel* label = [[ZS_ExpressionLabel alloc]init];
             label.text = @"(";
             label.userInteractionEnabled = NO;
-            [views addObject: label];
+            [labels addObject: label];
         }
         
         // Operator
-        [views addObjectsFromArray: ((ZS_ExpressionLabel*)self.nodes[0]).allLabels];
-        [views addObject: self];
-        [views addObjectsFromArray: ((ZS_ExpressionLabel*)self.nodes[1]).allLabels];
+        [labels addObjectsFromArray: ((ZS_ExpressionLabel*)self.nodes[0]).allLabels];
+        [labels addObject: self];
+        [labels addObjectsFromArray: ((ZS_ExpressionLabel*)self.nodes[1]).allLabels];
         
         // Right parenthesys
-        if (self.parentNode != nil && !self.parentNode.isRandomNumberFunctionCall)
+        if (self.parentNode != nil)
         {
             UILabel* label = [[ZS_ExpressionLabel alloc]init];
             label = [[ZS_ExpressionLabel alloc]init];
             label.text = @")";
             label.userInteractionEnabled = NO;
-            [views addObject: label];
+            [labels addObject: label];
         }
     }
-    // self is square root function call
-    else if (self.isSqrtFunctionCall)
+    // self is function call
+    else if (self.isFunctionCall)
     {
-        [views addObject: self];
-        // Expression
-        [views addObjectsFromArray: ((ZS_ExpressionLabel*)self.nodes[0]).allLabels];
-    }
-    // self is random number function call
-    else if (self.isRandomNumberFunctionCall)
-    {
-        [views addObject: self];
+        // add function name label
+        [labels addObject: self];
         
         // Left parenthesys
-        UILabel* left= [[ZS_ExpressionLabel alloc]init];
-        left.text = @"(";
-        left.userInteractionEnabled = NO;
-        [views addObject: left];
-        
-        // parameter 1
-        [views addObjectsFromArray: ((ZS_ExpressionLabel*)self.nodes[0]).allLabels];
-        
-        // Comma
-        UILabel* comma= [[ZS_ExpressionLabel alloc]init];
-        comma.text = @", ";
-        comma.userInteractionEnabled = NO;
-        [views addObject: comma];
-        
-        // parameter 2
-        [views addObjectsFromArray: ((ZS_ExpressionLabel*)self.nodes[1]).allLabels];
-        
+        if (self.nodes.count > 1)
+        {
+            UILabel* left= [[ZS_ExpressionLabel alloc]init];
+            left.text = @"(";
+            left.userInteractionEnabled = NO;
+            [labels addObject: left];
+        }
+        // add parameters
+        for (NSInteger i = 0; i < self.nodes.count; i++)
+        {
+            // parameter
+            [labels addObjectsFromArray: ((ZS_ExpressionLabel*)self.nodes[i]).allLabels];
+            
+            // Comma
+            if (i < self.nodes.count - 1)
+            {
+                UILabel* comma= [[ZS_ExpressionLabel alloc]init];
+                comma.text = @", ";
+                comma.userInteractionEnabled = NO;
+                [labels addObject: comma];
+            }
+        }
         // Right parenthesys
-        UILabel* right = [[ZS_ExpressionLabel alloc]init];
-        right.text = @")";
-        right.userInteractionEnabled = NO;
-        [views addObject: right];
-        
+        if (self.nodes.count > 1)
+        {
+            UILabel* right = [[ZS_ExpressionLabel alloc]init];
+            right.text = @")";
+            right.userInteractionEnabled = NO;
+            [labels addObject: right];
+        }
     }
     else
     {
-        [views addObject:self];
+        [labels addObject:self];
     }
-    return views;
+    return labels;
 }
 - (NSArray*) allNodes
 {
@@ -376,95 +340,18 @@ NSString* ZS_OperatorToString(ZS_Operator operator)
 }
 - (BOOL) isOperator
 {
-    return [self isOperator: self.json];
+    return [ZS_JsonUtilities isOperator: self.json];
 }
 - (BOOL) isNumber
 {
-    return [self isNumber:self.json];
+    return [ZS_JsonUtilities isNumber:self.json];
 }
 - (BOOL) isFunctionCall
 {
-    return [self isFunctionCall: self.json];
-}
-- (BOOL) isSqrtFunctionCall
-{
-    if (self.isFunctionCall)
-    {
-        return [((NSDictionary*)self.json)[@"call"][@"method"] isEqualToString:self.squareRootFunctionName];
-    }
-    return NO;
-}
-- (BOOL) isRandomNumberFunctionCall
-{
-    if (self.isFunctionCall)
-    {
-        return [((NSDictionary*)self.json)[@"call"][@"method"] isEqualToString:self.randomNumberFunctionName];
-    }
-    return NO;
+    return [ZS_JsonUtilities isFunctionCall: self.json];
 }
 #pragma mark - Private Methods
 
-- (BOOL) isOperator:(NSObject*) json
-{
-    if ([json isKindOfClass:[NSMutableDictionary class]])
-    {
-        NSString* key = ((NSMutableDictionary*)json).allKeys[0];
-        return [key isEqualToString:@"+"]
-        || [key isEqualToString:@"-"]
-        || [key isEqualToString:@"*"]
-        || [key isEqualToString:@"/"]
-        || [key isEqualToString:@"%"]
-        || [key isEqualToString:@">"]
-        || [key isEqualToString:@"<"]
-        || [key isEqualToString:@">="]
-        || [key isEqualToString:@"<="]
-        || [key isEqualToString:@"=="]
-        || [key isEqualToString:@"!="]
-        || [key isEqualToString:@"and"]
-        || [key isEqualToString:@"or"];
-    }
-    return NO;
-}
-- (BOOL) isFunctionCall:(NSObject*) json
-{
-    if ([json isKindOfClass:[NSMutableDictionary class]])
-    {
-        return [((NSMutableDictionary*)json).allKeys[0] isEqualToString:@"call"];
-    }
-    return NO;
-}
-- (BOOL) isSqrtFunctionCall:(NSObject*) json
-{
-    if ([self isFunctionCall:json])
-    {
-        return [((NSDictionary*)json)[@"call"][@"method"] isEqualToString:self.squareRootFunctionName];
-    }
-    return NO;
-}
-- (BOOL) isRandomNumberFunctionCall:(NSObject*) json
-{
-    if ([self isFunctionCall:json])
-    {
-        return [((NSDictionary*)json)[@"call"][@"method"] isEqualToString:self.randomNumberFunctionName];
-    }
-    return NO;
-}
-- (BOOL) isVariableName:(NSObject*) json
-{
-    if ([json isKindOfClass:[NSMutableDictionary class]])
-    {
-        return [((NSMutableDictionary*)json).allKeys[0] isEqualToString:@"get"];
-    }
-    return NO;
-}
-- (BOOL) isString:(NSObject*) json
-{
-    return [json isKindOfClass:[NSString class]];
-}
-- (BOOL) isNumber:(NSObject*) json
-{
-    return [json isKindOfClass:[NSNumber class]];
-}
 - (void) clean
 {
     [self.nodes removeAllObjects];
@@ -509,6 +396,7 @@ NSString* ZS_OperatorToString(ZS_Operator operator)
 @property (weak, nonatomic) ZS_ExpressionLabel* selectedNode;
 @property (strong, nonatomic) NSString* numberBuffer;
 @property (strong, nonatomic) ZS_ExpressionVariableChooserCollectionViewController* variableChooserController;
+@property (strong, nonatomic) ZS_FunctionChooserCollectionViewController* functionChooserController;
 @end
 
 @implementation ZS_ExpressionViewController
@@ -678,22 +566,31 @@ NSString* ZS_OperatorToString(ZS_Operator operator)
     alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
     [alertView show];
 }
-- (IBAction)sqrtButtonTapped
+- (IBAction)functionsButtonTapped
 {
     if (!self.selectedNode.isFunctionCall && !self.selectedNode.isOperator)
     {
-        [self.selectedNode setSqrtFunction];
-        self.selectedNode = self.selectedNode.nodes[0];
-        [self reloadExpression];
-    }
-}
-- (IBAction)randButtonTapped
-{
-    if (!self.selectedNode.isFunctionCall && !self.selectedNode.isOperator)
-    {
-        [self.selectedNode setRandomNumberFunction];
-        self.selectedNode = self.selectedNode.nodes[0];
-        [self reloadExpression];
+        ZSToolboxView* functionToolboxView =
+        [[ZSToolboxView alloc] initWithFrame:CGRectMake(19, 82, 282, 361)];
+        
+        ZS_FunctionChooserCollectionViewController* functionChooserController =
+        [[ZS_FunctionChooserCollectionViewController alloc]init];
+        
+        functionChooserController.toolboxView = functionToolboxView;
+        functionChooserController.didFinish = ^(NSMutableDictionary* function)
+        {
+            [self.selectedNode setFunction: function];
+            self.selectedNode = self.selectedNode.nodes[0];
+            [self reloadExpression];
+        };
+        self.functionChooserController = functionChooserController;
+        
+        [functionToolboxView setPagingEnabled:NO];
+        [functionToolboxView addContentView: functionChooserController.collectionView
+                                      title: @"FUNCTION CHOOSER"];
+        [self.view addSubview: functionToolboxView];
+        
+        [functionToolboxView showAnimated:YES];
     }
 }
 - (IBAction)changeSignButtonTapped

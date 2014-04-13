@@ -51,8 +51,27 @@
     "parameters": []
   },
   {
-    "name": "square root",
+    "name": "square_root",
     "return_type": "numeric",
-    "parameters": []
-  }
+    "parameters": [
+     {
+          "name": "#expression",
+          "types": ["numeric"]
+     }
+    ]
+  },
+  {
+    "name": "random_number",
+    "return_type": "numeric",
+    "parameters": [
+     {
+           "name": "#expression",
+           "types": ["numeric"]
+     },
+     {
+           "name": "#expression",
+           "types": ["numeric"]
+     }
+    ]
+ }
 ]
