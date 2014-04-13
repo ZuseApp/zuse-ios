@@ -3,7 +3,7 @@
     "Baddy": {
       "code": [
         {
-          "every": {
+          "after": {
             "seconds": {
               "call": {
                 "method": "random_number",
