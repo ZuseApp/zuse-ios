@@ -39,14 +39,7 @@
                                                object: nil];
     // Create object statement
     [self reloadFromJson];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    NSLog(@"Will Appear: %f", _scrollView.contentInset.top);
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    NSLog(@"Did Appear: %f", _scrollView.contentInset.top);
+    self.automaticallyAdjustsScrollViewInsets = NO;
 }
 
 - (void) reloadFromJson
@@ -63,10 +56,6 @@
  
     // Clean scroll view
     [self.scrollView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    
-    // DEBUG
-    self.scrollView.backgroundColor = [UIColor yellowColor];
-    // END DEBUG
     
     // Adjust the content size of the scroll view
     self.scrollView.contentSize = objectStatementView.bounds.size;

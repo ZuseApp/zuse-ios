@@ -1044,6 +1044,7 @@
                     <tabBarItem key="tabBarItem" title="Code Editor" id="74r-rl-lb4"/>
                     <navigationItem key="navigationItem" id="m9t-IO-JYF"/>
                     <connections>
+                        <outlet property="mainView" destination="tJW-OJ-j7g" id="h3X-oH-IzP"/>
                         <outlet property="scrollView" destination="gas-yL-91X" id="i4U-Cr-aHy"/>
                         <segue destination="OZT-ie-xeo" kind="modal" identifier="to expression editor" modalTransitionStyle="coverVertical" id="i7J-3f-e3W"/>
                     </connections>
