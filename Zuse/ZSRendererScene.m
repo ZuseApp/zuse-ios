@@ -97,18 +97,7 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
         _spriteNodes[spriteJSON[@"id"]] = node;
     }
     
-    node.physicsBody = [self physicsBodyForType:spriteJSON[@"physics_body"] size:size];
-    
-    if (node.physicsBody) {
-        node.physicsBody.categoryBitMask    = [self.categoryBitMasks[spriteJSON[@"collision_group"]] intValue];
-        node.physicsBody.collisionBitMask = 0;
-//        node.physicsBody.collisionBitMask   = [self.collisionBitMasks[spriteJSON[@"collision_group"]] intValue];
-        node.physicsBody.contactTestBitMask = [self.collisionBitMasks[spriteJSON[@"collision_group"]] intValue];
-        
-        node.physicsBody.dynamic = NO;
-        node.physicsBody.mass    = 0.02;
-        node.physicsBody.affectedByGravity = NO;
-    }
+    [self createPhysicsBodyForNode:node spriteJSON:spriteJSON size:size];
     
     ZSSpriteTouchComponent *touchComponent = [ZSSpriteTouchComponent new];
     touchComponent.spriteId = spriteJSON[@"id"];
@@ -181,6 +170,27 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
     [self addChild:node];
     
 
+}
+
+- (NSDictionary *)JSONWithIdentifier:(NSString*)identifier {
+    return [(NSArray*)self.projectJSON[@"objects"] match:^BOOL(id sprite) {
+        return [sprite[@"id"] isEqualToString:identifier];
+    }];
+}
+
+- (void) createPhysicsBodyForNode:(ZSComponentNode*)node spriteJSON:(NSDictionary *)spriteJSON size:(CGSize)size {
+    node.physicsBody = [self physicsBodyForType:spriteJSON[@"physics_body"] size:size];
+    
+    if (node.physicsBody) {
+        node.physicsBody.categoryBitMask    = [self.categoryBitMasks[spriteJSON[@"collision_group"]] intValue];
+        node.physicsBody.collisionBitMask = 0;
+//        node.physicsBody.collisionBitMask   = [self.collisionBitMasks[spriteJSON[@"collision_group"]] intValue];
+        node.physicsBody.contactTestBitMask = [self.collisionBitMasks[spriteJSON[@"collision_group"]] intValue];
+        
+        node.physicsBody.dynamic = NO;
+        node.physicsBody.mass    = 0.02;
+        node.physicsBody.affectedByGravity = NO;
+    }
 }
 
 - (void) setupInterpreterWithProjectJSON:(NSDictionary *)projectJSON {
@@ -524,12 +534,18 @@ void APARunOneShotEmitter(SKEmitterNode *emitter, CGFloat duration) {
         CGSize size = spriteNode.size;
         size.width = [properties[@"width"] floatValue];
         spriteNode.size = size;
+        
+        // Update the physics body.
+        [self createPhysicsBodyForNode:node spriteJSON:[self JSONWithIdentifier:identifier] size:size];
     }
     else if (properties[@"height"]) {
         SKSpriteNode *spriteNode = node.children[0];
         CGSize size = spriteNode.size;
         size.height = [properties[@"height"] floatValue];
         spriteNode.size = size;
+        
+        // Update the physics body.
+        [self createPhysicsBodyForNode:node spriteJSON:[self JSONWithIdentifier:identifier] size:size];
     }
 }
 
