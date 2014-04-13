@@ -20,21 +20,21 @@
 {
     operator = [operator stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     
-    if      ([operator isEqualToString:@"+"])   operator = @" + ";
-    else if ([operator isEqualToString:@"-"])   operator = @" − ";
-    else if ([operator isEqualToString:@"*"])   operator = @" × ";
-    else if ([operator isEqualToString:@"/"])   operator = @" ÷ ";
-    else if ([operator isEqualToString:@"%"])   operator = @" % ";
+    if      ([operator isEqualToString:@"+"])   operator = @"+";
+    else if ([operator isEqualToString:@"-"])   operator = @"−";
+    else if ([operator isEqualToString:@"*"])   operator = @"×";
+    else if ([operator isEqualToString:@"/"])   operator = @"÷";
+    else if ([operator isEqualToString:@"%"])   operator = @"%";
     else if ([operator isEqualToString:@"square_root"])operator = @"√";
     else if ([operator isEqualToString:@"random_number"])operator = @"rand";
-    else if ([operator isEqualToString:@">"])   operator = @" > ";
-    else if ([operator isEqualToString:@"<"])   operator = @" < ";
-    else if ([operator isEqualToString:@">="])  operator = @" ≥ ";
-    else if ([operator isEqualToString:@"<="])  operator = @" ≤ ";
-    else if ([operator isEqualToString:@"=="])  operator = @" = ";
-    else if ([operator isEqualToString:@"!="])  operator = @" ≠ ";
-    else if ([operator isEqualToString:@"and"]) operator = @" and ";
-    else if ([operator isEqualToString:@"or"])  operator = @" or ";
+    else if ([operator isEqualToString:@">"])   operator = @">";
+    else if ([operator isEqualToString:@"<"])   operator = @"<";
+    else if ([operator isEqualToString:@">="])  operator = @"≥";
+    else if ([operator isEqualToString:@"<="])  operator = @"≤";
+    else if ([operator isEqualToString:@"=="])  operator = @"=";
+    else if ([operator isEqualToString:@"!="])  operator = @"≠";
+    else if ([operator isEqualToString:@"and"]) operator = @"and";
+    else if ([operator isEqualToString:@"or"])  operator = @"or";
     return operator;
 }
 + (NSString*) propertiesStringFromJson: (NSDictionary*) json
