@@ -184,10 +184,11 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
 }
 
 - (void) setupInterpreterWithProjectJSON:(NSDictionary *)projectJSON {
-        ZSCompiler *compiler = [ZSCompiler compilerWithProjectJSON:projectJSON options:ZSCompilerOptionWrapInStartEvent];
-        [self loadMethodsIntoInterpreter:_interpreter];
-        self.compiledComponents = compiler.compiledComponents;
-        [_interpreter runJSON:self.compiledComponents[@"objects"]];
+    ZSCompiler *compiler = [ZSCompiler compilerWithProjectJSON:projectJSON options:ZSCompilerOptionWrapInStartEvent];
+    [self loadMethodsIntoInterpreter:_interpreter];
+
+    self.compiledComponents = compiler.compiledComponents;
+    [_interpreter runJSON:self.compiledComponents[@"objects"]];
 }
 
 - (void) setupWorldPhysics {
