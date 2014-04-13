@@ -251,7 +251,7 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
         labelNode.name = @"Text";
         labelNode.text = object[@"properties"][@"text"];
         labelNode.fontColor = [SKColor blackColor];
-        labelNode.fontSize = 30;
+        labelNode.fontSize = 17;
         labelNode.verticalAlignmentMode = SKLabelVerticalAlignmentModeCenter;
         labelNode.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
         node = labelNode;

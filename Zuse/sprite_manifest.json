@@ -102,12 +102,36 @@
         }
       },
       {
+        "name": "Heart",
+        "path": "heart",
+        "physics_body": "rectangle",
+        "preferred_size": {
+          "width": 30,
+          "height": 30
+        }
+      },
+      {
+        "name": "Coin",
+        "path": "coin",
+        "physics_body": "circle",
+        "preferred_size": {
+          "width": 30,
+          "height": 30
+        }
+      }
+    ]
+  },
+  {
+    "category": "?",
+    "sprites": [
+      
+      {
         "name": "Up Arrow",
         "path": "arrow_up",
         "physics_body": "rectangle",
         "preferred_size": {
-          "width": 54,
-          "height": 54
+          "width": 44,
+          "height": 44
         }
       },
       {
@@ -115,8 +139,8 @@
         "path": "arrow_down",
         "physics_body": "rectangle",
         "preferred_size": {
-          "width": 54,
-          "height": 54
+          "width": 44,
+          "height": 44
         }
       },
       {
@@ -124,8 +148,8 @@
         "path": "arrow_left",
         "physics_body": "rectangle",
         "preferred_size": {
-          "width": 54,
-          "height": 54
+          "width": 44,
+          "height": 44
         }
       },
       {
@@ -133,19 +157,20 @@
         "path": "arrow_right",
         "physics_body": "rectangle",
         "preferred_size": {
-          "width": 54,
-          "height": 54
+          "width": 44,
+          "height": 44
         }
       },
       {
-        "name": "Heart",
-        "path": "heart",
+        "name": "Button",
+        "path": "button",
         "physics_body": "rectangle",
         "preferred_size": {
-          "width": 54,
-          "height": 54
+          "width": 117,
+          "height": 30
         }
       }
     ]
   }
 ]
+ 

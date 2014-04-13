@@ -700,6 +700,9 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
                  [weakSelf.canvasView deleteSelectedSprite];
                  doneBlock();
              }],
+             [ZSCanvasBarButtonItem toolboxButtonWithHandler:^{
+                 [weakSelf showToolbox];
+             }],
              [ZSCanvasBarButtonItem finishButtonWithHandler:^{
                  [weakSelf.canvasView unselectSelectedSprite];
                  [weakSelf transitionToInterfaceState:ZSToolbarInterfaceStateNormal];
