@@ -232,7 +232,7 @@ CGFloat const LabelPadding = 10.0f;
 
     label.backgroundColor = [ZSColor darkenColor:self.backgroundColor withValue:0.1];
     if ([text hasPrefix:@"#"]) {
-        label.textColor = [UIColor lightGrayColor];
+        label.textColor = [UIColor darkGrayColor];
         label.text = [text substringFromIndex:1];
     }
     
