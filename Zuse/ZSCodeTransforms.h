@@ -28,3 +28,41 @@ typedef NSDictionary *(^ZSCodeTransformBlock)(NSDictionary *codeItem);
  * }
  */
 extern ZSCodeTransformBlock ZSCodeTransformEveryBlock;
+
+/**
+ * Transforms Zuse DSL 'after' statement into Zuse IR
+ * primitives. Makes the following conversion:
+ *
+ * {
+ *   "after": { "seconds": 1, "code": [ ] }
+ * }
+ *
+ * Turns into:
+ *
+ * {
+ *   "suite": [
+ *     { on_event: { "name": "abcd", "parameters": [], "code": [] } },
+ *     { "call": { "method": "after_seconds", "parameters": [1, "abcd"] } }
+ *   ]
+ * }
+ */
+extern ZSCodeTransformBlock ZSCodeTransformAfterBlock;
+
+/**
+ * Transforms Zuse DSL 'in' statement into Zuse IR
+ * primitives. Makes the following conversion:
+ *
+ * {
+ *   "in": { "seconds": 1, "code": [ ] }
+ * }
+ *
+ * Turns into:
+ *
+ * {
+ *   "suite": [
+ *     { on_event: { "name": "abcd", "parameters": [], "code": [] } },
+ *     { "call": { "method": "in_seconds", "parameters": [1, "abcd"] } }
+ *   ]
+ * }
+ */
+extern ZSCodeTransformBlock ZSCodeTransformInBlock;

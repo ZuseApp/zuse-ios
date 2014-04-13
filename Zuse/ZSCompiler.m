@@ -60,6 +60,8 @@
 
         code = [ZSCodeNormalizer normalizedCodeItem:code];
         code = [ZSCodeTraverser map:code onKeys:@[@"every"] block:ZSCodeTransformEveryBlock];
+        code = [ZSCodeTraverser map:code onKeys:@[@"after"] block:ZSCodeTransformAfterBlock];
+        code = [ZSCodeTraverser map:code onKeys:@[@"in"] block:ZSCodeTransformInBlock];
 
         return code[@"suite"];
     }];

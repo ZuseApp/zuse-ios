@@ -28,3 +28,45 @@ ZSCodeTransformBlock ZSCodeTransformEveryBlock = ^NSDictionary *(NSDictionary *c
         ]
     };
 };
+
+ZSCodeTransformBlock ZSCodeTransformAfterBlock = ^NSDictionary *(NSDictionary *codeItem) {
+    NSString *eventID = [NSUUID.UUID UUIDString];
+    return @{
+        @"suite": @[
+            @{
+                @"on_event": @{
+                    @"name": eventID,
+                    @"parameters": @[],
+                    @"code": codeItem[@"after"][@"code"]
+                }
+            },
+            @{
+                @"call": @{
+                    @"method": @"after_seconds",
+                    @"parameters": @[codeItem[@"after"][@"seconds"], eventID]
+                }
+            }
+        ]
+    };
+};
+
+ZSCodeTransformBlock ZSCodeTransformInBlock = ^NSDictionary *(NSDictionary *codeItem) {
+    NSString *eventID = [NSUUID.UUID UUIDString];
+    return @{
+        @"suite": @[
+            @{
+                @"on_event": @{
+                    @"name": eventID,
+                    @"parameters": @[],
+                    @"code": codeItem[@"in"][@"code"]
+                }
+            },
+            @{
+                @"call": @{
+                    @"method": @"in_seconds",
+                    @"parameters": @[codeItem[@"in"][@"seconds"], eventID]
+                }
+            }
+        ]
+    };
+};

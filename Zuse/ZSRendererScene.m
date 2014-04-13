@@ -78,6 +78,7 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
 
 - (void)addSpriteWithJSON:(NSDictionary *)spriteJSON {
     NSDictionary *properties = spriteJSON[@"properties"];
+
     
     CGPoint position = CGPointMake([properties[@"x"] floatValue], [properties[@"y"] floatValue]);
     CGSize size      = CGSizeMake([properties[@"width"] floatValue], [properties[@"height"] floatValue]);
@@ -349,7 +350,9 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
         @"method": @"explosion",
         @"block": ^id(NSString *identifier, NSArray *args) {
             ZSComponentNode *node = _spriteNodes[identifier];
-            [self addParticle:identifier position:node.position duration:0.15f particleType:@"Explosion"];
+            CGFloat x = [args[0] floatValue];
+            CGFloat y = [args[1] floatValue];
+            [self addParticle:identifier position:CGPointMake(x, y) duration:0.15f particleType:@"Explosion"];
             return nil;
         }
     }];
@@ -360,6 +363,38 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
             CGFloat seconds = [args[0] floatValue];
             NSString *eventIdentifier = args[1];
             [self addTimerWithDuration:seconds
+                       runsImmediately:YES
+                               repeats:YES
+                      objectIdentifier:identifier
+                       eventIdentifier:eventIdentifier];
+            NSLog(@"%@", args);
+            return nil;
+        }
+    }];
+
+    [interpreter loadMethod:@{
+        @"method": @"after_seconds",
+        @"block": ^id(NSString *identifier, NSArray *args) {
+            CGFloat seconds = [args[0] floatValue];
+            NSString *eventIdentifier = args[1];
+            [self addTimerWithDuration:seconds
+                       runsImmediately:NO
+                               repeats:YES
+                      objectIdentifier:identifier
+                       eventIdentifier:eventIdentifier];
+            NSLog(@"%@", args);
+            return nil;
+        }
+    }];
+
+    [interpreter loadMethod:@{
+        @"method": @"in_seconds",
+        @"block": ^id(NSString *identifier, NSArray *args) {
+            CGFloat seconds = [args[0] floatValue];
+            NSString *eventIdentifier = args[1];
+            [self addTimerWithDuration:seconds
+                       runsImmediately:NO
+                               repeats:NO
                       objectIdentifier:identifier
                        eventIdentifier:eventIdentifier];
             NSLog(@"%@", args);
@@ -416,11 +451,15 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
 }
 
 - (void)addTimerWithDuration:(CGFloat)seconds
+             runsImmediately:(BOOL)runsImmediately
+                     repeats:(BOOL)repeats
             objectIdentifier:(NSString *)objectIdentifier
              eventIdentifier:(NSString *)eventIdentifier {
     ZSTimedEvent *event = [[ZSTimedEvent alloc] init];
     event.interval = seconds;
-    event.nextTime = [[NSDate date] timeIntervalSinceReferenceDate] + seconds;
+    event.repeats = repeats;
+    CGFloat addTime = (runsImmediately ? 0 : seconds);
+    event.nextTime = [[NSDate date] timeIntervalSinceReferenceDate] + addTime;
     event.eventIdentifier = eventIdentifier;
     event.objectIdentifier = objectIdentifier;
     
@@ -572,13 +611,16 @@ void APARunOneShotEmitter(SKEmitterNode *emitter, CGFloat duration) {
 
 - (void)runTimedEvents {
     NSTimeInterval now = [[NSDate date] timeIntervalSinceReferenceDate];
-    [self.timedEvents each:^(ZSTimedEvent *event) {
+    self.timedEvents = [[self.timedEvents select:^BOOL(ZSTimedEvent *event) {
         if (event.nextTime <= now) {
             event.nextTime += event.interval;
             [self.interpreter triggerEvent:event.eventIdentifier
                     onObjectWithIdentifier:event.objectIdentifier];
+            return event.repeats;
         }
-    }];
+
+        return YES;
+    }] mutableCopy];
 }
 
 NSString * binaryStringFromInteger( int number )

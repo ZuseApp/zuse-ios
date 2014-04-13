@@ -14,6 +14,8 @@
     NSDictionary *mapping = @{
         @"if": [UIColor colorWithRed:0.99 green:0.48 blue:0.51 alpha:1],
         @"every": [UIColor colorWithRed:0.71 green:0.74 blue:0.36 alpha:1],
+        @"after": [UIColor colorWithRed:0.71 green:0.74 blue:0.36 alpha:1],
+        @"in": [UIColor colorWithRed:0.71 green:0.74 blue:0.36 alpha:1],
         @"call": [UIColor zuseBlue],
         @"on_event": [UIColor colorWithRed:0.76 green:0.53 blue:0.83 alpha:1],
         @"trigger_event": [UIColor colorWithRed:0.6 green:0.57 blue:0.85 alpha:1],

@@ -122,9 +122,9 @@
                                                                    initialProperties:[NSSet set]];
             }];
         }
-        else if ([key isEqualToString:@"every"])
+        else if ([key isEqualToString:@"every"] || [key isEqualToString:@"after"] || [key isEqualToString:@"in"])
         {
-            statementView = [self everyStatementViewFromJson:jsonStatement beforeAddingSubstatementsBlock:^(ZS_StatementView *statementView) {
+            statementView = [self timedStatementViewWithType:key fromJson:jsonStatement beforeAddingSubstatementsBlock:^(ZS_StatementView *statementView) {
                 statementView.propertyScope = [view.propertyScope nestedScopeForCode:jsonStatement[key][@"code"]
                                                                               atLine:idx
                                                                    initialProperties:[NSSet set]];
@@ -326,18 +326,17 @@
 //    }
     return view;
 }
-- (ZS_StatementView*) everyStatementViewFromJson:(NSMutableDictionary *)json
-               beforeAddingSubstatementsBlock:(void (^)(ZS_StatementView *))beforeSubstatementBlock
+- (ZS_StatementView *)timedStatementViewWithType:(NSString *)type fromJson:(NSMutableDictionary *)json beforeAddingSubstatementsBlock:(void(^)(ZS_StatementView *statementView))beforeSubstatementBlock
 {
     ZS_StatementView* view = [[ZS_StatementView alloc]initWithJson:json];
     view.delegate = self;
-    view.jsonCode = json[@"every"][@"code"];
-    
+    view.jsonCode = json[type][@"code"];
+
     // Statement name EVERY
-    [view addNameLabelWithText:@"every"];
+    [view addNameLabelWithText:type];
     
     // add 'seconds' argument
-    NSString* seconds = [ZS_JsonUtilities expressionStringFromJson: json[@"every"][@"seconds"]];
+    NSString* seconds = [ZS_JsonUtilities expressionStringFromJson: json[type][@"seconds"]];
     [view addArgumentLabelWithText: seconds
                         touchBlock:^(UILabel* label)
      {
@@ -350,7 +349,7 @@
     beforeSubstatementBlock(view);
     
     // Code block
-    [self addToView: view codeStatementsFromJson:json[@"every"][@"code"]];
+    [self addToView: view codeStatementsFromJson:json[type][@"code"]];
     
     // Add <new code statement> button
     [view addNewStatementLabelWithTouchBlock:^(UILabel* label)
@@ -358,7 +357,7 @@
          ZSToolboxView* toolboxView = [[ZSToolboxView alloc] initWithFrame:CGRectMake(19, 82, 282, 361)];
          ZS_StatementChooserCollectionViewController* controller = [[ZS_StatementChooserCollectionViewController alloc]init];
          
-         controller.jsonCodeBody = json[@"every"][@"code"];
+         controller.jsonCodeBody = json[type][@"code"];
          controller.codeEditorViewController = self;
          controller.toolboxView = toolboxView;
          
