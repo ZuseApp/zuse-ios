@@ -349,7 +349,6 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
     [interpreter loadMethod:@{
         @"method": @"explosion",
         @"block": ^id(NSString *identifier, NSArray *args) {
-            ZSComponentNode *node = _spriteNodes[identifier];
             CGFloat x = [args[0] floatValue];
             CGFloat y = [args[1] floatValue];
             [self addParticle:identifier position:CGPointMake(x, y) duration:0.15f particleType:@"Explosion"];
@@ -611,7 +610,9 @@ void APARunOneShotEmitter(SKEmitterNode *emitter, CGFloat duration) {
 
 - (void)runTimedEvents {
     NSTimeInterval now = [[NSDate date] timeIntervalSinceReferenceDate];
-    self.timedEvents = [[self.timedEvents select:^BOOL(ZSTimedEvent *event) {
+    NSArray *events = self.timedEvents.copy;
+    [self.timedEvents removeAllObjects];
+    NSArray *newEvents = [events select:^BOOL(ZSTimedEvent *event) {
         if (event.nextTime <= now) {
             event.nextTime += event.interval;
             [self.interpreter triggerEvent:event.eventIdentifier
@@ -620,7 +621,8 @@ void APARunOneShotEmitter(SKEmitterNode *emitter, CGFloat duration) {
         }
 
         return YES;
-    }] mutableCopy];
+    }];
+    [self.timedEvents addObjectsFromArray:newEvents];
 }
 
 NSString * binaryStringFromInteger( int number )

@@ -528,10 +528,13 @@
                 [self dismissViewControllerAnimated: YES completion: nil];
             };
         }
-        else if([statementView.json.allKeys[0] isEqualToString:@"every"])
+        else if([statementView.json.allKeys[0] isEqualToString:@"every"] ||
+                [statementView.json.allKeys[0] isEqualToString:@"after"] ||
+                [statementView.json.allKeys[0] isEqualToString:@"in"])
         {
+            NSString *key = statementView.json.allKeys[0];
             // pass a mutable copy of json to the expression editor controller
-            NSObject* json = statementView.json[@"every"][@"seconds"];
+            NSObject* json = statementView.json[key][@"seconds"];
             c.json = [json isKindOfClass:[NSMutableDictionary class]] ? ((NSMutableDictionary*)json).deepMutableCopy : json;
             
             // code block executed upon exiting expression editor
@@ -539,7 +542,7 @@
             {
                 if (json)
                 {
-                    statementView.json[@"every"][@"seconds"] = json;
+                    statementView.json[key][@"seconds"] = json;
                     [self reloadFromJson];
                 }
                 [self dismissViewControllerAnimated: YES completion: nil];
