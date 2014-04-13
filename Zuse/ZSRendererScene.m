@@ -516,6 +516,9 @@ void APARunOneShotEmitter(SKEmitterNode *emitter, CGFloat duration) {
             node = joint;
         node.position = CGPointMake(node.position.x, [properties[@"y"] floatValue]);
     }
+    else if (properties[@"hidden"]) {
+        node.hidden = [properties[@"hidden"] boolValue];
+    }
     else if (properties[@"text"]) {
         SKLabelNode *textNode = [node.children match:^BOOL(id obj) {
             return [obj isKindOfClass:SKLabelNode.class];
@@ -555,6 +558,8 @@ void APARunOneShotEmitter(SKEmitterNode *emitter, CGFloat duration) {
         return @(node.position.x);
     } else if ([property isEqualToString:@"y"]) {
         return @(node.position.y);
+    } else if ([property isEqualToString:@"hidden"]) {
+        return @(node.hidden);
     }
     
     assert(false);

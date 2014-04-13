@@ -488,6 +488,8 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
                                                newJson[@"name"] = name;
                                                newJson[@"properties"][@"x"] = @(0);
                                                newJson[@"properties"][@"y"] = @(0);
+                                               newJson[@"properties"][@"angle"] = @(0);
+                                               newJson[@"properties"][@"hidden"] = @(0);
                                                [[weakSelf.project rawJSON][@"generators"] insertObject:newJson atIndex:0];
                                                
                                                [weakSelf.generatorView insertGeneratorFromJSON:newJson];
@@ -525,7 +527,8 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
             
             properties[@"x"] = @(x);
             properties[@"y"] = @(y);
-            // properties[@"angle"] = @(0);
+            properties[@"angle"] = @(0);
+            properties[@"hidden"] = @(0);
             
             draggedView.spriteJSON = newJson;
             [weakSelf.canvasView setupGesturesForSpriteView:draggedView withProperties:properties];
