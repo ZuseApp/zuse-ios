@@ -6,6 +6,7 @@
 @property (nonatomic, strong) NSString *version;
 @property (nonatomic, strong) UIImage *screenshot;
 @property (nonatomic, strong, readonly) NSString *identifier;
+@property (nonatomic, assign) NSInteger commitNumber;
 
 + (ZSProject *)projectWithFile:(NSString *)name;
 + (ZSProject *)projectWithJSON:(NSDictionary *)JSON;

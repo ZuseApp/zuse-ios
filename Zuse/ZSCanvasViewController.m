@@ -22,6 +22,7 @@
 #import <SVProgressHUD/SVProgressHUD.h>
 #import "ZSTutorial.h"
 #import "ZSCompiler.h"
+#import "ZSSocialZuseHubShareViewController.h"
 
 typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
     ZSToolbarInterfaceStateNormal,
@@ -67,6 +68,12 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
 @property (weak, nonatomic) IBOutlet UIView *gridSlider;
 @property (weak, nonatomic) IBOutlet UILabel *smallGridLabel;
 @property (weak, nonatomic) IBOutlet UILabel *gridLabel;
+
+// ZuseHub and Social Share
+@property (strong, nonatomic) UIActionSheet *actionSheet;
+@property (strong, nonatomic) UIButton *twitterButton;
+@property (strong, nonatomic) UIButton *facebookButton;
+@property (strong, nonatomic) UIButton *zuseHubButton;
 
 @end
 
@@ -599,7 +606,17 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
                  [weakSelf transitionToInterfaceState:ZSToolbarInterfaceStateSubmenu];
              }],
              [ZSCanvasBarButtonItem shareButtonWithHandler:^{
-                 [weakSelf shareProject];
+                 //TODO present custom UIActivityViewController as you would w/ any normal view controller
+                 
+                 ZSSocialZuseHubShareViewController *socialZuseHubShareController = [[ZSSocialZuseHubShareViewController alloc] initWithProject:self.project];
+        
+                 socialZuseHubShareController.didFinish = ^{
+                     [self dismissViewControllerAnimated:YES completion:^{}];
+                 };
+                 socialZuseHubShareController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+                 [weakSelf presentViewController:socialZuseHubShareController animated:YES completion:^{}];
+                 
+//                 [weakSelf shareProject];
              }],
              [ZSCanvasBarButtonItem playButtonWithHandler:^{
                  if (weakSelf.gridSliderShowing) {

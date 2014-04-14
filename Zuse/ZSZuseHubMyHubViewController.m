@@ -23,6 +23,7 @@
 #import "ZSZuseHubMySharedProjectDetailViewController.h"
 #import "ZSProjectCollectionViewCell.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import <SVPullToRefresh.h>
 
 @interface ZSZuseHubMyHubViewController ()
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
@@ -35,6 +36,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.automaticallyAdjustsScrollViewInsets = NO;
     
     self.userProjects = [[NSMutableArray alloc] init];
     self.currentPage = 1;
@@ -62,7 +65,52 @@
     if(self.contentType == ZSZuseHubMyHubTypeShareProject)
         self.title = @"Share Projects";
     else if(self.contentType == ZSZuseHubMyHubTypeViewMySharedProjects)
+    {
         self.title = @"My Shared Projects";
+        WeakSelf
+        [self.collectionView addPullToRefreshWithActionHandler:^{
+            [weakSelf insertRowAtTop];
+        }];
+        
+        [self.collectionView addInfiniteScrollingWithActionHandler:^{
+            [weakSelf insertRowAtBottom];
+        }];
+    }
+    
+    
+}
+
+- (void)insertRowAtTop
+{
+    if(self.contentType == ZSZuseHubMyHubTypeViewMySharedProjects)
+    {
+        int64_t delayInSeconds = 2.0;
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+        WeakSelf
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void)
+                       {
+                           self.currentPage = 1;
+                           [self.userProjects removeAllObjects];
+                           [weakSelf setupData];
+                           [weakSelf.collectionView.pullToRefreshView stopAnimating];
+                       });
+    }
+}
+
+- (void)insertRowAtBottom
+{
+    if(self.contentType == ZSZuseHubMyHubTypeViewMySharedProjects)
+    {
+        int64_t delayInSeconds = 2.0;
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+        WeakSelf
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void)
+                       {
+                           self.currentPage++;
+                           [weakSelf setupData];
+                           [weakSelf.collectionView.infiniteScrollingView stopAnimating];
+                       });
+    }
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -145,7 +193,7 @@
 #pragma mark - Collection view delegate
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
-    return UIEdgeInsetsMake(0, 25, 5, 25);
+    return UIEdgeInsetsMake(5, 25, 5, 25);
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
@@ -210,7 +258,7 @@
     {
         if(projects)
         {
-            self.userProjects = projects;
+            [self.userProjects addObjectsFromArray:projects];
             [self.collectionView reloadData];
          }
          else{

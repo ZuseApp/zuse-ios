@@ -68,8 +68,21 @@
     self.scrollView.contentOffset = CGPointMake(0, 0);
 }
 
+- (void)writeProject:(NSDictionary *)project
+{
+    NSString *JSONString = project[@"project_json"];
+    NSError *error = nil;
+    NSDictionary *projectJSONParsed = [NSJSONSerialization JSONObjectWithData:[JSONString dataUsingEncoding:NSUTF8StringEncoding]
+                                                                      options:0
+                                                                        error:&error];
+    
+    assert(!error);
+    
+    ZSProject *zsProject = [ZSProject projectWithJSON:projectJSONParsed];
+    [ZSProjectPersistence writeProject:zsProject];
+}
+
 - (IBAction)shareTapped:(id)sender {
-    self.errorMsgLabel.text = @"";
     if(self.titleTextLabel.text.length != 0 && self.descriptionTextField.text.length != 0 &&
        ![self.descriptionTextField.text isEqualToString:@"Enter description"])
     {
@@ -97,16 +110,8 @@
                     if(project)
                     {
                         //TODO create a project onto disk
-                        NSString *JSONString = project[@"project_json"];
-                        NSError *error = nil;
-                        NSDictionary *projectJSONParsed = [NSJSONSerialization JSONObjectWithData:[JSONString dataUsingEncoding:NSUTF8StringEncoding]
-                                                                                          options:0
-                                                                                            error:&error];
-                        
-                        assert(!error);
-                        
-                        ZSProject *project = [ZSProject projectWithJSON:projectJSONParsed];
-                        [ZSProjectPersistence writeProject:project];
+//                        [self writeProject:project];
+                        self.didFinish(YES);
                     }
                     else if (statusCode == 422)
                     {
@@ -117,6 +122,7 @@
                                                               cancelButtonTitle:@"OK"
                                                               otherButtonTitles:nil];
                         [alert show];
+                        self.didFinish(NO);
                     }
                 }];
             }
@@ -129,22 +135,13 @@
                                                       otherButtonTitles:nil];
                 [alert show];
             }
-             else
+             else if (statusCode == 201 || statusCode == 200)
              {
-                 if(error.localizedDescription.length == 0)
+                 if(!error && project)
                  {
                      NSLog(@"share succeeded");
                      //TODO store the project JSON that came back
-                     NSString *JSONString = project[@"project_json"];
-                     NSError *error = nil;
-                     NSDictionary *projectJSONParsed = [NSJSONSerialization JSONObjectWithData:[JSONString dataUsingEncoding:NSUTF8StringEncoding]
-                                                                                       options:0
-                                                                                         error:&error];
-                     
-                     assert(!error);
-                     
-                     ZSProject *project = [ZSProject projectWithJSON:projectJSONParsed];
-                     [ZSProjectPersistence writeProject:project];
+//                     [self writeProject:project];
                      
                      self.didFinish(YES);
                  }
@@ -156,9 +153,6 @@
             
          }];
         
-    }
-    else{
-        self.errorMsgLabel.text = @"Fill in the description";
     }
 }
 

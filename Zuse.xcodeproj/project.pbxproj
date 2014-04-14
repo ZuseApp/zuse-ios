@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2C315E4018F9F431003288DA /* ZSZuseHubShareActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C315E3F18F9F431003288DA /* ZSZuseHubShareActivity.m */; };
 		2C6B5D6A183D43AB00E3D56C /* ZSSpriteTouchComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C6B5D69183D43AB00E3D56C /* ZSSpriteTouchComponent.m */; };
 		2CA36ECC18CE5A6D00CAB651 /* ZSUserLoginRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA36ECB18CE5A6D00CAB651 /* ZSUserLoginRegisterViewController.m */; };
 		2CA9A32A18C26605005F4404 /* ZSZuseHubSideMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9A32918C26605005F4404 /* ZSZuseHubSideMenuViewController.m */; };
@@ -25,6 +26,7 @@
 		2CA9D387183F3F0300401231 /* ZSRendererScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9D386183F3F0300401231 /* ZSRendererScene.m */; };
 		2CF6713718D7A329005CF5F5 /* ZSZuseHubBrowseProjectDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF6713618D7A329005CF5F5 /* ZSZuseHubBrowseProjectDetailViewController.m */; };
 		2CF6713B18D7D041005CF5F5 /* ZSZuseHubMySharedProjectDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF6713A18D7D041005CF5F5 /* ZSZuseHubMySharedProjectDetailViewController.m */; };
+		2CF6714818F9D746005CF5F5 /* ZSSocialZuseHubShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF6714718F9D746005CF5F5 /* ZSSocialZuseHubShareViewController.m */; };
 		2CF6E518189D7FB900E2779C /* BrickExplosion.sks in Resources */ = {isa = PBXBuildFile; fileRef = 2CF6E516189D7FB900E2779C /* BrickExplosion.sks */; };
 		2CF6E519189D7FB900E2779C /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CF6E517189D7FB900E2779C /* spark.png */; };
 		4C0930FD18B8131400BBCC2F /* ZSToolboxView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0930FC18B8131400BBCC2F /* ZSToolboxView.m */; };
@@ -191,6 +193,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2C315E3E18F9F431003288DA /* ZSZuseHubShareActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSZuseHubShareActivity.h; sourceTree = "<group>"; };
+		2C315E3F18F9F431003288DA /* ZSZuseHubShareActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSZuseHubShareActivity.m; sourceTree = "<group>"; };
 		2C6B5D68183D43AB00E3D56C /* ZSSpriteTouchComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSSpriteTouchComponent.h; sourceTree = "<group>"; };
 		2C6B5D69183D43AB00E3D56C /* ZSSpriteTouchComponent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSSpriteTouchComponent.m; sourceTree = "<group>"; };
 		2CA36ECA18CE5A6D00CAB651 /* ZSUserLoginRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSUserLoginRegisterViewController.h; sourceTree = "<group>"; };
@@ -227,6 +231,8 @@
 		2CF6713618D7A329005CF5F5 /* ZSZuseHubBrowseProjectDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSZuseHubBrowseProjectDetailViewController.m; sourceTree = "<group>"; };
 		2CF6713918D7D041005CF5F5 /* ZSZuseHubMySharedProjectDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSZuseHubMySharedProjectDetailViewController.h; sourceTree = "<group>"; };
 		2CF6713A18D7D041005CF5F5 /* ZSZuseHubMySharedProjectDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSZuseHubMySharedProjectDetailViewController.m; sourceTree = "<group>"; };
+		2CF6714618F9D746005CF5F5 /* ZSSocialZuseHubShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSSocialZuseHubShareViewController.h; sourceTree = "<group>"; };
+		2CF6714718F9D746005CF5F5 /* ZSSocialZuseHubShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSSocialZuseHubShareViewController.m; sourceTree = "<group>"; };
 		2CF6E516189D7FB900E2779C /* BrickExplosion.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = BrickExplosion.sks; sourceTree = "<group>"; };
 		2CF6E517189D7FB900E2779C /* spark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spark.png; sourceTree = "<group>"; };
 		4C0930FB18B8131400BBCC2F /* ZSToolboxView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSToolboxView.h; sourceTree = "<group>"; };
@@ -597,6 +603,17 @@
 			name = "Login and Registration Controller";
 			sourceTree = "<group>";
 		};
+		2CF6714518F9D728005CF5F5 /* ZuseHub and Social Share */ = {
+			isa = PBXGroup;
+			children = (
+				2CF6714618F9D746005CF5F5 /* ZSSocialZuseHubShareViewController.h */,
+				2CF6714718F9D746005CF5F5 /* ZSSocialZuseHubShareViewController.m */,
+				2C315E3E18F9F431003288DA /* ZSZuseHubShareActivity.h */,
+				2C315E3F18F9F431003288DA /* ZSZuseHubShareActivity.m */,
+			);
+			name = "ZuseHub and Social Share";
+			sourceTree = "<group>";
+		};
 		2CF6E515189D7F8C00E2779C /* Particles */ = {
 			isa = PBXGroup;
 			children = (
@@ -811,6 +828,7 @@
 		4CE35625188B0868007024C0 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				2CF6714518F9D728005CF5F5 /* ZuseHub and Social Share */,
 				4C26880418D7D62F00276A76 /* Canvas */,
 				5F50CBCF18A1526900B7C020 /* Groups */,
 			);
@@ -1430,6 +1448,7 @@
 			files = (
 				5FC6E28B18F78DA400CEFBE6 /* ZSColor.m in Sources */,
 				5F39173018C6634E00109747 /* ZSGroupsViewController.m in Sources */,
+				2C315E4018F9F431003288DA /* ZSZuseHubShareActivity.m in Sources */,
 				5F1B5BA71838109600632DE6 /* ZSInterpreter.m in Sources */,
 				4CF1CBBE17EF882A00636E0D /* main.m in Sources */,
 				4C3DD66518B706DC0013B3A5 /* ZSToolboxController.m in Sources */,
@@ -1465,6 +1484,7 @@
 				5F57B14218D538AE007DB634 /* ZSCodeTransforms.m in Sources */,
 				5F39DFD2188A40A0008ECAC1 /* NSObject+BlocksKit.m in Sources */,
 				4C5F732718874B51007F61B3 /* ZSCanvasView.m in Sources */,
+				2CF6714818F9D746005CF5F5 /* ZSSocialZuseHubShareViewController.m in Sources */,
 				5F39DFD4188A40A0008ECAC1 /* NSSet+BlocksKit.m in Sources */,
 				5F39172D18C55C1A00109747 /* UIImageView+Zuse.m in Sources */,
 				5F0DBAD518C2CDEE00039C62 /* ZSCanvasBarButtonItem.m in Sources */,

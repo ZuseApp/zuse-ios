@@ -21,11 +21,10 @@
 #import "ZSProjectCollectionViewCell.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <SVPullToRefresh/SVPullToRefresh.h>
-#import <SVPullToRefresh/UIScrollView+SVInfiniteScrolling.h>
 
 @interface ZSZuseHubBrowseViewController ()
 
-@property (strong, nonatomic) NSArray *jsonProjectsFirst;
+@property (strong, nonatomic) NSMutableArray *projects;
 @property int currentPage;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (strong, nonatomic) ZSZuseHubBrowseProjectDetailViewController *detailController;
@@ -40,7 +39,9 @@
     
     self.currentPage = 1;
     
-    self.jsonProjectsFirst = @[];
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    
+    self.projects = [[NSMutableArray alloc] init];
     
     self.navigationItem.title = @"ZuseHub";
     
@@ -66,41 +67,47 @@
         self.title = @"10 Newest Projects";
     else if(self.contentType == ZSZuseHubBrowseTypePopular)
         self.title = @"10 Most Popular Projects";
+    
+    WeakSelf
+    [self.collectionView addPullToRefreshWithActionHandler:^{
+        [weakSelf insertRowAtTop];
+    }];
+    
+    [self.collectionView addInfiniteScrollingWithActionHandler:^{
+        [weakSelf insertRowAtBottom];
+    }];
+}
+
+- (void)insertRowAtTop
+{
+    int64_t delayInSeconds = 2.0;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+    WeakSelf
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void)
+    {
+        self.currentPage = 1;
+        [self.projects removeAllObjects];
+        [weakSelf setupData];
+        [weakSelf.collectionView.pullToRefreshView stopAnimating];
+    });
+}
+
+- (void)insertRowAtBottom
+{
+    int64_t delayInSeconds = 2.0;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+    WeakSelf
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void)
+    {
+        self.currentPage++;
+        [weakSelf setupData];
+        [weakSelf.collectionView.infiniteScrollingView stopAnimating];
+    });
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    self.jsonProjectsFirst = nil;
-    //set up the data source
-    if(self.contentType == ZSZuseHubBrowseTypeNewest)
-    {
-        [self.jsonClientManager getNewestProjects:1 itemsPerPage:10 completion:^(NSArray *projects) {
-            if(projects)
-            {
-                self.jsonProjectsFirst = projects;
-                [self.collectionView reloadData];
-            }
-            else
-            {
-                //TODO print something here for the user
-            }
-        }];
-
-    }
-    else if(self.contentType == ZSZuseHubBrowseTypePopular)
-    {
-        [self.jsonClientManager getPopularProjects:1 itemsPerPage:10 completion:^(NSArray *projects) {
-            if(projects)
-            {
-                self.jsonProjectsFirst = projects;
-                [self.collectionView reloadData];
-            }
-            else{
-                //TODO print something here for the user
-            }
-        }];
-    }
-    [self.collectionView reloadData];
+    [self setupData];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -123,7 +130,7 @@
 #pragma mark - Collection view data source
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
-    return UIEdgeInsetsMake(0, 25, 5, 25);
+    return UIEdgeInsetsMake(0, 25, 0, 25);
 }
 
 //TODO create sections to organize different browsing categories
@@ -134,14 +141,14 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return self.jsonProjectsFirst.count;
+    return self.projects.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     ZSProjectCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"CollectionCell" forIndexPath:indexPath];
     
-    NSDictionary *project = self.jsonProjectsFirst[indexPath.row];
+    NSDictionary *project = self.projects[indexPath.row];
     
     cell.projectTitle = project[@"title"];
     [cell.screenshotView setImageWithURL:[NSURL URLWithString:project[@"screenshot_url"]] placeholderImage:[UIImage imageNamed:@"blank_project.png"]];
@@ -163,7 +170,7 @@
                                                                           bundle:[NSBundle mainBundle]]
                                                 instantiateViewControllerWithIdentifier:@"BrowseProjectDetail"];
     NSInteger index = [self.collectionView.indexPathsForSelectedItems.firstObject row];
-    NSDictionary *project = self.jsonProjectsFirst[index];
+    NSDictionary *project = self.projects[index];
     self.detailController.uuid = project[@"uuid"];
     [self presentViewController:self.detailController animated:YES completion:^{}];
     WeakSelf
@@ -184,20 +191,37 @@
     [self.mm_drawerController bouncePreviewForDrawerSide:MMDrawerSideLeft completion:nil];
 }
 
-- (void)getNewestData:(int)page array:(NSArray *)array
+- (void)setupData
 {
-    __block NSArray *tempArray = array;
-    [self.jsonClientManager getNewestProjects:page itemsPerPage:10 completion:^(NSArray *projects) {
-        if(projects)
-        {
-            tempArray = projects;
-            [self.collectionView reloadData];
-        }
-        else
-        {
-            //TODO print something here for the user
-        }
-    }];
+    //set up the data source
+    if(self.contentType == ZSZuseHubBrowseTypeNewest)
+    {
+        [self.jsonClientManager getNewestProjects:self.currentPage itemsPerPage:10 completion:^(NSArray *projects) {
+            if(projects)
+            {
+                [self.projects addObjectsFromArray:projects];
+                [self.collectionView reloadData];
+            }
+            else
+            {
+                //TODO print something here for the user
+            }
+        }];
+        
+    }
+    else if(self.contentType == ZSZuseHubBrowseTypePopular)
+    {
+        [self.jsonClientManager getPopularProjects:self.currentPage itemsPerPage:10 completion:^(NSArray *projects) {
+            if(projects)
+            {
+                [self.projects addObjectsFromArray:projects];
+                [self.collectionView reloadData];
+            }
+            else{
+                //TODO print something here for the user
+            }
+        }];
+    }
 }
 
 @end
