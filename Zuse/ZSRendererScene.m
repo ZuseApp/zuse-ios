@@ -28,8 +28,6 @@
 @property (strong, nonatomic) NSMutableDictionary *movingSprites;
 @property (strong, nonatomic) ZSInterpreter *interpreter;
 @property (strong, nonatomic) NSDictionary *projectJSON;
-@property (strong, nonatomic) NSDictionary *categoryBitMasks;
-@property (strong, nonatomic) NSDictionary *collisionBitMasks;
 @property (strong, nonatomic) NSMutableArray *timedEvents;
 @property (strong, nonatomic) NSDictionary *compiledComponents;
 
@@ -59,10 +57,6 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
         [self setupInterpreterWithProjectJSON:projectJSON];
         [self setupWorldPhysics];
 
-        self.categoryBitMasks = [self categoryBitMasksForCollisionGroups:projectJSON[@"collision_groups"]];
-        self.collisionBitMasks = [self collisionBitMasksForCollisionGroups:projectJSON[@"collision_groups"]
-                                                          categoryBitMasks:self.categoryBitMasks];
-        
         [projectJSON[@"objects"] each:^(NSDictionary *object) {
             [self addSpriteWithJSON:object];
         }];
@@ -94,9 +88,10 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
     node.physicsBody = [self physicsBodyForType:spriteJSON[@"physics_body"] size:size];
     
     if (node.physicsBody) {
-        node.physicsBody.categoryBitMask    = [self.categoryBitMasks[spriteJSON[@"collision_group"]] intValue];
+        // Any group with a group will have collision events called on it.
+        node.physicsBody.categoryBitMask    = (node.group.length > 0 ? INT_MAX : 0);
         node.physicsBody.collisionBitMask = 0;
-        node.physicsBody.contactTestBitMask = [self.collisionBitMasks[spriteJSON[@"collision_group"]] intValue];
+        node.physicsBody.contactTestBitMask = INT_MAX;
         
         node.physicsBody.dynamic = NO;
         node.physicsBody.mass    = 0.02;
@@ -162,34 +157,6 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
     self.physicsWorld.contactDelegate = self;
 }
 
-- (NSDictionary *) categoryBitMasksForCollisionGroups:(NSDictionary *)collisionGroups {
-    NSInteger categoryBitMaskCount = 1;
-    NSMutableDictionary *categoryBitMasks = [NSMutableDictionary dictionary];
-    for(id key in collisionGroups){
-        uint32_t categoryBitMask = 1 << categoryBitMaskCount++;
-        categoryBitMasks[key] = @(categoryBitMask);
-        NSLog(@"category bitmask for %@: %@", key, binaryStringFromInteger(categoryBitMask));
-    }
-    
-    return categoryBitMasks;
-}
-
-- (NSDictionary *)collisionBitMasksForCollisionGroups:(NSDictionary *)collisionGroups
-                                     categoryBitMasks:(NSDictionary *)categoryBitMasks {
-    
-    NSMutableDictionary *collisionBitMasks = [NSMutableDictionary dictionary];
-    for (id key in collisionGroups) {
-        uint32_t collisionBitMask = 1;
-        for (NSString *group in collisionGroups[key]) {
-            collisionBitMask |= [categoryBitMasks[group] intValue];
-        }
-        collisionBitMasks[key] = @(collisionBitMask);
-        NSLog(@"collision bitmask for %@: %@", key, binaryStringFromInteger(collisionBitMask));
-    }
-    
-    return collisionBitMasks;
-}
-
 - (SKPhysicsBody *)physicsBodyForType:(NSString *)type size:(CGSize)size {
     if ([type isEqualToString:@"circle"]) {
         return [SKPhysicsBody bodyWithCircleOfRadius:(size.width / 2)];
@@ -237,15 +204,25 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
         [_interpreter triggerEvent:@"collision"
             onObjectWithIdentifier:nodeA.identifier
                         parameters:@{ @"other_group": nodeB.group }];
+
         [_interpreter triggerEvent:@"collision"
             onObjectWithIdentifier:nodeB.identifier
                         parameters:@{ @"other_group": nodeA.group }];
     } else {
         ZSComponentNode *node = (ZSComponentNode *)(contact.bodyA.categoryBitMask != GFPhysicsCategoryWorld ? contact.bodyA.node : contact.bodyB.node);
+
         [_interpreter triggerEvent:@"collision"
             onObjectWithIdentifier:node.identifier
                         parameters:@{ @"other_group": @"world" }];
     }
+}
+
+- (void)didEndContact:(SKPhysicsContact *)contact {
+    // The 'bounce' method sets up the mask to bounce, this turns it off. Might
+    // have to be more fancy than this though, since it could be colliding with
+    // multiple things and you wouldn't want to turn this off until all contact had ended.
+    contact.bodyA.collisionBitMask = 0;
+    contact.bodyB.collisionBitMask = 0;
 }
 
 - (void)moveSpriteWithIdentifier:(NSString *)identifier
@@ -294,7 +271,7 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
     [interpreter loadMethod:@{
         @"method": @"remove",
         @"block": ^id(NSString *identifier, NSArray *args) {
-            [self removeSpriteWithIdentifier:identifier];
+            [self performSelector:@selector(removeSpriteWithIdentifier:) withObject:identifier afterDelay:0.05];
             return nil;
         }
     }];
@@ -361,6 +338,15 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
             NSInteger low  = [[args[0] coercedNumber] integerValue];
             NSInteger high = [[args[1] coercedNumber] integerValue];
             return @((arc4random() % (high + 1)) + low);
+        }
+    }];
+
+    [interpreter loadMethod:@{
+        @"method": @"bounce",
+        @"block": ^id(NSString *identifier, NSArray *args) {
+            ZSComponentNode *node = _spriteNodes[identifier];
+            node.physicsBody.collisionBitMask = INT_MAX;
+            return nil;
         }
     }];
     
@@ -549,32 +535,6 @@ void APARunOneShotEmitter(SKEmitterNode *emitter, CGFloat duration) {
         return YES;
     }];
     [self.timedEvents addObjectsFromArray:newEvents];
-}
-
-NSString * binaryStringFromInteger( int number )
-{
-    NSMutableString * string = [[NSMutableString alloc] init];
-    
-    int spacing = pow( 2, 3 );
-    int width = ( sizeof( number ) ) * spacing;
-    int binaryDigit = 0;
-    int integer = number;
-    
-    while( binaryDigit < width )
-    {
-        binaryDigit++;
-        
-        [string insertString:( (integer & 1) ? @"1" : @"0" )atIndex:0];
-        
-        if( binaryDigit % spacing == 0 && binaryDigit != width )
-        {
-            [string insertString:@" " atIndex:0];
-        }
-        
-        integer = integer >> 1;
-    }
-    
-    return string;
 }
 
 @end

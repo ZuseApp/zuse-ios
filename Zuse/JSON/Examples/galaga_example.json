@@ -313,9 +313,17 @@
             "name": "collision",
             "code": [
               {
-                "call": {
-                  "method": "remove",
-                  "parameters": []
+                "if": {
+                  "test": { "!=": [{ "get": "other_group" }, "baddy" ] },
+                  "true": [
+                    {
+                      "call": {
+                        "method": "remove",
+                        "parameters": []
+                      }
+                    }
+                  ],
+                  "false": []
                 }
               }
             ],
@@ -357,9 +365,17 @@
             "name": "collision",
             "code": [
               {
-                "call": {
-                  "method": "remove",
-                  "parameters": []
+                "if": {
+                  "test": { "!=": [{ "get": "other_group" }, "hero" ] },
+                  "true": [
+                    {
+                      "call": {
+                        "method": "remove",
+                        "parameters": []
+                      }
+                    }
+                  ],
+                  "false": []
                 }
               }
             ],
