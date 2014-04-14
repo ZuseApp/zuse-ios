@@ -122,10 +122,19 @@
       {
         "name": "Red Bird",
         "path": "red_bird",
-        "physics_body": "square",
+        "physics_body": "rectangle",
         "preferred_size": {
-          "width": 30,
-          "height": 30
+          "width": 36,
+          "height": 36
+        }
+      },
+      {
+        "name": "Frog",
+        "path": "frog",
+        "physics_body": "rectangle",
+        "preferred_size": {
+          "width": 40,
+          "height": 36
         }
       }
     ]
