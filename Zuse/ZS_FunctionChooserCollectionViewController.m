@@ -1,12 +1,11 @@
-#import "ZS_StatementChooserCollectionViewController.h"
+#import "ZS_FunctionChooserCollectionViewController.h"
 #import "ZS_JsonUtilities.h"
-#import "ZSTutorial.h"
 
-@interface ZS_StatementChooserCollectionViewCell : UICollectionViewCell
+@interface ZS_FunctionChooserCollectionViewCell : UICollectionViewCell
 @property (nonatomic, strong) UILabel* label;
 @end
 
-@implementation ZS_StatementChooserCollectionViewCell
+@implementation ZS_FunctionChooserCollectionViewCell
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -27,32 +26,27 @@
 }
 @end
 
-@interface ZS_StatementChooserCollectionViewController ()
-@property (nonatomic, strong) NSArray* statements;
+@interface ZS_FunctionChooserCollectionViewController ()
+@property (nonatomic, strong) NSArray *functions;
 @end
 
-@implementation ZS_StatementChooserCollectionViewController
+@implementation ZS_FunctionChooserCollectionViewController
 
-- (void) setJsonCodeBody:(NSMutableArray *)jsonCodeBody
+- (NSArray*) functions
 {
-    _jsonCodeBody = jsonCodeBody;
-    self.newStatementIndex = jsonCodeBody.count;
-}
-
-- (NSArray*) statements
-{
-    if (!_statements)
+    if (!_functions)
     {
-        _statements = [[ZS_JsonUtilities emptyStatements] arrayByAddingObjectsFromArray:[ZS_JsonUtilities emptyMethods]];
+        _functions = [ZS_JsonUtilities emptyFunctions];
     }
-    return _statements;
+    return _functions;
 }
+
 - (UICollectionView*) collectionView
 {
     UICollectionView *collectionView =[[UICollectionView alloc] initWithFrame: CGRectZero
                                                          collectionViewLayout: [[UICollectionViewFlowLayout alloc] init]];
-    [collectionView registerClass: ZS_StatementChooserCollectionViewCell.class
-       forCellWithReuseIdentifier: NSStringFromClass([ZS_StatementChooserCollectionViewCell class])];
+    [collectionView registerClass: ZS_FunctionChooserCollectionViewCell.class
+       forCellWithReuseIdentifier: NSStringFromClass([ZS_FunctionChooserCollectionViewCell class])];
     
     collectionView.userInteractionEnabled = YES;
     collectionView.contentInset = UIEdgeInsetsMake(10, 10, 10, 10);
@@ -64,37 +58,34 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return self.statements.count;
+    return self.functions.count;
 }
 - (UICollectionViewCell* )collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath;
 {
-    ZS_StatementChooserCollectionViewCell *cell =
-    [collectionView dequeueReusableCellWithReuseIdentifier: NSStringFromClass([ZS_StatementChooserCollectionViewCell class]) forIndexPath: indexPath];
-    NSDictionary* statement = self.statements[indexPath.row];
-    NSString* name = statement.allKeys[0];
-    name = [name isEqualToString:@"call"] ? statement[name][@"method"] : name;
-    cell.label.text = name;
+    ZS_FunctionChooserCollectionViewCell *cell =
+    [collectionView dequeueReusableCellWithReuseIdentifier: NSStringFromClass([ZS_FunctionChooserCollectionViewCell class])
+                                              forIndexPath: indexPath];
+    NSString* functionName = self.functions[indexPath.row][@"call"][@"method"];
+    cell.label.text = functionName;
     return cell;
 }
 #pragma mark UICollectionViewDelegate
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    //[self.jsonCodeBody addObject: self.statements[indexPath.row]];
-    [self.jsonCodeBody insertObject: self.statements[indexPath.row] atIndex:self.newStatementIndex];
-    
-    [self.codeEditorViewController reloadFromJson];
     [self.toolboxView hideAnimated:YES];
-    [[ZSTutorial sharedTutorial] broadcastEvent:ZSTutorialBroadcastEventComplete];
+    if(self.didFinish)
+    {
+        NSMutableDictionary* function = self.functions[indexPath.row];
+        self.didFinish(function);
+    }
 }
 #pragma mark UICollectionViewDelegateFlowLayout
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSDictionary* statement = self.statements[indexPath.row];
-    NSString* name = statement.allKeys[0];
-    name = [name isEqualToString:@"call"] ? statement[name][@"method"] : name;
-    CGSize textSize = [name sizeWithAttributes:@{NSFontAttributeName: [UIFont systemFontOfSize:16]}];
+    NSString *functionName = self.functions[indexPath.row][@"call"][@"method"];
+    CGSize textSize = [functionName sizeWithAttributes:@{NSFontAttributeName: [UIFont systemFontOfSize:16]}];
     return CGSizeMake(MAX(52, textSize.width + 10), textSize.height + 10);
 }
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section

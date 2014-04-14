@@ -12,6 +12,7 @@
 
 @property (assign, nonatomic) NSTimeInterval interval;
 @property (assign, nonatomic) NSTimeInterval nextTime;
+@property (assign, nonatomic) BOOL repeats;
 @property (strong, nonatomic) NSString *objectIdentifier;
 @property (strong, nonatomic) NSString *eventIdentifier;
 

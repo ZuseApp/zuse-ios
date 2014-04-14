@@ -13,7 +13,6 @@
 @interface ZSCanvasView : UIView <UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) ZSGrid *grid;
-@property (nonatomic, assign) BOOL editModeOn;
 
 @property (strong, nonatomic) void(^spriteSingleTapped)(ZSSpriteView *spriteView);
 @property (strong, nonatomic) void(^spriteSelected)(ZSSpriteView *spriteView);
@@ -27,10 +26,12 @@
 - (void)setupEditOptionsForSpriteView:(ZSSpriteView *)view;
 
 // Edit methods
+- (BOOL)inEditMode;
 - (void)cutSelectedSprite;
 - (void)copySelectedSprite;
 - (void)deleteSelectedSprite;
 - (void)setTextForSelectedSpriteWithText:(NSString*)text;
 - (void)unselectSelectedSprite;
+- (void)replaceSelectedSpriteWithJSON:(NSDictionary*)spriteJSON;
 
 @end

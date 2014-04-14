@@ -45,5 +45,6 @@
 + (ZSCanvasBarButtonItem *)copyButtonWithHandler:(void (^)())handler;
 + (ZSCanvasBarButtonItem *)deleteButtonWithHandler:(void (^)())handler;
 + (ZSCanvasBarButtonItem *)editTextButtonWithHandler:(void (^)())handler;
++ (ZSCanvasBarButtonItem *)swapButtonWithHandler:(void (^)())handler;
 
 @end

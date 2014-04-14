@@ -15,6 +15,8 @@
 + (NSDictionary *)ifJSON;
 + (NSDictionary *)setJSON;
 + (NSDictionary *)everyJSON;
++ (NSDictionary *)afterJSON;
++ (NSDictionary *)inJSON;
 
 + (NSDictionary *)callFromManifestJSON:(NSDictionary *)entry;
 

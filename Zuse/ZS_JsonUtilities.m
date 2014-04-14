@@ -20,20 +20,21 @@
 {
     operator = [operator stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     
-    if      ([operator isEqualToString:@"+"])   operator = @" + ";
-    else if ([operator isEqualToString:@"-"])   operator = @" − ";
-    else if ([operator isEqualToString:@"*"])   operator = @" × ";
-    else if ([operator isEqualToString:@"/"])   operator = @" ÷ ";
-    else if ([operator isEqualToString:@"%"])   operator = @" % ";
-    else if ([operator isEqualToString:@"sqrt"])operator = @" √ ";
-    else if ([operator isEqualToString:@">"])   operator = @" > ";
-    else if ([operator isEqualToString:@"<"])   operator = @" < ";
-    else if ([operator isEqualToString:@">="])  operator = @" ≥ ";
-    else if ([operator isEqualToString:@"<="])  operator = @" ≤ ";
-    else if ([operator isEqualToString:@"=="])  operator = @" = ";
-    else if ([operator isEqualToString:@"!="])  operator = @" ≠ ";
-    else if ([operator isEqualToString:@"and"]) operator = @" and ";
-    else if ([operator isEqualToString:@"or"])  operator = @" or ";
+    if      ([operator isEqualToString:@"+"])   operator = @"+";
+    else if ([operator isEqualToString:@"-"])   operator = @"−";
+    else if ([operator isEqualToString:@"*"])   operator = @"×";
+    else if ([operator isEqualToString:@"/"])   operator = @"÷";
+    else if ([operator isEqualToString:@"%"])   operator = @"%";
+    else if ([operator isEqualToString:@"square_root"])operator = @"√";
+    else if ([operator isEqualToString:@"random_number"])operator = @"rand";
+    else if ([operator isEqualToString:@">"])   operator = @">";
+    else if ([operator isEqualToString:@"<"])   operator = @"<";
+    else if ([operator isEqualToString:@">="])  operator = @"≥";
+    else if ([operator isEqualToString:@"<="])  operator = @"≤";
+    else if ([operator isEqualToString:@"=="])  operator = @"=";
+    else if ([operator isEqualToString:@"!="])  operator = @"≠";
+    else if ([operator isEqualToString:@"and"]) operator = @"and";
+    else if ([operator isEqualToString:@"or"])  operator = @"or";
     return operator;
 }
 + (NSString*) propertiesStringFromJson: (NSDictionary*) json
@@ -114,32 +115,33 @@
         
         return [NSString stringWithFormat:@"(%@ %@ %@)", leftExpression, operator, rightExpression];
     }
-    // Square root function call
-    else if ([self isSqrtFunctionCall: json])
+    // Function call
+    if ([self isFunctionCall: json])
     {
-        NSObject* jsonExpression = ((NSDictionary*)json)[@"call"][@"parameters"][0];
-        NSString* expression = [self recursiveExpressionStringFromJson: jsonExpression];
-        return [NSString stringWithFormat:@"√%@", expression];
-    }
-    // Random number function call
-    else if ([self isRandomNumberFunctionCall: json])
-    {
-        NSObject* jsonParam1 = ((NSDictionary*)json)[@"call"][@"parameters"][0];
-        NSString* param1 = [self recursiveExpressionStringFromJson: jsonParam1];
-        NSObject* jsonParam2 = ((NSDictionary*)json)[@"call"][@"parameters"][1];
-        NSString* param2 = [self recursiveExpressionStringFromJson: jsonParam2];
+        NSString* functionName = ((NSDictionary*)json)[@"call"][@"method"];
+        functionName = [self convertToFansySymbolFromJsonOperator:functionName];
+        NSArray* parameters = ((NSDictionary*)json)[@"call"][@"parameters"];
+        NSMutableString* parametersString = [[NSMutableString alloc]init];
         
-        // delete parenthesys in param1 and param2
-        if ([param1 characterAtIndex:0] == '(')
+        // form parameters list
+        for(NSInteger i = 0; i < parameters.count; i++)
         {
-            param1 = [param1 substringWithRange:NSMakeRange(1, param1.length - 2)];
+            NSString* parameter = [self recursiveExpressionStringFromJson: parameters[i]];
+            
+            // delete parenthesys in parameter
+            if ([parameter characterAtIndex:0] == '(')
+            {
+                parameter = [parameter substringWithRange:NSMakeRange(1, parameter.length - 2)];
+            }
+            [parametersString appendString: parameter];
+            
+            // append comma
+            if (i < parameters.count - 1)
+            {
+                [parametersString appendString: @", "];
+            }
         }
-        if ([param2 characterAtIndex:0] == '(')
-        {
-            param2 = [param2 substringWithRange:NSMakeRange(1, param2.length - 2)];
-        }
-        // Form the expression
-        return [NSString stringWithFormat:@"rand(%@, %@)", param1, param2];
+        return [NSString stringWithFormat: @"%@(%@)", functionName, parametersString];
     }
     return nil;
 }
@@ -172,22 +174,6 @@
     }
     return NO;
 }
-+ (BOOL) isSqrtFunctionCall:(NSObject*) json
-{
-    if ([self isFunctionCall:json])
-    {
-        return [((NSDictionary*)json)[@"call"][@"method"] isEqualToString:@"square root"];
-    }
-    return NO;
-}
-+ (BOOL) isRandomNumberFunctionCall:(NSObject*) json
-{
-    if ([self isFunctionCall:json])
-    {
-        return [((NSDictionary*)json)[@"call"][@"method"] isEqualToString:@"random_number"];
-    }
-    return NO;
-}
 + (BOOL) isVariableName:(NSObject*) json
 {
     if ([json isKindOfClass:[NSMutableDictionary class]])
@@ -214,6 +200,8 @@
             [[ZSZuseDSL triggerEventJSON] deepMutableCopy],
             [[ZSZuseDSL ifJSON] deepMutableCopy],
             [[ZSZuseDSL everyJSON] deepMutableCopy],
+            [[ZSZuseDSL afterJSON] deepMutableCopy],
+            [[ZSZuseDSL inJSON] deepMutableCopy],
             [[ZSZuseDSL setJSON] deepMutableCopy]
         ];
 //    }
@@ -259,6 +247,31 @@
     }
     
     return [methods deepCopy];
+}
+
++ (NSArray *)emptyFunctions
+{
+    // get only functions (methods with not none return type) from manifest file
+    NSMutableArray* functions = [[NSMutableArray alloc]init];
+    for (NSMutableDictionary* method in [self methodManfiest])
+    {
+        if (![method[@"return_type"] isEqualToString:@"none"])
+        {
+            NSMutableDictionary* function = [[NSMutableDictionary alloc]init];
+            function[@"call"] = [[NSMutableDictionary alloc]init];
+            function[@"call"][@"method"] = method[@"name"];
+            
+            // parameters
+            NSMutableArray* parameters = [[NSMutableArray alloc]init];
+            for (NSDictionary* parameter in method[@"parameters"])
+            {
+                [parameters addObject: parameter[@"name"]];
+            }
+            function[@"call"][@"parameters"] = parameters;
+            [functions addObject: function];
+        }
+    }
+    return functions;
 }
 
 + (NSArray*) emptyEvents

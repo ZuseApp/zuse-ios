@@ -168,6 +168,7 @@ NSString * const ZSTutorialBroadcastBackPressedTraitEditor = @"ZSTutorialBroadca
     }
     else if ([segue.identifier isEqualToString:@"editor"]) {
         ZS_CodeEditorViewController *controller = (ZS_CodeEditorViewController*)segue.destinationViewController;
+        
         NSMutableDictionary *spriteObject = [NSMutableDictionary dictionary];
         spriteObject[@"id"] = traitIdentifier;
         spriteObject[@"parameters"] = defaultParams;

@@ -14,13 +14,15 @@
     NSDictionary *mapping = @{
         @"if": [UIColor colorWithRed:0.99 green:0.48 blue:0.51 alpha:1],
         @"every": [UIColor colorWithRed:0.71 green:0.74 blue:0.36 alpha:1],
-        @"call": [UIColor colorWithRed:0.75 green:0.59 blue:0.36 alpha:1],
+        @"after": [UIColor colorWithRed:0.71 green:0.74 blue:0.36 alpha:1],
+        @"in": [UIColor colorWithRed:0.71 green:0.74 blue:0.36 alpha:1],
+        @"call": [UIColor zuseBlue],
         @"on_event": [UIColor colorWithRed:0.76 green:0.53 blue:0.83 alpha:1],
         @"trigger_event": [UIColor colorWithRed:0.6 green:0.57 blue:0.85 alpha:1],
-        @"set": [UIColor colorWithRed:1 green:0.55 blue:0.32 alpha:1]
+        @"set": [UIColor colorWithRed:1.000 green:0.665 blue:0.426 alpha:1.000]
     };
 
-    return (mapping[DSLItem] ?: [UIColor colorWithRed:0.30 green:0.30 blue:0.30 alpha:1.0]);
+    return (mapping[DSLItem] ? [self lightenColor:mapping[DSLItem] withValue:0.1] : [UIColor whiteColor]);
 }
 
 + (UIColor*)lightenColor:(UIColor *)color withValue:(CGFloat)value

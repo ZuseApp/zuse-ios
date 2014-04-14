@@ -5,6 +5,7 @@
 
 @protocol ZS_StatementViewDelegate <NSObject>
 -(void) statementViewLongPressed: (ZS_StatementView*) view;
+- (void)hideMenuController;
 @end
 
 @interface ZS_StatementView : UIView <UIGestureRecognizerDelegate>

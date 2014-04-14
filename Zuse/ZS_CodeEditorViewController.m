@@ -23,6 +23,7 @@
 @property (strong, nonatomic) ZS_StatementChooserCollectionViewController* statementChooserController;
 @property (strong, nonatomic) ZS_EventChooserCollectionViewController* eventChooserController;
 @property (strong, nonatomic) NSMutableDictionary* statementCopyBuffer; // for menu
+@property (strong, nonatomic) UIMenuController* menu;
 @end
 
 @implementation ZS_CodeEditorViewController
@@ -38,6 +39,7 @@
                                                object: nil];
     // Create object statement
     [self reloadFromJson];
+    self.automaticallyAdjustsScrollViewInsets = NO;
 }
 
 - (void) reloadFromJson
@@ -120,9 +122,9 @@
                                                                    initialProperties:[NSSet set]];
             }];
         }
-        else if ([key isEqualToString:@"every"])
+        else if ([key isEqualToString:@"every"] || [key isEqualToString:@"after"] || [key isEqualToString:@"in"])
         {
-            statementView = [self everyStatementViewFromJson:jsonStatement beforeAddingSubstatementsBlock:^(ZS_StatementView *statementView) {
+            statementView = [self timedStatementViewWithType:key fromJson:jsonStatement beforeAddingSubstatementsBlock:^(ZS_StatementView *statementView) {
                 statementView.propertyScope = [view.propertyScope nestedScopeForCode:jsonStatement[key][@"code"]
                                                                               atLine:idx
                                                                    initialProperties:[NSSet set]];
@@ -324,18 +326,17 @@
 //    }
     return view;
 }
-- (ZS_StatementView*) everyStatementViewFromJson:(NSMutableDictionary *)json
-               beforeAddingSubstatementsBlock:(void (^)(ZS_StatementView *))beforeSubstatementBlock
+- (ZS_StatementView *)timedStatementViewWithType:(NSString *)type fromJson:(NSMutableDictionary *)json beforeAddingSubstatementsBlock:(void(^)(ZS_StatementView *statementView))beforeSubstatementBlock
 {
     ZS_StatementView* view = [[ZS_StatementView alloc]initWithJson:json];
     view.delegate = self;
-    view.jsonCode = json[@"every"][@"code"];
-    
+    view.jsonCode = json[type][@"code"];
+
     // Statement name EVERY
-    [view addNameLabelWithText:@"every"];
+    [view addNameLabelWithText:type];
     
     // add 'seconds' argument
-    NSString* seconds = [ZS_JsonUtilities expressionStringFromJson: json[@"every"][@"seconds"]];
+    NSString* seconds = [ZS_JsonUtilities expressionStringFromJson: json[type][@"seconds"]];
     [view addArgumentLabelWithText: seconds
                         touchBlock:^(UILabel* label)
      {
@@ -348,7 +349,7 @@
     beforeSubstatementBlock(view);
     
     // Code block
-    [self addToView: view codeStatementsFromJson:json[@"every"][@"code"]];
+    [self addToView: view codeStatementsFromJson:json[type][@"code"]];
     
     // Add <new code statement> button
     [view addNewStatementLabelWithTouchBlock:^(UILabel* label)
@@ -356,7 +357,7 @@
          ZSToolboxView* toolboxView = [[ZSToolboxView alloc] initWithFrame:CGRectMake(19, 82, 282, 361)];
          ZS_StatementChooserCollectionViewController* controller = [[ZS_StatementChooserCollectionViewController alloc]init];
          
-         controller.jsonCodeBody = json[@"every"][@"code"];
+         controller.jsonCodeBody = json[type][@"code"];
          controller.codeEditorViewController = self;
          controller.toolboxView = toolboxView;
          
@@ -401,7 +402,7 @@
          [variableToolboxView showAnimated:YES];
      }];
     // Statement name TO
-    [view addNameLabelWithText:@"TO"];
+    [view addNameLabelWithText:@"to"];
     
     // Variable value
     NSString* variableString = [ZS_JsonUtilities expressionStringFromJson: json[@"set"][1]];
@@ -527,10 +528,13 @@
                 [self dismissViewControllerAnimated: YES completion: nil];
             };
         }
-        else if([statementView.json.allKeys[0] isEqualToString:@"every"])
+        else if([statementView.json.allKeys[0] isEqualToString:@"every"] ||
+                [statementView.json.allKeys[0] isEqualToString:@"after"] ||
+                [statementView.json.allKeys[0] isEqualToString:@"in"])
         {
+            NSString *key = statementView.json.allKeys[0];
             // pass a mutable copy of json to the expression editor controller
-            NSObject* json = statementView.json[@"every"][@"seconds"];
+            NSObject* json = statementView.json[key][@"seconds"];
             c.json = [json isKindOfClass:[NSMutableDictionary class]] ? ((NSMutableDictionary*)json).deepMutableCopy : json;
             
             // code block executed upon exiting expression editor
@@ -538,7 +542,7 @@
             {
                 if (json)
                 {
-                    statementView.json[@"every"][@"seconds"] = json;
+                    statementView.json[key][@"seconds"] = json;
                     [self reloadFromJson];
                 }
                 [self dismissViewControllerAnimated: YES completion: nil];
@@ -559,28 +563,29 @@
     // Create menu items
     UIMenuItem* menuItemCopy = [[UIMenuItem alloc]initWithTitle: @"copy"
                                                          action: @selector(menuItemCopy)];
-    UIMenuItem* menuItemDelete = [[UIMenuItem alloc]initWithTitle: @"delete"
+    UIMenuItem* menuItemDelete = [[UIMenuItem alloc]initWithTitle: @"del"
                                                            action: @selector(menuItemDelete)];
+    UIMenuItem* menuItemAddAbove = [[UIMenuItem alloc]initWithTitle: @"add ↑"
+                                                             action: @selector(menuItemAddAbove)];
     // Add menu items to array
-    NSMutableArray* menuItems = [NSMutableArray arrayWithArray:@[menuItemCopy, menuItemDelete]];
+    NSMutableArray* menuItems = [NSMutableArray arrayWithArray:@[menuItemCopy, menuItemDelete, menuItemAddAbove]];
     
     // If copy buffer is not empty, then add two more menu items
     if (self.statementCopyBuffer)
     {
-        UIMenuItem* menuItemInsertAbove = [[UIMenuItem alloc]initWithTitle: @"insert ↑"
+        UIMenuItem* menuItemInsertAbove = [[UIMenuItem alloc]initWithTitle: @"ins ↑"
                                                                     action: @selector(menuItemInsertAbove)];
-        UIMenuItem* menuItemInsertBelow = [[UIMenuItem alloc]initWithTitle: @"insert ↓"
+        UIMenuItem* menuItemInsertBelow = [[UIMenuItem alloc]initWithTitle: @"ins ↓"
                                                                     action: @selector(menuItemInsertBelow)];
         [menuItems addObject: menuItemInsertAbove];
         [menuItems addObject: menuItemInsertBelow];
     }
-    
     // Create menu controller
     [view becomeFirstResponder];
-    UIMenuController* menu = [UIMenuController sharedMenuController];
-    [menu setMenuItems: menuItems];
-    [menu setTargetRect: CGRectZero inView:view];
-    [menu setMenuVisible:YES animated:YES];
+    self.menu = [UIMenuController sharedMenuController];
+    [self.menu setMenuItems: menuItems];
+    [self.menu setTargetRect: CGRectZero inView:view];
+    [self.menu setMenuVisible:YES animated:YES];
 }
 #pragma mark Menu Methods
 
@@ -601,6 +606,34 @@
         }
     }
     [self reloadFromJson];
+}
+- (void)menuItemAddAbove
+{
+    NSMutableArray* parentCodeBlock = ((ZS_StatementView*)self.selectedStatementView.superview).jsonCode;
+    NSInteger newStatementIndex;
+    for (NSInteger i = 0; i < parentCodeBlock.count; i++)
+    {
+        if (parentCodeBlock[i] == self.selectedStatementView.json)
+        {
+            newStatementIndex = i;
+            break;
+        }
+    }
+    
+    ZSToolboxView* toolboxView = [[ZSToolboxView alloc] initWithFrame:CGRectMake(19, 82, 282, 361)];
+    ZS_StatementChooserCollectionViewController* controller = [[ZS_StatementChooserCollectionViewController alloc]init];
+    
+    controller.jsonCodeBody = parentCodeBlock;
+    controller.newStatementIndex = newStatementIndex;
+    controller.codeEditorViewController = self;
+    controller.toolboxView = toolboxView;
+    
+    self.statementChooserController = controller;
+    
+    [toolboxView setPagingEnabled:NO];
+    [toolboxView addContentView: controller.collectionView title: @"STATEMENT CHOOSER"];
+    [self.view addSubview: toolboxView];
+    [toolboxView showAnimated:YES];
 }
 - (void)menuItemInsertAbove
 {
@@ -644,6 +677,11 @@
 - (void) scrollToRight {
     CGPoint rightOffset = CGPointMake(self.scrollView.contentSize.width - self.scrollView.bounds.size.width, 0);
     [self.scrollView setContentOffset:rightOffset animated:YES];
+}
+
+#pragma mark UIMenuController
+- (void)hideMenuController {
+    [self.menu setMenuVisible:NO animated:YES];
 }
 
 @end

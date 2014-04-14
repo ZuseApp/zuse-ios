@@ -123,6 +123,11 @@ CGFloat const DefaultSize = 33;
     return [self buttonWithIcon:icon tapHandler:handler];
 }
 
++ (ZSCanvasBarButtonItem *)swapButtonWithHandler:(void (^)())handler {
+    FAKIcon *icon = [self styledIcon:[FAKIonIcons arrowSwapIconWithSize:DefaultSize]];
+    return [self buttonWithIcon:icon tapHandler:handler];
+}
+
 + (ZSCanvasBarButtonItem *)doneButtonWithHandler:(void (^)())handler {
     ZSCanvasBarButtonItem *item = [[ZSCanvasBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:nil
                                                                                       action:nil];

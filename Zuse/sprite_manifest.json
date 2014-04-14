@@ -100,7 +100,77 @@
           "width": 13,
           "height": 27
         }
+      },
+      {
+        "name": "Heart",
+        "path": "heart",
+        "physics_body": "rectangle",
+        "preferred_size": {
+          "width": 30,
+          "height": 30
+        }
+      },
+      {
+        "name": "Coin",
+        "path": "coin",
+        "physics_body": "circle",
+        "preferred_size": {
+          "width": 30,
+          "height": 30
+        }
+      }
+    ]
+  },
+  {
+    "category": "?",
+    "sprites": [
+      
+      {
+        "name": "Up Arrow",
+        "path": "arrow_up",
+        "physics_body": "rectangle",
+        "preferred_size": {
+          "width": 44,
+          "height": 44
+        }
+      },
+      {
+        "name": "Down Arrow",
+        "path": "arrow_down",
+        "physics_body": "rectangle",
+        "preferred_size": {
+          "width": 44,
+          "height": 44
+        }
+      },
+      {
+        "name": "Left Arrow",
+        "path": "arrow_left",
+        "physics_body": "rectangle",
+        "preferred_size": {
+          "width": 44,
+          "height": 44
+        }
+      },
+      {
+        "name": "Right Arrow",
+        "path": "arrow_right",
+        "physics_body": "rectangle",
+        "preferred_size": {
+          "width": 44,
+          "height": 44
+        }
+      },
+      {
+        "name": "Button",
+        "path": "button",
+        "physics_body": "rectangle",
+        "preferred_size": {
+          "width": 117,
+          "height": 30
+        }
       }
     ]
   }
 ]
+ 

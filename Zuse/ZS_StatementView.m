@@ -24,14 +24,14 @@ CGFloat const LabelPadding = 10.0f;
         // add padding
         CGRect frame = self.frame;
         frame.size.width += self.font.pointSize / 2;
-        frame.size.height += LabelPadding - 5;
-        frame.origin.y += 3;
+        frame.size.height += LabelPadding - 4;
+        frame.origin.y += 4;
         self.frame = frame;
         
-        self.textColor = [UIColor whiteColor];
-        self.shadowColor = [UIColor blackColor];
+        self.textColor = [UIColor zuseEditorTextColor];
+        self.shadowColor = [UIColor zuseEditorTextShadowColor];
         self.shadowOffset = CGSizeMake(0, 1);
-        self.highlightedTextColor = [UIColor whiteColor];
+//        self.highlightedTextColor = [UIColor whiteColor];
 //        self.backgroundColor = [UIColor zuseBackgroundGrey];
         self.clipsToBounds = YES;
         self.layer.cornerRadius = 5;
@@ -76,53 +76,53 @@ CGFloat const LabelPadding = 10.0f;
 ////    self.layer.backgroundColor = isHighlighted ? [UIColor orangeColor].CGColor : [UIColor clearColor].CGColor;
 //}
 @end
-
-
-
-
-
-
-@interface ZSNameLabel : UILabel
-
-@property (nonatomic, assign) UIEdgeInsets edgeInsets;
-
-@end
-
-@implementation ZSNameLabel
-
-- (id)initWithFrame:(CGRect)frame{
-    self = [super initWithFrame:frame];
-    if (self) {
-        [self sharedInit];
-    }
-    return self;
-}
-
-- (id)init {
-    self = [super init];
-    if (self) {
-        [self sharedInit];
-    }
-    return self;
-}
-
-- (void)sharedInit {
-    self.edgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
-}
-
-- (void)sizeToFit {
-    [super sizeToFit];
-    CGRect frame = self.frame;
-    frame.size.height += self.edgeInsets.bottom + self.edgeInsets.top;
-    frame.size.width += self.edgeInsets.left + self.edgeInsets.right;
-    self.frame = frame;
-}
-
-- (void)drawTextInRect:(CGRect)rect {
-    [super drawTextInRect:UIEdgeInsetsInsetRect(rect, self.edgeInsets)];
-}
-
-@end
+//
+//
+//
+//
+//
+//
+//@interface ZSNameLabel : UILabel
+//
+//@property (nonatomic, assign) UIEdgeInsets edgeInsets;
+//
+//@end
+//
+//@implementation ZSNameLabel
+//
+//- (id)initWithFrame:(CGRect)frame{
+//    self = [super initWithFrame:frame];
+//    if (self) {
+//        [self sharedInit];
+//    }
+//    return self;
+//}
+//
+//- (id)init {
+//    self = [super init];
+//    if (self) {
+//        [self sharedInit];
+//    }
+//    return self;
+//}
+//
+//- (void)sharedInit {
+//    self.edgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
+//}
+//
+//- (void)sizeToFit {
+//    [super sizeToFit];
+//    CGRect frame = self.frame;
+//    frame.size.height += self.edgeInsets.bottom + self.edgeInsets.top;
+//    frame.size.width += self.edgeInsets.left + self.edgeInsets.right;
+//    self.frame = frame;
+//}
+//
+//- (void)drawTextInRect:(CGRect)rect {
+//    [super drawTextInRect:UIEdgeInsetsInsetRect(rect, self.edgeInsets)];
+//}
+//
+//@end
 
 
 
@@ -153,11 +153,12 @@ CGFloat const LabelPadding = 10.0f;
         self.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:20];
         self.bodyIndentation = self.font.pointSize * 1.5;
         self.layer.cornerRadius = 5;
-//        self.layer.borderColor = [UIColor zuseBackgroundGrey].CGColor;
-//        self.layer.borderWidth = 1;
+        self.layer.borderWidth = 0.5;
         self.json = json;
 
         self.backgroundColor = [ZSColor colorForDSLItem:json.allKeys.firstObject];
+
+        self.layer.borderColor = [ZSColor darkenColor:self.backgroundColor withValue:0.1].CGColor;
 
         self.name = [[NSMutableArray alloc]init];
         self.header = [[NSMutableArray alloc]init];
@@ -193,18 +194,30 @@ CGFloat const LabelPadding = 10.0f;
 
 -(void)addNameLabelWithText:(NSString*)text
 {
-    ZSNameLabel* label = [[ZSNameLabel alloc]init];
+//    ZSNameLabel* label = [[ZSNameLabel alloc]init];
+//    label.font = self.font;
+//    label.text = text;
+//    label.textAlignment = NSTextAlignmentCenter;
+//    label.textColor = [UIColor zuseEditorTextColor];
+//    label.shadowColor = [UIColor zuseEditorTextShadowColor];
+//    label.shadowOffset = CGSizeMake(0, 1);
+//    label.highlightedTextColor = [UIColor whiteColor];
+//    [label sizeToFit];
+//    CGRect frame = label.frame;
+//    frame.size.height += LabelPadding;
+//    frame.origin.x += 20;
+//    label.frame = frame;
+    
+    UILabel* label = [[UILabel alloc]init];
     label.font = self.font;
     label.text = text;
     label.textAlignment = NSTextAlignmentCenter;
-    label.textColor = [UIColor whiteColor];
-    label.shadowColor = [UIColor darkGrayColor];
-    label.shadowOffset = CGSizeMake(0, 1);
+    label.textColor = [UIColor zuseEditorTextColor];
     label.highlightedTextColor = [UIColor whiteColor];
     [label sizeToFit];
+    
     CGRect frame = label.frame;
-    frame.size.height += LabelPadding;
-    frame.origin.x += 20;
+    frame.origin.y += 7;
     label.frame = frame;
     
     // Add to statement view
@@ -217,9 +230,9 @@ CGFloat const LabelPadding = 10.0f;
     ZS_TouchLabel* label = [[ZS_TouchLabel alloc]initWithText:text font:self.font];
     label.hasBeenTouched = touchBlock;
 
-    label.backgroundColor = [ZSColor darkenColor:self.backgroundColor withValue:0.2];
+    label.backgroundColor = [ZSColor darkenColor:self.backgroundColor withValue:0.1];
     if ([text hasPrefix:@"#"]) {
-        label.textColor = [UIColor lightGrayColor];
+        label.textColor = [UIColor darkGrayColor];
         label.text = [text substringFromIndex:1];
     }
     
@@ -251,16 +264,16 @@ CGFloat const LabelPadding = 10.0f;
     ZS_TouchLabel* label = [[ZS_TouchLabel alloc]initWithText: @"         +          "
                                                                font: self.font];
 
-    label.attributedText = [FAKIonIcons plusRoundIconWithSize:label.font.pointSize * 1.2].attributedString;
+    label.attributedText = [FAKIonIcons ios7PlusEmptyIconWithSize:label.font.pointSize * 1.2].attributedString;
     CGRect frame = label.frame;
     frame.size.height *= 1.2;
     label.frame = frame;
-    label.textColor = [UIColor whiteColor];
-    label.shadowColor = [UIColor darkGrayColor];
+    label.textColor = [UIColor zuseEditorTextColor];
+    label.shadowColor = [UIColor zuseEditorTextShadowColor];
     label.shadowOffset = CGSizeMake(0, 1);
-    label.layer.borderColor = [UIColor darkGrayColor].CGColor;
-    label.layer.borderWidth = 0.5;
     label.backgroundColor = [ZSColor darkenColor:self.backgroundColor withValue:0.1];
+    label.layer.borderColor = [ZSColor darkenColor:label.backgroundColor withValue:0.01].CGColor;
+    label.layer.borderWidth = 0.5;
     label.hasBeenTouched = touchBlock;
     [self.body addObject:label];
     [self addSubview:label];    
@@ -269,15 +282,15 @@ CGFloat const LabelPadding = 10.0f;
 {
     _highlighted = isHighlighted;
     
-    // Highlight the name labels
-    for (UILabel* label in self.name)
-    {
+//      // Highlight the name labels
+//    for (UILabel* label in self.name)
+//    {
 //        label.highlighted = isHighlighted;
-    }
+//    }
     // Hightlight background
     UIColor *backgroundColor = [ZSColor colorForDSLItem:self.json.allKeys.firstObject];
     if (isHighlighted) {
-        self.backgroundColor = [ZSColor darkenColor:backgroundColor withValue:0.1];
+        self.backgroundColor = [ZSColor darkenColor:backgroundColor withValue:0.05];
         self.layer.borderWidth = 0.5;
         self.layer.borderColor = [UIColor blackColor].CGColor;
     } else {
@@ -299,33 +312,40 @@ CGFloat const LabelPadding = 10.0f;
 }
 - (void) layoutStatementSubviews
 {
+    [self layoutRecursive];
+}
+
+- (void)layoutRecursive
+{
+    CGFloat parameterPadding = 5;
+    
+    // Statement offset from left edge.
     CGFloat x = 8;
     
     // Layout header
     for (UIView* subview in self.header)
     {
         CGRect frame = subview.frame;
-        if ([subview isKindOfClass:ZS_TouchLabel.class]) {
-            frame.origin.x = x + 5;
-        } else {
-            frame.origin.x = x;
-        }
+        
+        // If the view is a parameter offset it so that it doesn't touch the statement text.
+        frame.origin.x = ([subview isKindOfClass:ZS_TouchLabel.class]) ? x + parameterPadding : x;
         subview.frame = frame;
         x = CGRectGetMaxX(frame);
-
-        if ([subview isKindOfClass:ZS_TouchLabel.class]) {
-            x += 5;
+        
+        if ([subview isKindOfClass:ZS_TouchLabel.class])
+        {
+            x += parameterPadding;
         }
     }
     
     // Layout parameters
-    CGFloat headerMaxY = CGRectGetMaxY(((UIView*)self.header.firstObject).frame) - 4;
+    CGFloat headerMaxY = CGRectGetMaxY(((UIView*)self.header.firstObject).frame);
     CGRect frame = self.parameters.frame;
-    frame.origin = CGPointMake(9, headerMaxY);
+    frame.origin = CGPointMake(9, headerMaxY + 5);
     self.parameters.frame = frame;
-
+    
     // Layout body
-    CGFloat parametersLineMaxY = CGRectGetMaxY(self.parameters.frame) + 5;
+    CGFloat parametersLineMaxY = CGRectGetMaxY(self.parameters.frame) + parameterPadding;
     CGFloat y =  MAX(headerMaxY, parametersLineMaxY);
     BOOL isFirstIteration = YES;
     for (UIView* subview in self.body)
@@ -333,7 +353,7 @@ CGFloat const LabelPadding = 10.0f;
         if ([subview isKindOfClass:[ZS_StatementView class]])
         {
             ZS_StatementView* statementView = (ZS_StatementView*)subview;
-            [statementView layoutStatementSubviews];
+            [statementView layoutRecursive];
         }
         CGRect frame = subview.frame;
         frame.origin.x = self.bodyIndentation;
@@ -342,23 +362,53 @@ CGFloat const LabelPadding = 10.0f;
         y = CGRectGetMaxY(frame);
         isFirstIteration = NO;
     }
+    
     // resize this statement view to fit subviews
     frame = CGRectZero;
     for (UIView *view in self.subviews)
     {
         frame = CGRectUnion(frame, view.frame);
     }
-
-    for (UIView *subview in self.body) {
-        CGRect subFrame = subview.frame;
-        subFrame.size.width = frame.size.width - 0;
-        subview.frame = subFrame;
-    }
-
-    frame.origin = self.frame.origin;
-    frame.size.width += 20;
+    
+    //    for (UIView *subview in self.body) {
+    //        CGRect subFrame = subview.frame;
+    //        subFrame.size.width = frame.size.width;
+    //        subview.frame = subFrame;
+    //    }
+    //
+    //    frame.origin = self.frame.origin;
+    //    frame.size.width += 20;
+    
+    // Add right and bottom padding.
+    frame.size.height += parameterPadding;
+    frame.size.width += parameterPadding;
+    
     self.frame = frame;
+    
+//    if (self.body.count != 0) {
+//        CGFloat maxWidth = frame.size.width - self.bodyIndentation;
+//        
+//        for (UIView *subview in self.body) {
+//            CGFloat currentViewWidth = subview.frame.size.width;
+//            if (currentViewWidth > maxWidth) {
+//                maxWidth += currentViewWidth;
+//            }
+//        }
+//        
+//        for (UIView *subview in self.body) {
+//            CGRect subFrame = subview.frame;
+//            subFrame.size.width = maxWidth;
+//            subview.frame = subFrame;
+//        }
+//    }
+    
+    // Remove the border from the hidden start method.
+    if (self.isTopLevelStatement)
+    {
+        self.layer.borderWidth = 0;
+    }
 }
+
 # pragma mark UIView methods
 
 - (void)wasTapped:(id)sender
@@ -371,6 +421,7 @@ CGFloat const LabelPadding = 10.0f;
         [[NSNotificationCenter defaultCenter] postNotificationName: @"statement view selected"
                                                             object: self];
         [[ZSTutorial sharedTutorial] broadcastEvent:ZSTutorialBroadcastEventComplete];
+        [self.delegate hideMenuController];
     }
 }
 
@@ -422,7 +473,7 @@ CGFloat const LabelPadding = 10.0f;
         }
         // Remove '+ ' in front of the statement name
         UILabel* firstHeaderLabel = (UILabel*)self.header.firstObject;
-        firstHeaderLabel.text = [firstHeaderLabel.text substringFromIndex:@"▾ ".length];
+        firstHeaderLabel.text = [firstHeaderLabel.text substringFromIndex:@"▸ ".length];
         [firstHeaderLabel sizeToFit];
     }
     [self.topLevelStatementView layoutStatementSubviews];
@@ -435,13 +486,11 @@ CGFloat const LabelPadding = 10.0f;
 {
     if (!_parameters)
     {
-        _parameters = [[ZSNameLabel alloc]init];
+        _parameters = [[UILabel alloc]init];
         _parameters.backgroundColor = [UIColor clearColor];
         _parameters.highlightedTextColor = [UIColor whiteColor];
         _parameters.font = [self.font fontWithSize:self.font.pointSize * 0.7];
-        _parameters.textColor = [UIColor colorWithWhite:0.829 alpha:1.000];
-        _parameters.shadowColor = [UIColor darkGrayColor];
-        _parameters.shadowOffset = CGSizeMake(0, 1);
+        _parameters.textColor = [UIColor zuseBackgroundGrey];
         _parameters.numberOfLines = 2;
     }
     return _parameters;

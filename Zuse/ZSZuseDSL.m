@@ -30,6 +30,24 @@
     };
 }
 
++ (NSDictionary *)afterJSON {
+    return @{
+        @"after": @{
+            @"seconds": @1,
+            @"code": @[]
+        }
+    };
+}
+
++ (NSDictionary *)inJSON {
+    return @{
+        @"in": @{
+            @"seconds": @1,
+            @"code": @[]
+        }
+    };
+}
+
 + (NSDictionary *)triggerEventJSON {
     return @{
         @"trigger_event": @{

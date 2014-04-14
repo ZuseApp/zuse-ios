@@ -303,9 +303,7 @@
 }
 
 - (void)triggerEvent:(NSString *)event {
-    [self.objects each:^(id key, id obj) {
-        [self triggerEvent:event onObjectWithIdentifier:key parameters:@{}];
-    }];
+    [self triggerEvent:event parameters:@{}];
 }
 
 - (void)triggerEvent:(NSString *)event onObjectWithIdentifier:(NSString *)objectID {
@@ -314,8 +312,9 @@
 
 - (void)triggerEvent:(NSString *)event
           parameters:(NSDictionary *)parameters {
-    [self.objects each:^(id key, id obj) {
-        [self triggerEvent:event onObjectWithIdentifier:key parameters:parameters];
+    NSArray *objectIdentifiers = self.objects.allKeys;
+    [objectIdentifiers each:^(NSString *identifier) {
+        [self triggerEvent:event onObjectWithIdentifier:identifier parameters:parameters];
     }];
 }
 
