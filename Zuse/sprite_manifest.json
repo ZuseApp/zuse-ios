@@ -118,6 +118,15 @@
           "width": 30,
           "height": 30
         }
+      },
+      {
+        "name": "Red Bird",
+        "path": "red_bird",
+        "physics_body": "square",
+        "preferred_size": {
+          "width": 30,
+          "height": 30
+        }
       }
     ]
   },
