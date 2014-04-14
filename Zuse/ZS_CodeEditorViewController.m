@@ -544,7 +544,26 @@
     [self.view addSubview: toolboxView];
     [toolboxView showAnimated:YES];
 }
-- (void)hideMenuController
+- (void) newStatementButtonLongPressed:(ZS_StatementView *)view
+{
+    // If copy buffer is not empty, create menu
+    if (self.statementCopyBuffer)
+    {
+        NSMutableArray* menuItems = [[NSMutableArray alloc]init];
+        
+        UIMenuItem* menuItemInsertAbove = [[UIMenuItem alloc]initWithTitle: @"insert above"
+                                                                    action: @selector(menuItemInsertAbove)];
+        [menuItems addObject: menuItemInsertAbove];
+        
+        // Create menu controller
+        [view becomeFirstResponder];
+        self.menu = [UIMenuController sharedMenuController];
+        [self.menu setMenuItems: menuItems];
+        [self.menu setTargetRect: CGRectZero inView:view];
+        [self.menu setMenuVisible:YES animated:YES];
+    }
+}
+- (void) hideMenuController
 {
     [self.menu setMenuVisible:NO animated:YES];
 }

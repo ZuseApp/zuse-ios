@@ -10,7 +10,7 @@ CGFloat const LabelPadding = 10.0f;
 
 - (instancetype) initWithText: (NSString*)text font: (UIFont*)font;
 
-@property (copy, nonatomic) void (^tapBlock)();
+@property (copy, nonatomic) void (^tapBlock)(UILabel*);
 @property (copy, nonatomic) void (^longPressBlock)();
 
 @end
@@ -65,17 +65,18 @@ CGFloat const LabelPadding = 10.0f;
                                                         object: self];
     if (self.tapBlock)
     {
-        self.tapBlock();
+        self.tapBlock(self);
     }
     [[ZSTutorial sharedTutorial] broadcastEvent:ZSTutorialBroadcastEventComplete];
 }
 - (void) handleLongPressGesture:(id)sender
 {
     self.highlighted = YES;
-    
-    NSLog(@"new statement button long press");
+    if (self.longPressBlock)
+    {
+        self.longPressBlock();
+    }
 }
-
 @end
 
 
@@ -213,9 +214,13 @@ CGFloat const LabelPadding = 10.0f;
     label.backgroundColor = [ZSColor darkenColor:self.backgroundColor withValue:0.1];
     label.layer.borderColor = [ZSColor darkenColor:label.backgroundColor withValue:0.01].CGColor;
     label.layer.borderWidth = 0.5;
-    label.tapBlock = ^()
+    label.tapBlock = ^(UILabel* label)
     {
         [self.delegate newStatementButtonTapped:self];
+    };
+    label.longPressBlock = ^()
+    {
+        [self.delegate newStatementButtonLongPressed:self];
     };
     [self.body addObject:label];
     [self addSubview:label];    
