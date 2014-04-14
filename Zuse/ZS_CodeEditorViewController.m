@@ -544,22 +544,26 @@
     [self.view addSubview: toolboxView];
     [toolboxView showAnimated:YES];
 }
-- (void) newStatementButtonLongPressed:(ZS_StatementView *)view
+- (void) statementView: (ZS_StatementView*) view newStatementButtonLongPressed: (UILabel*) touchLabel
 {
     // If copy buffer is not empty, create menu
     if (self.statementCopyBuffer)
     {
+        // Highlight parent statement view
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"statement view selected"
+                                                            object: view];
+        // Create menu
         NSMutableArray* menuItems = [[NSMutableArray alloc]init];
         
         UIMenuItem* menuItemInsertAbove = [[UIMenuItem alloc]initWithTitle: @"insert above"
-                                                                    action: @selector(menuItemInsertAbove)];
+                                                                    action: @selector(menuItemInsertAboveNewStatementButton)];
         [menuItems addObject: menuItemInsertAbove];
         
         // Create menu controller
         [view becomeFirstResponder];
         self.menu = [UIMenuController sharedMenuController];
         [self.menu setMenuItems: menuItems];
-        [self.menu setTargetRect: CGRectZero inView:view];
+        [self.menu setTargetRect: CGRectZero inView: touchLabel];
         [self.menu setMenuVisible:YES animated:YES];
     }
 }
@@ -567,9 +571,14 @@
 {
     [self.menu setMenuVisible:NO animated:YES];
 }
-
 #pragma mark Menu Methods
 
+- (void)menuItemInsertAboveNewStatementButton
+{
+    NSMutableArray* codeBlock = ((ZS_StatementView*)self.selectedStatementView).jsonCode;
+    [codeBlock addObject: self.statementCopyBuffer.deepMutableCopy];
+    [self reloadFromJson];
+}
 - (void) menuItemCopy
 {
     self.statementCopyBuffer = self.selectedStatementView.json.deepMutableCopy;

@@ -11,7 +11,7 @@ CGFloat const LabelPadding = 10.0f;
 - (instancetype) initWithText: (NSString*)text font: (UIFont*)font;
 
 @property (copy, nonatomic) void (^tapBlock)(UILabel*);
-@property (copy, nonatomic) void (^longPressBlock)();
+@property (copy, nonatomic) void (^longPressBlock)(UILabel*);
 
 @end
 
@@ -74,7 +74,7 @@ CGFloat const LabelPadding = 10.0f;
     self.highlighted = YES;
     if (self.longPressBlock)
     {
-        self.longPressBlock();
+        self.longPressBlock(self);
     }
 }
 @end
@@ -218,9 +218,9 @@ CGFloat const LabelPadding = 10.0f;
     {
         [self.delegate newStatementButtonTapped:self];
     };
-    label.longPressBlock = ^()
+    label.longPressBlock = ^(UILabel* label)
     {
-        [self.delegate newStatementButtonLongPressed:self];
+        [self.delegate statementView:self newStatementButtonLongPressed:label];
     };
     [self.body addObject:label];
     [self addSubview:label];    
