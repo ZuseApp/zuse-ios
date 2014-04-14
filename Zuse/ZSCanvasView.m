@@ -16,7 +16,6 @@
     self = [super initWithCoder:aDecoder];
     if (self) {
         _grid = [[ZSGrid alloc] init];
-        self.editModeOn = NO;
         [self setupGestures];
     }
     return self;
@@ -303,6 +302,15 @@
 
 #pragma mark Edit Functionality
 
+- (BOOL)inEditMode {
+    if (self.selectedSprite) {
+        return YES;
+    }
+    else {
+        return NO;
+    };
+}
+
 - (void)selectSprite:(ZSSpriteView *)sprite {
     self.selectedSprite = sprite;
 }
@@ -339,8 +347,24 @@
     }
 }
 
+- (void)replaceSelectedSpriteWithJSON:(NSDictionary*)spriteJSON {
+    if (self.selectedSprite) {
+        self.selectedSprite.spriteJSON[@"properties"][@"width"] = spriteJSON[@"properties"][@"width"];
+        self.selectedSprite.spriteJSON[@"properties"][@"height"] = spriteJSON[@"properties"][@"height"];
+        self.selectedSprite.spriteJSON[@"image"] = spriteJSON[@"image"];
+        
+        CGRect oldFrame = self.selectedSprite.frame;
+        CGRect frame = self.selectedSprite.frame;
+        frame.size.width = [spriteJSON[@"properties"][@"width"] floatValue];
+        frame.size.height = [spriteJSON[@"properties"][@"height"] floatValue];
+        frame.origin.x -= ((frame.size.width / 2) - (oldFrame.size.width / 2));
+        frame.origin.y -= ((frame.size.height / 2) - (oldFrame.size.height / 2));
+        self.selectedSprite.frame = frame;
+        [self.selectedSprite reloadContent];
+    }
+}
+
 - (void)unselectSelectedSprite {
-    self.editModeOn = NO;
     self.selectedSprite = nil;
     [self unlockSprites];
 }

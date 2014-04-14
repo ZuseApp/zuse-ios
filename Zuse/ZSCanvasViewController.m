@@ -447,7 +447,7 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
         
         // If the generator view is hidden start sprite dragging, otherwise simply add it to the
         // generator view.
-        if (weakSelf.generatorView.hidden) {
+        if (weakSelf.generatorView.hidden && ![weakSelf.canvasView inEditMode]) {
             if (![@"text" isEqualToString:type]) {
                 CGFloat scale = frame.size.width / spriteView.content.frame.size.width;
                 offset = [panGestureRecognizer locationInView:spriteView.content];
@@ -477,24 +477,29 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
                 }];
             }
         }
+        else if ([weakSelf.canvasView inEditMode]) {
+            [weakSelf.canvasView replaceSelectedSpriteWithJSON:json];
+        }
         else {
             MTBlockAlertView *alertView = [[MTBlockAlertView alloc]
                                            initWithTitle:@"Generator"
                                            message:@"Enter a name for the generator."
                                            completionHanlder:^(UIAlertView *alertView, NSInteger buttonIndex) {
                                                NSString *name = [alertView textFieldAtIndex:0].text;
-                                               NSMutableDictionary *newJson = [json deepMutableCopy];
-                                               newJson[@"id"] = [[NSUUID UUID] UUIDString];
-                                               newJson[@"name"] = name;
-                                               newJson[@"properties"][@"x"] = @(0);
-                                               newJson[@"properties"][@"y"] = @(0);
-                                               newJson[@"properties"][@"angle"] = @(0);
-                                               newJson[@"properties"][@"hidden"] = @(0);
-                                               [[weakSelf.project rawJSON][@"generators"] insertObject:newJson atIndex:0];
-                                               
-                                               [weakSelf.generatorView insertGeneratorFromJSON:newJson];
-                                               [weakSelf.generatorView reloadData];
-                                               [weakSelf saveProject];
+                                               if (![name isEqualToString:@""]) {
+                                                   NSMutableDictionary *newJson = [json deepMutableCopy];
+                                                   newJson[@"id"] = [[NSUUID UUID] UUIDString];
+                                                   newJson[@"name"] = name;
+                                                   newJson[@"properties"][@"x"] = @(0);
+                                                   newJson[@"properties"][@"y"] = @(0);
+                                                   newJson[@"properties"][@"angle"] = @(0);
+                                                   newJson[@"properties"][@"hidden"] = @(0);
+                                                   [[weakSelf.project rawJSON][@"generators"] insertObject:newJson atIndex:0];
+                                                   
+                                                   [weakSelf.generatorView insertGeneratorFromJSON:newJson];
+                                                   [weakSelf.generatorView reloadData];
+                                                   [weakSelf saveProject];
+                                                }
                                            }
                                            cancelButtonTitle:@"OK"
                                            otherButtonTitles:nil];
@@ -506,14 +511,14 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
     };
     
     _toolboxController.longPressChanged = ^(UILongPressGestureRecognizer *longPressGestureRecognizer) {
-        if (weakSelf.generatorView.hidden) {
+        if (weakSelf.generatorView.hidden && ![weakSelf.canvasView inEditMode]) {
             currentPoint = [longPressGestureRecognizer locationInView:weakSelf.canvasView];
             [weakSelf.canvasView moveSprite:draggedView x:currentPoint.x - offset.x y:currentPoint.y - offset.y];
         }
     };
     
     _toolboxController.longPressEnded = ^(UILongPressGestureRecognizer *longPressGestureRecognizer) {
-        if (weakSelf.generatorView.hidden) {
+        if (weakSelf.generatorView.hidden && ![weakSelf.canvasView inEditMode]) {
             NSMutableDictionary *json = draggedView.spriteJSON;
             
             NSMutableDictionary *newJson = [json deepMutableCopy];
@@ -673,7 +678,8 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
     return @[
              [ZSCanvasBarButtonItem flexibleBarButtonItem],
              [ZSCanvasBarButtonItem finishButtonWithHandler:^{
-                 weakSelf.canvasView.editModeOn = NO;
+                 // TODO: Could be a bug here since I removed isEditMode = NO, but it appears
+                 // to have not been used.
                  [weakSelf transitionToInterfaceState:ZSToolbarInterfaceStateNormal];
              }]
              ];
@@ -700,7 +706,7 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
                  [weakSelf.canvasView deleteSelectedSprite];
                  doneBlock();
              }],
-             [ZSCanvasBarButtonItem toolboxButtonWithHandler:^{
+             [ZSCanvasBarButtonItem swapButtonWithHandler:^{
                  [weakSelf showToolbox];
              }],
              [ZSCanvasBarButtonItem finishButtonWithHandler:^{
