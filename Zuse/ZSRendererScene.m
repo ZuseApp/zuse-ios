@@ -102,13 +102,6 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
     touchComponent.spriteId = spriteJSON[@"id"];
     
     touchComponent.touchesBegan = ^(UITouch *touch) {
-        if (node.physicsBody) {
-            node.physicsBody.dynamic = YES;
-        }
-        else{
-            NSLog(@"node has no physics body");
-        }
-        
         CGPoint point = [touch locationInNode:self];
         
         [_interpreter triggerEvent:@"touch_began"
@@ -130,9 +123,6 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
         [_interpreter triggerEvent:@"touch_ended"
             onObjectWithIdentifier:spriteJSON[@"id"]
                         parameters:@{ @"touch_x": @(point.x), @"touch_y": @(point.y) }];
-        if (node.physicsBody) {
-            node.physicsBody.dynamic = NO;
-        }
     };
     
     [node addComponent:touchComponent];
