@@ -41,6 +41,7 @@
         _projectJSON[@"traits"]             = [NSMutableDictionary dictionary];
         _projectJSON[@"objects"]            = [NSMutableArray array];
         _projectJSON[@"generators"]         = [NSMutableArray array];
+        _projectJSON[@"commit_number"]      = @(0);
         _projectJSON[ZSProjectJSONKeyGroup] = [NSMutableDictionary dictionary];
     }
     return self;
@@ -72,10 +73,11 @@
     if (!_projectJSON[@"id"]) {
         _projectJSON[@"id"] = [[NSUUID UUID] UUIDString];
     }
-    _identifier = _projectJSON[@"id"];
-    _title      = _projectJSON[@"title"];
-    _version    = _projectJSON[@"version"];
-    _canvasSize = _projectJSON[@"canvas_size"];
+    _identifier   = _projectJSON[@"id"];
+    _title        = _projectJSON[@"title"];
+    _version      = _projectJSON[@"version"];
+    _canvasSize   = _projectJSON[@"canvas_size"];
+    _commitNumber = [_projectJSON[@"commit_number"] integerValue];
 }
 
 - (NSMutableDictionary *)rawJSON {
@@ -83,24 +85,26 @@
 }
 
 - (NSMutableDictionary *)assembledJSON {
-    if (_title) {
-        _projectJSON[@"title"] = _title;
+    if (self.title) {
+        self.projectJSON[@"title"] = self.title;
     }
-    if (_version) {
-        _projectJSON[@"version"] = _version;
-    }
-    
-    if (_canvasSize) {
-        _projectJSON[@"canvas_size"] = _canvasSize;
+    if (self.version) {
+        self.projectJSON[@"version"] = self.version;
     }
     
-    if (_identifier) {
-        _projectJSON[@"id"] = _identifier;
+    if (self.canvasSize) {
+        self.projectJSON[@"canvas_size"] = self.canvasSize;
     }
     
+    if (self.identifier) {
+        self.projectJSON[@"id"] = self.identifier;
+    }
+
+    self.projectJSON[@"commit_number"] = @(self.commitNumber);
+
     // Find all of the traits being referenced in the project by looking at all of the sprites.
     NSMutableArray *traitsReferencedInProject = [NSMutableArray array];
-    for (NSMutableDictionary *sprites in _projectJSON[@"objects"]) {
+    for (NSMutableDictionary *sprites in self.projectJSON[@"objects"]) {
         NSMutableDictionary *traits = sprites[@"traits"];
         if (traits) {
             for (NSString *key in traits) {
@@ -112,7 +116,7 @@
     // Go through all of the traits referenced in the project and if they don't exist already
     // add them to the project JSON.
     NSDictionary *defaultTraits = [ZSSpriteTraits defaultTraits];
-    NSMutableDictionary *previouslySavedTraits = _projectJSON[@"traits"];
+    NSMutableDictionary *previouslySavedTraits = self.projectJSON[@"traits"];
     for (NSString *trait in traitsReferencedInProject) {
         if (!previouslySavedTraits[trait]) {
             if (defaultTraits[trait]) {
@@ -120,7 +124,7 @@
             }
         }
     }
-    return _projectJSON;
+    return self.projectJSON;
 }
 
 - (NSString *)description {
