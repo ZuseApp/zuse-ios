@@ -6,6 +6,7 @@
 @protocol ZS_StatementViewDelegate <NSObject>
 - (void) statementViewLongPressed: (ZS_StatementView*) view;
 - (void) newStatementButtonTapped: (ZS_StatementView*) view;
+- (void) statementView: (ZS_StatementView*) view newStatementButtonLongPressed: (UILabel*) touchLabel;
 - (void) hideMenuController;
 @end
 
