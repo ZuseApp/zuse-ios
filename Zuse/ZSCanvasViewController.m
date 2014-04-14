@@ -621,7 +621,7 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
              [ZSCanvasBarButtonItem shareButtonWithHandler:^{
                  //TODO present custom UIActivityViewController as you would w/ any normal view controller
                  
-                 ZSSocialZuseHubShareViewController *socialZuseHubShareController = [[ZSSocialZuseHubShareViewController alloc] init];
+                 ZSSocialZuseHubShareViewController *socialZuseHubShareController = [[ZSSocialZuseHubShareViewController alloc] initWithProject:self.project];
         
                  socialZuseHubShareController.didFinish = ^{
                      [self dismissViewControllerAnimated:YES completion:^{}];

@@ -7,9 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ZSProject.h"
 
 @interface ZSSocialZuseHubShareViewController : UIActivityViewController
-
+@property (strong, nonatomic) ZSProject *project;
 @property (copy, nonatomic) void(^didFinish)();
+
+- (id)initWithProject:(ZSProject *)project;
 
 @end

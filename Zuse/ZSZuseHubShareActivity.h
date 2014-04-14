@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ZSProject.h"
 
 @interface ZSZuseHubShareActivity : UIActivity
+
+@property (strong, nonatomic) ZSProject *project;
 
 @end

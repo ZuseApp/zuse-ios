@@ -305,24 +305,10 @@
  */
 - (void)updateSharedProject:(NSString *)title description:(NSString *)description projectJson:(ZSProject *)project completion:(void (^)(NSDictionary *, NSError *, NSInteger))completion
 {
-    NSData *projectData = [NSJSONSerialization dataWithJSONObject:project.assembledJSON
-                                                          options:0
-                                                            error:nil];
-    NSString *projectString = [[NSString alloc] initWithBytes:projectData.bytes
-                                                       length:projectData.length
-                                                     encoding:NSUTF8StringEncoding];
-    ZSCompiler *compiler = [ZSCompiler compilerWithProjectJSON:project.assembledJSON];
-    
-    NSData *compiledData = [NSJSONSerialization dataWithJSONObject:compiler.compiledComponents
-                                                           options:0
-                                                             error:nil];
-    NSString *compiledString = [[NSString alloc] initWithBytes:compiledData.bytes
-                                                        length:compiledData.length
-                                                      encoding:NSUTF8StringEncoding];
+    NSString *projectString = [self getProjectString:project];
+    NSString *compiledString = [self getCompiledString:project];
     NSString *uuid = project.identifier;
-    
     NSString *version = project.version;
-    
     NSString *base64Screenshot = [UIImagePNGRepresentation(project.screenshot) base64EncodedStringWithOptions:0];
     
     NSDictionary *params = @{
@@ -346,6 +332,73 @@
         NSLog(@"Failed to update project! %@", error.localizedDescription);
         completion(nil, error, operation.response.statusCode);
     }];
+}
+
+//SHARING ON SOCIAL MEDIA
+
+/**
+ * Shares the specified project on social media and returns the url to access the shared project
+ * on the web.
+ */
+- (void)socialShare:(ZSProject *)project completion:(void (^)(NSString *, NSInteger))completion
+{
+    NSData *projectData = [NSJSONSerialization dataWithJSONObject:project.assembledJSON
+                                                          options:0
+                                                            error:nil];
+    NSString *projectString = [[NSString alloc] initWithBytes:projectData.bytes
+                                                       length:projectData.length
+                                                     encoding:NSUTF8StringEncoding];
+    ZSCompiler *compiler = [ZSCompiler compilerWithProjectJSON:project.assembledJSON];
+    
+    NSData *compiledData = [NSJSONSerialization dataWithJSONObject:compiler.compiledComponents
+                                                           options:0
+                                                             error:nil];
+    NSString *compiledString = [[NSString alloc] initWithBytes:compiledData.bytes
+                                                        length:compiledData.length
+                                                      encoding:NSUTF8StringEncoding];
+    
+    NSDictionary *params = @{
+                             @"project" : @{
+                                     @"project_json" : projectString,
+                                     @"compiled_components" : compiledString
+                                     }
+                             };
+    
+    [self.manager POST:@"shared_projects.json"
+           parameters:params
+              success:^(AFHTTPRequestOperation *operation, NSDictionary *url)
+     {
+         NSString *urlString = url[@"url"];
+         completion(urlString, operation.response.statusCode);
+     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+         NSLog(@"Failed to update project! %@", error.localizedDescription);
+         completion(nil, operation.response.statusCode);
+     }];
+}
+
+- (NSString *)getProjectString:(ZSProject *)project
+{
+    NSData *projectData = [NSJSONSerialization dataWithJSONObject:project.assembledJSON
+                                                          options:0
+                                                            error:nil];
+    NSString *projectString = [[NSString alloc] initWithBytes:projectData.bytes
+                                                       length:projectData.length
+                                                     encoding:NSUTF8StringEncoding];
+    return projectString;
+}
+
+- (NSString *)getCompiledString:(ZSProject *)project
+{
+    ZSCompiler *compiler = [ZSCompiler compilerWithProjectJSON:project.assembledJSON];
+    
+    NSData *compiledData = [NSJSONSerialization dataWithJSONObject:compiler.compiledComponents
+                                                           options:0
+                                                             error:nil];
+    NSString *compiledString = [[NSString alloc] initWithBytes:compiledData.bytes
+                                                        length:compiledData.length
+                                                      encoding:NSUTF8StringEncoding];
+    
+    return compiledString;
 }
 
 @end

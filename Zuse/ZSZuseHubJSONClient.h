@@ -42,6 +42,10 @@
 - (void)deleteSharedProject:(NSString *)uuid completion:(void(^)(BOOL success, NSInteger statusCode ))completion;
 - (void)updateSharedProject:(NSString *)title description:(NSString *)description projectJson:(ZSProject *)project completion:(void(^)(NSDictionary *project, NSError *error, NSInteger statusCode))completion;
 
+//project sharing on social media
+- (void)socialShare:(ZSProject *)project completion:(void(^)(NSString *url, NSInteger statusCode ))completion;
+;
+
 @end
 
 @protocol ZSZuseHubJSONClientDelegate <NSObject>
