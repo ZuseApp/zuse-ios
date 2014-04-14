@@ -39,6 +39,8 @@
     
     self.currentPage = 1;
     
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    
     self.projects = [[NSMutableArray alloc] init];
     
     self.navigationItem.title = @"ZuseHub";
@@ -67,9 +69,9 @@
         self.title = @"10 Most Popular Projects";
     
     WeakSelf
-//    [self.collectionView addPullToRefreshWithActionHandler:^{
-//        [weakSelf insertRowAtTop];
-//    }];
+    [self.collectionView addPullToRefreshWithActionHandler:^{
+        [weakSelf insertRowAtTop];
+    }];
     
     [self.collectionView addInfiniteScrollingWithActionHandler:^{
         [weakSelf insertRowAtBottom];

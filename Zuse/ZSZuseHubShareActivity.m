@@ -28,7 +28,7 @@
 }
 
 - (UIImage *)activityImage {
-    return nil;
+    return [UIImage imageNamed:@"deathmite"];
 }
 
 - (BOOL)canPerformWithActivityItems:(NSArray *)activityItems {

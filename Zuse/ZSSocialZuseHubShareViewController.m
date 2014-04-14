@@ -20,11 +20,10 @@
 
 - (id)init
 {
-    NSString *shareString = @"What is being displayed here.";
+    NSString *shareString = @"Check out the awesome game I made with Zuse!";
     UIImage *shareImage = [UIImage imageNamed:@"AppIcon"];
-    NSURL *shareUrl = [NSURL URLWithString:@"http://www.zusehub.com"];
     
-    NSArray *activityItems = @[shareString];
+    NSArray *activityItems = [NSArray arrayWithObjects:shareString, shareImage, nil];
     
     ZSZuseHubShareActivity *zuseHubShareActivity = [[ZSZuseHubShareActivity alloc] init];
     

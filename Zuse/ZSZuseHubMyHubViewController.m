@@ -37,6 +37,8 @@
 {
     [super viewDidLoad];
     
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    
     self.userProjects = [[NSMutableArray alloc] init];
     self.currentPage = 1;
     
@@ -66,9 +68,9 @@
     {
         self.title = @"My Shared Projects";
         WeakSelf
-//        [self.collectionView addPullToRefreshWithActionHandler:^{
-//            [weakSelf insertRowAtTop];
-//        }];
+        [self.collectionView addPullToRefreshWithActionHandler:^{
+            [weakSelf insertRowAtTop];
+        }];
         
         [self.collectionView addInfiniteScrollingWithActionHandler:^{
             [weakSelf insertRowAtBottom];

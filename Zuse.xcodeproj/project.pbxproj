@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		2C315E4018F9F431003288DA /* ZSZuseHubShareActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C315E3F18F9F431003288DA /* ZSZuseHubShareActivity.m */; };
-		2C315E4318F9FD05003288DA /* ZSZuseHubSocialShareProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C315E4218F9FD05003288DA /* ZSZuseHubSocialShareProvider.m */; };
 		2C6B5D6A183D43AB00E3D56C /* ZSSpriteTouchComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C6B5D69183D43AB00E3D56C /* ZSSpriteTouchComponent.m */; };
 		2CA36ECC18CE5A6D00CAB651 /* ZSUserLoginRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA36ECB18CE5A6D00CAB651 /* ZSUserLoginRegisterViewController.m */; };
 		2CA9A32A18C26605005F4404 /* ZSZuseHubSideMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9A32918C26605005F4404 /* ZSZuseHubSideMenuViewController.m */; };
@@ -195,8 +194,6 @@
 /* Begin PBXFileReference section */
 		2C315E3E18F9F431003288DA /* ZSZuseHubShareActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSZuseHubShareActivity.h; sourceTree = "<group>"; };
 		2C315E3F18F9F431003288DA /* ZSZuseHubShareActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSZuseHubShareActivity.m; sourceTree = "<group>"; };
-		2C315E4118F9FD05003288DA /* ZSZuseHubSocialShareProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSZuseHubSocialShareProvider.h; sourceTree = "<group>"; };
-		2C315E4218F9FD05003288DA /* ZSZuseHubSocialShareProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSZuseHubSocialShareProvider.m; sourceTree = "<group>"; };
 		2C6B5D68183D43AB00E3D56C /* ZSSpriteTouchComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSSpriteTouchComponent.h; sourceTree = "<group>"; };
 		2C6B5D69183D43AB00E3D56C /* ZSSpriteTouchComponent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSSpriteTouchComponent.m; sourceTree = "<group>"; };
 		2CA36ECA18CE5A6D00CAB651 /* ZSUserLoginRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSUserLoginRegisterViewController.h; sourceTree = "<group>"; };
@@ -610,8 +607,6 @@
 				2CF6714718F9D746005CF5F5 /* ZSSocialZuseHubShareViewController.m */,
 				2C315E3E18F9F431003288DA /* ZSZuseHubShareActivity.h */,
 				2C315E3F18F9F431003288DA /* ZSZuseHubShareActivity.m */,
-				2C315E4118F9FD05003288DA /* ZSZuseHubSocialShareProvider.h */,
-				2C315E4218F9FD05003288DA /* ZSZuseHubSocialShareProvider.m */,
 			);
 			name = "ZuseHub and Social Share";
 			sourceTree = "<group>";
@@ -1464,7 +1459,6 @@
 				4CD2311918AC3CC100DC5619 /* ZSTutorial.m in Sources */,
 				5FBB4A8318BFEC7800B79AB6 /* ZSProjectPersistence.m in Sources */,
 				5F8138D11898C338009F3495 /* NSString+Zuse.m in Sources */,
-				2C315E4318F9FD05003288DA /* ZSZuseHubSocialShareProvider.m in Sources */,
 				2CA9A36B18C5CB0D005F4404 /* ZSZuseHubShareViewController.m in Sources */,
 				2CA9A35518C5465B005F4404 /* MMSideDrawerTableViewCell.m in Sources */,
 				5F39DFC7188A40A0008ECAC1 /* NSArray+BlocksKit.m in Sources */,

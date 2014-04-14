@@ -38,6 +38,8 @@ typedef NS_ENUM(NSInteger, ZSMainMenuProjectFilter) {
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+//    self.zuseHubController = [[ZSZuseHubViewController alloc] init];
+//    self.zuseHubController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     
     self.projectCollectionView.delegate = self;
     self.projectCollectionView.dataSource = self;
@@ -162,8 +164,9 @@ typedef NS_ENUM(NSInteger, ZSMainMenuProjectFilter) {
         BOOL wasPersisted = [ZSProjectPersistence isProjectPersisted:project];
         [ZSProjectPersistence writeProject:project];
         weakSelf.selectedProject = project;
-        [weakSelf dismissViewControllerAnimated:YES
+        [weakSelf.zuseHubController dismissViewControllerAnimated:YES
                                  completion:^{
+//
                                      if (wasPersisted) {
                                          [weakSelf segueToProject:project];
                                      } else {
