@@ -63,6 +63,16 @@ CGFloat const DefaultSize = 33;
     return [self buttonWithIcon:icon tapHandler:handler];
 }
 
++ (ZSCanvasBarButtonItem *)homeButtonWithHandler:(void (^)())handler {
+    FAKIcon *icon = [self styledIcon:[FAKIonIcons homeIconWithSize:DefaultSize]];
+    return [self buttonWithIcon:icon tapHandler:handler];
+}
+
++ (ZSCanvasBarButtonItem *)propertiesButtonWithHandler:(void (^)())handler {
+    FAKIcon *icon = [self styledIcon:[FAKFontAwesome listIconWithSize:DefaultSize]];
+    return [self buttonWithIcon:icon tapHandler:handler];
+}
+
 + (ZSCanvasBarButtonItem *)groupsButtonWithHandler:(void (^)())handler {
     FAKIcon *icon = [self styledIcon:[FAKIonIcons pricetagsIconWithSize:DefaultSize]];
     return [self buttonWithIcon:icon tapHandler:handler];
@@ -136,6 +146,11 @@ CGFloat const DefaultSize = 33;
     item.tintColor = [UIColor zuseYellow];
     item.handler = [handler copy];
     return item;
+}
+
++ (ZSCanvasBarButtonItem *)menuButtonWithHandler:(void (^)())handler {
+    FAKIcon *icon = [self styledIcon:[FAKIonIcons naviconRoundIconWithSize:DefaultSize]];
+    return [self buttonWithIcon:icon tapHandler:handler];
 }
 
 + (ZSCanvasBarButtonItem *)collisionsButtonWithHandler:(void (^)())handler {

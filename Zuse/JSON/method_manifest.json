@@ -73,5 +73,10 @@
            "types": ["numeric"]
      }
     ]
- }
+ },
+ {
+   "name": "bounce",
+   "return_type": "none",
+   "parameters": []
+  }
 ]

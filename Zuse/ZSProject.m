@@ -34,13 +34,14 @@
         _identifier = [[NSUUID UUID] UUIDString];
                 
         _projectJSON = [NSMutableDictionary dictionary];
-        [_projectJSON setObject:_title forKey:@"title"];
-        [_projectJSON setObject:_identifier forKey:@"id"];
-        [_projectJSON setObject:_canvasSize forKey:@"canvas_size"];
-        [_projectJSON setObject:[NSMutableDictionary dictionary] forKey:@"traits"];
-        [_projectJSON setObject:[NSMutableArray array] forKey:@"objects"];
-        [_projectJSON setObject:[NSMutableArray array] forKey:@"generators"];
-        [_projectJSON setObject:[NSMutableDictionary dictionary] forKey:ZSProjectJSONKeyGroups];
+
+        _projectJSON[@"title"]              = self.title;
+        _projectJSON[@"id"]                 = self.identifier;
+        _projectJSON[@"canvas_size"]        = self.canvasSize;
+        _projectJSON[@"traits"]             = [NSMutableDictionary dictionary];
+        _projectJSON[@"objects"]            = [NSMutableArray array];
+        _projectJSON[@"generators"]         = [NSMutableArray array];
+        _projectJSON[ZSProjectJSONKeyGroup] = [NSMutableDictionary dictionary];
     }
     return self;
 }

@@ -4,8 +4,10 @@
 @class ZS_StatementView;
 
 @protocol ZS_StatementViewDelegate <NSObject>
--(void) statementViewLongPressed: (ZS_StatementView*) view;
-- (void)hideMenuController;
+- (void) statementViewLongPressed: (ZS_StatementView*) view;
+- (void) newStatementButtonTapped: (ZS_StatementView*) view;
+- (void) statementView: (ZS_StatementView*) view newStatementButtonLongPressed: (UILabel*) touchLabel;
+- (void) hideMenuController;
 @end
 
 @interface ZS_StatementView : UIView <UIGestureRecognizerDelegate>
@@ -24,6 +26,6 @@
 - (void) addParametersLabelWithText: (NSString*) text;
 - (void) addArgumentLabelWithText: (NSString*) text touchBlock: (void(^)(UILabel*)) touchBlock;
 - (void) addSubStatementView: (ZS_StatementView*) subStatementView;
-- (void) addNewStatementLabelWithTouchBlock: (void(^)(UILabel*)) touchBlock;
+- (void) addNewStatementButton;
 - (void) layoutStatementSubviews;
 @end

@@ -265,7 +265,7 @@
           "call": {
             "method": "move",
             "parameters": [
-              45,
+              100,
               {
                 "get": "speed"
               }
@@ -282,9 +282,15 @@
           "on_event": {
             "name": "collision",
             "parameters": [
-              "other_sprite"
+              "other_group"
             ],
             "code": [
+              {
+                "call": {
+                  "method": "bounce",
+                  "parameters": []
+                }
+              },
               {
                 "trigger_event": {
                   "name": "score",

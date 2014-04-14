@@ -26,20 +26,14 @@
 @property (assign, nonatomic) NSTimeInterval lastUpdateTimeInterval;
 @property (strong, nonatomic) NSMutableDictionary *spriteNodes;
 @property (strong, nonatomic) NSMutableDictionary *movingSprites;
-@property (strong, nonatomic) NSMutableDictionary *jointNodes;
 @property (strong, nonatomic) ZSInterpreter *interpreter;
-@property (strong, nonatomic) NSMutableDictionary *physicsJoints;
 @property (strong, nonatomic) NSDictionary *projectJSON;
-@property (strong, nonatomic) NSDictionary *categoryBitMasks;
-@property (strong, nonatomic) NSDictionary *collisionBitMasks;
 @property (strong, nonatomic) NSMutableArray *timedEvents;
 @property (strong, nonatomic) NSDictionary *compiledComponents;
 
 @end
 
 NSString * const kZSSpriteName = @"sprite";
-NSString * const kZSJointName = @"joint";
-//CGFloat const kZSSpriteSpeed = 200;
 
 typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
 {
@@ -55,9 +49,7 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
         
         self.projectJSON   = projectJSON;
         self.interpreter   = [ZSInterpreter interpreter];
-        self.physicsJoints = [NSMutableDictionary dictionary];
         self.spriteNodes   = [NSMutableDictionary dictionary];
-        self.jointNodes    = [NSMutableDictionary dictionary];
         self.timedEvents   = [NSMutableArray array];
         
         self.interpreter.delegate = self;
@@ -65,10 +57,6 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
         [self setupInterpreterWithProjectJSON:projectJSON];
         [self setupWorldPhysics];
 
-        self.categoryBitMasks = [self categoryBitMasksForCollisionGroups:projectJSON[@"collision_groups"]];
-        self.collisionBitMasks = [self collisionBitMasksForCollisionGroups:projectJSON[@"collision_groups"]
-                                                          categoryBitMasks:self.categoryBitMasks];
-        
         [projectJSON[@"objects"] each:^(NSDictionary *object) {
             [self addSpriteWithJSON:object];
         }];
@@ -87,7 +75,6 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
     ZSComponentNode *node = [ZSComponentNode node];
     node.identifier = spriteJSON[@"id"];
     node.group      = spriteJSON[@"collision_group"];
-    // node.particleType = spriteJSON[@"particle_type"];
     node.name = kZSSpriteName;
     node.position = position;
     
@@ -101,10 +88,10 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
     node.physicsBody = [self physicsBodyForType:spriteJSON[@"physics_body"] size:size];
     
     if (node.physicsBody) {
-        node.physicsBody.categoryBitMask    = [self.categoryBitMasks[spriteJSON[@"collision_group"]] intValue];
+        // Any group with a group will have collision events called on it.
+        node.physicsBody.categoryBitMask    = (node.group.length > 0 ? INT_MAX : 0);
         node.physicsBody.collisionBitMask = 0;
-//        node.physicsBody.collisionBitMask   = [self.collisionBitMasks[spriteJSON[@"collision_group"]] intValue];
-        node.physicsBody.contactTestBitMask = [self.collisionBitMasks[spriteJSON[@"collision_group"]] intValue];
+        node.physicsBody.contactTestBitMask = INT_MAX;
         
         node.physicsBody.dynamic = NO;
         node.physicsBody.mass    = 0.02;
@@ -115,39 +102,6 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
     touchComponent.spriteId = spriteJSON[@"id"];
     
     touchComponent.touchesBegan = ^(UITouch *touch) {
-        if (node.physicsBody) {
-            node.physicsBody.dynamic = YES;
-            
-            [self removeJointNode:spriteJSON[@"id"]];
-            [self removePhysicsJoint:spriteJSON[@"id"]];
-            
-            ZSComponentNode *jointNode = [ZSComponentNode node];
-            jointNode.name     = kZSJointName;
-            jointNode.position = node.position;
-            
-            jointNode.physicsBody = [self physicsBodyForType:spriteJSON[@"physics_body"] size:size];
-            [self configureJointNodePhysics:jointNode];
-            
-            _jointNodes[spriteJSON[@"id"]] = jointNode;
-            [self addChild:jointNode];
-            
-            SKSpriteNode *jointSprite = [SKSpriteNode new];
-            //                    SKSpriteNode *jointSprite = [SKSpriteNode spriteNodeWithImageNamed:spriteJSON[@"image"][@"path"]];
-            jointSprite.size = size;
-            [jointNode addChild:jointSprite];
-            
-            SKPhysicsJointFixed *fixedJoint = [SKPhysicsJointFixed jointWithBodyA:node.physicsBody
-                                                                            bodyB:jointNode.physicsBody
-                                                                           anchor:node.position];
-            [self.physicsWorld addJoint:fixedJoint];
-            _physicsJoints[spriteJSON[@"id"]] = fixedJoint;
-            
-            NSLog(@"node has physics body");
-        }
-        else{
-            NSLog(@"node has no physics body");
-        }
-        
         CGPoint point = [touch locationInNode:self];
         
         [_interpreter triggerEvent:@"touch_began"
@@ -169,13 +123,6 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
         [_interpreter triggerEvent:@"touch_ended"
             onObjectWithIdentifier:spriteJSON[@"id"]
                         parameters:@{ @"touch_x": @(point.x), @"touch_y": @(point.y) }];
-        if (node.physicsBody) {
-            
-            //remove the physics joint once the touch event ends
-            [self removePhysicsJoint:spriteJSON[@"id"]];
-            [self removeJointNode:spriteJSON[@"id"]];
-            node.physicsBody.dynamic = NO;
-        }
     };
     
     [node addComponent:touchComponent];
@@ -198,34 +145,6 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
     self.physicsBody.categoryBitMask = GFPhysicsCategoryWorld;
     //set up the scene as the contact delegate
     self.physicsWorld.contactDelegate = self;
-}
-
-- (NSDictionary *) categoryBitMasksForCollisionGroups:(NSDictionary *)collisionGroups {
-    NSInteger categoryBitMaskCount = 1;
-    NSMutableDictionary *categoryBitMasks = [NSMutableDictionary dictionary];
-    for(id key in collisionGroups){
-        uint32_t categoryBitMask = 1 << categoryBitMaskCount++;
-        categoryBitMasks[key] = @(categoryBitMask);
-        NSLog(@"category bitmask for %@: %@", key, binaryStringFromInteger(categoryBitMask));
-    }
-    
-    return categoryBitMasks;
-}
-
-- (NSDictionary *)collisionBitMasksForCollisionGroups:(NSDictionary *)collisionGroups
-                                     categoryBitMasks:(NSDictionary *)categoryBitMasks {
-    
-    NSMutableDictionary *collisionBitMasks = [NSMutableDictionary dictionary];
-    for (id key in collisionGroups) {
-        uint32_t collisionBitMask = 1;
-        for (NSString *group in collisionGroups[key]) {
-            collisionBitMask |= [categoryBitMasks[group] intValue];
-        }
-        collisionBitMasks[key] = @(collisionBitMask);
-        NSLog(@"collision bitmask for %@: %@", key, binaryStringFromInteger(collisionBitMask));
-    }
-    
-    return collisionBitMasks;
 }
 
 - (SKPhysicsBody *)physicsBodyForType:(NSString *)type size:(CGSize)size {
@@ -264,15 +183,6 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
     return node;
 }
 
-- (void)configureJointNodePhysics:(ZSComponentNode *)jointNode {
-    //set the joint to not collide with anything
-    jointNode.physicsBody.categoryBitMask = 0;
-    jointNode.physicsBody.dynamic = NO;
-    jointNode.physicsBody.mass = 0.02;
-    jointNode.physicsBody.velocity = CGVectorMake(0, 0);
-    jointNode.physicsBody.affectedByGravity = NO;
-}
-
 - (void) didBeginContact:(SKPhysicsContact *)contact
 {
     if (contact.bodyA.categoryBitMask != GFPhysicsCategoryWorld &&
@@ -284,15 +194,25 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
         [_interpreter triggerEvent:@"collision"
             onObjectWithIdentifier:nodeA.identifier
                         parameters:@{ @"other_group": nodeB.group }];
+
         [_interpreter triggerEvent:@"collision"
             onObjectWithIdentifier:nodeB.identifier
                         parameters:@{ @"other_group": nodeA.group }];
     } else {
         ZSComponentNode *node = (ZSComponentNode *)(contact.bodyA.categoryBitMask != GFPhysicsCategoryWorld ? contact.bodyA.node : contact.bodyB.node);
+
         [_interpreter triggerEvent:@"collision"
             onObjectWithIdentifier:node.identifier
                         parameters:@{ @"other_group": @"world" }];
     }
+}
+
+- (void)didEndContact:(SKPhysicsContact *)contact {
+    // The 'bounce' method sets up the mask to bounce, this turns it off. Might
+    // have to be more fancy than this though, since it could be colliding with
+    // multiple things and you wouldn't want to turn this off until all contact had ended.
+    contact.bodyA.collisionBitMask = 0;
+    contact.bodyB.collisionBitMask = 0;
 }
 
 - (void)moveSpriteWithIdentifier:(NSString *)identifier
@@ -341,7 +261,7 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
     [interpreter loadMethod:@{
         @"method": @"remove",
         @"block": ^id(NSString *identifier, NSArray *args) {
-            [self removeSpriteWithIdentifier:identifier];
+            [self performSelector:@selector(removeSpriteWithIdentifier:) withObject:identifier afterDelay:0.05];
             return nil;
         }
     }];
@@ -410,6 +330,15 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
             return @((arc4random() % (high + 1)) + low);
         }
     }];
+
+    [interpreter loadMethod:@{
+        @"method": @"bounce",
+        @"block": ^id(NSString *identifier, NSArray *args) {
+            ZSComponentNode *node = _spriteNodes[identifier];
+            node.physicsBody.collisionBitMask = INT_MAX;
+            return nil;
+        }
+    }];
     
     [interpreter loadMethod:@{
         @"method": @"generate",
@@ -466,8 +395,6 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
 }
 
 - (void)removeSpriteWithIdentifier:(NSString *)identifier {
-    [self removePhysicsJoint:identifier];
-    [self removeJointNode:identifier];
     [self removeSpriteNode:identifier];
     [_interpreter removeObjectWithIdentifier:identifier];
 }
@@ -476,22 +403,6 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
     SKSpriteNode *node = _spriteNodes[identifier];
     [node removeFromParent];
     [_spriteNodes removeObjectForKey:identifier];
-}
-
-- (void)removeJointNode:(NSString *)identifier{
-    ZSComponentNode *jointNode = _jointNodes[identifier];
-    if (jointNode) {
-        [jointNode removeFromParent];
-        [_jointNodes removeObjectForKey:identifier];
-    }
-}
-
-- (void)removePhysicsJoint:(NSString *)identifier{
-    SKPhysicsJoint *joint = _physicsJoints[identifier];
-    if (joint) {
-        [self.physicsWorld removeJoint:joint];
-        [_physicsJoints removeObjectForKey:identifier];
-    }
 }
 
 - (void)addParticle:(NSString *)identifier
@@ -528,15 +439,9 @@ void APARunOneShotEmitter(SKEmitterNode *emitter, CGFloat duration) {
     ZSComponentNode *node = _spriteNodes[identifier];
 
     if (properties[@"x"]) {
-        ZSComponentNode *joint = _jointNodes[identifier];
-        if (joint)
-            node = joint;
         node.position = CGPointMake([properties[@"x"] floatValue], node.position.y);
     }
     else if (properties[@"y"]) {
-        ZSComponentNode *joint = _jointNodes[identifier];
-        if (joint)
-            node = joint;
         node.position = CGPointMake(node.position.x, [properties[@"y"] floatValue]);
     }
     else if (properties[@"hidden"]) {
@@ -553,9 +458,6 @@ void APARunOneShotEmitter(SKEmitterNode *emitter, CGFloat duration) {
             textNode.text = [properties[@"text"] coercedString];
         }
     }
-
-    // TODO: I think the joint node might need to be updated too?
-    ZSComponentNode *jointNode = _jointNodes[identifier];
 
     if (properties[@"width"]) {
         SKSpriteNode *spriteNode = node.children[0];
@@ -623,32 +525,6 @@ void APARunOneShotEmitter(SKEmitterNode *emitter, CGFloat duration) {
         return YES;
     }];
     [self.timedEvents addObjectsFromArray:newEvents];
-}
-
-NSString * binaryStringFromInteger( int number )
-{
-    NSMutableString * string = [[NSMutableString alloc] init];
-    
-    int spacing = pow( 2, 3 );
-    int width = ( sizeof( number ) ) * spacing;
-    int binaryDigit = 0;
-    int integer = number;
-    
-    while( binaryDigit < width )
-    {
-        binaryDigit++;
-        
-        [string insertString:( (integer & 1) ? @"1" : @"0" )atIndex:0];
-        
-        if( binaryDigit % spacing == 0 && binaryDigit != width )
-        {
-            [string insertString:@" " atIndex:0];
-        }
-        
-        integer = integer >> 1;
-    }
-    
-    return string;
 }
 
 @end

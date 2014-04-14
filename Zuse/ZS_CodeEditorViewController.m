@@ -142,7 +142,7 @@
         [view addSubStatementView: statementView];
     }];
 }
-- (ZS_StatementView*) objectStatementViewFromJson:(NSMutableArray *)codeItems
+- (ZS_StatementView*) objectStatementViewFromJson:(NSMutableArray *)jsonCodeItems
                    beforeAddingSubstatementsBlock:(void (^)(ZS_StatementView *))beforeSubstatementsBlock
 {
     ZS_StatementView* view = [[ZS_StatementView alloc]initWithJson:nil];
@@ -151,7 +151,8 @@
     //view.backgroundColor = [UIColor yellowColor];
     // END DEBUG
     
-    view.jsonCode = codeItems;
+    view.jsonCode = jsonCodeItems;
+    view.delegate = self;
     view.topLevelStatement = YES;
 
     // Properties
@@ -164,25 +165,10 @@
     beforeSubstatementsBlock(view);
 
     // Code
-    [self addToView: view codeStatementsFromJson:codeItems];
+    [self addToView: view codeStatementsFromJson:jsonCodeItems];
     
     // Add <new code statement> button
-    [view addNewStatementLabelWithTouchBlock:^(UILabel* label)
-    {
-        ZSToolboxView* toolboxView = [[ZSToolboxView alloc] initWithFrame:CGRectMake(19, 82, 282, 361)];
-        ZS_StatementChooserCollectionViewController* controller = [[ZS_StatementChooserCollectionViewController alloc]init];
-        
-        controller.jsonCodeBody = codeItems;
-        controller.codeEditorViewController = self;
-        controller.toolboxView = toolboxView;
-  
-        self.statementChooserController = controller;
-        
-        [toolboxView setPagingEnabled:NO];
-        [toolboxView addContentView: controller.collectionView title: @"STATEMENT CHOOSER"];
-        [self.view addSubview: toolboxView];
-        [toolboxView showAnimated:YES];
-    }];
+    [view addNewStatementButton];
     
     // Layout subviews;
     [view layoutStatementSubviews];
@@ -230,22 +216,7 @@
     [self addToView: view codeStatementsFromJson:json[@"on_event"][@"code"]];
     
     // Add <new code statement> button
-    [view addNewStatementLabelWithTouchBlock:^(UILabel* label)
-     {
-         ZSToolboxView* toolboxView = [[ZSToolboxView alloc] initWithFrame:CGRectMake(19, 82, 282, 361)];
-         ZS_StatementChooserCollectionViewController* controller = [[ZS_StatementChooserCollectionViewController alloc]init];
-         
-         controller.jsonCodeBody = json[@"on_event"][@"code"];
-         controller.codeEditorViewController = self;
-         controller.toolboxView = toolboxView;
-         
-         self.statementChooserController = controller;
-         
-         [toolboxView setPagingEnabled:NO];
-         [toolboxView addContentView: controller.collectionView title: @"STATEMENT CHOOSER"];
-         [self.view addSubview: toolboxView];
-         [toolboxView showAnimated:YES];
-     }];
+    [view addNewStatementButton];
     return view;
 }
         
@@ -272,23 +243,7 @@
     [self addToView: view codeStatementsFromJson:json[@"if"][@"true"]];
     
     // Add <new code statement> button
-    [view addNewStatementLabelWithTouchBlock:^(UILabel* label)
-     {
-         ZSToolboxView* toolboxView = [[ZSToolboxView alloc] initWithFrame:CGRectMake(19, 82, 282, 361)];
-         ZS_StatementChooserCollectionViewController* controller = [[ZS_StatementChooserCollectionViewController alloc]init];
-         
-         controller.jsonCodeBody = json[@"if"][@"true"];
-         controller.codeEditorViewController = self;
-         controller.toolboxView = toolboxView;
-         
-         self.statementChooserController = controller;
-         
-         [toolboxView setPagingEnabled:NO];
-         [toolboxView addContentView: controller.collectionView title: @"STATEMENT CHOOSER"];
-         [self.view addSubview: toolboxView];
-         [toolboxView showAnimated:YES];
-     }];
-    
+    [view addNewStatementButton];
     return view;
 }
 - (ZS_StatementView*) triggerEventStatementViewFromJson:(NSMutableDictionary *)json
@@ -352,23 +307,7 @@
     [self addToView: view codeStatementsFromJson:json[type][@"code"]];
     
     // Add <new code statement> button
-    [view addNewStatementLabelWithTouchBlock:^(UILabel* label)
-     {
-         ZSToolboxView* toolboxView = [[ZSToolboxView alloc] initWithFrame:CGRectMake(19, 82, 282, 361)];
-         ZS_StatementChooserCollectionViewController* controller = [[ZS_StatementChooserCollectionViewController alloc]init];
-         
-         controller.jsonCodeBody = json[type][@"code"];
-         controller.codeEditorViewController = self;
-         controller.toolboxView = toolboxView;
-         
-         self.statementChooserController = controller;
-         
-         [toolboxView setPagingEnabled:NO];
-         [toolboxView addContentView: controller.collectionView title: @"STATEMENT CHOOSER"];
-         [self.view addSubview: toolboxView];
-         [toolboxView showAnimated:YES];
-     }];
-    
+    [view addNewStatementButton];
     return view;
 }
 - (ZS_StatementView*) setStatementViewFromJson:(NSMutableDictionary *)json
@@ -587,8 +526,59 @@
     [self.menu setTargetRect: CGRectZero inView:view];
     [self.menu setMenuVisible:YES animated:YES];
 }
+- (void) newStatementButtonTapped: (ZS_StatementView*) view
+{
+    // Show toolbox view
+    ZSToolboxView* toolboxView = [[ZSToolboxView alloc] initWithFrame:CGRectMake(19, 82, 282, 361)];
+    ZS_StatementChooserCollectionViewController* controller =
+    [[ZS_StatementChooserCollectionViewController alloc]init];
+    
+    controller.jsonCodeBody = view.jsonCode;
+    controller.codeEditorViewController = self;
+    controller.toolboxView = toolboxView;
+    
+    self.statementChooserController = controller;
+    
+    [toolboxView setPagingEnabled:NO];
+    [toolboxView addContentView: controller.collectionView title: @"STATEMENT CHOOSER"];
+    [self.view addSubview: toolboxView];
+    [toolboxView showAnimated:YES];
+}
+- (void) statementView: (ZS_StatementView*) view newStatementButtonLongPressed: (UILabel*) touchLabel
+{
+    // If copy buffer is not empty, create menu
+    if (self.statementCopyBuffer)
+    {
+        // Highlight parent statement view
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"statement view selected"
+                                                            object: view];
+        // Create menu
+        NSMutableArray* menuItems = [[NSMutableArray alloc]init];
+        
+        UIMenuItem* menuItemInsertAbove = [[UIMenuItem alloc]initWithTitle: @"insert above"
+                                                                    action: @selector(menuItemInsertAboveNewStatementButton)];
+        [menuItems addObject: menuItemInsertAbove];
+        
+        // Create menu controller
+        [view becomeFirstResponder];
+        self.menu = [UIMenuController sharedMenuController];
+        [self.menu setMenuItems: menuItems];
+        [self.menu setTargetRect: CGRectZero inView: touchLabel];
+        [self.menu setMenuVisible:YES animated:YES];
+    }
+}
+- (void) hideMenuController
+{
+    [self.menu setMenuVisible:NO animated:YES];
+}
 #pragma mark Menu Methods
 
+- (void)menuItemInsertAboveNewStatementButton
+{
+    NSMutableArray* codeBlock = ((ZS_StatementView*)self.selectedStatementView).jsonCode;
+    [codeBlock addObject: self.statementCopyBuffer.deepMutableCopy];
+    [self reloadFromJson];
+}
 - (void) menuItemCopy
 {
     self.statementCopyBuffer = self.selectedStatementView.json.deepMutableCopy;
@@ -678,10 +668,4 @@
     CGPoint rightOffset = CGPointMake(self.scrollView.contentSize.width - self.scrollView.bounds.size.width, 0);
     [self.scrollView setContentOffset:rightOffset animated:YES];
 }
-
-#pragma mark UIMenuController
-- (void)hideMenuController {
-    [self.menu setMenuVisible:NO animated:YES];
-}
-
 @end

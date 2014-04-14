@@ -19,7 +19,7 @@
           "on_event": {
             "name": "collision",
             "parameters": [
-              "other_sprite"
+              "other_group"
             ],
             "code": [
               {
@@ -666,6 +666,15 @@
             "parameters": [
               45,
               200
+            ]
+          }
+        },
+        {
+          "on_event": {
+            "name": "collision",
+            "parameters": ["other_group"],
+            "code": [
+              { "call": { "method": "bounce", "parameters": [] } }
             ]
           }
         }

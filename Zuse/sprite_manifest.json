@@ -166,8 +166,8 @@
         "path": "button",
         "physics_body": "rectangle",
         "preferred_size": {
-          "width": 117,
-          "height": 30
+          "width": 80,
+          "height": 40
         }
       }
     ]
