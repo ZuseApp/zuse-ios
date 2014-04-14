@@ -30,7 +30,8 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
     ZSToolbarInterfaceStateRendererPlaying,
     ZSToolbarInterfaceStateRendererPaused,
     ZSToolbarInterfaceStateEditNormalSprite,
-    ZSToolbarInterfaceStateEditTextSprite
+    ZSToolbarInterfaceStateEditTextSprite,
+    ZSToolbarInterfaceStateSubmenu
 };
 
 @interface ZSCanvasViewController ()
@@ -58,6 +59,7 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
 
 // Toolbar
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
+@property (weak, nonatomic) IBOutlet UIToolbar *submenu;
 @property (assign, nonatomic) ZSToolbarInterfaceState interfaceState;
 
 // Grid
@@ -552,7 +554,6 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
     self.toolbar.translucent = NO;
     self.toolbar.barTintColor = [UIColor zuseBackgroundGrey];
     self.toolbar.clipsToBounds = YES;
-
 }
 
 - (void)transitionToInterfaceState:(ZSToolbarInterfaceState)state {
@@ -571,6 +572,8 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
         items = [self editNormalSprite];
     } else if (state == ZSToolbarInterfaceStateEditTextSprite) {
         items = [self editTextSprite];
+    } else if (state == ZSToolbarInterfaceStateSubmenu) {
+        items = [self submenuToolbarItems];
     }
     
     self.interfaceState = state;
@@ -583,6 +586,47 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
     return @[
              [ZSCanvasBarButtonItem backButtonWithHandler:^{
                  [weakSelf finish];
+             }],
+             [ZSCanvasBarButtonItem flexibleBarButtonItem],
+             [ZSCanvasBarButtonItem toolboxButtonWithHandler:^{
+                 [weakSelf showToolbox];
+                 [self.tutorial broadcastEvent:ZSTutorialBroadcastEventComplete];
+             }],
+             [ZSCanvasBarButtonItem gridButtonWithHandler:^{
+                 [weakSelf toggleSliderViewWithHandler:nil];
+             }],
+             [ZSCanvasBarButtonItem menuButtonWithHandler:^{
+                 [weakSelf transitionToInterfaceState:ZSToolbarInterfaceStateSubmenu];
+             }],
+             [ZSCanvasBarButtonItem shareButtonWithHandler:^{
+                 [weakSelf shareProject];
+             }],
+             [ZSCanvasBarButtonItem playButtonWithHandler:^{
+                 if (weakSelf.gridSliderShowing) {
+                     [weakSelf hideSliderWithHandler:^{
+                         [weakSelf playProject];
+                     }];
+                 }
+                 else {
+                     [weakSelf playProject];
+                 }
+                 [self.tutorial broadcastEvent:ZSTutorialBroadcastEventComplete];
+             }]
+             ];
+}
+
+- (NSArray *)groupsToolbarItems {
+    return self.groupsController.canvasToolbarItems;
+}
+
+// These items are for the submenu not the main toolbar.
+- (NSArray *)submenuToolbarItems {
+    WeakSelf
+    return @[
+             [ZSCanvasBarButtonItem flexibleBarButtonItem],
+             [ZSCanvasBarButtonItem editButtonWithHandler:^{
+             }],
+             [ZSCanvasBarButtonItem propertiesButtonWithHandler:^{
              }],
              [ZSCanvasBarButtonItem groupsButtonWithHandler:^{
                  if (weakSelf.gridSliderShowing) {
@@ -604,33 +648,10 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
                      [weakSelf toggleGeneratorView];
                  }
              }],
-             [ZSCanvasBarButtonItem toolboxButtonWithHandler:^{
-                 [weakSelf showToolbox];
-                 [self.tutorial broadcastEvent:ZSTutorialBroadcastEventComplete];
-             }],
-             [ZSCanvasBarButtonItem gridButtonWithHandler:^{
-                 [weakSelf toggleSliderViewWithHandler:nil];
-             }],
-             [ZSCanvasBarButtonItem shareButtonWithHandler:^{
-                 [weakSelf shareProject];
-             }],
-             [ZSCanvasBarButtonItem flexibleBarButtonItem],
-             [ZSCanvasBarButtonItem playButtonWithHandler:^{
-                 if (weakSelf.gridSliderShowing) {
-                     [weakSelf hideSliderWithHandler:^{
-                         [weakSelf playProject];
-                     }];
-                 }
-                 else {
-                     [weakSelf playProject];
-                 }
-                 [self.tutorial broadcastEvent:ZSTutorialBroadcastEventComplete];
+             [ZSCanvasBarButtonItem finishButtonWithHandler:^{
+                 [weakSelf transitionToInterfaceState:ZSToolbarInterfaceStateNormal];
              }]
              ];
-}
-
-- (NSArray *)groupsToolbarItems {
-    return self.groupsController.canvasToolbarItems;
 }
 
 - (NSArray *)rendererPlayingToolbarItems {
@@ -667,7 +688,7 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
              [ZSCanvasBarButtonItem groupsButtonWithHandler:^{
                  [weakSelf modifyGroups];
              }],
-             [ZSCanvasBarButtonItem finishButtonWithHandler:^{
+             [ZSCanvasBarButtonItem homeButtonWithHandler:^{
                  [weakSelf toggleGeneratorView];
              }]
              ];
