@@ -7,8 +7,12 @@
 CGFloat const LabelPadding = 10.0f;
 
 @interface ZS_TouchLabel : UILabel
+
 - (instancetype) initWithText: (NSString*)text font: (UIFont*)font;
-@property (copy, nonatomic) void (^hasBeenTouched)();
+
+@property (copy, nonatomic) void (^tapBlock)();
+@property (copy, nonatomic) void (^longPressBlock)();
+
 @end
 
 @implementation ZS_TouchLabel
@@ -21,113 +25,58 @@ CGFloat const LabelPadding = 10.0f;
         self.text = text;
         [self sizeToFit];
         
-        // add padding
+        // Padding
         CGRect frame = self.frame;
         frame.size.width += self.font.pointSize / 2;
         frame.size.height += LabelPadding - 4;
         frame.origin.y += 4;
         self.frame = frame;
         
+        // Appearance
         self.textColor = [UIColor zuseEditorTextColor];
         self.shadowColor = [UIColor zuseEditorTextShadowColor];
         self.shadowOffset = CGSizeMake(0, 1);
-//        self.highlightedTextColor = [UIColor whiteColor];
-//        self.backgroundColor = [UIColor zuseBackgroundGrey];
         self.clipsToBounds = YES;
         self.layer.cornerRadius = 5;
         self.textAlignment = NSTextAlignmentCenter;
         self.userInteractionEnabled = YES;
-        UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(wasTapped:)];
+        
+        // Gesture regognizers
+        UITapGestureRecognizer *tapRecognizer =
+        [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                action:@selector(handleTapGesture:)];
         [self addGestureRecognizer:tapRecognizer];
+        
+        UILongPressGestureRecognizer* longPress =
+        [[UILongPressGestureRecognizer alloc]initWithTarget: self
+                                                     action: @selector(handleLongPressGesture:)];
+        longPress.minimumPressDuration = 0.5;
+        [self addGestureRecognizer: longPress];
+        
     }
     return self;
 }
+# pragma mark - Gesture handlers
 
-- (void)wasTapped:(id)sender
+- (void) handleTapGesture:(id)sender
 {
     self.highlighted = YES;
-    
     [[NSNotificationCenter defaultCenter] postNotificationName: @"code editor label touched"
                                                         object: self];
-    if (self.hasBeenTouched)
+    if (self.tapBlock)
     {
-        self.hasBeenTouched(self);
+        self.tapBlock();
     }
     [[ZSTutorial sharedTutorial] broadcastEvent:ZSTutorialBroadcastEventComplete];
 }
-//- (void) setText:(NSString *)text
-//{
-//    [super setText: text];
-//    [self sizeToFit];
-//}
-//- (void) sizeToFit
-//{
-//    [super sizeToFit];
-//    
-//    // add padding
-//    CGRect frame = self.frame;
-//    frame.size.width += self.font.pointSize;
-//    self.frame = frame;
-//    
-//}
-//- (void) setHighlighted:(BOOL)isHighlighted
-//{
-//    super.highlighted = isHighlighted;
-////    self.layer.backgroundColor = isHighlighted ? [UIColor orangeColor].CGColor : [UIColor clearColor].CGColor;
-//}
+- (void) handleLongPressGesture:(id)sender
+{
+    self.highlighted = YES;
+    
+    NSLog(@"new statement button long press");
+}
+
 @end
-//
-//
-//
-//
-//
-//
-//@interface ZSNameLabel : UILabel
-//
-//@property (nonatomic, assign) UIEdgeInsets edgeInsets;
-//
-//@end
-//
-//@implementation ZSNameLabel
-//
-//- (id)initWithFrame:(CGRect)frame{
-//    self = [super initWithFrame:frame];
-//    if (self) {
-//        [self sharedInit];
-//    }
-//    return self;
-//}
-//
-//- (id)init {
-//    self = [super init];
-//    if (self) {
-//        [self sharedInit];
-//    }
-//    return self;
-//}
-//
-//- (void)sharedInit {
-//    self.edgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
-//}
-//
-//- (void)sizeToFit {
-//    [super sizeToFit];
-//    CGRect frame = self.frame;
-//    frame.size.height += self.edgeInsets.bottom + self.edgeInsets.top;
-//    frame.size.width += self.edgeInsets.left + self.edgeInsets.right;
-//    self.frame = frame;
-//}
-//
-//- (void)drawTextInRect:(CGRect)rect {
-//    [super drawTextInRect:UIEdgeInsetsInsetRect(rect, self.edgeInsets)];
-//}
-//
-//@end
-
-
-
-
-
 
 
 @interface ZS_StatementView ()
@@ -155,28 +104,32 @@ CGFloat const LabelPadding = 10.0f;
         self.layer.cornerRadius = 5;
         self.layer.borderWidth = 0.5;
         self.json = json;
-
         self.backgroundColor = [ZSColor colorForDSLItem:json.allKeys.firstObject];
-
         self.layer.borderColor = [ZSColor darkenColor:self.backgroundColor withValue:0.1].CGColor;
-
         self.name = [[NSMutableArray alloc]init];
         self.header = [[NSMutableArray alloc]init];
         self.body = [[NSMutableArray alloc]init];
         
         // Add double tap recognizer
-        UITapGestureRecognizer*tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(handleDoubleTapGesture:)];
+        UITapGestureRecognizer*tapGesture =
+        [[UITapGestureRecognizer alloc]initWithTarget: self
+                                               action: @selector(handleDoubleTapGesture:)];
         tapGesture.numberOfTapsRequired = 2;
         tapGesture.delegate = self;
         [self addGestureRecognizer: tapGesture];
         
         // Add long press recognizer
-        UILongPressGestureRecognizer* longPress = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(handleLongPressGesture:)];
+        UILongPressGestureRecognizer* longPress =
+        [[UILongPressGestureRecognizer alloc]initWithTarget: self
+                                                     action: @selector(handleLongPressGesture:)];
         longPress.minimumPressDuration = 0.5;
         longPress.delegate = self;
         [self addGestureRecognizer: longPress];
 
-        UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(wasTapped:)];
+        // Add single tap recognizer
+        UITapGestureRecognizer *tapRecognizer =
+        [[UITapGestureRecognizer alloc] initWithTarget: self
+                                                action: @selector(handleTapGesture:)];
         [self addGestureRecognizer:tapRecognizer];
     }
     return self;
@@ -194,20 +147,6 @@ CGFloat const LabelPadding = 10.0f;
 
 -(void)addNameLabelWithText:(NSString*)text
 {
-//    ZSNameLabel* label = [[ZSNameLabel alloc]init];
-//    label.font = self.font;
-//    label.text = text;
-//    label.textAlignment = NSTextAlignmentCenter;
-//    label.textColor = [UIColor zuseEditorTextColor];
-//    label.shadowColor = [UIColor zuseEditorTextShadowColor];
-//    label.shadowOffset = CGSizeMake(0, 1);
-//    label.highlightedTextColor = [UIColor whiteColor];
-//    [label sizeToFit];
-//    CGRect frame = label.frame;
-//    frame.size.height += LabelPadding;
-//    frame.origin.x += 20;
-//    label.frame = frame;
-    
     UILabel* label = [[UILabel alloc]init];
     label.font = self.font;
     label.text = text;
@@ -228,7 +167,7 @@ CGFloat const LabelPadding = 10.0f;
 - (void)addArgumentLabelWithText:(NSString*)text touchBlock:(void (^)(UILabel*))touchBlock
 {
     ZS_TouchLabel* label = [[ZS_TouchLabel alloc]initWithText:text font:self.font];
-    label.hasBeenTouched = touchBlock;
+    label.tapBlock = touchBlock;
 
     label.backgroundColor = [ZSColor darkenColor:self.backgroundColor withValue:0.1];
     if ([text hasPrefix:@"#"]) {
@@ -259,10 +198,10 @@ CGFloat const LabelPadding = 10.0f;
     [self.name addObject:self.parameters];
     [self addSubview: self.parameters];
 }
-- (void) addNewStatementLabelWithTouchBlock: (void(^)(UILabel*)) touchBlock
+- (void) addNewStatementButton
 {
     ZS_TouchLabel* label = [[ZS_TouchLabel alloc]initWithText: @"         +          "
-                                                               font: self.font];
+                                                         font: self.font];
 
     label.attributedText = [FAKIonIcons ios7PlusEmptyIconWithSize:label.font.pointSize * 1.2].attributedString;
     CGRect frame = label.frame;
@@ -274,7 +213,10 @@ CGFloat const LabelPadding = 10.0f;
     label.backgroundColor = [ZSColor darkenColor:self.backgroundColor withValue:0.1];
     label.layer.borderColor = [ZSColor darkenColor:label.backgroundColor withValue:0.01].CGColor;
     label.layer.borderWidth = 0.5;
-    label.hasBeenTouched = touchBlock;
+    label.tapBlock = ^()
+    {
+        [self.delegate newStatementButtonTapped:self];
+    };
     [self.body addObject:label];
     [self addSubview:label];    
 }
@@ -282,11 +224,6 @@ CGFloat const LabelPadding = 10.0f;
 {
     _highlighted = isHighlighted;
     
-//      // Highlight the name labels
-//    for (UILabel* label in self.name)
-//    {
-//        label.highlighted = isHighlighted;
-//    }
     // Hightlight background
     UIColor *backgroundColor = [ZSColor colorForDSLItem:self.json.allKeys.firstObject];
     if (isHighlighted) {
@@ -408,15 +345,20 @@ CGFloat const LabelPadding = 10.0f;
         self.layer.borderWidth = 0;
     }
 }
-
 # pragma mark UIView methods
 
-- (void)wasTapped:(id)sender
+-(BOOL) canBecomeFirstResponder
+{
+    return YES;
+}
+# pragma mark - Gesture handlers
+
+- (void)handleTapGesture:(id)sender
 {
     if (!self.topLevelStatement && !self.isHighlighted)
     {
         self.highlighted = YES;
-
+        
         // Notify Code Editor Controller
         [[NSNotificationCenter defaultCenter] postNotificationName: @"statement view selected"
                                                             object: self];
@@ -424,14 +366,6 @@ CGFloat const LabelPadding = 10.0f;
         [self.delegate hideMenuController];
     }
 }
-
--(BOOL) canBecomeFirstResponder
-{
-    return YES;
-}
-
-# pragma mark - Gesture handlers
-
 - (void)handleDoubleTapGesture:(UITapGestureRecognizer *)sender
 {
     if (self.body.count && sender.state == UIGestureRecognizerStateRecognized)
@@ -471,7 +405,7 @@ CGFloat const LabelPadding = 10.0f;
         {
             [self addSubview:view];
         }
-        // Remove '+ ' in front of the statement name
+        // Remove '▸ ' in front of the statement name
         UILabel* firstHeaderLabel = (UILabel*)self.header.firstObject;
         firstHeaderLabel.text = [firstHeaderLabel.text substringFromIndex:@"▸ ".length];
         [firstHeaderLabel sizeToFit];
