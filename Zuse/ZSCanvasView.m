@@ -209,10 +209,8 @@
         }
         
         touchView.frame = frame;
-    };
-    
-    view.panEnded = ^(UIPanGestureRecognizer *panGestureRecognizer) {
-        CGRect frame = weakView.frame;
+        
+        // Update the JSON.
         CGFloat x = frame.origin.x + (frame.size.width / 2);
         CGFloat y = self.frame.size.height - frame.size.height - frame.origin.y;
         y += frame.size.height / 2;
@@ -222,7 +220,9 @@
         properties[@"y"] = @(y);
         properties[@"width"] = @(frame.size.width);
         properties[@"height"] = @(frame.size.height);
-        
+    };
+    
+    view.panEnded = ^(UIPanGestureRecognizer *panGestureRecognizer) {
         if (_spriteModified) {
             _spriteModified(weakView);
         }
