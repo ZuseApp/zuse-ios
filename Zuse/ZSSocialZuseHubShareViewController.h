@@ -10,9 +10,10 @@
 #import "ZSProject.h"
 
 @interface ZSSocialZuseHubShareViewController : UIActivityViewController
+
 @property (strong, nonatomic) ZSProject *project;
 @property (copy, nonatomic) void(^didFinish)();
 
-- (id)initWithProject:(ZSProject *)project;
+- (id)initWithProject:(ZSProject *)project URL:(NSURL *)shareURL;
 
 @end
