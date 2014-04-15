@@ -350,9 +350,19 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
     
     _canvasView.spriteSingleTapped = ^(ZSSpriteView *spriteView) {
         [_tutorial broadcastEvent:ZSTutorialBroadcastEventComplete];
-        [self hideSliderWithHandler:^{
+        if (self.gridSliderShowing) {
+            [self hideSliderWithHandler:^{
+                [weakSelf performSegueWithIdentifier:@"editor" sender:spriteView];
+            }];
+        }
+        else if (self.submenuShowing) {
+            [self hideSubmenuWithHandler:^{
+                [weakSelf performSegueWithIdentifier:@"editor" sender:spriteView];
+            }];
+        }
+        else {
             [weakSelf performSegueWithIdentifier:@"editor" sender:spriteView];
-        }];
+        }
     };
     
     _canvasView.spriteCreated = ^(ZSSpriteView *spriteView) {
@@ -383,6 +393,7 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
     
     _canvasView.singleTapped = ^() {
         [self hideSliderWithHandler:nil];
+        [self hideSubmenuWithHandler:nil];
     };
 }
 
