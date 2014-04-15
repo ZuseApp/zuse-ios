@@ -30,6 +30,11 @@
     [self reloadData];
 }
 
+-(void)viewWillAppear:(BOOL)animated {
+    self.navigationController.navigationBarHidden = NO;
+    self.automaticallyAdjustsScrollViewInsets = NO;
+}
+
 - (void)addTapped:(id)sender {
     NSLog(@"Working");
     
@@ -97,7 +102,7 @@
         
         if (((NSDictionary*)self.allTraits[traitIdentifier][@"parameters"]).count != 0) {
             UIButton *optionsButton = [UIButton buttonWithType:UIButtonTypeSystem];
-            optionsButton.frame = CGRectMake(190, 7, 56, 30);
+            optionsButton.frame = CGRectMake(254, 7, 56, 30);
             [optionsButton setTitle:@"Options" forState:UIControlStateNormal];
             [optionsButton addTarget:self action:@selector(options:) forControlEvents:UIControlEventTouchUpInside];
             optionsButton.tag = indexPath.row;
@@ -109,20 +114,7 @@
         cell.accessoryType = UITableViewCellAccessoryNone;
     }
     
-    NSString *buttonTitle = self.globalTraits[traitIdentifier] ? @"View" : @"Edit";
-    UIButton *editButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    editButton.frame = CGRectMake(254, 7, 46, 30);
-    editButton.tag = indexPath.row;
-    [editButton setTitle:buttonTitle forState:UIControlStateNormal];
-    [editButton addTarget:self action:@selector(edit:) forControlEvents:UIControlEventTouchUpInside];
-    
-    [cell.contentView addSubview:editButton];
-    
     return cell;
-}
-
-- (void)edit:(id)sender {
-    [self performSegueWithIdentifier:@"editor" sender:sender];
 }
 
 - (void)options:(id)sender {

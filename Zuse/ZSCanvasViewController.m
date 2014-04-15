@@ -820,7 +820,7 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
                  [weakSelf showToolbox];
              }],
              [ZSCanvasBarButtonItem propertiesButtonWithHandler:^{
-                 
+                 [self canvasSegueWithIdentifier:@"traitToggle" sender:weakSelf.canvasView.selectedSprite];
              }],
              [ZSCanvasBarButtonItem finishButtonWithHandler:^{
                  [weakSelf saveProject];

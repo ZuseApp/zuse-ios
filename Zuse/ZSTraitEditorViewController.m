@@ -30,6 +30,9 @@ NSString * const ZSTutorialBroadcastBackPressedTraitEditor = @"ZSTutorialBroadca
 {
     [super viewDidLoad];
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"Cell"];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+                                                                                               target:self
+                                                                                               action:@selector(addTapped:)];
     [self reloadData];
 }
 
