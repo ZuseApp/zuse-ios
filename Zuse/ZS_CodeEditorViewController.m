@@ -42,6 +42,10 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    self.navigationController.navigationBarHidden = NO;
+}
+
 - (void) reloadFromJson
 {
     ZS_StatementView* objectStatementView =
