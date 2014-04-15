@@ -1,11 +1,3 @@
-//
-//  ZSTraitEditorViewController.m
-//  Zuse
-//
-//  Created by Parker Wightman on 12/9/13.
-//  Copyright (c) 2013 Michael Hogenson. All rights reserved.
-//
-
 #import "ZSTraitEditorViewController.h"
 #import "ZSTraitEditorParametersViewController.h"
 #import "ZS_CodeEditorViewController.h"
@@ -39,6 +31,11 @@ NSString * const ZSTutorialBroadcastBackPressedTraitEditor = @"ZSTutorialBroadca
     [super viewDidLoad];
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"Cell"];
     [self reloadData];
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+    self.navigationController.navigationBarHidden = NO;
+    self.automaticallyAdjustsScrollViewInsets = NO;
 }
 
 - (void)addTapped:(id)sender {
@@ -100,25 +97,9 @@ NSString * const ZSTutorialBroadcastBackPressedTraitEditor = @"ZSTutorialBroadca
     cell.detailTextLabel.backgroundColor = [UIColor clearColor];
     cell.accessoryView.backgroundColor = [UIColor clearColor];
     
-    if (self.enabledSpriteTraits[traitIdentifier]) {
-        cell.contentView.backgroundColor = [UIColor colorWithRed:1.0
-                                                           green:0
-                                                            blue:0
-                                                           alpha:0.3];
-        
-        if (((NSDictionary*)self.allTraits[traitIdentifier][@"parameters"]).count != 0) {
-            UIButton *optionsButton = [UIButton buttonWithType:UIButtonTypeSystem];
-            optionsButton.frame = CGRectMake(190, 7, 56, 30);
-            [optionsButton setTitle:@"Options" forState:UIControlStateNormal];
-            [optionsButton addTarget:self action:@selector(options:) forControlEvents:UIControlEventTouchUpInside];
-            optionsButton.tag = indexPath.row;
-            [cell.contentView addSubview:optionsButton];
-        }
-        [[ZSTutorial sharedTutorial] broadcastEvent:ZSTutorialBroadcastEventComplete];
-    } else {
-        cell.contentView.backgroundColor = [UIColor whiteColor];
-        cell.accessoryType = UITableViewCellAccessoryNone;
-    }
+    // Code kept from the case where the cell wasn't selected.  Can it be removed?
+    cell.contentView.backgroundColor = [UIColor whiteColor];
+    cell.accessoryType = UITableViewCellAccessoryNone;
     
     NSString *buttonTitle = self.globalTraits[traitIdentifier] ? @"View" : @"Edit";
     UIButton *editButton = [UIButton buttonWithType:UIButtonTypeSystem];
@@ -140,40 +121,28 @@ NSString * const ZSTutorialBroadcastBackPressedTraitEditor = @"ZSTutorialBroadca
     [self performSegueWithIdentifier:@"parameters" sender:sender];
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView deselectRowAtIndexPath:indexPath animated:NO];
-    NSString *traitIdentifier = self.allTraitNames[indexPath.row];
-    if (self.enabledSpriteTraits[traitIdentifier]) {
-        [self.enabledSpriteTraits removeObjectForKey:traitIdentifier];
-    } else {
-        self.enabledSpriteTraits[traitIdentifier] = [@{
-                @"parameters": [self.allTraits[traitIdentifier][@"parameters"] mutableCopy]
-        } mutableCopy];
-    }
-    [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-}
-
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     NSString *traitIdentifier = self.allTraitNames[((UIButton*)sender).tag];
     
     // Merge any current trait parameters with the default, preferring the current
     NSMutableDictionary *defaultParams = [self.allTraits[traitIdentifier][@"parameters"] mutableCopy];
-    [defaultParams addEntriesFromDictionary:self.enabledSpriteTraits[traitIdentifier][@"parameters"]];
-    self.enabledSpriteTraits[traitIdentifier][@"parameters"] = defaultParams;
-    
-    if ([segue.identifier isEqualToString:@"parameters"]) {
-        ZSTraitEditorParametersViewController *controller = (ZSTraitEditorParametersViewController *)segue.destinationViewController;
-        controller.parameters = self.enabledSpriteTraits[traitIdentifier][@"parameters"];
-        [[ZSTutorial sharedTutorial] broadcastEvent:ZSTutorialBroadcastTraitToggled];
-    }
-    else if ([segue.identifier isEqualToString:@"editor"]) {
+//    [defaultParams addEntriesFromDictionary:self.enabledSpriteTraits[traitIdentifier][@"parameters"]];
+//    self.enabledSpriteTraits[traitIdentifier][@"parameters"] = defaultParams;
+//
+//    if ([segue.identifier isEqualToString:@"parameters"]) {
+//        ZSTraitEditorParametersViewController *controller = (ZSTraitEditorParametersViewController *)segue.destinationViewController;
+//        controller.parameters = self.enabledSpriteTraits[traitIdentifier][@"parameters"];
+//        [[ZSTutorial sharedTutorial] broadcastEvent:ZSTutorialBroadcastTraitToggled];
+//    }
+//    else
+    if ([segue.identifier isEqualToString:@"editor"]) {
         ZS_CodeEditorViewController *controller = (ZS_CodeEditorViewController*)segue.destinationViewController;
         
         NSMutableDictionary *spriteObject = [NSMutableDictionary dictionary];
         spriteObject[@"id"] = traitIdentifier;
         spriteObject[@"parameters"] = defaultParams;
         controller.codeItems = self.allTraits[traitIdentifier][@"code"];
-        controller.initialProperties = [self.spriteProperties mutableCopy];
+//        controller.initialProperties = [self.spriteProperties mutableCopy];
     }
 }
 

@@ -221,8 +221,8 @@
                         <outlet property="submenu" destination="mZS-qb-299" id="8mg-Lo-Tsg"/>
                         <outlet property="toolbar" destination="lke-3O-Z2W" id="LOB-tb-57j"/>
                         <segue destination="aKz-bP-FaN" kind="push" identifier="editor" id="8zG-6o-uWU"/>
-                        <segue destination="a2G-8p-P96" kind="push" identifier="traitEdit" id="Is2-2w-yRB"/>
-                        <segue destination="xyD-iv-QQt" kind="push" identifier="traitToggle" id="eRA-nR-O7x"/>
+                        <segue destination="a2G-8p-P96" kind="push" identifier="traitToggle" id="Is2-2w-yRB"/>
+                        <segue destination="xyD-iv-QQt" kind="push" identifier="traitEdit" id="eRA-nR-O7x"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZHF-Bn-kfF" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -242,8 +242,8 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
-                                    <outlet property="dataSource" destination="a2G-8p-P96" id="AiS-As-exK"/>
-                                    <outlet property="delegate" destination="a2G-8p-P96" id="Kcw-1V-R35"/>
+                                    <outlet property="dataSource" destination="a2G-8p-P96" id="TGF-Ep-vkl"/>
+                                    <outlet property="delegate" destination="a2G-8p-P96" id="wpg-rq-h69"/>
                                 </connections>
                             </tableView>
                         </subviews>
@@ -253,7 +253,6 @@
                     <navigationItem key="navigationItem" id="1ws-80-XlH"/>
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
-                        <outlet property="tableView" destination="ibX-ss-fDW" id="06g-Op-SbW"/>
                         <segue destination="pZF-Fu-eXH" kind="push" identifier="parameters" id="qxG-LS-U1q"/>
                     </connections>
                 </viewController>
@@ -1613,7 +1612,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Y58-Or-xqM">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Y58-Or-xqM">
                                 <rect key="frame" x="0.0" y="44" width="320" height="613"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
