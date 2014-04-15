@@ -474,7 +474,17 @@ void APARunOneShotEmitter(SKEmitterNode *emitter, CGFloat duration) {
 }
 
 - (BOOL)interpreter:(ZSInterpreter *)interpreter shouldDelegateProperty:(NSString *)property objectIdentifier:(NSString *)identifier {
-    return [@[@"x", @"y"] indexOfObject:property] != NSNotFound;
+    static NSSet *objects = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        objects = [NSSet setWithArray:@[
+            @"x",
+            @"y",
+            @"hidden",
+            @"angle"
+        ]];
+    });
+    return [objects containsObject:property];
 }
 
 - (id)interpreter:(ZSInterpreter *)interpreter valueForProperty:(NSString *)property objectIdentifier:(NSString *)identifier {
