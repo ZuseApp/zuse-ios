@@ -34,6 +34,7 @@
 		4C0D470817FB927600F13786 /* ZSCanvasViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0D470717FB927600F13786 /* ZSCanvasViewController.m */; };
 		4C1772B418E7A6D700C7AA35 /* galaga_example.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C1772B318E7A6D700C7AA35 /* galaga_example.png */; };
 		4C1772B618E7C56100C7AA35 /* Explosion.sks in Resources */ = {isa = PBXBuildFile; fileRef = 4C1772B518E7C56100C7AA35 /* Explosion.sks */; };
+		4C21DCA918FCF499000B1CF9 /* ZSTraitToggleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C21DCA818FCF499000B1CF9 /* ZSTraitToggleViewController.m */; };
 		4C26880318D7734200276A76 /* ZSAddItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C26880218D7734200276A76 /* ZSAddItemCell.m */; };
 		4C2D1ECE1891EB65002C431A /* sprite_manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 4C2D1ECD1891EB65002C431A /* sprite_manifest.json */; };
 		4C3DD66118B7005D0013B3A5 /* ZSToolboxCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C3DD66018B7005D0013B3A5 /* ZSToolboxCell.m */; };
@@ -242,6 +243,8 @@
 		4C0D470717FB927600F13786 /* ZSCanvasViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSCanvasViewController.m; sourceTree = "<group>"; };
 		4C1772B318E7A6D700C7AA35 /* galaga_example.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = galaga_example.png; sourceTree = "<group>"; };
 		4C1772B518E7C56100C7AA35 /* Explosion.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Explosion.sks; sourceTree = "<group>"; };
+		4C21DCA718FCF499000B1CF9 /* ZSTraitToggleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSTraitToggleViewController.h; sourceTree = "<group>"; };
+		4C21DCA818FCF499000B1CF9 /* ZSTraitToggleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSTraitToggleViewController.m; sourceTree = "<group>"; };
 		4C26880118D7734200276A76 /* ZSAddItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSAddItemCell.h; sourceTree = "<group>"; };
 		4C26880218D7734200276A76 /* ZSAddItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSAddItemCell.m; sourceTree = "<group>"; };
 		4C2D1ECD1891EB65002C431A /* sprite_manifest.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = sprite_manifest.json; sourceTree = "<group>"; };
@@ -1040,6 +1043,8 @@
 				5F0139AE18568EC2005D7FAE /* ZSTraitEditorViewController.m */,
 				5F0139B91856BCA7005D7FAE /* ZSTraitEditorParametersViewController.h */,
 				5F0139BA1856BCA7005D7FAE /* ZSTraitEditorParametersViewController.m */,
+				4C21DCA718FCF499000B1CF9 /* ZSTraitToggleViewController.h */,
+				4C21DCA818FCF499000B1CF9 /* ZSTraitToggleViewController.m */,
 			);
 			name = Traits;
 			sourceTree = "<group>";
@@ -1456,6 +1461,7 @@
 				7899786618B9255500A8FE05 /* ZS_JsonViewController.m in Sources */,
 				5F39DFD0188A40A0008ECAC1 /* NSObject+AssociatedObjects.m in Sources */,
 				5FBB4A8018BFEA4300B79AB6 /* ZSMainMenuViewController.m in Sources */,
+				4C21DCA918FCF499000B1CF9 /* ZSTraitToggleViewController.m in Sources */,
 				5FBB4A7D18BFE90A00B79AB6 /* ZSProjectCollectionViewCell.m in Sources */,
 				2CA9A35818C54B40005F4404 /* MMSideDrawerSectionHeaderView.m in Sources */,
 				5F39172118C4F9FA00109747 /* ZSProjectJSONKeys.m in Sources */,
