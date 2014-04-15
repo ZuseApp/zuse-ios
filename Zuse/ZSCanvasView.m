@@ -266,7 +266,10 @@
 
 - (BOOL)canPerformAction:(SEL)action withSender:(id)sender {
     if (_spriteViewCopy && action == @selector(paste:)) {
-        return YES;
+        if (self.editMode) {
+            return YES;
+        }
+        return NO;
     }
     return NO;
 }
@@ -295,6 +298,13 @@
         [self addSubview:_spriteViewCopy];
         if (_spriteCreated) {
             _spriteCreated(_spriteViewCopy);
+        }
+        
+        // Select the pasted sprite before a new copy is made.
+        self.selectedSprite = _spriteViewCopy;
+        [self lockUnselectedSprites];
+        if (self.spriteSelected) {
+            self.spriteSelected(_spriteViewCopy);
         }
 
         // Create a new _spriteViewCopy.

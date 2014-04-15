@@ -775,29 +775,22 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
 
 - (NSArray *)editNormalSprite {
     WeakSelf
-    void (^doneBlock)() = ^{
-        [weakSelf saveProject];
-        [weakSelf.canvasView deactivateEditMode];
-        [weakSelf transitionToInterfaceState:ZSToolbarInterfaceStateNormal];
-    };
     return @[
              [ZSCanvasBarButtonItem flexibleBarButtonItem],
              [ZSCanvasBarButtonItem cutButtonWithHandler:^{
                  [weakSelf.canvasView cutSelectedSprite];
-                 doneBlock();
              }],
              [ZSCanvasBarButtonItem copyButtonWithHandler:^{
                  [weakSelf.canvasView copySelectedSprite];
-                 doneBlock();
              }],
              [ZSCanvasBarButtonItem deleteButtonWithHandler:^{
                  [weakSelf.canvasView deleteSelectedSprite];
-                 doneBlock();
              }],
              [ZSCanvasBarButtonItem swapButtonWithHandler:^{
                  [weakSelf showToolbox];
              }],
              [ZSCanvasBarButtonItem finishButtonWithHandler:^{
+                 [weakSelf saveProject];
                  [weakSelf.canvasView deactivateEditMode];
                  [weakSelf transitionToInterfaceState:ZSToolbarInterfaceStateNormal];
              }]
