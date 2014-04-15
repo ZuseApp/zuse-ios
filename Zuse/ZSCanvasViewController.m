@@ -922,6 +922,9 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
 }
 
 - (void)showSliderWithHandler:(void (^)())handler {
+    if (self.submenuShowing) {
+        [self hideSubmenuWithHandler:nil];
+    }
     if (!self.gridSliderShowing) {
         [self.view bringSubviewToFront:self.gridSlider];
         [self.view bringSubviewToFront:self.toolbar];
@@ -965,6 +968,9 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
 }
                           
 - (void)showSubmenuWithHandler:(void (^)())handler {
+    if (self.gridSliderShowing) {
+        [self hideSliderWithHandler:nil];
+    }
     if (!self.submenuShowing) {
         [self.view bringSubviewToFront:self.submenu];
         [self.view bringSubviewToFront:self.toolbar];
