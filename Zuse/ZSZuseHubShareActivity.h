@@ -12,5 +12,6 @@
 @interface ZSZuseHubShareActivity : UIActivity
 
 @property (strong, nonatomic) ZSProject *project;
+@property (copy, nonatomic) void(^wasChosen)();
 
 @end
