@@ -708,15 +708,18 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
              [ZSCanvasBarButtonItem shareButtonWithHandler:^{
                  [self hideSubmenuWithHandler:^{
                      //TODO present custom UIActivityViewController as you would w/ any normal view controller
-                     
-                     ZSSocialZuseHubShareViewController *socialZuseHubShareController = [[ZSSocialZuseHubShareViewController alloc] initWithProject:self.project];
-                     
-                     socialZuseHubShareController.didFinish = ^{
-                         [self dismissViewControllerAnimated:YES completion:^{}];
-                     };
-                     socialZuseHubShareController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-                     [weakSelf presentViewController:socialZuseHubShareController animated:YES completion:^{}];
-                     
+
+                     [self shareProjectWithCompletion:^(NSString *URL) {
+                         ZSSocialZuseHubShareViewController *socialZuseHubShareController = [[ZSSocialZuseHubShareViewController alloc] initWithProject:self.project URL:[NSURL URLWithString:URL]];
+
+                         socialZuseHubShareController.didFinish = ^{
+                             [self dismissViewControllerAnimated:YES completion:^{}];
+                         };
+                         socialZuseHubShareController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+                         [weakSelf presentViewController:socialZuseHubShareController animated:YES completion:^{}];
+                         
+                     }];
+
                  }];
              }]
              ];
@@ -1074,74 +1077,65 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
     }];
 }
 
-- (void)shareProject {
-    NSURL *baseURL = [NSURL URLWithString:@"http://zusehub.com/api/v1/"];
-//    NSURL *baseURL = [NSURL URLWithString:@"http://128.110.74.238:3000/api/v1/"];
-    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseURL];
-    manager.requestSerializer = [AFJSONRequestSerializer serializer];
-    manager.responseSerializer = [AFJSONResponseSerializer serializer];
-    
-    NSData *projectData = [NSJSONSerialization dataWithJSONObject:self.project.assembledJSON
-                                                          options:0
-                                                            error:nil];
-    
-    
-    NSString *projectString = [[NSString alloc] initWithBytes:projectData.bytes
-                                                       length:projectData.length
-                                                     encoding:NSUTF8StringEncoding];
-
-
-    ZSCompiler *compiler = [ZSCompiler compilerWithProjectJSON:self.project.assembledJSON
-                                                       options:ZSCompilerOptionWrapInStartEvent];
-
-    NSData *compiledData = [NSJSONSerialization dataWithJSONObject:compiler.compiledComponents
-                                                           options:0
-                                                            error:nil];
-
-    NSString *compiledString = [[NSString alloc] initWithBytes:compiledData.bytes
-                                                        length:compiledData.length
-                                                      encoding:NSUTF8StringEncoding];
-
-    NSDictionary *params = @{
-        @"shared_project": @{
-            @"title": self.project.title,
-            @"project_json": projectString,
-            @"compiled_components": compiledString
-        }
-    };
-
-    NSLog(@"Requesting...");
-
+- (void)shareProjectWithCompletion:(void (^)(NSString *URL))completion {
+    //    NSURL *baseURL = [NSURL URLWithString:@"http://128.110.74.238:3000/api/v1/"];
     [SVProgressHUD setBackgroundColor:[UIColor zuseBackgroundGrey]];
     [SVProgressHUD setForegroundColor:[UIColor zuseYellow]];
     [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        NSURL *baseURL = [NSURL URLWithString:@"http://zusehub.com/api/v1/"];
+        AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseURL];
+        manager.requestSerializer = [AFJSONRequestSerializer serializer];
+        manager.responseSerializer = [AFJSONResponseSerializer serializer];
 
-    [manager POST:@"shared_projects"
-       parameters:params
-          success:^(AFHTTPRequestOperation *operation, NSDictionary *project) {
-              [SVProgressHUD dismiss];
-              NSLog(@"Success! %@", project);
-              
-              if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter]) {
-                  SLComposeViewController *controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
-                  [controller setInitialText:[NSString stringWithFormat:@"Check out my game %@ on Zuse!", self.project.title]];
-                  [controller addURL:[NSURL URLWithString:project[@"url"]]];
-                  [controller setCompletionHandler:^(SLComposeViewControllerResult result) {
-                      if (result == SLComposeViewControllerResultCancelled) {
-                          NSLog(@"Wooohoo!");
-                      }
-                      [self dismissViewControllerAnimated:YES completion:^{}];
-                  }];
-                  [self presentViewController:controller
-                                     animated:YES
-                                   completion:^{
-                                       
-                                   }];
-              }
-          } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-              [SVProgressHUD dismiss];
-              NSLog(@"Failed! %@", error.localizedDescription);
-          }];
+        NSData *projectData = [NSJSONSerialization dataWithJSONObject:self.project.assembledJSON
+                                                              options:0
+                                                                error:nil];
+
+
+        NSString *projectString = [[NSString alloc] initWithBytes:projectData.bytes
+                                                           length:projectData.length
+                                                         encoding:NSUTF8StringEncoding];
+
+
+        ZSCompiler *compiler = [ZSCompiler compilerWithProjectJSON:self.project.assembledJSON
+                                                           options:ZSCompilerOptionWrapInStartEvent];
+
+        NSData *compiledData = [NSJSONSerialization dataWithJSONObject:compiler.compiledComponents
+                                                               options:0
+                                                                 error:nil];
+
+        NSString *compiledString = [[NSString alloc] initWithBytes:compiledData.bytes
+                                                            length:compiledData.length
+                                                          encoding:NSUTF8StringEncoding];
+
+        NSDictionary *params = @{
+                                 @"shared_project": @{
+                                         @"title": self.project.title,
+                                         @"project_json": projectString,
+                                         @"compiled_components": compiledString
+                                         }
+                                 };
+
+        NSLog(@"Requesting...");
+
+
+        [manager POST:@"shared_projects"
+           parameters:params
+              success:^(AFHTTPRequestOperation *operation, NSDictionary *project) {
+                  NSLog(@"Success! %@", project);
+                  dispatch_async(dispatch_get_main_queue(), ^{
+                      [SVProgressHUD dismiss];
+                      completion(project[@"url"]);
+                  });
+              } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                  dispatch_async(dispatch_get_main_queue(), ^{
+                      [SVProgressHUD dismiss];
+                  });
+                  NSLog(@"Failed! %@", error.localizedDescription);
+              }];
+        
+    });
 }
 
 - (void)showToolbox {
