@@ -278,7 +278,7 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
         paddleRect.size.height -= 17;
         
         CGRect settingsButtonRect = ((ZSCanvasBarButtonItem *)_toolbar.items[2]).button.frame;
-        CGRect playButtonRect = ((ZSCanvasBarButtonItem *)_toolbar.items[5]).button.frame;
+        CGRect playButtonRect = ((ZSCanvasBarButtonItem *)_toolbar.items[6]).button.frame;
         
         [_tutorial addActionWithText:@"Zuse allows you to build games on your iPhone.  This tutorial will teach you how to build Pong.  Tap anywhere to continue."
                             forEvent:ZSTutorialBroadcastEventComplete
