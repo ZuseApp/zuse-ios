@@ -785,6 +785,7 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
              }],
              [ZSCanvasBarButtonItem deleteButtonWithHandler:^{
                  [weakSelf.canvasView deleteSelectedSprite];
+                 [weakSelf transitionToInterfaceState:ZSToolbarInterfaceStateEditEmpty];
              }],
              [ZSCanvasBarButtonItem swapButtonWithHandler:^{
                  [weakSelf showToolbox];
