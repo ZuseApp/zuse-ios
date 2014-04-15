@@ -154,6 +154,15 @@
          }];
         
     }
+    else {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Share Failed"
+                                                        message:@"Make sure to enter a title and description."
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
+
+    }
 }
 
 @end

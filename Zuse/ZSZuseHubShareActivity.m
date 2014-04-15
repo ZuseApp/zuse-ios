@@ -28,7 +28,8 @@
 }
 
 - (UIImage *)activityImage {
-    return [UIImage imageNamed:@"deathmite"];
+//    return [UIImage imageNamed:@"AppIcon"];
+    return  nil;
 }
 
 - (BOOL)canPerformWithActivityItems:(NSArray *)activityItems {
@@ -46,9 +47,8 @@
 }
 
 - (void)performActivity {
-    NSLog(@"perform activity");
-    
-    
+    self.wasChosen();
 }
+
 
 @end
