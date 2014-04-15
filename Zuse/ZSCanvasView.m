@@ -7,6 +7,7 @@
 @property (nonatomic, assign) CGPoint lastTouch;
 @property (nonatomic, strong) ZSSpriteView *spriteViewCopy;
 @property (nonatomic, strong) ZSSpriteView *selectedSprite;
+@property (nonatomic, assign) BOOL editMode;
 
 @end
 
@@ -16,6 +17,7 @@
     self = [super initWithCoder:aDecoder];
     if (self) {
         _grid = [[ZSGrid alloc] init];
+        _editMode = NO;
         [self setupGestures];
     }
     return self;
@@ -166,7 +168,7 @@
 
     view.singleTapped = ^() {
         [_editMenu setMenuVisible:NO animated:YES];
-        if (weakSelf.selectedSprite) {
+        if (weakSelf.editMode) {
             weakSelf.selectedSprite = weakView;
             [weakSelf lockUnselectedSprites];
             if (weakSelf.spriteSelected) {
@@ -180,13 +182,13 @@
         }
     };
     
-    view.longPressBegan = ^(UILongPressGestureRecognizer *longPressedGestureRecognizer){
-        weakSelf.selectedSprite = weakView;
-        [weakSelf lockUnselectedSprites];
-        if (weakSelf.spriteSelected) {
-            weakSelf.spriteSelected(weakView);
-        }
-    };
+//    view.longPressBegan = ^(UILongPressGestureRecognizer *longPressedGestureRecognizer){
+//        weakSelf.selectedSprite = weakView;
+//        [weakSelf lockUnselectedSprites];
+//        if (weakSelf.spriteSelected) {
+//            weakSelf.spriteSelected(weakView);
+//        }
+//    };
     
     __block CGPoint offset;
     __block CGPoint currentPoint;
@@ -302,6 +304,17 @@
 
 #pragma mark Edit Functionality
 
+- (void)activateEditMode {
+    [self lockUnselectedSprites];
+    self.editMode = YES;
+}
+
+- (void)deactivateEditMode {
+    self.selectedSprite = nil;
+    [self unlockSprites];
+    self.editMode = NO;
+}
+
 - (BOOL)inEditMode {
     if (self.selectedSprite) {
         return YES;
@@ -362,11 +375,6 @@
         self.selectedSprite.frame = frame;
         [self.selectedSprite reloadContent];
     }
-}
-
-- (void)unselectSelectedSprite {
-    self.selectedSprite = nil;
-    [self unlockSprites];
 }
 
 - (void)lockUnselectedSprites {

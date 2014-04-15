@@ -30,6 +30,7 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
     ZSToolbarInterfaceStateGenerators,
     ZSToolbarInterfaceStateRendererPlaying,
     ZSToolbarInterfaceStateRendererPaused,
+    ZSToolbarInterfaceStateEditEmpty,
     ZSToolbarInterfaceStateEditNormalSprite,
     ZSToolbarInterfaceStateEditTextSprite,
     ZSToolbarInterfaceStateSubmenu
@@ -61,6 +62,7 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
 // Toolbar
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
 @property (weak, nonatomic) IBOutlet UIToolbar *submenu;
+@property (nonatomic, assign) BOOL submenuShowing;
 @property (assign, nonatomic) ZSToolbarInterfaceState interfaceState;
 
 // Grid
@@ -85,6 +87,7 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
         _tutorial = [ZSTutorial sharedTutorial];
         _toolboxController = [[ZSToolboxController alloc] init];
         _gridSliderShowing = NO;
+        _submenuShowing = NO;
         self.interfaceState = ZSToolbarInterfaceStateNormal;
     }
     return self;
@@ -103,6 +106,7 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
         [self setupCanvas];
         [self setupGenerators];
         [self setupToolbar];
+        [self setupSubmenu];
         [self setupToolbox];
         
         // Setup aspect ratio of project based on the size of the phone.
@@ -186,6 +190,7 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
     self.canvasView.frame = frame;
     
     self.gridSlider.hidden = YES;
+    self.submenu.hidden = YES;
     [UIView animateWithDuration:0.4
                      animations:^{
                          self.canvasView.transform = CGAffineTransformIdentity;
@@ -193,6 +198,7 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
                          self.toolbar.frame = originalToolbarFrame;
                      } completion:^(BOOL finished) {
                          self.gridSlider.hidden = NO;
+                         self.submenu.hidden = NO;
                      }];
 }
 
@@ -205,6 +211,7 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
     toolbarRect.origin.y = self.view.bounds.size.height;
     
     self.gridSlider.hidden = YES;
+    self.submenu.hidden = YES;
     [UIView animateWithDuration:0.4
                      animations:^{
                          self.canvasView.transform = CGAffineTransformMakeScale(scale, scale);
@@ -563,6 +570,13 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
     self.toolbar.clipsToBounds = YES;
 }
 
+- (void)setupSubmenu {
+    self.submenu.translucent = NO;
+    self.submenu.barTintColor = [UIColor zuseBackgroundGrey];
+    self.submenu.clipsToBounds = YES;
+    [self.submenu setItems:[self submenuToolbarItems]];
+}
+
 - (void)transitionToInterfaceState:(ZSToolbarInterfaceState)state {
     NSArray *items = nil;
     if (state == ZSToolbarInterfaceStateNormal) {
@@ -575,6 +589,8 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
         items = [self rendererPausedToolbarItems];
     } else if (state == ZSToolbarInterfaceStateGenerators) {
         items = [self generatorsToolbarItems];
+    } else if (state == ZSToolbarInterfaceStateEditEmpty) {
+        items = [self editSpritesEmpty];
     } else if (state == ZSToolbarInterfaceStateEditNormalSprite) {
         items = [self editNormalSprite];
     } else if (state == ZSToolbarInterfaceStateEditTextSprite) {
@@ -603,24 +619,17 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
                  [weakSelf toggleSliderViewWithHandler:nil];
              }],
              [ZSCanvasBarButtonItem menuButtonWithHandler:^{
-                 [weakSelf transitionToInterfaceState:ZSToolbarInterfaceStateSubmenu];
-             }],
-             [ZSCanvasBarButtonItem shareButtonWithHandler:^{
-                 //TODO present custom UIActivityViewController as you would w/ any normal view controller
-                 
-                 ZSSocialZuseHubShareViewController *socialZuseHubShareController = [[ZSSocialZuseHubShareViewController alloc] initWithProject:self.project];
-        
-                 socialZuseHubShareController.didFinish = ^{
-                     [self dismissViewControllerAnimated:YES completion:^{}];
-                 };
-                 socialZuseHubShareController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-                 [weakSelf presentViewController:socialZuseHubShareController animated:YES completion:^{}];
-                 
-//                 [weakSelf shareProject];
+                 [weakSelf toggleSubmenuViewWithHandler:nil];
+//                 [weakSelf transitionToInterfaceState:ZSToolbarInterfaceStateSubmenu];
              }],
              [ZSCanvasBarButtonItem playButtonWithHandler:^{
                  if (weakSelf.gridSliderShowing) {
                      [weakSelf hideSliderWithHandler:^{
+                         [weakSelf playProject];
+                     }];
+                 }
+                 else if (weakSelf.submenuShowing) {
+                     [weakSelf hideSubmenuWithHandler:^{
                          [weakSelf playProject];
                      }];
                  }
@@ -642,31 +651,62 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
     return @[
              [ZSCanvasBarButtonItem flexibleBarButtonItem],
              [ZSCanvasBarButtonItem editButtonWithHandler:^{
+                 [self hideSubmenuWithHandler:^{
+                     [self.canvasView activateEditMode];
+                     [self transitionToInterfaceState:ZSToolbarInterfaceStateEditEmpty];
+                 }];
              }],
              [ZSCanvasBarButtonItem propertiesButtonWithHandler:^{
              }],
              [ZSCanvasBarButtonItem groupsButtonWithHandler:^{
-                 if (weakSelf.gridSliderShowing) {
-                     [weakSelf hideSliderWithHandler:^{
+                 [self hideSubmenuWithHandler:^{
+                     if (weakSelf.gridSliderShowing) {
+                         [weakSelf hideSliderWithHandler:^{
+                             [weakSelf modifyGroups];
+                         }];
+                     }
+                     else if (weakSelf.submenuShowing) {
+                         [weakSelf hideSubmenuWithHandler:^{
+                             [weakSelf modifyGroups];
+                         }];
+                     }
+                     else {
                          [weakSelf modifyGroups];
-                     }];
-                 }
-                 else {
-                     [weakSelf modifyGroups];
-                 }
+                     }
+                 }];
+                 
              }],
              [ZSCanvasBarButtonItem generatorsButtonWithHandler:^{
-                 if (weakSelf.gridSliderShowing) {
-                     [weakSelf hideSliderWithHandler:^{
+                 [self hideSubmenuWithHandler:^{
+                     if (weakSelf.gridSliderShowing) {
+                         [weakSelf hideSliderWithHandler:^{
+                             [weakSelf toggleGeneratorView];
+                         }];
+                     }
+                     else if (weakSelf.submenuShowing) {
+                         [weakSelf hideSubmenuWithHandler:^{
+                             [weakSelf toggleGeneratorView];
+                         }];
+                     }
+                     else {
                          [weakSelf toggleGeneratorView];
-                     }];
-                 }
-                 else {
-                     [weakSelf toggleGeneratorView];
-                 }
+                     }
+                 }];
+                 
              }],
-             [ZSCanvasBarButtonItem finishButtonWithHandler:^{
-                 [weakSelf transitionToInterfaceState:ZSToolbarInterfaceStateNormal];
+             [ZSCanvasBarButtonItem shareButtonWithHandler:^{
+                 [self hideSubmenuWithHandler:^{
+                     //TODO present custom UIActivityViewController as you would w/ any normal view controller
+                     
+                     ZSSocialZuseHubShareViewController *socialZuseHubShareController = [[ZSSocialZuseHubShareViewController alloc] initWithProject:self.project];
+                     
+                     socialZuseHubShareController.didFinish = ^{
+                         [self dismissViewControllerAnimated:YES completion:^{}];
+                     };
+                     socialZuseHubShareController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+                     [weakSelf presentViewController:socialZuseHubShareController animated:YES completion:^{}];
+                     
+                 }];
              }]
              ];
 }
@@ -705,7 +745,7 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
              [ZSCanvasBarButtonItem groupsButtonWithHandler:^{
                  [weakSelf modifyGroups];
              }],
-             [ZSCanvasBarButtonItem homeButtonWithHandler:^{
+             [ZSCanvasBarButtonItem finishButtonWithHandler:^{
                  [weakSelf toggleGeneratorView];
              }]
              ];
@@ -716,8 +756,7 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
     return @[
              [ZSCanvasBarButtonItem flexibleBarButtonItem],
              [ZSCanvasBarButtonItem finishButtonWithHandler:^{
-                 // TODO: Could be a bug here since I removed isEditMode = NO, but it appears
-                 // to have not been used.
+                 [weakSelf.canvasView deactivateEditMode];
                  [weakSelf transitionToInterfaceState:ZSToolbarInterfaceStateNormal];
              }]
              ];
@@ -727,7 +766,7 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
     WeakSelf
     void (^doneBlock)() = ^{
         [weakSelf saveProject];
-        [weakSelf.canvasView unselectSelectedSprite];
+        [weakSelf.canvasView deactivateEditMode];
         [weakSelf transitionToInterfaceState:ZSToolbarInterfaceStateNormal];
     };
     return @[
@@ -748,7 +787,7 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
                  [weakSelf showToolbox];
              }],
              [ZSCanvasBarButtonItem finishButtonWithHandler:^{
-                 [weakSelf.canvasView unselectSelectedSprite];
+                 [weakSelf.canvasView deactivateEditMode];
                  [weakSelf transitionToInterfaceState:ZSToolbarInterfaceStateNormal];
              }]
              ];
@@ -758,7 +797,7 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
     WeakSelf
     void (^doneBlock)() = ^{
         [weakSelf saveProject];
-        [weakSelf.canvasView unselectSelectedSprite];
+        [weakSelf.canvasView deactivateEditMode];
         [weakSelf transitionToInterfaceState:ZSToolbarInterfaceStateNormal];
     };
     return @[
@@ -790,7 +829,7 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
                  [alertView show];
              }],
              [ZSCanvasBarButtonItem finishButtonWithHandler:^{
-                 [weakSelf.canvasView unselectSelectedSprite];
+                 [weakSelf.canvasView deactivateEditMode];
                  [weakSelf transitionToInterfaceState:ZSToolbarInterfaceStateNormal];
              }]
              ];
@@ -873,6 +912,15 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
     }
 }
 
+- (void)toggleSubmenuViewWithHandler:(void (^)())handler {
+    if (self.submenuShowing) {
+        [self hideSubmenuWithHandler:handler];
+    }
+    else {
+        [self showSubmenuWithHandler:handler];
+    }
+}
+
 - (void)showSliderWithHandler:(void (^)())handler {
     if (!self.gridSliderShowing) {
         [self.view bringSubviewToFront:self.gridSlider];
@@ -903,6 +951,49 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
         frame.origin.y += frame.size.height;
         [UIView animateWithDuration:0.25 animations:^{
             self.gridSlider.frame = frame;
+        } completion:^(BOOL finished) {
+            if (handler) {
+                handler();
+            }
+        }];
+    }
+    else {
+        if (handler) {
+            handler();
+        }
+    }
+}
+                          
+- (void)showSubmenuWithHandler:(void (^)())handler {
+    if (!self.submenuShowing) {
+        [self.view bringSubviewToFront:self.submenu];
+        [self.view bringSubviewToFront:self.toolbar];
+        CGRect frame = self.submenu.frame;
+        self.submenuShowing = YES;
+        frame.origin.y -= frame.size.height;
+        [UIView animateWithDuration:0.25 animations:^{
+            self.submenu.frame = frame;
+        } completion:^(BOOL finished) {
+            if (handler) {
+                handler();
+            }
+        }];
+    }
+    else {
+        if (handler) {
+            handler();
+        }
+    }
+}
+                          
+- (void)hideSubmenuWithHandler:(void (^)())handler {
+    if (self.submenuShowing) {
+        [self.view bringSubviewToFront:self.toolbar];
+        CGRect frame = self.submenu.frame;
+        self.submenuShowing = NO;
+        frame.origin.y += frame.size.height;
+        [UIView animateWithDuration:0.25 animations:^{
+            self.submenu.frame = frame;
         } completion:^(BOOL finished) {
             if (handler) {
                 handler();

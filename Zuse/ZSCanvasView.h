@@ -27,12 +27,13 @@
 - (void)setupEditOptionsForSpriteView:(ZSSpriteView *)view;
 
 // Edit methods
+- (void)activateEditMode;
+- (void)deactivateEditMode;
 - (BOOL)inEditMode;
 - (void)cutSelectedSprite;
 - (void)copySelectedSprite;
 - (void)deleteSelectedSprite;
 - (void)setTextForSelectedSpriteWithText:(NSString*)text;
-- (void)unselectSelectedSprite;
 - (void)replaceSelectedSpriteWithJSON:(NSDictionary*)spriteJSON;
 
 @end

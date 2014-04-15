@@ -101,18 +101,18 @@
     self.selectedGroupItem = [ZSCanvasBarButtonItem selectGroupButtonWithHandler:^{
         [self selectGroupButtonTapped];
     }];
-    self.collisionsGroupItem = [ZSCanvasBarButtonItem collisionsButtonWithHandler:^{
-        [self collisionsButtonTapped];
-    }];
+//    self.collisionsGroupItem = [ZSCanvasBarButtonItem collisionsButtonWithHandler:^{
+//        [self collisionsButtonTapped];
+//    }];
     return @[
              [ZSCanvasBarButtonItem addButtonWithHandler:^{
                  [self addButtonTapped];
              }],
-             self.collisionsGroupItem,
+//             self.collisionsGroupItem,
              [ZSCanvasBarButtonItem flexibleBarButtonItem],
              self.selectedGroupItem,
              [ZSCanvasBarButtonItem flexibleBarButtonItem],
-             [ZSCanvasBarButtonItem homeButtonWithHandler:^{
+             [ZSCanvasBarButtonItem finishButtonWithHandler:^{
                  [self doneButtonTapped];
              }]
              ];

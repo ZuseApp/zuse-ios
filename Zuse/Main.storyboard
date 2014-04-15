@@ -185,6 +185,12 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
+                            <toolbar autoresizesSubviews="NO" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="mZS-qb-299">
+                                <rect key="frame" x="0.0" y="524" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <items/>
+                                <color key="barTintColor" red="0.1176470588" green="0.1176470588" blue="0.1176470588" alpha="1" colorSpace="calibratedRGB"/>
+                            </toolbar>
                             <toolbar autoresizesSubviews="NO" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="lke-3O-Z2W">
                                 <rect key="frame" x="0.0" y="524" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -212,6 +218,7 @@
                         <outlet property="gridSlider" destination="qgb-Ku-RJH" id="6da-lV-e4z"/>
                         <outlet property="rendererView" destination="zUs-oU-8qW" id="bD9-hp-fyI"/>
                         <outlet property="smallGridLabel" destination="dcf-qI-vpU" id="kur-1a-fJ6"/>
+                        <outlet property="submenu" destination="mZS-qb-299" id="8mg-Lo-Tsg"/>
                         <outlet property="toolbar" destination="lke-3O-Z2W" id="LOB-tb-57j"/>
                         <segue destination="Zkj-rO-exu" kind="push" identifier="editor" id="f8x-t6-B0l"/>
                     </connections>
@@ -1665,6 +1672,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="BB8-BW-ttQ"/>
+        <segue reference="x4M-8V-ia5"/>
     </inferredMetricsTieBreakers>
 </document>
