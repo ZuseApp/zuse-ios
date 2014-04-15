@@ -25,6 +25,7 @@
 #import "ZSSocialZuseHubShareViewController.h"
 #import "ZS_CodeEditorViewController.h"
 #import "ZSTraitEditorViewController.h"
+#import "ZSTraitToggleViewController.h"
 #import "ZSSpriteTraits.h"
 
 typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
@@ -175,14 +176,18 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
         codeController.initialProperties = spriteObject[@"properties"];
     } else if ([segue.identifier isEqualToString:@"traitToggle"]) {
         NSMutableDictionary *spriteObject = ((ZSSpriteView *)sender).spriteJSON;
-        ZSTraitEditorViewController *traitController = (ZSTraitEditorViewController *)segue.destinationViewController;
+        ZSTraitToggleViewController *traitController = (ZSTraitToggleViewController *)segue.destinationViewController;
         if (!spriteObject[@"traits"]) {
             spriteObject[@"traits"] = [NSMutableDictionary dictionary];
         }
         traitController.enabledSpriteTraits  = spriteObject[@"traits"];
-        // traitController.projectTraits = projectTraits;
+        traitController.projectTraits = [self.project assembledJSON][@"traits"];
         traitController.globalTraits  = [ZSSpriteTraits defaultTraits];
         traitController.spriteProperties = spriteObject[@"properties"];
+    } else if ([segue.identifier isEqualToString:@"traitEdit"]) {
+        ZSTraitEditorViewController *traitController = (ZSTraitEditorViewController *)segue.destinationViewController;
+        traitController.projectTraits = [self.project assembledJSON][@"traits"];
+        traitController.globalTraits  = [ZSSpriteTraits defaultTraits];
     }
 }
 
@@ -688,7 +693,7 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
                  }];
              }],
              [ZSCanvasBarButtonItem propertiesButtonWithHandler:^{
-                 [self canvasSegueWithIdentifier:@"traitToggle" sender:self.canvasView];
+                 [self canvasSegueWithIdentifier:@"traitEdit" sender:self.canvasView];
              }],
              [ZSCanvasBarButtonItem groupsButtonWithHandler:^{
                  [self hideSubmenuWithHandler:^{
@@ -810,6 +815,9 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
              }],
              [ZSCanvasBarButtonItem swapButtonWithHandler:^{
                  [weakSelf showToolbox];
+             }],
+             [ZSCanvasBarButtonItem propertiesButtonWithHandler:^{
+                 
              }],
              [ZSCanvasBarButtonItem finishButtonWithHandler:^{
                  [weakSelf saveProject];

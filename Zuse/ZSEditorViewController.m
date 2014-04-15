@@ -41,10 +41,10 @@
     if (!self.spriteObject[@"traits"]) {
         self.spriteObject[@"traits"] = [NSMutableDictionary dictionary];
     }
-    traitController.enabledSpriteTraits  = self.spriteObject[@"traits"];
+    // traitController.enabledSpriteTraits  = self.spriteObject[@"traits"];
     traitController.projectTraits = self.projectTraits;
     traitController.globalTraits  = [ZSSpriteTraits defaultTraits];
-    traitController.spriteProperties = self.spriteObject[@"properties"];
+    // traitController.spriteProperties = self.spriteObject[@"properties"];
 
     CGFloat imageSize = 30;
     UIImage *codeImage = [[FAKIonIcons clipboardIconWithSize:imageSize] imageWithSize:CGSizeMake(imageSize, imageSize)];
