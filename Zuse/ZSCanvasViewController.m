@@ -650,6 +650,12 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
                  [weakSelf showToolbox];
                  [self.tutorial broadcastEvent:ZSTutorialBroadcastEventComplete];
              }],
+             [ZSCanvasBarButtonItem editButtonWithHandler:^{
+                 [self hideSubmenuWithHandler:^{
+                     [self.canvasView activateEditMode];
+                     [self transitionToInterfaceState:ZSToolbarInterfaceStateEditEmpty];
+                 }];
+             }],
              [ZSCanvasBarButtonItem gridButtonWithHandler:^{
                  [weakSelf toggleSliderViewWithHandler:nil];
              }],
@@ -685,12 +691,6 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
     WeakSelf
     return @[
              [ZSCanvasBarButtonItem flexibleBarButtonItem],
-             [ZSCanvasBarButtonItem editButtonWithHandler:^{
-                 [self hideSubmenuWithHandler:^{
-                     [self.canvasView activateEditMode];
-                     [self transitionToInterfaceState:ZSToolbarInterfaceStateEditEmpty];
-                 }];
-             }],
              [ZSCanvasBarButtonItem propertiesButtonWithHandler:^{
                  [self canvasSegueWithIdentifier:@"traitEdit" sender:self.canvasView];
              }],
