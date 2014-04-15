@@ -20,6 +20,7 @@
 @property (strong, nonatomic) void(^spriteRemoved)(ZSSpriteView *spriteView);
 @property (strong, nonatomic) void(^spriteModified)(ZSSpriteView *spriteView);
 @property (strong, nonatomic) void(^singleTapped)();
+@property (nonatomic, strong, readonly) ZSSpriteView *selectedSprite;
 
 - (void)addSpriteFromJSON:(NSMutableDictionary*)spriteJSON;
 - (void)moveSprite:(ZSSpriteView*)spriteView x:(CGFloat)x y:(CGFloat)y;

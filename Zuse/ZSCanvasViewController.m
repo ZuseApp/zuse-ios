@@ -2,7 +2,6 @@
 #import "ZSRendererViewController.h"
 #import "ZSGroupsViewController.h"
 #import "ZSSpriteView.h"
-#import "ZSEditorViewController.h"
 #import "ZSCanvasView.h"
 #import "ZSGeneratorView.h"
 #import "ZSToolboxController.h"
@@ -23,6 +22,10 @@
 #import "ZSTutorial.h"
 #import "ZSCompiler.h"
 #import "ZSSocialZuseHubShareViewController.h"
+#import "ZS_CodeEditorViewController.h"
+#import "ZSTraitEditorViewController.h"
+#import "ZSTraitToggleViewController.h"
+#import "ZSSpriteTraits.h"
 
 typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
     ZSToolbarInterfaceStateNormal,
@@ -166,9 +169,42 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
         rendererController.projectJSON = [_project assembledJSON];
         _rendererViewController = rendererController;
     } else if ([segue.identifier isEqualToString:@"editor"]) {
-        ZSEditorViewController *editorController = (ZSEditorViewController *)segue.destinationViewController;
-        editorController.spriteObject = ((ZSSpriteView *)sender).spriteJSON;
-        editorController.projectTraits = [self.project assembledJSON][@"traits"];
+        ZS_CodeEditorViewController *codeController = (ZS_CodeEditorViewController *)segue.destinationViewController;
+        NSMutableDictionary *spriteObject = ((ZSSpriteView *)sender).spriteJSON;
+        codeController.codeItems = spriteObject[@"code"];
+        codeController.initialProperties = spriteObject[@"properties"];
+    } else if ([segue.identifier isEqualToString:@"traitToggle"]) {
+        NSMutableDictionary *spriteObject = ((ZSSpriteView *)sender).spriteJSON;
+        ZSTraitToggleViewController *traitController = (ZSTraitToggleViewController *)segue.destinationViewController;
+        if (!spriteObject[@"traits"]) {
+            spriteObject[@"traits"] = [NSMutableDictionary dictionary];
+        }
+        traitController.enabledSpriteTraits  = spriteObject[@"traits"];
+        traitController.projectTraits = [self.project assembledJSON][@"traits"];
+        traitController.globalTraits  = [ZSSpriteTraits defaultTraits];
+        traitController.spriteProperties = spriteObject[@"properties"];
+    } else if ([segue.identifier isEqualToString:@"traitEdit"]) {
+        ZSTraitEditorViewController *traitController = (ZSTraitEditorViewController *)segue.destinationViewController;
+        traitController.projectTraits = [self.project assembledJSON][@"traits"];
+        traitController.globalTraits  = [ZSSpriteTraits defaultTraits];
+    }
+}
+
+#pragma mark Segue Setup
+
+- (void)canvasSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
+    if (self.gridSliderShowing) {
+        [self hideSliderWithHandler:^{
+            [self performSegueWithIdentifier:identifier sender:sender];
+        }];
+    }
+    else if (self.submenuShowing) {
+        [self hideSubmenuWithHandler:^{
+            [self performSegueWithIdentifier:identifier sender:sender];
+        }];
+    }
+    else {
+        [self performSegueWithIdentifier:identifier sender:sender];
     }
 }
 
@@ -350,19 +386,7 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
     
     _canvasView.spriteSingleTapped = ^(ZSSpriteView *spriteView) {
         [_tutorial broadcastEvent:ZSTutorialBroadcastEventComplete];
-        if (self.gridSliderShowing) {
-            [self hideSliderWithHandler:^{
-                [weakSelf performSegueWithIdentifier:@"editor" sender:spriteView];
-            }];
-        }
-        else if (self.submenuShowing) {
-            [self hideSubmenuWithHandler:^{
-                [weakSelf performSegueWithIdentifier:@"editor" sender:spriteView];
-            }];
-        }
-        else {
-            [weakSelf performSegueWithIdentifier:@"editor" sender:spriteView];
-        }
+        [self canvasSegueWithIdentifier:@"editor" sender:spriteView];
     };
     
     _canvasView.spriteCreated = ^(ZSSpriteView *spriteView) {
@@ -668,6 +692,7 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
                  }];
              }],
              [ZSCanvasBarButtonItem propertiesButtonWithHandler:^{
+                 [self canvasSegueWithIdentifier:@"traitEdit" sender:self.canvasView];
              }],
              [ZSCanvasBarButtonItem groupsButtonWithHandler:^{
                  [self hideSubmenuWithHandler:^{
@@ -792,6 +817,9 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
              }],
              [ZSCanvasBarButtonItem swapButtonWithHandler:^{
                  [weakSelf showToolbox];
+             }],
+             [ZSCanvasBarButtonItem propertiesButtonWithHandler:^{
+                 [self canvasSegueWithIdentifier:@"traitToggle" sender:weakSelf.canvasView.selectedSprite];
              }],
              [ZSCanvasBarButtonItem finishButtonWithHandler:^{
                  [weakSelf saveProject];

@@ -220,75 +220,57 @@
                         <outlet property="smallGridLabel" destination="dcf-qI-vpU" id="kur-1a-fJ6"/>
                         <outlet property="submenu" destination="mZS-qb-299" id="8mg-Lo-Tsg"/>
                         <outlet property="toolbar" destination="lke-3O-Z2W" id="LOB-tb-57j"/>
-                        <segue destination="Zkj-rO-exu" kind="push" identifier="editor" id="f8x-t6-B0l"/>
+                        <segue destination="aKz-bP-FaN" kind="push" identifier="editor" id="8zG-6o-uWU"/>
+                        <segue destination="a2G-8p-P96" kind="push" identifier="traitToggle" id="Is2-2w-yRB"/>
+                        <segue destination="xyD-iv-QQt" kind="push" identifier="traitEdit" id="eRA-nR-O7x"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZHF-Bn-kfF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="756" y="157"/>
         </scene>
-        <!--Editor View Controller-->
-        <scene sceneID="Yie-sH-ySp">
-            <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="Zkj-rO-exu" customClass="ZSEditorViewController" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationItem key="navigationItem" id="bnx-hn-lcH"/>
-                    <nil key="simulatedBottomBarMetrics"/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" translucent="NO" id="yVD-a0-Yqo">
-                        <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    </tabBar>
-                    <connections>
-                        <segue destination="aKz-bP-FaN" kind="relationship" relationship="viewControllers" id="x4M-8V-ia5"/>
-                        <segue destination="a2G-8p-P96" kind="relationship" relationship="viewControllers" id="aQ5-qu-vFr"/>
-                    </connections>
-                </tabBarController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="30x-zR-2gu" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1634" y="157"/>
-        </scene>
-        <!--Trait Editor View Controller - Traits-->
+        <!--Trait Toggle View Controller - Traits-->
         <scene sceneID="PiE-tl-QPi">
             <objects>
-                <viewController id="a2G-8p-P96" customClass="ZSTraitEditorViewController" sceneMemberID="viewController">
+                <viewController id="a2G-8p-P96" customClass="ZSTraitToggleViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="3R3-7z-4Fd">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="ibX-ss-fDW">
-                                <rect key="frame" x="0.0" y="44" width="320" height="564"/>
+                                <rect key="frame" x="0.0" y="44" width="320" height="613"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
-                                    <outlet property="dataSource" destination="a2G-8p-P96" id="AiS-As-exK"/>
-                                    <outlet property="delegate" destination="a2G-8p-P96" id="Kcw-1V-R35"/>
+                                    <outlet property="dataSource" destination="a2G-8p-P96" id="TGF-Ep-vkl"/>
+                                    <outlet property="delegate" destination="a2G-8p-P96" id="wpg-rq-h69"/>
                                 </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Traits" id="C3u-9l-JZX"/>
+                    <navigationItem key="navigationItem" id="1ws-80-XlH"/>
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
-                        <outlet property="tableView" destination="ibX-ss-fDW" id="06g-Op-SbW"/>
+                        <outlet property="tableView" destination="ibX-ss-fDW" id="VI4-Fj-vDi"/>
                         <segue destination="pZF-Fu-eXH" kind="push" identifier="parameters" id="qxG-LS-U1q"/>
-                        <segue destination="aKz-bP-FaN" kind="push" identifier="editor" id="BB8-BW-ttQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ODg-F2-aZ0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2143" y="702"/>
+            <point key="canvasLocation" x="1621" y="569"/>
         </scene>
         <!--Trait Editor Parameters View Controller-->
         <scene sceneID="WIR-mv-5qs">
             <objects>
                 <viewController id="pZF-Fu-eXH" customClass="ZSTraitEditorParametersViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="F2K-eH-jMU">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="87d-r0-29U">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="563"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="612"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -316,7 +298,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="p4B-dn-j6D" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2656" y="922"/>
+            <point key="canvasLocation" x="2172" y="569"/>
         </scene>
         <!--Groups View Controller-->
         <scene sceneID="ccr-Ai-Bcf">
@@ -987,7 +969,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="I2M-sh-xXp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1203" y="709"/>
+            <point key="canvasLocation" x="1183" y="917"/>
         </scene>
         <!--Selected Group View Controller-->
         <scene sceneID="dU2-CH-6W6">
@@ -1037,11 +1019,11 @@
             <objects>
                 <viewController id="aKz-bP-FaN" customClass="ZS_CodeEditorViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="tJW-OJ-j7g">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="gas-yL-91X">
-                                <rect key="frame" x="0.0" y="44" width="320" height="475"/>
+                                <rect key="frame" x="0.0" y="44" width="320" height="524"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </scrollView>
@@ -1058,44 +1040,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zl4-zC-I7j" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2656" y="157"/>
-        </scene>
-        <!--Json View Controller-->
-        <scene sceneID="a7B-hj-4Sw">
-            <objects>
-                <viewController id="R2g-mV-5Ng" customClass="ZS_JsonViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="TKo-aS-iuX">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="RAq-6M-GBK">
-                                <rect key="frame" x="0.0" y="20" width="320" height="490"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="r5S-w1-bxp">
-                                <rect key="frame" x="0.0" y="500" width="83" height="68"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="BACK">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="backButtonTouched" destination="R2g-mV-5Ng" eventType="touchUpInside" id="6lV-d3-XdS"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                    <connections>
-                        <outlet property="backButton" destination="r5S-w1-bxp" id="HJV-Sw-IQ0"/>
-                        <outlet property="textView" destination="RAq-6M-GBK" id="pic-ik-Anb"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="cJJ-zD-MmI" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3180" y="-553"/>
         </scene>
         <!--Expression View Controller-->
         <scene sceneID="Q7K-FI-AAz">
@@ -1661,6 +1605,38 @@
             </objects>
             <point key="canvasLocation" x="238" y="972"/>
         </scene>
+        <!--Trait Editor View Controller - Traits-->
+        <scene sceneID="AqR-Gp-eyP">
+            <objects>
+                <viewController id="xyD-iv-QQt" customClass="ZSTraitEditorViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="tf0-u9-Mbz">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Y58-Or-xqM">
+                                <rect key="frame" x="0.0" y="44" width="320" height="613"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="xyD-iv-QQt" id="Jb4-RP-grX"/>
+                                    <outlet property="delegate" destination="xyD-iv-QQt" id="lPn-E7-V4u"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Traits" id="3Km-18-Iwv"/>
+                    <navigationItem key="navigationItem" id="k3h-NO-iIg"/>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <connections>
+                        <outlet property="tableView" destination="Y58-Or-xqM" id="Gkd-z3-GeH"/>
+                        <segue destination="aKz-bP-FaN" kind="push" identifier="editor" id="bkX-1b-3qc"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="GHv-iq-SuV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1621" y="-307"/>
+        </scene>
     </scenes>
     <resources>
         <image name="logo" width="112" height="51"/>
@@ -1672,6 +1648,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="x4M-8V-ia5"/>
+        <segue reference="bkX-1b-3qc"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -160,7 +160,7 @@
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
-    if ([gestureRecognizer isKindOfClass:UILongPressGestureRecognizer.class]) {
+    if ([gestureRecognizer isKindOfClass:UILongPressGestureRecognizer.class] || [otherGestureRecognizer isKindOfClass:UILongPressGestureRecognizer.class]) {
         return NO;
     }
     return YES;
