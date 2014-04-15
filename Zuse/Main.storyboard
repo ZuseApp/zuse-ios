@@ -242,8 +242,8 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
-                                    <outlet property="dataSource" destination="a2G-8p-P96" id="AiS-As-exK"/>
-                                    <outlet property="delegate" destination="a2G-8p-P96" id="Kcw-1V-R35"/>
+                                    <outlet property="dataSource" destination="a2G-8p-P96" id="TGF-Ep-vkl"/>
+                                    <outlet property="delegate" destination="a2G-8p-P96" id="wpg-rq-h69"/>
                                 </connections>
                             </tableView>
                         </subviews>
@@ -253,7 +253,6 @@
                     <navigationItem key="navigationItem" id="1ws-80-XlH"/>
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
-                        <outlet property="tableView" destination="ibX-ss-fDW" id="06g-Op-SbW"/>
                         <segue destination="pZF-Fu-eXH" kind="push" identifier="parameters" id="qxG-LS-U1q"/>
                     </connections>
                 </viewController>
