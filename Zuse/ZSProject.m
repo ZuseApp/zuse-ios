@@ -42,7 +42,7 @@
         _projectJSON[@"objects"]            = [NSMutableArray array];
         _projectJSON[@"generators"]         = [NSMutableArray array];
         _projectJSON[@"commit_number"]      = @(0);
-        _projectJSON[ZSProjectJSONKeyGroup] = [NSMutableDictionary dictionary];
+        _projectJSON[ZSProjectJSONKeyGroups] = [NSMutableDictionary dictionary];
     }
     return self;
 }
@@ -78,6 +78,9 @@
     _version      = _projectJSON[@"version"];
     _canvasSize   = _projectJSON[@"canvas_size"];
     _commitNumber = [_projectJSON[@"commit_number"] integerValue];
+    if (!_projectJSON[ZSProjectJSONKeyGroups]) {
+        _projectJSON[ZSProjectJSONKeyGroups] = [NSMutableDictionary dictionary];
+    }
 }
 
 - (NSMutableDictionary *)rawJSON {
