@@ -2,7 +2,6 @@
 #import "ZSRendererViewController.h"
 #import "ZSGroupsViewController.h"
 #import "ZSSpriteView.h"
-#import "ZSEditorViewController.h"
 #import "ZSCanvasView.h"
 #import "ZSGeneratorView.h"
 #import "ZSToolboxController.h"
