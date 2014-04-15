@@ -61,8 +61,8 @@
                                                @"physics_body": @"rectangle",
                                                @"traits": @{},
                                                @"properties": @{
-                                                       @"width": @(200),
-                                                       @"height": @(21)
+                                                       @"width": @(80),
+                                                       @"height": @(40)
                                                        },
                                                @"code": @[],
                                                @"type": @"text"
