@@ -65,7 +65,6 @@
 }
 
 - (void)createTutorialForStage:(ZSTutorialStage)stage {
-    WeakSelf
     if (stage == ZSTutorialBallCodeStage) {
         [_tutorial addActionWithText:@"This screen is the Sprite Editor.  Tap the plus sign to add some code to the ball."
                             forEvent:ZSTutorialBroadcastEventComplete

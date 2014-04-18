@@ -10,7 +10,9 @@ typedef NS_ENUM(NSInteger, ZSTutorialStage) {
     ZSTutorialSetupStage,
     ZSTutorialBallCodeStage,
     ZSTutorialBallCodeStage2,
-    ZSTutorialBallCollisionEvent
+    ZSTutorialBallCollisionEvent,
+    ZSTutorialPaddleStage,
+    ZSTutorialFinalStage
 };
 
 @interface ZSTutorial : NSObject <CMPopTipViewDelegate>

@@ -154,6 +154,8 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
     // right away on creation as well.
     [self saveProject];
     [self.view setNeedsDisplay];
+    
+    [self.tutorial broadcastEvent:ZSTutorialBroadcastEventComplete];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -265,19 +267,6 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
 
 #pragma mark Tutorial
 
-//- (void)viewDidAppear:(BOOL)animated {
-//    if (_tutorial.isActive) {
-//        [self createTutorialForStage:_tutorial.stage];
-//        [_tutorial present];
-//    }
-//}
-//
-//- (void)createTutorialForStage:(ZSTutorialStage)stage {
-//    WeakSelf
-//    if (stage == ZSTutorialSetupStage) {
-//    }
-//}
-
 - (void)createTutorialForStage:(ZSTutorialStage)stage {
     WeakSelf
     __block UIView *paddle1 = nil;
@@ -286,8 +275,7 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
     
     CGRect settingsButtonRect = ((ZSCanvasBarButtonItem *)_toolbar.items[2]).button.frame;
     CGRect playButtonRect = ((ZSCanvasBarButtonItem *)_toolbar.items[6]).button.frame;
-    CGRect menuButtonRect = ((ZSCanvasBarButtonItem *)_toolbar.items[5]).button.frame;
-    CGRect groupButtonRect = ((ZSCanvasBarButtonItem *)_submenu.items[3]).button.frame;
+    CGRect editButtonRect = ((ZSCanvasBarButtonItem *)_toolbar.items[3]).button.frame;
     
     if (stage == ZSTutorialSetupStage) {
         UICollectionView *collectionView = (UICollectionView*)[_toolboxView viewByIndex:0];
@@ -369,6 +357,71 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
                                }
                           completion:nil];
     }
+    else if (stage == ZSTutorialPaddleStage) {
+        [_tutorial addActionWithText:@"Now all that is left is to make the paddle move when touched.  The actual code to do this can be complicated so Zuse provides a Trait for it.  A Trait in Zuse is a section of Code that can be shared across multiple Sprites.  In this case both paddles will use the same Code or in this case Trait to move when the user drags them."
+                            forEvent:ZSTutorialBroadcastEventComplete
+                     allowedGestures:@[UITapGestureRecognizer.class]
+                        activeRegion:CGRectZero
+                               setup:nil
+                          completion:nil];
+        [_tutorial addActionWithText:@"To add a Trait to a Sprite first click the edit button to put the Canvas into edit mode."
+                            forEvent:ZSTutorialBroadcastEventComplete
+                     allowedGestures:@[UITapGestureRecognizer.class]
+                        activeRegion:[_toolbar convertRect:editButtonRect toView:weakSelf.view]
+                               setup:nil
+                          completion:nil];
+        [_tutorial addActionWithText:@"Now touch the paddle to bring up it's edit options."
+                            forEvent:ZSTutorialBroadcastEventComplete
+                     allowedGestures:@[UITapGestureRecognizer.class]
+                        activeRegion:CGRectZero
+                               setup:^{
+                                   paddle1 = [weakSelf.tutorial getObjectForKey:@"paddle1"];
+                                   weakSelf.tutorial.overlayView.activeRegion = paddle1.frame;
+                               }
+                          completion:nil];
+        [_tutorial addActionWithText:@"This menu item will bring you to a list of all Traits.  Touch it to continue."
+                            forEvent:ZSTutorialBroadcastEventComplete
+                     allowedGestures:@[UITapGestureRecognizer.class]
+                        activeRegion:[_toolbar convertRect:CGRectNull toView:weakSelf.view]
+                               setup:^{
+                                   CGRect propertiesButtonRect = ((ZSCanvasBarButtonItem *)weakSelf.toolbar.items[5]).button.frame;
+                                   propertiesButtonRect = [weakSelf.view convertRect:propertiesButtonRect fromView:weakSelf.toolbar.viewForBaselineLayout];
+                                   weakSelf.tutorial.overlayView.activeRegion = propertiesButtonRect;
+                               }
+                          completion:nil];
+        [_tutorial addActionWithText:@"This is the Draggable Trait.  By simply enabling the Draggable Trait the paddle will become draggable."
+                            forEvent:ZSTutorialBroadcastEventComplete
+                     allowedGestures:@[UITapGestureRecognizer.class]
+                        activeRegion:CGRectMake(8, 34, 311, 55)
+                               setup:nil
+                          completion:nil];
+        [_tutorial addActionWithText:@"The Draggable Trait enables the Sprite to be dragged in both the horizontal and vertical directions.  For Pong we only want a paddle to be dragged in the horizontal direction so lets go and change the options by touching here."
+                            forEvent:ZSTutorialBroadcastEventComplete
+                     allowedGestures:@[UITapGestureRecognizer.class]
+                        activeRegion:CGRectMake(246, 34, 73, 55)
+                               setup:nil
+                          completion:nil];
+        [_tutorial addActionWithText:@"We don't want the paddle to be dragged vertically so touch here to turn off that option."
+                            forEvent:ZSTutorialBroadcastEventComplete
+                     allowedGestures:@[UITapGestureRecognizer.class]
+                        activeRegion:CGRectMake(8, 34, 311, 55)
+                               setup:nil
+                          completion:nil];
+        [_tutorial addActionWithText:@"Press Back to go back to the canvas."
+                            forEvent:ZSTutorialBroadcastEventComplete
+                     allowedGestures:@[UITapGestureRecognizer.class]
+                        activeRegion:CGRectMake(0, 0, 84, 42)
+                               setup:nil
+                          completion:nil];
+    }
+    else if (stage == ZSTutorialFinalStage)  {
+        [_tutorial addActionWithText:@"Congradulations.  You have finished the tutorial.  Now that you have seen how to set up a paddle to be dragged feel free to set up the last paddle in the same way.  We are still in the edit mode.  If you would like to exit edit mode please select the checkmark which will bring you back to the Canvas."
+                            forEvent:ZSTutorialBroadcastEventComplete
+                     allowedGestures:@[UITapGestureRecognizer.class]
+                        activeRegion:CGRectZero
+                               setup:nil
+                          completion:nil];
+    }
 }
 
 #pragma mark Project Management
@@ -429,6 +482,8 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
             [weakSelf transitionToInterfaceState:ZSToolbarInterfaceStateEditTextSprite];
         }
         [self hideSliderWithHandler:nil];
+        [self hideSubmenuWithHandler:nil];
+        [self.tutorial broadcastEvent:ZSTutorialBroadcastEventComplete];
     };
     
     _canvasView.singleTapped = ^() {
@@ -670,6 +725,7 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
                  [self hideSubmenuWithHandler:^{
                      [self.canvasView activateEditMode];
                      [self transitionToInterfaceState:ZSToolbarInterfaceStateEditEmpty];
+                     [self.tutorial broadcastEvent:ZSTutorialBroadcastEventComplete];
                  }];
              }],
              [ZSCanvasBarButtonItem gridButtonWithHandler:^{
@@ -836,6 +892,7 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
              }],
              [ZSCanvasBarButtonItem propertiesButtonWithHandler:^{
                  [self canvasSegueWithIdentifier:@"traitToggle" sender:weakSelf.canvasView.selectedSprite];
+                 [self.tutorial broadcastEvent:ZSTutorialBroadcastEventComplete];
              }],
              [ZSCanvasBarButtonItem finishButtonWithHandler:^{
                  [weakSelf saveProject];

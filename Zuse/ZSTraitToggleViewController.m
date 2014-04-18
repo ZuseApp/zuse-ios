@@ -108,7 +108,7 @@
             optionsButton.tag = indexPath.row;
             [cell.contentView addSubview:optionsButton];
         }
-        [[ZSTutorial sharedTutorial] broadcastEvent:ZSTutorialBroadcastEventComplete];
+        // [[ZSTutorial sharedTutorial] broadcastEvent:ZSTutorialBroadcastEventComplete];
     } else {
         cell.contentView.backgroundColor = [UIColor whiteColor];
         cell.accessoryType = UITableViewCellAccessoryNone;
@@ -118,6 +118,7 @@
 }
 
 - (void)options:(id)sender {
+    [[ZSTutorial sharedTutorial] broadcastEvent:ZSTutorialBroadcastEventComplete];
     [self performSegueWithIdentifier:@"parameters" sender:sender];
 }
 
@@ -132,6 +133,7 @@
                                                        } mutableCopy];
     }
     [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+    [[ZSTutorial sharedTutorial] broadcastEvent:ZSTutorialBroadcastEventComplete];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
