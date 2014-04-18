@@ -39,7 +39,7 @@ NSString * const ZSTutorialBroadcastDebugPause = @"ZSTutorialBroadcastDebugPause
         // _overlayView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5f];
         
         _stage = ZSTutorialSetupStage;
-        _lastImplementedStage = ZSTutorialBallCodeStage;
+        _lastImplementedStage = ZSTutorialBallCollisionEvent;
     }
     return self;
 }

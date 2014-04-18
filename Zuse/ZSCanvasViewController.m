@@ -265,20 +265,36 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
 
 #pragma mark Tutorial
 
+//- (void)viewDidAppear:(BOOL)animated {
+//    if (_tutorial.isActive) {
+//        [self createTutorialForStage:_tutorial.stage];
+//        [_tutorial present];
+//    }
+//}
+//
+//- (void)createTutorialForStage:(ZSTutorialStage)stage {
+//    WeakSelf
+//    if (stage == ZSTutorialSetupStage) {
+//    }
+//}
+
 - (void)createTutorialForStage:(ZSTutorialStage)stage {
     WeakSelf
     __block UIView *paddle1 = nil;
     __block UIView *paddle2 = nil;
     __block UIView *ball = nil;
+    
+    CGRect settingsButtonRect = ((ZSCanvasBarButtonItem *)_toolbar.items[2]).button.frame;
+    CGRect playButtonRect = ((ZSCanvasBarButtonItem *)_toolbar.items[6]).button.frame;
+    CGRect menuButtonRect = ((ZSCanvasBarButtonItem *)_toolbar.items[5]).button.frame;
+    CGRect groupButtonRect = ((ZSCanvasBarButtonItem *)_submenu.items[3]).button.frame;
+    
     if (stage == ZSTutorialSetupStage) {
         UICollectionView *collectionView = (UICollectionView*)[_toolboxView viewByIndex:0];
         CGRect ballRect = [collectionView layoutAttributesForItemAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]].frame;
         ballRect.size.height -= 17;
         CGRect paddleRect = [collectionView layoutAttributesForItemAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]].frame;
         paddleRect.size.height -= 17;
-        
-        CGRect settingsButtonRect = ((ZSCanvasBarButtonItem *)_toolbar.items[2]).button.frame;
-        CGRect playButtonRect = ((ZSCanvasBarButtonItem *)_toolbar.items[6]).button.frame;
         
         [_tutorial addActionWithText:@"Zuse allows you to build games on your iPhone.  This tutorial will teach you how to build Pong.  Tap anywhere to continue."
                             forEvent:ZSTutorialBroadcastEventComplete

@@ -482,6 +482,7 @@ NSString* ZS_OperatorToString(ZS_Operator operator)
             [self.selectedNode setNumber: number];
             [self reloadExpression];
         }
+        [[ZSTutorial sharedTutorial] broadcastEvent:ZSTutorialBroadcastEventComplete];
     }
 }
 - (IBAction)deleteButtonTapped
@@ -511,6 +512,7 @@ NSString* ZS_OperatorToString(ZS_Operator operator)
         self.json = self.headNode.json;
         self.didFinish(self.json);
     }
+    [[ZSTutorial sharedTutorial] broadcastEvent:ZSTutorialBroadcastEventComplete];
 }
 - (IBAction)cancelButtonTapped
 {
