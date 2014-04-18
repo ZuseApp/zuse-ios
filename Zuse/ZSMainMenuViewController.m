@@ -30,6 +30,9 @@ typedef NS_ENUM(NSInteger, ZSMainMenuProjectFilter) {
 @property (strong, nonatomic) ZSProject *selectedProject;
 @property (assign, nonatomic) ZSMainMenuProjectFilter projectFilter;
 @property (strong, nonatomic) ZSZuseHubViewController *zuseHubController;
+@property (weak, nonatomic) IBOutlet UIButton *examplesButton;
+@property (weak, nonatomic) IBOutlet UIButton *projectsButton;
+
 
 @end
 
@@ -43,11 +46,15 @@ typedef NS_ENUM(NSInteger, ZSMainMenuProjectFilter) {
     
     self.projectCollectionView.delegate = self;
     self.projectCollectionView.dataSource = self;
+    self.projectCollectionView.layer.cornerRadius = 5;
+    self.projectCollectionView.backgroundColor = [UIColor colorWithRed:0.157 green:0.157 blue:0.157 alpha:1];
     self.view.tintColor = [UIColor zuseYellow];
-    
     self.view.backgroundColor = [UIColor zuseBackgroundGrey];
     
-    self.projectFilter = ZSMainMenuProjectFilterExamples;
+    self.projectsButton.backgroundColor = [UIColor colorWithRed:0.157 green:0.157 blue:0.157 alpha:1];
+    self.projectsButton.layer.cornerRadius = 5;
+    
+    self.projectFilter = ZSMainMenuProjectFilterMyProjects;
     [self reloadDataSources];
 }
 
@@ -60,8 +67,20 @@ typedef NS_ENUM(NSInteger, ZSMainMenuProjectFilter) {
     self.userProjects = [ZSProjectPersistence userProjects];
     if (self.projectFilter == ZSMainMenuProjectFilterExamples) {
         self.selectedProjects = self.exampleProjects;
+        
+        // Set up the buttons.
+        self.examplesButton.backgroundColor = [UIColor colorWithRed:0.157 green:0.157 blue:0.157 alpha:1];
+        self.examplesButton.layer.cornerRadius = 5;
+        self.projectsButton.backgroundColor = [UIColor zuseBackgroundGrey];
+        self.projectsButton.layer.cornerRadius = 5;
     } else {
         self.selectedProjects = self.userProjects;
+        
+        // Set up the bottons.
+        self.projectsButton.backgroundColor = [UIColor colorWithRed:0.157 green:0.157 blue:0.157 alpha:1];
+        self.projectsButton.layer.cornerRadius = 5;
+        self.examplesButton.backgroundColor = [UIColor zuseBackgroundGrey];
+        self.examplesButton.layer.cornerRadius = 5;
     }
     [self.projectCollectionView reloadData];
 }
@@ -246,6 +265,10 @@ typedef NS_ENUM(NSInteger, ZSMainMenuProjectFilter) {
 - (IBAction)examplesTapped:(id)sender {
     self.projectFilter = ZSMainMenuProjectFilterExamples;
     [self reloadDataSources];
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
+    return 7;
 }
 
 @end
