@@ -28,8 +28,8 @@
 }
 
 - (UIImage *)activityImage {
-//    return [UIImage imageNamed:@"AppIcon"];
-    return  nil;
+    return [UIImage imageNamed:@"alphaIcon"];
+//    return  nil;
 }
 
 - (BOOL)canPerformWithActivityItems:(NSArray *)activityItems {
