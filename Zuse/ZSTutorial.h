@@ -8,7 +8,11 @@ extern NSString * const ZSTutorialBroadcastDebugPause;
 
 typedef NS_ENUM(NSInteger, ZSTutorialStage) {
     ZSTutorialSetupStage,
-    ZSTutorialBallCodeStage
+    ZSTutorialBallCodeStage,
+    ZSTutorialBallCodeStage2,
+    ZSTutorialBallCollisionEvent,
+    ZSTutorialPaddleStage,
+    ZSTutorialFinalStage
 };
 
 @interface ZSTutorial : NSObject <CMPopTipViewDelegate>

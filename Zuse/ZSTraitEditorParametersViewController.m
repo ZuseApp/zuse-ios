@@ -7,6 +7,7 @@
 //
 
 #import "ZSTraitEditorParametersViewController.h"
+#import "ZSTutorial.h"
 
 @interface ZSTraitEditorParametersViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -56,6 +57,7 @@
     
     [tableView reloadRowsAtIndexPaths:@[indexPath]
                      withRowAnimation:UITableViewRowAnimationNone];
+    [[ZSTutorial sharedTutorial] broadcastEvent:ZSTutorialBroadcastEventComplete];
     
 }
 

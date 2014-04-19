@@ -39,20 +39,25 @@ NSString * const ZSTutorialBroadcastDebugPause = @"ZSTutorialBroadcastDebugPause
         // _overlayView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5f];
         
         _stage = ZSTutorialSetupStage;
-        _lastImplementedStage = ZSTutorialBallCodeStage;
+        _lastImplementedStage = ZSTutorialFinalStage;
     }
     return self;
 }
 
 - (void)hideMessage {
-    [_toolTipView dismissAnimated:YES];
+    [self.toolTipView dismissAnimated:YES];
 }
 
 - (void)broadcastEvent:(NSString*)event {
-    if (_active) {
-        if ([_event isEqualToString:event]) {
-            if (_completion) {
-                _completion();
+    // If self.event is null then the tutorial isn't ready so ignore the event.
+    if (!self.event) {
+        return;
+    }
+    
+    if (self.active) {
+        if ([self.event isEqualToString:event]) {
+            if (self.completion) {
+                self.completion();
             }
             [self processNextAction];
         }
@@ -65,7 +70,7 @@ NSString * const ZSTutorialBroadcastDebugPause = @"ZSTutorialBroadcastDebugPause
                                                                      message:@"Would you like to exit the tutorial?"
                                                            completionHanlder:^(UIAlertView *alertView, NSInteger buttonIndex) {
                                                                if (buttonIndex == 1) {
-                                                                   _active = NO;
+                                                                   self.active = NO;
                                                                    [_overlayView removeFromSuperview];
                                                                }
                                                            }
