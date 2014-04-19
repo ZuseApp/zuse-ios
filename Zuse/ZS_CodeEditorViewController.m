@@ -705,37 +705,37 @@
 
 - (void)createTutorialForStage:(ZSTutorialStage)stage {
     if (stage == ZSTutorialBallCodeStage) {
-        [_tutorial addActionWithText:@"This screen is the Sprite Editor.  Tap the plus sign to add some code to the ball."
+        [_tutorial addActionWithText:@"This screen is the Sprite Editor, where we give our sprite behavior by adding \"code\" to it. Tap the plus sign to add some code to the ball."
                             forEvent:ZSTutorialBroadcastEventComplete
                      allowedGestures:@[UITapGestureRecognizer.class]
                         activeRegion:CGRectMake(0, 50, 130, 40)
                                setup:nil
                           completion:nil];
-        [_tutorial addActionWithText:@"The Code Toolbox has various behaviors and code statements you can choose from. Statements are organized lines or groups of code that perform actions when executed.  We want the ball to start moving when the game starts so lets go ahead and add a move Statement by tapping here."
+        [_tutorial addActionWithText:@"The Code Toolbox has various code statements you can choose from. Each one gives your Sprite a different behavior. You can add as much code as you want to a Sprite.  We want the ball to start moving when the game starts so let's go ahead and tap 'move'."
                             forEvent:ZSTutorialBroadcastEventComplete
                      allowedGestures:@[UITapGestureRecognizer.class]
                         activeRegion:CGRectMake(240, 213, 53, 28)
                                setup:nil
                           completion:nil];
-        [_tutorial addActionWithText:@"The move statement will make our ball move at a constant speed in some direction.  Statements that need more information will have a slightly darker color to indicate that that value can be changed.  Tap here to give the move statement a direction."
+        [_tutorial addActionWithText:@"Statements that need extra information will have boxes with a darker color to indicate that a value should be provided. We can give the move method what speed and direction it should move in. Tap here to give the move statement a direction."
                             forEvent:ZSTutorialBroadcastEventComplete
                      allowedGestures:@[UITapGestureRecognizer.class]
                         activeRegion:CGRectMake(67, 58, 95, 30)
                                setup:nil
                           completion:nil];
-        [_tutorial addActionWithText:@"This screen is the Expression Editor.  Here we can add simple expressions such as a single number to more complicated expressions such as (4 + 6) / 2 much like in a calculator.  For now we will simply enter the number 45, which will move the ball up and right.  Press 4 to continue."
+        [_tutorial addActionWithText:@"This screen is the Expression Editor. Expressions can be a single number or more complicated such as (4 + 6) / 2, much like in a calculator. For now we will simply enter the number 45, which will move the ball up and right. Tap 4 to continue."
                             forEvent:ZSTutorialBroadcastEventComplete
                      allowedGestures:@[UITapGestureRecognizer.class]
                         activeRegion:CGRectMake(0, 403, 64, 55)
                                setup:nil
                           completion:nil];
-        [_tutorial addActionWithText:@"Now press 5 to complete the number."
+        [_tutorial addActionWithText:@"Now tap 5."
                             forEvent:ZSTutorialBroadcastEventComplete
                      allowedGestures:@[UITapGestureRecognizer.class]
                         activeRegion:CGRectMake(64, 403, 64, 55)
                                setup:nil
                           completion:nil];
-        [_tutorial addActionWithText:@"Now that the number has been entered press done to finish setting the direction."
+        [_tutorial addActionWithText:@"Tap done to finish."
                             forEvent:ZSTutorialBroadcastEventComplete
                      allowedGestures:@[UITapGestureRecognizer.class]
                         activeRegion:CGRectMake(0, 252, 51, 45)
@@ -743,31 +743,31 @@
                           completion:nil];
     }
     else if (stage == ZSTutorialBallCodeStage2) {
-        [_tutorial addActionWithText:@"We need to set the speed of the ball in the same way we did the direction.  Touch here to set the speed value."
+        [_tutorial addActionWithText:@"We need to set the speed of the ball in the same way we did the direction. Touch here to set the speed value."
                             forEvent:ZSTutorialBroadcastEventComplete
                      allowedGestures:@[UITapGestureRecognizer.class]
                         activeRegion:CGRectMake(115, 58, 76, 30)
                                setup:nil
                           completion:nil];
-        [_tutorial addActionWithText:@"We can think of speed as the number of pixels covered in 1 second.  For the tutorial we are going to set the speed of the ball to 200.  Press 2 to continue."
+        [_tutorial addActionWithText:@"We can think of speed as the number of pixels covered in 1 second. For the tutorial we are going to set the speed of the ball to 200, which is a medium speed. Tap 2 to continue."
                             forEvent:ZSTutorialBroadcastEventComplete
                      allowedGestures:@[UITapGestureRecognizer.class]
                         activeRegion:CGRectMake(64, 458, 64, 55)
                                setup:nil
                           completion:nil];
-        [_tutorial addActionWithText:@"Now press 0."
+        [_tutorial addActionWithText:@"Now tap 0."
                             forEvent:ZSTutorialBroadcastEventComplete
                      allowedGestures:@[UITapGestureRecognizer.class]
                         activeRegion:CGRectMake(0, 513, 64, 55)
                                setup:nil
                           completion:nil];
-        [_tutorial addActionWithText:@"And then another 0 to finish the number."
+        [_tutorial addActionWithText:@"Once more."
                             forEvent:ZSTutorialBroadcastEventComplete
                      allowedGestures:@[UITapGestureRecognizer.class]
                         activeRegion:CGRectMake(0, 513, 64, 55)
                                setup:nil
                           completion:nil];
-        [_tutorial addActionWithText:@"Now that the number has been entered press done to finish setting the speed."
+        [_tutorial addActionWithText:@"Tap done to finish."
                             forEvent:ZSTutorialBroadcastEventComplete
                      allowedGestures:@[UITapGestureRecognizer.class]
                         activeRegion:CGRectMake(0, 252, 51, 45)
@@ -775,13 +775,13 @@
                           completion:nil];
     }
     else if (stage == ZSTutorialBallCollisionEvent) {
-        [_tutorial addActionWithText:@"The ball moves but if we were to run the game right now the ball would leave the screen.  This is because we need to set up collisions.  By default every Sprite will collide with every other Sprite as well as the border of the Canvas.  The Code to do this is simple.  Let's start by clicking the plus sign to add a new Statment."
+        [_tutorial addActionWithText:@"The ball moves but if we were to run the game right now the ball would leave the screen. Instead, we'd like the ball to bounce whenever it collides with anything. The Code to do this is simple. Let's start by clicking the plus sign to add a new Statement."
                             forEvent:ZSTutorialBroadcastEventComplete
                      allowedGestures:@[UITapGestureRecognizer.class]
                         activeRegion:CGRectMake(0, 96, 130, 40)
                                setup:nil
                           completion:nil];
-        [_tutorial addActionWithText:@"When specific actions occur such as a Sprite colliding with another object or a Sprite being touched an event is triggered for that action.  We want to bounce when the ball collides with another Sprite or the border of the screen.  Touch on_event to start this process."
+        [_tutorial addActionWithText:@"When specific actions occur such as a Sprite colliding with another Sprite, or a Sprite being touched, we can use the on_event statement to run special code. We want to bounce when the ball collides with another Sprite or the border of the screen. Touch on_event to start this process."
                             forEvent:ZSTutorialBroadcastEventComplete
                      allowedGestures:@[UITapGestureRecognizer.class]
                         activeRegion:CGRectMake(29, 135, 78, 28)
@@ -799,7 +799,7 @@
                         activeRegion:CGRectMake(100, 133, 68, 30)
                                setup:nil
                           completion:nil];
-        [_tutorial addActionWithText:@"We have it set up now so that the collision action will perform whatever statements are inside of it's block.  The last thing we have to do is tell the ball to bounce when it collides with something.  Click the plus to add a statement telling the ball to bounce."
+        [_tutorial addActionWithText:@"We have it set up now so that the collision action will perform whatever statements are inside of it's block. The last thing we have to do is tell the ball to bounce when it collides with something. Click the plus to add a statement telling the ball to bounce."
                             forEvent:ZSTutorialBroadcastEventComplete
                      allowedGestures:@[UITapGestureRecognizer.class]
                         activeRegion:CGRectMake(30, 154, 130, 40)
@@ -811,7 +811,7 @@
                         activeRegion:CGRectMake(168, 292, 65, 28)
                                setup:nil
                           completion:nil];
-        [_tutorial addActionWithText:@"The ball is now set up to move when the game is started and to bounce when it collides with another Sprite or the edge of the screen.  Press back to go back to the canvas."
+        [_tutorial addActionWithText:@"The ball is now set up to move when the game is started and to bounce when it collides with another Sprite or the edge of the screen. Press back to go back to the canvas."
                             forEvent:ZSTutorialBroadcastEventComplete
                      allowedGestures:@[UITapGestureRecognizer.class]
                         activeRegion:CGRectMake(0, 0, 84, 42)

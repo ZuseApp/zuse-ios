@@ -302,7 +302,7 @@ typedef NS_ENUM(NSInteger, ZSToolbarInterfaceState) {
                         activeRegion:[_toolbar convertRect:settingsButtonRect toView:weakSelf.view]
                                setup:nil
                           completion:nil];
-        [_tutorial addActionWithText:@"The Toolbox contains Sprites, which are images and text boxes you can give behavior to.  Tap-and-hold this paddle, which is a Sprite, to place it near the top of the Canvas."
+        [_tutorial addActionWithText:@"The Toolbox contains Sprites, which are images and text boxes you can give behavior to.  Tap-and-hold this paddle sprite and place it near the top of the Canvas."
                             forEvent:ZSTutorialBroadcastEventComplete
                      allowedGestures:@[UILongPressGestureRecognizer.class]
                         activeRegion:[collectionView convertRect:paddleRect toView:weakSelf.view]

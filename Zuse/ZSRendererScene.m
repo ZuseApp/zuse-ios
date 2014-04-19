@@ -23,10 +23,10 @@
 
 @interface ZSRendererScene() <ZSInterpreterDelegate>
 
+@property (strong, nonatomic) ZSInterpreter *interpreter;
 @property (assign, nonatomic) NSTimeInterval lastUpdateTimeInterval;
 @property (strong, nonatomic) NSMutableDictionary *spriteNodes;
 @property (strong, nonatomic) NSMutableDictionary *movingSprites;
-@property (strong, nonatomic) ZSInterpreter *interpreter;
 @property (strong, nonatomic) NSDictionary *projectJSON;
 @property (strong, nonatomic) NSMutableArray *timedEvents;
 @property (strong, nonatomic) NSDictionary *compiledComponents;
@@ -64,6 +64,10 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
     return self;
 }
 
+- (void)dealloc {
+    NSLog(@"Dealloc renderer scene");
+}
+
 - (void)addSpriteWithJSON:(NSDictionary *)spriteJSON {
     NSDictionary *properties = spriteJSON[@"properties"];
 
@@ -73,11 +77,12 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
     
     
     ZSComponentNode *node = [ZSComponentNode node];
+    node.JSON = spriteJSON;
     node.identifier = spriteJSON[@"id"];
     node.group      = spriteJSON[@"collision_group"];
     node.name = kZSSpriteName;
     node.position = position;
-    
+
     SKNode *childNode = [self childNodeForObjectJSON:spriteJSON size:size];
     [node addChild:childNode];
     
@@ -85,26 +90,16 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
         _spriteNodes[spriteJSON[@"id"]] = node;
     }
     
-    node.physicsBody = [self physicsBodyForType:spriteJSON[@"physics_body"] size:size];
-    
-    if (node.physicsBody) {
-        // Any group with a group will have collision events called on it.
-        node.physicsBody.categoryBitMask    = (node.group.length > 0 ? INT_MAX : 0);
-        node.physicsBody.collisionBitMask = 0;
-        node.physicsBody.contactTestBitMask = INT_MAX;
-        
-        node.physicsBody.dynamic = NO;
-        node.physicsBody.mass    = 0.02;
-        node.physicsBody.affectedByGravity = NO;
-    }
-    
+    node.physicsBody = [self physicsBodyForSprite:spriteJSON size:size];
+
     ZSSpriteTouchComponent *touchComponent = [ZSSpriteTouchComponent new];
     touchComponent.spriteId = spriteJSON[@"id"];
-    
+
+    WeakSelf
     touchComponent.touchesBegan = ^(UITouch *touch) {
         CGPoint point = [touch locationInNode:self];
         
-        [_interpreter triggerEvent:@"touch_began"
+        [weakSelf.interpreter triggerEvent:@"touch_began"
             onObjectWithIdentifier:spriteJSON[@"id"]
                         parameters:@{ @"touch_x": @(point.x), @"touch_y": @(point.y) }];
     };
@@ -112,7 +107,7 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
     touchComponent.touchesMoved = ^(UITouch *touch) {
         CGPoint point = [touch locationInNode:self];
         
-        [_interpreter triggerEvent:@"touch_moved"
+        [weakSelf.interpreter triggerEvent:@"touch_moved"
             onObjectWithIdentifier:spriteJSON[@"id"]
                         parameters:@{ @"touch_x": @(point.x), @"touch_y": @(point.y) }];
     };
@@ -120,15 +115,13 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
     touchComponent.touchesEnded = ^(UITouch *touch) {
         CGPoint point = [touch locationInNode:self];
         
-        [_interpreter triggerEvent:@"touch_ended"
+        [weakSelf.interpreter triggerEvent:@"touch_ended"
             onObjectWithIdentifier:spriteJSON[@"id"]
                         parameters:@{ @"touch_x": @(point.x), @"touch_y": @(point.y) }];
     };
     
     [node addComponent:touchComponent];
     [self addChild:node];
-    
-
 }
 
 - (void) setupInterpreterWithProjectJSON:(NSDictionary *)projectJSON {
@@ -147,14 +140,26 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
     self.physicsWorld.contactDelegate = self;
 }
 
-- (SKPhysicsBody *)physicsBodyForType:(NSString *)type size:(CGSize)size {
+- (SKPhysicsBody *)physicsBodyForSprite:(NSDictionary *)sprite size:(CGSize)size {
+    SKPhysicsBody *body = nil;
+    NSString *type = sprite[@"physics_body"];
+
     if ([type isEqualToString:@"circle"]) {
-        return [SKPhysicsBody bodyWithCircleOfRadius:(size.width / 2)];
+        body = [SKPhysicsBody bodyWithCircleOfRadius:(size.width / 2)];
     } else if ([type isEqualToString:@"rectangle"]) {
-        return [SKPhysicsBody bodyWithRectangleOfSize:size];
+        body = [SKPhysicsBody bodyWithRectangleOfSize:size];
     }
-    
-    return nil;
+
+    if (body) {
+        body.categoryBitMask    = INT_MAX;
+        body.collisionBitMask   = 0;
+        body.contactTestBitMask = INT_MAX;
+        body.dynamic            = NO;
+        body.mass               = 0.02;
+        body.affectedByGravity  = NO;
+    }
+
+    return body;
 }
 
 - (SKNode *)childNodeForObjectJSON:(NSDictionary *)object size:(CGSize)size {
@@ -246,12 +251,13 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
 }
 
 - (void)loadMethodsIntoInterpreter:(ZSInterpreter *)interpreter {
+    WeakSelf
     [interpreter loadMethod:@{
         @"method": @"move",
         @"block": ^id(NSString *identifier, NSArray *args) {
             CGFloat direction = [args[0] floatValue];
             CGFloat speed = [args[1] floatValue];
-            [self moveSpriteWithIdentifier:identifier
+            [weakSelf moveSpriteWithIdentifier:identifier
                                  direction:direction
                                      speed:speed];
             return nil;
@@ -261,7 +267,7 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
     [interpreter loadMethod:@{
         @"method": @"remove",
         @"block": ^id(NSString *identifier, NSArray *args) {
-            [self performSelector:@selector(removeSpriteWithIdentifier:) withObject:identifier afterDelay:0.05];
+            [weakSelf performSelector:@selector(removeSpriteWithIdentifier:) withObject:identifier afterDelay:0.05];
             return nil;
         }
     }];
@@ -271,7 +277,7 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
         @"block": ^id(NSString *identifier, NSArray *args) {
             CGFloat x = [args[0] floatValue];
             CGFloat y = [args[1] floatValue];
-            [self addParticle:identifier position:CGPointMake(x, y) duration:0.15f particleType:@"Explosion"];
+            [weakSelf addParticle:identifier position:CGPointMake(x, y) duration:0.15f particleType:@"Explosion"];
             return nil;
         }
     }];
@@ -281,7 +287,7 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
         @"block": ^id(NSString *identifier, NSArray *args) {
             CGFloat seconds = [args[0] floatValue];
             NSString *eventIdentifier = args[1];
-            [self addTimerWithDuration:seconds
+            [weakSelf addTimerWithDuration:seconds
                        runsImmediately:YES
                                repeats:YES
                       objectIdentifier:identifier
@@ -296,7 +302,7 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
         @"block": ^id(NSString *identifier, NSArray *args) {
             CGFloat seconds = [args[0] floatValue];
             NSString *eventIdentifier = args[1];
-            [self addTimerWithDuration:seconds
+            [weakSelf addTimerWithDuration:seconds
                        runsImmediately:NO
                                repeats:YES
                       objectIdentifier:identifier
@@ -311,7 +317,7 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
         @"block": ^id(NSString *identifier, NSArray *args) {
             CGFloat seconds = [args[0] floatValue];
             NSString *eventIdentifier = args[1];
-            [self addTimerWithDuration:seconds
+            [weakSelf addTimerWithDuration:seconds
                        runsImmediately:NO
                                repeats:NO
                       objectIdentifier:identifier
@@ -334,7 +340,7 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
     [interpreter loadMethod:@{
         @"method": @"bounce",
         @"block": ^id(NSString *identifier, NSArray *args) {
-            ZSComponentNode *node = _spriteNodes[identifier];
+            ZSComponentNode *node = weakSelf.spriteNodes[identifier];
             node.physicsBody.collisionBitMask = INT_MAX;
             return nil;
         }
@@ -351,7 +357,7 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
             // until we can figure out why x is NaN sometimes.
             if (isnan(x.doubleValue)) return nil;
         
-            NSMutableDictionary *object = self.compiledComponents[@"generators"][generatorIdentifier];
+            NSMutableDictionary *object = weakSelf.compiledComponents[@"generators"][generatorIdentifier];
 
             if (!object) return nil;
 
@@ -360,18 +366,18 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
             object[@"object"][@"id"] = [NSUUID.UUID UUIDString];
             [object[@"object"][@"properties"] addEntriesFromDictionary:@{ @"x": x, @"y": y }];
         
-            [self.interpreter runJSON:object];
+            [weakSelf.interpreter runJSON:object];
 
-            NSMutableDictionary *DSLSprite = [(NSDictionary *)[(NSArray *)self.projectJSON[@"generators"] match:^BOOL(NSDictionary *generator) {
+            NSMutableDictionary *DSLSprite = [(NSDictionary *)[(NSArray *)weakSelf.projectJSON[@"generators"] match:^BOOL(NSDictionary *generator) {
                 return [generator[@"name"] isEqualToString:generatorIdentifier];
             }] deepMutableCopy];
 
             DSLSprite[@"id"] = object[@"object"][@"id"];
             [DSLSprite[@"properties"] addEntriesFromDictionary:@{ @"x": x, @"y": y }];
         
-            [self addSpriteWithJSON:DSLSprite];
+            [weakSelf addSpriteWithJSON:DSLSprite];
         
-            [self.interpreter triggerEvent:@"start" onObjectWithIdentifier:object[@"object"][@"id"]];
+            [weakSelf.interpreter triggerEvent:@"start" onObjectWithIdentifier:object[@"object"][@"id"]];
         
             return nil;
         }
@@ -425,9 +431,7 @@ typedef NS_OPTIONS(uint32_t, CNPhysicsCategory)
 void APARunOneShotEmitter(SKEmitterNode *emitter, CGFloat duration) {
     [emitter runAction:[SKAction sequence:@[
                                             [SKAction waitForDuration:duration],
-                                            [SKAction runBlock:^{
-        emitter.particleBirthRate = 0;
-    }],
+                                            [SKAction runBlock:^{ emitter.particleBirthRate = 0; }],
                                             [SKAction waitForDuration:emitter.particleLifetime + emitter.particleLifetimeRange],
                                             [SKAction removeFromParent],
                                             ]]];
@@ -462,14 +466,18 @@ void APARunOneShotEmitter(SKEmitterNode *emitter, CGFloat duration) {
     if (properties[@"width"]) {
         SKSpriteNode *spriteNode = node.children[0];
         CGSize size = spriteNode.size;
+//        NSLog(@"Pre-width: %f", size.width);
         size.width = [properties[@"width"] floatValue];
+//        NSLog(@"Post-width: %f", size.width);
         spriteNode.size = size;
+        node.physicsBody = [self physicsBodyForSprite:node.JSON size:size];
     }
     else if (properties[@"height"]) {
         SKSpriteNode *spriteNode = node.children[0];
         CGSize size = spriteNode.size;
         size.height = [properties[@"height"] floatValue];
         spriteNode.size = size;
+        node.physicsBody = [self physicsBodyForSprite:node.JSON size:size];
     }
 }
 
@@ -524,10 +532,11 @@ void APARunOneShotEmitter(SKEmitterNode *emitter, CGFloat duration) {
     NSTimeInterval now = [[NSDate date] timeIntervalSinceReferenceDate];
     NSArray *events = self.timedEvents.copy;
     [self.timedEvents removeAllObjects];
+    WeakSelf
     NSArray *newEvents = [events select:^BOOL(ZSTimedEvent *event) {
         if (event.nextTime <= now) {
             event.nextTime += event.interval;
-            [self.interpreter triggerEvent:event.eventIdentifier
+            [weakSelf.interpreter triggerEvent:event.eventIdentifier
                     onObjectWithIdentifier:event.objectIdentifier];
             return event.repeats;
         }

@@ -12,5 +12,6 @@
 
 @property (strong, nonatomic) NSString *identifier;
 @property (strong, nonatomic) NSString *group;
+@property (strong, nonatomic) NSDictionary *JSON;
 
 @end

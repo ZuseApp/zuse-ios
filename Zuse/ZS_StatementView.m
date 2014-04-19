@@ -63,9 +63,14 @@ CGFloat const LabelPadding = 10.0f;
     self.highlighted = YES;
     [[NSNotificationCenter defaultCenter] postNotificationName: @"code editor label touched"
                                                         object: self];
-    if (self.tapBlock)
-    {
-        self.tapBlock(self);
+    if (self.tapBlock) {
+        self.alpha = 0.2;
+        [UIView animateWithDuration:0.25
+                         animations:^{
+                             self.alpha = 1;
+                         } completion:^(BOOL finished) {
+                             self.tapBlock(self);
+                         }];
     }
     [[ZSTutorial sharedTutorial] broadcastEvent:ZSTutorialBroadcastEventComplete];
 }
