@@ -167,9 +167,15 @@
 }
 
 - (void)singleTapRecognized {
-    if (_singleTapped) {
-        _singleTapped();
-    }
+    // Animate white for the video.
+    self.alpha = 0.2f;
+    [UIView animateWithDuration:0.25 animations:^{
+        self.alpha = 1;
+    }completion:^(BOOL finished) {
+        if (_singleTapped) {
+            _singleTapped();
+        }
+    }];
 }
 
 - (void)longPressRecognized:(id)sender {
