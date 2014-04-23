@@ -18,7 +18,7 @@
         
         // Label
         self.label = [[UILabel alloc] initWithFrame: self.bounds];
-        self.label.font = [UIFont systemFontOfSize:16];
+        self.label.font = [UIFont zuseFontWithSize:16];
         self.label.textColor = [UIColor whiteColor];
         self.label.textAlignment = NSTextAlignmentCenter;
         [self.contentView addSubview:self.label];
@@ -80,12 +80,20 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    //[self.jsonCodeBody addObject: self.statements[indexPath.row]];
-    [self.jsonCodeBody insertObject: self.statements[indexPath.row] atIndex:self.newStatementIndex];
-    
-    [self.codeEditorViewController reloadFromJson];
-    [self.toolboxView hideAnimated:YES];
-    [[ZSTutorial sharedTutorial] broadcastEvent:ZSTutorialBroadcastEventComplete];
+    ZS_StatementChooserCollectionViewCell *cell = (ZS_StatementChooserCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
+
+    cell.contentView.alpha = 0.2;
+    [UIView animateWithDuration:0.25
+                     animations:^{
+                         cell.contentView.alpha = 1;
+                     } completion:^(BOOL finished) {
+                         //[self.jsonCodeBody addObject: self.statements[indexPath.row]];
+                         [self.jsonCodeBody insertObject: self.statements[indexPath.row] atIndex:self.newStatementIndex];
+
+                         [self.codeEditorViewController reloadFromJson];
+                         [self.toolboxView hideAnimated:YES];
+                         [[ZSTutorial sharedTutorial] broadcastEvent:ZSTutorialBroadcastEventComplete];
+                     }];
 }
 #pragma mark UICollectionViewDelegateFlowLayout
 

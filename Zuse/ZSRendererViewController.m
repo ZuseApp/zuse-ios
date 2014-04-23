@@ -40,7 +40,7 @@
     self.navigationController.interactivePopGestureRecognizer.delegate = nil;
     
     // Configure the view.
-//    self.SKView.showsFPS = YES;
+    self.SKView.showsFPS = YES;
 //    self.SKView.showsNodeCount = YES;
 
     // The bounds are the wrong size.  Eventually pull it out of JSON, but hard set it for now.

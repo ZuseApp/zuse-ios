@@ -17,7 +17,7 @@
         
         // Label
         self.label = [[UILabel alloc] initWithFrame: self.bounds];
-        self.label.font = [UIFont systemFontOfSize:16];
+        self.label.font = [UIFont zuseFontWithSize:16];
         self.label.textColor = [UIColor whiteColor];
         self.label.textAlignment = NSTextAlignmentCenter;
         [self.contentView addSubview:self.label];
@@ -59,29 +59,38 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 0) // add new variable name label touched
-    {
-        MTBlockAlertView *alertView =
-        [[MTBlockAlertView alloc] initWithTitle: @"Create New Variable Name"
-                                        message: @"Please, enter a variable name"
-                              completionHanlder: ^(UIAlertView *alertView, NSInteger buttonIndex)
-        {
-             self.json[@"set"][0] = [alertView textFieldAtIndex:0].text;
-             [self.codeEditorViewController reloadFromJson];
-             [self.toolboxView hideAnimated:YES];
-         }
-         cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
-        [alertView show];
-    }
-    else
-    {
-        UICollectionViewCell* cell = [collectionView cellForItemAtIndexPath:indexPath];
-        NSString* variableName = ((UILabel*)cell.contentView.subviews.firstObject).text;
-        self.json[@"set"][0] = variableName;
-        [self.codeEditorViewController reloadFromJson];
-        [self.toolboxView hideAnimated:YES];
-    }
+    ZS_VariableChooserCollectionViewCell *cell = (ZS_VariableChooserCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
+
+    cell.contentView.alpha = 0.2;
+    [UIView animateWithDuration:0.25
+                     animations:^{
+                         cell.contentView.alpha = 1;
+                     } completion:^(BOOL finished) {
+                         if (indexPath.row == 0) // add new variable name label touched
+                         {
+                             MTBlockAlertView *alertView =
+                             [[MTBlockAlertView alloc] initWithTitle: @"Create New Variable Name"
+                                                             message: @"Please, enter a variable name"
+                                                   completionHanlder: ^(UIAlertView *alertView, NSInteger buttonIndex)
+                              {
+                                  self.json[@"set"][0] = [alertView textFieldAtIndex:0].text;
+                                  [self.codeEditorViewController reloadFromJson];
+                                  [self.toolboxView hideAnimated:YES];
+                              }
+                                                   cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                             alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+                             [alertView show];
+                         }
+                         else
+                         {
+                             UICollectionViewCell* cell = [collectionView cellForItemAtIndexPath:indexPath];
+                             NSString* variableName = ((UILabel*)cell.contentView.subviews.firstObject).text;
+                             self.json[@"set"][0] = variableName;
+                             [self.codeEditorViewController reloadFromJson];
+                             [self.toolboxView hideAnimated:YES];
+                         }
+                     }];
+
 }
 #pragma mark UICollectionViewDelegateFlowLayout
 

@@ -19,7 +19,7 @@
         
         // Label
         self.label = [[UILabel alloc] initWithFrame: self.bounds];
-        self.label.font = [UIFont systemFontOfSize:16];
+        self.label.font = [UIFont zuseFontWithSize:16];
         self.label.textColor = [UIColor whiteColor];
         self.label.textAlignment = NSTextAlignmentCenter;
         [self.contentView addSubview:self.label];
@@ -72,44 +72,53 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 0) {
-        MTBlockAlertView *alertView =
-        [[MTBlockAlertView alloc] initWithTitle: @"Create New Event Name"
-                                        message: @"Please, enter an event name"
-                              completionHanlder: ^(UIAlertView *alertView, NSInteger buttonIndex)
-         {
-             NSString *text = [alertView textFieldAtIndex:0].text;
-             if (![text isEqualToString:@""]) {
-                 if ([self.json.allKeys[0] isEqualToString:@"on_event"]) {
-                     self.json[@"on_event"][@"name"] = text;
-                     self.json[@"on_event"][@"parameters"] = [NSMutableArray array];
-                 }
-                 else if ([self.json.allKeys[0] isEqualToString:@"trigger_event"]) {
-                     self.json[@"trigger_event"][@"name"] = text;
-                 }
-             }
-             [self.codeEditorViewController reloadFromJson];
-             [self.toolboxView hideAnimated:YES];
-         }
-                              cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
-        [alertView show];
-    }
-    else {
-        if ([self.json.allKeys[0] isEqualToString:@"on_event"])
-        {
-            self.json[@"on_event"][@"name"] = self.events[indexPath.row - 1][@"name"];
-            self.json[@"on_event"][@"parameters"] = self.events[indexPath.row - 1][@"parameters"];
-        }
-        else if ([self.json.allKeys[0] isEqualToString:@"trigger_event"])
-        {
-            self.json[@"trigger_event"][@"name"] = self.events[indexPath.row - 1][@"name"];
-            //self.json[@"trigger_event"][@"parameters"] = self.events[indexPath.row][@"parameters"];
-        }
-        [self.codeEditorViewController reloadFromJson];
-        [self.toolboxView hideAnimated:YES];
-    }
-    [[ZSTutorial sharedTutorial] broadcastEvent:ZSTutorialBroadcastEventComplete];
+    ZS_EventChooserCollectionViewCell *cell = (ZS_EventChooserCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
+
+    cell.contentView.alpha = 0.2;
+    [UIView animateWithDuration:0.25
+                     animations:^{
+                         cell.contentView.alpha = 1;
+                     } completion:^(BOOL finished) {
+                         if (indexPath.row == 0) {
+                             MTBlockAlertView *alertView =
+                             [[MTBlockAlertView alloc] initWithTitle: @"Create New Event Name"
+                                                             message: @"Please, enter an event name"
+                                                   completionHanlder: ^(UIAlertView *alertView, NSInteger buttonIndex)
+                              {
+                                  NSString *text = [alertView textFieldAtIndex:0].text;
+                                  if (![text isEqualToString:@""]) {
+                                      if ([self.json.allKeys[0] isEqualToString:@"on_event"]) {
+                                          self.json[@"on_event"][@"name"] = text;
+                                          self.json[@"on_event"][@"parameters"] = [NSMutableArray array];
+                                      }
+                                      else if ([self.json.allKeys[0] isEqualToString:@"trigger_event"]) {
+                                          self.json[@"trigger_event"][@"name"] = text;
+                                      }
+                                  }
+                                  [self.codeEditorViewController reloadFromJson];
+                                  [self.toolboxView hideAnimated:YES];
+                              }
+                                                   cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                             alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+                             [alertView show];
+                         }
+                         else {
+                             if ([self.json.allKeys[0] isEqualToString:@"on_event"])
+                             {
+                                 self.json[@"on_event"][@"name"] = self.events[indexPath.row - 1][@"name"];
+                                 self.json[@"on_event"][@"parameters"] = self.events[indexPath.row - 1][@"parameters"];
+                             }
+                             else if ([self.json.allKeys[0] isEqualToString:@"trigger_event"])
+                             {
+                                 self.json[@"trigger_event"][@"name"] = self.events[indexPath.row - 1][@"name"];
+                                 //self.json[@"trigger_event"][@"parameters"] = self.events[indexPath.row][@"parameters"];
+                             }
+                             [self.codeEditorViewController reloadFromJson];
+                             [self.toolboxView hideAnimated:YES];
+                         }
+                         [[ZSTutorial sharedTutorial] broadcastEvent:ZSTutorialBroadcastEventComplete];
+                     }];
+
 }
 #pragma mark UICollectionViewDelegateFlowLayout
 
