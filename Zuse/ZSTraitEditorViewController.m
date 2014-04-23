@@ -3,6 +3,7 @@
 #import "ZS_CodeEditorViewController.h"
 #import "ZSSpriteTraits.h"
 #import <MTBlockAlertView/MTBlockAlertView.h>
+#import "ZSZuseDSL.h"
 
 NSString * const ZSTutorialBroadcastTraitToggled = @"ZSTutorialBroadcastTraitToggled";
 NSString * const ZSTutorialBroadcastBackPressedTraitEditor = @"ZSTutorialBroadcastBackPressed";
@@ -127,17 +128,7 @@ NSString * const ZSTutorialBroadcastBackPressedTraitEditor = @"ZSTutorialBroadca
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     NSString *traitIdentifier = self.allTraitNames[((UIButton*)sender).tag];
     
-    // Merge any current trait parameters with the default, preferring the current
     NSMutableDictionary *defaultParams = [self.allTraits[traitIdentifier][@"parameters"] mutableCopy];
-//    [defaultParams addEntriesFromDictionary:self.enabledSpriteTraits[traitIdentifier][@"parameters"]];
-//    self.enabledSpriteTraits[traitIdentifier][@"parameters"] = defaultParams;
-//
-//    if ([segue.identifier isEqualToString:@"parameters"]) {
-//        ZSTraitEditorParametersViewController *controller = (ZSTraitEditorParametersViewController *)segue.destinationViewController;
-//        controller.parameters = self.enabledSpriteTraits[traitIdentifier][@"parameters"];
-//        [[ZSTutorial sharedTutorial] broadcastEvent:ZSTutorialBroadcastTraitToggled];
-//    }
-//    else
     if ([segue.identifier isEqualToString:@"editor"]) {
         ZS_CodeEditorViewController *controller = (ZS_CodeEditorViewController*)segue.destinationViewController;
         
@@ -145,7 +136,7 @@ NSString * const ZSTutorialBroadcastBackPressedTraitEditor = @"ZSTutorialBroadca
         spriteObject[@"id"] = traitIdentifier;
         spriteObject[@"parameters"] = defaultParams;
         controller.codeItems = self.allTraits[traitIdentifier][@"code"];
-//        controller.initialProperties = [self.spriteProperties mutableCopy];
+        controller.initialProperties = [ZSZuseDSL propertiesJSON];
     }
 }
 

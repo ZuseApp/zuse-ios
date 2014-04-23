@@ -10,6 +10,7 @@
 
 @interface ZSZuseDSL : NSObject
 
++ (NSDictionary *)propertiesJSON;
 + (NSDictionary *)onEventJSON;
 + (NSDictionary *)triggerEventJSON;
 + (NSDictionary *)ifJSON;
