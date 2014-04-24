@@ -41,7 +41,7 @@
                 self.project = project;
                 self.titleBar.title = self.project[@"title"];
                 self.descriptionLabel.text = self.project[@"description"];
-                long downloads = [self.project[@"downloads"] longLongValue];
+                long downloads = [self.project[@"downloads"] longValue];
                 self.timesDownloadedLabel.text = [[NSNumber numberWithLong:downloads] stringValue];
                 [self.screenshotImageView setImageWithURL:[NSURL URLWithString:self.project[@"screenshot_url"]] placeholderImage:[UIImage imageNamed:@"blank_project.png"]];
                 

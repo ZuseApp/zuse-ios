@@ -34,11 +34,6 @@
     [super viewDidLoad];
     
     // Do any additional setup after loading the view.
-    
-    [self.view setBackgroundColor:[UIColor colorWithRed:208.0/255.0
-                                                  green:208.0/255.0
-                                                   blue:208.0/255.0
-                                                  alpha:1.0]];
 }
 
 - (void)setupData
@@ -50,7 +45,7 @@
             self.titleNavBar.title = self.project[@"title"];
             self.usernameLabel.text = self.project[@"username"];
             self.descriptionLabel.text = self.project[@"description"];
-            long downloads = [self.project[@"downloads"] longLongValue];
+            long downloads = [self.project[@"downloads"] longValue];
             self.timesDownloadedLabel.text = [[NSNumber numberWithLong:downloads] stringValue];
             [self.screenshotImageView setImageWithURL:[NSURL URLWithString:project[@"screenshot_url"]] placeholderImage:[UIImage imageNamed:@"blank_project.png"]];
             

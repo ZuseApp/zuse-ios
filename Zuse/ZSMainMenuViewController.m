@@ -41,8 +41,10 @@ typedef NS_ENUM(NSInteger, ZSMainMenuProjectFilter) {
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-//    self.zuseHubController = [[ZSZuseHubViewController alloc] init];
+    self.zuseHubController = [[ZSZuseHubViewController alloc] init];
 //    self.zuseHubController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    
+    
     
     self.projectCollectionView.delegate = self;
     self.projectCollectionView.dataSource = self;
@@ -172,10 +174,10 @@ typedef NS_ENUM(NSInteger, ZSMainMenuProjectFilter) {
 }
 
 - (IBAction)zuseHubTapped:(id)sender {    
-    self.zuseHubController = [[ZSZuseHubViewController alloc] init];
+//    self.zuseHubController = [[ZSZuseHubViewController alloc] init];
     WeakSelf
     self.zuseHubController.didFinish = ^{
-        [weakSelf.zuseHubController dismissViewControllerAnimated:YES completion:^{}];
+        [weakSelf dismissViewControllerAnimated:YES completion:^{}];
     };
     self.zuseHubController.didDownloadProject = ^(ZSProject *project) {
         weakSelf.projectFilter = ZSMainMenuProjectFilterMyProjects;
@@ -183,9 +185,8 @@ typedef NS_ENUM(NSInteger, ZSMainMenuProjectFilter) {
         BOOL wasPersisted = [ZSProjectPersistence isProjectPersisted:project];
         [ZSProjectPersistence writeProject:project];
         weakSelf.selectedProject = project;
-        [weakSelf.zuseHubController dismissViewControllerAnimated:YES
+        [weakSelf dismissViewControllerAnimated:YES
                                  completion:^{
-//
                                      if (wasPersisted) {
                                          [weakSelf segueToProject:project];
                                      } else {

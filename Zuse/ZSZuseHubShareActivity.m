@@ -29,7 +29,6 @@
 
 - (UIImage *)activityImage {
     return [UIImage imageNamed:@"alphaIcon"];
-//    return  nil;
 }
 
 - (BOOL)canPerformWithActivityItems:(NSArray *)activityItems {

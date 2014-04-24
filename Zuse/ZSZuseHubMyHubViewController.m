@@ -254,17 +254,24 @@
  */
 - (void)setupData
 {
-    [self.jsonClientManager getUsersSharedProjects:self.currentPage itemsPerPage:10 completion:^(NSArray *projects, NSInteger statusCode)
+    if(self.jsonClientManager.token)
     {
-        if(projects)
+        [self.jsonClientManager getUsersSharedProjects:self.currentPage itemsPerPage:10 completion:^(NSArray *projects, NSInteger statusCode)
         {
-            [self.userProjects addObjectsFromArray:projects];
-            [self.collectionView reloadData];
-         }
-         else{
-             //TODO print msg for user
-         }
-    }];
+            if(projects)
+            {
+                [self.userProjects addObjectsFromArray:projects];
+                [self.collectionView reloadData];
+             }
+             else{
+                 //TODO print msg for user
+             }
+        }];
+    }
+    else{
+        [self.userProjects removeAllObjects];
+        [self.collectionView reloadData];
+    }
 }
 
 #pragma mark - Button Handlers

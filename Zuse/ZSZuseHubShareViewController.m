@@ -83,85 +83,99 @@
 }
 
 - (IBAction)shareTapped:(id)sender {
-    if(self.titleTextLabel.text.length != 0 && self.descriptionTextField.text.length != 0 &&
-       ![self.descriptionTextField.text isEqualToString:@"Enter description"])
+    if(self.jsonClientManager.token == nil)
     {
-        //TODO have logic here to check if the project should use create or update endpoint
-        [self.jsonClientManager createSharedProject:self.titleTextLabel.text description:self.descriptionTextField.text projectJson:self.project
-         completion:^(NSDictionary *project, NSError *error, NSInteger statusCode)
-        {
-            //user not logged in
-             if(statusCode == 401)
-             {
-                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Share Failed"
-                                                                 message:@"You must sign in to share."
-                                                                delegate:nil
-                                                       cancelButtonTitle:@"OK"
-                                                       otherButtonTitles:nil];
-                 [alert show];
-                 [self showLoginRegisterPage];
-             }
-            else if(statusCode == 409)
-            {
-                //try an update because this project could be on the server already
-                [self.jsonClientManager updateSharedProject:self.titleTextLabel.text
-                                                description:self.descriptionTextField.text projectJson:self.project
-                                                 completion:^(NSDictionary *project, NSError *error, NSInteger statusCode) {
-                    if(project)
-                    {
-                        //TODO create a project onto disk
-//                        [self writeProject:project];
-                        self.didFinish(YES);
-                    }
-                    else if (statusCode == 422)
-                    {
-                        //TODO display view to show that sharing failed
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Share Failed"
-                                                                        message:@"Your code has errors."
-                                                                       delegate:nil
-                                                              cancelButtonTitle:@"OK"
-                                                              otherButtonTitles:nil];
-                        [alert show];
-                        self.didFinish(NO);
-                    }
-                }];
-            }
-            else if (statusCode == 422)
-            {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Share Failed"
-                                                                message:@"Your code has errors."
-                                                               delegate:nil
-                                                      cancelButtonTitle:@"OK"
-                                                      otherButtonTitles:nil];
-                [alert show];
-            }
-             else if (statusCode == 201 || statusCode == 200)
-             {
-                 if(!error && project)
-                 {
-                     NSLog(@"share succeeded");
-                     //TODO store the project JSON that came back
-//                     [self writeProject:project];
-                     
-                     self.didFinish(YES);
-                 }
-                 //share failed
-                 else{
-                     self.didFinish(NO);
-                 }
-             }
-            
-         }];
-        
-    }
-    else {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Share Failed"
-                                                        message:@"Make sure to enter a title and description."
+                                                        message:@"You must sign in to share."
                                                        delegate:nil
                                               cancelButtonTitle:@"OK"
                                               otherButtonTitles:nil];
         [alert show];
+        [self showLoginRegisterPage];
+    }
+    else
+    {
+        if(self.titleTextLabel.text.length != 0 &&
+           self.descriptionTextField.text.length != 0 &&
+           ![self.descriptionTextField.text isEqualToString:@"Enter description"])
+        {
+            //TODO have logic here to check if the project should use create or update endpoint
+            [self.jsonClientManager createSharedProject:self.titleTextLabel.text description:self.descriptionTextField.text projectJson:self.project
+             completion:^(NSDictionary *project, NSError *error, NSInteger statusCode)
+            {
+                //user not logged in
+                 if(statusCode == 401)
+                 {
+                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Share Failed"
+                                                                     message:@"You must sign in to share."
+                                                                    delegate:nil
+                                                           cancelButtonTitle:@"OK"
+                                                           otherButtonTitles:nil];
+                     [alert show];
+                     [self showLoginRegisterPage];
+                 }
+                else if(statusCode == 409)
+                {
+                    //try an update because this project could be on the server already
+                    [self.jsonClientManager updateSharedProject:self.titleTextLabel.text
+                                                    description:self.descriptionTextField.text projectJson:self.project
+                                                     completion:^(NSDictionary *project, NSError *error, NSInteger statusCode) {
+                        if(project)
+                        {
+                            //TODO create a project onto disk
+    //                        [self writeProject:project];
+                            self.didFinish(YES);
+                        }
+                        else if (statusCode == 422)
+                        {
+                            //TODO display view to show that sharing failed
+                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Share Failed"
+                                                                            message:@"Your code has errors."
+                                                                           delegate:nil
+                                                                  cancelButtonTitle:@"OK"
+                                                                  otherButtonTitles:nil];
+                            [alert show];
+                            self.didFinish(NO);
+                        }
+                    }];
+                }
+                else if (statusCode == 422)
+                {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Share Failed"
+                                                                    message:@"Your code has errors."
+                                                                   delegate:nil
+                                                          cancelButtonTitle:@"OK"
+                                                          otherButtonTitles:nil];
+                    [alert show];
+                }
+                 else if (statusCode == 201 || statusCode == 200)
+                 {
+                     if(!error && project)
+                     {
+                         NSLog(@"share succeeded");
+                         //TODO store the project JSON that came back
+    //                     [self writeProject:project];
+                         
+                         self.didFinish(YES);
+                     }
+                     //share failed
+                     else{
+                         self.didFinish(NO);
+                     }
+                 }
+                
+             }];
+            
+        }
+        else {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Share Failed"
+                                                            message:@"Make sure to enter a title and description."
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+            [alert show];
 
+        }
     }
 }
 

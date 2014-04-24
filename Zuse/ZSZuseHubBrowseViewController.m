@@ -175,10 +175,13 @@
     [self presentViewController:self.detailController animated:YES completion:^{}];
     WeakSelf
     self.detailController.didDownloadProject = ^(ZSProject *project){
-        weakSelf.didDownloadProject(project);
+        [weakSelf.detailController dismissViewControllerAnimated:YES completion:^{
+            weakSelf.didDownloadProject(project);
+        }];
+        
     };
     self.detailController.didFinish = ^(){
-        [weakSelf.detailController dismissViewControllerAnimated:YES completion:^{ }];
+        [weakSelf dismissViewControllerAnimated:YES completion:^{ }];
     };
 }
 

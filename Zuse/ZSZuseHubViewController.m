@@ -32,6 +32,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     UIColor * tintColor = [UIColor colorWithRed:29.0/255.0
                                           green:173.0/255.0
@@ -78,6 +79,11 @@
     [self.view addSubview:self.drawerController.view];
 
     [self setUpLeftDrawerBlocks];    
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    
 }
 
 - (void)setUpLeftDrawerBlocks
@@ -170,10 +176,10 @@
         //what to do when finished logging in.
         if (isLoggedIn)
         {
-            [weakSelf.loginRegisterViewController dismissViewControllerAnimated:YES completion:^{}];
+            [weakSelf dismissViewControllerAnimated:YES completion:^{}];
         } else
         {
-            [weakSelf.loginRegisterViewController dismissViewControllerAnimated:YES completion:^{}];
+            [weakSelf dismissViewControllerAnimated:YES completion:^{}];
         }
     };
     self.loginRegisterViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
