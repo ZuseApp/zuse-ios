@@ -1,1 +1,0 @@
-../../SpriteKit-Components/SpriteKit-Components/SKCNodeIsComponent.h
